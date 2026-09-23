@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import fs from 'node:fs'
+import path from 'node:path'
+import { execSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 
 // ====================================================================
@@ -18,8 +20,29 @@ import { fileURLToPath } from 'node:url'
 // confronta le due forme e rifiuta di servire i file (403 «outside allow list»).
 const radice = fs.realpathSync.native(fileURLToPath(new URL('.', import.meta.url)))
 
+// Identità della build (vedi sviluppo/VERSIONI.md): la versione del gioco da
+// ../versione.json, quella del motore da ../motore/strutture.py, il commit e la
+// data. Entrano nell'app come costante __VERSIONE__.
+const progetto = path.resolve(radice, '..')
+const versioni = JSON.parse(fs.readFileSync(path.join(progetto, 'versione.json'), 'utf8'))
+const motore = /VERSIONE_MOTORE\s*=\s*"([^"]+)"/.exec(
+  fs.readFileSync(path.join(progetto, 'motore', 'strutture.py'), 'utf8'))?.[1] ?? '?'
+const commit = (() => {
+  if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA.slice(0, 7)
+  try { return execSync('git rev-parse --short HEAD', { cwd: progetto, stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim() }
+  catch { return 'locale' }
+})()
+const VERSIONE = {
+  gioco: versioni.gioco as string,
+  motore,
+  formatoSalvataggi: versioni.formatoSalvataggi as number,
+  commit,
+  data: new Date().toISOString().slice(0, 10),
+}
+
 export default defineConfig({
   root: radice,
+  define: { __VERSIONE__: JSON.stringify(VERSIONE) },
   base: './',
   plugins: [react()],
   server: { port: 5200 },
