@@ -1,0 +1,173 @@
+# Rilascio: SOLO A MANO (Actions → «Rilascio» → Run workflow).
+#
+# Pubblica la versione scritta in versione.json. Prima di lanciarlo:
+#   node strumenti/versione.mjs prepara <major|minor|patch|pre> [--pre beta]
+#   (aggiorna versione.json, package.json e CHANGELOG), collaudo, commit, push.
+#
+# Il workflow:
+#   1. verifica che le versioni siano coerenti, che il CHANGELOG abbia la
+#      sezione datata della versione e che il tag vX.Y.Z non esista ancora;
+#   2. rifà il collaudo completo;
+#   3. costruisce i pacchetti Windows (installer + portatile) e Linux
+#      (AppImage + deb) e li AUTOVERIFICA;
+#   4. crea il tag e la release, con le note prese dal CHANGELOG e i file per
+#      l'aggiornamento automatico (latest.yml, latest-linux.yml, blockmap).
+#      Una versione con «-» (1.2.0-beta.1) esce come pre-release.
+name: Rilascio
+
+on:
+  workflow_dispatch:
+    inputs:
+      bozza:
+        description: "Crea la release come bozza (da pubblicare a mano)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rilascio
+  cancel-in-progress: false
+
+jobs:
+  verifica:
+    name: Verifica della versione
+    runs-on: ubuntu-latest
+    outputs:
+      versione: ${{ steps.v.outputs.versione }}
+      prerelease: ${{ steps.v.outputs.prerelease }}
+    env:
+      PYTHONIOENCODING: utf-8
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Versione da rilasciare
+        id: v
+        run: |
+          V=$(node -p "require('./versione.json').gioco")
+          echo "versione=$V" >> "$GITHUB_OUTPUT"
+          if [[ "$V" == *-* ]]; then echo "prerelease=true" >> "$GITHUB_OUTPUT"; else echo "prerelease=false" >> "$GITHUB_OUTPUT"; fi
+          echo "Da rilasciare: $V"
+      - name: Versioni coerenti e CHANGELOG pronto
+        run: node strumenti/versione.mjs verifica --rilascio
+      - name: Il tag non esiste ancora
+        run: |
+          if git rev-parse "v${{ steps.v.outputs.versione }}" >/dev/null 2>&1; then
+            echo "::error::Il tag v${{ steps.v.outputs.versione }} esiste già: prepara una nuova versione (strumenti/versione.mjs prepara)."
+            exit 1
+          fi
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: pip install lark==1.3.1
+      - name: Collaudo completo
+        working-directory: collaudo
+        run: |
+          python finali.py
+          python mirate.py
+          python salvataggi.py -n 40
+
+  pacchetti:
+    name: Pacchetti ${{ matrix.nome }}
+    needs: verifica
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - os: windows-latest
+            nome: Windows
+            builder: --win
+            eseguibile: dist/win-unpacked/Il Viaggiatore.exe
+            file: |
+              desktop/dist/*.exe
+              desktop/dist/*.blockmap
+              desktop/dist/latest.yml
+          - os: ubuntu-latest
+            nome: Linux
+            builder: --linux
+            eseguibile: dist/linux-unpacked/il-viaggiatore
+            file: |
+              desktop/dist/*.AppImage
+              desktop/dist/*.deb
+              desktop/dist/latest-linux.yml
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            app/package-lock.json
+            desktop/package-lock.json
+      - name: Dipendenze
+        shell: bash
+        run: |
+          npm ci --prefix app
+          npm ci --prefix desktop
+      - name: App web + icone
+        working-directory: desktop
+        run: node prepara.mjs
+      - name: Pacchetti
+        working-directory: desktop
+        run: npx electron-builder ${{ matrix.builder }} --publish never
+      - name: Autoverifica (Windows)
+        if: runner.os == 'Windows'
+        working-directory: desktop
+        shell: bash
+        run: '"${{ matrix.eseguibile }}" --autoverifica'
+      - name: Autoverifica (Linux)
+        if: runner.os == 'Linux'
+        working-directory: desktop
+        run: xvfb-run -a "${{ matrix.eseguibile }}" --autoverifica --no-sandbox
+      - uses: actions/upload-artifact@v7
+        with:
+          name: pacchetti-${{ matrix.nome }}
+          path: ${{ matrix.file }}
+          if-no-files-found: error
+
+  release:
+    name: Release v${{ needs.verifica.outputs.versione }}
+    needs: [verifica, pacchetti]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Note dal CHANGELOG
+        run: |
+          {
+            node strumenti/versione.mjs note "${{ needs.verifica.outputs.versione }}"
+            echo
+            echo "---"
+            echo
+            echo "| Sistema | File | Aggiornamento automatico |"
+            echo "|---|---|---|"
+            echo "| Windows, con installazione | \`Il-Viaggiatore-*-win-x64.exe\` | sì |"
+            echo "| Windows, senza installazione | \`Il-Viaggiatore-*-portable.exe\` | no |"
+            echo "| Linux, qualunque distribuzione | \`Il-Viaggiatore-*-linux-x86_64.AppImage\` | sì |"
+            echo "| Linux, Debian/Ubuntu/Mint | \`Il-Viaggiatore-*-linux-amd64.deb\` | no |"
+            echo
+            echo "Gli eseguibili non sono firmati: Windows SmartScreen può chiedere una conferma («Ulteriori informazioni» → «Esegui comunque»)."
+          } > note.md
+          cat note.md
+      - uses: actions/download-artifact@v8
+        with:
+          path: pacchetti
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v3
+        with:
+          tag_name: v${{ needs.verifica.outputs.versione }}
+          target_commitish: ${{ github.sha }}
+          name: Il Viaggiatore ${{ needs.verifica.outputs.versione }}
+          body_path: note.md
+          prerelease: ${{ needs.verifica.outputs.prerelease == 'true' }}
+          draft: ${{ inputs.bozza }}
+          files: pacchetti/*
+          fail_on_unmatched_files: true
