@@ -1,11 +1,11 @@
 # Motore FAVELLA 1 — copia del progetto
 
-Versione **1.2.0** (23/09/2026), copiata dal repository del motore,
+Versione **1.2.1** (23/09/2026), copiata dal repository del motore,
 [Pitz72/FAVELLA1](https://github.com/Pitz72/FAVELLA1) (licenza MIT, vedi `LICENSE`
 in questa cartella). Quella resta la fonte: qui non si modifica niente a mano.
 
-> La 1.2.0 è una versione rilasciata del motore
-> ([release v1.2.0](https://github.com/Pitz72/FAVELLA1/releases/tag/v1.2.0)): contiene
+> La 1.2.1 è una versione rilasciata del motore
+> ([release v1.2.1](https://github.com/Pitz72/FAVELLA1/releases/tag/v1.2.1)): contiene
 > il *posto iniziale* degli oggetti nato per questo gioco, SALVA/CARICA, il collaudo
 > dinamico e i sinonimi dei verbi d'autore. Se il motore va cambiato, lo si cambia
 > là (con i suoi test) e si ricopia.

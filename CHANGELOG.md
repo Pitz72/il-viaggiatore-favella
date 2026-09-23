@@ -8,6 +8,13 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.1.1] - 2026-09-23
+
+### Corretto
+- **Motore FAVELLA 1.2.1**: ANNULLA riporta indietro anche la memoria di
+  ANCORA. Dopo «prendi la mappa» e «annulla», il comando «ancora» non rifà la
+  presa appena disfatta ma il comando che la precedeva.
+
 ## [1.1.0] - 2026-09-23
 
 ### Cambiato
