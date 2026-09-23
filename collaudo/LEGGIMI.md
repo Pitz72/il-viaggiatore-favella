@@ -1,6 +1,6 @@
 # Collaudo del Viaggiatore
 
-Tre collaudi dinamici, tutti sul motore del progetto (`../motore`) e sull'avventura
+Quattro collaudi dinamici, tutti sul motore del progetto (`../motore`) e sull'avventura
 in `../prototipo`. Ognuno esce con codice 1 se trova un problema. Le trascrizioni
 finiscono in `esiti/` (si possono cancellare: si rigenerano).
 
@@ -8,6 +8,7 @@ finiscono in `esiti/` (si possono cancellare: si rigenerano).
 |---|---|---|
 | `finali.py` | gioca una partita per **ogni finale dichiarato** nei .fav: i 6 di storia e le 3 morti (sete, fame, ferite). Fallisce se un finale non è raggiunto, se una partita ne produce due, se il motore solleva un'eccezione. | ~10 s |
 | `mirate.py` | 8 situazioni precise: guardie di bevi/mangia/tanica, il cane (mani nude, cibo), Vito (coltello, bluff, pedaggio), Rosaria agli ingressi ripetuti, Onofrio senza ricordi. | ~5 s |
+| `salvataggi.py` | partite casuali (metà lunghe, su percorsi veri) che salvano, ricaricano in un'istanza nuova e **pretendono lo stesso stato**: impronta identica, poi le due istanze proseguono con gli stessi comandi e ogni risposta deve coincidere. Mette alla prova ANNULLA, ANCORA e i dialoghi prima e dopo il caricamento. | ~1 min |
 | `esploratore.py` | 100 partite a caso con cinque caratteri (turista, curioso, maldestro, sconsiderato, chiacchierone) che esplorano tutto, sbagliano a scrivere, chiedono cose che non ci sono, attaccano, annullano. Segnala eccezioni, testi rotti, scorte negative, uscite o oggetti incoerenti, conversazioni senza risposte, e misura la copertura. | ~2–3 min |
 
 Moduli di supporto: `partita.py` (una partita pilotata da Python, con la stessa vista

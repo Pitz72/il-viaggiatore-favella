@@ -12,7 +12,8 @@ import branoIntro from "./assets/intro.mp3";
 type Prova = { cmd: string; attese: string[] };
 
 // Il primo tratto della partita: stazione → piazza → casa, la mappa al suo
-// posto iniziale, la presa, e la stanza che non la descrive più.
+// posto iniziale, la presa, e la stanza che non la descrive più. Poi un giro
+// di salvataggio e ricaricamento dentro il motore vero.
 const PROVE: Prova[] = [
   { cmd: "esamina il biglietto", attese: ["Non è il caso di tornare"] },
   { cmd: "nord", attese: ["La piazza"] },
@@ -52,6 +53,18 @@ export async function autoverifica(scrivi: (riga: string) => void) {
     else nota("ok il posto della mappa sparisce dopo la presa");
     const st = s.stato();
     if (!st.inventory.some((n) => /mappa/i.test(n))) { ok = false; nota("KO la mappa non è in bisaccia"); }
+
+    // salvataggio e ricaricamento: la partita ricostruita dev'essere identica
+    s.step("annulla");   // disfa l'ultimo turno («guarda»)…
+    s.step("guarda");    // …e lo rifà: la sequenza salvata deve contenerlo una volta sola
+    const salvata = s.salva();
+    const esito = s.carica(salvata);
+    if (!esito.ok || !esito.identica) { ok = false; nota(`KO ricaricamento: ${esito.errore ?? "impronta diversa"}`); }
+    else nota(`ok salvataggio ricaricato identico (${salvata.comandi.length} comandi, impronta ${salvata.impronta.slice(0, 12)}…)`);
+    if (s.stato().roomId !== st.roomId) { ok = false; nota("KO dopo il ricaricamento il luogo è diverso"); }
+    const disfa = s.step("annulla");
+    if (/niente da annullare/i.test(disfa.text)) { ok = false; nota("KO dopo il ricaricamento ANNULLA non ha passi"); }
+    else nota("ok ANNULLA funziona anche dopo il ricaricamento");
   } catch (e) {
     ok = false;
     nota(`KO eccezione: ${e instanceof Error ? e.stack ?? e.message : String(e)}`);
