@@ -1,13 +1,14 @@
 # Motore FAVELLA 1 — copia del progetto
 
-Versione **1.1.0** (23/09/2026), copiata dal repository del motore,
+Versione **1.2.0** (23/09/2026), copiata dal repository del motore,
 [Pitz72/FAVELLA1](https://github.com/Pitz72/FAVELLA1) (licenza MIT, vedi `LICENSE`
 in questa cartella). Quella resta la fonte: qui non si modifica niente a mano.
 
-> La 1.1.0 (il *posto iniziale* degli oggetti, `Il posto della X è "…".`) è nata per
-> questo gioco ed è qui in anteprima: nel repository del motore arriverà col suo
-> prossimo rilascio. Se il motore va cambiato, lo si cambia là (con i suoi test) e
-si ricopia.
+> La 1.2.0 è una versione rilasciata del motore
+> ([release v1.2.0](https://github.com/Pitz72/FAVELLA1/releases/tag/v1.2.0)): contiene
+> il *posto iniziale* degli oggetti nato per questo gioco, SALVA/CARICA, il collaudo
+> dinamico e i sinonimi dei verbi d'autore. Se il motore va cambiato, lo si cambia
+> là (con i suoi test) e si ricopia.
 
 | File | Ruolo |
 |---|---|
@@ -17,7 +18,8 @@ si ricopia.
 | `libreria_azioni.py` | i verbi di base (prendi, lascia, esamina, vai…) |
 | `favella_utils.py` | utilità di testo e di nomi |
 | `collaudo.py` | il collaudatore statico (`favella.py collaudo`) |
-| `favella.py` | la riga di comando: `compila`, `gioca`, `collaudo` |
+| `esploratore.py` | il collaudo dinamico (`favella.py esplora`, `collaudo --finali`) |
+| `favella.py` | la riga di comando: `compila`, `gioca`, `collaudo`, `esplora` |
 
 Dipendenza esterna: `lark` (`pip install lark`). I comandi `libreria` e `galleria`
 di `favella.py` non funzionano da qui, perché cercano il pacchetto `favella1` del
@@ -27,10 +29,10 @@ repository: al gioco non servono.
 
 ```bash
 M=../FAVELLA1   # dove hai clonato https://github.com/Pitz72/FAVELLA1
-for f in compilatore gioco strutture libreria_azioni favella_utils collaudo favella; do
+for f in compilatore gioco strutture libreria_azioni favella_utils collaudo esploratore favella; do
   cp "$M/$f.py" motore/
 done
 ```
 
-Poi, dalla radice del progetto: `python collaudo/finali.py` e `python collaudo/mirate.py`,
+Poi, dalla cartella `collaudo/`: `python finali.py`, `python mirate.py` e `python salvataggi.py`,
 e `npm run build` in `app/` (che ricopia il motore nella public dell'app).

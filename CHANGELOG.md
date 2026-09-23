@@ -8,6 +8,16 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.1.0] - 2026-09-23
+
+### Cambiato
+- **Motore FAVELLA 1.2.0** al posto dell'anteprima 1.1.0: è la versione
+  rilasciata del motore e contiene il posto iniziale degli oggetti nato per
+  questo gioco. I salvataggi della 1.0.0 si caricano ancora: vengono rigiocati
+  sul motore nuovo e il gioco avvisa che la partita è stata ricostruita.
+- Scrivere «salva» o «carica» nella riga dei comandi ora rimanda a F5, F9 e al
+  taccuino, invece di rispondere «Non capisco questo verbo.».
+
 ## [1.0.0] - 2026-09-23
 
 Prima versione pubblica.

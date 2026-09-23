@@ -59,7 +59,7 @@ segnalazione, insieme alla versione che trovi in basso a destra nel menu.
 | Cartella | Cosa contiene |
 |---|---|
 | `prototipo/` | **l'avventura**: `il-viaggiatore.fav` (radice) + `sistemi.fav` + le sette zone `z1…z7` |
-| `motore/` | il motore FAVELLA 1.1.0 (Python), vedi `motore/LEGGIMI.md` |
+| `motore/` | il motore FAVELLA 1.2.0 (Python), vedi `motore/LEGGIMI.md` |
 | `app/` | l'app React: trailer (canvas procedurale + colonna sonora), gioco, guida «come si gioca» |
 | `desktop/` | il guscio Electron per Windows e Linux |
 | `collaudo/` | i collaudi automatici: i nove finali, le prove mirate, i salvataggi, l'esploratore |

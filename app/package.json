@@ -1,7 +1,7 @@
 {
   "name": "il-viaggiatore",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "description": "Il Viaggiatore — avventura testuale in FAVELLA 1, progetto autonomo: trailer-cortometraggio (canvas procedurale + colonna sonora) e gioco a tutto schermo col motore FAVELLA vero (Pyodide), motore incluso in ../motore.",
   "scripts": {

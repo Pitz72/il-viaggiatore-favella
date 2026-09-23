@@ -41,6 +41,22 @@ _ingresso_dialogo = None  # len(_registro) quando è cominciata la conversazione
 _SERVIZIO_ANNULLA = ("annulla", "disfa")
 _SERVIZIO_ANCORA = ("ancora", "ripeti", "g")
 
+# Dal motore 1.2.0 «salva» e «carica» digitati sono comandi di servizio del
+# motore, con un loro archivio. Nel gioco i salvataggi sono quelli del taccuino
+# (F5/F9): il ponte intercetta le due parole prima del motore, così non esistono
+# due sistemi paralleli e la sequenza registrata qui resta pulita.
+_ARCHIVIO_MOTORE = ("salva", "salvare", "carica", "caricare", "ripristina")
+_AVVISO_SALVATAGGI = ("(Per salvare il viaggio premi F5 o apri il taccuino; "
+                      "per riprenderlo, F9.)\n")
+
+
+def _comando_di_archivio(pulito):
+    parole = pulito.split()
+    if not parole or len(parole) > 3 or parole[0] not in _ARCHIVIO_MOTORE:
+        return False
+    # un verbo che l'avventura dichiara come suo resta dell'avventura
+    return parole[0] not in getattr(_mondo, "verbi_personalizzati", ())
+
 
 def _compila(entry):
     global _mondo, _entry, _registro, _posizioni, _ingresso_dialogo
@@ -101,6 +117,9 @@ def fav_step(cmd):
     if _mondo is None:
         return json.dumps({"text": "", "continua": False, "stato": "errore"})
     pulito = cmd.strip().lower()
+    if _comando_di_archivio(pulito):
+        return json.dumps({"text": _AVVISO_SALVATAGGI, "continua": True,
+                           "stato": getattr(_mondo, "stato_partita", "in_corso")})
     era_in_dialogo = _mondo.in_dialogo()
     # ANCORA si registra col comando che ripete: dopo un ANNULLA la sequenza
     # effettiva non contiene più il turno a cui «ancora» si riferiva.
