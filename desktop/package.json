@@ -28,8 +28,7 @@
       "buildResources": "build"
     },
     "files": [
-      "main.cjs",
-      "preload.cjs",
+      "*.cjs",
       "package.json",
       "web/**/*"
     ],
@@ -94,10 +93,21 @@
           "Categories": "Game;AdventureGame;"
         }
       }
-    }
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Pitz72",
+        "repo": "il-viaggiatore-favella",
+        "releaseType": "release"
+      }
+    ]
   },
   "devDependencies": {
     "electron": "^44.4.4",
     "electron-builder": "^26.15.3"
+  },
+  "dependencies": {
+    "electron-updater": "^6.8.9"
   }
 }

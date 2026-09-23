@@ -7,12 +7,20 @@
 //  con Pyodide, esattamente come nel browser.
 //
 //  F11 commuta lo schermo intero. Alt+F4 (o «esci» nel menu del gioco) chiude.
-//  --autoverifica: avvia il gioco senza mostrarlo, gioca qualche comando e
-//  termina con codice 0 (tutto bene) o 1 (qualcosa non va). La usa la CI.
+//  --autoverifica: avvia il gioco senza mostrarlo, gioca qualche comando,
+//  salva e ricarica in memoria, e termina con codice 0 (tutto bene) o 1
+//  (qualcosa non va). La usa la CI su ogni pacchetto costruito.
+//
+//  Moduli: registro.cjs (registro tecnico), salvataggi.cjs (file su disco),
+//  aggiornamenti.cjs (aggiornamento automatico dalle release di GitHub).
 // ====================================================================
 const { app, BrowserWindow, protocol, ipcMain, Menu, shell } = require("electron");
 const fs = require("node:fs");
+const os = require("node:os");
 const path = require("node:path");
+const registro = require("./registro.cjs");
+const salvataggi = require("./salvataggi.cjs");
+const aggiornamenti = require("./aggiornamenti.cjs");
 
 const WEB = path.join(__dirname, "web");
 const AUTOVERIFICA = process.argv.includes("--autoverifica");
@@ -112,6 +120,13 @@ function creaFinestra() {
     if (!url.startsWith(ORIGINE)) e.preventDefault();
   });
 
+  // gli errori della pagina finiscono nel registro tecnico
+  finestra.webContents.on("console-message", (e) => {
+    if (e.level === "error" || e.level === "warning") registro.warn(`[pagina] ${e.message} (${e.sourceId}:${e.lineNumber})`);
+  });
+  finestra.webContents.on("render-process-gone", (_e, d) => registro.error(`processo della pagina terminato: ${d.reason} (${d.exitCode})`));
+  finestra.webContents.on("did-fail-load", (_e, codice, descr, url) => registro.error(`caricamento fallito ${codice} ${descr} ${url}`));
+
   finestra.webContents.on("before-input-event", (e, input) => {
     if (input.type === "keyDown" && input.key === "F11") {
       finestra.setFullScreen(!finestra.isFullScreen());
@@ -124,6 +139,11 @@ function creaFinestra() {
 }
 
 ipcMain.on("versione", (e) => { e.returnValue = app.getVersion(); });
+ipcMain.on("registro", (_e, livello, testo) => {
+  const scrivi = { info: registro.info, warn: registro.warn, error: registro.error }[livello] ?? registro.info;
+  scrivi(`[pagina] ${String(testo).slice(0, 2000)}`);
+});
+ipcMain.handle("registro:percorso", () => registro.percorso());
 ipcMain.on("esci", () => app.quit());
 ipcMain.handle("schermo", () => !!finestra?.isFullScreen());
 ipcMain.handle("commuta-schermo", () => {
@@ -133,9 +153,13 @@ ipcMain.handle("commuta-schermo", () => {
 });
 ipcMain.on("autoverifica", (_e, ok, dettagli) => {
   if (!AUTOVERIFICA) return;
+  registro.info(`autoverifica ${ok ? "superata" : "FALLITA"}`);
   process.stdout.write(`[autoverifica] ${ok ? "OK" : "FALLITA"}\n${dettagli}\n`);
   app.exit(ok ? 0 : 1);
 });
+
+process.on("uncaughtException", (e) => registro.error("eccezione non gestita:", e));
+process.on("unhandledRejection", (e) => registro.error("promessa rifiutata:", e));
 
 if (!AUTOVERIFICA && !app.requestSingleInstanceLock()) {
   app.quit();
@@ -146,9 +170,13 @@ if (!AUTOVERIFICA && !app.requestSingleInstanceLock()) {
     finestra.focus();
   });
   app.whenReady().then(() => {
+    registro.apri(app.getPath("logs"));
+    registro.info(`avvio: Il Viaggiatore ${app.getVersion()} · Electron ${process.versions.electron} · ${os.type()} ${os.release()} ${process.arch}${AUTOVERIFICA ? " · autoverifica" : ""}`);
     Menu.setApplicationMenu(null);
     protocol.handle(SCHEMA, servi);
+    salvataggi.registra(() => finestra);
     creaFinestra();
+    if (!AUTOVERIFICA) aggiornamenti.avvia(() => finestra);
     if (AUTOVERIFICA) {
       setTimeout(() => {
         process.stdout.write("[autoverifica] FALLITA\nnessuna risposta entro 180 s\n");
