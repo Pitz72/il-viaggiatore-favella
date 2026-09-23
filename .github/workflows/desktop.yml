@@ -1,0 +1,133 @@
+# Collaudo del gioco e pacchetti desktop per Windows e Linux.
+#
+#  - ogni push e pull request: collaudo (i 9 finali + le prove mirate), poi i
+#    pacchetti desktop costruiti e AUTOVERIFICATI (il gioco vero parte dentro il
+#    pacchetto e risponde ai primi comandi), caricati come artefatti;
+#  - un tag vX.Y.Z: in più crea la release GitHub con installer e pacchetti.
+name: Collaudo e pacchetti desktop
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  collaudo:
+    name: Collaudo dell'avventura
+    runs-on: ubuntu-latest
+    env:
+      PYTHONIOENCODING: utf-8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install lark==1.3.1
+      - name: Compilazione
+        run: python motore/favella.py compila prototipo/il-viaggiatore.fav
+      - name: I nove finali
+        working-directory: collaudo
+        run: python finali.py
+      - name: Prove mirate
+        working-directory: collaudo
+        run: python mirate.py
+
+  desktop:
+    name: Pacchetto ${{ matrix.nome }}
+    needs: collaudo
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            nome: Windows
+            builder: --win
+            eseguibile: dist/win-unpacked/Il Viaggiatore.exe
+            file: |
+              desktop/dist/*.exe
+          - os: ubuntu-latest
+            nome: Linux
+            builder: --linux
+            eseguibile: dist/linux-unpacked/il-viaggiatore
+            file: |
+              desktop/dist/*.AppImage
+              desktop/dist/*.deb
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            app/package-lock.json
+            desktop/package-lock.json
+
+      - name: Versione dal tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        working-directory: desktop
+        shell: bash
+        run: npm version --no-git-tag-version --allow-same-version "${GITHUB_REF_NAME#v}"
+
+      - name: Dipendenze
+        shell: bash
+        run: |
+          npm ci --prefix app
+          npm ci --prefix desktop
+
+      - name: App web + icone
+        working-directory: desktop
+        run: node prepara.mjs
+
+      - name: Pacchetto
+        working-directory: desktop
+        run: npx electron-builder ${{ matrix.builder }} --publish never
+
+      - name: Autoverifica (Windows)
+        if: runner.os == 'Windows'
+        working-directory: desktop
+        shell: bash
+        run: '"${{ matrix.eseguibile }}" --autoverifica'
+
+      - name: Autoverifica (Linux)
+        if: runner.os == 'Linux'
+        working-directory: desktop
+        run: xvfb-run -a "${{ matrix.eseguibile }}" --autoverifica --no-sandbox
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: il-viaggiatore-${{ matrix.nome }}
+          path: ${{ matrix.file }}
+          if-no-files-found: error
+
+  release:
+    name: Release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: desktop
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: pacchetti
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          name: Il Viaggiatore ${{ github.ref_name }}
+          files: pacchetti/*
+          body: |
+            **Il Viaggiatore** — avventura testuale di sopravvivenza in FAVELLA 1, a schermo intero.
+
+            | Sistema | File |
+            |---|---|
+            | Windows (installazione) | `Il-Viaggiatore-*-win-x64.exe` |
+            | Windows (senza installazione) | `Il-Viaggiatore-*-portable.exe` |
+            | Linux (qualunque distribuzione) | `Il-Viaggiatore-*-linux-x86_64.AppImage` (rendilo eseguibile e avvialo) |
+            | Linux (Debian, Ubuntu, Mint) | `Il-Viaggiatore-*-linux-amd64.deb` |
+
+            Gli eseguibili non sono firmati digitalmente: Windows SmartScreen può chiedere una conferma («Ulteriori informazioni» → «Esegui comunque»).
+            F11 commuta lo schermo intero; «esci» nel menu del trailer, o Alt+F4, chiude il gioco.

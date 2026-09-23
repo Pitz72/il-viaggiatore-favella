@@ -1,0 +1,7 @@
+# fine riga LF ovunque: gli stessi file su Windows, Linux e nella CI
+* text=auto eol=lf
+*.png binary
+*.ico binary
+*.jpg binary
+*.mp3 binary
+*.whl binary

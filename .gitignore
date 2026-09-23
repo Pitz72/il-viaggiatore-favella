@@ -1,0 +1,19 @@
+# dipendenze e build
+node_modules/
+dist/
+app/public/favella-engine/
+app/public/pyodide/
+desktop/web/
+desktop/build/
+__pycache__/
+*.pyc
+
+# collaudo: trascrizioni rigenerabili
+collaudo/esiti/
+
+# materiale locale, non del progetto pubblico
+_backup/
+video/*.mp4
+grafica/anteprima.png
+RIPRENDI-QUI*.md
+.claude/

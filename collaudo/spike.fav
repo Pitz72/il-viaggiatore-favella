@@ -1,0 +1,41 @@
+# ============================================================================
+# SPIKE — collaudo del motore per "Il Viaggiatore"
+# Prova i punti NON ancora confermati dalle demo ufficiali:
+#  (1) càpita (N su M) dentro un demone con condizione composta
+#  (2) contatori sotto zero: clamp o negativo?
+#  (3) bevi/mangia intransitivi che consumano un CONTATORE (non un oggetto)
+#  (4) interpolazione di un contatore POSSEDUTO: [vita del cane]
+# ============================================================================
+
+La prova è una stanza.
+La descrizione della prova è "Stanza di collaudo. Comandi: bevi, colpisci, abbassa, stato.".
+Il giocatore comincia in la prova.
+
+La sete è un contatore.
+La sete parte da 0.
+L'acqua è un contatore.
+L'acqua parte da 2.
+La fiducia è un contatore.
+La fiducia parte da 1.
+La vita del cane è un contatore.
+La vita del cane parte da 3.
+
+# (3) bevi intransitivo che consuma un CONTATORE
+"bevi" è un comando senza oggetto.
+Invece di bevi se l'acqua è almeno 1: dire "Bevi. Acqua [acqua], sete [sete]." e adesso diminuisci l'acqua di 1 e adesso diminuisci la sete di 4.
+Invece di bevi: dire "Tanica vuota. Sete [sete].".
+
+# (2) contatori sotto zero: porto fiducia (1) e acqua oltre lo zero
+"abbassa" è un comando senza oggetto.
+Invece di abbassa: dire "Abbasso fiducia di 3 e acqua di 5." e adesso diminuisci la fiducia di 3 e adesso diminuisci l'acqua di 5.
+
+# (1) e (4) combattimento + càpita in demone composto + interpolazione posseduta
+"colpisci" è un comando senza oggetto.
+Invece di colpisci: dire "Colpisci il cane. Vita cane ora [vita del cane]." e adesso diminuisci la vita del cane di 1.
+Ogni turno se la vita del cane è più di 0 e càpita (1 su 2): dire ">> CAPITA: il cane ti morde." e adesso aumenta la sete di 1.
+
+# scheda
+"stato" è un comando senza oggetto.
+Invece di stato: dire "Vita cane [vita del cane] · Sete [sete] · Acqua [acqua] · Fiducia [fiducia]".
+
+Quando la vita del cane è al massimo 0: dire "Cane abbattuto." e adesso vinci "Spike OK: combattimento, càpita, contatori, interpolazione.".

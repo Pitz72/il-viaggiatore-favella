@@ -1,0 +1,58 @@
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║  IL VIAGGIATORE — «la Secca»                                               ║
+# ║  un sud svuotato, l'acqua finita prima delle persone.                      ║
+# ║                                                                            ║
+# ║  FILE RADICE / orchestratore: dichiara lo stato globale del viaggiatore e  ║
+# ║  include i moduli (sistemi + zone, in ordine di viaggio). Avvia con:       ║
+# ║     favella.py gioca "il-viaggiatore.fav"                                  ║
+# ║  Nomi propri definitivi (audit anti-LLM svolto).                           ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
+
+# ============================================================================
+# STATO GLOBALE DEL VIAGGIATORE  [il corpo (sete/fame) e le scorte (acqua/cibo)]
+# ============================================================================
+La vita è un contatore.
+La vita parte da 10.
+La sete è un contatore.
+La sete parte da 0.
+La fame è un contatore.
+La fame parte da 0.
+L'acqua è un contatore.
+L'acqua parte da 3.
+Il cibo è un contatore.
+Il cibo parte da 2.
+
+# ============================================================================
+# INVENTARIO  [7 slot: tanica e biglietto di casa, più cinque scelte. La tanica è la vita.]
+# ============================================================================
+Il giocatore può portare 7 oggetti.
+La tanica è una cosa.
+Il giocatore ha la tanica.
+La descrizione della tanica è "Una tanica da dieci litri, ammaccata ma a tenuta. La tua vita, in pratica.".
+Il biglietto è una cosa.
+Il biglietto è prendibile.
+Il giocatore ha il biglietto.
+Il biglietto si chiama anche "ultima lettera".
+Il biglietto si chiama anche "lettera di casa".
+La descrizione del biglietto è "L'ultimo biglietto arrivato da casa, consumato sulle pieghe. Le lettere di prima le scriveva tua moglie, fitte, con le notizie del bambino in fondo. Questo è in stampatello, di una mano che non riconosci, e dice una cosa sola: «Non è il caso di tornare.» Nessuna firma.".
+
+# ============================================================================
+# MODULI  [i sistemi trasversali, poi le zone in ordine di cammino]
+# ============================================================================
+Includi "sistemi.fav".
+Includi "z1-acquaviva.fav".
+Includi "z2-piana.fav".
+Includi "z3-invaso.fav".
+Includi "z4-statale.fav".
+Includi "z5-paese.fav".
+Includi "z6-colline.fav".
+Includi "z7-guado.fav".
+# ============================================================================
+# RIPIEGHI GLOBALI  [dopo le zone: le regole specifiche vincono comunque]
+# ============================================================================
+Invece di attingi: dire "Qui non c'è niente da cui attingere.".
+Invece di attacca: dire "Alzi le mani, poi le riabbassi. Non è questa la cosa con cui prendertela.".
+Invece di minaccia: dire "Nessuno qui ti ha fatto niente. La minaccia ti resta in gola.".
+
+# Punto di partenza (la stazione è dichiarata in z1-acquaviva.fav).
+Il giocatore comincia in la stazione.

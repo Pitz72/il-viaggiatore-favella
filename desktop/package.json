@@ -1,0 +1,103 @@
+{
+  "name": "il-viaggiatore",
+  "productName": "Il Viaggiatore",
+  "version": "1.0.0",
+  "description": "Il Viaggiatore — avventura testuale di sopravvivenza in FAVELLA 1, versione desktop a schermo intero.",
+  "homepage": "https://github.com/Pitz72/il-viaggiatore-favella",
+  "author": {
+    "name": "Simone Pizzi",
+    "email": "pizzisimone1972@gmail.com"
+  },
+  "license": "MIT",
+  "private": true,
+  "main": "main.cjs",
+  "scripts": {
+    "prepara": "node prepara.mjs",
+    "avvia": "electron .",
+    "autoverifica": "electron . --autoverifica",
+    "pacchetto:win": "electron-builder --win --publish never",
+    "pacchetto:linux": "electron-builder --linux --publish never",
+    "pacchetto:cartella": "electron-builder --dir --publish never"
+  },
+  "build": {
+    "appId": "io.github.pitz72.ilviaggiatore",
+    "productName": "Il Viaggiatore",
+    "copyright": "© 2026 Simone Pizzi",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.cjs",
+      "preload.cjs",
+      "package.json",
+      "web/**/*"
+    ],
+    "asar": true,
+    "artifactName": "Il-Viaggiatore-${version}-${os}-${arch}.${ext}",
+    "win": {
+      "icon": "build/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "portable": {
+      "artifactName": "Il-Viaggiatore-${version}-portable.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerLanguages": [
+        "it_IT"
+      ],
+      "language": "1040",
+      "createDesktopShortcut": true,
+      "shortcutName": "Il Viaggiatore",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico"
+    },
+    "linux": {
+      "icon": "build/icon.png",
+      "category": "Game",
+      "synopsis": "Avventura testuale di sopravvivenza in FAVELLA 1",
+      "maintainer": "Simone Pizzi <pizzisimone1972@gmail.com>",
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "desktop": {
+        "entry": {
+          "Name": "Il Viaggiatore",
+          "Comment": "Avventura testuale di sopravvivenza",
+          "Categories": "Game;AdventureGame;"
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "electron": "^44.4.4",
+    "electron-builder": "^26.15.3"
+  }
+}
