@@ -9,6 +9,7 @@ Questo indice si rigenera da sé (`node strumenti/diario.mjs indice`).
 
 | Data | Tipo | Versione | Voce |
 |---|---|---|---|
+| 2026-09-23 | sessione | 1.0.0 | [Primo rilascio: 1.0.0](diario/2026-09-23-primo-rilascio-1-0-0.md) — Pubblicata la 1.0.0: installer e portatile per Windows, AppImage e .deb per Linux. |
 | 2026-09-23 | sessione | 1.0.0 | [Versioni, taccuino, loghi e aggiornamenti](diario/2026-09-23-versioni-loghi-aggiornamenti.md) — Versioni SemVer da un'unica fonte, diario di sviluppo, taccuino dei salvataggi, loghi d'apertura, aggiornamento automatico, rilascio manuale. |
 | 2026-09-23 | decisione | 1.0.0 | [I salvataggi sono sequenze di comandi verificate](diario/2026-09-23-salvataggi-come-sequenze.md) — Salvare la sequenza effettiva dei comandi e un'impronta dello stato, e rigiocarla al caricamento. |
 | 2026-09-23 | decisione | 1.0.0 | [Desktop: Electron invece di Tauri](diario/2026-09-23-electron-invece-di-tauri.md) — Versione desktop per Windows e Linux con Electron, repository pubblico, CI su GitHub. |
