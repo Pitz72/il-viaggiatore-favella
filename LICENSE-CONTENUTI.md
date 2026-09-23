@@ -19,6 +19,17 @@ Testo legale completo: <https://creativecommons.org/licenses/by-sa/4.0/legalcode
 
 Il codice che fa funzionare tutto questo è invece sotto licenza MIT (`LICENSE`).
 
+## Cosa NON copre: i marchi
+
+I loghi in `app/src/assets/loghi/` sono marchi dei rispettivi titolari e **non**
+sono coperti né da questa licenza né dalla licenza MIT:
+
+- `runtime.webp` — il logo di **Runtime, la radio geek**;
+- `favella.webp` — il logo di **FAVELLA 1**.
+
+Tutti i diritti riservati. Si possono ridistribuire solo come parte di questo
+gioco, senza modifiche; un'opera derivata deve toglierli o sostituirli.
+
 ## In breve
 
 Puoi copiare, distribuire, modificare e riusare questi contenuti, anche a fini
