@@ -179,7 +179,7 @@ try {
     fs.writeFileSync(P(CL), righe.join("\n"));
     scriviVersione(nuova);
     console.log(`Versione ${gioco} → ${nuova}. Aggiornati: versione.json, ${PACCHETTI.join(", ")}, lockfile, ${CL}.`);
-    console.log(`Poi: collaudo, commit «chore(versione): ${nuova}», push, e il workflow «Rilascio» da GitHub Actions.`);
+    console.log(`Poi: collaudo, commit «chore(versioni): ${nuova}», push, e il workflow «Rilascio» da GitHub Actions.`);
     process.exit(0);
   }
 
