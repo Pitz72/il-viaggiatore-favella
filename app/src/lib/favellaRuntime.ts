@@ -125,6 +125,36 @@ export interface StatoMondo {
   dialog?: { chi: string; opzioni: string[] } | null;
   capacity?: number | null;
   turn?: number;
+  /** turni che ANNULLA può ancora disfare */
+  undo?: number;
+  /** la domanda (sì/no) del motore in attesa: «esci», «ricomincia» */
+  conferma?: string | null;
+}
+
+/** Che cosa farebbe un comando, senza farlo (vedi fav_anteprima in ponte.py). */
+export interface Anteprima {
+  ok: boolean;
+  errore?: string | null;
+  /** false: il motore non ha capito il comando (verbo ignoto, oggetto assente) */
+  capito: boolean;
+  testo: string;
+  /** contatori che cambierebbero: {acqua: -3, sete: -8} */
+  delta: Record<string, number>;
+  /** stati (non numerici) che cambierebbero */
+  stati: { nome: string; prima: unknown; dopo: unknown }[];
+  /** ciò che ti esce dalla bisaccia (dato via, consumato), non ciò che posi per terra */
+  perde: { id: string; nome: string }[];
+  ottiene: { id: string; nome: string }[];
+  /** i contatori dopo il comando */
+  dopo: Record<string, number>;
+  esito: StatoPartita;
+  dialogo: boolean;
+}
+
+/** I verbi d'autore che qui e adesso hanno un effetto (vedi fav_azioni in ponte.py). */
+export interface AzioniContesto {
+  soli: string[];
+  bersagli: { verbo: string; id: string; nome: string }[];
 }
 
 /** Il cuore di un salvataggio, prodotto dal ponte (vedi ponte.py). */
@@ -155,6 +185,8 @@ export interface SessioneGioco {
   carica: (p: Pick<PartitaSalvata, "comandi" | "impronta" | "ultimo">) => EsitoCaricamento;
   motore: () => string;
   stato: () => StatoMondo;
+  anteprima: (cmd: string) => Anteprima;
+  azioni: () => AzioniContesto;
 }
 
 // Prepara una sessione di gioco: scrive i .fav nel FS e ritorna boot/step.
@@ -194,5 +226,10 @@ export async function avviaGioco(spec: GiocoSpec, onStatus: OnStatus): Promise<S
       return JSON.parse(pyodide.runPython("fav_carica(_entry, _comandi, _impronta, _ultimo)")) as EsitoCaricamento;
     },
     motore: () => (JSON.parse(pyodide.runPython("fav_info()")) as { motore: string }).motore,
+    anteprima: (cmd: string) => {
+      pyodide.globals.set("_cmd", cmd);
+      return JSON.parse(pyodide.runPython("fav_anteprima(_cmd)")) as Anteprima;
+    },
+    azioni: () => JSON.parse(pyodide.runPython("fav_azioni()")) as AzioniContesto,
   };
 }

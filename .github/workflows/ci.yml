@@ -49,6 +49,16 @@ jobs:
       - name: Salvataggi
         working-directory: collaudo
         run: python salvataggi.py -n 16
+      - name: Bere e mangiare
+        working-directory: collaudo
+        run: python scorte.py
+      - name: Il ponte dell'interfaccia
+        working-directory: collaudo
+        run: python interfaccia.py
+      - name: Le scelte che chiedono conferma
+        run: |
+          npm ci --prefix app
+          python collaudo/conferme.py
 
   desktop:
     name: Pacchetto ${{ matrix.nome }}

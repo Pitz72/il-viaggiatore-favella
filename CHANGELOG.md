@@ -8,6 +8,41 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+### Aggiunto
+- **«Vuoi bere?» «Vuoi mangiare?»**: l'acqua e il cibo fra le scorte (e la tanica
+  nella bisaccia) ora si toccano, e aprono un pannello con le dosi: un sorso, due,
+  tre; una porzione, due, tre. Ogni dose dice cosa farebbe (sete 8 → 0, acqua 3 → 1)
+  ed è un comando del gioco, un turno solo: `bevi due sorsi`, `mangia tre porzioni`.
+  Si smette di offrire dosi alla prima che toglie tutto il bisogno: niente acqua
+  sprecata.
+- **Scelte che costano chiedono conferma**, con il conto di ciò che si dà e di ciò
+  che si riceve, come resterebbero le scorte, e «No» come pulsante di partenza:
+  baratti (Nunzio, Ciro, Tore), doni (Saverio, Iole, Rosaria), pagamenti (Vito),
+  le cose che si consumano (`curati`, le pastiglie sulla pompa, le medicine a
+  Pasquale), l'acqua salmastra, la violenza (`attacca`, `minaccia`) e le svolte
+  della storia (Peppe che viene o resta, il lascito di Onofrio). Parlare, chiedere,
+  esaminare, muoversi: mai. Il motore mostra in anteprima ciò che succederebbe su
+  una copia del mondo, senza farlo: il conto è quello vero.
+- **Pulsanti e parser dicono le stesse parole.** Le azioni che il luogo suggerisce
+  a parole (ATTINGI al pozzo e alla sorgente, GETTA CIBO alla serra, CURATI con le
+  medicine, ATTACCA il cane, MINACCIA Vito) sono anche pulsanti, e compaiono solo
+  dove servono. «Usa…» compone `usa X su Y` scegliendo le due cose (da una cosa
+  della bisaccia, da una del luogo, o dal pulsante generale). Le parole in
+  maiuscolo del testo si toccano: un'uscita ci porta là, una cosa apre il suo menu.
+  Accanto agli sguardi: `guarda`, `aspetta`.
+- **↶ annulla** accanto al campo dei comandi (Ctrl+Z col campo vuoto). Le domande
+  di conferma del motore («Vuoi davvero chiudere la partita?») hanno i loro sì e no.
+
+### Cambiato
+- **`mangia` e `bere` soli funzionano**, e così `mangia cibo`, `mangia una
+  porzione`, `bevi acqua`, `bere acqua`, `bevi un sorso`, `bevi 2`, `mangia 3`… La
+  forma vecchia `mangia qualcosa` resta valida (è dentro i salvataggi già fatti). I
+  suggerimenti del testo dicono MANGIA.
+- La bisaccia ha sempre lo stesso ordine (quello della storia); prima cambiava a
+  ogni partita.
+- «esci» e «sì» digitati riportano all'intro, invece di mostrare la schermata di
+  fine viaggio.
+
 ## [1.2.0] - 2026-09-29
 
 ### Cambiato
