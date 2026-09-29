@@ -9,6 +9,8 @@ Questo indice si rigenera da sé (`node strumenti/diario.mjs indice`).
 
 | Data | Tipo | Versione | Voce |
 |---|---|---|---|
+| 2026-09-29 | sessione | 1.2.0 | [Il trailer ridipinto](diario/2026-09-29-il-trailer-ridipinto.md) — Il trailer d'apertura è ridipinto da cima a fondo (stessi tempi, stessi testi, stessa musica): ogni inquadratura ha la sua materia, il viandante ha un passo vero, e tutto si prepara mentre girano i loghi. |
+| 2026-09-29 | sessione | 1.2.0 | [Bere e mangiare a dosi, conferme e pulsanti allineati al parser](diario/2026-09-29-bere-e-mangiare-a-dosi-conferme-e-pulsanti-allineati-al-pars.md) — Bere e mangiare si scelgono da un pannello con le dosi; le scelte che costano chiedono conferma con il conto vero di ciò che si dà e si riceve; i pulsanti dicono le stesse parole del parser. |
 | 2026-09-29 | sessione | 1.1.1 | [Allineamento al motore 1.4.0](diario/2026-09-29-allineamento-al-motore-1-4-0.md) — Il gioco passa dal motore FAVELLA 1.2.1 alla 1.4.0, la stessa versione che fa girare *Il Viaggiatore* sul sito di FAVELLA; la storia non cambia. |
 | 2026-09-23 | sessione | 1.1.1 | [ANNULLA riporta indietro anche ANCORA](diario/2026-09-23-annulla-riporta-indietro-anche-ancora.md) — Il motore passa alla 1.2.1: ANNULLA ora disfa anche la memoria di ANCORA. Era |
 | 2026-09-23 | sessione | 1.1.0 | [Il motore passa alla 1.2.0](diario/2026-09-23-il-motore-passa-alla-1-2-0.md) — Il gioco adotta FAVELLA 1.2.0, la prima versione del motore rilasciata dopo la |

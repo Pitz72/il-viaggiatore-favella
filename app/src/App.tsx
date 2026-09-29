@@ -7,8 +7,9 @@
 //  gioco torna al trailer, ma DIRETTO al menu (non si rivede tutto il filmato).
 //  Sopra tutto, sul desktop, l'avviso dell'aggiornamento automatico.
 // ====================================================================
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Loghi from "./components/Loghi";
+import { avviaPreparazione } from "./trailer/paesaggi";
 import Trailer from "./components/Trailer";
 import GameShell from "./components/GameShell";
 import AvvisoAggiornamento from "./components/AvvisoAggiornamento";
@@ -23,6 +24,10 @@ export default function App() {
   const [carica, setCarica] = useState<Salvataggio | null>(null);
   // una partita nuova (o ricaricata) rimonta il gioco da capo
   const [partita, setPartita] = useState(0);
+
+  // Le tele del trailer (cielo, monti, legno, carta, fango, sale, cemento, rilievo…) si dipingono
+  // a pezzi mentre girano i loghi: quando comincia il trailer sono già pronte.
+  useEffect(() => { avviaPreparazione(); }, []);
 
   return (
     <div className="h-full w-full bg-black">

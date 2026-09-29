@@ -42,6 +42,25 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
   ogni partita.
 - «esci» e «sì» digitati riportano all'intro, invece di mostrare la schermata di
   fine viaggio.
+- **Il trailer è ridipinto da cima a fondo, con gli stessi tempi, gli stessi testi
+  e la stessa musica.** Niente più forme piatte: ogni inquadratura ha la sua
+  materia. Il tavolo di noce con le lettere in corsivo, le pieghe, la busta col
+  francobollo e la penna; l'alba con nuvole, raggi, quattro piani di monti, masserie,
+  cipressi e pali del telegrafo coi loro fili; il fango screpolato visto da vicino,
+  con stivali, pantaloni e la tanica di lamiera; l'invaso di sale con la diga, la
+  torre e la barca arenata, che di notte ha la Via Lattea, la luna e il faro; la
+  mappa a curve di livello con le tappe; il guado a controluce, con Acquamorta che
+  si specchia nell'acqua. Il viandante è una figura articolata con un passo vero
+  (il piede che poggia sta fermo a terra, il cappotto arriva in ritardo, la tanica
+  dondola). Nuovi anche i cinque segni di chi è rimasto (il pozzo, la pompa, la
+  sbarra, il bicchiere, il cavallo di legno) e le cinque regole (la spina dorsale
+  che si riempie di sete, la moneta, la porta, le tacche di vita, l'albero delle
+  scelte).
+- **Il trailer parte senza attese e non va a scatti.** Le tele si dipingono a pezzi
+  mentre girano i loghi; se il computer è lento compare «Preparo il viaggio» con
+  una barra, e se i fotogrammi restano lenti a lungo la risoluzione scende da sola.
+- La schermata d'avvio dice che si può scrivere in italiano **o** scegliere con i
+  pulsanti.
 
 ## [1.2.0] - 2026-09-29
 
