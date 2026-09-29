@@ -59,6 +59,8 @@ jobs:
         run: |
           npm ci --prefix app
           python collaudo/conferme.py
+      - name: I finali giocati solo con i pulsanti
+        run: python collaudo/pulsanti.py
 
   desktop:
     name: Pacchetto ${{ matrix.nome }}

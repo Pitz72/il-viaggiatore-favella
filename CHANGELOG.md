@@ -8,6 +8,23 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.4.0] - 2026-09-29
+
+### Cambiato
+- **Usare una cosa su un'altra, con i pulsanti, è preciso.** Prima «Usa…»
+  proponeva ogni cosa della bisaccia su ogni cosa del luogo, e quasi sempre la
+  risposta era «non ha alcun effetto particolare». Ora il motore dice quali
+  combinazioni la storia prevede qui e adesso (le pastiglie sulla pompa, la chiave
+  inglese sulla grata, le medicine a Pasquale, la lettera e il biglietto a Cosimo),
+  e solo quelle diventano pulsanti: fra le azioni del luogo («Usa le pastiglie
+  sulla pompa») e nel menu delle due cose («usa sulla pompa», «usa le pastiglie»).
+  Compaiono quando hai con te la cosa giusta nel posto giusto, spariscono quando
+  non servono più. Scrivendo si può ancora provare qualsiasi combinazione.
+- Il menu di una persona o di un animale offre anche i gesti che la storia
+  prevede per lei (attacca il cane, minaccia Vito).
+- Collaudo nuovo: i sei finali della storia giocati **solo con i pulsanti**
+  (`collaudo/pulsanti.py`, in CI e nel rilascio).
+
 ## [1.3.0] - 2026-09-29
 
 ### Aggiunto

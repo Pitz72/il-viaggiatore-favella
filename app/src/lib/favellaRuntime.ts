@@ -155,7 +155,13 @@ export interface Anteprima {
 export interface AzioniContesto {
   soli: string[];
   bersagli: { verbo: string; id: string; nome: string }[];
+  /** «usa X su Y» che la storia prevede qui e adesso (vedi _coppie in ponte.py) */
+  coppie: Coppia[];
 }
+
+/** Una cosa in una coppia: `testo` è come sta nel comando («le pastiglie», «sulla pompa»). */
+export interface CosaInCoppia { id: string; nome: string; testo: string }
+export interface Coppia { verbo: string; cmd: string; etichetta: string; primo: CosaInCoppia; secondo: CosaInCoppia }
 
 /** Il cuore di un salvataggio, prodotto dal ponte (vedi ponte.py). */
 export interface PartitaSalvata {

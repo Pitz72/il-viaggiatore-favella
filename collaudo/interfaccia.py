@@ -7,7 +7,8 @@ Tre cose che i pulsanti danno per certe:
     fatta davvero su una copia, cambia le stesse scorte e le stesse cose;
   · le azioni di contesto compaiono dove il testo del luogo le suggerisce
     (ATTINGI al pozzo, GETTA CIBO alla serra, CURATI con le medicine, ATTACCA il cane)
-    e spariscono quando non servono più.
+    e spariscono quando non servono più; lo stesso per le combinazioni di due cose
+    («usa la chiave inglese sulla grata»), offerte solo dove e quando la storia le prevede.
 
 Uso:  python interfaccia.py      (esce con 1 se una prova fallisce)
 """
@@ -154,6 +155,43 @@ prova("a Vito a terra, ATTACCA sparisce", not [b for b in azioni(p)["bersagli"] 
 p = nuovo_ponte()
 p._mondo.posizione_giocatore = "fondale"
 prova("al fondale c'è «bevi salmastra»", "bevi salmastra" in azioni(p)["soli"], str(azioni(p)))
+# le combinazioni di due cose: solo quelle che la storia prevede qui e adesso
+def prendi_a_mano(p, *ids):
+    for i in ids:
+        p._mondo.inventario.add(i)
+        p._mondo.oggetti[i].posizione = "inventario"
+
+
+def coppie(p):
+    return [c["cmd"] for c in azioni(p)["coppie"]]
+
+
+p = nuovo_ponte()
+prova("alla stazione, col biglietto in tasca, nessuna combinazione", coppie(p) == [], str(coppie(p)))
+p._mondo.posizione_giocatore = "area di servizio"
+prova("all'area di servizio senza la chiave inglese, nessuna combinazione", coppie(p) == [], str(coppie(p)))
+passi(p, ["prendi chiave inglese"])
+prova("con la chiave inglese e la grata chiusa: «usa la chiave inglese sulla grata»",
+      coppie(p) == ["usa la chiave inglese sulla grata"], str(coppie(p)))
+r = json.loads(p.fav_step(coppie(p)[0]))
+prova("il comando del pulsante è capito e apre la grata",
+      p._mondo.variabili.get("stato della grata") == "aperta", r["text"][:90])
+prova("a grata aperta la combinazione sparisce (resterebbe solo «La grata è già aperta.»)", coppie(p) == [], str(coppie(p)))
+p = nuovo_ponte()
+p._mondo.posizione_giocatore = "diga"
+prendi_a_mano(p, "pastiglie")
+prova("alla pompa con le sole pastiglie nessuna combinazione (manca il filtro)", coppie(p) == [], str(coppie(p)))
+prendi_a_mano(p, "filtro")
+prova("col filtro: «usa le pastiglie sulla pompa»", coppie(p) == ["usa le pastiglie sulla pompa"], str(coppie(p)))
+c = azioni(p)["coppie"][0]
+prova("la combinazione dice come si legge nei menu (le pastiglie / sulla pompa)",
+      (c["primo"]["testo"], c["secondo"]["testo"], c["secondo"]["id"]) == ("le pastiglie", "sulla pompa", "pompa"), str(c))
+a = json.loads(p.fav_anteprima(c["cmd"]))
+prova("anteprima: la pompa dà 8 d'acqua e consuma pastiglie e filtro",
+      a["delta"].get("acqua") == 8 and {o["id"] for o in a["perde"]} == {"pastiglie", "filtro"}, str(a["delta"]))
+p._mondo.posizione_giocatore = "stazione"
+prova("lontano dalla pompa la combinazione sparisce", coppie(p) == [], str(coppie(p)))
+
 # le azioni non consumano il caso: la partita resta identica
 p = nuovo_ponte()
 passi(p, ["nord", "nord"])

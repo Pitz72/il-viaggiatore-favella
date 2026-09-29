@@ -26,7 +26,7 @@ import ComeSiGioca from "../gioco/ComeSiGioca";
 import Taccuino from "../gioco/Taccuino";
 import Conferma from "../gioco/Conferma";
 import PannelloScorta from "../gioco/PannelloScorta";
-import { chipDiContesto, conArticolo, senzaArticolo, serveAnteprima, valutaConferma, type Conferma as DatiConferma } from "../gioco/azioni";
+import { chipDiContesto, senzaArticolo, serveAnteprima, valutaConferma, vociDelMenu, type Conferma as DatiConferma, type Cosa } from "../gioco/azioni";
 import { componi, dataLeggibile, nomePosto, scrivi, type Posto, type Riassunto, type Salvataggio } from "../lib/salvataggi";
 import { annota } from "../lib/desktop";
 import { analizza, spezza, type Blocco } from "../gioco/testo";
@@ -38,11 +38,9 @@ const MAGGIORI = ["Saverio", "Iole", "Vito", "Rosaria", "Onofrio"];
 const DIREZIONI: Record<string, string> = { nord: "↑", sud: "↓", est: "→", ovest: "←", su: "⤒", giu: "⤓", "giù": "⤓" };
 
 interface Voce { id: number; cmd?: string; blocchi: Blocco[] }
-type Menu = { tipo: "qui" | "zaino"; id: string; nome: string; persona?: boolean; prendibile?: boolean } | null;
-/** «usa X su Y» a pezzi: chi si usa, su chi. Si parte da uno dei due o da nessuno. */
-type Usa = { primo?: { id: string; nome: string }; secondo?: { id: string; nome: string } } | null;
+type Menu = Cosa | null;
 type Richiesta = { cmd: string; etichetta: string; conferma: DatiConferma } | null;
-const SENZA_AZIONI: AzioniContesto = { soli: [], bersagli: [] };
+const SENZA_AZIONI: AzioniContesto = { soli: [], bersagli: [], coppie: [] };
 
 const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; carica?: Salvataggio | null }) => {
   const [fase, setFase] = useState<"carica" | "gioca" | "errore">("carica");
@@ -60,9 +58,8 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
   const [taccuino, setTaccuino] = useState<null | "salva" | "carica">(null);
   // comandi dati dopo l'ultimo salvataggio o caricamento: se > 0, caricare fa perdere qualcosa
   const [nonSalvati, setNonSalvati] = useState(0);
-  // «Vuoi bere?» / «Vuoi mangiare?»; «usa … su …» a pezzi; la scelta in attesa di conferma
+  // «Vuoi bere?» / «Vuoi mangiare?»; la scelta in attesa di conferma
   const [pannello, setPannello] = useState<null | "bere" | "mangiare">(null);
-  const [usa, setUsa] = useState<Usa>(null);
   const [richiesta, setRichiesta] = useState<Richiesta>(null);
   const [azioniCtx, setAzioniCtx] = useState<AzioniContesto>(SENZA_AZIONI);
 
@@ -122,7 +119,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
   };
 
   // ── un comando: dalla tastiera o da un pulsante, è lo stesso ─────────
-  const chiudiPannelli = () => { setMenu(null); setPannello(null); setUsa(null); };
+  const chiudiPannelli = () => { setMenu(null); setPannello(null); };
 
   /** in dialogo un numero mostra il testo della risposta scelta */
   const etichettaDi = (cmd: string, etichetta?: string) => {
@@ -171,7 +168,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     setVoci([{ id: contatore.current++, blocchi: analizza(e.text) }]);
     setMondo(sessione.current.stato());
     setFinita(false); setEsito("in_corso"); setFinale(""); setIncontrati([]); setMenu(null);
-    setPannello(null); setUsa(null); setRichiesta(null);
+    setPannello(null); setRichiesta(null);
     setCamminaDa(performance.now());
     setNonSalvati(0);
   };
@@ -244,7 +241,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     setIncontrati(dati.diario.incontrati ?? []);
     storia.current = dati.diario.storia ?? [];
     iStoria.current = -1;
-    setMenu(null); setBozza(""); setPannello(null); setUsa(null); setRichiesta(null);
+    setMenu(null); setBozza(""); setPannello(null); setRichiesta(null);
     const fine = esito.stato !== "in_corso";
     setFinita(fine); setEsito(esito.stato); setFinale("");
     setCamminaDa(performance.now());
@@ -517,11 +514,6 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
                       title="Bevi: scegli quanti sorsi"><span className="vg-freccia">▸</span>Bevi</button>
                     <button className={"vg-chip vg-verbo" + (pannello === "mangiare" ? " vg-attivo" : "")} onClick={() => apriPannello("mangiare")}
                       title="Mangia: scegli quante porzioni"><span className="vg-freccia">▸</span>Mangia</button>
-                    {mondo.inventory.length > 0 && (
-                      <button className={"vg-chip vg-verbo" + (usa ? " vg-attivo" : "")}
-                        onClick={() => { const chiudere = !!usa; chiudiPannelli(); if (!chiudere) setUsa({}); }}
-                        title="Usa una cosa che porti su un'altra"><span className="vg-freccia">▸</span>Usa…</button>
-                    )}
                     {chipDiContesto(azioniCtx).map((ch) => (
                       <button key={ch.chiave} className="vg-chip vg-verbo" onClick={() => manda(ch.cmd)} title={ch.cmd}>
                         <span className="vg-freccia">▸</span>{ch.etichetta}
@@ -538,49 +530,15 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
               {menu && (
                 <div className="vg-azioni">
                   <span className="vg-etichetta">{menu.nome}</span>
-                  {menu.tipo === "qui" && menu.persona && <button className="vg-chip vg-pieno" onClick={() => manda("parla con " + menu.id)}>parla con</button>}
-                  {menu.tipo === "zaino" && menu.id === "tanica" && <button className="vg-chip vg-pieno" onClick={() => { chiudiPannelli(); setPannello("bere"); }}>bevi…</button>}
-                  <button className="vg-chip" onClick={() => manda("esamina " + menu.id)}>esamina</button>
-                  {menu.tipo === "qui" && menu.prendibile && <button className="vg-chip" onClick={() => manda("prendi " + menu.id)}>prendi</button>}
-                  {menu.tipo === "zaino" && <>
-                    <button className="vg-chip" onClick={() => { setMenu(null); setUsa({ primo: { id: menu.id, nome: menu.nome } }); }}>usa su…</button>
-                    {menu.id !== "tanica" && <button className="vg-chip" onClick={() => manda("lascia " + menu.id)}>lascia</button>}
-                  </>}
-                  {menu.tipo === "qui" && mondo.inventory.length > 0 && (
-                    <button className="vg-chip" onClick={() => { setMenu(null); setUsa({ secondo: { id: menu.id, nome: menu.nome } }); }}>usa qualcosa su questo…</button>
-                  )}
+                  {vociDelMenu(menu, azioniCtx).map((v) => (
+                    <button key={v.etichetta} className={"vg-chip" + (v.pieno ? " vg-pieno" : "")} title={v.cmd}
+                      onClick={() => { if (v.pannello) { chiudiPannelli(); setPannello(v.pannello); } else if (v.cmd) manda(v.cmd); }}>
+                      {v.etichetta}
+                    </button>
+                  ))}
                   <button className="vg-chip vg-chiudi" onClick={() => setMenu(null)} aria-label="Chiudi">✕</button>
                 </div>
               )}
-
-              {usa && (() => {
-                const inv = mondo.inventory.map((n) => ({ id: senzaArticolo(n), nome: n }));
-                const qui = (mondo.present ?? []).map((p) => ({ id: p.id, nome: p.nome }));
-                type Voce = { id: string; nome: string };
-                let titolo: string, scelte: Voce[], scegli: (v: Voce) => void;
-                if (usa.primo && !usa.secondo) {
-                  const p1 = usa.primo;
-                  titolo = `usa ${conArticolo(p1.nome)} su…`;
-                  scelte = [...qui, ...inv.filter((x) => x.id !== p1.id)];
-                  scegli = (v) => manda(`usa ${p1.id} su ${v.id}`);
-                } else if (usa.secondo && !usa.primo) {
-                  const p2 = usa.secondo;
-                  titolo = `usa … su ${conArticolo(p2.nome)}`;
-                  scelte = inv.filter((x) => x.id !== p2.id);
-                  scegli = (v) => manda(`usa ${v.id} su ${p2.id}`);
-                } else {
-                  titolo = "usa che cosa?";
-                  scelte = inv;
-                  scegli = (v) => setUsa({ primo: v });
-                }
-                return (
-                  <div className="vg-azioni">
-                    <span className="vg-etichetta">{titolo}</span>
-                    {scelte.map((v) => <button key={v.id} className="vg-chip" onClick={() => scegli(v)}>{v.nome}</button>)}
-                    <button className="vg-chip vg-chiudi" onClick={() => setUsa(null)} aria-label="Chiudi">✕</button>
-                  </div>
-                );
-              })()}
             </div>
           )}
         </main>

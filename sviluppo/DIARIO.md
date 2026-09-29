@@ -9,6 +9,7 @@ Questo indice si rigenera da sé (`node strumenti/diario.mjs indice`).
 
 | Data | Tipo | Versione | Voce |
 |---|---|---|---|
+| 2026-09-30 | sessione | 1.3.0 | [Usare una cosa su un'altra, con i pulsanti](diario/2026-09-30-usare-una-cosa-su-un-altra-con-i-pulsanti.md) — I pulsanti non propongono più ogni combinazione di cose: il motore dice quali «usa X su Y» la storia prevede qui e adesso, e solo quelle diventano pulsanti. Un collaudo nuovo gioca i sei finali senza tastiera. |
 | 2026-09-29 | sessione | 1.2.0 | [Il trailer ridipinto](diario/2026-09-29-il-trailer-ridipinto.md) — Il trailer d'apertura è ridipinto da cima a fondo (stessi tempi, stessi testi, stessa musica): ogni inquadratura ha la sua materia, il viandante ha un passo vero, e tutto si prepara mentre girano i loghi. |
 | 2026-09-29 | sessione | 1.2.0 | [Bere e mangiare a dosi, conferme e pulsanti allineati al parser](diario/2026-09-29-bere-e-mangiare-a-dosi-conferme-e-pulsanti-allineati-al-pars.md) — Bere e mangiare si scelgono da un pannello con le dosi; le scelte che costano chiedono conferma con il conto vero di ciò che si dà e si riceve; i pulsanti dicono le stesse parole del parser. |
 | 2026-09-29 | sessione | 1.1.1 | [Allineamento al motore 1.4.0](diario/2026-09-29-allineamento-al-motore-1-4-0.md) — Il gioco passa dal motore FAVELLA 1.2.1 alla 1.4.0, la stessa versione che fa girare *Il Viaggiatore* sul sito di FAVELLA; la storia non cambia. |
