@@ -8,6 +8,8 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.3.0] - 2026-09-29
+
 ### Aggiunto
 - **«Vuoi bere?» «Vuoi mangiare?»**: l'acqua e il cibo fra le scorte (e la tanica
   nella bisaccia) ora si toccano, e aprono un pannello con le dosi: un sorso, due,
