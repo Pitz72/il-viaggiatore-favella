@@ -8,6 +8,25 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.2.0] - 2026-09-29
+
+### Cambiato
+- **Motore FAVELLA 1.4.0** al posto della 1.2.1: è la stessa versione che fa
+  girare *Il Viaggiatore* sul sito di FAVELLA. La storia non cambia.
+- **I comandi non capiti non fanno passare il tempo.** Un refuso, un verbo
+  sconosciuto o un oggetto che non c'è non consumano più un turno, e quindi
+  nemmeno un sorso d'acqua o un boccone.
+- **Più verbi e più direzioni**: `aspetta` (`z`), `x`, `l`, `su`, `giù`, `entra`,
+  `sali`, `scendi`, `tocca`, `spingi`, `tira`, `annusa`, `ascolta`, `dai`,
+  `mostra`, `indossa`, e altri. `prendi tutto`, `prendi la mappa e il coltello`.
+- **Messaggi in italiano più corretto** («Preso: la mappa.»). `esci` e
+  `ricomincia` chiedono conferma prima di chiudere la partita o azzerarla.
+- Le regole scritte per un verbo valgono anche per i suoi sinonimi
+  (`posa la tanica` rispetta la regola della tanica come `lascia la tanica`).
+- I salvataggi delle versioni precedenti si caricano: vengono rigiocati sul
+  motore nuovo e, se contenevano comandi non capiti, la partita ricostruita ha
+  meno turni di prima. Il gioco lo dice già al caricamento.
+
 ## [1.1.1] - 2026-09-23
 
 ### Corretto

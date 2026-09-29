@@ -1,9 +1,7 @@
 # gioco.py
-# Interprete Interattivo per FAVELLA 1 (v1.2.1)
+# Interprete Interattivo per FAVELLA 1 (v1.4.0)
 
-import contextlib
 import copy
-import io
 import json
 import os
 import re
@@ -11,26 +9,31 @@ import sys
 import traceback
 from compilatore import analizza_file
 from strutture import Mondo
-from favella_utils import normalizza_nome, rendi_testo, frase_indeterminativa, prima_maiuscola, assicura_console_utf8
+from favella_utils import (normalizza_nome, rendi_testo, frase_indeterminativa, prima_maiuscola,
+                           assicura_console_utf8, nome_in_frase, con_preposizione,
+                           radice_proprieta, messaggio, scrivi, raccogli_uscita, UscitaMuta,
+                           _scomponi_articolo)
 from libreria_azioni import LIBRERIA_AZIONI, muovi_logica_default # Importa anche muovi_logica_default
 
 def mostra_stanza(mondo: Mondo):
-    """Stampa la descrizione completa della stanza corrente del giocatore."""
+    """Mostra la descrizione completa della stanza corrente del giocatore."""
     stanza_corrente = mondo.trova_stanza(mondo.posizione_giocatore)
     if not stanza_corrente:
-        print("[ERRORE INTERNO] La posizione del giocatore non corrisponde a nessuna stanza!")
+        scrivi(mondo, "[ERRORE INTERNO] La posizione del giocatore non corrisponde a nessuna stanza!",
+               "errore")
         return
 
-    print(f"\n--- {prima_maiuscola(stanza_corrente.nome_visualizzato)} ---")
+    scrivi(mondo, f"--- {prima_maiuscola(stanza_corrente.nome_visualizzato)} ---", "stanza",
+           stacco=True, id=stanza_corrente.nome)
 
     # [0.24.0 / A4] Stanza al buio senza fonte di luce accesa raggiungibile: non si
     # vede nulla (né descrizione, né oggetti, né uscite). Le uscite restano
     # comunque percorribili: il giocatore può muoversi alla cieca.
     if not mondo.c_e_luce():
-        print("È buio pesto.")
+        scrivi(mondo, messaggio(mondo, "buio pesto", "È buio pesto."))
         return
 
-    print(rendi_testo(mondo, stanza_corrente.descrizione_attuale(mondo)))
+    scrivi(mondo, rendi_testo(mondo, stanza_corrente.descrizione_attuale(mondo)))
 
     # [1.1.0] Gli oggetti ancora al loro posto iniziale si presentano con la frase
     # d'autore e restano fuori dall'elenco generico. Le frasi sono raccolte in UN
@@ -39,32 +42,79 @@ def mostra_stanza(mondo: Mondo):
     # anche quando le altre sono sparite.
     posti = [rendi_testo(mondo, o.posto) for o in stanza_corrente.oggetti.values() if o.al_suo_posto()]
     if posti:
-        print(" ".join(posti))
+        scrivi(mondo, " ".join(posti))
 
-    oggetti_nella_stanza = [o for o in stanza_corrente.oggetti.values() if not o.al_suo_posto()]
+    # [1.3.0 / M-8] Gli oggetti DI SCENA non si elencano (si esaminano); quelli
+    # presenti anche in altre stanze ('Il cielo è anche nel cortile.') sì.
+    in_vista = list(stanza_corrente.oggetti.values()) + mondo.oggetti_anche_qui()
+    oggetti_nella_stanza = [o for o in in_vista if not o.al_suo_posto() and not o.di_scena]
     if oggetti_nella_stanza:
         # [Livello 5] Articolo indeterminativo concordato (genere/numero inferiti
         # dal nome dichiarato): "Puoi vedere qui: una torcia, un tavolo.".
         nomi_oggetti = [frase_indeterminativa(ogg.nome_visualizzato) for ogg in oggetti_nella_stanza]
-        print(f"Puoi vedere qui: {', '.join(nomi_oggetti)}.")
+        scrivi(mondo, f"Puoi vedere qui: {', '.join(nomi_oggetti)}.", "elenco")
+
+    # [1.3.0 / M-5] Si vede anche ciò che sta su un supporto o in un contenitore
+    # aperto: «Sul tavolo: una mela.». Prima la mela appoggiata si scopriva solo
+    # esaminando il tavolo.
+    nominati = []
+    for ogg in list(stanza_corrente.oggetti.values()):
+        _elenca_appoggiati(mondo, ogg, nominati, set())
 
     # [0.20.0 / A1] Gli oggetti elencati sono ora «nominati»: diventano riferibili
     # dai pronomi ('entri… → prendila').
     mondo.registra_riferiti_da_stanza()
+    for id_ogg in nominati:
+        mondo.registra_riferito(id_ogg)
 
-    # Mostra le uscite disponibili
+    # Mostra le uscite disponibili. [1.3.0 / M-8] Con 'Le uscite nominano solo
+    # le stanze visitate.' una stanza mai vista resta senza nome.
+    mondo.stanze_visitate.add(stanza_corrente.nome)
     if stanza_corrente.uscite:
-        uscite_str = ", ".join([f"{prima_maiuscola(d)} ({prima_maiuscola(mondo.trova_stanza(id_s).nome_visualizzato)})" for d, id_s in stanza_corrente.uscite.items()])
-        print(f"Uscite: {uscite_str}.")
+        voci = []
+        for d, id_s in stanza_corrente.uscite.items():
+            dest = mondo.trova_stanza(id_s)
+            if dest is None or (mondo.uscite_solo_visitate and id_s not in mondo.stanze_visitate):
+                voci.append(prima_maiuscola(d))
+            else:
+                voci.append(f"{prima_maiuscola(d)} ({prima_maiuscola(dest.nome_visualizzato)})")
+        scrivi(mondo, f"Uscite: {', '.join(voci)}.", "elenco")
 
-def risolvi_nome_oggetto(mondo: Mondo, nome_parziale: str) -> str | None:
-    """Cerca di risolvere un nome parziale in un ID oggetto univoco nello scope attuale."""
+def _elenca_appoggiati(mondo: Mondo, oggetto, nominati, visti):
+    """[1.3.0 / M-5] Mostra «Sul tavolo: una mela, un coltello.» per un supporto
+    o un contenitore aperto, poi scende nel suo contenuto."""
+    if oggetto.nome in visti or oggetto.is_personaggio:
+        return
+    visti.add(oggetto.nome)
+    if not (oggetto.is_supporto or (oggetto.is_contenitore and mondo.contenitore_aperto(oggetto))):
+        return
+    figli = [mondo.oggetti[c] for c in mondo.oggetti if c in oggetto.contenuto]
+    da_elencare = figli   # la frase di posto vale solo in una stanza (1.1.0)
+    if da_elencare:
+        dove = "su" if oggetto.is_supporto else "in"
+        elenco = ", ".join(frase_indeterminativa(f.nome_visualizzato) for f in da_elencare)
+        scrivi(mondo, f"{prima_maiuscola(con_preposizione(dove, oggetto.nome_visualizzato))}: {elenco}.",
+               "elenco")
+        nominati.extend(f.nome for f in da_elencare)
+    for figlio in figli:
+        _elenca_appoggiati(mondo, figlio, nominati, visti)
+
+
+AMBIGUO = "<ambiguo>"
+
+
+def risolvi_in_silenzio(mondo: Mondo, nome_parziale: str):
+    """[1.3.0] Il nucleo della ricerca di un oggetto, SENZA stampare nulla.
+    Restituisce (id, candidati): id è l'oggetto (o la direzione canonica)
+    trovato, AMBIGUO se più oggetti combaciano (allora `candidati` li elenca),
+    None se nulla combacia. Usato dal parser per provare più letture dello
+    stesso comando prima di rispondere."""
     if not nome_parziale:
-        return None
+        return None, []
 
     stanza_corrente = mondo.trova_stanza(mondo.posizione_giocatore)
     if not stanza_corrente:
-        return None
+        return None, []
 
     # [Livello 4 / M1] Lo scope include il contenuto dei contenitori aperti e dei
     # supporti raggiungibili, non solo gli oggetti direttamente nella stanza.
@@ -77,7 +127,7 @@ def risolvi_nome_oggetto(mondo: Mondo, nome_parziale: str) -> str | None:
         nome_pulito = nome_pulito[2:].strip()
 
     if nome_pulito in mondo.direzioni:
-        return mondo.direzioni[nome_pulito]
+        return mondo.direzioni[nome_pulito], []
 
     # Normalizza l'input per trovare gli oggetti del gioco
     nome_normalizzato = normalizza_nome(nome_parziale)
@@ -90,36 +140,216 @@ def risolvi_nome_oggetto(mondo: Mondo, nome_parziale: str) -> str | None:
 
     # Priorità 1: Corrispondenza esatta (sul nome, poi sull'alias risolto)
     if nome_normalizzato in oggetti_in_scope:
-        return nome_normalizzato
+        return nome_normalizzato, []
     if nome_risolto in oggetti_in_scope:
-        return nome_risolto
+        return nome_risolto, []
 
     # Priorità 2: Corrispondenza parziale univoca. Il pool di candidati include
     # gli id in scope e gli alias (parziali) che rimandano a oggetti in scope.
-    candidati = [id_ogg for id_ogg in oggetti_in_scope if nome_normalizzato in id_ogg]
+    candidati = [id_ogg for id_ogg in oggetti_in_scope if _combacia_parziale(nome_normalizzato, id_ogg)]
     for ali, canonico in alias.items():
-        if canonico in oggetti_in_scope and nome_normalizzato in ali and canonico not in candidati:
+        if (canonico in oggetti_in_scope and _combacia_parziale(nome_normalizzato, ali)
+                and canonico not in candidati):
             candidati.append(canonico)
 
     if len(candidati) == 1:
-        return candidati[0]
-    elif len(candidati) > 1:
-        print(f"Quale intendi di preciso? ({', '.join(candidati)})")
-        return "<ambiguo>"
-    else:
-        return None
+        return candidati[0], candidati
+    if len(candidati) > 1:
+        # [1.3.0] Nell'ordine della storia (prima: alfabetico sugli id).
+        return AMBIGUO, [c for c in mondo.oggetti if c in candidati]
+    return None, []
 
 
-# [0.18.0 / A4] Le preposizioni d'azione del parser runtime includono ora le
-# forme ARTICOLATE (simmetriche alla grammatica): il giocatore può digitare
-# 'usa la batteria sul pannello' o 'metti la spada nella teca'. Le forme semplici
-# (su/con/contro/in) restano valide. Lo split sceglie la prima parola-preposizione
-# trovata; la risoluzione dell'oggetto a destra ignora comunque l'articolo.
+# [1.3.0 / M-5] Parole che non distinguono un oggetto da un altro: articoli e
+# «di» ('la chiave DI ferro', 'l'uomo').
+_PAROLE_VUOTE = frozenset(("il", "lo", "la", "l", "i", "gli", "le", "un", "uno", "una",
+                           "di", "del", "dello", "della", "dei", "degli", "delle", "d"))
+_RE_PAROLA = re.compile(r"[a-z0-9à-ÿ]+")
+
+
+def _parole_di(testo: str):
+    return _RE_PAROLA.findall(testo.lower())
+
+
+def _combacia_parziale(cercato: str, nome: str) -> bool:
+    """Corrispondenza parziale fra quanto scritto dal giocatore e un nome.
+    [1.3.0 / M-5] Per PAROLE, non più per sottostringa: ogni parola scritta
+    (articoli esclusi) deve essere una parola del nome o l'inizio di una parola
+    del nome di almeno tre lettere. 'chiave' e 'rossa' trovano la chiave rossa,
+    'chiav' anche; 'a' e 'ave' non trovano più tutto ciò che contiene una a."""
+    cercate = [p for p in _parole_di(cercato) if p not in _PAROLE_VUOTE]
+    if not cercate:
+        return False
+    del_nome = _parole_di(nome)
+    return all(any(p == n or (len(p) >= 3 and n.startswith(p)) for n in del_nome)
+               for p in cercate)
+
+
+def _elenco_con_o(nomi) -> str:
+    """'a', 'b', 'c' -> 'a, b o c'."""
+    nomi = list(nomi)
+    if len(nomi) == 1:
+        return nomi[0]
+    return f"{', '.join(nomi[:-1])} o {nomi[-1]}"
+
+
+def _domanda_ambiguita(mondo: Mondo, candidati) -> str:
+    """[1.3.0 / M-4] La domanda con i nomi della storia, non con gli id interni:
+    «Quale intendi: la chiave rossa o la chiave blu?»."""
+    nomi = [nome_in_frase(mondo.oggetti[c].nome_visualizzato) if c in mondo.oggetti else c
+            for c in candidati]
+    return f"Quale intendi: {_elenco_con_o(nomi)}?"
+
+
+def risolvi_nome_oggetto(mondo: Mondo, nome_parziale: str) -> str | None:
+    """Cerca di risolvere un nome parziale in un ID oggetto univoco nello scope
+    attuale. Se il nome è ambiguo pone la domanda e restituisce AMBIGUO.
+    [1.3.0 / M-5] La domanda ha un seguito: la risposta del giocatore ('rossa')
+    completa il comando rimasto in sospeso (vedi elabora_comando)."""
+    id_trovato, candidati = risolvi_in_silenzio(mondo, nome_parziale)
+    if id_trovato == AMBIGUO:
+        scrivi(mondo, _domanda_ambiguita(mondo, candidati), "domanda")
+        mondo._ambiguita = {"candidati": candidati, "frammento": nome_parziale}
+    return id_trovato
+
+
+def _risolvi_per_azione(mondo: Mondo, nome_azione: str, nome_parziale: str):
+    """[1.3.0 / M-5] Come risolvi_nome_oggetto, ma fra più candidati sceglie da
+    sé quando l'azione lo dice: 'prendi la chiave' con una chiave già in mano e
+    una a terra prende quella a terra; 'lascia la chiave' posa quella in mano."""
+    id_trovato, candidati = risolvi_in_silenzio(mondo, nome_parziale)
+    if id_trovato == AMBIGUO and nome_azione in ("prendere", "lasciare", "mettere"):
+        voglio_in_mano = nome_azione != "prendere"
+        adatti = [c for c in candidati if mondo.giocatore_possiede(c) == voglio_in_mano]
+        if len(adatti) == 1:
+            return adatti[0]
+    return risolvi_nome_oggetto(mondo, nome_parziale)
+
+
+def _scegli_fra_candidati(mondo: Mondo, risposta: str, candidati):
+    """[1.3.0 / M-5] La risposta alla domanda «Quale intendi…?»: un numero
+    d'ordine o parole che distinguono un candidato. Restituisce i candidati che
+    la risposta indica (uno solo = scelta fatta; nessuno = è un altro comando)."""
+    parole = risposta.split()
+    if len(parole) == 1 and parole[0].isdigit():
+        n = int(parole[0])
+        return [candidati[n - 1]] if 1 <= n <= len(candidati) else []
+    scelti = []
+    for c in candidati:
+        visualizzato = mondo.oggetti[c].nome_visualizzato if c in mondo.oggetti else c
+        if _combacia_parziale(risposta, c) or _combacia_parziale(risposta, visualizzato):
+            scelti.append(c)
+    return scelti
+
+
+# [0.18.0 / A4] Le preposizioni d'azione del parser runtime includono le forme
+# ARTICOLATE (simmetriche alla grammatica): 'usa la batteria sul pannello',
+# 'metti la spada nella teca'. [1.3.0 / G-7] Anche quelle di TERMINE e di
+# PROVENIENZA e le locative improprie: 'dai la mela alla guardia', 'prendi la
+# mela dal tavolo', 'metti il vaso sopra il mobile'. Il punto in cui dividere il
+# comando lo sceglie _dividi_argomenti.
 PREPOSIZIONI = [
     "su", "sul", "sullo", "sulla", "sui", "sugli", "sulle", "sull'",
     "con", "contro",
     "in", "nel", "nello", "nella", "nei", "negli", "nelle", "nell'",
+    "a", "al", "allo", "alla", "ai", "agli", "alle", "all'",
+    "da", "dal", "dallo", "dalla", "dai", "dagli", "dalle", "dall'",
+    "sopra", "sotto", "dentro", "dietro", "verso",
 ]
+_PREP_APOSTROFATE = ("sull'", "nell'", "all'", "dall'")
+_PREPOSIZIONI_STORICHE = frozenset(PREPOSIZIONI[:18])   # fino alla 1.2.2
+_PREP_DA = ("da", "dal", "dallo", "dalla", "dai", "dagli", "dalle", "dall'")
+
+
+def _separa_apostrofi(parole):
+    """"sull'altare" -> "sull'", "altare": la preposizione apostrofata è una
+    parola a sé, come quando il giocatore la scrive staccata."""
+    risultato = []
+    for p in parole:
+        for prep in _PREP_APOSTROFATE:
+            if p.startswith(prep) and len(p) > len(prep):
+                risultato += [prep, p[len(prep):]]
+                break
+        else:
+            risultato.append(p)
+    return risultato
+
+
+def _nomina(mondo: Mondo, testo: str) -> bool:
+    """Il testo nomina qualcosa: un oggetto, una direzione, 'tutto' o un elenco
+    di oggetti ('la mela e la chiave')."""
+    if testo in _TUTTO or risolvi_in_silenzio(mondo, testo)[0] is not None:
+        return True
+    parti = [p for p in _RE_ELENCO.split(testo) if p]
+    return len(parti) > 1 and all(risolvi_in_silenzio(mondo, p)[0] is not None for p in parti)
+
+
+def _dividi_argomenti(mondo: Mondo, parole_arg):
+    """[1.3.0 / M-5] Divide gli argomenti del comando in (oggetto, preposizione,
+    secondo oggetto). Fino alla 1.2.2 si divideva sulla PRIMA preposizione, e un
+    nome che ne contiene una ('la tazza con il manico', 'l'uomo in nero')
+    funzionava solo per caso. Ora: se tutto il testo nomina un oggetto non si
+    divide; altrimenti si sceglie la prima preposizione per cui entrambe le metà
+    nominano qualcosa (la sinistra può mancare: 'guarda sotto il letto'); poi
+    la prima per cui almeno la sinistra nomina qualcosa (della destra si dirà
+    che non c'è); infine, come fino alla 1.2.2, la prima delle preposizioni
+    storiche (su, con, in… e articolate). Le nuove ('a', 'da', 'sopra'…)
+    dividono solo quando servono: 'l'orologio a pendolo' resta un nome."""
+    intero = " ".join(parole_arg)
+    posizioni = [i for i, p in enumerate(parole_arg) if p in PREPOSIZIONI]
+    if not posizioni or _nomina(mondo, intero):
+        return intero, None, ""
+    for i in posizioni:
+        sx = " ".join(parole_arg[:i])
+        dx = " ".join(parole_arg[i + 1:])
+        if not dx:
+            continue
+        if ((not sx or _nomina(mondo, sx))
+                and risolvi_in_silenzio(mondo, dx)[0] is not None):
+            return sx, parole_arg[i], dx
+    for i in posizioni:
+        sx = " ".join(parole_arg[:i])
+        if sx and i < len(parole_arg) - 1 and _nomina(mondo, sx):
+            return sx, parole_arg[i], " ".join(parole_arg[i + 1:])
+    for i in posizioni:
+        if parole_arg[i] in _PREPOSIZIONI_STORICHE and i < len(parole_arg) - 1:
+            return " ".join(parole_arg[:i]), parole_arg[i], " ".join(parole_arg[i + 1:])
+    return intero, None, ""
+
+
+# [1.3.0 / G-4] Verbi di movimento senza direzione: 'entra', 'sali', 'scendi',
+# 'esci dalla stanza'. Valgono se l'autore non li ha dichiarati come verbi.
+_MOVIMENTI_IMPLICITI = {
+    "entra": "dentro", "entrare": "dentro",
+    "sali": "su", "salire": "su",
+    "scendi": "giù", "scendere": "giù",
+    "esci": "fuori", "uscire": "fuori",
+}
+
+# [1.3.0 / M-5] 'prendi tutto', 'lascia tutto', 'metti tutto nella cassa'.
+_TUTTO = ("tutto", "ogni cosa", "tutte le cose", "tutti gli oggetti", "tutta la roba")
+_AZIONI_CON_TUTTO = ("prendere", "lasciare", "mettere")
+_RE_ELENCO = re.compile(r"\s*,\s*|\s+e\s+")
+
+
+def _infinito(verbo: str, nome_azione: str | None) -> str | None:
+    """L'infinito del verbo per le domande del motore ('Cosa vuoi prendere?').
+    None se non lo si conosce (un verbo d'autore all'imperativo)."""
+    for forma in (nome_azione or "", verbo):
+        if not forma.startswith("_") and forma.endswith(("are", "ere", "ire")):
+            return forma
+    return None
+
+
+def _chiedi_oggetto(mondo: Mondo, verbo: str, nome_azione: str | None = None):
+    """[1.3.0 / M-4] «Cosa vuoi prendere?» invece di «Cosa vorresti prendi?»."""
+    infinito = _infinito(verbo, nome_azione)
+    if nome_azione == "vai":
+        scrivi(mondo, "Dove vuoi andare?", "domanda")
+    elif infinito:
+        scrivi(mondo, f"Cosa vuoi {infinito}?", "domanda")
+    else:
+        scrivi(mondo, f"{prima_maiuscola(verbo)} che cosa?", "domanda")
 
 
 def _match_verbo_multiparola(mondo: Mondo, parole) -> str | None:
@@ -175,29 +405,35 @@ def _risolvi_anafora(mondo: Mondo, verbo: str, argomento: str):
     rif = mondo.ultimo_riferito.get(gn)
     if not rif:
         # Nessun riferente di quel genere/numero (anche per mismatch di genere).
-        print(f"Cosa vorresti {nuovo_verbo}?")
+        _chiedi_oggetto(mondo, nuovo_verbo, noto.get(nuovo_verbo))
         return ("vuoto", nuovo_verbo, None)
     if rif not in mondo.oggetti_raggiungibili():
-        print(f"Non {_PRON_DISPLAY[gn]} vedi più.")
+        scrivi(mondo, f"Non {_PRON_DISPLAY[gn]} vedi più.")
         return ("vuoto", nuovo_verbo, None)
     return ("ok", nuovo_verbo, rif)
 
 
+def _senza_turno(mondo: Mondo):
+    """[1.3.0] Il comando in corso non fa passare il tempo (errore del parser o
+    comando fuori dal mondo, come AIUTO): vedi elabora_comando."""
+    mondo._turno_libero = True
+
+
 def _stampa_annunci(mondo: Mondo):
-    """[0.25.0 / A5] Svuota e stampa la coda degli annunci di movimento degli NPC
+    """[0.25.0 / A5] Svuota e mostra la coda degli annunci di movimento degli NPC
     accumulati dalle conseguenze appena eseguite (le conseguenze restano «pure»:
     accodano, non stampano). Va chiamato dopo ogni blocco di esecuzione di
     conseguenze (eventi, demoni, regole)."""
     annunci = getattr(mondo, "annunci", None)
     if annunci:
-        for messaggio in annunci:
-            print(rendi_testo(mondo, messaggio))
+        for annuncio in annunci:
+            scrivi(mondo, rendi_testo(mondo, annuncio))
         annunci.clear()
 
 
 def partita_finita(mondo: Mondo) -> bool:
     """[Livello 3] Controlla lo stato della partita dopo l'esecuzione delle
-    conseguenze. Se una conseguenza di fine partita l'ha terminata, stampa
+    conseguenze. Se una conseguenza di fine partita l'ha terminata, annuncia
     l'esito e restituisce True (il loop di gioco deve fermarsi)."""
     stato = getattr(mondo, "stato_partita", "in_corso")
     if stato == "in_corso":
@@ -206,13 +442,14 @@ def partita_finita(mondo: Mondo) -> bool:
     # al posto del banner fisso (interpolando gli eventuali segnaposto [var]).
     messaggio = getattr(mondo, "messaggio_esito", None)
     if messaggio:
-        print("\n" + rendi_testo(mondo, messaggio))
+        testo = rendi_testo(mondo, messaggio)
     elif stato == "vinta":
-        print("\n*** HAI VINTO! ***")
+        testo = "*** HAI VINTO! ***"
     elif stato == "persa":
-        print("\n*** HAI PERSO. ***")
+        testo = "*** HAI PERSO. ***"
     else:
-        print("\n*** La partita è terminata. ***")
+        testo = "*** La partita è terminata. ***"
+    scrivi(mondo, testo, "fine", stacco=True, esito=stato)
     return True
 
 def avanza_turno_e_processa(mondo: Mondo) -> bool:
@@ -229,7 +466,7 @@ def avanza_turno_e_processa(mondo: Mondo) -> bool:
             # [0.19.0 / A9] La battuta è opzionale (tick silenzioso): stampa solo
             # se c'è del testo, poi applica comunque le conseguenze.
             if evento.risposta:
-                print(rendi_testo(mondo, evento.risposta))
+                scrivi(mondo, rendi_testo(mondo, evento.risposta))
             evento.esegui_conseguenze(mondo)
             if partita_finita(mondo):
                 _stampa_annunci(mondo)   # [A5] eventuali movimenti prima della fine
@@ -253,6 +490,18 @@ def _processa_demoni(mondo: Mondo) -> bool:
         if demone.tipo == "ogni_turno":
             # A LIVELLO: scatta a OGNI turno in cui la condizione è vera.
             scatta = ora_vera
+        elif demone.tipo == "dopo":
+            # [1.3.0 / M-7] 'N turni dopo che …': il fronte di salita apre un
+            # conto alla rovescia; scatta quando arriva a zero (una volta per
+            # fronte; un nuovo fronte durante il conto non lo riapre).
+            scatta = False
+            if ora_vera and not demone.era_vera and demone.conto is None:
+                demone.conto = demone.ritardo
+            elif demone.conto is not None:
+                demone.conto -= 1
+            if demone.conto is not None and demone.conto <= 0:
+                demone.conto = None
+                scatta = True
         else:
             # 'quando': sul FRONTE di salita (falso -> vero), una sola volta.
             scatta = ora_vera and not demone.era_vera
@@ -260,7 +509,7 @@ def _processa_demoni(mondo: Mondo) -> bool:
         if scatta:
             # [0.19.0 / A9] Battuta opzionale (tick silenzioso).
             if demone.risposta:
-                print(rendi_testo(mondo, demone.risposta))
+                scrivi(mondo, rendi_testo(mondo, demone.risposta))
             demone.esegui_conseguenze(mondo)
             if partita_finita(mondo):
                 return True
@@ -274,21 +523,64 @@ def elabora_comando(mondo: Mondo, comando_grezzo: str) -> bool:
     Restituisce True se il gioco deve continuare, False se deve terminare
     (uscita del giocatore, fine partita o evento terminale).
     """
-    # [Audit 0.17.0] A partita conclusa il comando è un no-op: niente turni, niente
-    # eventi/demoni. Difende dai chiamanti che ignorano il False di ritorno (in un
-    # loop corretto non si arriva mai qui dopo la fine). Si controlla lo stato
-    # SENZA passare da partita_finita(), che ristamperebbe l'esito.
-    if getattr(mondo, "stato_partita", "in_corso") != "in_corso":
-        return False
     comando_pulito = comando_grezzo.strip().lower()
+    # [Audit 0.17.0] A partita conclusa non passano turni né scattano eventi o
+    # demoni. [1.3.0] Ma si può ancora tornare indietro: ANNULLA, RICOMINCIA,
+    # CARICA; FINE chiude. Qualunque altro comando ricorda queste possibilità.
+    if getattr(mondo, "stato_partita", "in_corso") != "in_corso":
+        return _dopo_la_fine(mondo, comando_pulito)
     if not comando_pulito:
         return True
+    era_in_dialogo = mondo.in_dialogo()
+
+    # [1.3.0] Una domanda di conferma in sospeso (uscire, ricominciare): «sì» la
+    # esegue, «no» la annulla, ogni altro comando la lascia cadere e vale da sé.
+    in_sospeso = getattr(mondo, "_in_conferma", None)
+    if in_sospeso:
+        mondo._in_conferma = None
+        if comando_pulito in _RISPOSTE_SI:
+            if in_sospeso == "esci":
+                scrivi(mondo, "A presto!", "sistema")
+                mondo._uscita_richiesta = True
+                return False
+            return _ricomincia(mondo)
+        if comando_pulito in _RISPOSTE_NO:
+            scrivi(mondo, "(Si continua.)", "sistema")
+            return True
+
+    # [1.3.0 / M-5] La risposta a «Quale intendi…?» completa il comando rimasto
+    # in sospeso ('prendi la chiave' → 'rossa' = 'prendi la chiave rossa'). Una
+    # risposta che non nomina nessuno dei candidati è un comando nuovo.
+    amb = getattr(mondo, "_ambiguita", None)
+    mondo._ambiguita = None
+    if amb and "comando" in amb and not era_in_dialogo:
+        scelti = _scegli_fra_candidati(mondo, comando_pulito, amb["candidati"])
+        if len(scelti) == 1:
+            comando_grezzo = comando_pulito = _completa_comando_ambiguo(amb, scelti[0])
+        elif scelti:
+            amb["candidati"] = scelti
+            mondo._ambiguita = amb
+            scrivi(mondo, _domanda_ambiguita(mondo, scelti), "domanda")
+            return True
+
     # [Livello 5b] Durante una conversazione 'esci' chiude il dialogo (gestito in
     # _esegui_comando), NON il gioco: l'uscita dal gioco vale solo fuori dialogo.
-    era_in_dialogo = mondo.in_dialogo()
-    if not era_in_dialogo and comando_pulito in ["esci", "quit"]:
-        print("A presto!")
-        return False
+    # [1.3.0] Fuori dialogo 'esci' è un movimento se qui c'è un'uscita «fuori»;
+    # altrimenti chiede conferma prima di chiudere la partita (prima la chiudeva
+    # subito, e chi scriveva 'esci' per lasciare una stanza perdeva la partita).
+    if not era_in_dialogo and comando_pulito in ("esci", "quit"):
+        stanza = mondo.trova_stanza(mondo.posizione_giocatore)
+        if comando_pulito == "esci" and stanza and "fuori" in stanza.uscite:
+            comando_grezzo = comando_pulito = "fuori"
+        else:
+            mondo._in_conferma = "esci"
+            scrivi(mondo, "Vuoi davvero chiudere la partita? (sì/no) "
+                          "Se vuoi riprenderla più tardi, prima scrivi SALVA.", "domanda")
+            return True
+    if not era_in_dialogo and comando_pulito in _VERBI_RICOMINCIA:
+        mondo._in_conferma = "ricomincia"
+        scrivi(mondo, "Vuoi davvero ricominciare da capo? (sì/no)", "domanda")
+        return True
 
     # [1.2.0] SALVA / CARICA: comandi di servizio, validi anche durante una
     # conversazione; non consumano un turno e non entrano nella sequenza salvata.
@@ -309,7 +601,7 @@ def elabora_comando(mondo: Mondo, comando_grezzo: str) -> bool:
             return True
         if comando_pulito in ("ancora", "ripeti", "g"):
             if not mondo.ultimo_comando:
-                print("Non hai ancora fatto nulla da ripetere.")
+                scrivi(mondo, "Non hai ancora fatto nulla da ripetere.", "sistema")
                 return True
             # Si rigioca l'ultimo comando come se il giocatore l'avesse ridigitato.
             comando_grezzo = mondo.ultimo_comando
@@ -323,6 +615,7 @@ def elabora_comando(mondo: Mondo, comando_grezzo: str) -> bool:
             if not era_in_dialogo and not mondo._senza_istantanee else None)
     lunghezza_registro = len(mondo._registro_comandi)
 
+    mondo._turno_libero = False
     try:
         continua = _esegui_comando(mondo, comando_grezzo)
     except Exception:
@@ -334,10 +627,29 @@ def elabora_comando(mondo: Mondo, comando_grezzo: str) -> bool:
         if snap is not None:
             mondo.ripristina_stato(snap)
         return True
+    # [1.3.0] Un comando che il parser non ha capito (verbo ignoto, oggetto che
+    # non c'è, nome ambiguo) o che non riguarda il mondo (AIUTO) non fa passare
+    # il tempo: niente turno, niente eventi né demoni, niente istantanea. Fino
+    # alla 1.2.2 un refuso costava un turno, e nelle storie a tempo un sorso d'acqua.
+    if getattr(mondo, "_turno_libero", False):
+        mondo._turno_libero = False
+        return continua
     # [1.2.0] Il comando è andato a buon fine: entra nella sequenza salvabile
     # (ANCORA vi entra già risolto nel comando che ripete).
     mondo._registro_comandi.append(comando_grezzo)
     if not continua:
+        if getattr(mondo, "stato_partita", "in_corso") != "in_corso":
+            # [1.3.0] La partita è finita con questo comando: il turno entra
+            # comunque nella pila di ANNULLA, così lo si può disfare.
+            if snap is not None:
+                _registra_istantanea(mondo, snap, lunghezza_registro)
+            elif mondo._snap_dialogo is not None:
+                ingresso = mondo._reg_ingresso_dialogo
+                _registra_istantanea(mondo, mondo._snap_dialogo,
+                                     lunghezza_registro if ingresso is None else ingresso)
+                mondo._snap_dialogo = None
+                mondo._reg_ingresso_dialogo = None
+            scrivi(mondo, _INVITO_DOPO_LA_FINE, "sistema", stacco=True)
         return False
     # [Livello 5b] Le interazioni di dialogo non consumano un turno: il tempo del
     # mondo non avanza mentre si conversa.
@@ -368,7 +680,57 @@ def elabora_comando(mondo: Mondo, comando_grezzo: str) -> bool:
     if not era_in_dialogo:
         mondo.ultimo_comando = comando_grezzo
     if avanza_turno_e_processa(mondo):
+        scrivi(mondo, _INVITO_DOPO_LA_FINE, "sistema", stacco=True)
         return False
+    return True
+
+
+# [1.3.0] Conferme, fine partita e RICOMINCIA.
+_RISPOSTE_SI = ("sì", "si", "s", "y", "yes")
+_RISPOSTE_NO = ("no", "n")
+_VERBI_RICOMINCIA = ("ricomincia", "ricominciare", "riavvia")
+_COMANDI_FINE = ("fine", "esci", "quit", "basta")
+_INVITO_DOPO_LA_FINE = ("(La partita è finita. Scrivi ANNULLA per tornare indietro di un "
+                        "turno, RICOMINCIA per ripartire da capo, CARICA per riprendere "
+                        "un salvataggio o FINE per uscire.)")
+
+
+def _dopo_la_fine(mondo: Mondo, comando: str) -> bool:
+    """[1.3.0] A partita finita: ANNULLA, RICOMINCIA e CARICA la riaprono (True);
+    FINE chiude; qualunque altro comando ricorda le possibilità (False, senza
+    turni né eventi). Prima ogni comando era un no-op muto."""
+    if comando in ("annulla", "disfa"):
+        if not mondo._storia_stati:
+            scrivi(mondo, "Non c'è niente da annullare.", "sistema")
+            return False
+        _gestisci_annulla(mondo)
+        return mondo.stato_partita == "in_corso"
+    if comando in _VERBI_RICOMINCIA:
+        return _ricomincia(mondo)
+    parole = comando.split()
+    if _comando_di_archivio(mondo, parole) == "carica":
+        _gestisci_carica(mondo, _nome_salvataggio(parole))
+        return mondo.stato_partita == "in_corso"
+    if comando in _COMANDI_FINE:
+        scrivi(mondo, "A presto!", "sistema")
+        mondo._uscita_richiesta = True
+        return False
+    if comando:
+        scrivi(mondo, _INVITO_DOPO_LA_FINE, "sistema")
+    return False
+
+
+def _ricomincia(mondo: Mondo) -> bool:
+    """[1.3.0] Riporta la partita al mondo iniziale (come un CARICA di una
+    sequenza vuota): pila di ANNULLA e sequenza salvabile ripartono da zero."""
+    dati = {"formato": FORMATO_SALVATAGGIO, "versione": VERSIONE_FORMATO_SALVATAGGIO,
+            "storia": mondo._impronta_iniziale, "comandi": [], "ultimo": None}
+    ok, messaggio = carica_da_dati(mondo, dati)
+    if not ok:
+        scrivi(mondo, f"({messaggio})", "sistema")
+        return mondo.stato_partita == "in_corso"
+    scrivi(mondo, "(Si ricomincia da capo.)", "sistema")
+    mostra_stanza(mondo)
     return True
 
 
@@ -394,12 +756,12 @@ def _registra_istantanea(mondo: Mondo, snap: dict, pos_registro: int = 0):
 def _gestisci_annulla(mondo: Mondo):
     """[0.21.0 / A3] Riporta il mondo allo stato precedente l'ultimo turno."""
     if not mondo._storia_stati:
-        print("Non c'è niente da annullare.")
+        scrivi(mondo, "Non c'è niente da annullare.", "sistema")
         return
     mondo.ripristina_stato(mondo._storia_stati.pop())
     if mondo._pos_registro:   # [1.2.0] il turno disfatto esce dalla sequenza
         del mondo._registro_comandi[mondo._pos_registro.pop():]
-    print("(Hai annullato l'ultimo turno.)")
+    scrivi(mondo, "(Hai annullato l'ultimo turno.)", "sistema")
     mostra_stanza(mondo)
 
 
@@ -489,6 +851,9 @@ def dati_salvataggio(mondo: Mondo) -> dict:
         "versione": VERSIONE_FORMATO_SALVATAGGIO,
         "motore": VERSIONE_MOTORE,
         "storia": mondo._impronta_iniziale,
+        # [1.3.0 / L-6] Come si chiama la storia: se l'impronta cambia (una
+        # correzione dopo il salvataggio) il salvataggio si carica lo stesso.
+        "nome": _nome_della_storia(mondo),
         "turno": mondo.turno_corrente,
         "comandi": list(mondo._registro_comandi),
         # Ciò che ANCORA ripeterebbe: stato di sessione, non ricostruibile dalla
@@ -509,8 +874,16 @@ def carica_da_dati(mondo: Mondo, dati: dict):
         return False, "Il salvataggio viene da una versione più recente di FAVELLA."
     if mondo._stato_iniziale is None:
         return False, "Questa partita non ha un punto di partenza da cui ricaricare."
-    if dati.get("storia") != mondo._impronta_iniziale:
-        return False, "Il salvataggio appartiene a un'altra storia (o a una versione diversa di questa)."
+    stessa_versione = dati.get("storia") == mondo._impronta_iniziale
+    if not stessa_versione:
+        # [1.3.0 / L-6] Fino alla 1.2 un salvataggio valeva solo per la versione
+        # esatta della storia: una correzione che aggiungeva un oggetto rendeva
+        # inutili tutti i salvataggi dei giocatori. Ora, se la storia è la stessa
+        # (stesso titolo o stesso file), si rigioca la partita sulla nuova
+        # versione e lo si dice.
+        nome = _nome_della_storia(mondo)
+        if not nome or dati.get("nome") != nome:
+            return False, "Il salvataggio appartiene a un'altra storia (o a una versione diversa di questa)."
     comandi = dati.get("comandi")
     if not isinstance(comandi, list) or not all(isinstance(c, str) for c in comandi):
         return False, "Il salvataggio è danneggiato: manca la sequenza dei comandi."
@@ -530,10 +903,11 @@ def carica_da_dati(mondo: Mondo, dati: dict):
     mondo.ultimo_comando = None
     mondo.annunci = []
     inizio_coda = max(0, len(comandi) - CODA_ANNULLA)
-    buf = io.StringIO()
     try:
         mondo._senza_istantanee = True
-        with contextlib.redirect_stdout(buf):
+        # [1.4.0 / L-7] La partita si rigioca in silenzio: un'uscita muta, non
+        # più il dirottamento di stdout.
+        with raccogli_uscita(mondo, UscitaMuta()):
             for i, c in enumerate(comandi):
                 if mondo.stato_partita != "in_corso":
                     break
@@ -550,10 +924,19 @@ def carica_da_dati(mondo: Mondo, dati: dict):
     finally:
         mondo._senza_istantanee = False
     mondo.ultimo_comando = dati.get("ultimo")
+    if not stessa_versione:
+        return True, (f"Partita caricata sulla nuova versione della storia (turno "
+                      f"{mondo.turno_corrente}): la storia è cambiata dopo il salvataggio, "
+                      f"controlla che tutto sia come lo ricordi.")
     if dati.get("impronta") and mondo.impronta_stato() != dati["impronta"]:
         return True, ("Partita caricata, ma non è identica a quella salvata: "
                       "la storia è cambiata dopo il salvataggio.")
     return True, f"Partita caricata: turno {mondo.turno_corrente}."
+
+
+def _nome_della_storia(mondo: Mondo) -> str | None:
+    """[1.3.0 / L-6] Il titolo dichiarato o, in mancanza, il nome del file."""
+    return getattr(mondo, "titolo", None) or getattr(mondo, "file_storia", None) or None
 
 
 def _nome_salvataggio(parole) -> str:
@@ -564,34 +947,34 @@ def _nome_salvataggio(parole) -> str:
 
 def _gestisci_salva(mondo: Mondo, nome: str):
     if mondo._impronta_iniziale is None:
-        print("(Questa partita non si può salvare.)")
+        scrivi(mondo, "(Questa partita non si può salvare.)", "sistema")
         return
     testo = json.dumps(dati_salvataggio(mondo), ensure_ascii=False, indent=1)
     try:
         archivio_di(mondo).scrivi(nome, testo)
     except Exception as e:
-        print(f"(Salvataggio non riuscito: {e})")
+        scrivi(mondo, f"(Salvataggio non riuscito: {e})", "sistema")
         return
-    print(f"(Partita salvata come «{nome}», al turno {mondo.turno_corrente}. "
-          f"Per riprenderla: CARICA {nome}.)")
+    scrivi(mondo, f"(Partita salvata come «{nome}», al turno {mondo.turno_corrente}. "
+                  f"Per riprenderla: CARICA {nome}.)", "sistema")
 
 
 def _gestisci_carica(mondo: Mondo, nome: str):
     try:
         testo = archivio_di(mondo).leggi(nome)
     except Exception as e:
-        print(f"(Caricamento non riuscito: {e})")
+        scrivi(mondo, f"(Caricamento non riuscito: {e})", "sistema")
         return
     if testo is None:
-        print(f"(Non c'è nessun salvataggio chiamato «{nome}».)")
+        scrivi(mondo, f"(Non c'è nessun salvataggio chiamato «{nome}».)", "sistema")
         return
     try:
         dati = json.loads(testo)
     except ValueError:
-        print("(Il salvataggio è danneggiato: non si riesce a leggerlo.)")
+        scrivi(mondo, "(Il salvataggio è danneggiato: non si riesce a leggerlo.)", "sistema")
         return
     ok, messaggio = carica_da_dati(mondo, dati)
-    print(f"({messaggio})")
+    scrivi(mondo, f"({messaggio})", "sistema")
     if ok:
         if mondo.in_dialogo():
             _mostra_nodo(mondo)
@@ -609,6 +992,12 @@ def _comando_di_archivio(mondo: Mondo, parole):
         return None
     if verbo in getattr(mondo, "verbi_personalizzati", ()) or verbo in getattr(mondo, "sinonimi_verbo", {}):
         return None
+    # [1.3.0] 'ripristina il generatore', 'carica il carro': se il resto nomina un
+    # oggetto presente non è un salvataggio, ma un'azione sul mondo.
+    if len(parole) > 1 and mondo.posizione_giocatore:
+        trovato, _ = risolvi_in_silenzio(mondo, " ".join(parole[1:]))
+        if trovato is not None and (trovato == AMBIGUO or trovato in mondo.oggetti):
+            return None
     return "salva" if verbo in _VERBI_SALVA else "carica"
 
 
@@ -622,7 +1011,7 @@ def _opzioni_disponibili(mondo: Mondo, nodo):
 
 
 def _mostra_nodo(mondo: Mondo):
-    """Stampa la battuta dell'NPC al nodo corrente e l'elenco numerato delle
+    """Mostra la battuta dell'NPC al nodo corrente e l'elenco numerato delle
     opzioni disponibili. Un nodo senza opzioni chiude la conversazione."""
     npc = mondo.trova_oggetto(mondo.dialogo_attivo)
     nodo = mondo.dialogo_nodi.get(mondo.nodo_dialogo)
@@ -634,33 +1023,37 @@ def _mostra_nodo(mondo: Mondo):
     # se …'): si sceglie la prima battuta condizionale vera, altrimenti la base.
     battuta = nodo.battuta_attuale(mondo)
     if battuta:
-        print(f"\n{nome}: {rendi_testo(mondo, battuta)}")
+        scrivi(mondo, f"{nome}: {rendi_testo(mondo, battuta)}", "dialogo", stacco=True,
+               personaggio=mondo.dialogo_attivo)
     opzioni = _opzioni_disponibili(mondo, nodo)
     if not opzioni:
-        print("(La conversazione si chiude.)")
+        scrivi(mondo, "(La conversazione si chiude.)", "sistema")
         mondo.termina_dialogo()
         return
     for i, opz in enumerate(opzioni, 1):
-        print(f"  {i}. {rendi_testo(mondo, opz.testo)}")
+        testo = rendi_testo(mondo, opz.testo)
+        scrivi(mondo, f"  {i}. {testo}", "opzione", numero=i, scelta=testo)
 
 
 def _avvia_dialogo(mondo: Mondo, bersaglio_grezzo: str) -> bool:
     """Avvia una conversazione con un NPC raggiungibile, posizionandosi sul suo
     nodo d'ingresso. Restituisce sempre True (il gioco continua)."""
     if not bersaglio_grezzo:
-        print("Con chi vuoi parlare?")
+        scrivi(mondo, "Con chi vuoi parlare?", "domanda")
+        _senza_turno(mondo)
         return True
     id_npc = risolvi_nome_oggetto(mondo, bersaglio_grezzo)
     if not id_npc or id_npc == "<ambiguo>":
         if id_npc is None:
-            print(f"Non vedo '{bersaglio_grezzo}' qui.")
+            scrivi(mondo, f"Non vedo '{bersaglio_grezzo}' qui.")
+        _senza_turno(mondo)
         return True
     npc = mondo.trova_oggetto(id_npc)
     if not npc or not npc.is_personaggio:
-        print("Non puoi parlarci.")
+        scrivi(mondo, "Non puoi parlarci.")
         return True
     if not npc.dialogo_iniziale or npc.dialogo_iniziale not in mondo.dialogo_nodi:
-        print(f"{prima_maiuscola(npc.nome_visualizzato)} non ha nulla da dire.")
+        scrivi(mondo, f"{prima_maiuscola(npc.nome_visualizzato)} non ha nulla da dire.")
         return True
     mondo.dialogo_attivo = id_npc
     mondo.nodo_dialogo = npc.dialogo_iniziale
@@ -688,7 +1081,7 @@ def _gestisci_scelta_dialogo(mondo: Mondo, comando: str) -> bool:
     un'opzione, ne esegue le conseguenze e transita al nodo successivo, oppure
     chiude il dialogo. Restituisce False solo se una conseguenza termina la partita."""
     if comando in USCITE_DIALOGO:
-        print("Concludi la conversazione.")
+        scrivi(mondo, "Concludi la conversazione.")
         mondo.termina_dialogo()
         return True
 
@@ -700,7 +1093,7 @@ def _gestisci_scelta_dialogo(mondo: Mondo, comando: str) -> bool:
     opzioni = _opzioni_disponibili(mondo, nodo)
     scelta = _seleziona_opzione(comando, opzioni)
     if scelta is None:
-        print("Non è una scelta valida. Indica il numero di un'opzione (o 'esci').")
+        scrivi(mondo, "Non è una scelta valida. Indica il numero di un'opzione (o 'esci').", "domanda")
         return True
 
     # Conseguenze della scelta (riuso della coda del Livello 3), poi transizione.
@@ -713,7 +1106,7 @@ def _gestisci_scelta_dialogo(mondo: Mondo, comando: str) -> bool:
 
     if scelta.chiude or not scelta.destinazione:
         mondo.termina_dialogo()
-        print("(Fine della conversazione.)")
+        scrivi(mondo, "(Fine della conversazione.)", "sistema")
         return True
 
     if scelta.destinazione not in mondo.dialogo_nodi:
@@ -726,9 +1119,162 @@ def _gestisci_scelta_dialogo(mondo: Mondo, comando: str) -> bool:
     return True
 
 
-def _esegui_comando(mondo: Mondo, comando_grezzo: str) -> bool:
+def _cerca_regola(mondo: Mondo, verbi, con_oggetto: bool, id_oggetto1=None,
+                  id_oggetto2=None, preposizione=None, fase: str = "invece"):
+    """La regola della `fase` ('invece', 'prima', 'dopo') da applicare fra
+    quelle scritte con uno dei `verbi`: (regola, altrimenti) oppure (None, False).
+    `altrimenti` è vero quando vale il ramo 'altrimenti' della regola (la sua
+    condizione è falsa). Precedenza (invariata dalla 0.18.0):
+      FASE 0  regole a DUE oggetti (preposizione esatta, poi qualunque; in
+              ciascun gruppo le condizionali soddisfatte prima delle semplici);
+      FASE 1  regole a un oggetto con condizione soddisfatta;
+      FASE 2  regole a un oggetto senza condizione (o col ramo 'altrimenti');
+      [1.3.0] poi le stesse fasi per le regole per CATEGORIA ('qualcosa di
+              pesante'): un oggetto preciso vince sempre su una categoria;
+      GLOBALE regole senza bersaglio (anche per le azioni senza oggetto, es.
+              'Invece di guarda se …'), nell'ordine in cui sono scritte.
+    Le fasi 0–2 valgono solo se l'azione richiede un oggetto. Ogni condizione è
+    valutata al più una volta per ricerca ('càpita' non pesca due volte)."""
+    valutate = {}
+
+    def vera(regola):
+        chiave = id(regola)
+        if chiave not in valutate:
+            valutate[chiave] = regola.condizione.valuta(mondo)
+        return valutate[chiave]
+
+    def scegli(gruppo):
+        for regola in gruppo:            # condizionali soddisfatte
+            if regola.condizione and vera(regola):
+                return regola, False
+        for regola in gruppo:            # poi semplici e rami 'altrimenti'
+            if not regola.condizione:
+                return regola, False
+            if regola.altrimenti and not vera(regola):
+                return regola, True
+        return None
+
+    candidate = [r for r in mondo.regole
+                 if getattr(r, "fase", "invece") == fase and r.verbo in verbi]
+    if con_oggetto:
+        for per_categoria in (False, True):
+            def combacia(regola, id_ogg, slot_id, slot_cat):
+                if per_categoria:
+                    if slot_cat is not None:
+                        return _nella_categoria(mondo, id_ogg, slot_cat)
+                    return slot_id == id_ogg
+                return slot_cat is None and slot_id == id_ogg
+
+            def categorica(regola):
+                return (getattr(regola, "categoria", None) is not None
+                        or getattr(regola, "categoria_secondaria", None) is not None)
+
+            gruppo_base = [r for r in candidate if categorica(r) == per_categoria]
+            if id_oggetto2:
+                for prep_esatta in (True, False):
+                    gruppo = [r for r in gruppo_base
+                              if combacia(r, id_oggetto1, r.id_oggetto_bersaglio, r.categoria)
+                              and (r.id_oggetto_secondario is not None or r.categoria_secondaria is not None)
+                              and combacia(r, id_oggetto2, r.id_oggetto_secondario, r.categoria_secondaria)
+                              and (not prep_esatta or r.preposizione == preposizione)]
+                    trovata = scegli(gruppo)
+                    if trovata:
+                        return trovata
+            gruppo = [r for r in gruppo_base
+                      if combacia(r, id_oggetto1, r.id_oggetto_bersaglio, r.categoria)
+                      and r.id_oggetto_secondario is None and r.categoria_secondaria is None]
+            trovata = scegli(gruppo)
+            if trovata:
+                return trovata
+
+    for regola in candidate:
+        if regola.globale:
+            if regola.condizione is None or vera(regola):
+                return regola, False
+            if regola.altrimenti:
+                return regola, True
+    return None, False
+
+
+def _nella_categoria(mondo: Mondo, id_oggetto, proprieta: str) -> bool:
+    """[1.3.0 / M-9] L'oggetto appartiene alla categoria: 'qualcosa' ("") è
+    ogni oggetto; 'qualcosa di pesante' ogni oggetto con quella proprietà (per
+    radice: 'pesanti' vale 'pesante')."""
+    oggetto = mondo.trova_oggetto(id_oggetto) if id_oggetto else None
+    if oggetto is None:
+        return False
+    if proprieta == "":
+        return True
+    if proprieta == "prendibile":
+        return bool(oggetto.prendibile)
+    radice = radice_proprieta(proprieta)
+    return any(radice_proprieta(p) == radice for p in oggetto.proprieta)
+
+
+def _applica_regola(mondo: Mondo, regola, altrimenti: bool, mostra: bool = True) -> bool:
+    """Mostra la risposta della regola (o del suo ramo 'altrimenti'), ne esegue
+    le conseguenze, annuncia i movimenti; se il giocatore si è spostato mostra
+    la nuova stanza. Restituisce False se la partita è finita."""
+    risposta = regola.risposta_di(altrimenti)
+    if risposta:   # [0.30.0/A3] regola muta: niente riga vuota
+        scrivi(mondo, rendi_testo(mondo, risposta))
+    pos_prima = mondo.posizione_giocatore
+    regola.esegui_conseguenze(mondo, altrimenti)
+    _stampa_annunci(mondo)   # [A5] movimenti NPC dalle conseguenze della regola
+    if partita_finita(mondo):
+        return False
+    if mostra and mondo.posizione_giocatore != pos_prima:
+        mostra_stanza(mondo)
+    return True
+
+
+def _cerca_regola_movimento(mondo: Mondo, direzione: str, fase: str):
+    """Le regole 'vai <direzione>' della fase: prima quelle con condizione
+    vera, poi le semplici e i rami 'altrimenti' (come per un oggetto)."""
+    valutate = {}
+    gruppo = [r for r in mondo.regole if r.verbo == "vai"
+              and r.id_oggetto_bersaglio == direzione and getattr(r, "fase", "invece") == fase]
+    for regola in gruppo:
+        if regola.condizione:
+            valutate[id(regola)] = regola.condizione.valuta(mondo)
+            if valutate[id(regola)]:
+                return regola, False
+    for regola in gruppo:
+        if not regola.condizione:
+            return regola, False
+        if regola.altrimenti and not valutate.get(id(regola), True):
+            return regola, True
+    return None, False
+
+
+# [1.2.2] Argomenti che, dopo 'guarda'/'osserva', non nominano un oggetto: il
+# giocatore si guarda intorno ('guarda intorno' ristampa la stanza). Sono
+# esclusi PRIMA di cercare l'oggetto, perché la ricerca per sottostringa li
+# troverebbe dentro altri nomi ('qui' in 'liquido').
+_GUARDARSI_INTORNO = ("intorno", "attorno", "qui", "qua", "tutto", "tutto intorno", "tutt'intorno")
+
+
+def _ripiego_senza_oggetto(mondo: Mondo, verbo: str, id_risolto):
+    """[1.2.2] Per un verbo che ha anche un'azione SENZA oggetto ('guarda',
+    'osserva'): se l'argomento non nomina un oggetto presente — non trovato, o una
+    direzione — il comando vale come quell'azione. 'guarda adesso', 'guarda bene',
+    'guarda nord' guardano la stanza, come fino alla 1.2.1; solo 'guarda <oggetto
+    presente>' esamina l'oggetto. Un nome ambiguo resta ambiguo (la domanda
+    «Quale intendi?» è già stata posta). None se non c'è ripiego."""
+    if id_risolto == "<ambiguo>" or (id_risolto is not None and id_risolto in mondo.oggetti):
+        return None
+    for nome in mondo.azioni_del_verbo.get(verbo, ()):
+        azione = mondo.azioni.get(nome)
+        if azione is not None and not azione.richiede_oggetto:
+            return nome
+    return None
+
+
+def _esegui_comando(mondo: Mondo, comando_grezzo: str, ristampa: bool = True) -> bool:
     """Elabora un singolo comando (parsing + applicazione di regole/azioni),
-    senza gestire l'avanzamento dei turni. Restituisce True per continuare."""
+    senza gestire l'avanzamento dei turni. Restituisce True per continuare.
+    [1.3.0] ristampa=False: comando di un elenco ('prendi tutto'), la stanza si
+    ristampa una volta sola alla fine."""
     try:
         comando_pulito = comando_grezzo.strip().lower()
         if not comando_pulito:
@@ -740,7 +1286,7 @@ def _esegui_comando(mondo: Mondo, comando_grezzo: str) -> bool:
             return _gestisci_scelta_dialogo(mondo, comando_pulito)
 
         if comando_pulito in ["esci", "quit"]:
-            print("A presto!")
+            scrivi(mondo, "A presto!", "sistema")
             return False
 
         # --- PARSING DEL COMANDO DEL GIOCATORE ---
@@ -750,8 +1296,8 @@ def _esegui_comando(mondo: Mondo, comando_grezzo: str) -> bool:
         preposizione_trovata = None
         argomento_dx = ""
 
-        # Tokenizzazione semplice
-        parole = comando_pulito.split()
+        # Tokenizzazione semplice ([1.3.0] "sull'altare" -> "sull'", "altare")
+        parole = _separa_apostrofi(comando_pulito.split())
         if not parole:
             return True
 
@@ -774,85 +1320,90 @@ def _esegui_comando(mondo: Mondo, comando_grezzo: str) -> bool:
         if sinonimi and verbo_giocatore in sinonimi:
             verbo_giocatore = sinonimi[verbo_giocatore]
 
+        # [1.3.0 / M-10] 'chiedi alla guardia della chiave': gli argomenti di
+        # conversazione ('Se chiedi alla guardia di "chiave": …').
+        if (verbo_giocatore in _VERBI_CHIEDI
+                and verbo_giocatore not in mondo.mappa_verbi_giocatore):
+            return _chiedi(mondo, parole[1:])
+
         # [Livello 5b] 'parla con X' (o 'parla X') avvia un dialogo con un NPC.
         if verbo_giocatore in ("parla", "parlare", "conversa", "conversare"):
             bersaglio = " ".join(p for p in parole[1:] if p != "con")
             return _avvia_dialogo(mondo, bersaglio)
         
-        # Cerca la prima preposizione nota
-        indice_prep = -1
-        for i, parola in enumerate(parole):
-            if parola in PREPOSIZIONI:
-                indice_prep = i
-                preposizione_trovata = parola
-                break
-        
-        if indice_prep > 0: # Trovata preposizione (non come prima parola)
-            # Ricostruisci le parti
-            # Esempio: "usa chiave con porta" -> verbo="usa", arg_sx="chiave", prep="con", arg_dx="porta"
-            argomento_sx = " ".join(parole[1:indice_prep])
-            argomento_dx = " ".join(parole[indice_prep+1:])
-        else:
-            # Parsing classico SVO (Verbo + Oggetto)
-            argomento_sx = " ".join(parole[1:])
+        # [1.3.0 / G-7, M-5] Divisione degli argomenti: vedi _dividi_argomenti.
+        argomento_sx, preposizione_trovata, argomento_dx = _dividi_argomenti(mondo, parole[1:])
 
         # [0.20.0 / A1] ANAFORA: 'prendila', 'aprilo', 'esaminale', 'prendi quella'
         # → l'ultimo oggetto riferito (del genere/numero giusto). Riscrive il verbo
         # (clitico staccato) e sostituisce l'argomento con l'id risolto, così il
-        # resto del flusso prosegue come per un comando esplicito. Non si applica ai
-        # comandi a due oggetti (con preposizione).
-        if not preposizione_trovata:
-            anafora = _risolvi_anafora(mondo, verbo_giocatore, argomento_sx)
-            if anafora is not None:
-                esito, verbo_giocatore, rif = anafora
-                if esito == "vuoto":
-                    return True
-                argomento_sx = rif
+        # resto del flusso prosegue come per un comando esplicito. [1.3.0] Vale
+        # anche nei comandi a due oggetti: 'mettila nello zaino'.
+        anafora = _risolvi_anafora(mondo, verbo_giocatore, argomento_sx)
+        if anafora is not None:
+            esito, verbo_giocatore, rif = anafora
+            if esito == "vuoto":
+                _senza_turno(mondo)
+                return True
+            argomento_sx = rif
+        elif not argomento_sx and argomento_dx:
+            # [1.3.0] Un solo oggetto, introdotto da una preposizione: 'guarda
+            # nel cassetto', 'sali sulla scala'. Prima il cassetto andava perso.
+            argomento_sx, preposizione_trovata, argomento_dx = argomento_dx, None, ""
+
+        # [1.3.0 / G-4] 'entra', 'sali', 'scendi', 'esci dalla stanza': movimenti
+        # verso dentro, su, giù, fuori (se l'autore non ne ha fatto dei verbi).
+        if (verbo_giocatore in _MOVIMENTI_IMPLICITI
+                and verbo_giocatore not in mondo.mappa_verbi_giocatore
+                and verbo_giocatore not in mondo.direzioni):
+            verso = _MOVIMENTI_IMPLICITI[verbo_giocatore]
+            verbo_giocatore = verso if verso in mondo.direzioni else verbo_giocatore
+            if verbo_giocatore not in mondo.direzioni:
+                scrivi(mondo, messaggio(mondo, "direzione", "Non puoi andare in quella direzione."))
+                return True
 
         # --- Gestione Movimento ---
         # [Livello 4 / L1] La mappa forma->canonica vive sul mondo (base + custom).
         direzione_normalizzata = mondo.direzioni.get(verbo_giocatore)
         if direzione_normalizzata:
-            # Check per regole "Invece di vai a [direzione]"
-            # Simuliamo un'azione "vai" con oggetto "direzione"
-            regola_movimento_applicata = False
-            
-            # FASE 1: Regole Condizionali
-            for regola in mondo.regole:
-                if (regola.verbo == "vai" and regola.id_oggetto_bersaglio == direzione_normalizzata):
-                    if regola.condizione and regola.condizione.valuta(mondo):
-                        if regola.risposta: print(rendi_testo(mondo, regola.risposta))  # [0.30.0/A3] regola muta: niente riga vuota
-                        regola.esegui_conseguenze(mondo)
-                        regola_movimento_applicata = True
-                        break
-            
-            # FASE 2: Regole Semplici
-            if not regola_movimento_applicata:
-                for regola in mondo.regole:
-                    if (regola.verbo == "vai" and regola.id_oggetto_bersaglio == direzione_normalizzata):
-                        if not regola.condizione:
-                            if regola.risposta: print(rendi_testo(mondo, regola.risposta))  # [0.30.0/A3] regola muta: niente riga vuota
-                            regola.esegui_conseguenze(mondo)
-                            regola_movimento_applicata = True
-                            break
-
-            if regola_movimento_applicata:
-                _stampa_annunci(mondo)   # [A5] movimenti NPC dalle regole 'vai'
-                if partita_finita(mondo):
-                    return False
-                return True
+            # [1.3.0 / M-9] 'Prima di vai nord': scatta, poi il movimento prosegue.
+            regola, altrimenti = _cerca_regola_movimento(mondo, direzione_normalizzata, "prima")
+            if regola is not None and not _applica_regola(mondo, regola, altrimenti, mostra=False):
+                return False
+            # Regole 'Invece di vai <direzione>': prima le condizionali vere,
+            # poi le semplici (e i rami 'altrimenti'). Come sempre, una regola
+            # 'vai' che sposta il giocatore non ristampa la stanza.
+            regola, altrimenti = _cerca_regola_movimento(mondo, direzione_normalizzata, "invece")
+            if regola is not None:
+                return _applica_regola(mondo, regola, altrimenti, mostra=False)
 
             vecchia_posizione = mondo.posizione_giocatore
             muovi_logica_default(mondo, direzione_normalizzata)
             if mondo.posizione_giocatore != vecchia_posizione: # Se il movimento è avvenuto
                 mostra_stanza(mondo)
+                # [1.3.0 / M-9] 'Dopo di vai nord': dopo che ci si è mossi.
+                regola, altrimenti = _cerca_regola_movimento(mondo, direzione_normalizzata, "dopo")
+                if regola is not None:
+                    return _applica_regola(mondo, regola, altrimenti)
             return True
 
         # --- Gestione Azioni Standard ---
-        nome_azione = mondo.mappa_verbi_giocatore.get(verbo_giocatore)
+        # [1.2.2] Un verbo elencato da due azioni ('guarda', 'osserva') compie
+        # quella indicata dall'argomento: 'guarda il quadro' esamina il quadro;
+        # 'guarda', 'guarda intorno' o un argomento che non nomina un oggetto
+        # presente ('guarda adesso') ristampano la stanza, come prima.
+        if (argomento_sx in _GUARDARSI_INTORNO
+                and len(mondo.azioni_del_verbo.get(verbo_giocatore, ())) > 1):
+            argomento_sx = ""
+        nome_azione = mondo.azione_del_verbo(verbo_giocatore, con_oggetto=bool(argomento_sx))
         if not nome_azione:
-            print("Non capisco questo verbo.")
+            scrivi(mondo, messaggio(mondo, "non capisco", "Non capisco questo verbo."))
+            _senza_turno(mondo)
             return True
+        if nome_azione in Mondo.AZIONI_PERSONALIZZATE:
+            # [1.4.0] Il giocatore ha trovato un verbo d'autore: da ora può
+            # averne il pulsante anche accanto al campo di testo (vedi pulsanti).
+            mondo.verbi_scoperti.add(verbo_giocatore)
         azione = mondo.azioni[nome_azione]
 
         id_oggetto1 = None
@@ -860,20 +1411,41 @@ def _esegui_comando(mondo: Mondo, comando_grezzo: str) -> bool:
 
         if azione.richiede_oggetto:
             if not argomento_sx:
-                print(f"Cosa vorresti {verbo_giocatore}?")
+                _chiedi_oggetto(mondo, verbo_giocatore, nome_azione)
+                _senza_turno(mondo)
                 return True
-            
-            id_oggetto1 = risolvi_nome_oggetto(mondo, argomento_sx)
+
+            # [1.3.0 / M-5] 'prendi tutto', 'prendi la chiave e la torcia': un
+            # comando per oggetto, tutti nello stesso turno.
+            elenco = _comandi_di_elenco(mondo, verbo_giocatore, nome_azione, argomento_sx,
+                                        preposizione_trovata, argomento_dx)
+            if elenco is not None:
+                return _esegui_elenco(mondo, elenco, nome_azione, ristampa)
+
+            mondo._ambiguita = None
+            id_oggetto1 = _risolvi_per_azione(mondo, nome_azione, argomento_sx)
+            _ricorda_comando_ambiguo(mondo, parole, "sx")
+            # [1.2.2] 'guarda adesso' non nomina un oggetto: si guarda la stanza.
+            ripiego = _ripiego_senza_oggetto(mondo, verbo_giocatore, id_oggetto1)
+            if ripiego:
+                nome_azione, azione, id_oggetto1 = ripiego, mondo.azioni[ripiego], None
+
+        if azione.richiede_oggetto:
             if not id_oggetto1 or id_oggetto1 == "<ambiguo>":
                 if id_oggetto1 is None:
-                    print(f"Non vedo '{argomento_sx}' qui.")
+                    scrivi(mondo, messaggio(mondo, "non vedo", f"Non vedo '{argomento_sx}' qui.",
+                                            cosa=argomento_sx))
+                _senza_turno(mondo)
                 return True
-            
+
             if preposizione_trovata and argomento_dx:
                 id_oggetto2 = risolvi_nome_oggetto(mondo, argomento_dx)
+                _ricorda_comando_ambiguo(mondo, parole, "dx")
                 if not id_oggetto2 or id_oggetto2 == "<ambiguo>":
                     if id_oggetto2 is None:
-                        print(f"Non vedo '{argomento_dx}' qui.")
+                        scrivi(mondo, messaggio(mondo, "non vedo", f"Non vedo '{argomento_dx}' qui.",
+                                                cosa=argomento_dx))
+                    _senza_turno(mondo)
                     return True
 
             # [0.20.0 / A1] Gli oggetti effettivamente nominati diventano i riferiti
@@ -884,116 +1456,56 @@ def _esegui_comando(mondo: Mondo, comando_grezzo: str) -> bool:
                 mondo.registra_riferito(id_oggetto2)
 
         # --- MOTORE DI GIOCO (Supporto 2 Oggetti; il 'se' è valutato, 0.18.0/A1) ---
-        regola_applicata = False
-        regola_da_eseguire = None # Memorizza la regola trovata per eseguirne la conseguenza
-        
-        if azione.richiede_oggetto:
-            verbi_da_controllare = {verbo_giocatore, nome_azione}
-            
-            # FASE 0: Regole a DUE OGGETTI (Priorità Massima). [0.18.0] Come le
-            # regole a un oggetto (FASE 1/2), ora VALUTANO la clausola 'se': fra
-            # più regole che combaciano su verbo+ogg1+prep+ogg2 vince la prima
-            # CONDIZIONALE soddisfatta; in assenza, la prima SEMPLICE. Prima si
-            # privilegia la preposizione esatta, poi (fallback tollerante) si
-            # accetta qualunque preposizione sugli stessi due oggetti. Senza
-            # questa valutazione del 'se', più 'Invece di usa X su Y se …'
-            # collassavano (vinceva sempre la prima dichiarata).
-            if id_oggetto2:
-                def _combacia_due_oggetti(regola, prep_esatta):
-                    if not (regola.verbo in verbi_da_controllare and
-                            regola.id_oggetto_bersaglio == id_oggetto1 and
-                            regola.id_oggetto_secondario == id_oggetto2):
-                        return False
-                    if prep_esatta:
-                        return regola.preposizione == preposizione_trovata
-                    return True
+        # Prima le regole scritte con la parola digitata o col nome dell'azione
+        # (la ricerca di sempre: dove una regola scattava, scatta identica).
+        # [1.2.2] Se nessuna si applica, quelle scritte col VERBO PRINCIPALE
+        # dell'azione: 'Invece di prendi la mela' vale anche per 'raccogli la
+        # mela', 'afferra la mela', 'prendere la mela'. Fino alla 1.2.1 questi
+        # sinonimi, che la libreria conosce da sé, scavalcavano la regola e
+        # facevano partire l'azione di default. I verbi d'autore non hanno
+        # sinonimi impliciti (verbo_principale → None).
+        verbi_scritti = {verbo_giocatore, nome_azione}
 
-                # Quattro tier, in ordine di precedenza: per la preposizione
-                # esatta prima e poi tollerante, dentro ciascuna le condizionali
-                # soddisfatte prima delle semplici.
-                for prep_esatta in (True, False):
-                    if regola_applicata:
-                        break
-                    for regola in mondo.regole:  # condizionali soddisfatte
-                        if (_combacia_due_oggetti(regola, prep_esatta)
-                                and regola.condizione
-                                and regola.condizione.valuta(mondo)):
-                            if regola.risposta: print(rendi_testo(mondo, regola.risposta))  # [0.30.0/A3] regola muta: niente riga vuota
-                            regola_applicata = True
-                            regola_da_eseguire = regola
-                            break
-                    if regola_applicata:
-                        break
-                    for regola in mondo.regole:  # poi le semplici
-                        if _combacia_due_oggetti(regola, prep_esatta) and not regola.condizione:
-                            if regola.risposta: print(rendi_testo(mondo, regola.risposta))  # [0.30.0/A3] regola muta: niente riga vuota
-                            regola_applicata = True
-                            regola_da_eseguire = regola
-                            break
-            
-            # FASE 1: Regole Condizionali (1 Oggetto)
-            if not regola_applicata:
-                for regola in mondo.regole:
-                    if (regola.verbo in verbi_da_controllare and 
-                        regola.id_oggetto_bersaglio == id_oggetto1 and
-                        regola.id_oggetto_secondario is None): # Importante: solo regole a 1 oggetto
-                        
-                        if regola.condizione and regola.condizione.valuta(mondo):
-                            if regola.risposta: print(rendi_testo(mondo, regola.risposta))  # [0.30.0/A3] regola muta: niente riga vuota
-                            regola_applicata = True
-                            regola_da_eseguire = regola
-                            break
-            
-            # FASE 2: Regole Semplici (1 Oggetto)
-            if not regola_applicata:
-                for regola in mondo.regole:
-                    if (regola.verbo in verbi_da_controllare and 
-                        regola.id_oggetto_bersaglio == id_oggetto1 and
-                        regola.id_oggetto_secondario is None):
-                        
-                        if not regola.condizione:
-                            if regola.risposta: print(rendi_testo(mondo, regola.risposta))  # [0.30.0/A3] regola muta: niente riga vuota
-                            regola_applicata = True
-                            regola_da_eseguire = regola
-                            break
+        def regola_della_fase(fase):
+            trovata = _cerca_regola(mondo, verbi_scritti, azione.richiede_oggetto,
+                                    id_oggetto1, id_oggetto2, preposizione_trovata, fase)
+            if trovata[0] is None:
+                principale = mondo.verbo_principale(nome_azione)
+                if principale and principale not in verbi_scritti:
+                    trovata = _cerca_regola(mondo, {principale}, azione.richiede_oggetto,
+                                            id_oggetto1, id_oggetto2, preposizione_trovata, fase)
+            return trovata
 
-        # FASE GLOBALE: Regole senza oggetto bersaglio (Livello 5). Scattano sul
-        # solo verbo, se la loro condizione è soddisfatta, quando nessuna regola
-        # specifica si è attivata. Valgono anche per le azioni che NON richiedono
-        # un oggetto (es. 'Invece di guarda se il punteggio è almeno 3: ...'), per
-        # cui le fasi 0–2 sopra non vengono nemmeno eseguite. Una regola specifica
-        # ha sempre la precedenza su una globale (questa fase viene dopo).
-        if not regola_applicata:
-            verbi_da_controllare = {verbo_giocatore, nome_azione}
-            for regola in mondo.regole:
-                if (regola.id_oggetto_bersaglio is None
-                        and regola.verbo in verbi_da_controllare):
-                    if regola.condizione is None or regola.condizione.valuta(mondo):
-                        if regola.risposta: print(rendi_testo(mondo, regola.risposta))  # [0.30.0/A3] regola muta: niente riga vuota
-                        regola_applicata = True
-                        regola_da_eseguire = regola
-                        break
+        # [1.3.0 / M-9] 'Prima di': scatta, poi l'azione prosegue (a meno che la
+        # regola non abbia chiuso la partita o spostato il giocatore).
+        regola, altrimenti = regola_della_fase("prima")
+        if regola is not None:
+            pos_prima = mondo.posizione_giocatore
+            if not _applica_regola(mondo, regola, altrimenti):
+                return False
+            if mondo.posizione_giocatore != pos_prima:
+                return True
 
-        if regola_applicata:
-            if regola_da_eseguire:
-                # [0.18.0 / B2] Se una conseguenza teletrasporta il giocatore, dopo
-                # l'esecuzione mostriamo la nuova stanza (come per il movimento via
-                # direzioni), così l'effetto è visibile e non muto.
-                pos_prima = mondo.posizione_giocatore
-                regola_da_eseguire.esegui_conseguenze(mondo)
-                _stampa_annunci(mondo)   # [A5] movimenti NPC dalle conseguenze della regola
-                if partita_finita(mondo):
-                    return False
-                if mondo.posizione_giocatore != pos_prima:
-                    mostra_stanza(mondo)
-            return True
+        # [0.18.0 / B2] Se una conseguenza teletrasporta il giocatore, dopo
+        # l'esecuzione mostriamo la nuova stanza (vedi _applica_regola).
+        regola, altrimenti = regola_della_fase("invece")
+        if regola is not None:
+            return _applica_regola(mondo, regola, altrimenti)
 
         # 2. Esecuzione Logica di Default
+        mondo._azione_riuscita = False
         if azione.logica_di_default is None:
             # [Livello 4] Verbo personalizzato senza alcuna regola applicabile:
             # non esiste una logica di default, quindi un messaggio neutro.
-            print("Non succede nulla di particolare.")
+            scrivi(mondo, messaggio(mondo, "niente", "Non succede nulla di particolare."))
         elif azione.richiede_oggetto:
+            # [1.3.0 / G-7] 'lascia la mela sul tavolo' è 'metti la mela sul
+            # tavolo'; 'prendi la mela dal tavolo' controlla da dove la si prende
+            # (con altre preposizioni il secondo oggetto non conta per 'prendi').
+            if nome_azione == "lasciare" and id_oggetto2 and "mettere" in mondo.azioni:
+                azione = mondo.azioni["mettere"]
+            elif nome_azione == "prendere" and preposizione_trovata not in _PREP_DA:
+                id_oggetto2 = None
             # Passiamo anche il secondo oggetto se presente (la logica dell'azione deve supportarlo)
             try:
                 azione.logica_di_default(mondo, id_oggetto1, id_oggetto2)
@@ -1002,21 +1514,583 @@ def _esegui_comando(mondo: Mondo, comando_grezzo: str) -> bool:
                 azione.logica_di_default(mondo, id_oggetto1)
         else:
             azione.logica_di_default(mondo)
+            if nome_azione == "aiuto":
+                _senza_turno(mondo)   # [1.3.0] AIUTO non è un'azione nel mondo
         
         # Se l'azione era "guarda" o "aiuto", la descrizione è già stata stampata dalla logica di default
         # Altrimenti, se l'azione ha modificato lo stato del mondo (es. prendi/lascia), ristampa la stanza
-        if nome_azione not in ["guarda", "aiuto", "esaminare", "prendere", "usare", "inventario", "_personalizzata", "_personalizzata_intransitiva", "mettere"]:
+        if ristampa and _ristampa_dopo(nome_azione):
             mostra_stanza(mondo)
-        
+
+        # [1.3.0 / M-9] 'Dopo di': l'azione di default è riuscita (ha preso,
+        # aperto, mangiato…): la regola aggiunge il suo seguito.
+        if getattr(mondo, "_azione_riuscita", False):
+            mondo._azione_riuscita = False
+            regola, altrimenti = regola_della_fase("dopo")
+            if regola is not None:
+                return _applica_regola(mondo, regola, altrimenti)
         return True
     except Exception as e:
         # [0.27.0 / E] Diagnostica qui, ma l'eccezione RISALE a elabora_comando:
         # è lì che vive l'istantanea pre-turno, e il chiamante la ripristina per
         # rendere il turno ATOMICO (niente stato mutato a metà, niente avanzamento
         # del tempo su uno stato incoerente). Il gioco non crasha comunque.
-        print(f"[ERRORE CRITICO] Si è verificato un errore durante l'esecuzione del comando: {e}")
+        scrivi(mondo, f"[ERRORE CRITICO] Si è verificato un errore durante l'esecuzione del comando: {e}",
+               "errore")
         traceback.print_exc()
         raise
+
+
+# [1.3.0 / M-10] ARGOMENTI DI CONVERSAZIONE
+_VERBI_CHIEDI = ("chiedi", "chiedere", "domanda", "domandare")
+_PAROLE_DI_RACCORDO = (_PAROLE_VUOTE | frozenset(p.rstrip("'") for p in PREPOSIZIONI)
+                       | frozenset(("ad", "dell", "nell", "sull", "all", "dall",
+                                    "riguardo", "circa", "informazioni", "notizie")))
+
+
+def _chiedi(mondo: Mondo, parole) -> bool:
+    """[1.3.0 / M-10] 'chiedi alla guardia della chiave', 'chiedi ad Anna di
+    Bea', 'chiedi della chiave' (se qui c'è un solo personaggio). Cerca, fra
+    gli argomenti del personaggio la cui condizione è vera, il primo che
+    combacia con le parole scritte."""
+    parole = _parole_di(" ".join(parole))
+    raggiungibili = mondo.oggetti_raggiungibili()
+    presenti = [o for o in mondo.oggetti.values() if o.is_personaggio and o.nome in raggiungibili]
+    png = None
+    for o in sorted(presenti, key=lambda o: -len(o.nome)):
+        del_nome = [p for p in _parole_di(o.nome) if p not in _PAROLE_VUOTE]
+        if del_nome and all(p in parole for p in del_nome):
+            png = o
+            for p in del_nome:
+                parole.remove(p)
+            break
+    if png is None:
+        if len(presenti) != 1:
+            if presenti:
+                scrivi(mondo, "A chi vuoi chiedere?", "domanda")
+            else:
+                scrivi(mondo, "Qui non c'è nessuno a cui chiedere.")
+            _senza_turno(mondo)
+            return True
+        png = presenti[0]
+    mondo.registra_riferito(png.nome)
+    argomento = [p for p in parole if p not in _PAROLE_DI_RACCORDO]
+    if not argomento:
+        scrivi(mondo, f"Cosa vuoi chiedere {con_preposizione('a', png.nome_visualizzato)}?", "domanda")
+        _senza_turno(mondo)
+        return True
+    for arg in mondo.argomenti:
+        if arg.id_png != png.nome:
+            continue
+        if arg.condizione is not None and not arg.condizione.valuta(mondo):
+            continue
+        if any(_parla_di(argomento, chiave) for chiave in arg.chiavi):
+            mondo.argomenti_scoperti.add((png.nome, arg.chiavi[0]))   # [1.4.0] vedi pulsanti
+            if arg.risposta:
+                scrivi(mondo, rendi_testo(mondo, arg.risposta))
+            pos_prima = mondo.posizione_giocatore
+            arg.esegui_conseguenze(mondo)
+            _stampa_annunci(mondo)
+            if partita_finita(mondo):
+                return False
+            if mondo.posizione_giocatore != pos_prima:
+                mostra_stanza(mondo)
+            return True
+    scrivi(mondo, f"{prima_maiuscola(nome_in_frase(png.nome_visualizzato))} non sa niente di questo.")
+    return True
+
+
+def _parla_di(scritte, chiave: str) -> bool:
+    """Le parole scritte dal giocatore toccano l'argomento `chiave`: tutte le
+    parole scritte sono (l'inizio di) parole della chiave, o tutte le parole
+    della chiave sono fra quelle scritte."""
+    della_chiave = [p for p in _parole_di(chiave) if p not in _PAROLE_VUOTE]
+    if not della_chiave:
+        return False
+    tutte_scritte = all(any(p == k or (len(p) >= 3 and k.startswith(p)) for k in della_chiave)
+                        for p in scritte)
+    return tutte_scritte or all(k in scritte for k in della_chiave)
+
+
+# Le azioni dopo le quali NON si ristampa la stanza (la risposta basta).
+# [1.3.0] Tutte quelle nuove: ristampano solo 'lascia' e poche altre, come sempre.
+_SENZA_RISTAMPA = frozenset((
+    "guarda", "aiuto", "esaminare", "prendere", "usare",
+    "aprire", "mangiare", "spostare",   # [1.2.2] ex «usare»
+    "inventario", "_personalizzata", "_personalizzata_intransitiva", "mettere",
+    "chiudere", "accendere", "spegnere", "bere", "aspettare", "toccare", "spingere",
+    "tirare", "premere", "girare", "rompere", "colpire", "indossare", "togliere",
+    "dare", "mostrare", "annusare", "annusare_intorno", "ascoltare", "ascoltare_intorno",
+))
+
+
+def _ristampa_dopo(nome_azione: str) -> bool:
+    return nome_azione not in _SENZA_RISTAMPA
+
+
+def _ricorda_comando_ambiguo(mondo: Mondo, parole, lato: str):
+    """[1.3.0 / M-5] Se la risoluzione appena fatta ha posto la domanda «Quale
+    intendi…?», ricorda il comando intero: la risposta lo completerà."""
+    amb = getattr(mondo, "_ambiguita", None)
+    if amb and "comando" not in amb:
+        amb["comando"] = " ".join(parole)
+        amb["lato"] = lato
+
+
+def _completa_comando_ambiguo(amb: dict, scelto: str) -> str:
+    """Il comando rimasto in sospeso con il frammento ambiguo sostituito dal
+    nome dell'oggetto scelto ('prendi la chiave' + 'chiave rossa')."""
+    verbo, _, resto = amb["comando"].partition(" ")
+    frammento = amb["frammento"]
+    if amb.get("lato") == "dx":
+        testa, trovato, coda = resto.rpartition(frammento)
+    else:
+        testa, trovato, coda = resto.partition(frammento)
+    if not trovato:
+        return f"{verbo} {scelto}"
+    return f"{verbo} {testa}{scelto}{coda}".replace("  ", " ")
+
+
+def _comandi_di_elenco(mondo: Mondo, verbo: str, nome_azione: str, argomento: str,
+                       prep: str | None, argomento_dx: str):
+    """[1.3.0 / M-5] Se l'argomento è 'tutto' o un elenco di oggetti, i comandi
+    singoli da eseguire; None altrimenti. Un nome che contiene «e» ('sale e
+    pepe') vince sull'elenco: si divide solo se il tutto non nomina un oggetto."""
+    coda = f" {prep} {argomento_dx}" if prep and argomento_dx else ""
+    if argomento in _TUTTO and nome_azione in _AZIONI_CON_TUTTO:
+        id_dx = risolvi_in_silenzio(mondo, argomento_dx)[0] if argomento_dx else None
+        if nome_azione == "prendere":
+            ids = [i for i in mondo.oggetti
+                   if i in mondo.oggetti_raggiungibili()
+                   and not mondo.giocatore_possiede(i)
+                   and mondo.oggetti[i].prendibile
+                   and not mondo.oggetti[i].is_personaggio
+                   and not mondo.oggetti[i].di_scena
+                   and (id_dx is None or mondo.oggetti[i].posizione == id_dx)]
+            coda = ""   # 'prendi tutto dal tavolo': gli oggetti sono già quelli
+            vuoto = "Non c'è niente da prendere."
+        else:
+            ids = [i for i in mondo.oggetti if i in mondo.inventario and i != id_dx]
+            vuoto = "Non hai niente con te."
+        if not ids:
+            scrivi(mondo, vuoto)
+            _senza_turno(mondo)
+            return []
+        return [f"{verbo} {i}{coda}" for i in ids]
+    if (" e " not in f" {argomento} " and "," not in argomento) \
+            or risolvi_in_silenzio(mondo, argomento)[0] is not None:
+        return None
+    parti = [p for p in _RE_ELENCO.split(argomento) if p]
+    if len(parti) < 2 or any(risolvi_in_silenzio(mondo, p)[0] is None for p in parti):
+        return None
+    return [f"{verbo} {p}{coda}" for p in parti]
+
+
+def _esegui_elenco(mondo: Mondo, comandi, nome_azione: str, ristampa: bool) -> bool:
+    """[1.3.0 / M-5] Esegue i comandi di un elenco nello stesso turno. Il turno
+    passa se almeno uno dei comandi ha agito sul mondo."""
+    if not comandi:
+        return True
+    tutti_liberi = True
+    for comando in comandi:
+        mondo._turno_libero = False
+        continua = _esegui_comando(mondo, comando, ristampa=False)
+        if not mondo._turno_libero:
+            tutti_liberi = False
+        if not continua:
+            mondo._turno_libero = False
+            return False
+    mondo._turno_libero = tutti_liberi
+    mondo._ambiguita = None
+    if ristampa and not tutti_liberi and _ristampa_dopo(nome_azione):
+        mostra_stanza(mondo)
+    return True
+
+
+# ==============================================================================
+# [1.4.0] PULSANTI-VERBO
+# ------------------------------------------------------------------------------
+# pulsanti(mondo) dice a un'interfaccia che cosa proporre al giocatore ADESSO,
+# quando invece di scrivere compone la frase toccando un verbo, un oggetto e, se
+# serve, un secondo oggetto («Dai» + «la mela» + «alla guardia»). La frase
+# composta è un comando come gli altri e passa da elabora_comando: regole,
+# turni, ANNULLA e salvataggi restano identici. Le frasi arrivano già scritte
+# in italiano ('alla guardia', 'nella cassa'): l'interfaccia le accosta e basta.
+#
+# I criteri, in ordine d'importanza:
+#  1. I pulsanti filtrano solo con ciò che il giocatore SA già: che cosa porta,
+#     che cosa vede, chi è un personaggio. Mai con ciò che scoprirebbe provando:
+#     «Prendi» propone anche ciò che non si lascia prendere.
+#  2. Ciò che l'autore ha INVENTATO (verbi d'autore, argomenti di conversazione)
+#     con il campo di testo accanto compare solo dopo che il giocatore l'ha
+#     trovato da sé scrivendo: i pulsanti non svelano gli enigmi di parola. Con
+#     i soli pulsanti compare subito, perché non c'è altro modo di usarlo.
+#  3. Dei verbi della libreria si propongono quelli di base (esamina, prendi,
+#     lascia, usa) e gli altri quando la storia ne dà un motivo: oggetti che si
+#     aprono, si accendono, si mangiano; contenitori; personaggi che parlano;
+#     una regola scritta per quel verbo.
+#  4. Durante un dialogo, una domanda di conferma, una scelta fra oggetti dal
+#     nome simile e a partita finita, al posto dei verbi ci sono le risposte.
+# ==============================================================================
+
+MODI_COMANDI = ("entrambi", "pulsanti", "testo")
+
+# Le azioni della libreria che possono avere un pulsante, nell'ordine in cui
+# compaiono. Il verbo scritto è il principale dell'azione ('prendi').
+# 'Parla con' e 'Chiedi a' vengono dopo i primi tre (_PRIMI_VERBI).
+_AZIONI_A_PULSANTE = (
+    "esaminare", "prendere", "lasciare", "aprire", "chiudere", "usare", "mettere",
+    "dare", "mostrare", "accendere", "spegnere", "mangiare", "bere", "indossare",
+    "togliere", "spingere", "tirare", "premere", "girare", "toccare", "rompere",
+    "colpire", "spostare", "annusare", "ascoltare",
+)
+_PRIMI_VERBI = 3
+# Le parole che la libreria conosce: un verbo d'autore che ne usa una ('"accendi"
+# è un comando.') non è una parola inventata, e il suo pulsante non svela niente.
+_PAROLE_DI_LIBRERIA = frozenset(v for a in LIBRERIA_AZIONI.values() for v in a.nomi)
+_AZIONI_DI_BASE = ("esaminare", "prendere", "lasciare", "usare")
+# Il secondo oggetto dei verbi della libreria: preposizione e se è necessario.
+_SECONDO_DI_LIBRERIA = {"usare": ("con", "facoltativo"), "mettere": ("in", "obbligatorio"),
+                        "dare": ("a", "obbligatorio"), "mostrare": ("a", "obbligatorio")}
+# Le proprietà che danno a un verbo un motivo per comparire.
+_MOTIVI = {
+    "aprire": ("apribile", "chiusa", "aperta"), "chiudere": ("apribile", "chiusa", "aperta"),
+    "accendere": ("accendibile", "accesa", "spenta"), "spegnere": ("accendibile", "accesa", "spenta"),
+    "mangiare": ("commestibile",), "bere": ("bevibile",),
+}
+# Le forme articolate si riducono alla preposizione semplice ('sulla' → 'su').
+_PREP_SEMPLICE = {}
+for _base, _forme in (("su", ("sul", "sullo", "sulla", "sui", "sugli", "sulle", "sull'")),
+                      ("in", ("nel", "nello", "nella", "nei", "negli", "nelle", "nell'")),
+                      ("a", ("al", "allo", "alla", "ai", "agli", "alle", "all'")),
+                      ("da", ("dal", "dallo", "dalla", "dai", "dagli", "dalle", "dall'"))):
+    for _forma in (_base,) + _forme:
+        _PREP_SEMPLICE[_forma] = _base
+
+
+def _preposizione_semplice(prep: str | None) -> str | None:
+    if not prep:
+        return None
+    prep = prep.strip().lower()
+    return _PREP_SEMPLICE.get(prep, prep)
+
+
+def _con_prep(prep: str | None, oggetto) -> str:
+    """Il nome dell'oggetto nella frase, con la preposizione accordata."""
+    if not prep:
+        return nome_in_frase(oggetto.nome_visualizzato)
+    return con_preposizione(prep, oggetto.nome_visualizzato)
+
+
+def _etichetta_oggetto(oggetto) -> str:
+    """'la chiave arrugginita' → 'Chiave arrugginita'; 'Anna' → 'Anna'."""
+    _art, nucleo = _scomponi_articolo(oggetto.nome_visualizzato)
+    return prima_maiuscola(nucleo or oggetto.nome_visualizzato)
+
+
+def _vera_senza_caso(mondo: Mondo, condizione) -> bool:
+    """Valuta una condizione per un pulsante senza consumare il caso ('càpita'
+    pesca da mondo.rng: lo stato del generatore viene rimesso com'era)."""
+    if condizione is None:
+        return True
+    stato_caso = mondo.rng.getstate()
+    try:
+        return bool(condizione.valuta(mondo))
+    except Exception:
+        return False
+    finally:
+        mondo.rng.setstate(stato_caso)
+
+
+def _visibili(mondo: Mondo, posseduti):
+    """Gli oggetti che il giocatore ha davanti (nell'ordine della storia): al
+    buio solo quelli che porta e che raggiunge (non ciò che sta in una borsa
+    chiusa)."""
+    portata = mondo.oggetti_raggiungibili()
+    if not mondo.c_e_luce():
+        portata = portata & posseduti
+    return [o for o in mondo.oggetti.values() if o.nome in portata]
+
+
+def _uscite_a_pulsante(mondo: Mondo, solo_pulsanti: bool):
+    stanza = mondo.trova_stanza(mondo.posizione_giocatore)
+    if stanza is None:
+        return []
+    luce = mondo.c_e_luce()
+    if not luce and not solo_pulsanti:
+        return []   # al buio il testo non mostra le uscite: i pulsanti nemmeno
+    uscite = []
+    for d, id_s in stanza.uscite.items():
+        dest = mondo.trova_stanza(id_s)
+        nota = luce and dest is not None and not (
+            mondo.uscite_solo_visitate and id_s not in mondo.stanze_visitate)
+        uscite.append({"comando": d, "etichetta": prima_maiuscola(d),
+                       "stanza": prima_maiuscola(dest.nome_visualizzato) if nota else None})
+    if solo_pulsanti:
+        # Con i soli pulsanti anche le direzioni che una regola rende percorribili
+        # qui e ora ('Invece di vai giù se la botola è aperta: …').
+        gia = {u["comando"] for u in uscite}
+        for r in mondo.regole:
+            if (r.verbo == "vai" and r.id_oggetto_bersaglio and r.id_oggetto_bersaglio not in gia
+                    and getattr(r, "fase", "invece") == "invece"
+                    and (r.altrimenti or _vera_senza_caso(mondo, r.condizione))):
+                gia.add(r.id_oggetto_bersaglio)
+                uscite.append({"comando": r.id_oggetto_bersaglio,
+                               "etichetta": prima_maiuscola(r.id_oggetto_bersaglio), "stanza": None})
+    return uscite
+
+
+def _scelte(mondo: Mondo):
+    """(fase, scelte) quando al posto dei verbi ci sono delle risposte."""
+    if getattr(mondo, "stato_partita", "in_corso") != "in_corso":
+        return "fine", [{"etichetta": "Annulla l'ultima mossa", "comando": "annulla"},
+                        {"etichetta": "Ricomincia", "comando": "ricomincia"},
+                        {"etichetta": "Carica", "comando": "carica"}]
+    if mondo.in_dialogo():
+        nodo = mondo.dialogo_nodi.get(mondo.nodo_dialogo)
+        opzioni = _opzioni_disponibili(mondo, nodo) if nodo is not None else []
+        scelte = [{"etichetta": rendi_testo(mondo, o.testo), "comando": str(i)}
+                  for i, o in enumerate(opzioni, 1)]
+        scelte.append({"etichetta": "Chiudi la conversazione", "comando": "esci"})
+        return "dialogo", scelte
+    if getattr(mondo, "_in_conferma", None):
+        return "conferma", [{"etichetta": "Sì", "comando": "sì"}, {"etichetta": "No", "comando": "no"}]
+    amb = getattr(mondo, "_ambiguita", None)
+    if amb and "comando" in amb:
+        return "scelta", [{"etichetta": _etichetta_oggetto(mondo.oggetti[c]) if c in mondo.oggetti else c,
+                           "comando": str(i)} for i, c in enumerate(amb["candidati"], 1)]
+    return "gioco", []
+
+
+def pulsanti(mondo: Mondo) -> dict:
+    """[1.4.0] Ciò che un'interfaccia a pulsanti può proporre adesso, in forma
+    serializzabile in JSON. Non cambia niente del mondo: il testo delle opzioni
+    e le condizioni degli argomenti possono pescare dal caso ('càpita'), e lo
+    stato del generatore viene rimesso com'era, così una partita giocata con i
+    pulsanti resta identica alla stessa partita scritta (e ai suoi salvataggi).
+
+    Le chiavi:
+
+      modo      'entrambi' | 'pulsanti' | 'testo' (vedi 'I comandi si scrivono.')
+      fase      'gioco' | 'dialogo' | 'conferma' | 'scelta' | 'fine'
+      scelte    [{etichetta, comando}]: le risposte, fuori dalla fase 'gioco'
+      oggetti   [{id, etichetta, con_te}]: ciò che il giocatore vede e porta
+      verbi     [{verbo, etichetta, oggetto, da_solo, primi, secondo, secondi
+                  | secondi_per}]: il comando è verbo + ' ' + primo.testo, e poi
+                  + ' ' + secondo.testo se c'è; senza oggetto è il solo verbo
+      uscite    [{comando, etichetta, stanza}]
+      servizio  [{comando, etichetta}]: guarda, inventario, aspetta, annulla…
+    """
+    stato_caso = mondo.rng.getstate()
+    try:
+        return _pulsanti(mondo)
+    finally:
+        mondo.rng.setstate(stato_caso)
+
+
+def _pulsanti(mondo: Mondo) -> dict:
+    modo = getattr(mondo, "modo_comandi", "entrambi") or "entrambi"
+    solo_pulsanti = modo == "pulsanti"
+    fase, scelte = _scelte(mondo)
+    risultato = {"modo": modo, "fase": fase, "scelte": scelte, "oggetti": [],
+                 "verbi": [], "uscite": [], "servizio": []}
+    if fase != "gioco" or not mondo.posizione_giocatore:
+        return risultato
+
+    posseduti = mondo.oggetti_portati() | set(mondo.inventario)
+    visibili = _visibili(mondo, posseduti)
+    portati = [o for o in visibili if o.nome in posseduti]
+    davanti = [o for o in visibili if o.nome not in posseduti]
+    personaggi = [o for o in davanti if o.is_personaggio]
+    risultato["oggetti"] = [{"id": o.nome, "etichetta": _etichetta_oggetto(o),
+                             "con_te": o.nome in posseduti}
+                            for o in davanti + portati]
+    ordinati = davanti + portati
+
+    # Le azioni per cui l'autore ha scritto una regola, e le preposizioni dei
+    # secondi oggetti di quelle regole (verbo d'autore o azione → preposizioni).
+    con_regola, senza_oggetto, prep_regole, secondi_regole = set(), set(), {}, {}
+    bersagli_regole = {}
+    for r in mondo.regole:
+        azioni = set(mondo.azioni_del_verbo.get(r.verbo, ()))
+        chiavi = azioni if azioni and not azioni & set(Mondo.AZIONI_PERSONALIZZATE) else {r.verbo}
+        con_regola |= chiavi
+        if r.globale:
+            senza_oggetto |= chiavi
+        for k in chiavi:
+            bersagli_regole.setdefault(k, set()).add(
+                r.id_oggetto_bersaglio if r.categoria is None else "*")
+        if r.id_oggetto_secondario is not None or r.categoria_secondaria is not None:
+            for k in chiavi:
+                prep_regole.setdefault(k, set()).add(_preposizione_semplice(r.preposizione) or "con")
+                if r.id_oggetto_secondario:
+                    secondi_regole.setdefault(k, set()).add(r.id_oggetto_secondario)
+    proprieta = set()
+    contenitori = False
+    for o in mondo.oggetti.values():
+        proprieta |= {radice_proprieta(p) for p in o.proprieta}
+        contenitori = contenitori or o.is_contenitore or o.is_supporto
+        if o.illumina:
+            proprieta.add(radice_proprieta("accendibile"))
+
+    def secondi_per_prep(preps, candidati):
+        voci = []
+        for prep in sorted(preps):
+            for o in candidati:
+                p = prep
+                if prep == "in" and o.is_supporto:
+                    p = "su"   # 'metti la mela sul tavolo', non 'nel tavolo'
+                voci.append({"id": o.nome, "etichetta": _etichetta_oggetto(o),
+                             "testo": _con_prep(p, o)})
+        return voci
+
+    verbi = []
+
+    def aggiungi(verbo, primi, da_solo=False, preps=(), modo_secondo="no",
+                 candidati_secondi=None, secondi_per=None, prep_primo=None):
+        if not primi and not da_solo:
+            return
+        if modo_secondo == "obbligatorio" and secondi_per is None:
+            # Un primo oggetto vale solo se c'è un secondo diverso da lui: niente
+            # vicoli ciechi ('Metti' con in vista soltanto ciò che si vuole mettere).
+            altri = candidati_secondi if candidati_secondi is not None else ordinati
+            primi = [o for o in primi if any(c.nome != o.nome for c in altri)]
+            if not primi:
+                return
+        voce = {"verbo": verbo, "etichetta": prima_maiuscola(verbo) + (f" {prep_primo}" if prep_primo else ""),
+                "oggetto": bool(primi), "da_solo": bool(da_solo),
+                "primi": [{"id": o.nome, "testo": _con_prep(prep_primo, o)} for o in primi],
+                "secondo": "no"}
+        if secondi_per is not None:
+            voce["secondo"] = modo_secondo
+            voce["secondi_per"] = secondi_per
+        elif preps:
+            voce["secondo"] = modo_secondo
+            voce["secondi"] = secondi_per_prep(preps, candidati_secondi or ordinati)
+        verbi.append(voce)
+
+    # 1. I verbi della libreria.
+    for azione in _AZIONI_A_PULSANTE:
+        az = mondo.azioni.get(azione)
+        if az is None or not az.nomi:
+            continue
+        verbo = az.nomi[0]
+        if mondo.azione_del_verbo(verbo, con_oggetto=True) != azione:
+            # L'autore ha fatto di quella parola un verbo suo: il pulsante resta
+            # al suo posto, con le regole dell'autore.
+            _voce_verbo_d_autore(mondo, verbo, ordinati, prep_regole, aggiungi)
+            continue
+        motivo = (azione in _AZIONI_DI_BASE or azione in con_regola
+                  or any(radice_proprieta(p) in proprieta for p in _MOTIVI.get(azione, ()))
+                  or (azione == "mettere" and contenitori))
+        if not motivo:
+            continue
+        if azione == "prendere":
+            # Le persone non si raccolgono: un personaggio compare solo se una
+            # regola ne parla ('Invece di prendi il gatto').
+            bersagli = bersagli_regole.get(azione, set())
+            primi = [o for o in davanti if not o.is_personaggio or o.nome in bersagli or "*" in bersagli]
+        elif azione in ("lasciare", "dare", "mostrare"):
+            primi = portati
+        else:
+            primi = ordinati
+        # 'annusa', 'ascolta' valgono anche da soli se c'è una regola senza oggetto.
+        da_solo = azione + "_intorno" in mondo.azioni and azione in senza_oggetto
+        prep_lib, modo_lib = _SECONDO_DI_LIBRERIA.get(azione, (None, "no"))
+        preps = set(prep_regole.get(azione, ()))
+        if prep_lib:
+            # Per le regole a due oggetti conta la coppia, non la preposizione
+            # (vedi _cerca_regola): basta quella della libreria, più quelle che
+            # dicono un luogo diverso ('sotto', 'dietro'…). 'in' diventa 'su' da
+            # sé per i supporti.
+            preps = {prep_lib} | (preps & {"sopra", "sotto", "dentro", "dietro", "contro", "verso", "da"})
+        candidati = ordinati
+        bersagli = secondi_regole.get(azione, set())
+        if azione in ("dare", "mostrare"):
+            candidati = [o for o in davanti if o.is_personaggio or o.nome in bersagli]
+        elif azione == "mettere":
+            candidati = [o for o in ordinati if not o.is_personaggio or o.nome in bersagli]
+        modo_secondo = modo_lib if prep_lib else ("facoltativo" if preps else "no")
+        aggiungi(verbo, primi, da_solo=da_solo, preps=preps,
+                 modo_secondo=modo_secondo, candidati_secondi=candidati)
+        if azione == _AZIONI_A_PULSANTE[_PRIMI_VERBI - 1]:
+            # 2. Dopo esamina, prendi, lascia: parlare e chiedere.
+            _verbi_di_dialogo(mondo, personaggi, solo_pulsanti, aggiungi)
+
+    # 3. I verbi d'autore.
+    _verbi_d_autore(mondo, ordinati, prep_regole, solo_pulsanti, aggiungi)
+
+    risultato["verbi"] = verbi
+    risultato["uscite"] = _uscite_a_pulsante(mondo, solo_pulsanti)
+    risultato["servizio"] = [{"comando": c, "etichetta": e} for c, e in (
+        ("guarda", "Guarda"), ("inventario", "Inventario"), ("aspetta", "Aspetta"),
+        ("annulla", "Annulla"), ("salva", "Salva"), ("carica", "Carica"))]
+    return risultato
+
+
+def _verbi_di_dialogo(mondo, personaggi, solo_pulsanti, aggiungi):
+    """'Parla con' e 'Chiedi a' (con gli argomenti già scoperti, o tutti con i
+    soli pulsanti, purché la loro condizione sia vera ora)."""
+    if mondo.dialogo_nodi:
+        aggiungi("parla", personaggi, prep_primo="con")
+    if mondo.argomenti and "chiedi" not in mondo.mappa_verbi_giocatore:
+        per_png = {}
+        for png in personaggi:
+            voci, viste = [], set()
+            for arg in mondo.argomenti:
+                if arg.id_png != png.nome or not arg.chiavi or arg.chiavi[0] in viste:
+                    continue
+                if not solo_pulsanti and (png.nome, arg.chiavi[0]) not in mondo.argomenti_scoperti:
+                    continue
+                if not _vera_senza_caso(mondo, arg.condizione):
+                    continue
+                viste.add(arg.chiavi[0])
+                voci.append({"etichetta": prima_maiuscola(arg.chiavi[0]),
+                             "testo": con_preposizione("di", arg.chiavi[0])})
+            if voci:
+                per_png[png.nome] = voci
+        aggiungi("chiedi", [p for p in personaggi if p.nome in per_png], prep_primo="a",
+                 modo_secondo="obbligatorio", secondi_per=per_png)
+
+
+def _verbi_d_autore(mondo, ordinati, prep_regole, solo_pulsanti, aggiungi):
+    """I verbi inventati dall'autore: subito con i soli pulsanti, altrimenti una
+    volta scoperti. (Quelli che usano una parola della libreria hanno già il
+    loro pulsante, al posto del verbo di libreria.)"""
+    for verbo in sorted(mondo.verbi_personalizzati):
+        if verbo in _PAROLE_DI_LIBRERIA:
+            continue
+        if not solo_pulsanti and verbo not in mondo.verbi_scoperti:
+            continue
+        _voce_verbo_d_autore(mondo, verbo, ordinati, prep_regole, aggiungi)
+
+
+def _voce_verbo_d_autore(mondo, verbo, ordinati, prep_regole, aggiungi):
+    azione = mondo.azione_del_verbo(verbo, con_oggetto=verbo not in mondo.verbi_intransitivi)
+    if azione not in Mondo.AZIONI_PERSONALIZZATE:
+        return   # la parola è rimasta alla libreria
+    if verbo in mondo.verbi_intransitivi:
+        aggiungi(verbo, [], da_solo=True)
+        return
+    preps = prep_regole.get(verbo, set())
+    aggiungi(verbo, ordinati, preps=preps, modo_secondo="facoltativo" if preps else "no")
+
+
+def intestazione(mondo: Mondo, invito: str = ""):
+    """[1.3.0 / M-6] L'apertura della partita: il titolo della storia (o quello
+    del motore), l'autore, l'invito sui comandi e il prologo. Condivisa da
+    terminale, IDE, playground e pagina esportata."""
+    titolo = getattr(mondo, "titolo", None)
+    scrivi(mondo, f"--- {titolo.upper()} ---" if titolo else "--- BENVENUTO IN FAVELLA 1 ---",
+           "intestazione")
+    autore = getattr(mondo, "autore", None)
+    if autore:
+        scrivi(mondo, f"di {autore}", "intestazione")
+    if invito:
+        scrivi(mondo, invito, "intestazione")
+    prologo = getattr(mondo, "prologo", None)
+    if prologo:
+        scrivi(mondo, rendi_testo(mondo, prologo), stacco=True)
 
 
 # [0.21.0 / A3] TRASCRIZIONE: duplica l'output del gioco su un file di testo,
@@ -1040,7 +2114,10 @@ class _Tee:
 
 
 def gioca(mondo: Mondo):
-    """Avvia il ciclo di gioco interattivo."""
+    """Avvia il ciclo di gioco interattivo. [1.4.0 / L-7] È l'host del
+    terminale: il mondo non ha un'uscita propria, quindi gli eventi del motore
+    vanno su stdout, e le poche righe della sessione (il prompt, la
+    trascrizione) le scrive questo ciclo con print()."""
     # Robustezza console: un carattere fuori da cp1252 in un testo della storia
     # non deve far crashare la partita su Windows. Copre OGNI avvio interattivo
     # (CLI 'favella1', 'python gioco.py', IDE), idempotente.
@@ -1052,8 +2129,9 @@ def gioca(mondo: Mondo):
         print("[ERRORE FATALE] Nessuna stanza definita. Impossibile avviare il gioco.")
         return
 
-    print("\n--- BENVENUTO IN FAVELLA 1 ---")
-    print("Scrivi 'esci' per terminare. Comandi utili: ANNULLA, ANCORA, SALVA, CARICA, TRASCRIZIONE.")
+    print("")
+    intestazione(mondo, "Scrivi 'esci' per terminare. Comandi utili: ANNULLA, ANCORA, "
+                        "SALVA, CARICA, RICOMINCIA, TRASCRIZIONE.")
     mostra_stanza(mondo)
 
     trascrizione = None   # file aperto della trascrizione, o None
@@ -1090,7 +2168,12 @@ def gioca(mondo: Mondo):
                 trascrizione.write(f"{comando_grezzo}\n")
 
             if not elabora_comando(mondo, comando_grezzo):
-                break
+                # [1.3.0] A partita finita si resta nel ciclo: il motore ha già
+                # detto che si può ANNULLARE, RICOMINCIARE o CARICARE. Si esce
+                # quando il giocatore lo chiede (FINE, o SÌ dopo 'esci').
+                if (getattr(mondo, "_uscita_richiesta", False)
+                        or getattr(mondo, "stato_partita", "in_corso") == "in_corso"):
+                    break
     finally:
         if trascrizione is not None:
             sys.stdout = stdout_console

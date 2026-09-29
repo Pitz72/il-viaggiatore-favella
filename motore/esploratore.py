@@ -1,5 +1,5 @@
 # esploratore.py
-# Collaudo DINAMICO per FAVELLA 1 (v1.2.0): partite vere, giocate dal motore.
+# Collaudo DINAMICO per FAVELLA 1 (v1.4.0): partite vere, giocate dal motore.
 #
 # Il collaudo statico (collaudo.py) ragiona sulle frasi senza giocare; questo
 # modulo gioca. Due usi, dalla CLI:
@@ -30,6 +30,7 @@ import sys
 import traceback
 
 from strutture import ConseguenzaFinePartita, VERSIONE_MOTORE
+from favella_utils import raccogli_uscita, UscitaRaccolta
 
 # ------------------------------------------------------------------------------
 # 1. UNA PARTITA PILOTATA DA PYTHON
@@ -49,22 +50,24 @@ class Partita:
             self.m.rng = random.Random(seme)
         self.comandi = []
         self.eccezioni = []
-        buf = io.StringIO()
-        with contextlib.redirect_stdout(buf):
-            from gioco import mostra_stanza
+        # [1.4.0 / L-7] Ciò che il motore dice si raccoglie come eventi sul
+        # mondo della partita, non più dirottando stdout.
+        from gioco import mostra_stanza
+        with raccogli_uscita(self.m) as uscita:
             mostra_stanza(self.m)
-        self.risposte = [buf.getvalue()]
+        self.risposte = [uscita.testo()]
 
     def esegui(self, cmd):
         from gioco import elabora_comando
-        buf = io.StringIO()
+        uscita = UscitaRaccolta()
+        eccezione = False
         try:
-            with contextlib.redirect_stdout(buf):
+            with raccogli_uscita(self.m, uscita):
                 elabora_comando(self.m, cmd)
         except Exception:
             self.eccezioni.append((cmd, traceback.format_exc()))
-            buf.write("\n[ECCEZIONE DEL MOTORE]\n")
-        out = buf.getvalue()
+            eccezione = True
+        out = uscita.testo() + ("\n[ECCEZIONE DEL MOTORE]\n" if eccezione else "")
         self.comandi.append(cmd)
         self.risposte.append(out)
         return out
@@ -195,15 +198,24 @@ class Esploratore:
             cand.append((f"esamina {n}", 1.0))
             if o.is_personaggio:
                 cand.append((f"parla con {n}", 1.5 * c["lingua"]))
+                # [1.3.0 / M-10] Gli argomenti di conversazione del personaggio.
+                for arg in getattr(m, "argomenti", ()):
+                    if arg.id_png == o.nome and arg.chiavi:
+                        cand.append((f"chiedi a {n} di {arg.chiavi[0]}", 0.8 * c["lingua"]))
             else:
                 cand.append((f"prendi {n}", 1.5 if o.prendibile else 0.3))
-                if o.is_contenitore:
+                proprieta = " ".join(o.proprieta)
+                if o.is_contenitore or "apribil" in proprieta:
                     cand += [(f"apri {n}", 0.8), (f"chiudi {n}", 0.2)]
+                if "accendibil" in proprieta:   # [1.3.0 / G-4]
+                    cand += [(f"accendi {n}", 0.8), (f"spegni {n}", 0.2)]
         for o in inv:
             n = _nome(o)
             cand += [(f"esamina {n}", 0.4), (f"lascia {n}", 0.3)]
             for bersaglio in presenti:
                 cand.append((f"usa {n} su {_nome(bersaglio)}", 0.6))
+                if bersaglio.is_personaggio:   # [1.3.0 / G-7]
+                    cand.append((f"dai {n} a {_nome(bersaglio)}", 0.6))
             if rng.random() < 0.2:
                 cand.append((f"{rng.choice(VERBI_SULLE_COSE)} {n}", 0.3))
         for v in VERBI_SEMPLICI:
@@ -290,8 +302,10 @@ def controlla(p, cmd, out, reg, prima):
         cap = m.capacita_attuale()
     except Exception:
         cap = None
-    if cap is not None and len(m.inventario) > cap:
-        reg.segnala("CAPIENZA", f"{len(m.inventario)} oggetti su {cap} posti dopo «{cmd}»", p,
+    # [1.2.2] Conta anche ciò che sta negli zaini portati (Mondo.numero_oggetti_portati).
+    portati = m.numero_oggetti_portati() if hasattr(m, "numero_oggetti_portati") else len(m.inventario)
+    if cap is not None and portati > cap:
+        reg.segnala("CAPIENZA", f"{portati} oggetti su {cap} posti dopo «{cmd}»", p,
                     ("CAPIENZA", cmd.split()[0] if cmd.split() else ""))
     if cmd.startswith("esamina ") and cmd[8:] in prima["presenti"] and out.lstrip().startswith("Non vedo"):
         reg.segnala("INVISIBILE", f"«{cmd[8:]}» è fra i presenti ma il parser non lo vede", p,

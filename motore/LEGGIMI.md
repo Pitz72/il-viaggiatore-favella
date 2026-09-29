@@ -1,14 +1,12 @@
 # Motore FAVELLA 1 — copia del progetto
 
-Versione **1.2.1** (23/09/2026), copiata dal repository del motore,
+Versione **1.4.0** (26/09/2026), copiata dal repository del motore,
 [Pitz72/FAVELLA1](https://github.com/Pitz72/FAVELLA1) (licenza MIT, vedi `LICENSE`
 in questa cartella). Quella resta la fonte: qui non si modifica niente a mano.
 
-> La 1.2.1 è una versione rilasciata del motore
-> ([release v1.2.1](https://github.com/Pitz72/FAVELLA1/releases/tag/v1.2.1)): contiene
-> il *posto iniziale* degli oggetti nato per questo gioco, SALVA/CARICA, il collaudo
-> dinamico e i sinonimi dei verbi d'autore. Se il motore va cambiato, lo si cambia
-> là (con i suoi test) e si ricopia.
+> La 1.4.0 è una versione rilasciata del motore
+> ([release v1.4.0](https://github.com/Pitz72/FAVELLA1/releases/tag/v1.4.0)). Se il
+> motore va cambiato, lo si cambia là (con i suoi test) e si ricopia.
 
 | File | Ruolo |
 |---|---|
@@ -23,7 +21,9 @@ in questa cartella). Quella resta la fonte: qui non si modifica niente a mano.
 
 Dipendenza esterna: `lark` (`pip install lark`). I comandi `libreria` e `galleria`
 di `favella.py` non funzionano da qui, perché cercano il pacchetto `favella1` del
-repository: al gioco non servono.
+repository, e `esporta` cerca `esportazione.py`: al gioco non servono. Dalla 1.4.0 il
+repository del motore ha anche `strumenti_ide.py` ed `esportazione.py` (editor e
+pagina HTML esportata): qui non sono copiati.
 
 ## Ricopiare dopo un aggiornamento del motore
 

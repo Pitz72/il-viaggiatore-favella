@@ -9,6 +9,7 @@ Questo indice si rigenera da sé (`node strumenti/diario.mjs indice`).
 
 | Data | Tipo | Versione | Voce |
 |---|---|---|---|
+| 2026-09-29 | sessione | 1.1.1 | [Allineamento al motore 1.4.0](diario/2026-09-29-allineamento-al-motore-1-4-0.md) — Il gioco passa dal motore FAVELLA 1.2.1 alla 1.4.0, la stessa versione che fa girare *Il Viaggiatore* sul sito di FAVELLA; la storia non cambia. |
 | 2026-09-23 | sessione | 1.1.1 | [ANNULLA riporta indietro anche ANCORA](diario/2026-09-23-annulla-riporta-indietro-anche-ancora.md) — Il motore passa alla 1.2.1: ANNULLA ora disfa anche la memoria di ANCORA. Era |
 | 2026-09-23 | sessione | 1.1.0 | [Il motore passa alla 1.2.0](diario/2026-09-23-il-motore-passa-alla-1-2-0.md) — Il gioco adotta FAVELLA 1.2.0, la prima versione del motore rilasciata dopo la |
 | 2026-09-23 | sessione | 1.0.0 | [Primo rilascio: 1.0.0](diario/2026-09-23-primo-rilascio-1-0-0.md) — Pubblicata la 1.0.0: installer e portatile per Windows, AppImage e .deb per Linux. |

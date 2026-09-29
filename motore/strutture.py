@@ -14,7 +14,7 @@ SEME_CASUALE_DEFAULT = 1972
 
 # Unico punto di verità della versione del motore: gli altri moduli (sidecar,
 # report di compilazione) la importano da qui invece di cablarla in proprio.
-VERSIONE_MOTORE = "1.2.1"
+VERSIONE_MOTORE = "1.4.0"
 
 class Mondo: # Forward declaration per i type hint
     pass
@@ -46,6 +46,20 @@ class OperandoNumero(Operando):
     def __str__(self):
         return str(self.n)
 
+# [1.3.0 / M-7] 'il turno' si legge come un contatore (condizioni, operandi,
+# testi) ma non si dichiara e non si assegna: è il numero del turno corrente.
+TURNO = "turno"
+
+
+def valore_numerico(mondo: 'Mondo', nome: str) -> int:
+    """Il valore di un contatore; 'turno' è il turno corrente. Un contatore mai
+    impostato, o uno stato non numerico, vale 0."""
+    if nome == TURNO and nome not in mondo.variabili:
+        return int(getattr(mondo, "turno_corrente", 0))
+    v = mondo.variabili.get(nome)
+    return v if isinstance(v, int) else 0
+
+
 class OperandoVariabile(Operando):
     """Il valore corrente di un contatore ('di [forza]'). Un contatore mai
     impostato, o uno 'stato' non numerico, vale 0 (stessa tolleranza di
@@ -54,8 +68,7 @@ class OperandoVariabile(Operando):
         self.nome = nome
 
     def valore(self, mondo: 'Mondo') -> int:
-        v = mondo.variabili.get(self.nome)
-        return v if isinstance(v, int) else 0
+        return valore_numerico(mondo, self.nome)
 
     def __str__(self):
         return f"[{self.nome}]"
@@ -91,12 +104,14 @@ class Condizione:
         raise NotImplementedError("La valutazione deve essere implementata da una sottoclasse.")
 
 class CondizionePossesso(Condizione):
-    """Rappresenta la condizione 'se il giocatore ha [oggetto]'."""
+    """Rappresenta la condizione 'se il giocatore ha [oggetto]'. [1.2.2] Vera
+    anche se l'oggetto è dentro o sopra qualcosa che il giocatore porta (la
+    chiave nello zaino): vedi Mondo.giocatore_possiede."""
     def __init__(self, id_oggetto: str):
         self.id_oggetto = id_oggetto
-    
+
     def valuta(self, mondo: 'Mondo') -> bool:
-        return self.id_oggetto in mondo.inventario
+        return mondo.giocatore_possiede(self.id_oggetto)
 
 class CondizioneProprieta(Condizione):
     """Rappresenta la condizione 'se [oggetto] è [proprietà]'."""
@@ -108,6 +123,10 @@ class CondizioneProprieta(Condizione):
         oggetto = mondo.trova_oggetto(self.id_oggetto)
         if oggetto is None:
             return False
+        # [1.3.0 / M-2] 'prendibile' non vive fra le proprietà ma in un campo:
+        # 'se la mela è prendibile' era sempre falsa.
+        if self.proprieta == "prendibile":
+            return bool(oggetto.prendibile)
         # [Concordanza] Confronto per RADICE: «è aperto» combacia con «aperta» e
         # viceversa (genere/numero ignorati). I refusi veri cambiano la radice.
         r = radice_proprieta(self.proprieta)
@@ -155,9 +174,7 @@ class CondizioneContatore(Condizione):
         self.valore = _come_operando(valore)
 
     def valuta(self, mondo: 'Mondo') -> bool:
-        v = mondo.variabili.get(self.nome)
-        if not isinstance(v, int):
-            v = 0
+        v = valore_numerico(mondo, self.nome)
         soglia = self.valore.valore(mondo)
         if self.operatore == "==":
             return v == soglia
@@ -204,6 +221,45 @@ class CondizionePosizioneGiocatore(Condizione):
     def valuta(self, mondo: 'Mondo') -> bool:
         return mondo.posizione_giocatore == self.id_stanza
 
+QUI = "<qui>"
+
+
+class CondizionePosizioneOggetto(Condizione):
+    """[1.3.0 / G-6] Dove sta un oggetto o un personaggio: 'se la guardia è in
+    cucina', 'se la chiave è nella scatola' (anche dentro qualcos'altro che sta
+    nella scatola), 'se la mela è in inventario', 'se il gatto è qui' (nella
+    stanza del giocatore). Prima si poteva chiedere solo dove fosse il giocatore."""
+    def __init__(self, id_oggetto: str, luogo: str):
+        self.id_oggetto = id_oggetto
+        self.luogo = luogo   # id di stanza o di oggetto, 'inventario', 'nulla' o QUI
+
+    def valuta(self, mondo: 'Mondo') -> bool:
+        oggetto = mondo.trova_oggetto(self.id_oggetto)
+        if oggetto is None:
+            return False
+        if self.luogo == QUI:
+            return (mondo.stanza_di(self.id_oggetto) == mondo.posizione_giocatore
+                    or mondo.posizione_giocatore in oggetto.anche_in)
+        if self.luogo == "inventario":
+            return mondo.giocatore_possiede(self.id_oggetto)
+        if self.luogo == "nulla":
+            return not oggetto.posizione
+        if self.luogo in mondo.stanze:
+            return mondo.stanza_di(self.id_oggetto) == self.luogo or self.luogo in oggetto.anche_in
+        return self.luogo in mondo.contenitori_di(self.id_oggetto)
+
+
+class CondizionePngHa(Condizione):
+    """[1.3.0 / M-10] 'se la guardia ha la chiave' (anche dentro una borsa che
+    la guardia porta)."""
+    def __init__(self, id_png: str, id_oggetto: str):
+        self.id_png = id_png
+        self.id_oggetto = id_oggetto
+
+    def valuta(self, mondo: 'Mondo') -> bool:
+        return self.id_png in mondo.contenitori_di(self.id_oggetto)
+
+
 # --- Condizioni composite (logica booleana, v0.6.0) ---
 class CondizioneNot(Condizione):
     """Negazione: 'se il giocatore non ha X', 'se X non è Y'."""
@@ -242,6 +298,9 @@ class ConseguenzaProprieta(Conseguenza):
 
     def esegui(self, mondo: 'Mondo'):
         oggetto = mondo.trova_oggetto(self.id_oggetto)
+        if oggetto and self.proprieta == "prendibile":
+            oggetto.prendibile = True   # [1.3.0 / M-2] un campo, non una proprietà
+            return
         if oggetto:
             oggetto.aggiungi_proprieta(self.proprieta)
             # [Livello 3 / M5] Le proprietà opposte si escludono a vicenda.
@@ -255,6 +314,75 @@ class ConseguenzaProprieta(Conseguenza):
                 for p in list(oggetto.proprieta):
                     if radice_proprieta(p) in opp_radici:
                         oggetto.proprieta.discard(p)
+
+class ConseguenzaTogliProprieta(Conseguenza):
+    """[1.3.0 / M-2] 'e adesso il panno non è più bagnato': toglie una proprietà
+    (per radice: 'bagnato' toglie anche 'bagnata'). Prima si potevano solo
+    aggiungere, e senza una coppia di opposte il panno restava bagnato e
+    asciutto insieme."""
+    def __init__(self, id_oggetto: str, proprieta: str):
+        self.id_oggetto = id_oggetto
+        self.proprieta = proprieta
+
+    def esegui(self, mondo: 'Mondo'):
+        oggetto = mondo.trova_oggetto(self.id_oggetto)
+        if not oggetto:
+            return
+        if self.proprieta == "prendibile":
+            oggetto.prendibile = False
+            return
+        r = radice_proprieta(self.proprieta)
+        for p in list(oggetto.proprieta):
+            if radice_proprieta(p) == r:
+                oggetto.proprieta.discard(p)
+
+
+class ConseguenzaCollegamento(Conseguenza):
+    """[1.3.0 / M-8] Le uscite cambiano durante la partita: 'e adesso la cucina
+    collega nord a la dispensa' apre un passaggio (con il ritorno, come la
+    dichiarazione); 'e adesso la cucina non collega più nord' lo chiude (e
+    chiude il ritorno, se porta di nuovo qui)."""
+    def __init__(self, id_stanza: str, direzione: str, destinazione: Optional[str]):
+        self.id_stanza = id_stanza
+        self.direzione = direzione
+        self.destinazione = destinazione   # None = il passaggio si chiude
+
+    def esegui(self, mondo: 'Mondo'):
+        stanza = mondo.trova_stanza(self.id_stanza)
+        if stanza is None:
+            return
+        opposta = mondo.opposta_di(self.direzione)
+        if self.destinazione is None:
+            vecchia = stanza.uscite.pop(self.direzione, None)
+            dest = mondo.trova_stanza(vecchia) if vecchia else None
+            if dest is not None and opposta and dest.uscite.get(opposta) == self.id_stanza:
+                dest.uscite.pop(opposta, None)
+            return
+        dest = mondo.trova_stanza(self.destinazione)
+        if dest is None:
+            return
+        stanza.uscite[self.direzione] = self.destinazione
+        if opposta:
+            dest.uscite[opposta] = self.id_stanza
+
+
+class ConseguenzaPngRiceve(Conseguenza):
+    """[1.3.0 / M-10] 'e adesso la guardia ha la chiave': l'oggetto passa al
+    personaggio (lo porta con sé quando si muove; non è alla portata del
+    giocatore)."""
+    def __init__(self, id_png: str, id_oggetto: str):
+        self.id_png = id_png
+        self.id_oggetto = id_oggetto
+
+    def esegui(self, mondo: 'Mondo'):
+        png = mondo.trova_oggetto(self.id_png)
+        oggetto = mondo.trova_oggetto(self.id_oggetto)
+        if png is None or oggetto is None or png is oggetto:
+            return
+        mondo.rimuovi_da_posizione(oggetto)
+        png.contenuto.add(self.id_oggetto)
+        oggetto.posizione = self.id_png
+
 
 class ConseguenzaVariabile(Conseguenza):
     """[Livello 3] Imposta il valore di uno 'stato' globale (es. 'e adesso il
@@ -322,8 +450,35 @@ class ConseguenzaContatore(Conseguenza):
             mondo.variabili[self.nome] = attuale + quantita
         elif self.modo == "diminuisci":
             mondo.variabili[self.nome] = attuale - quantita
+        elif self.modo == "moltiplica":      # [1.3.0 / M-7]
+            mondo.variabili[self.nome] = attuale * quantita
+        elif self.modo == "dividi":
+            # Divisione intera verso lo zero (7/2 = 3, -7/2 = -3); per zero il
+            # contatore non cambia (non c'è un risultato sensato).
+            if quantita != 0:
+                mondo.variabili[self.nome] = int(attuale / quantita)
+        elif self.modo == "modulo":
+            # Il resto sempre fra 0 e N-1: 'riduci l'ora modulo 24'.
+            if quantita != 0:
+                mondo.variabili[self.nome] = attuale % abs(quantita)
         else:  # diventa
             mondo.variabili[self.nome] = quantita
+
+
+class ConseguenzaLimita(Conseguenza):
+    """[1.3.0 / M-7] 'la forza resta fra 0 e 10': riporta il contatore
+    nell'intervallo (è il minimo e il massimo insieme)."""
+    def __init__(self, nome: str, minimo, massimo):
+        self.nome = nome
+        self.minimo = _come_operando(minimo)
+        self.massimo = _come_operando(massimo)
+
+    def esegui(self, mondo: 'Mondo'):
+        attuale = valore_numerico(mondo, self.nome)
+        basso, alto = self.minimo.valore(mondo), self.massimo.valore(mondo)
+        if basso > alto:
+            basso, alto = alto, basso
+        mondo.variabili[self.nome] = max(basso, min(alto, attuale))
 
 class ConseguenzaFinePartita(Conseguenza):
     """[Livello 3] Termina la partita con un esito ('vinta', 'persa',
@@ -467,10 +622,14 @@ class ConseguenzaBuioStanza(Conseguenza):
 
 class Azione:
     """Rappresenta un'azione standard, la sua logica e se richiede un oggetto."""
-    def __init__(self, nomi: List[str], logica: Callable[..., None], richiede_oggetto: bool = True):
+    def __init__(self, nomi: List[str], logica: Callable[..., None], richiede_oggetto: bool = True,
+                 cede: bool = False):
         self.nomi = nomi
         self.logica_di_default = logica
         self.richiede_oggetto = richiede_oggetto
+        # [1.3.0] Un'azione che CEDE lascia i suoi verbi a un verbo omonimo
+        # dichiarato dall'autore (vedi Mondo.carica_azioni).
+        self.cede = cede
 
 class Regola:
     """Rappresenta una regola 'Invece di', con supporto per due oggetti,
@@ -479,7 +638,11 @@ class Regola:
                  condizione: Optional[Condizione] = None,
                  preposizione: Optional[str] = None,
                  id_oggetto_secondario: Optional[str] = None,
-                 conseguenze: Optional[List[Conseguenza]] = None):
+                 conseguenze: Optional[List[Conseguenza]] = None,
+                 fase: str = "invece",
+                 categoria: Optional[str] = None,
+                 categoria_secondaria: Optional[str] = None,
+                 altrimenti: Optional[tuple] = None):
         self.verbo = verbo
         self.id_oggetto_bersaglio = id_oggetto_bersaglio
         self.risposta = risposta
@@ -488,11 +651,31 @@ class Regola:
         self.id_oggetto_secondario = id_oggetto_secondario
         # Lista (eventualmente vuota) di conseguenze da eseguire in ordine.
         self.conseguenze: List[Conseguenza] = conseguenze or []
+        # [1.3.0 / M-9] 'invece' (sostituisce l'azione), 'prima' (poi l'azione
+        # prosegue), 'dopo' (dopo che l'azione di default è riuscita).
+        self.fase = fase
+        # [1.3.0 / M-9] Regola per categoria: 'qualcosa' ("" = ogni oggetto) o
+        # 'qualcosa di pesante' (la radice della proprietà). None = un oggetto preciso.
+        self.categoria = categoria
+        self.categoria_secondaria = categoria_secondaria
+        # [1.3.0 / M-9] Ramo 'altrimenti': (risposta, conseguenze) quando la
+        # condizione è falsa. None = nessun ramo.
+        self.altrimenti = altrimenti
 
-    def esegui_conseguenze(self, mondo: 'Mondo'):
-        """Esegue in ordine tutte le conseguenze associate alla regola."""
-        for conseguenza in self.conseguenze:
+    @property
+    def globale(self) -> bool:
+        """Senza bersaglio: né un oggetto, né una direzione, né una categoria."""
+        return self.id_oggetto_bersaglio is None and self.categoria is None
+
+    def esegui_conseguenze(self, mondo: 'Mondo', altrimenti: bool = False):
+        """Esegue in ordine tutte le conseguenze associate alla regola (o al
+        suo ramo 'altrimenti')."""
+        conseguenze = self.altrimenti[1] if altrimenti and self.altrimenti else self.conseguenze
+        for conseguenza in conseguenze:
             conseguenza.esegui(mondo)
+
+    def risposta_di(self, altrimenti: bool = False) -> str:
+        return self.altrimenti[0] if altrimenti and self.altrimenti else self.risposta
 
 class Evento:
     """[Livello 3] Evento temporale: scatta in base al contatore dei turni.
@@ -530,10 +713,14 @@ class Demone:
     regole e degli eventi a tempo."""
     def __init__(self, tipo: str, condizione: 'Condizione', risposta: str,
                  conseguenze: Optional[List[Conseguenza]] = None):
-        self.tipo = tipo            # 'ogni_turno' oppure 'quando'
+        self.tipo = tipo            # 'ogni_turno', 'quando' o [1.3.0] 'dopo'
         self.condizione = condizione
         self.risposta = risposta
         self.conseguenze: List[Conseguenza] = conseguenze or []
+        # [1.3.0 / M-7] 'N turni dopo che …': il ritardo e il conto alla
+        # rovescia in corso (None = nessun conto aperto).
+        self.ritardo: int = 0
+        self.conto: Optional[int] = None
         # [Fronte di salita] Valore della condizione all'ultima valutazione. Per i
         # demoni 'quando' è inizializzato a fine compilazione sul mondo iniziale
         # (vedi compilatore.inizializza_demoni): così una condizione già vera alla
@@ -630,6 +817,25 @@ class OpzioneDialogo:
     def disponibile(self, mondo: 'Mondo') -> bool:
         return self.condizione is None or self.condizione.valuta(mondo)
 
+class Argomento:
+    """[1.3.0 / M-10] Un argomento di conversazione: 'Se chiedi alla guardia di
+    "chiave" oppure "custode": dire "…" e adesso …'. Il giocatore scrive
+    'chiedi alla guardia della chiave'; la prima risposta la cui condizione è
+    vera vince. Accanto ai dialoghi a menù, non al loro posto."""
+    def __init__(self, id_png: str, chiavi: List[str], risposta: str,
+                 condizione: Optional['Condizione'] = None,
+                 conseguenze: Optional[List[Conseguenza]] = None):
+        self.id_png = id_png
+        self.chiavi = chiavi
+        self.risposta = risposta
+        self.condizione = condizione
+        self.conseguenze: List[Conseguenza] = conseguenze or []
+
+    def esegui_conseguenze(self, mondo: 'Mondo'):
+        for c in self.conseguenze:
+            c.esegui(mondo)
+
+
 class NodoDialogo:
     """Un nodo del grafo di dialogo: la battuta dell'NPC più le opzioni offerte."""
     def __init__(self, etichetta: str):
@@ -711,6 +917,11 @@ class Oggetto:
         # più falso). Nel frattempo l'oggetto non compare in «Puoi vedere qui».
         self.posto: Optional[str] = None
         self.spostato: bool = False
+        # [1.3.0 / M-8] Oggetto DI SCENA ('Il cielo è di scena.'): si esamina ma
+        # non compare in «Puoi vedere qui». Presente ANCHE in altre stanze ('Il
+        # cielo è anche nel cortile.'): cielo, mare, una porta vista dai due lati.
+        self.di_scena: bool = False
+        self.anche_in: Set[str] = set()
 
     def al_suo_posto(self) -> bool:
         """[1.1.0] True se la frase del posto iniziale va ancora mostrata."""
@@ -737,6 +948,20 @@ class Mondo:
         self.regole: List[Regola] = []
         self.azioni: Dict[str, Azione] = {}
         self.mappa_verbi_giocatore: Dict[str, str] = {}
+        # [1.2.2] Verbo → TUTTE le azioni che lo elencano, in ordine di libreria.
+        # Serve ai verbi presenti in due azioni ('guarda': esamina X / guarda la
+        # stanza), risolti dall'argomento del comando: vedi azione_del_verbo().
+        self.azioni_del_verbo: Dict[str, List[str]] = {}
+        # [1.3.0] Stato di SESSIONE del comando in corso (fuori dalle istantanee):
+        # il comando non fa passare il tempo; una domanda di conferma in sospeso
+        # ('esci', 'ricomincia'); il giocatore ha chiesto di chiudere la partita.
+        self._turno_libero: bool = False
+        self._in_conferma: Optional[str] = None
+        self._uscita_richiesta: bool = False
+        # [1.3.0] La logica di default ha fatto ciò che doveva (per 'Dopo di');
+        # la domanda «Quale intendi…?» in attesa di risposta.
+        self._azione_riuscita: bool = False
+        self._ambiguita: Optional[dict] = None
         self.posizione_giocatore: str | None = None
         # ID della stanza di partenza dichiarata esplicitamente dall'autore
         # tramite "Il giocatore comincia in [stanza].". None se non dichiarata.
@@ -816,6 +1041,28 @@ class Mondo:
         # della conversazione in corso è runtime: 'dialogo_attivo' = id dell'NPC con
         # cui si sta parlando (o None), 'nodo_dialogo' = etichetta del nodo corrente.
         self.dialogo_nodi: Dict[str, 'NodoDialogo'] = {}
+        # [1.3.0 / M-10] Argomenti di conversazione ('Se chiedi alla guardia di
+        # "chiave": …'), in ordine di dichiarazione.
+        self.argomenti: List['Argomento'] = []
+        # [1.3.0 / M-6] Presentazione: titolo, autore, prologo; messaggi del
+        # motore ridefiniti dall'autore; condizioni compilate dei testi
+        # condizionali '[se …]…[altrimenti]…[fine]' (sorgente -> Condizione).
+        self.titolo: Optional[str] = None
+        self.autore: Optional[str] = None
+        self.prologo: Optional[str] = None
+        self.messaggi: Dict[str, str] = {}
+        self.condizioni_testo: Dict[str, 'Condizione'] = {}
+        # [1.3.0] Parti di stato che la storia può cambiare e che le versioni
+        # precedenti non conoscevano: entrano nell'impronta solo se servono,
+        # così i salvataggi delle storie che non le usano restano validi.
+        self._stato_esteso: Set[str] = set()
+        # [1.3.0 / L-6] Il file della storia (per riconoscerla nei salvataggi
+        # anche quando è stata corretta dopo il salvataggio).
+        self.file_storia: Optional[str] = None
+        # [1.3.0 / M-8] 'Le uscite nominano solo le stanze visitate.': la riga
+        # «Uscite:» tace il nome delle stanze non ancora viste.
+        self.uscite_solo_visitate: bool = False
+        self.stanze_visitate: Set[str] = set()
         self.dialogo_attivo: Optional[str] = None
         self.nodo_dialogo: Optional[str] = None
         # [0.20.0 / A1] Anafora: l'ULTIMO oggetto riferito, indicizzato per
@@ -873,6 +1120,22 @@ class Mondo:
         # coda dopo aver eseguito le conseguenze. È stato di sessione, sempre vuoto
         # fra un turno e l'altro → escluso dalle istantanee di ANNULLA.
         self.annunci: List[str] = []
+        # [1.4.0 / L-7] Dove va ciò che il motore dice al giocatore: un'Uscita di
+        # favella_utils (terminale, raccolta, muta…). None = il terminale. La
+        # sceglie l'host (IDE, sito, pagina esportata); fuori dalle istantanee.
+        self.uscita = None
+        # [1.4.0] PULSANTI-VERBO. Come il giocatore dà i comandi nelle pagine che
+        # li mostrano: 'entrambi' (campo di testo e pulsanti, il predefinito),
+        # 'pulsanti' (solo pulsanti), 'testo' (solo campo di testo). Vedi
+        # 'I comandi si scrivono.' e gioco.pulsanti().
+        self.modo_comandi: str = "entrambi"
+        # [1.4.0] Ciò che il giocatore ha SCOPERTO scrivendo: i verbi d'autore
+        # che ha usato e gli argomenti di cui ha chiesto (id personaggio, chiave).
+        # Con il campo di testo accanto, i pulsanti non svelano ciò che l'autore
+        # ha inventato finché il giocatore non l'ha trovato da sé. È memoria del
+        # giocatore, non del mondo: ANNULLA non la cancella.
+        self.verbi_scoperti: Set[str] = set()
+        self.argomenti_scoperti: Set[tuple] = set()
 
     def nodo_dialogo_di(self, etichetta: str) -> 'NodoDialogo':
         """Restituisce il nodo con quell'etichetta, creandolo se non esiste."""
@@ -930,18 +1193,34 @@ class Mondo:
     # di ANCORA, così dopo 'prendi X', 'annulla', 'ancora' non si rifà il turno
     # appena disfatto ma quello precedente.
     _CAMPI_VOLATILI = ("_storia_stati", "azioni",
-                       "mappa_verbi_giocatore", "annunci", "_snap_dialogo",
+                       "mappa_verbi_giocatore", "azioni_del_verbo",
+                       "annunci", "_snap_dialogo",
+                       # [1.3.0] sessione del comando in corso
+                       "_turno_libero", "_in_conferma", "_uscita_richiesta",
+                       "_azione_riuscita", "_ambiguita",
                        # [1.2.0] sessione di SALVA/CARICA
                        "_registro_comandi", "_pos_registro", "_reg_ingresso_dialogo",
                        "_stato_iniziale", "_impronta_iniziale", "_senza_istantanee",
-                       "archivio_salvataggi")
+                       "archivio_salvataggi",
+                       # [1.4.0] l'uscita dell'host e ciò che il giocatore ha scoperto
+                       "uscita", "verbi_scoperti", "argomenti_scoperti")
+
+    # [1.3.0 / L-5] Campi STATICI: scritti dal compilatore e mai cambiati in
+    # partita (regole, eventi, dialoghi, argomenti, vocabolario, messaggi).
+    # Restano fuori dalle istantanee: ripristina_stato non li tocca. Sul
+    # Viaggiatore un'istantanea pesava circa 96 KiB, quasi tutti di regole.
+    _CAMPI_STATICI = ("regole", "eventi", "dialogo_nodi", "argomenti", "condizioni_testo",
+                      "messaggi", "titolo", "autore", "prologo", "_stato_esteso",
+                      "verbi_personalizzati", "verbi_intransitivi", "sinonimi_verbo",
+                      "alias", "opposti", "direzioni", "opposte_direzioni", "file_storia",
+                      "modo_comandi")
 
     def cattura_stato(self) -> dict:
         """[0.21.0 / A3] Istantanea profonda dello stato MUTABILE del mondo, per
         l'ANNULLA. Un'unica deepcopy preserva l'identità condivisa fra gli oggetti
         (es. lo stesso Oggetto in mondo.oggetti e in stanza.oggetti)."""
         salvati = {k: self.__dict__.pop(k)
-                   for k in self._CAMPI_VOLATILI if k in self.__dict__}
+                   for k in self._CAMPI_VOLATILI + self._CAMPI_STATICI if k in self.__dict__}
         try:
             return copy.deepcopy(self.__dict__)
         finally:
@@ -1022,6 +1301,12 @@ class Mondo:
             self.posizione_giocatore = self.posizione_iniziale
         elif self.stanze:
             self.posizione_giocatore = list(self.stanze.keys())[0]
+        # [1.3.0] Ora che il giocatore ha un posto, i demoni 'Quando' registrano il
+        # valore di partenza delle loro condizioni: una condizione già vera
+        # all'avvio non è un fronte. Prima lo si faceva a fine compilazione, con
+        # la posizione ancora vuota, e 'Quando il giocatore è in <partenza>'
+        # scattava al primo turno.
+        self.azzera_memoria_demoni()
         # [1.2.0] Il mondo a partita non ancora cominciata: CARICA riparte da qui
         # e rigioca la sequenza salvata. L'impronta dice se un salvataggio è stato
         # fatto su questa stessa storia.
@@ -1030,6 +1315,20 @@ class Mondo:
         self._registro_comandi = []
         self._pos_registro = []
         self._reg_ingresso_dialogo = None
+
+    def azzera_memoria_demoni(self):
+        """[1.3.0] Registra, per ogni demone 'Quando', il valore attuale della
+        sua condizione (il punto di partenza per riconoscere un fronte di
+        salita). Valutare una condizione con 'càpita' pesca dal generatore: qui
+        lo stato del generatore viene rimesso com'era, così la preparazione della
+        partita non consuma il caso."""
+        stato_caso = self.rng.getstate()
+        try:
+            for demone in self.demoni:
+                if demone.tipo == "quando":
+                    demone.era_vera = demone.condizione.valuta(self)
+        finally:
+            self.rng.setstate(stato_caso)
 
     def stato_essenziale(self) -> dict:
         """[1.2.0] Tutto ciò che distingue una partita dall'altra, in forma
@@ -1043,7 +1342,7 @@ class Mondo:
                             sorted(getattr(o, "contenuto", None) or [])])
         stanze_buie = sorted(s.nome for s in self.stanze.values()
                              if getattr(s, "buia", False))
-        return {
+        dati = {
             "luogo": self.posizione_giocatore,
             "turno": self.turno_corrente,
             "esito": self.stato_partita,
@@ -1055,6 +1354,17 @@ class Mondo:
             "demoni": [bool(getattr(d, "era_vera", False)) for d in self.demoni],
             "caso": repr(self.rng.getstate()),
         }
+        # [1.3.0] Solo ciò che la storia usa (vedi _stato_esteso).
+        estesi = getattr(self, "_stato_esteso", ())
+        if "uscite" in estesi:
+            dati["uscite"] = sorted([s.nome, sorted(s.uscite.items())] for s in self.stanze.values())
+        if "prendibile" in estesi:
+            dati["prendibili"] = sorted(o.nome for o in self.oggetti.values() if o.prendibile)
+        if getattr(self, "uscite_solo_visitate", False):
+            dati["visitate"] = sorted(self.stanze_visitate)
+        if any(getattr(d, "tipo", "") == "dopo" for d in self.demoni):
+            dati["conti"] = [getattr(d, "conto", None) for d in self.demoni]
+        return dati
 
     def impronta_stato(self) -> str:
         """[1.2.0] Impronta SHA-256 dello stato essenziale: due partite con la
@@ -1064,10 +1374,25 @@ class Mondo:
 
     def carica_azioni(self, libreria: Dict[str, Azione]):
         """Carica la libreria di azioni e costruisce la mappa di ricerca inversa."""
-        self.azioni = libreria
+        # [1.2.2] Una COPIA: più sotto vi si aggiungono le azioni dei verbi
+        # d'autore. Fino alla 1.2.1 si scriveva nel dizionario globale della
+        # libreria, e i verbi di una storia restavano attaccati alle storie
+        # caricate dopo nello stesso processo (sito, IDE): dopo una storia con
+        # '"leggi" è un comando.', in un'altra 'leggi il diario' non leggeva più.
+        self.azioni = dict(libreria)
+        self.azioni_del_verbo = {}
+        # [1.3.0] Precedenza: prima le azioni storiche della libreria (un verbo
+        # d'autore omonimo non le scavalca, come sempre), poi i verbi d'autore,
+        # poi le azioni che CEDONO (i verbi aggiunti nella 1.3.0: chiudi, accendi,
+        # aspetta…), che valgono solo per i verbi che l'autore non ha dichiarato.
+        cedevoli = []
         for nome_azione, azione_obj in libreria.items():
+            if getattr(azione_obj, "cede", False):
+                cedevoli.append((nome_azione, azione_obj))
+                continue
             for verbo in azione_obj.nomi:
                 self.mappa_verbi_giocatore[verbo] = nome_azione
+                self.azioni_del_verbo.setdefault(verbo, []).append(nome_azione)
 
         # [Livello 4] Instrada i verbi personalizzati a un'azione generica priva
         # di logica di default (logica=None): il runtime, se nessuna regola
@@ -1083,11 +1408,50 @@ class Mondo:
                 nomi=transitivi, logica=None, richiede_oggetto=True)
             for verbo in transitivi:
                 self.mappa_verbi_giocatore.setdefault(verbo, "_personalizzata")
+                self.azioni_del_verbo.setdefault(verbo, ["_personalizzata"])
         if intransitivi:
             self.azioni["_personalizzata_intransitiva"] = Azione(
                 nomi=intransitivi, logica=None, richiede_oggetto=False)
             for verbo in intransitivi:
                 self.mappa_verbi_giocatore.setdefault(verbo, "_personalizzata_intransitiva")
+                self.azioni_del_verbo.setdefault(verbo, ["_personalizzata_intransitiva"])
+        dell_autore = set(self.verbi_personalizzati) | set(getattr(self, "sinonimi_verbo", {}) or {})
+        for nome_azione, azione_obj in cedevoli:
+            for verbo in azione_obj.nomi:
+                if verbo in dell_autore:
+                    continue
+                self.mappa_verbi_giocatore.setdefault(verbo, nome_azione)
+                self.azioni_del_verbo.setdefault(verbo, []).append(nome_azione)
+
+    # [1.2.2] Azioni generiche dei verbi d'autore: raccolgono verbi DIVERSI
+    # ('spingi', 'tira'…), quindi non hanno un verbo principale né sinonimi.
+    AZIONI_PERSONALIZZATE = ("_personalizzata", "_personalizzata_intransitiva")
+
+    def azione_del_verbo(self, verbo: str, con_oggetto: bool) -> Optional[str]:
+        """[1.2.2] L'azione che il verbo del giocatore compie. Un verbo elencato da
+        due azioni ('guarda', 'osserva') si risolve con l'argomento del comando:
+        con un oggetto vale l'azione che lo richiede (esaminare), senza vale
+        quella che non lo richiede (guarda la stanza). Fino alla 1.2.1 vinceva
+        sempre l'ultima azione della libreria, e 'guarda il quadro' ristampava
+        la stanza senza guardare il quadro. None se il verbo è ignoto."""
+        candidate = getattr(self, "azioni_del_verbo", None) or {}
+        nomi = candidate.get(verbo)
+        if nomi and len(nomi) > 1:
+            for nome in nomi:
+                azione = self.azioni.get(nome)
+                if azione is not None and azione.richiede_oggetto == con_oggetto:
+                    return nome
+        return self.mappa_verbi_giocatore.get(verbo)
+
+    def verbo_principale(self, nome_azione: Optional[str]) -> Optional[str]:
+        """[1.2.2] Il verbo principale di un'azione della libreria (il primo dei
+        suoi nomi: 'prendi' per «prendere»). Una regola scritta con questo verbo
+        vale per tutti i sinonimi dell'azione. None per le azioni dei verbi
+        d'autore, che non hanno sinonimi (vedi AZIONI_PERSONALIZZATE)."""
+        if not nome_azione or nome_azione in self.AZIONI_PERSONALIZZATE:
+            return None
+        azione = self.azioni.get(nome_azione)
+        return azione.nomi[0] if azione is not None and azione.nomi else None
 
     def aggiungi_regola(self, regola: Regola):
         self.regole.append(regola)
@@ -1123,10 +1487,106 @@ class Mondo:
         return self.capacita_base + bonus
 
     def puo_portare_altro(self) -> bool:
-        """Vero se il giocatore può prendere ancora un oggetto. Senza capacità
-        dichiarata è sempre vero (illimitato)."""
+        """Vero se il giocatore ha ancora un posto libero. Senza capacità
+        dichiarata è sempre vero (illimitato). [1.2.2] Conta tutto ciò che il
+        giocatore porta, anche dentro zaini e borse (numero_oggetti_portati)."""
         cap = self.capacita_attuale()
-        return cap is None or len(self.inventario) < cap
+        return cap is None or self.numero_oggetti_portati() < cap
+
+    # --- [1.2.2] Ciò che il giocatore ha addosso -------------------------------
+    # Fino alla 1.2.1 «avere» voleva dire «stare nell'inventario»: una chiave
+    # messa nello zaino che il giocatore porta non contava per 'il giocatore ha
+    # la chiave', e la capienza contava solo gli oggetti in mano, così uno zaino
+    # contenitore portava oggetti senza limite. Ora si possiede ciò che si ha
+    # ADDOSSO: l'inventario più, a ogni livello, quello che sta dentro o sopra
+    # gli oggetti portati (anche in un contenitore chiuso: ce l'hai, anche se
+    # per usarlo devi aprirlo).
+
+    def racchiusi_in(self, id_oggetto: str) -> Set[str]:
+        """Gli oggetti dentro o sopra `id_oggetto`, a ogni livello di
+        annidamento (l'oggetto stesso escluso; cicli patologici ignorati)."""
+        risultato: Set[str] = set()
+        ogg = self.trova_oggetto(id_oggetto)
+        coda = list(ogg.contenuto) if ogg is not None else []
+        while coda:
+            c = coda.pop()
+            if c in risultato or c == id_oggetto:
+                continue
+            risultato.add(c)
+            figlio = self.trova_oggetto(c)
+            if figlio is not None:
+                coda += list(figlio.contenuto)
+        return risultato
+
+    def oggetti_portati(self) -> Set[str]:
+        """Tutto ciò che il giocatore ha addosso: l'inventario e il contenuto,
+        a ogni livello, degli oggetti portati."""
+        portati: Set[str] = set(self.inventario)
+        for id_ogg in list(self.inventario):
+            portati |= self.racchiusi_in(id_ogg)
+        return portati
+
+    def contenitori_di(self, id_oggetto: str) -> List[str]:
+        """[1.3.0] Tutto ciò che contiene l'oggetto, dal più vicino al più
+        lontano: contenitori, supporti, personaggi e infine la stanza (o
+        'inventario'). La chiave nella scatola sul tavolo in cucina →
+        ['scatola', 'tavolo', 'cucina']."""
+        catena, visti = [], set()
+        oggetto = self.trova_oggetto(id_oggetto)
+        pos = oggetto.posizione if oggetto else None
+        while pos and pos not in visti:
+            visti.add(pos)
+            catena.append(pos)
+            if pos in self.stanze or pos == "inventario":
+                break
+            contenitore = self.trova_oggetto(pos)
+            pos = contenitore.posizione if contenitore else None
+        return catena
+
+    def stanza_di(self, id_oggetto: str) -> Optional[str]:
+        """[1.3.0] La stanza in cui si trova l'oggetto, attraverso contenitori,
+        supporti e personaggi; per ciò che il giocatore porta, la sua stanza."""
+        catena = self.contenitori_di(id_oggetto)
+        if not catena:
+            return None
+        ultimo = catena[-1]
+        if ultimo == "inventario":
+            return self.posizione_giocatore
+        return ultimo if ultimo in self.stanze else None
+
+    def oggetti_anche_qui(self) -> List['Oggetto']:
+        """[1.3.0 / M-8] Gli oggetti presenti ANCHE nella stanza del giocatore
+        ('Il cielo è anche nel cortile.'), nell'ordine della storia."""
+        stanza = self.posizione_giocatore
+        return [o for o in self.oggetti.values()
+                if stanza in o.anche_in and o.posizione != stanza]
+
+    def giocatore_possiede(self, id_oggetto: str) -> bool:
+        """Vero se il giocatore ha l'oggetto addosso (vedi oggetti_portati). È
+        la semantica di 'se il giocatore ha X'."""
+        if id_oggetto in self.inventario:
+            return True
+        return id_oggetto in self.oggetti_portati()
+
+    def numero_oggetti_portati(self) -> int:
+        """Quanti oggetti pesano sulla capienza: tutti quelli addosso."""
+        return len(self.oggetti_portati())
+
+    def puo_prendere(self, oggetto: 'Oggetto') -> bool:
+        """Vero se la capienza permette di prendere `oggetto`. Senza capacità
+        dichiarata è sempre vero. Serve un posto libero, come sempre; in più,
+        dopo la presa, tutto ciò che si porta (l'oggetto e quello che contiene)
+        deve stare nella capienza, contando il bonus dell'oggetto stesso: uno
+        zaino che «dà 5 spazi» copre il proprio contenuto. Tirare fuori un
+        oggetto da una borsa che si porta non aggiunge nulla."""
+        cap = self.capacita_attuale()
+        if cap is None or self.giocatore_possiede(oggetto.nome):
+            return True
+        portati = self.numero_oggetti_portati()
+        if portati >= cap:
+            return False
+        dopo = portati + 1 + len(self.racchiusi_in(oggetto.nome))
+        return dopo <= cap + (getattr(oggetto, "bonus_capacita", 0) or 0)
 
     # --- [0.24.0 / A4] Buio e luce ---
 
@@ -1180,7 +1640,7 @@ class Mondo:
         if id_oggetto in self.inventario:
             return True
         pos = oggetto.posizione
-        if pos == self.posizione_giocatore:
+        if pos == self.posizione_giocatore or self.posizione_giocatore in oggetto.anche_in:
             return True
         if not pos or pos == "inventario":
             return pos == "inventario"
@@ -1202,6 +1662,7 @@ class Mondo:
         stanza = self.trova_stanza(self.posizione_giocatore)
         if stanza:
             coda += list(stanza.oggetti.keys())
+            coda += [o.nome for o in self.oggetti_anche_qui()]
         while coda:
             id_ogg = coda.pop()
             if id_ogg in risultato:
