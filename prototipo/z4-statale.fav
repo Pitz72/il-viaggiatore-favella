@@ -141,11 +141,13 @@ Invece di attacca Vito se la vita di Vito è più di 0 e il giocatore ha la chia
 Invece di attacca Vito se la vita di Vito è più di 0 e il giocatore ha il coltello: dire "Affondi il coltello dove puoi. Lui è grosso e non molla." e adesso diminuisci la vita di Vito di 3 e adesso lo stato di Vito è ostile.
 Invece di attacca Vito se la vita di Vito è più di 0: dire "Lo colpisci a mani nude: è come picchiare un muro che picchia a sua volta." e adesso diminuisci la vita di Vito di 1 e adesso lo stato di Vito è ostile.
 Invece di attacca Vito: dire "Vito è a terra. La strada è libera.".
+# Alzare le mani su Vito è sangue; il bluff con la pistola scarica no: non muore nessuno.
+Quando lo stato di Vito è ostile: aumenta il sangue di 1.
 
 Ogni turno se il giocatore è in il casello e la vita di Vito è più di 0 e lo stato di Vito è ostile: dire "Vito cala il tubo di ferro. Senti le costole protestare." e adesso diminuisci la vita di 2.
 Ogni turno se il giocatore è in il casello e la vita di Vito è più di 0 e lo stato di Vito è ostile e càpita (1 su 4): dire "Un colpo ti prende in pieno: il sapore del ferro in bocca." e adesso diminuisci la vita di 1.
 
-Quando la vita di Vito è al massimo 0: dire "Vito arretra contro la sbarra, la schiena che scivola giù. «…e va'. Va' pure, allora.» Non si rialza. La strada è aperta, e ti è costata." e adesso lo stato del casello è aperto e adesso lo stato di Vito è calmo.
+Quando la vita di Vito è al massimo 0: dire "Vito arretra contro la sbarra, la schiena che scivola giù. «…e va'. Va' pure, allora.» Non si rialza. La strada è aperta, e ti è costata." e adesso lo stato del casello è aperto e adesso lo stato di Vito è calmo e adesso aumenta il sangue di 1.
 
 # --- VIA 4 · BLUFFARE: la pistola scarica (lui non sa che è vuota) ---
 "minaccia" è un comando.

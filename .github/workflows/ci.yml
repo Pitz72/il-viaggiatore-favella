@@ -55,6 +55,9 @@ jobs:
       - name: Il ponte dell'interfaccia
         working-directory: collaudo
         run: python interfaccia.py
+      - name: I fili del viaggio e il guado
+        working-directory: collaudo
+        run: python fili.py
       - name: Le scelte che chiedono conferma
         run: |
           npm ci --prefix app

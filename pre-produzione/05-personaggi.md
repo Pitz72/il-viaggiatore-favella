@@ -50,7 +50,7 @@ I cinque maggiori sono cinque risposte alla stessa domanda: *restare o andarsene
 #### ROSARIA — l'osteria · Z5
 - **Voce:** calda ma stanca. L'ospitalità come ultima economia: la prima volta ti mette davanti acqua e legumi prima che tu apra bocca.
 - **Vuole:** che il paese non si spenga. Sa il nome di chi è partito, e a qualcuno tiene ancora il posto.
-- **Meccanica:** fiducia 1; +1 per un dono d'acqua, +2 se curi Pasquale. A 3 scrive il **permesso** per le colline. Dà **la notizia**: Acquamorta è vuota «tranne uno», che non lascia entrare nessuno.
+- **Meccanica:** fiducia 1; +1 per un dono d'acqua, +2 se curi Pasquale; −1 se arrivi col sangue addosso (la voce della statale arriva prima di te: ti accoglie lo stesso, ma non si siede). A 3 scrive il **permesso** per le colline. Dà **la notizia**: Acquamorta è vuota «tranne uno», che non lascia entrare nessuno.
 - **Anti-oracolo:** ti dice che c'è qualcuno, non chi è: «Chiedi a Concetta.»
 
 #### ONOFRIO — la grotta · Z6
@@ -67,7 +67,9 @@ I cinque maggiori sono cinque risposte alla stessa domanda: *restare o andarsene
 - **Meccanica:** nessun contatore di vita. Tre stati: *fermo*, *riconosciuto*, *abbattuto*.
   - **Via umana:** `usa la lettera su Cosimo`. Riconosce la sua grafia; si fa da parte.
   - **Via violenta:** `attacca Cosimo` col fucile. Non scappa, non implora.
-  - Mostrargli il biglietto o attaccarlo a mani nude non sposta niente.
+  - **Terza via** (dal gioco 1.5.0): col fucile, `lascia il fucile`. Se per strada non c'è stato sangue e hai lasciato qualcosa ad almeno tre di quelli che sono rimasti, riconosce il gesto e si sposta; altrimenti bisogna restare disarmati (la veglia: tre turni, cinque se c'è stato sangue). Vedi `06-ramificazione.md`.
+  - Mostrargli il biglietto o attaccarlo a mani nude non sposta niente (e a mani nude, durante la veglia, la rompe).
+  - **Sa come sei arrivato**: la voce corre dalla strada al greto (Rosaria, i pastori). La sua prima battuta cambia col sangue e con la generosità.
 - **Scrittura:** la via umana va *guadagnata* lungo tutto il viaggio (Concetta o la cappella, poi Onofrio). Non è un'opzione di menu.
 
 ### — MINORI —

@@ -40,9 +40,14 @@ def z6(arma, giocattolo):
     c += ['est', 'est', 'attingi', 'ovest', 'nord', 'stato', 'inventario']
     return c
 
-def z7(arma):
+def z7(arma, guado=None):
+    """Al guado: con la lettera la si usa; col fucile si spara ('spara'), lo si posa
+    ('posa': basta se il viaggio è stato generoso e senza sangue) o lo si posa e si
+    resta ('veglia': quattro turni di attesa bastano anche col sangue)."""
+    guado = guado or ('lettera' if arma == 'lettera' else 'spara')
     c = ['nord', 'parla con Cosimo', 'sapevo', '1', '…', 'usa il biglietto su Cosimo']
-    c += ['usa la lettera su Cosimo'] if arma == 'lettera' else ['attacca Cosimo']
+    c += {'lettera': ['usa la lettera su Cosimo'], 'spara': ['attacca Cosimo'],
+          'posa': ['lascia il fucile'], 'veglia': ['lascia il fucile'] + ['aspetta'] * 4}[guado]
     c += ['parla con Cosimo', '1', 'esamina Cosimo', 'guarda', 'nord', 'nord']
     return c
 
@@ -53,10 +58,17 @@ PERCORSI = {
     'D_vuoto':      dict(peppe=False, giocattolo=False, anello=False, arma='lettera'),
     'E_fucile':     dict(peppe=False, giocattolo=True,  anello=False, arma='fucile'),
     'F_fucile_pep': dict(peppe=True,  giocattolo=True,  anello=False, arma='fucile'),
+    # la terza via: col fucile, ma senza sparare
+    'G_posato':     dict(peppe=False, giocattolo=True,  anello=False, arma='fucile', guado='posa'),
+    'H_veglia':     dict(peppe=False, giocattolo=True,  anello=False, arma='fucile', guado='veglia', cane='uccidi'),
 }
 
 
 def comandi(nome):
     """La sequenza completa di comandi di un percorso."""
     p = PERCORSI[nome]
-    return Z1_Z4 + z5(p['peppe'], p['giocattolo'], p['anello']) + z6(p['arma'], p['giocattolo']) + z7(p['arma'])
+    inizio = Z1_Z4
+    if p.get('cane') == 'uccidi':        # il cane della serra ucciso col coltello: è sangue
+        i = inizio.index('getta cibo')
+        inizio = inizio[:i] + ['attacca il cane', 'attacca il cane'] + inizio[i + 1:]
+    return inizio + z5(p['peppe'], p['giocattolo'], p['anello']) + z6(p['arma'], p['giocattolo']) + z7(p['arma'], p.get('guado'))

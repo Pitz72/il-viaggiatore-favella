@@ -26,6 +26,11 @@ Lo stato dell'accoglienza è uno stato.
 Lo stato dell'accoglienza è nuova.
 Lo stato della tappa di Peppe è uno stato.
 Lo stato della tappa di Peppe è paese.
+# Il dono d'acqua a Rosaria finisce in una brocca a parte: conta una volta sola.
+Lo stato della brocca è uno stato.
+Lo stato della brocca è vuota.
+Lo stato del mercato è uno stato.
+Lo stato del mercato è nuovo.
 
 # --- Stanze ---
 La porta è una stanza.
@@ -88,7 +93,8 @@ Il dialogo di Rosaria comincia con "rosaria_inizio".
 Rosaria al nodo "rosaria_inizio" dice "«Siediti, che sei bianco di polvere. Qui si entra come si entra in casa d'altri: con rispetto.» Ti versa da bere senza chiederti niente." se la fiducia di Rosaria è al massimo 2.
 Rosaria al nodo "rosaria_inizio" dice "«Eccoti. Siediti, che ti riempio il bicchiere.»" se la fiducia di Rosaria è almeno 3.
 
-Al nodo "rosaria_inizio" l'opzione "Ti lascio dell'acqua, per l'ospitalità." se l'acqua è almeno 1 conduce al nodo "rosaria_dono" e adesso diminuisci l'acqua di 1 e adesso aumenta la fiducia di Rosaria di 1.
+Al nodo "rosaria_inizio" l'opzione "Ti lascio dell'acqua, per l'ospitalità." se l'acqua è almeno 1 conduce al nodo "rosaria_dono" e adesso diminuisci l'acqua di 1 e adesso aumenta la fiducia di Rosaria di 1 e adesso lo stato della brocca è piena.
+Quando lo stato della brocca è piena: aumenta la generosità di 1.
 Al nodo "rosaria_inizio" l'opzione "Cosa si dice di Acquamorta?" conduce al nodo "rosaria_notizia".
 Al nodo "rosaria_inizio" l'opzione "Mi serve salire alle colline." conduce al nodo "rosaria_colline".
 Al nodo "rosaria_inizio" l'opzione "Niente, grazie." chiude il dialogo.
@@ -114,7 +120,9 @@ Al nodo "rosaria_pass" l'opzione "Grazie." chiude il dialogo.
 # Gate [!] verso Z6: la mulattiera, chiusa finché non hai il salvacondotto di Rosaria.
 Invece di vai nord se il giocatore è in l'osteria e lo stato del permesso è negato: dire "Fai per imboccare la salita, ma Rosaria ti ferma con un'occhiata dal banco. «Senza una mia parola, lassù non ci arrivi.»".
 # La prima volta all'osteria: l'ospitalità è un effetto reale sul corpo (una volta sola).
-Quando il giocatore è in l'osteria e lo stato dell'accoglienza è nuova: dire "Rosaria ti mette davanti un bicchiere d'acqua fresca prima ancora che tu apra bocca, e una scodella di legumi. Mangi e bevi senza parlare, e lei non ti chiede niente finché non hai finito." e adesso diminuisci la sete di 5 e adesso diminuisci la fame di 4 e adesso aumenta la vita di 2 e adesso lo stato dell'accoglienza è data.
+# Chi ha alzato le mani per strada trova l'ospitalità, non la fiducia: la voce della statale arriva prima.
+Quando il giocatore è in l'osteria e lo stato dell'accoglienza è nuova e il sangue è almeno 1: dire "Rosaria ti mette davanti un bicchiere d'acqua e una scodella di legumi, come a chiunque passi di qui: l'ospitalità non si nega. Ma non si siede. In fondo, due uomini scesi dalla statale smettono di parlare quando entri. Lei asciuga un bicchiere già asciutto e ti guarda le mani." e adesso diminuisci la sete di 5 e adesso diminuisci la fame di 4 e adesso aumenta la vita di 2 e adesso diminuisci la fiducia di Rosaria di 1 e adesso lo stato dell'accoglienza è data.
+Quando il giocatore è in l'osteria e lo stato dell'accoglienza è nuova e il sangue è al massimo 0: dire "Rosaria ti mette davanti un bicchiere d'acqua fresca prima ancora che tu apra bocca, e una scodella di legumi. Mangi e bevi senza parlare, e lei non ti chiede niente finché non hai finito." e adesso diminuisci la sete di 5 e adesso diminuisci la fame di 4 e adesso aumenta la vita di 2 e adesso lo stato dell'accoglienza è data.
 L'osteria collega nord a la salita.
 
 # --- CONCETTA  [vecchia: la memoria a pezzi. Nomina Cosimo, il fratello] ---
@@ -153,6 +161,7 @@ Al nodo "pasquale_inizio" l'opzione "…" chiude il dialogo.
 Invece di usa le medicine su Pasquale se il giocatore ha le medicine e lo stato di Pasquale è malato: dire "Sciogli le medicine in un dito d'acqua e lo aiuti a mandarle giù. Per la prima volta da giorni, il respiro gli si fa lungo. Una donna sulla soglia ti guarda fare, poi se ne va di fretta verso l'osteria." e adesso le medicine è nel nulla e adesso lo stato di Pasquale è curato e adesso aumenta la fiducia di Rosaria di 2.
 Invece di usa le medicine su Pasquale se lo stato di Pasquale è curato: dire "Pasquale riposa, la febbre rotta. Non gli serve altro.".
 Invece di usa le medicine su Pasquale: dire "Le medicine sono lì per terra: prendile, prima.".
+Quando lo stato di Pasquale è curato: aumenta la generosità di 1.
 
 # --- PEPPE  [il rovescio del tema: PARTIRE. Portarlo o lasciarlo: flag per Z7] ---
 Peppe è un personaggio.
@@ -207,6 +216,8 @@ Al nodo "ciro_anello" l'opzione "Va bene così." chiude il dialogo.
 Ciro al nodo "ciro_carta" dice "«Carta di Vito?» Ride, e se la mette in tasca. «Mi deve una tanica da due inverni. Questa la prendo per buona.» (Ora hai [acqua] d'acqua e [cibo] di cibo.)".
 Al nodo "ciro_carta" l'opzione "Altro." conduce al nodo "ciro_inizio".
 Al nodo "ciro_carta" l'opzione "Basta così." chiude il dialogo.
+# Ciro è creditore di Vito: se Vito è finito a terra, lo sa già.
+Quando il giocatore è in il mercato e lo stato del mercato è nuovo e la vita di Vito è al massimo 0: dire "Ciro ti vede entrare e fischia piano. «Quello del casello.» Lo dice ai banchi, non a te. «Vito mi doveva una tanica da due inverni. Adesso chi me la rende?»" e adesso lo stato del mercato è visto.
 
 # --- Passaggio a Z6: la mulattiera sale verso le colline ---
 # (il sentiero è la stanza d'ingresso di z6-colline.fav)

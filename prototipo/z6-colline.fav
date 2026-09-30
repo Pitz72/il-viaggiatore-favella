@@ -30,7 +30,7 @@ La cappella è una stanza.
 La descrizione della cappella è "Una cappella senza tetto, l'altare spaccato, le panche ribaltate. Si torna a OVEST.".
 
 Il valico è una stanza.
-La descrizione del valico è "Il punto più alto della salita. Di qua le colline finiscono e il terreno ricomincia a scendere, verso un greto e un guado. Oltre, lo sai, c'è Acquamorta. (Al guado: USA LA LETTERA SU Cosimo, oppure ATTACCA Cosimo.) A NORD si scende al guado; a SUD il pianoro.".
+La descrizione del valico è "Il punto più alto della salita. Di qua le colline finiscono e il terreno ricomincia a scendere, verso un greto e un guado. Oltre, lo sai, c'è Acquamorta. (Al guado: USA LA LETTERA SU Cosimo; col fucile, ATTACCA Cosimo o LASCIA IL FUCILE.) A NORD si scende al guado; a SUD il pianoro.".
 
 # --- Collegamenti (auto-reciproci). La salita è agganciata da z5-paese.fav. ---
 La salita collega nord a il sentiero.
@@ -61,7 +61,7 @@ La descrizione della lettera è "La lettera che Cosimo scrisse e non spedì mai.
 
 Il fucile è una cosa.
 Il fucile è prendibile.
-La descrizione del fucile è "Un fucile da caccia a due colpi, oliato di fresco da mani che non cacciano più niente. Carico. Onofrio non ti ha detto per chi lo teneva pronto. (Al guado: ATTACCA Cosimo.)".
+La descrizione del fucile è "Un fucile da caccia a due colpi, oliato di fresco da mani che non cacciano più niente. Carico. Onofrio non ti ha detto per chi lo teneva pronto. (Al guado: ATTACCA Cosimo. Oppure posalo: LASCIA IL FUCILE.)".
 
 # --- ONOFRIO  [maggiore: RINUNCIARE. La verità a pezzi, e il lascito che sceglie la via]
 Onofrio è un personaggio.
@@ -77,6 +77,7 @@ Al nodo "onofrio_inizio" l'opzione "Devo passare il guado." se la fiducia di Ono
 Al nodo "onofrio_inizio" l'opzione "Mi serve il tuo aiuto, per il guado." se la fiducia di Onofrio è al massimo 2 conduce al nodo "onofrio_rifiuto".
 Al nodo "onofrio_inizio" l'opzione "Lasciami stare anche tu." chiude il dialogo.
 
+Onofrio al nodo "onofrio_verita" dice "«Sei andato via per mandare i soldi. Per un po' sono arrivati, i soldi. Poi l'acqua se n'è andata, e i soldi non si bevono.» Tace, sceglie le parole come sassi. «Il piccolo per primo, l'estate della febbre. Lei un mese dopo. Cosimo li ha messi sotto terra da solo, dietro la casa, e non ha voluto nessuno ad aiutarlo.» Soffia via un truciolo. «Giù al paese hai rimesso in piedi uno con la febbre, mi hanno detto.» Un'altra passata di lama. «Quell'estate, qui, le medicine non le aveva nessuno.»" se lo stato di Pasquale è curato.
 Onofrio al nodo "onofrio_verita" dice "«Sei andato via per mandare i soldi. Per un po' sono arrivati, i soldi. Poi l'acqua se n'è andata, e i soldi non si bevono.» Tace, sceglie le parole come sassi. «Il piccolo per primo, l'estate della febbre. Lei un mese dopo. Cosimo li ha messi sotto terra da solo, dietro la casa, e non ha voluto nessuno ad aiutarlo.»".
 Al nodo "onofrio_verita" l'opzione "E il biglietto che diceva di non tornare?" conduce al nodo "onofrio_lettere".
 Al nodo "onofrio_verita" l'opzione "…" conduce al nodo "onofrio_inizio".
@@ -108,6 +109,7 @@ Tore è in il pianoro.
 La descrizione di Tore è "Asciutto, la faccia screpolata dal vento. Conta le pecore a mezza voce anche mentre ti parla.".
 
 Il dialogo di Tore comincia con "tore_inizio".
+Tore al nodo "tore_inizio" dice "«Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire di lasciarti passare.» Conta una pecora. «Ha mandato a dire anche il resto.» Studia da che parte vieni. «Ho formaggio, se hai da scambiare. Acqua, magari: di quella, quassù, se ne beve poca.»" se il sangue è almeno 1.
 Tore al nodo "tore_inizio" dice "«Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire che sei uno a posto.» Studia da che parte vieni. «Ho formaggio, se hai da scambiare. Acqua, magari: di quella, quassù, se ne beve poca.»".
 Al nodo "tore_inizio" l'opzione "Ti do un po' d'acqua per del formaggio." se l'acqua è almeno 2 conduce al nodo "tore_baratto" e adesso diminuisci l'acqua di 2 e adesso aumenta il cibo di 3.
 Al nodo "tore_inizio" l'opzione "Chi c'è, al guado?" conduce al nodo "tore_guado".

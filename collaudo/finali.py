@@ -67,6 +67,8 @@ ATTESI = {
     "D_vuoto": "con le mani vuote",
     "E_fucile": "sopra il corpo di tuo fratello",
     "F_fucile_pep": "Il ragazzo che ti seguiva",
+    "G_posato": "l'ultima cosa che restava da riportare",
+    "H_veglia": "l'ultima cosa che restava da riportare",
     "sete": "La sete ti ha avuto",
     "fame": "La fame ti ha fermato",
     "ferite": "Il viaggio finisce qui",

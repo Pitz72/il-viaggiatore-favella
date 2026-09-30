@@ -52,8 +52,13 @@ def senza_virgolette(r):
 
 
 def spezza(r):
-    """(condizioni, effetti) di una riga: gli effetti vengono dopo «adesso»."""
+    """(condizioni, effetti) di una riga. Nelle regole, negli eventi e nei demoni gli
+    effetti stanno dopo i due punti («Quando …: aumenta la generosità di 1.», «…: dire
+    "…" e adesso …»); nelle opzioni di dialogo, che non hanno i due punti, dopo «adesso»."""
     s = senza_virgolette(r).lower()
+    if ":" in s:
+        cond, resto = s.split(":", 1)
+        return cond, [e for e in re.split(r"\b(?:e\s+)?adesso\s+", resto) if e.strip(" .")]
     pezzi = re.split(r"\b(?:e\s+)?adesso\s+", s)
     return pezzi[0], pezzi[1:]
 
@@ -169,9 +174,12 @@ class Mappa:
             elif not le:
                 portata = "**mai letta**"
                 fantasmi.append(k)
-            elif any(ORDINE[z] > ORDINE[zona] for z in z_le):
+            elif any(ORDINE[z] > ORDINE[(z_sc or [zona])[0]] for z in z_le):
+                # conta dove si scrive per la prima volta, non dove si dichiara (i fili
+                # del viaggio si dichiarano nel file principale e si scrivono nelle zone)
+                prima = (z_sc or [zona])[0]
                 portata = "**a distanza**"
-                lontane.append((k, zona, [z for z in z_le if ORDINE[z] > ORDINE[zona]]))
+                lontane.append((k, ", ".join(z_sc) or zona, [z for z in z_le if ORDINE[z] > ORDINE[prima]]))
             else:
                 portata = "locale"
             fmt = lambda d, zs: ", ".join(f"{z} ({d[z]})" for z in zs) or "—"
@@ -202,8 +210,8 @@ class Mappa:
         out += ["", "## 5. In sintesi", "",
                 f"- Variabili dichiarate: {len(self.variabili)} (di cui {len(SCORTE)} scorte del corpo).",
                 f"- **Conseguenze a distanza** (variabili lette in una zona successiva): {len(lontane)}."]
-        for k, zona, dove in lontane:
-            out.append(f"  - `{k}`: nasce in {zona}, torna in {', '.join(dove)}.")
+        for k, dove_scrive, dove in lontane:
+            out.append(f"  - `{k}`: si scrive in {dove_scrive}, torna in {', '.join(dove)}.")
         out.append(f"- **Cose che contano lontano da dove nascono**: {len(portate)} — {', '.join(portate) or '—'}.")
         out.append(f"- **Variabili mai lette** (stato fantasma): {len(fantasmi)} — {', '.join(fantasmi) or '—'}.")
         return "\n".join(out) + "\n"

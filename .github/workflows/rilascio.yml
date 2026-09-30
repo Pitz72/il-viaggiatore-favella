@@ -73,6 +73,7 @@ jobs:
           python salvataggi.py -n 40
           python scorte.py
           python interfaccia.py
+          python fili.py
       - name: Le scelte che chiedono conferma
         run: |
           npm ci --prefix app

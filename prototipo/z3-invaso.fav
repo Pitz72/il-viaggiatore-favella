@@ -117,6 +117,8 @@ Al nodo "iole_inizio" l'opzione "Niente, per ora." chiude il dialogo.
 Iole al nodo "iole_dono" dice "Mette da parte il dono senza guardarlo. «Il casotto è là dietro. Prendi quello che ti serve e fa' andare la pompa. Le pastiglie bastano per una volta. Dopo, col filtro solo, tiri su acqua che sa di ferro: si beve, non si ama.»".
 Iole al nodo "iole_dono" dice "Mette da parte il dono senza guardarlo. «La pompa la sai far andare, ormai. Il resto è pazienza.»" se lo stato della pompa è attiva.
 Al nodo "iole_dono" l'opzione "Grazie." conduce al nodo "iole_inizio".
+# Il primo dono a Iole entra nella generosità (una volta: la fiducia non cala mai).
+Quando la fiducia di Iole è almeno 3: aumenta la generosità di 1.
 
 Iole al nodo "iole_sapere" dice "«Si filtra, poi si tratta. Il filtro lo monti tu: tela e carbone ce n'è là nella carcassa. Il trattamento sta in casa mia: pastiglie. Ma in casa mia non entra chi non conosco.»".
 Al nodo "iole_sapere" l'opzione "Capito." conduce al nodo "iole_inizio".

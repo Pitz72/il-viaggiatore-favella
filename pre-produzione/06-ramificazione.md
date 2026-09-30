@@ -1,222 +1,198 @@
 # IL VIAGGIATORE — La ramificazione
 
-> Pre-produzione · Strato 6 · **v0.1, proposta (30/09/2026)** — da discutere prima di
-> scrivere una riga di `.fav`.
+> Pre-produzione · Strato 6 · **v1.0, realizzato nel gioco 1.5.0 (30/09/2026)**
 > Fonte dei numeri: `sviluppo/mappa-narrativa.md`, generata da
 > `strumenti/mappa-narrativa.py` leggendo `prototipo/*.fav`. Si rigenera dopo ogni
-> modifica alla storia.
+> modifica alla storia. Collaudo dedicato: `collaudo/fili.py`.
 
 ---
 
-## 1. Com'è fatta oggi la storia
+## 1. Com'era la storia (1.4.0)
 
-Il viaggio è **ricco di incontri e lineare nelle conseguenze**. La mappa lo dice coi numeri:
+Il viaggio era **ricco di incontri e lineare nelle conseguenze**:
 
-- **26 variabili** di stato; tolte le cinque scorte del corpo, **19 su 21 si leggono solo
-  nella zona in cui nascono**. Le due che viaggiano sono entrambe di Peppe
-  (`stato di Peppe`, `stato della tappa di Peppe`).
-- Le **cinque fiducie** (Saverio, Iole, Vito, Rosaria, Onofrio) non escono mai dalla loro
-  zona. Eppure l'interfaccia le tiene a lato dello schermo per tutto il viaggio, come se
-  contassero ancora.
-- **15 cose** contano lontano da dove nascono, ma quasi tutte sono merce per Ciro. Le
-  cose che portano *significato* da una zona all'altra sono cinque: le medicine (Z4 → Z5),
-  il giocattolo e l'anello (Z5 → Z7), la lettera e il fucile (Z6 → Z7).
-- I **sei finali** dipendono da quattro cose, tutte decise nelle ultime due zone: lo stato
+- **26 variabili** di stato; tolte le cinque scorte del corpo, **19 su 21 si leggevano solo
+  nella zona in cui nascevano**. Le due che viaggiavano erano entrambe di Peppe.
+- Le **cinque fiducie** non uscivano mai dalla loro zona, mentre l'interfaccia le tiene a
+  lato dello schermo per tutto il viaggio.
+- I **sei finali** dipendevano da quattro cose, tutte decise nelle ultime due zone: lo stato
   di Cosimo, Peppe, il giocattolo, l'anello.
-- **Il guado** ha 5 opzioni di dialogo e **nessuna** ha un effetto: il confronto col
-  fratello si decide solo con un oggetto.
+- **Il guado** aveva 5 opzioni di dialogo e nessuna con un effetto: il confronto col
+  fratello si decideva solo con un oggetto. Chi sceglieva il fucile da Onofrio poteva solo
+  sparare.
 
-Il grafo, a livello di zone, è un **collo di bottiglia**: ogni zona si apre e si chiude su
-sé stessa, e a Z5–Z6 si raccolgono i quattro interruttori dei finali.
-
-```
-Z1 ─► Z2 ─► Z3 ─► Z4 ─► Z5 ──────────► Z6 ─────────► Z7 ─► ★ A B C D E F
-                         │ Peppe ───────────────────► │
-                         │ giocattolo, anello ───────►│
-                         │ medicine (da Z4)           │
-                                        lettera/fucile►│
-```
-
-## 2. Audit
-
-| Anti-pattern | Dove | Perché pesa qui |
+| Anti-pattern | Dove | Com'è stato risolto |
 |---|---|---|
-| **Scena amnesia** | Z5, Z6, Z7 | Come sei passato dalla serra (il cane) e dal casello (Vito) non lo ricorda nessuno. Il paese accoglie allo stesso modo chi ha bastonato Vito e chi l'ha pagato. |
-| **Meter invisibili che promettono memoria** | le cinque fiducie | Lo schermo le mostra fino alla fine; la storia le dimentica appena si cambia zona. |
-| **Scelta cosmetica nel climax** | Z7, «Non sapevo» / «Fammi passare» | Le due risposte a Cosimo portano allo stesso punto. Decide solo l'oggetto in tasca. |
-| **Bivio che chiude troppo presto** | Z6, il lascito | Chi sceglie il fucile non ha più una via umana al guado, qualunque cosa abbia fatto nei sei giorni prima. |
-| **Il tema non si accumula** | tutto | La domanda del gioco è «cosa resterà di te quando arrivi». Oggi resta ciò che hai in tasca, non ciò che hai fatto. |
+| **Scena amnesia** | Z5, Z6, Z7 | Rosaria, Ciro, Tore, Onofrio e Cosimo ricordano come sei passato (§3) |
+| **Meter che promettono memoria** | le fiducie | la generosità verso chi è rimasto conta al guado (§3.2) |
+| **Bivio che chiude troppo presto** | Z6, il lascito | col fucile c'è una terza via: posarlo (§3.3) |
+| **Il tema non si accumula** | tutto | la strada di Acquamorta dice che cosa si è saputo di te (§3.4) |
 
-Cosa funziona e va protetto: Peppe (l'unico filo vero, e si sente), la verità sulla
-famiglia composta da fonti diverse, i finali che atterrano in posti emotivi diversi, la
+Protetto e intatto: Peppe, la verità sulla famiglia da fonti diverse, i sei finali, la
 violenza sempre possibile e sempre la più cara.
 
-## 3. La proposta: due fili che attraversano il viaggio
+## 2. La regola del mondo: la voce corre
 
-La regola d'oro della skill vale doppio in FAVELLA: **stato minimo**. Due contatori nuovi,
-più una lettura nuova di variabili che già esistono. Nessuna zona nuova, nessun
-personaggio nuovo, **nessun finale nuovo**: una via nuova verso quelli che ci sono.
+La giustificazione era già scritta nel gioco: «Qui le cose si sanno prima di sera»
+(Pasquale), «Rosaria ha mandato a dire…» (Tore), «dicono giù al paese» (Tore su Cosimo).
+Ora ha una rete precisa, che Cosimo racconta sulla strada: **Rosaria manda un ragazzo su
+dai pastori, e i pastori scendono al greto per le bestie**. Ciò che fai per strada arriva
+al guado prima di te.
 
-La giustificazione nel mondo c'è già, scritta dall'autore: «Qui le cose si sanno prima di
-sera» (Pasquale), «Rosaria ha mandato a dire che sei uno a posto» (Tore), «dicono giù al
-paese» (Tore su Cosimo). **La voce corre lungo la strada, e arriva prima di te.**
+## 3. I due fili
 
-### Filo 1 — Il sangue (come sei passato)
+### 3.1 Il sangue (come sei passato)
 
-`SANGUE` — contatore, parte da 0.
+`il sangue` — contatore, parte da 0. Il bluff con la pistola scarica **non** conta: non muore
+nessuno (decisione dell'autore).
 
 | Dove | Quando | Effetto |
 |---|---|---|
-| Z2 serra | il cane muore per mano tua | SANGUE += 1 |
-| Z4 casello | colpisci Vito (la prima volta) | SANGUE += 1 |
-| Z4 casello | Vito a terra | SANGUE += 1 |
+| Z2 serra | il cane muore per mano tua | +1 |
+| Z4 casello | colpisci Vito (quando diventa ostile) | +1 |
+| Z4 casello | Vito a terra | +1 |
 
-Il bluff con la pistola scarica **non** conta: è paura, non sangue. (Da decidere, §6.)
+Chi lo ricorda:
 
-Chi lo legge, più avanti:
+- **Rosaria** (Z5), alla prima volta all'osteria: l'ospitalità non si nega (acqua e legumi
+  come sempre), ma non si siede; due uomini scesi dalla statale smettono di parlare; lei ti
+  guarda le mani. **Fiducia − 1**: per il permesso servono un dono e Pasquale.
+- **Ciro** (Z5), se Vito è a terra, entrando al mercato, una volta: «Quello del casello.»
+  Vito gli doveva una tanica.
+- **Tore** (Z6): «Rosaria ha mandato a dire di lasciarti passare. Ha mandato a dire anche il
+  resto.»
+- **Cosimo** (Z7), la prima battuta: ti guarda le mani prima della faccia, «so anche come
+  sei passato».
+- **Il guado**: col sangue, il fucile posato non basta mai subito (§3.3).
+- **La strada di Acquamorta**, se Cosimo ti lascia passare: «Di come sei passato, si è
+  saputo anche qui.»
 
-```
-[Z5_OSTERIA_PRIMA] L'accoglienza di Rosaria
-Richiede: SANGUE >= 1, prima volta all'osteria
-Testo: "La voce della statale è arrivata prima di te. Rosaria ti mette davanti l'acqua
-        lo stesso, perché qui si fa così, ma non si siede."
-Effetti: FIDUCIA_ROSARIA -= 1   → per il permesso servono un dono e Pasquale, non uno solo
-Note: il costo è concreto (più tempo in paese = più sete) e non chiude nessuna via.
+### 3.2 La generosità (quello che hai lasciato a chi è rimasto)
 
-[Z5_CIRO] Ciro, creditore di Vito
-Richiede: SANGUE >= 2 e VITO abbattuto
-Testo: una battuta sola, al primo incontro: il debito di Vito non lo riscuoterà più.
-Effetti: nessuno (livello immediato: il mondo ha sentito).
+`la generosità` — contatore, parte da 0. **Una volta per persona**: ridare non conta di nuovo.
 
-[Z7_COSIMO_INIZIO] La prima battuta di Cosimo cambia
-Richiede: SANGUE >= 2
-Testo: Cosimo sa del casello. "Sei tornato come torna la gente adesso: a spintoni."
-Effetti: nessuno sul confronto, ma chiude la via del §3.3 (vedi sotto).
-```
-
-### Filo 2 — Chi è rimasto (quello che hai lasciato per strada)
-
-`DONI` — contatore, parte da 0. Conta **una volta per persona**: non si compra.
-
-| Dove | Scelta | Effetto |
+| Dove | Scelta | Come si conta una volta sola |
 |---|---|---|
-| Z2 pozzo | il cibo a Saverio | DONI += 1 |
-| Z3 diga | l'acqua o il cibo a Iole (la prima volta) | DONI += 1 |
-| Z5 osteria | l'acqua per l'ospitalità di Rosaria (la prima volta) | DONI += 1 |
-| Z5 vicolo | le medicine a Pasquale | DONI += 1 |
+| Z2 pozzo | il cibo a Saverio | la fiducia di Saverio arriva a 3 (non cala mai) |
+| Z3 diga | l'acqua o il cibo a Iole | la fiducia di Iole arriva a 3 (non cala mai) |
+| Z5 osteria | l'acqua a Rosaria | la brocca a parte (`stato della brocca`) si riempie |
+| Z5 vicolo | le medicine a Pasquale | Pasquale curato |
 
-Ognuna di queste scelte **costa già** qualcosa che serve a sopravvivere. Il filo non le
-rende più convenienti: le fa ricordare.
+Ognuna costa già qualcosa che serve a sopravvivere: il filo non le rende convenienti, le fa
+ricordare. Soglia che conta al guado: **3 su 4**.
 
-```
-[Z6_ONOFRIO_VERITA] La febbre
-Richiede: PASQUALE = curato
-Testo: Onofrio racconta dell'estate della febbre, come oggi; poi, a parte: "Giù al paese
-       hai rimesso in piedi uno con la febbre, mi hanno detto. Qui, quell'estate, le
-       medicine non le aveva nessuno." Riprende a intagliare.
-Effetti: nessuno. È memoria, non meccanica: fa male, ed è il punto.
-```
+Chi la ricorda: **Cosimo**, la prima battuta («Dicono che per strada lasci l'acqua a chi è
+rimasto. A me non l'ha lasciata nessuno.»); **il guado** (§3.3); **la strada** («Lo so da
+tre giorni, che arrivavi. So anche dove hai lasciato l'acqua.»).
 
-### 3.3 Il bivio nuovo al guado: il fucile posato
+In più, una memoria senza meccanica: **Onofrio** sa di Pasquale. «Giù al paese hai rimesso
+in piedi uno con la febbre, mi hanno detto. Quell'estate, qui, le medicine non le aveva
+nessuno.» È la febbre che ha portato via il piccolo.
 
-Oggi chi arriva col fucile ha una sola azione possibile. Con i due fili, **il viaggio
-decide se il fucile si può posare**.
+### 3.3 La terza via al guado: il fucile posato e la veglia
 
 ```
 [Z7_GUADO] [!] Cosimo, col fucile in mano
-Richiede: FUCILE in bisaccia, COSIMO = fermo
+All'arrivo: Cosimo guarda il fucile prima di guardare te.
 Scelte:
-  A) attacca Cosimo                → COSIMO = abbattuto            (com'è oggi) ★ E / F
-  B) lascia il fucile              ⇒ [Z7_FUCILE_POSATO]            (nuovo)
-  C) parla con Cosimo              → [Z7_COSIMO_INIZIO]
+  A) attacca Cosimo        → COSIMO = abbattuto                    ★ E / F
+  B) lascia il fucile      ⇒ il viaggio decide:
+       · sangue 0 e generosità ≥ 3  → riconosciuto subito        ★ A B C D
+         «Quello che lasciava l'acqua per strada.» Apre il fucile, si mette le cartucce
+         in tasca, si sposta di un passo.
+       · sangue 0, generosità < 3   → «Posarlo non basta. Che ne so io di chi sei
+         diventato, per strada?»      ⇒ [Z7_VEGLIA] 3 turni
+       · sangue ≥ 1                 → «E per strada? L'hai posato anche lì?»
+                                      ⇒ [Z7_VEGLIA] 5 turni
+  C) parla con Cosimo      → [Z7_COSIMO_INIZIO]
 
-[Z7_FUCILE_POSATO] Il fucile tra i sassi
-Testo: posi il fucile sul greto, la canna verso l'acqua.
-Scelte (una sola scatta, in ordine):
-  ⇒ se SANGUE >= 1:
-       Cosimo guarda il fucile, poi te. "Al casello l'hai posato anche lì?" Non si
-       sposta. Il fucile resta dov'è: puoi riprenderlo.          → [Z7_GUADO]
-  ⇒ se DONI >= 3:
-       Cosimo ha sentito dire di uno che per strada lasciava l'acqua a chi era rimasto.
-       Non ti riconosce subito: riconosce il gesto.             → COSIMO = riconosciuto
-       Effetti: FUCILE = nel greto (non si riprende) | COSIMO_COME = fucile_posato
-  ⇒ altrimenti:
-       Cosimo non si muove. "Posarlo non basta. Che ne so io di chi sei diventato?"
-                                                                  → [Z7_GUADO]
-Note: la via umana resta da GUADAGNARE, come chiedeva 05-personaggi.md. Con la lettera
-      si guadagna in Z6; col fucile si guadagna in tutto il viaggio, e il sangue la chiude.
+[Z7_VEGLIA] Il fucile tra i sassi, e tu che resti
+Ogni turno al guado conta (ASPETTA). Cosimo non se ne va:
+  2 · guarda il fucile, poi l'acqua
+  3 · senza sangue: si siede su una pietra, i pomeriggi da ragazzi a tirare sassi;
+      apre il fucile e si sposta                            → riconosciuto ★ A B C D
+  3 · col sangue: «Chi alza le mani per strada non le posa per sempre al guado.»
+  4 · col sangue: il sole sul greto, la gola di sabbia       (sete + 1)
+  5 · col sangue: «Sei ancora capace di stare fermo. Almeno questo.» → riconosciuto
+Rompe la veglia, e si ricomincia da capo:
+  · riprendere il fucile («Annuisce appena, come chi aveva scommesso proprio su questo.»);
+  · alzare le mani su Cosimo.
 ```
 
-Da qui si arriva ai finali di sempre (A, B, C, D): Cosimo è *riconosciuto*. Cambia il modo,
-e con lui qualche riga: nella descrizione di Cosimo non tiene la lettera ma guarda il
-fucile tra i sassi; sulla soglia il finale sa che non gli hai portato niente di scritto.
+Perché così: il pilastro «la violenza è sempre possibile, mai l'unica via» ora vale anche
+per chi ha scelto il fucile. Il prezzo del sangue non è una porta chiusa ma **il tempo e la
+sete**: più hai fatto male per strada, più a lungo devi restare disarmato davanti a tuo
+fratello. La lettera resta la via piena: funziona subito, anche col sangue.
 
-### 3.4 I finali raccolgono il viaggio
+Da qui si arriva ai finali di sempre (A, B, C, D): Cosimo è *riconosciuto*. Cambia il modo
+(`stato del riconoscimento`: lettera, fucile, veglia) e con lui la descrizione di Cosimo:
+non tiene la lettera ma il fucile aperto sul braccio, scarico.
 
-Nessun finale nuovo: **una riga in più**, scelta dallo stato, nel testo della soglia.
+### 3.4 La strada di Acquamorta ricorda
 
-| Finale | Se | Riga (bozza di tono, da rifinire con `prosa-italiana`) |
+Una riga sola, la prima volta che si percorre la strada verso casa, prima della soglia:
+
+| Se | Riga |
+|---|---|
+| Cosimo riconosciuto, col sangue | alla fontana secca Cosimo ti raggiunge: «Di come sei passato, si è saputo anche qui.» |
+| Cosimo riconosciuto, generosità ≥ 3 | Cosimo ti raggiunge e ti dice della rete della voce: «Lo so da tre giorni, che arrivavi.» |
+| altrimenti (anche Cosimo abbattuto) | sul muro della prima casa, a carbone, le partenze: l'ultimo nome è il tuo, di tre giorni fa |
+
+I sei finali sono rimasti com'erano: la memoria del viaggio arriva un passo prima della
+soglia, e lascia al finale il suo spazio.
+
+## 4. I futuri possibili al guado
+
+| Futuro | Si arriva con | Al guado |
 |---|---|---|
-| E, F (abbattuto) | SANGUE >= 2 | il cane della serra, Vito, il fratello: la strada fino a casa segnata dalle stesse mani |
-| A, B, C | DONI >= 3 | la brocca di Rosaria, il pozzo di Saverio: qualcuno, lungo la strada, apparecchia ancora per te |
-| D (mani vuote) | DONI >= 3 | «di loro non hai niente», ma per strada hai lasciato acqua a chi è rimasto: il vuoto è meno vuoto |
+| **La lettera** | Onofrio convinto, lettera (Z5–Z6) | riconoscere subito |
+| **Il fucile, mani pulite e aperte** | fucile, sangue 0, generosità ≥ 3 (Z2–Z5) | posarlo e farsi riconoscere subito, oppure sparare |
+| **Il fucile, mani pulite** | fucile, sangue 0, generosità < 3 | la veglia breve, oppure sparare |
+| **Il fucile, mani sporche** | fucile, sangue ≥ 1 | la veglia lunga e assetata, oppure sparare |
 
-## 4. I futuri possibili al guado (il funnel)
+Il primo bivio che pesa sul modo di arrivare a casa è **la serra**, la seconda zona.
 
-Con i due fili, chi arriva al valico sta in uno di questi futuri. Tra parentesi, dove si
-è deciso.
-
-| Futuro | Si arriva con | Al guado può |
-|---|---|---|
-| **La lettera** | Onofrio convinto, lettera (Z5–Z6) | riconoscere, come oggi |
-| **Il fucile, mani pulite, mani aperte** | fucile, SANGUE 0, DONI ≥ 3 (Z2–Z5) | posare il fucile e farsi riconoscere, oppure sparare |
-| **Il fucile, mani pulite, mani chiuse** | fucile, SANGUE 0, DONI < 3 | solo sparare (posarlo non basta) |
-| **Il fucile, mani sporche** | fucile, SANGUE ≥ 1 | solo sparare; Cosimo sa perché |
-
-Il primo punto di biforcazione che conta per il finale si sposta **da Z6 a Z2**: la serra
-e il pozzo, le prime due scelte vere del gioco.
-
-## 5. Specifiche di stato
+## 5. Specifiche di stato (aggiunte)
 
 | Variabile | Tipo | Iniziale | Si scrive | Si legge |
 |---|---|---|---|---|
-| `SANGUE` | contatore | 0 | Z2 (cane), Z4 (Vito ×2) | Z5 (Rosaria, Ciro), Z7 (Cosimo, fucile posato, finali E/F) |
-| `DONI` | contatore | 0 | Z2 (Saverio), Z3 (Iole), Z5 (Rosaria, Pasquale) | Z7 (fucile posato, finali A–D) |
-| `COSIMO_COME` | stato | — | Z7 | Z7 (descrizione di Cosimo, righe dei finali) |
-| `stato di Pasquale` | già esiste | malato | Z5 | **anche** Z6 (Onofrio) |
+| `il sangue` | contatore | 0 | Z2 (cane), Z4 (Vito ×2) | Z5 (Rosaria), Z6 (Tore), Z7 (Cosimo, fucile posato, veglia, strada) |
+| `la generosità` | contatore | 0 | Z2, Z3, Z5 (×2) | Z7 (Cosimo, fucile posato, strada) |
+| `stato della brocca` | stato | vuota | Z5 (dono a Rosaria) | Z5 (la generosità una volta sola) |
+| `stato del mercato` | stato | nuovo | Z5 | Z5 (Ciro, una volta sola) |
+| `stato del riconoscimento` | stato | nessuno | Z7 | Z7 (descrizione di Cosimo) |
+| `la veglia` | contatore | 0 | Z7 | Z7 |
+| `stato della veglia` | stato | spenta | Z7 | Z7 |
+| `stato dell'arrivo`, `stato della strada` | stati | nuovo, nuova | Z7 | Z7 (una volta sola) |
+| `stato di Pasquale` | già esisteva | malato | Z5 | **anche** Z6 (Onofrio) |
 
-Per il «una volta per persona» dei doni servono guardie: per Pasquale basta lo stato che
-esiste; Saverio, Iole e Rosaria oggi accettano lo stesso dono più volte (l'opzione chiede
-solo di avere acqua o cibo), quindi l'incremento va condizionato alla fiducia di partenza.
+Nota tecnica: i «Quando» che contano la generosità scattano a fine turno. Un dono fatto in
+un dialogo si registra al primo turno che passa dopo (i dialoghi non fanno passare il tempo).
 
-## 6. Decisioni da prendere prima di scrivere
+## 6. Decisioni
 
-1. **Il fucile posato è la via giusta?** È l'unico cambiamento che tocca l'esito; tutto il
-   resto è memoria e costo. Alternativa più prudente: solo memoria (§3.1, 3.2, 3.4), senza
-   bivio nuovo.
-2. **Soglia dei doni: 3 su 4?** Con 3 serve generosità vera; con 2 diventa quasi automatico.
-3. **Il bluff con la pistola è sangue?** Proposta: no. Ma Vito, umiliato, lo racconta.
-4. **Rosaria che parte più fredda** allunga il paese di qualche turno: accettabile in
-   sopravvivenza? (Il collaudo lo misura.)
-5. **Nomi FAVELLA** dei contatori: proposta «Il sangue» e «La generosità» (o «Il ricordo»).
+1. **Il fucile posato**: l'autore ha chiesto di estendere quel pezzo di storia il più
+   possibile. Oltre al gesto che basta, è nata la **veglia**, così che nessuno sia costretto
+   a sparare e il sangue abbia un prezzo in tempo e sete.
+2. **La generosità**: 3 doni su 4, una volta per persona.
+3. **Il bluff con la pistola**: non è sangue, perché non muore nessuno.
+4. **Rosaria più fredda** col sangue: accettato.
+5. **I nomi**: «il sangue» e «la generosità».
 
-## 7. Impatto sul progetto
+## 7. Impatto
 
-- **Salvataggi:** cambia l'impronta dell'avventura; i salvataggi si ricaricano rigiocando i
-  comandi e il gioco lo dice. È una **minor** (`sviluppo/VERSIONI.md` §2).
-- **Collaudi:** un percorso nuovo in `collaudo/percorsi.py` per il fucile posato; prove
-  mirate per ogni lettura dei fili (Rosaria fredda, Onofrio e la febbre, Cosimo che sa del
-  casello, il fucile posato che non basta). `pulsanti.py` deve giocare anche il percorso
-  nuovo senza tastiera: «lascia il fucile» è già un pulsante del menu della bisaccia.
-- **Interfaccia:** niente di nuovo da costruire. Si può valutare di non mostrare più le
-  fiducie di chi è rimasto indietro, o di mostrarle proprio perché ora contano.
-- **Mappa:** dopo la scrittura, `strumenti/mappa-narrativa.py` deve mostrare `sangue` e
-  `generosità` come conseguenze a distanza. È il criterio di riuscita misurabile.
+- **Salvataggi**: l'impronta dell'avventura è cambiata; i salvataggi si ricaricano
+  rigiocando i comandi e il gioco lo dice. Versione **minor**: 1.5.0.
+- **Collaudi**: due percorsi nuovi (`G_posato`, `H_veglia`: il cane ucciso, il fucile
+  posato, la veglia lunga) in `finali.py` e `pulsanti.py`; `fili.py` con 35 prove.
+- **Mappa**: le conseguenze a distanza passano da **2 a 6** (sangue, generosità, vita di
+  Vito, Pasquale, e i due di Peppe).
 
-## 8. Ordine di lavoro (a strati)
+## 8. Cosa resta aperto
 
-1. Decisioni del §6.
-2. Filo 2 e Filo 1 solo come memoria (§3.1, 3.2): nessun esito cambia, si collauda subito.
-3. Il fucile posato (§3.3) con il suo percorso di collaudo.
-4. Le righe dei finali (§3.4), scritte e riviste con la skill `prosa-italiana`.
-5. Mappa rigenerata, audit di nuovo, poi versione.
+- Le fiducie restano mostrate a lato dello schermo; ora la generosità verso di loro conta,
+  ma il numero di ciascuno no. Si può valutare di mostrare i fili invece delle fiducie, o
+  di lasciare il sangue e la generosità invisibili (scelta attuale: invisibili, si vedono
+  solo nelle conseguenze).
+- Altri fili possibili, se servirà: Vito umiliato dal bluff che lo racconta; Peppe che sa
+  del sangue quando si unisce a te.

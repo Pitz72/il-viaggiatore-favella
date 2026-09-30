@@ -9,6 +9,7 @@ Questo indice si rigenera da sé (`node strumenti/diario.mjs indice`).
 
 | Data | Tipo | Versione | Voce |
 |---|---|---|---|
+| 2026-09-30 | sessione | 1.4.0 | [I fili del viaggio e la terza via al guado](diario/2026-09-30-i-fili-del-viaggio-e-la-terza-via-al-guado.md) — Due fili attraversano il viaggio, il sangue e la generosità, e al guado chi ha il fucile può posarlo: allora decide com'è stato il viaggio. Le conseguenze a distanza passano da 2 a 6, i sei finali restano, ma ci si arriva per più strade. |
 | 2026-09-30 | decisione | 1.4.0 | [La mappa narrativa e il progetto dei fili](diario/2026-09-30-la-mappa-narrativa-e-il-progetto-dei-fili.md) — Uno strumento nuovo misura la memoria della storia: 19 variabili su 21 si spengono nella zona in cui nascono, solo Peppe viaggia. Il progetto per ramificare davvero è in `pre-produzione/06-ramificazione.md`, in attesa di decisioni. |
 | 2026-09-30 | sessione | 1.3.0 | [Usare una cosa su un'altra, con i pulsanti](diario/2026-09-30-usare-una-cosa-su-un-altra-con-i-pulsanti.md) — I pulsanti non propongono più ogni combinazione di cose: il motore dice quali «usa X su Y» la storia prevede qui e adesso, e solo quelle diventano pulsanti. Un collaudo nuovo gioca i sei finali senza tastiera. |
 | 2026-09-29 | sessione | 1.2.0 | [Il trailer ridipinto](diario/2026-09-29-il-trailer-ridipinto.md) — Il trailer d'apertura è ridipinto da cima a fondo (stessi tempi, stessi testi, stessa musica): ogni inquadratura ha la sua materia, il viandante ha un passo vero, e tutto si prepara mentre girano i loghi. |

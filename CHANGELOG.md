@@ -8,6 +8,34 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.5.0] - 2026-09-30
+
+### Aggiunto
+- **La voce corre lungo la strada.** Come passi e cosa lasci a chi è rimasto arriva
+  prima di te. Chi uccide il cane della serra o alza le mani su Vito trova Rosaria
+  più fredda (l'acqua e i legumi sì, la fiducia no: il permesso costa di più), Ciro
+  che sa del casello, Tore che «ha saputo anche il resto», e un fratello che al guado
+  guarda le tue mani prima della tua faccia. Chi lascia acqua o cibo ad almeno tre
+  fra Saverio, Iole, Rosaria e Pasquale (le medicine), se lo sente dire da Cosimo;
+  Onofrio sa di Pasquale, e della febbre. Il bluff con la pistola scarica non conta: non muore
+  nessuno.
+- **Al guado, col fucile, c'è una terza via: posarlo** (`lascia il fucile`). Se per
+  strada non c'è stato sangue e hai lasciato qualcosa ad almeno tre di quelli che sono
+  rimasti, Cosimo riconosce il gesto e si sposta. Altrimenti bisogna restare disarmati
+  davanti a lui (la veglia: tre turni, cinque e più sete se c'è stato sangue).
+  Riprendere il fucile, o alzare le mani su di lui, la rompe. Nessuno è più costretto
+  a sparare.
+- **La strada di Acquamorta ricorda**: una riga, prima della soglia, su quello che si
+  è saputo di te.
+- Collaudo nuovo `collaudo/fili.py` (35 prove); due percorsi nuovi nel collaudo dei
+  finali e in quello dei pulsanti (il fucile posato; la veglia dopo aver ucciso il cane).
+
+### Cambiato
+- I sei finali non cambiano, ma vi si arriva per più strade. Chi ha salvato con la
+  1.4.0 ricarica la partita: il gioco la ricostruisce su questa versione e lo dice.
+- `strumenti/mappa-narrativa.py` legge anche gli effetti scritti dopo i due punti
+  («Quando …: aumenta la generosità di 1.»).
+
 ## [1.4.0] - 2026-09-29
 
 ### Cambiato
