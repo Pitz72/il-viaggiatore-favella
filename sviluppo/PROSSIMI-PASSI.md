@@ -81,6 +81,10 @@ lavoro è far sì che ciò che fai per strada ritorni.
 - Tono e prosa restano quelli di `pre-produzione/`: niente epica, niente
   spiegazioni, le conseguenze si mostrano.
 
-### Primo passo concreto
-Scrivere lo strumento della mappa (punto 1) e leggerla insieme. Solo dopo,
-scegliere i due o tre fili del punto 2.
+### A che punto è (30/09/2026)
+- Il punto 1 è fatto: `strumenti/mappa-narrativa.py` scrive
+  `sviluppo/mappa-narrativa.md`. Esito: 19 variabili su 21 restano nella zona in
+  cui nascono; solo Peppe viaggia.
+- Il progetto dei fili è in [`pre-produzione/06-ramificazione.md`](../pre-produzione/06-ramificazione.md):
+  due contatori (il sangue, i doni), un bivio nuovo al guado (il fucile posato),
+  i finali che raccolgono il viaggio. Aspetta le decisioni del suo §6.

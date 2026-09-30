@@ -63,10 +63,10 @@ segnalazione, insieme alla versione che trovi in basso a destra nel menu.
 | `app/` | l'app React: trailer (canvas procedurale + colonna sonora), gioco, guida «come si gioca» |
 | `desktop/` | il guscio Electron per Windows e Linux |
 | `collaudo/` | i collaudi automatici: i nove finali, le prove mirate, i salvataggi, l'esploratore |
-| `pre-produzione/` | i documenti di progetto: visione, sistemi, mappa, oggetti, personaggi |
+| `pre-produzione/` | i documenti di progetto: visione, sistemi, mappa, oggetti, personaggi, ramificazione |
 | `grafica/` | l'icona (SVG) e gli script che la rasterizzano |
 | `sviluppo/` | le regole delle versioni e il diario di sviluppo |
-| `strumenti/` | gli strumenti delle versioni e del diario |
+| `strumenti/` | gli strumenti delle versioni, del diario e della mappa narrativa |
 
 Il motore è quello vero, in Python: nell'app gira dentro il browser con
 [Pyodide](https://pyodide.org) (WebAssembly), incluso nel progetto insieme a
@@ -128,6 +128,9 @@ salva e ricarica. Non pubblica niente.
 - **Diario di sviluppo**: [`sviluppo/DIARIO.md`](sviluppo/DIARIO.md), una voce per
   sessione, decisione o problema, col perché delle scelte.
   `node strumenti/diario.mjs nuovo "Titolo" --tipo decisione`.
+- **Mappa narrativa**: `python strumenti/mappa-narrativa.py` rilegge i `.fav` e scrive
+  [`sviluppo/mappa-narrativa.md`](sviluppo/mappa-narrativa.md): quali variabili e quali cose
+  portano una scelta da una zona all'altra, e da che cosa dipende ogni finale.
 - **Rilascio**: sempre una scelta manuale. Si prepara la versione
   (`node strumenti/versione.mjs prepara minor`), si fa commit e push, poi su GitHub
   **Actions → Rilascio → Run workflow**: verifica, collaudo, pacchetti
