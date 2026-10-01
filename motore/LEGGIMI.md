@@ -1,12 +1,16 @@
 # Motore FAVELLA 1 — copia del progetto
 
-Versione **1.4.0** (26/09/2026), copiata dal repository del motore,
+Versione **1.4.1** (1° ottobre 2026), copiata dal repository del motore,
 [Pitz72/FAVELLA1](https://github.com/Pitz72/FAVELLA1) (licenza MIT, vedi `LICENSE`
 in questa cartella). Quella resta la fonte: qui non si modifica niente a mano.
 
-> La 1.4.0 è una versione rilasciata del motore
-> ([release v1.4.0](https://github.com/Pitz72/FAVELLA1/releases/tag/v1.4.0)). Se il
-> motore va cambiato, lo si cambia là (con i suoi test) e si ricopia.
+> La 1.4.1 corregge quattro difetti che il gioco aveva trovato nella 1.4.0 (una mossa
+> senza uscita non fa passare il tempo; «lascia» non ristampa la stanza; «accendi su»
+> non solleva più un errore interno; l'avviso dei verbi rimappati dice il verbo vero
+> e si silenzia con «(voluto)»). Nel repository del motore è in preparazione, non
+> ancora rilasciata; l'ultima release è la
+> [v1.4.0](https://github.com/Pitz72/FAVELLA1/releases/tag/v1.4.0). Se il motore va
+> cambiato, lo si cambia là (con i suoi test) e si ricopia.
 
 | File | Ruolo |
 |---|---|

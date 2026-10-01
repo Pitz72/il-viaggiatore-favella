@@ -34,12 +34,13 @@ hanno segnalato; qui c'è l'elenco da cui ripartire.
   restano affidati alla sola anteprima.
 - Le dichiarazioni doppie di `z2-piana.fav` (1.10.0): ridotte a una con i sinonimi.
 
-### Motore (da segnalare a FAVELLA: `motore/` è una copia)
-- Una mossa verso un'uscita che non c'è fa passare un turno (gli altri comandi non
-  capiti no, dalla 1.2.0).
-- Posare una cosa ristampa la stanza intera.
-- Rimappare un verbo del motore su un comando d'autore («"colpisci" è come attacca»)
-  dà un avviso anche quando è voluto, e l'avviso dice «fa come 'colpisci'».
+### Motore (`motore/` è una copia di FAVELLA1)
+- **I quattro difetti sono corretti nella 1.4.1 di FAVELLA1**, copiata qui (1.10.1):
+  una mossa senza uscita non fa passare il tempo; posare non ristampa la stanza;
+  «accendi su» non solleva un errore interno; l'avviso dei verbi rimappati dice il
+  verbo vero e si silenzia con `(voluto)`. Nel repository del motore sono nel
+  working tree, **non committati né rilasciati**: prima di rilasciare il gioco
+  vanno committati e rilasciati là (v1.4.1), perché la copia dichiara quella versione.
 
 ### Collaudo
 - Oltre a `collaudo/pulsanti.py` (i finali raggiungibili solo coi pulsanti)

@@ -209,5 +209,37 @@ prova("il banco (col ponte dell'app) e il pilota di finali.py, sullo stesso perc
 scena = gioca.Banco().scena()
 prova("la scena del banco ha uscite, presenze, bisaccia e azioni", all(x in scena for x in ("Uscite", "Presenze", "Bisaccia", "Azioni")), scena)
 
+# ---------------------------------------------------------------------------
+# 8. i quattro difetti del motore, corretti nella 1.4.1 (e trovati giocando)
+# ---------------------------------------------------------------------------
+p = partita("stazione")
+turno = p.m.turno_corrente
+t = fai(p, "ovest", "sud", "sali", "entra")
+prova("una mossa verso un'uscita che non c'è non fa passare il tempo (né sete, né fame)",
+      "Non puoi andare in quella direzione." in t and p.m.turno_corrente == turno and p.v("sete") == 0
+      and p.v("fame") == 0, t[-120:])
+fai(p, "nord")
+prova("…ma una che riesce, sì", p.m.turno_corrente == turno + 1 and p.m.posizione_giocatore == "piazza")
+
+p = partita("casa", ["coltello"])
+t = fai(p, "lascia il coltello")
+prova("posare una cosa risponde con la sola frase, senza riscrivere la stanza",
+      "Lasciato" in t and "--- La casa ---" not in t and "Uscite:" not in t, t[-160:])
+prova("…e la cosa è nella stanza (si vede con «guarda»)", "coltello" in fai(p, "guarda").lower())
+
+p = partita("stazione")
+guasti = [(v, d) for v in ("accendi", "apri", "chiudi", "spegni", "mangia") for d in ("su", "nord", "giù")
+          if "ERRORE" in fai(p, f"{v} {d}")]
+prova("«accendi su», «apri nord»… non sollevano più un errore interno", not guasti, str(guasti))
+
+import contextlib
+import io as _io
+import compilatore
+with contextlib.redirect_stdout(_io.StringIO()):
+    _diag = compilatore.analizza_file_strutturato(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                                               "prototipo", "il-viaggiatore.fav"))
+prova("la storia compila senza avvisi: «colpisci» è un cambio voluto e lo dice «(voluto)»",
+      _diag["ok"] and not _diag["warnings"], str([w["message"][:80] for w in _diag["warnings"]]))
+
 print("TUTTO OK" if all(esiti) else "CI SONO FALLIMENTI")
 sys.exit(0 if all(esiti) else 1)

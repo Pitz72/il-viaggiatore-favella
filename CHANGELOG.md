@@ -8,6 +8,32 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.10.1] - 2026-10-01
+
+Il motore passa alla 1.4.1: i quattro difetti che il gioco aveva trovato.
+
+### Corretto
+- **Una mossa verso un'uscita che non c'è non fa più passare il tempo.** «ovest» dove non
+  c'è niente a ovest costava un turno, e con lui sete e fame: dire «Non puoi andare in quella
+  direzione.» è ora gratis, come un comando non capito.
+- **Posare una cosa non riscrive più la stanza.** Dopo «Lasciato: il coltello.» compariva di
+  nuovo la descrizione intera, con uscite e presenze; ora la frase basta.
+- **«Accendi su», «apri nord», «chiudi giù», «mangia est»** davano «[ERRORE CRITICO]
+  … 'NoneType' …»: ora dicono «Non vedi nulla del genere qui.».
+- La compilazione non dà più avvisi: «colpisci» come «attacca» è voluto, e la storia lo dice
+  con `(voluto)`.
+
+### Cambiato
+- **Il motore in `motore/` è la 1.4.1** di FAVELLA1 (la correzione dei quattro difetti), copiata
+  com'è. Nel repository del motore è in preparazione, non ancora rilasciata.
+- **Salvataggi:** le partite con una mossa senza uscita nella sequenza si ricostruiscono con un
+  turno in meno; l'impronta dichiara il nuovo motore, e il gioco lo dice al caricamento.
+
+### Collaudo
+- `giocate.py`: 6 prove nuove, una per difetto (una mossa senza uscita non costa il tempo;
+  posare non ristampa la stanza; i verbi con una direzione non sollevano errori; la storia
+  compila senza avvisi, e ne darebbe uno senza `(voluto)`).
+
 ## [1.10.0] - 2026-10-01
 
 Quello che si dice di te, il bluff che Vito racconta, Peppe che chiede del sangue.

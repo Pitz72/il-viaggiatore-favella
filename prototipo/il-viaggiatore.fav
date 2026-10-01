@@ -73,13 +73,13 @@ Invece di attingi: dire "Qui non c'è niente da cui attingere.".
 Invece di attacca: dire "Alzi le mani, poi le riabbassi. Non è questa la cosa con cui prendertela.".
 Invece di minaccia: dire "Nessuno qui ti ha fatto niente. La minaccia ti resta in gola.".
 # Le parole della violenza: chi scrive «uccidi», «picchia», «colpisci» intende
-# attaccare. «Colpisci» è un verbo del motore, e il compilatore lo dice: qui lo si
-# vuole proprio come «attacca». «Spara» chiede un'arma che spari.
+# attaccare. «Colpisci» è un verbo del motore: qui lo si vuole proprio come «attacca»,
+# e «(voluto)» lo dice al compilatore (motore 1.4.1). «Spara» chiede un'arma che spari.
 "uccidi" è come attacca.
 "ammazza" è come attacca.
 "picchia" è come attacca.
 "aggredisci" è come attacca.
-"colpisci" è come attacca.
+"colpisci" è come attacca (voluto).
 "spara" è un comando.
 Invece di spara se il giocatore ha il fucile: dire "Abbassi la canna. Onofrio non te l'ha dato per questo.".
 Invece di spara se il giocatore ha la pistola: dire "Premi il grilletto: un clic secco, e niente. La pistola è scarica, e lo sapevi: serve a farsi credere.".
