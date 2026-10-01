@@ -8,6 +8,30 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.8.0] - 2026-10-01
+
+L'interfaccia, ripulita da ciò che le partite e il collaudo del testo hanno mostrato.
+
+### Aggiunto
+- **I pulsanti «inventario» e «stato»**, accanto a «guarda» e «aspetta»: chi gioca solo
+  con i pulsanti ha ora il riepilogo a parole di ciò che porta e di come sta.
+
+### Corretto
+- **Le battute di Imma** comparivano nella prosa, come se le dicesse il narratore: nella
+  1.7.0 l'interfaccia non la conosceva fra i personaggi.
+- **Le risposte del motore stanno nello stile di sistema**, non in quello della prosa:
+  «Il tempo passa.», «Non senti nulla di particolare.», «Cosa vuoi esaminare?», «Attacca
+  che cosa?», «Con cosa vuoi usarla?», «Non si apre.», «Ce l'hai già.», «Vuoi davvero
+  chiudere la partita? (sì/no)», il riepilogo di `stato`, i servizi (annulla, ancora, carica).
+- **La conferma di un dono di sole scorte** dice che cosa si dà: «Vuoi davvero dare 2 di
+  cibo?», non «Vuoi davvero rinunciarci?».
+
+### Collaudo
+- `collaudo/testo.py` (nuovo): prova ogni verbo del motore con ogni genere di bersaglio e
+  chiede che ogni risposta sia di sistema; che nessuna delle 526 frasi della storia lo
+  sembri; che ogni personaggio dichiarato sia noto all'interfaccia. `pulsanti.py` ora
+  pretende anche «inventario» e «stato».
+
 ## [1.7.0] - 2026-10-01
 
 Dalle misure del banco di gioco: chi beve e mangia agli avvisi non perde mai vita, e

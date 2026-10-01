@@ -218,6 +218,16 @@ for c, (spreco, ottieni) in zip(anelli, attesi):
     if not c or c["spreco"] != spreco or c["ottieni"] != ottieni:
         print("KO l'anello e il tetto della tanica:", c, "atteso", spreco, ottieni)
         ok_tutto = False
+# un dono di sole scorte dice che cosa si dà («Vuoi davvero dare 2 di cibo?»), non «rinunciarci»
+imma = next(r["conferma"] for e, r in zip(etichette, esiti) if e.endswith("Tieni, mangia."))
+if imma["domanda"] != "Vuoi davvero dare 2 di cibo?":
+    print("KO la domanda del dono a Imma:", imma["domanda"])
+    ok_tutto = False
+# invece una cosa che si perde (le medicine su Pasquale) resta «rinunciarci»
+med = next(r["conferma"] for e, r in zip(etichette, esiti) if "usa medicine su pasquale" in e)
+if med["domanda"] != "Vuoi davvero rinunciarci?":
+    print("KO la domanda delle medicine:", med["domanda"])
+    ok_tutto = False
 # nessuna risposta di dialogo che non costa (solo parole) chiede conferma
 for e, r in zip(etichette, esiti):
     if r["conferma"] and not e.startswith("comando") and r["conferma"]["tipo"] not in ("scambio", "perdita", "svolta"):

@@ -7,16 +7,14 @@ hanno segnalato; qui c'è l'elenco da cui ripartire.
 ## 1. Cose rimaste aperte
 
 ### Interfaccia
-- **I messaggi nuovi del motore** («Il tempo passa.», «Non senti nulla di
-  particolare.», «Cosa vuoi esaminare?», la conferma di `esci`) compaiono nello
-  stile della prosa invece che in quello di sistema: vanno aggiunti a
-  `app/src/gioco/testo.ts`, o si passa agli eventi tipizzati del motore 1.4.0.
+- **I messaggi del motore e i pulsanti «inventario» e «stato»** (1.8.0): fatti. Le
+  risposte del motore si riconoscono dalla forma (`testo.ts`, provate da
+  `collaudo/testo.py`); gli eventi tipizzati del motore 1.4.0 non servirebbero a
+  separarle dalla prosa, perché «testo» comprende anche le descrizioni dell'autore.
 - **La combinazione giusta rivela la soluzione.** Un pulsante «usa X su Y»
   compare appena si ha la cosa giusta nel posto giusto. Se pesa, si può offrirlo
   solo dopo che il testo l'ha suggerito (per esempio dopo aver esaminato la cosa
   scritta in maiuscolo).
-- **`inventario` e `stato` non hanno pulsante**: le informazioni stanno a lato
-  dello schermo, ma chi gioca solo coi pulsanti non ha il riepilogo a parole.
 
 ### Trailer
 - **Senza GPU** un fotogramma a 2560×1440 costa 30–115 ms: la risoluzione

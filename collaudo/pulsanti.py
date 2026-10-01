@@ -14,9 +14,9 @@ Due controlli in più, a ogni turno:
     la risposta generica del motore («non ha alcun effetto particolare»);
   · una combinazione offerta, anteprima alla mano, è capita dal motore.
 
-Il pilota cura il corpo come in finali.py, ma col pannello delle dosi. Non
-servono pulsanti per «inventario» e «stato»: la bisaccia e il corpo stanno
-sempre a lato dello schermo.
+Il pilota cura il corpo come in finali.py, ma col pannello delle dosi. Anche
+«inventario» e «stato» (i riepiloghi a parole) hanno il loro pulsante: i percorsi
+li usano, e senza lo si vedrebbe qui.
 
 Uso:  python pulsanti.py      (esce con 1 se qualcosa non va; serve `npm ci` in app/)
 """
@@ -38,7 +38,6 @@ from finali import ATTESI  # noqa: E402
 PONTE = os.path.join(RADICE, "app", "src", "lib", "ponte.py")
 GIOCO = os.path.join(RADICE, "prototipo", "il-viaggiatore.fav")
 NODE = os.path.join(RADICE, "app", "scripts", "comandi-offerti.mjs")
-INFORMATIVI = {"inventario", "stato"}
 GENERICA = "non ha alcun effetto particolare"
 _n = [0]
 
@@ -131,8 +130,6 @@ def gioca(nome, ui, problemi):
     for cmd in percorsi.comandi(nome):
         if m.stato_partita != "in_corso":
             break
-        if cmd in INFORMATIVI:
-            continue
         if not m.dialogo_attivo:
             v = m.variabili
             if v.get("sete", 0) >= 5 and v.get("acqua", 0) >= 1:

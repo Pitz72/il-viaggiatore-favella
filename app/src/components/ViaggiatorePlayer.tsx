@@ -491,6 +491,8 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
                     ))}
                     <span className="vg-servizio">
                       <button className="vg-chip vg-tenue" onClick={() => manda("guarda")} title="guarda">guarda</button>
+                      <button className="vg-chip vg-tenue" onClick={() => manda("inventario")} title="inventario: che cosa porti, a parole">inventario</button>
+                      <button className="vg-chip vg-tenue" onClick={() => manda("stato")} title="stato: vita, sete, fame, acqua e cibo, a parole">stato</button>
                       <button className="vg-chip vg-tenue" onClick={() => manda("aspetta")} title="aspetta: lascia passare un po' di tempo">aspetta</button>
                     </span>
                   </div>

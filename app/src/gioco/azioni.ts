@@ -150,6 +150,10 @@ export function valutaConferma(cmd: string, a: Anteprima, mondo: StatoMondo): Co
     return { tipo: "danno", segno: "ti fa male", domanda: "Ti costa vita. Vuoi farlo lo stesso?", ...base };
   }
   if (haPerso && haPreso) return { tipo: "scambio", segno: "uno scambio", domanda: "Vuoi fare questo scambio?", ...base };
+  // un dono di sole scorte («Tieni, mangia»): si dice che cosa si dà, non «rinunciarci»
+  if (haPerso && a.perde.length === 0) {
+    return { tipo: "perdita", segno: "si dà qualcosa", domanda: `Vuoi davvero dare ${perdi.join(" e ")}?`, ...base };
+  }
   if (haPerso) return { tipo: "perdita", segno: "si perde qualcosa", domanda: "Vuoi davvero rinunciarci?", ...base };
   return null;
 }
@@ -223,7 +227,7 @@ export interface Chip { chiave: string; cmd: string; etichetta: string }
 
 /** Verbo scritto dall'autore → il comando che il pulsante manda e come si legge.
  *  Le varianti dello stesso gesto («getta cibo», «lancia il cibo»…) sono un pulsante solo.
- *  I verbi che non compaiono qui (bevi, mangia…, stato) hanno già un altro posto. */
+ *  I verbi che non compaiono qui (bevi, mangia…) hanno già un altro posto. */
 const NOTE: Record<string, Chip> = {
   "attingi": { chiave: "attingi", cmd: "attingi", etichetta: "Attingi" },
   "curati": { chiave: "curati", cmd: "curati", etichetta: "Curati" },
@@ -293,7 +297,7 @@ export function comandiOfferti(mondo: StatoMondo, az: AzioniContesto): string[] 
     return out;
   }
   for (const u of mondo.exits ?? []) out.push(u.dir);
-  out.push("guarda", "aspetta");
+  out.push("guarda", "inventario", "stato", "aspetta");
   for (const p of Object.values(PASTI)) for (const d of p.doni) out.push(d.cmd);
   for (const ch of chipDiContesto(az)) out.push(ch.cmd);
   for (const p of mondo.present ?? []) {

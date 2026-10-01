@@ -61,10 +61,11 @@ jobs:
       - name: Le partite giocate a mano
         working-directory: collaudo
         run: python giocate.py
-      - name: Le scelte che chiedono conferma
+      - name: Le scelte che chiedono conferma, e il testo del motore
         run: |
           npm ci --prefix app
           python collaudo/conferme.py
+          python collaudo/testo.py
       - name: I finali giocati solo con i pulsanti
         run: python collaudo/pulsanti.py
 
