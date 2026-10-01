@@ -8,6 +8,12 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+### Aggiunto
+- **Il banco di gioco** (`strumenti/gioca.py`, strumento di sviluppo: non cambia
+  il gioco). Si gioca a mano da un file di comandi, leggendo gli ultimi turni con le
+  scorte sotto ogni risposta, e un pilota a soglie misura l'equilibrio su più semi.
+  Istruzioni in `strumenti/LEGGIMI.md`.
+
 ## [1.6.0] - 2026-10-01
 
 Tre partite intere giocate a mano, leggendo il testo come un giocatore: una

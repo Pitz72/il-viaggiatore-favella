@@ -194,5 +194,20 @@ p = partita("bar", ["orologio"])
 t = fai(p, "parla con Nunzio", "orologio", "Torno")
 prova("Nunzio, al ritorno al banco, non rifà il discorso", t.count("Acqua non ne ho da regalare") == 1 and "Altro?" in t, t[-160:])
 
+# ---------------------------------------------------------------------------
+# 7. il banco di gioco (strumenti/gioca.py) non si guasta in silenzio
+# ---------------------------------------------------------------------------
+import os  # noqa: E402
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "strumenti"))
+import gioca  # noqa: E402
+
+b = gioca.gioca_a_soglie(percorsi.comandi("B_cavallo"), 9, 11, 1)     # il pilota di finali.py gioca col seme 1
+vecchio, vita_min_vecchio = pilota(percorsi.comandi("B_cavallo"), soglia_sete=9, soglia_fame=11)
+prova("il banco (col ponte dell'app) e il pilota di finali.py, sullo stesso percorso, danno la stessa vita minima",
+      gioca.misure(b)["vita_min"] == vita_min_vecchio and b.m.stato_partita == vecchio.m.stato_partita,
+      f"{gioca.misure(b)['vita_min']} contro {vita_min_vecchio}")
+scena = gioca.Banco().scena()
+prova("la scena del banco ha uscite, presenze, bisaccia e azioni", all(x in scena for x in ("Uscite", "Presenze", "Bisaccia", "Azioni")), scena)
+
 print("TUTTO OK" if all(esiti) else "CI SONO FALLIMENTI")
 sys.exit(0 if all(esiti) else 1)
