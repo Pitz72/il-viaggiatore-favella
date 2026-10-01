@@ -8,6 +8,47 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.11.0] - 2026-10-01
+
+**La versione definitiva.** Un avviso all'apertura, e il riepilogo di tutto ciò che è cambiato
+dall'ultima release (1.7.0): le versioni 1.8.0–1.10.2 non erano mai uscite.
+
+### Aggiunto
+- **Un avviso all'apertura**, subito dopo il logo di FAVELLA e prima del trailer: dice che
+  questo gioco è nato come demo del linguaggio e motore di narrativa interattiva Favella1, che
+  è stato generato con un importante ausilio dei modelli LLM della famiglia Claude, e che lo
+  scopo è mostrare come uno script narrativo possa diventare un gioco distribuibile. Si chiude
+  con Invio, Spazio, Esc o un clic, oppure da solo dopo venti secondi. Compare a ogni avvio,
+  non quando dal gioco si torna all'intro.
+
+### Dalle versioni 1.8.0–1.10.2 (mai rilasciate prima)
+- **Voci, bluff, Peppe.** «Si dice di te», a lato dello schermo, riporta ciò che qualcuno ti
+  ha detto in faccia (che alzi le mani, che lasci qualcosa a chi resta, che al casello hai
+  puntato una pistola scarica). Vito umiliato dal bluff lo racconta, e la voce arriva a Ciro,
+  a Tore, a Cosimo. Peppe, se arrivi col sangue addosso, te lo chiede una volta sola.
+- **Usare una cosa su un'altra.** Non si offre più la coppia giusta come pulsante: si
+  compone («usa su…», poi la seconda cosa), e il gioco non dice quali funzionano.
+- **Interfaccia.** I messaggi del motore («Il tempo passa.», «Cosa vuoi esaminare?») stanno
+  nello stile di sistema; i pulsanti «inventario» e «stato»; la conferma di un dono dice che
+  cosa si dà. Le battute di Imma non finiscono più nella prosa.
+- **Il motore FAVELLA 1.4.1**: una mossa verso un'uscita che non c'è non fa passare il tempo;
+  posare non ristampa la stanza; «accendi su» non dà più un errore interno. La storia compila
+  senza avvisi.
+- **I testi**: quindici ritocchi con gli antipattern di prosa; le due righe del corpo più
+  frequenti (la sete e la fame) sono nuove.
+- **Gli strumenti di sviluppo**: il banco di gioco (`strumenti/gioca.py`) e undici collaudi
+  automatici (finali, salvataggi, pulsanti, testo e altri).
+
+### Cambiato
+- **Salvataggi:** l'impronta dell'avventura cambia; chi ricarica una partita vecchia la trova
+  ricostruita, e il gioco lo dice.
+- Il README dice che cos'è questo progetto. La scheda del motore (`motore/LEGGIMI.md`) rimanda al
+  repository del motore come fonte, senza annunciare una release che non c'è ancora.
+
+### Collaudo
+- `testo.py` custodisce il testo dell'avviso, parola per parola, e la sua posizione fra i
+  loghi e il trailer.
+
 ## [1.10.2] - 2026-10-01
 
 Una passata sui testi, con gli antipattern di prosa e la tipografia: i testi erano già

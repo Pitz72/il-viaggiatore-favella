@@ -16,7 +16,8 @@ prosa. Tre prove:
      dello schermo, e l'interfaccia non ne ha di troppo;
   5. ogni messaggio dei demoni («Ogni turno se …: dire "…"»: la sete, la fame, il cane, il
      sole, il vento) è di corpo, cioè va in margine come una sensazione: se si riscrive una
-     riga in `.fav` e non in `testo.ts`, la riga passa nella prosa del narratore.
+     riga in `.fav` e non in `testo.ts`, la riga passa nella prosa del narratore;
+  6. l'avviso d'apertura dice, parola per parola, quello che l'autore ha scritto.
 
 Uso:  python testo.py      (esce con 1 se una prova fallisce; serve `npm ci --prefix app`)
 """
@@ -163,6 +164,20 @@ for riga in FAV.splitlines():
 tipi = [bl[0]["tipo"] if bl else None for bl in analizza(demoni)["blocchi"]]
 fuori = [d[:70] for d, t in zip(demoni, tipi) if t != "corpo"]
 prova(f"i {len(demoni)} messaggi dei demoni «Ogni turno» sono di corpo", not fuori, "\n    ".join([""] + fuori))
+
+# ---------------------------------------------------------------------------
+# 6. l'avviso d'apertura (app/src/components/Avviso.tsx) è quello dell'autore
+# ---------------------------------------------------------------------------
+AVVISO = ("Questo gioco, nato come demo del linguaggio di programmazione e motore di narrativa interattiva "
+          "Favella1, è stato generato con un importante ausilio dei modelli LLM della famiglia Claude. "
+          "Lo scopo di questo progetto è quello di mostrare in che modo, tramite design e programmazione, "
+          "uno script narrativo Favella1 possa diventare un gioco distribuibile. Buon divertimento.")
+sorgente = io.open(os.path.join(RADICE, "app", "src", "components", "Avviso.tsx"), encoding="utf-8").read()
+blocco = re.search(r"TESTO_AVVISO\s*=(.*?);", sorgente, re.S).group(1)
+prova("l'avviso d'apertura dice quello che l'autore ha scritto, senza una parola di più né di meno",
+      "".join(re.findall(r'"((?:[^"\\]|\\.)*)"', blocco)) == AVVISO, blocco[:120])
+prova("…e sta fra i loghi e il trailer", re.search(r'fase === "loghi" && <Loghi onFine=\{\(\) => setFase\("avviso"\)\}',
+      io.open(os.path.join(RADICE, "app", "src", "App.tsx"), encoding="utf-8").read()) is not None)
 
 print("TUTTO OK" if all(esiti) else "CI SONO FALLIMENTI")
 sys.exit(0 if all(esiti) else 1)

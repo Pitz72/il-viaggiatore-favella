@@ -17,7 +17,13 @@ senza firma, dice soltanto: «Non è il caso di tornare.» Torni lo stesso.
 **7 zone · 39 luoghi · 14 personaggi · 6 finali.** Si gioca scrivendo in italiano
 (`bevi`, `parla con Rosaria`, `usa la lettera su Cosimo`), o toccando le uscite, le
 cose e le risposte. La sete è la spina dorsale, l'acqua è la moneta, le scelte pesano.
-Il gioco si apre con un trailer di 88 secondi con la sua colonna sonora originale.
+Il gioco si apre con i loghi, un avviso e un trailer di 88 secondi con la sua colonna sonora originale.
+
+> **Che cos'è questo progetto.** Questo gioco, nato come demo del linguaggio di
+> programmazione e motore di narrativa interattiva Favella1, è stato generato con un
+> importante ausilio dei modelli LLM della famiglia Claude. Lo scopo è mostrare in che
+> modo, tramite design e programmazione, uno script narrativo Favella1 possa diventare un
+> gioco distribuibile.
 
 ## Scaricare e giocare
 
@@ -31,7 +37,7 @@ Dalla pagina [Releases](https://github.com/Pitz72/il-viaggiatore-favella/release
 | Linux, Debian/Ubuntu/Mint | `Il-Viaggiatore-<versione>-linux-amd64.deb` |
 
 Il gioco parte a schermo intero e funziona senza connessione. **Esc** salta i
-loghi e il trailer, **F11** commuta lo schermo intero, **F5** salva, **F9**
+loghi e il trailer (e chiude l'avviso, come Invio), **F11** commuta lo schermo intero, **F5** salva, **F9**
 carica, **«esci»** nel menu (o Alt+F4) chiude. Gli eseguibili non sono firmati:
 Windows SmartScreen può chiedere una conferma.
 
