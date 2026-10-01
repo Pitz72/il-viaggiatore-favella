@@ -7,7 +7,8 @@
 //     farebbero, senza farli) e quali no;
 //   · quando un comando è una SCELTA che costa e va confermata;
 //   · come i verbi d'autore (attingi, curati, attacca…) e le combinazioni di
-//     due cose («usa le pastiglie sulla pompa») diventano pulsanti;
+//     due cose («usa X su Y») si compongono a pulsanti, senza dire quali coppie
+//     funzionano;
 //   · che cosa offre il menu di una cosa, e l'elenco di tutto ciò che si può
 //     fare con un tocco (il collaudo gioca i finali solo con quello).
 //  Le parole sono quelle del parser: un pulsante manda sempre un comando che
@@ -249,8 +250,6 @@ export function chipDiContesto(az: AzioniContesto): Chip[] {
     const gesto = VERBI_CON_BERSAGLIO[b.verbo];
     if (gesto) metti({ chiave: `${b.verbo} ${b.id}`, cmd: `${b.verbo} ${b.id}`, etichetta: `${gesto} ${conArticolo(b.nome)}` });
   }
-  // le combinazioni di due cose che la storia prevede qui: «Usa le pastiglie sulla pompa»
-  for (const c of az.coppie ?? []) metti({ chiave: c.cmd, cmd: c.cmd, etichetta: c.etichetta });
   return out;
 }
 
@@ -259,15 +258,15 @@ export function chipDiContesto(az: AzioniContesto): Chip[] {
 // --------------------------------------------------------------------
 /** Una cosa toccata: nel luogo («qui») o nella bisaccia («zaino»). */
 export interface Cosa { tipo: "qui" | "zaino"; id: string; nome: string; persona?: boolean; prendibile?: boolean }
-/** Una voce del menu: manda un comando, oppure apre il pannello del bere. */
-export interface Voce { etichetta: string; cmd?: string; pannello?: "bere"; pieno?: boolean }
+/** Una voce del menu: manda un comando, oppure apre il pannello del bere o la scelta
+ *  della seconda cosa («usa su…»). */
+export interface Voce { etichetta: string; cmd?: string; pannello?: "bere" | "usa"; pieno?: boolean }
 
-/** Ciò che si può fare con una cosa. Nessun «usa su…» generico: solo le combinazioni
- *  che il motore dice previste adesso (una cosa della bisaccia su una a portata),
- *  e i gesti d'autore che hanno quella cosa per bersaglio (attacca il cane). */
-export function vociDelMenu(cosa: Cosa, az: AzioniContesto): Voce[] {
+/** Ciò che si può fare con una cosa: parlare, esaminare, prendere, lasciare, i gesti
+ *  d'autore che l'hanno per bersaglio (attacca il cane) e «usa su…», che è lo stesso per
+ *  ogni cosa: il gioco non dice quali combinazioni funzionano. */
+export function vociDelMenu(cosa: Cosa, mondo: StatoMondo, az: AzioniContesto): Voce[] {
   const voci: Voce[] = [];
-  const coppie = az.coppie ?? [];
   if (cosa.tipo === "qui") {
     if (cosa.persona) voci.push({ etichetta: "parla con", cmd: `parla con ${cosa.id}`, pieno: true });
     for (const b of az.bersagli) {
@@ -275,14 +274,26 @@ export function vociDelMenu(cosa: Cosa, az: AzioniContesto): Voce[] {
     }
     voci.push({ etichetta: "esamina", cmd: `esamina ${cosa.id}` });
     if (cosa.prendibile) voci.push({ etichetta: "prendi", cmd: `prendi ${cosa.id}` });
-    for (const c of coppie) if (c.secondo.id === cosa.id) voci.push({ etichetta: `usa ${c.primo.testo}`, cmd: c.cmd });
+    if (bersagliDelUso(cosa, mondo).length > 0) voci.push({ etichetta: "usa su questo…", pannello: "usa" });
   } else {
     if (cosa.id === "tanica") voci.push({ etichetta: "bevi…", pannello: "bere", pieno: true });
     voci.push({ etichetta: "esamina", cmd: `esamina ${cosa.id}` });
-    for (const c of coppie) if (c.primo.nome === cosa.nome) voci.push({ etichetta: `usa ${c.secondo.testo}`, cmd: c.cmd });
+    if (bersagliDelUso(cosa, mondo).length > 0) voci.push({ etichetta: "usa su…", pannello: "usa" });
     if (cosa.id !== "tanica") voci.push({ etichetta: "lascia", cmd: `lascia ${cosa.id}` });
   }
   return voci;
+}
+
+/** La seconda cosa di «usa X su Y», scelta fra tutto ciò che c'è: nessuna è segnata come
+ *  quella giusta. Per una cosa della bisaccia: le cose del luogo e le altre della bisaccia;
+ *  per una cosa del luogo: le cose della bisaccia. */
+export function bersagliDelUso(cosa: Cosa, mondo: StatoMondo): { etichetta: string; cmd: string }[] {
+  if (cosa.tipo === "zaino") {
+    const qui = (mondo.present ?? []).map((p) => ({ etichetta: p.nome, id: p.id }));
+    const altre = mondo.inventory.map((n) => ({ etichetta: n, id: senzaArticolo(n) })).filter((o) => o.id !== cosa.id);
+    return [...qui, ...altre].map((o) => ({ etichetta: o.etichetta, cmd: `usa ${cosa.id} su ${o.id}` }));
+  }
+  return mondo.inventory.map((n) => ({ etichetta: n, cmd: `usa ${senzaArticolo(n)} su ${cosa.id}` }));
 }
 
 /** Tutti i comandi che l'interfaccia può mandare adesso con un tocco: le uscite, gli
@@ -301,10 +312,12 @@ export function comandiOfferti(mondo: StatoMondo, az: AzioniContesto): string[] 
   for (const p of Object.values(PASTI)) for (const d of p.doni) out.push(d.cmd);
   for (const ch of chipDiContesto(az)) out.push(ch.cmd);
   for (const p of mondo.present ?? []) {
-    for (const v of vociDelMenu({ tipo: "qui", id: p.id, nome: p.nome, persona: p.persona, prendibile: p.prendibile }, az)) if (v.cmd) out.push(v.cmd);
+    for (const v of vociDelMenu({ tipo: "qui", id: p.id, nome: p.nome, persona: p.persona, prendibile: p.prendibile }, mondo, az)) if (v.cmd) out.push(v.cmd);
   }
   for (const n of mondo.inventory) {
-    for (const v of vociDelMenu({ tipo: "zaino", id: senzaArticolo(n), nome: n }, az)) if (v.cmd) out.push(v.cmd);
+    const cosa: Cosa = { tipo: "zaino", id: senzaArticolo(n), nome: n };
+    for (const v of vociDelMenu(cosa, mondo, az)) if (v.cmd) out.push(v.cmd);
+    for (const u of bersagliDelUso(cosa, mondo)) out.push(u.cmd);        // «usa X su Y»: ogni coppia si può comporre
   }
   if ((mondo.undo ?? 0) > 0) out.push("annulla");
   return Array.from(new Set(out));

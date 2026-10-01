@@ -31,8 +31,6 @@ if os.path.isdir("/engine"):
 from compilatore import compila_mondo                   # noqa: E402
 from gioco import elabora_comando, mostra_stanza        # noqa: E402
 from gioco import _esegui_comando                       # noqa: E402  (privato: vedi fav_anteprima)
-from gioco import _preposizione_semplice                # noqa: E402  (privato: vedi _coppie)
-from favella_utils import con_preposizione, nome_in_frase, prima_maiuscola  # noqa: E402
 from libreria_azioni import LIBRERIA_AZIONI             # noqa: E402
 from strutture import VERSIONE_MOTORE                   # noqa: E402
 from strutture import ConseguenzaContatore, ConseguenzaLimita  # noqa: E402  (vedi _applica_i_limiti)
@@ -286,9 +284,9 @@ def fav_anteprima(cmd):
 #      «La sbarra è già su». Due gesti che farebbero la stessa cosa alla stessa
 #      persona («attacca Cosimo», «spara a Cosimo», col fucile) sono un pulsante
 #      solo, il primo dichiarato;
-#    · con due cose («usa le pastiglie sulla pompa»): vedi _coppie. Anche lì, una
-#      combinazione che farebbe ciò che fa già un gesto offerto («usa il fucile su
-#      Cosimo» e «attacca Cosimo») non raddoppia il pulsante.
+#  Le combinazioni di due cose («usa le pastiglie sulla pompa») NON si offrono: dirle
+#  sarebbe dare la soluzione. L'interfaccia le fa comporre (una cosa, poi l'altra) e
+#  il motore risponde com'è giusto, anche con «non ha alcun effetto particolare».
 #  Le condizioni si valutano senza consumare il caso.
 # --------------------------------------------------------------------
 def _vera(m, condizione):
@@ -307,61 +305,10 @@ def _firma(conseguenze):
                  for c in conseguenze])
 
 
-def _coppie(m, portata, effetti=frozenset()):
-    """Le combinazioni di due cose che la storia prevede QUI e ADESSO.
-
-    Un'interfaccia che proponesse ogni cosa della bisaccia su ogni cosa del luogo
-    lascerebbe provare a caso, e quasi sempre il motore risponderebbe «non ha
-    alcun effetto particolare». Qui si offrono solo le coppie per cui l'autore ha
-    scritto una regola a due oggetti («Invece di usa le pastiglie su la pompa…»),
-    con la prima cosa nella bisaccia e la seconda a portata, e solo se la regola
-    che scatterebbe adesso dice qualcosa di questo momento:
-      · una regola con condizione vera (anche un tentativo che non riesce, se
-        l'autore l'ha scritto per questa situazione: il biglietto a Cosimo);
-      · o una regola senza condizione che cambia il mondo.
-    La regola di ripiego senza condizione e senza conseguenze («La grata è già
-    aperta.», «È già detto tutto, qui.») non fa pulsante: vale sempre, quindi non
-    dice niente di adesso. La scelta della regola è quella del motore (vedi
-    gioco._cerca_regola): prima le condizionali vere, poi nell'ordine le semplici
-    e i rami «altrimenti». Le regole per categoria («qualcosa di pesante») il
-    Viaggiatore non le usa, e qui non si considerano."""
-    gruppi = {}
-    for r in m.regole:
-        if getattr(r, "fase", "invece") != "invece" or r.id_oggetto_secondario is None:
-            continue
-        if r.categoria is not None or getattr(r, "categoria_secondaria", None) is not None:
-            continue
-        chiave = (r.verbo, r.id_oggetto_bersaglio, r.id_oggetto_secondario, _preposizione_semplice(r.preposizione) or "su")
-        gruppi.setdefault(chiave, []).append(r)
-    out = []
-    for (verbo, a, b, prep), regole in gruppi.items():
-        if a == b or a not in m.inventario or b not in portata or a not in m.oggetti or b not in m.oggetti:
-            continue
-        scelta = next((r for r in regole if r.condizione is not None and _vera(m, r.condizione)), None)
-        if scelta is None:
-            ripiego = next((r for r in regole if r.condizione is None
-                            or (r.altrimenti and not _vera(m, r.condizione))), None)
-            if ripiego is None:
-                continue
-            conseguenze = ripiego.altrimenti[1] if ripiego.condizione is not None else ripiego.conseguenze
-            if not conseguenze:
-                continue
-        else:
-            conseguenze = scelta.conseguenze
-        if conseguenze and (b, _firma(conseguenze)) in effetti:
-            continue
-        primo, secondo = m.oggetti[a].nome_visualizzato, m.oggetti[b].nome_visualizzato
-        cmd = f"{verbo} {nome_in_frase(primo)} {con_preposizione(prep, secondo)}"
-        out.append({"verbo": verbo, "cmd": cmd, "etichetta": prima_maiuscola(cmd),
-                    "primo": {"id": a, "nome": primo, "testo": nome_in_frase(primo)},
-                    "secondo": {"id": b, "nome": secondo, "testo": con_preposizione(prep, secondo)}})
-    return out
-
-
 def fav_azioni():
     m = _mondo
     if m is None:
-        return json.dumps({"soli": [], "bersagli": [], "coppie": []})
+        return json.dumps({"soli": [], "bersagli": []})
     portata = set(m.oggetti_raggiungibili()) if m.c_e_luce() else set(m.inventario)
     soli, bersagli, visti, effetti = [], [], set(), set()
     for r in m.regole:
@@ -385,7 +332,7 @@ def fav_azioni():
             effetti.add(firma)
             bersagli.append({"verbo": r.verbo, "id": r.id_oggetto_bersaglio,
                              "nome": _nome(m, r.id_oggetto_bersaglio)})
-    return json.dumps({"soli": soli, "bersagli": bersagli, "coppie": _coppie(m, portata, effetti)}, ensure_ascii=False)
+    return json.dumps({"soli": soli, "bersagli": bersagli}, ensure_ascii=False)
 
 
 def _stato_essenziale():

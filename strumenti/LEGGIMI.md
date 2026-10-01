@@ -39,8 +39,8 @@ python strumenti/gioca.py partita.txt --diario d.md
 Sotto ogni risposta c'è la riga
 `[turno · luogo · vita sete fame · acqua cibo · sangue generosità]`. In fondo:
 `Uscite`, `Presenze`, `Bisaccia` (con la capienza), `Azioni` (ciò che `fav_azioni`
-farebbe comparire come pulsante: i gesti d'autore, i bersagli, le combinazioni «usa X
-su Y»), e il riepilogo (comandi, turno, esito, vita minima, il finale se c'è).
+farebbe comparire come pulsante: i gesti d'autore e i bersagli; le combinazioni «usa X
+su Y» non si offrono, si compongono), e il riepilogo (comandi, turno, esito, vita minima, il finale se c'è).
 Le risposte di un dialogo si scrivono per intero, per un pezzo del testo, o col numero.
 Il banco non beve né mangia da solo: se non lo scrivi, la partita lo sconta, com'è giusto.
 

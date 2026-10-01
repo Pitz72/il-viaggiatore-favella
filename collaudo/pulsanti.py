@@ -5,14 +5,14 @@ comando chiede all'interfaccia vera (app/src/gioco/azioni.ts → comandiOfferti,
 eseguita con Node) che cosa offrono i pulsanti in quel momento, e manda il
 pulsante che dice la stessa cosa del comando del percorso: nei dialoghi il
 numero della risposta, altrove il comando del pulsante, parola per parola
-(«usa le pastiglie sulla pompa», non «usa le pastiglie su la pompa»). Se un
+(«usa pastiglie su pompa» come lo compone l'interfaccia, non «usa le pastiglie su la pompa»). Se un
 comando del percorso non ha un pulsante, il collaudo lo nomina, col luogo e con
 i pulsanti che c'erano.
 
-Due controlli in più, a ogni turno:
-  · ogni combinazione «usa X su Y» offerta dice qualcosa di questo momento: mai
-    la risposta generica del motore («non ha alcun effetto particolare»);
-  · una combinazione offerta, anteprima alla mano, è capita dal motore.
+Un controllo in più, a ogni turno: una combinazione «usa X su Y» che il percorso
+compie, composta coi pulsanti (la cosa, poi l'altra, senza che nessuna sia segnata
+come quella giusta), non dà la risposta generica del motore («non ha alcun effetto
+particolare»): è la soluzione, non un tentativo.
 
 Il pilota cura il corpo come in finali.py, ma col pannello delle dosi. Anche
 «inventario» e «stato» (i riepiloghi a parole) hanno il loro pulsante: i percorsi
@@ -112,10 +112,6 @@ def gioca(nome, ui, problemi):
         stato = json.loads(p.fav_stato())
         azioni = json.loads(p.fav_azioni())
         offerti = ui.offerti(stato, azioni)
-        for c in azioni["coppie"]:
-            a = json.loads(p.fav_anteprima(c["cmd"]))
-            if not a["ok"] or not a["capito"] or GENERICA in a["testo"]:
-                problemi.append(f"{nome}: a «{stato['room']}» il pulsante «{c['cmd']}» non dice niente di adesso: {a['testo'].strip()[:90]}")
         tasto = pulsante_per(cmd, stato, offerti)
         if tasto is None:
             mancanti += 1

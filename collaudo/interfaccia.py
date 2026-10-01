@@ -9,9 +9,9 @@ Tre cose che i pulsanti danno per certe:
     (ATTINGI al pozzo, GETTA CIBO alla serra, CURATI con le medicine, ATTACCA il cane)
     e spariscono quando non servono più, o quando direbbero soltanto di no («Giù le
     mani», «Stai abbastanza in forze», «La sbarra è già su»); lo stesso per le
-    combinazioni di due cose («usa la chiave inglese sulla grata»), offerte solo dove
-    e quando la storia le prevede. Due gesti che farebbero la stessa cosa alla stessa
-    persona sono un pulsante solo.
+    due gesti che farebbero la stessa cosa alla stessa persona sono un pulsante solo.
+    Le combinazioni di due cose («usa la chiave inglese sulla grata») non si offrono:
+    sarebbe dare la soluzione. Si compongono, una cosa e poi l'altra.
 
 Uso:  python interfaccia.py      (esce con 1 se una prova fallisce)
 """
@@ -175,13 +175,13 @@ p._mondo.variabili["stato del casello"] = "aperto"
 prova("a sbarra alzata MINACCIA Vito sparisce (direbbe «La sbarra è già su»)",
       not [b for b in azioni(p)["bersagli"] if b["verbo"] == "minaccia"], str(azioni(p)))
 # al guado col fucile: «attacca», «spara», «usa il fucile su» fanno la stessa cosa a Cosimo
+# (si offre un gesto solo, «attacca»; «usa il fucile su Cosimo» si scrive o si compone)
 p = nuovo_ponte()
 p._mondo.posizione_giocatore = "guado"
 prendi_a_mano(p, "fucile")
 az = azioni(p)
-prova("al guado col fucile un gesto solo contro Cosimo (attacca), niente «usa il fucile su Cosimo»",
-      [b["verbo"] for b in az["bersagli"] if b["id"] == "cosimo"] == ["attacca"]
-      and "usa il fucile su Cosimo" not in [c["cmd"] for c in az["coppie"]], str(az))
+prova("al guado col fucile un gesto solo contro Cosimo (attacca)",
+      [b["verbo"] for b in az["bersagli"] if b["id"] == "cosimo"] == ["attacca"], str(az))
 for cmd in ["spara a Cosimo", "usa il fucile su Cosimo", "uccidi Cosimo", "colpisci Cosimo"]:
     a = json.loads(p.fav_anteprima(cmd))
     prova(f"«{cmd}» fa quello che fa «attacca Cosimo»",
@@ -195,42 +195,31 @@ prova("raddrizzata, il gesto sparisce", not [b for b in azioni(p)["bersagli"] if
 p = nuovo_ponte()
 p._mondo.posizione_giocatore = "fondale"
 prova("al fondale c'è «bevi salmastra»", "bevi salmastra" in azioni(p)["soli"], str(azioni(p)))
-# le combinazioni di due cose: solo quelle che la storia prevede qui e adesso
+# le combinazioni di due cose NON si offrono (sarebbe la soluzione): l'interfaccia le fa
+# comporre. Il ponte non le elenca, e ogni coppia composta è capita dal motore.
 def prendi_a_mano(p, *ids):
     for i in ids:
         p._mondo.inventario.add(i)
         p._mondo.oggetti[i].posizione = "inventario"
 
 
-def coppie(p):
-    return [c["cmd"] for c in azioni(p)["coppie"]]
-
-
 p = nuovo_ponte()
-prova("alla stazione, col biglietto in tasca, nessuna combinazione", coppie(p) == [], str(coppie(p)))
 p._mondo.posizione_giocatore = "area di servizio"
-prova("all'area di servizio senza la chiave inglese, nessuna combinazione", coppie(p) == [], str(coppie(p)))
 passi(p, ["prendi chiave inglese"])
-prova("con la chiave inglese e la grata chiusa: «usa la chiave inglese sulla grata»",
-      coppie(p) == ["usa la chiave inglese sulla grata"], str(coppie(p)))
-r = json.loads(p.fav_step(coppie(p)[0]))
-prova("il comando del pulsante è capito e apre la grata",
+prova("le azioni non elencano combinazioni di due cose, nemmeno con la chiave inglese davanti alla grata",
+      "coppie" not in azioni(p), str(azioni(p)))
+r = json.loads(p.fav_step("usa chiave inglese su grata"))
+prova("…ma «usa chiave inglese su grata», composta a pezzi, è capita e apre la grata",
       p._mondo.variabili.get("stato della grata") == "aperta", r["text"][:90])
-prova("a grata aperta la combinazione sparisce (resterebbe solo «La grata è già aperta.»)", coppie(p) == [], str(coppie(p)))
 p = nuovo_ponte()
 p._mondo.posizione_giocatore = "diga"
-prendi_a_mano(p, "pastiglie")
-prova("alla pompa con le sole pastiglie nessuna combinazione (manca il filtro)", coppie(p) == [], str(coppie(p)))
-prendi_a_mano(p, "filtro")
-prova("col filtro: «usa le pastiglie sulla pompa»", coppie(p) == ["usa le pastiglie sulla pompa"], str(coppie(p)))
-c = azioni(p)["coppie"][0]
-prova("la combinazione dice come si legge nei menu (le pastiglie / sulla pompa)",
-      (c["primo"]["testo"], c["secondo"]["testo"], c["secondo"]["id"]) == ("le pastiglie", "sulla pompa", "pompa"), str(c))
-a = json.loads(p.fav_anteprima(c["cmd"]))
-prova("anteprima: la pompa dà 8 d'acqua e consuma pastiglie e filtro",
+prendi_a_mano(p, "pastiglie", "filtro")
+a = json.loads(p.fav_anteprima("usa pastiglie su pompa"))
+prova("anteprima: «usa pastiglie su pompa» dà 8 d'acqua e consuma pastiglie e filtro",
       a["delta"].get("acqua") == 8 and {o["id"] for o in a["perde"]} == {"pastiglie", "filtro"}, str(a["delta"]))
-p._mondo.posizione_giocatore = "stazione"
-prova("lontano dalla pompa la combinazione sparisce", coppie(p) == [], str(coppie(p)))
+a = json.loads(p.fav_anteprima("usa filtro su pastiglie"))
+prova("una coppia sbagliata riceve la risposta del motore, senza finzioni e senza guasti",
+      a["ok"] and "non ha alcun effetto particolare" in a["testo"] and not a["delta"] and not a["perde"], str(a))
 
 # le azioni non consumano il caso: la partita resta identica
 p = nuovo_ponte()

@@ -26,7 +26,7 @@ import ComeSiGioca from "../gioco/ComeSiGioca";
 import Taccuino from "../gioco/Taccuino";
 import Conferma from "../gioco/Conferma";
 import PannelloScorta from "../gioco/PannelloScorta";
-import { chipDiContesto, senzaArticolo, serveAnteprima, valutaConferma, vociDelMenu, type Conferma as DatiConferma, type Cosa } from "../gioco/azioni";
+import { bersagliDelUso, chipDiContesto, senzaArticolo, serveAnteprima, valutaConferma, vociDelMenu, type Conferma as DatiConferma, type Cosa } from "../gioco/azioni";
 import { componi, dataLeggibile, nomePosto, scrivi, type Posto, type Riassunto, type Salvataggio } from "../lib/salvataggi";
 import { annota } from "../lib/desktop";
 import { analizza, spezza, type Blocco } from "../gioco/testo";
@@ -40,7 +40,7 @@ const DIREZIONI: Record<string, string> = { nord: "↑", sud: "↓", est: "→",
 interface Voce { id: number; cmd?: string; blocchi: Blocco[] }
 type Menu = Cosa | null;
 type Richiesta = { cmd: string; etichetta: string; conferma: DatiConferma } | null;
-const SENZA_AZIONI: AzioniContesto = { soli: [], bersagli: [], coppie: [] };
+const SENZA_AZIONI: AzioniContesto = { soli: [], bersagli: [] };
 
 const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; carica?: Salvataggio | null }) => {
   const [fase, setFase] = useState<"carica" | "gioca" | "errore">("carica");
@@ -53,6 +53,8 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
   const [mondo, setMondo] = useState<StatoMondo>(VUOTO);
   const [guida, setGuida] = useState(false);
   const [menu, setMenu] = useState<Menu>(null);
+  // «usa X su…»: la cosa di cui si sta scegliendo la compagna
+  const [usaDa, setUsaDa] = useState<Cosa | null>(null);
   const [incontrati, setIncontrati] = useState<string[]>([]);
   const [camminaDa, setCamminaDa] = useState(-1e9);
   const [taccuino, setTaccuino] = useState<null | "salva" | "carica">(null);
@@ -119,7 +121,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
   };
 
   // ── un comando: dalla tastiera o da un pulsante, è lo stesso ─────────
-  const chiudiPannelli = () => { setMenu(null); setPannello(null); };
+  const chiudiPannelli = () => { setMenu(null); setPannello(null); setUsaDa(null); };
 
   /** in dialogo un numero mostra il testo della risposta scelta */
   const etichettaDi = (cmd: string, etichetta?: string) => {
@@ -167,7 +169,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     const e = sessione.current.boot();
     setVoci([{ id: contatore.current++, blocchi: analizza(e.text) }]);
     setMondo(sessione.current.stato());
-    setFinita(false); setEsito("in_corso"); setFinale(""); setIncontrati([]); setMenu(null);
+    setFinita(false); setEsito("in_corso"); setFinale(""); setIncontrati([]); setMenu(null); setUsaDa(null);
     setPannello(null); setRichiesta(null);
     setCamminaDa(performance.now());
     setNonSalvati(0);
@@ -241,7 +243,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     setIncontrati(dati.diario.incontrati ?? []);
     storia.current = dati.diario.storia ?? [];
     iStoria.current = -1;
-    setMenu(null); setBozza(""); setPannello(null); setRichiesta(null);
+    setMenu(null); setUsaDa(null); setBozza(""); setPannello(null); setRichiesta(null);
     const fine = esito.stato !== "in_corso";
     setFinita(fine); setEsito(esito.stato); setFinale("");
     setCamminaDa(performance.now());
@@ -532,13 +534,28 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
               {menu && (
                 <div className="vg-azioni">
                   <span className="vg-etichetta">{menu.nome}</span>
-                  {vociDelMenu(menu, azioniCtx).map((v) => (
+                  {vociDelMenu(menu, mondo, azioniCtx).map((v) => (
                     <button key={v.etichetta} className={"vg-chip" + (v.pieno ? " vg-pieno" : "")} title={v.cmd}
-                      onClick={() => { if (v.pannello) { chiudiPannelli(); setPannello(v.pannello); } else if (v.cmd) manda(v.cmd); }}>
+                      onClick={() => {
+                        if (v.pannello === "usa") { setUsaDa(menu); setMenu(null); }
+                        else if (v.pannello) { chiudiPannelli(); setPannello(v.pannello); }
+                        else if (v.cmd) manda(v.cmd);
+                      }}>
                       {v.etichetta}
                     </button>
                   ))}
                   <button className="vg-chip vg-chiudi" onClick={() => setMenu(null)} aria-label="Chiudi">✕</button>
+                </div>
+              )}
+
+              {usaDa && (
+                <div className="vg-azioni">
+                  <span className="vg-etichetta">{usaDa.tipo === "zaino" ? `usa ${usaDa.nome.toLowerCase()} su…` : `usa su ${usaDa.nome.toLowerCase()}…`}</span>
+                  {bersagliDelUso(usaDa, mondo).map((b) => (
+                    <button key={b.cmd} className="vg-chip" title={b.cmd} onClick={() => manda(b.cmd)}>{b.etichetta}</button>
+                  ))}
+                  <button className="vg-chip vg-chiudi" onClick={() => { const da = usaDa; setUsaDa(null); setMenu(da); }} aria-label="Indietro">‹</button>
+                  <button className="vg-chip vg-chiudi" onClick={() => setUsaDa(null)} aria-label="Chiudi">✕</button>
                 </div>
               )}
             </div>

@@ -11,10 +11,11 @@ hanno segnalato; qui c'è l'elenco da cui ripartire.
   risposte del motore si riconoscono dalla forma (`testo.ts`, provate da
   `collaudo/testo.py`); gli eventi tipizzati del motore 1.4.0 non servirebbero a
   separarle dalla prosa, perché «testo» comprende anche le descrizioni dell'autore.
-- **La combinazione giusta rivela la soluzione.** Un pulsante «usa X su Y»
-  compare appena si ha la cosa giusta nel posto giusto. Se pesa, si può offrirlo
-  solo dopo che il testo l'ha suggerito (per esempio dopo aver esaminato la cosa
-  scritta in maiuscolo).
+- **«Usa X su Y»** (1.9.0): non si offre più la coppia giusta, si compone. Per
+  una cosa della bisaccia, «usa su…» elenca le cose del luogo e le altre della
+  bisaccia, senza segnare nessuna; per una cosa del luogo, «usa su questo…» elenca
+  la bisaccia. Resta un indizio nei pulsanti dei gesti d'autore (attacca il cane,
+  raddrizza la foto, attingi), che il testo del luogo suggerisce già a parole.
 
 ### Trailer
 - **Senza GPU** un fotogramma a 2560×1440 costa 30–115 ms: la risoluzione

@@ -8,6 +8,24 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.9.0] - 2026-10-01
+
+Usare una cosa su un'altra, senza che il gioco dica quali coppie funzionano.
+
+### Cambiato
+- **«Usa X su Y» non si offre più, si compone.** Fino alla 1.8.0 il pulsante compariva
+  appena avevi la cosa giusta nel posto giusto: era la soluzione, scritta sul pulsante. Ora
+  tocchi una cosa della bisaccia e scegli «usa su…»: l'elenco ha tutte le cose del luogo e
+  le altre della bisaccia, nessuna segnata. Per una cosa del luogo c'è «usa su questo…», con
+  la bisaccia. Il motore risponde com'è giusto, anche «non ha alcun effetto particolare»;
+  la conferma dei baratti e dei costi funziona come prima. Scrivere il comando è lo stesso.
+- «Come si gioca» non cita più una coppia che funziona («usa le pastiglie sulla pompa»).
+
+### Collaudo
+- `pulsanti.py` gioca i finali componendo ogni coppia; `interfaccia.py` prova che il ponte
+  non elenca più combinazioni, che le coppie composte sono capite e che una sbagliata
+  riceve la risposta del motore.
+
 ## [1.8.0] - 2026-10-01
 
 L'interfaccia, ripulita da ciò che le partite e il collaudo del testo hanno mostrato.

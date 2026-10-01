@@ -148,7 +148,6 @@ class Banco:
             az = json.loads(self.ponte.fav_azioni())
             offerte = list(az["soli"])
             offerte += [f"{b['verbo']} {b['nome']}" for b in az["bersagli"]]
-            offerte += [c["etichetta"] for c in az["coppie"]]
             righe.append("Azioni    " + (", ".join(offerte) or "— (nessun gesto d'autore offerto)"))
         return "\n".join(righe)
 
