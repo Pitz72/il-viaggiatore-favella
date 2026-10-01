@@ -3,7 +3,7 @@ data: 2026-10-01
 ora: "04:27"
 titolo: "Il banco di gioco nel repo"
 tipo: sessione
-versione: 1.6.0
+versione: 1.6.1
 ---
 
 # Il banco di gioco nel repo

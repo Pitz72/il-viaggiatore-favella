@@ -8,6 +8,8 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.6.1] - 2026-10-01
+
 ### Aggiunto
 - **Il banco di gioco** (`strumenti/gioca.py`, strumento di sviluppo: non cambia
   il gioco). Si gioca a mano da un file di comandi, leggendo gli ultimi turni con le
