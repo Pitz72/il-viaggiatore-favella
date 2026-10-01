@@ -58,6 +58,7 @@ Cosimo al nodo "cosimo_inizio" dice "Non si è mosso di un passo. «Hai altro da
 # La voce è arrivata prima di te: Cosimo sa come sei passato.
 Cosimo al nodo "cosimo_inizio" dice "«Lo sapevo, che saresti tornato. Quando non serve più a nessuno.» Guarda le tue mani prima della tua faccia. «E so anche come sei passato: la voce corre più svelta di te, su questa strada. Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi.»" se il sangue è almeno 1.
 Cosimo al nodo "cosimo_inizio" dice "«Lo sapevo, che saresti tornato. Quando non serve più a nessuno.» Non alza la voce. «Dicono che per strada lasci l'acqua a chi è rimasto.» Una pausa. «A me non l'ha lasciata nessuno. Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi.»" se la generosità è almeno 3.
+Cosimo al nodo "cosimo_inizio" dice "«Lo sapevo, che saresti tornato. Quando non serve più a nessuno.» Non alza la voce. «Dicono che al casello hai puntato una pistola a uno che ti stava addosso, e che era scarica. Hai fatto la faccia giusta.» Quasi un complimento. «Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi.»" se lo stato del bluff è fatto.
 Cosimo al nodo "cosimo_inizio" dice "«Lo sapevo, che saresti tornato. Quando non serve più a nessuno.» Non alza la voce. «Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi.»".
 Al nodo "cosimo_inizio" l'opzione "Non sapevo. Te lo giuro." se lo stato di Cosimo è fermo conduce al nodo "cosimo_sapere".
 Al nodo "cosimo_inizio" l'opzione "Fammi passare, Cosimo." se lo stato di Cosimo è fermo conduce al nodo "cosimo_no".
@@ -90,6 +91,7 @@ Invece di usa il fucile su Cosimo se lo stato di Cosimo è fermo: dire "Il fucil
 Invece di usa il fucile su Cosimo: dire "Non c'è più niente da fare, con quel fucile.".
 # Minacciarlo. Col fucile in mano sono parole; con la pistola scarica, alzare le mani.
 Invece di minaccia Cosimo se il giocatore ha il fucile e lo stato di Cosimo è fermo: dire "Gli punti il fucile al petto. Cosimo non alza le mani. «O spari, o lo posi. Il resto sono chiacchiere.»".
+Invece di minaccia Cosimo se il giocatore ha la pistola e lo stato di Cosimo è fermo e lo stato del bluff è fatto: dire "Tiri fuori la pistola. Cosimo non la guarda nemmeno. «Quella del casello.» Lo dice come si dice un nome. «Vito l'ha capito dopo. Io l'avevo capito prima che la tirassi fuori.»" e adesso lo stato della veglia è spenta e adesso la veglia diventa 0.
 Invece di minaccia Cosimo se il giocatore ha la pistola e lo stato di Cosimo è fermo: dire "Tiri fuori la pistola. Cosimo la guarda appena. «Scarica. Si vede da come la tieni.»" e adesso lo stato della veglia è spenta e adesso la veglia diventa 0.
 Invece di minaccia Cosimo se lo stato di Cosimo è fermo: dire "Cosimo ti lascia finire. «Le stesse parole le dicevo io, a chi voleva passare. Non sono servite nemmeno a me.»".
 Invece di minaccia Cosimo: dire "Lasci perdere. Tra te e lui, ormai, le minacce non servono più.".
@@ -113,10 +115,14 @@ Dopo di prendi il fucile se il giocatore è in il guado e lo stato della veglia 
 
 # Il guado non si passa finché Cosimo è in piedi e ti guarda.
 Invece di vai nord se il giocatore è in il guado e lo stato di Cosimo è fermo: dire "Cosimo è tra te e l'altra riva. Non si guada, finché è lì in piedi a guardarti.".
-Quando il giocatore è in il guado e lo stato di Peppe è compagno e lo stato della tappa di Peppe è valico: dire "Peppe resta qualche passo indietro, sui sassi. Ha capito prima di te chi è quell'uomo." e adesso lo stato della tappa di Peppe è guado.
+Quando il giocatore è in il guado e lo stato di Peppe è compagno e lo stato della tappa di Peppe è valico e lo stato del sapere di Peppe è nuovo: dire "Peppe resta qualche passo indietro, sui sassi. Ha capito prima di te chi è quell'uomo." e adesso lo stato della tappa di Peppe è guado.
+Quando il giocatore è in il guado e lo stato di Peppe è compagno e lo stato della tappa di Peppe è valico e lo stato del sapere di Peppe è vero: dire "Peppe resta qualche passo indietro, sui sassi. Ha capito prima di te chi è quell'uomo, e ti guarda le mani. Non per paura: per sapere." e adesso lo stato della tappa di Peppe è guado.
+Quando il giocatore è in il guado e lo stato di Peppe è compagno e lo stato della tappa di Peppe è valico e lo stato del sapere di Peppe è bugia: dire "Peppe resta qualche passo indietro, sui sassi. Ha capito prima di te chi è quell'uomo, e tiene gli occhi sulle tue mani come su una cosa che gli hanno già raccontato." e adesso lo stato della tappa di Peppe è guado.
 
 # Lo sparo davanti a Peppe: il ragazzo scappa (niente più scorte divise, finale dedicato).
-Quando lo stato di Cosimo è abbattuto e lo stato di Peppe è compagno: dire "Quando ti volti, Peppe non c'è più. Sul greto, i sassi smossi di qualcuno che è corso via senza voltarsi." e adesso lo stato di Peppe è fuggito.
+Quando lo stato di Cosimo è abbattuto e lo stato di Peppe è compagno e lo stato del sapere di Peppe è nuovo: dire "Quando ti volti, Peppe non c'è più. Sul greto, i sassi smossi di qualcuno che è corso via senza voltarsi." e adesso lo stato di Peppe è fuggito.
+Quando lo stato di Cosimo è abbattuto e lo stato di Peppe è compagno e lo stato del sapere di Peppe è vero: dire "Quando ti volti, Peppe non c'è più. Sul greto, i sassi smossi di qualcuno che è corso via senza voltarsi. In paese ti aveva chiesto che uomo fossi, e tu gliel'avevi detto. Adesso l'ha visto." e adesso lo stato di Peppe è fuggito.
+Quando lo stato di Cosimo è abbattuto e lo stato di Peppe è compagno e lo stato del sapere di Peppe è bugia: dire "Quando ti volti, Peppe non c'è più. Sul greto, i sassi smossi di qualcuno che è corso via senza voltarsi. In paese ti aveva chiesto che uomo fossi, e tu gli avevi detto di no. Adesso non ha più niente da chiederti." e adesso lo stato di Peppe è fuggito.
 
 # --- LA STRADA DI ACQUAMORTA: quello che si è saputo di te, prima di te ---
 Quando il giocatore è in la strada e lo stato della strada è nuova e lo stato di Cosimo è riconosciuto e il sangue è almeno 1: dire "Alla fontana secca Cosimo ti raggiunge. Si ferma un passo indietro. «Di come sei passato, si è saputo anche qui.» Non aggiunge altro, e non ti passa avanti." e adesso lo stato della strada è vista.

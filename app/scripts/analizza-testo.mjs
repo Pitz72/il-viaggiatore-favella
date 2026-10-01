@@ -24,5 +24,6 @@ try { testo = await import(pathToFileURL(file).href); } finally { fs.rmSync(tmp,
 const input = JSON.parse(fs.readFileSync(0, "utf8"));
 process.stdout.write(JSON.stringify({
   personaggi: testo.PERSONAGGI,
+  voci: testo.VOCI,
   blocchi: input.map((t) => testo.analizza(t)),
 }));

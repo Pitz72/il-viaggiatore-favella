@@ -281,5 +281,21 @@ q._mondo.variabili.update(sete=2, acqua=3)
 a = json.loads(q.fav_anteprima("bevi due sorsi"))
 prova("anteprima: il pavimento della sete a zero vale, e non è uno spreco d'acqua", a["dopo"]["sete"] == 0 and a["sprecato"] == {}, str(a))
 
+# ---------------------------------------------------------------------------
+# le voci che corrono su di te: lo stato le espone solo da «udita» in poi
+# ---------------------------------------------------------------------------
+p = nuovo_ponte()
+prova("stato: all'inizio nessuna voce", json.loads(p.fav_stato())["voci"] == [])
+p._mondo.variabili["stato della voce del bluff"] = "udita"
+p._mondo.variabili["stato della voce del sangue"] = "ignota"
+prova("stato: solo le voci udite (del bluff), col nome che l'interfaccia conosce", json.loads(p.fav_stato())["voci"] == ["del bluff"],
+      str(json.loads(p.fav_stato())["voci"]))
+p = nuovo_ponte()
+p._mondo.posizione_giocatore = "piazzetta"
+p._mondo.variabili["sangue"] = 1
+passi(p, ["nord"])
+prova("stato: col sangue, entrando in osteria, la voce del sangue è udita", json.loads(p.fav_stato())["voci"] == ["del sangue"],
+      str(json.loads(p.fav_stato())["voci"]))
+
 print("TUTTO OK" if all(esiti) else "CI SONO FALLIMENTI")
 sys.exit(0 if all(esiti) else 1)

@@ -262,5 +262,123 @@ prova("la batteria a tanica piena: due di cibo, e l'acqua resta com'è", p.v("ci
 p = partita("mercato", ["cartucce"], acqua=8)
 prova("le cartucce (2 d'acqua) a 8 d'acqua ci stanno ancora", any(o.startswith("Ti do le cartucce") for o in (fai(p, "parla con Ciro") and p.opzioni_dialogo())))
 
+# ---------------------------------------------------------------------------
+# 8. il bluff, che Vito racconta (1.10.0)
+# ---------------------------------------------------------------------------
+def voce(p, nome):
+    return p.m.variabili.get(f"stato della voce {nome}")
+
+
+p = partita("casello", ["pistola"])
+fai(p, "minaccia Vito")
+prova("il bluff è un fatto della storia, non sangue", p.m.variabili["stato del bluff"] == "fatto" and p.v("sangue") == 0)
+t = fai(p, "parla con Vito")
+prova("tornando da Vito: «Lo racconto, adesso, a chi passa»", "Lo racconto bene" in t, t[-200:])
+p = partita("casello")
+prova("Vito senza bluff non lo dice", "Lo racconto bene" not in fai(p, "parla con Vito"))
+
+p = partita("piazzetta", **{"stato del bluff": "fatto"})
+t = fai(p, "sud")
+prova("Ciro, la prima volta: «Quello della pistola», e la voce arriva",
+      "Quello della pistola" in t and voce(p, "del bluff") == "udita", t[-200:])
+t = fai(p, "nord", "sud")
+prova("…una volta sola", "Quello della pistola" not in t)
+p = partita("piazzetta")
+prova("senza il bluff Ciro non ne parla, e la voce non c'è", "Quello della pistola" not in fai(p, "sud") and voce(p, "del bluff") == "ignota")
+
+p = partita("pianoro", **{"stato del bluff": "fatto"})
+t = fai(p, "parla con Tore")
+prova("Tore sa del ferro vuoto", "ferro vuoto" in t, t[-220:])
+p = partita("pianoro", **{"stato del bluff": "fatto"}, sangue=1)
+prova("…ma col sangue Tore dice quello, non il bluff", "anche il resto" in fai(p, "parla con Tore"))
+p = partita("pianoro", generosità=2)
+t = fai(p, "parla con Tore")
+prova("Tore, con due doni, dice che lasci qualcosa a chi resta", "lasci qualcosa a chi resta" in t, t[-200:])
+
+p = partita("guado", **{"stato del bluff": "fatto"})
+t = fai(p, "parla con Cosimo")
+prova("Cosimo, la prima battuta col bluff: «Hai fatto la faccia giusta»", "faccia giusta" in t, t[-240:])
+p = partita("guado", **{"stato del bluff": "fatto"}, generosità=3)
+prova("…ma la generosità vince sul bluff", "lasci l'acqua a chi è rimasto" in fai(p, "parla con Cosimo"))
+p = partita("guado", ["pistola"], **{"stato del bluff": "fatto"})
+t = fai(p, "minaccia Cosimo")
+prova("minacciare Cosimo con la pistola già vista: «Quella del casello»", "Quella del casello" in t, t[-200:])
+p = partita("guado", ["pistola"])
+prova("senza il bluff, la pistola la riconosce lui da solo («Si vede da come la tieni»)", "da come la tieni" in fai(p, "minaccia Cosimo"))
+
+# ---------------------------------------------------------------------------
+# 9. Peppe, e il sangue: te lo chiede una volta sola (1.10.0)
+# ---------------------------------------------------------------------------
+p = partita("piazzetta", sangue=1)
+t = fai(p, "parla con Peppe")
+prova("con le mani sporche Peppe chiede, e le risposte sono tre (più quelle di sempre)",
+      "voglio saperlo da te" in t and "È vero. Non l'ho voluto" in t and "Non è così" in t and "Non devo dirti niente" in t
+      and "Vieni con me" in t, t[-420:])
+fai(p, "È vero", "…")
+prova("«È vero»: Peppe lo sa (vero), e la domanda è fatta", p.m.variabili["stato del sapere di peppe"] == "vero"
+      and p.m.variabili["stato della domanda di peppe"] == "fatta")
+t = p.storia[-1][1]                       # il «…» riporta al primo nodo: si è ancora nel dialogo
+prova("…e tornando al primo discorso non lo chiede di nuovo", "voglio saperlo da te" not in t and "Vieni con me" in t
+      and "Non è così" not in t and "Portami con te" in t, t[-300:])
+p = partita("piazzetta", sangue=1)
+fai(p, "parla con Peppe", "Non è così", "…")
+prova("«Non è così»: bugia", p.m.variabili["stato del sapere di peppe"] == "bugia")
+p = partita("piazzetta", sangue=1)
+t = fai(p, "parla con Peppe", "Non devo dirti niente")
+prova("«Non devo dirti niente»: Peppe non sa, e lo dice («non mi hai detto una bugia»)",
+      p.m.variabili["stato del sapere di peppe"] == "nuovo" and p.m.variabili["stato della domanda di peppe"] == "fatta"
+      and "non mi hai detto una bugia" in t, t[-200:])
+p = partita("piazzetta")
+t = fai(p, "parla con Peppe")
+prova("a mani pulite Peppe non chiede niente", "voglio saperlo da te" not in t and "Portami con te" in t, t[-200:])
+p = partita("piazzetta", sangue=1)
+fai(p, "parla con Peppe", "È vero", "…", "Vieni con me", "…")
+prova("dopo la risposta si può ancora portarlo con sé", p.m.variabili["stato di peppe"] == "preso")
+
+for sa, atteso_valico, atteso_guado, atteso_fuga in [
+        ("nuovo", "È là, casa tua?", "Ha capito prima di te chi è quell'uomo.", "i sassi smossi di qualcuno che è corso via senza voltarsi."),
+        ("vero", "Mi hai detto del male che hai fatto", "Non per paura: per sapere", "tu gliel'avevi detto"),
+        ("bugia", "Io i conti li tengo", "come su una cosa che gli hanno già raccontato", "gli avevi detto di no")]:
+    compagno = {"stato di peppe": "compagno", "stato del sapere di peppe": sa}
+    p = partita("valico", **compagno, **{"stato della tappa di peppe": "salita"})
+    t = fai(p, "aspetta")
+    prova(f"sul valico, Peppe che {sa}: la sua battuta", atteso_valico in t and t.count("È là, casa tua?") == 1, t[-220:])
+    p = partita("guado", **compagno, **{"stato della tappa di peppe": "valico"})
+    t = fai(p, "aspetta")
+    prova(f"al guado, Peppe che {sa}: lo sguardo", atteso_guado in t, t[-220:])
+    p = partita("guado", ["fucile"], **compagno)
+    t = fai(p, "attacca Cosimo")
+    prova(f"lo sparo, Peppe che {sa}: scappa, e la riga è sua",
+          p.m.variabili["stato di peppe"] == "fuggito" and atteso_fuga in t, t[-240:])
+
+# ---------------------------------------------------------------------------
+# 10. quello che si dice di te, a lato dello schermo (1.10.0)
+# ---------------------------------------------------------------------------
+p = partita("piazzetta", sangue=1)
+fai(p, "nord")
+prova("col sangue, in osteria si sente dire che alzi le mani", voce(p, "del sangue") == "udita" and voce(p, "della generosità") == "ignota")
+p = partita("piazzetta")
+fai(p, "nord")
+prova("a mani pulite, in osteria non si sente niente", voce(p, "del sangue") == "ignota")
+p = partita("discesa", cibo=4)
+fai(p, "parla con Imma", "Tieni", "…", "ovest", "ovest", "nord")
+prova("sfamare Imma: si sente dire che lasci qualcosa a chi resta (senza sangue)", voce(p, "della generosità") == "udita" and voce(p, "del sangue") == "ignota")
+p = partita("discesa", cibo=4, sangue=1)
+fai(p, "parla con Imma", "Tieni", "…", "ovest", "ovest", "nord")
+prova("…col sangue, tutte e due", voce(p, "della generosità") == "udita" and voce(p, "del sangue") == "udita")
+p = partita("piazzetta", **{"vita di vito": 0})
+fai(p, "sud")
+prova("Ciro, che sa di Vito a terra: la voce del sangue", voce(p, "del sangue") == "udita")
+
+# ---------------------------------------------------------------------------
+# 11. «getta cibo» e le sue parole sono un gesto solo (1.10.0)
+# ---------------------------------------------------------------------------
+for cmd in ["getta cibo", "getta il cibo", "lancia cibo", "lancia il cibo", "getta"]:
+    p = partita("serra", cibo=2)
+    t = fai(p, cmd)
+    prova(f"alla serra «{cmd}» distrae il cane e dà le conserve", "prendi le conserve" in t and p.v("cibo") == 4, t[-120:])
+    p = partita("masseria", cibo=2)
+    prova(f"…e altrove «{cmd}» non fa niente", "Non c'è niente da gettare" in fai(p, cmd) and p.v("cibo") == 2)
+
 print("TUTTO OK" if all(esiti) else "CI SONO FALLIMENTI")
 sys.exit(0 if all(esiti) else 1)

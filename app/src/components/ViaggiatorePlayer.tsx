@@ -29,7 +29,7 @@ import PannelloScorta from "../gioco/PannelloScorta";
 import { bersagliDelUso, chipDiContesto, senzaArticolo, serveAnteprima, valutaConferma, vociDelMenu, type Conferma as DatiConferma, type Cosa } from "../gioco/azioni";
 import { componi, dataLeggibile, nomePosto, scrivi, type Posto, type Riassunto, type Salvataggio } from "../lib/salvataggi";
 import { annota } from "../lib/desktop";
-import { analizza, spezza, type Blocco } from "../gioco/testo";
+import { analizza, spezza, VOCI, type Blocco } from "../gioco/testo";
 import "../gioco/gioco.css";
 
 const VUOTO: StatoMondo = { inventory: [], counters: {}, room: null, roomId: null };
@@ -612,6 +612,13 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
                   <span className="vg-pip">{[1, 2, 3, 4, 5].map((i) => <i key={i} className={i <= f.v ? "on" : ""} />)}</span>
                 </li>
               ))}
+            </ul>
+          </>)}
+
+          {(mondo.voci ?? []).length > 0 && (<>
+            <p className="vg-sezione">si dice di te</p>
+            <ul className="vg-voci">
+              {Object.keys(VOCI).filter((k) => (mondo.voci ?? []).includes(k)).map((k) => <li key={k}>{VOCI[k]}</li>)}
             </ul>
           </>)}
 

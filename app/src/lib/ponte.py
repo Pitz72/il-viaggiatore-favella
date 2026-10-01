@@ -505,7 +505,11 @@ def fav_stato():
         capienza = _mondo.capacita_attuale()
     except Exception:
         capienza = None
-    return json.dumps({"inventory": inv, "counters": counters,
+    # Le voci che corrono su di te: gli stati «stato della voce del sangue»… che valgono «udita».
+    # Il nome (senza «stato della voce ») è la chiave; l'interfaccia ha la riga per ciascuna.
+    voci = [k[len("stato della voce "):] for k, v in _mondo.variabili.items()
+            if k.startswith("stato della voce ") and v == "udita"]
+    return json.dumps({"inventory": inv, "counters": counters, "voci": voci,
                        "room": room, "roomId": _mondo.posizione_giocatore,
                        "exits": uscite, "present": presenti, "dialog": dialogo,
                        "capacity": capienza, "turn": getattr(_mondo, "turno_corrente", 0),

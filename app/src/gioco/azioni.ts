@@ -227,16 +227,13 @@ export function previsioni(p: Pasto, mondo: StatoMondo, anteprima: (cmd: string)
 export interface Chip { chiave: string; cmd: string; etichetta: string }
 
 /** Verbo scritto dall'autore → il comando che il pulsante manda e come si legge.
- *  Le varianti dello stesso gesto («getta cibo», «lancia il cibo»…) sono un pulsante solo.
+ *  Le altre parole dello stesso gesto («getta il cibo», «lancia cibo»…) sono sinonimi nella
+ *  storia (z2-piana.fav): il motore le porta a «getta cibo», e qui basta una voce.
  *  I verbi che non compaiono qui (bevi, mangia…) hanno già un altro posto. */
 const NOTE: Record<string, Chip> = {
   "attingi": { chiave: "attingi", cmd: "attingi", etichetta: "Attingi" },
   "curati": { chiave: "curati", cmd: "curati", etichetta: "Curati" },
-  "getta": { chiave: "getta cibo", cmd: "getta cibo", etichetta: "Getta il cibo" },
   "getta cibo": { chiave: "getta cibo", cmd: "getta cibo", etichetta: "Getta il cibo" },
-  "getta il cibo": { chiave: "getta cibo", cmd: "getta cibo", etichetta: "Getta il cibo" },
-  "lancia cibo": { chiave: "getta cibo", cmd: "getta cibo", etichetta: "Getta il cibo" },
-  "lancia il cibo": { chiave: "getta cibo", cmd: "getta cibo", etichetta: "Getta il cibo" },
   "bevi salmastra": { chiave: "bevi salmastra", cmd: "bevi salmastra", etichetta: "Bevi l'acqua salmastra" },
 };
 const VERBI_CON_BERSAGLIO: Record<string, string> = { attacca: "Attacca", minaccia: "Minaccia", raddrizza: "Raddrizza" };

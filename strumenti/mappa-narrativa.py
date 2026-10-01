@@ -37,6 +37,9 @@ ZONE = [
 ORDINE = {z: i for i, (z, _, _) in enumerate(ZONE)}
 ARTICOLO = r"(?:il|lo|la|i|gli|le|l'|un|uno|una)\s*"
 SCORTE = {"vita", "sete", "fame", "acqua", "cibo"}
+# Le voci («stato della voce del sangue»…) non si leggono nei .fav: le legge l'interfaccia, che le
+# scrive a lato dello schermo (fav_stato in ponte.py, VOCI in app/src/gioco/testo.ts).
+PREFISSO_VOCI = "stato della voce "
 
 
 def righe(zona_file):
@@ -171,6 +174,8 @@ class Mappa:
             z_le = sorted(le, key=ORDINE.get)
             if k in SCORTE:
                 portata = "scorta (ovunque)"
+            elif k.startswith(PREFISSO_VOCI):
+                portata = "letta dall'interfaccia"
             elif not le:
                 portata = "**mai letta**"
                 fantasmi.append(k)

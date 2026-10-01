@@ -8,6 +8,35 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.10.0] - 2026-10-01
+
+Quello che si dice di te, il bluff che Vito racconta, Peppe che chiede del sangue.
+
+### Aggiunto
+- **«Si dice di te»**, a lato dello schermo, sotto la fiducia: una riga per ogni voce che
+  qualcuno ti ha riferito in faccia. Tre voci: «che alzi le mani» (Rosaria, Ciro), «che lasci
+  qualcosa a chi resta» (Imma), «che al casello hai puntato una pistola scarica» (Ciro). Non
+  compaiono mai prima di essere state sentite.
+- **Vito umiliato dal bluff**: se gli hai puntato la pistola scarica, se ne accorge dopo e lo
+  racconta. Lo dice lui stesso, se torni al casello («Lo racconto bene»); lo sa Ciro («Quello
+  della pistola»), lo sa Tore, lo sa Cosimo («Hai fatto la faccia giusta»; alla minaccia con
+  la pistola: «Quella del casello»). Il bluff non è sangue, e non toglie fiducia a nessuno.
+- **Peppe e il sangue**: se arrivi in piazzetta con le mani sporche, Peppe te lo chiede una
+  volta sola. Puoi dirgli la verità, negare, o non rispondere. Viene o resta come prima, e i
+  finali non cambiano; cambia come ti guarda sul valico, al guado e allo sparo.
+
+### Cambiato
+- **«Getta cibo» e le sue parole** («getta il cibo», «lancia cibo», «lancia il cibo», «getta»)
+  sono dichiarate una volta sola, con i sinonimi del motore: stesso comportamento, la storia
+  più corta di undici righe.
+- La risposta di Peppe è «Non è così», non «Non è vero»: scrivendo «è vero» il motore ne trovava due.
+- **Salvataggi:** l'impronta dell'avventura cambia; chi ricarica una partita vecchia la
+  trova ricostruita, e il gioco lo dice.
+
+### Collaudo
+- Due percorsi nuovi (`K_peppe_vero`, `L_peppe_bugia`): ora 12. `fili.py`: 104 prove (44 nuove).
+  `testo.py` verifica le voci; `interfaccia.py` le espone; la mappa narrativa le sa leggere.
+
 ## [1.9.0] - 2026-10-01
 
 Usare una cosa su un'altra, senza che il gioco dica quali coppie funzionano.

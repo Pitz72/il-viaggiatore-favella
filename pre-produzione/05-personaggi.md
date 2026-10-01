@@ -46,6 +46,7 @@ I cinque maggiori sono cinque risposte alla stessa domanda: *restare o andarsene
 - **Vuole:** tenere il suo pezzo di strada. Non è crudele: ha trovato una rendita e la difende.
 - **Meccanica:** vita 7, fiducia 1. Si paga (stecca, benzina, 3 d'acqua: +1 fiducia, e lascia il lasciapassare sul bancone), si bluffa con la pistola scarica, si batte (col suo tubo di ferro risponde a ogni turno), o si aggira dal sottopasso.
 - **Funzione:** la prova generale del guado. Qui il giocatore impara che la via violenta esiste e costa.
+- **Il bluff lo ferisce nell'orgoglio** (1.10.0): se gli punti la pistola scarica e se ne accorge dopo, lo racconta a chi passa («lo racconto bene»). Chi torna al casello lo sente; la voce arriva a Ciro, a Tore e a Cosimo (`06-ramificazione.md` §3.7).
 
 #### ROSARIA — l'osteria · Z5
 - **Voce:** calda ma stanca. L'ospitalità come ultima economia: la prima volta ti mette davanti acqua e legumi prima che tu apra bocca.
@@ -80,14 +81,15 @@ Tiene aperto per testardaggine, la camicia stirata anche adesso che non viene pi
 #### ROCCO — il fondale · Z3
 Raccoglie sale a mani nude, le labbra spaccate. Beve salmastro di nascosto: è il monito vivente di `bevi salmastra`. Il sale che raccoglie è moneta, e i cristalli si possono prendere.
 
-#### PEPPE — la piazzetta · Z5
+#### PEPPE — la piazzetta · Z5 (con la domanda sul sangue dalla 1.10.0)
 Diciassette anni, le scarpe sbagliate per camminare. Vuole venire via con te.
 - **Portarlo:** ti aspetta sulla salita e diventa *compagno*. Divide con te acqua e cibo (ogni tanto un sorso, un boccone) e parla lungo le colline.
 - **Lasciarlo:** resta in paese.
+- **Il sangue:** se arrivi con le mani sporche, Peppe lo sa e te lo chiede una volta sola («Io voglio saperlo da te, non da loro»). Tre risposte: la verità, una bugia, o niente. Non cambia se viene né i finali; cambia come cammina con te sul valico, al guado e allo sparo (`06-ramificazione.md` §3.8).
 - **Al guado:** se abbatti Cosimo, Peppe scappa senza voltarsi. Se lo riconosci, Peppe aspetta al cancello, e il finale è suo.
 
 #### CIRO — il mercato · Z5
-Svelto d'occhi e di mani. Non vuole amicizia: vuole fare affari. Compra quasi tutta la merce raccolta in Z3 e Z4, «la carta di Vito», e l'anello (il prezzo più alto del gioco). Cambia anche l'acqua in cibo, al suo prezzo (3 per 2). Se la tanica non ha posto (acqua dall'8 in su, e senza damigiana) non paga più in acqua l'orologio, la batteria, la stecca e le cartucce: le stesse merci valgono cibo (1.7.0).
+Svelto d'occhi e di mani. Non vuole amicizia: vuole fare affari. Compra quasi tutta la merce raccolta in Z3 e Z4, «la carta di Vito», e l'anello (il prezzo più alto del gioco). Se hai bluffato Vito lo sa già («Quello della pistola»): Vito è passato a raccontarlo. Cambia anche l'acqua in cibo, al suo prezzo (3 per 2). Se la tanica non ha posto (acqua dall'8 in su, e senza damigiana) non paga più in acqua l'orologio, la batteria, la stecca e le cartucce: le stesse merci valgono cibo (1.7.0).
 
 #### PASQUALE — il vicolo · Z5
 Un uomo giovane invecchiato dalla febbre. Non chiede: gli brucia troppo l'orgoglio. Le medicine su di lui lo salvano, e Rosaria lo viene a sapere (+2 fiducia). Tenerle per sé è legittimo: sono l'unica cura rapida del gioco.

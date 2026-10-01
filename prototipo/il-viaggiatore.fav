@@ -30,6 +30,17 @@ Il sangue parte da 0.
 La generosità è un contatore.
 La generosità parte da 0.
 
+# Quello che si dice di te. Ogni voce parte «ignota» e diventa «udita» quando qualcuno te la
+# riferisce in faccia (Rosaria, Ciro, Imma): l'interfaccia la scrive a lato dello schermo
+# solo allora, come una cosa che hai sentito, non come un contatore. Se ne aggiungi una,
+# aggiungi la sua riga in app/src/gioco/testo.ts (VOCI): lo verifica collaudo/testo.py.
+Lo stato della voce del sangue è uno stato.
+Lo stato della voce del sangue è ignota.
+Lo stato della voce della generosità è uno stato.
+Lo stato della voce della generosità è ignota.
+Lo stato della voce del bluff è uno stato.
+Lo stato della voce del bluff è ignota.
+
 # ============================================================================
 # INVENTARIO  [7 slot: tanica e biglietto di casa, più cinque scelte. La tanica è la vita.]
 # ============================================================================

@@ -11,7 +11,9 @@ prosa. Tre prove:
   2. nessuna riga scritta nei .fav somiglia a un messaggio del motore (se una battuta
      finisse nello stile di sistema, sparirebbe dalla storia);
   3. ogni personaggio dichiarato nei .fav è fra quelli che l'interfaccia riconosce
-     (altrimenti le sue battute finiscono nella prosa: è successo a Imma, nella 1.7.0).
+     (altrimenti le sue battute finiscono nella prosa: è successo a Imma, nella 1.7.0);
+  4. ogni «voce» (quello che si dice di te) dichiarata nei .fav ha la sua riga a lato
+     dello schermo, e l'interfaccia non ne ha di troppo.
 
 Uso:  python testo.py      (esce con 1 se una prova fallisce; serve `npm ci --prefix app`)
 """
@@ -137,6 +139,14 @@ mancano = [n for n in persone if n not in note]
 prova(f"tutti i {len(persone)} personaggi sono noti all'interfaccia", not mancano, ", ".join(mancano))
 battute = analizza([f"{n}: «Una battuta.»" for n in persone])["blocchi"]
 prova("…e le loro battute sono battute", all(bl and bl[0]["tipo"] == "battuta" for bl in battute))
+
+# ---------------------------------------------------------------------------
+# 4. le voci che corrono su di te
+# ---------------------------------------------------------------------------
+dichiarate = set(re.findall(r"^Lo stato della voce (.+) è uno stato\.$", FAV, re.M))
+righe_voci = set(analizza([])["voci"])
+prova(f"ogni voce dichiarata nei .fav ({len(dichiarate)}) ha la sua riga a lato dello schermo",
+      dichiarate == righe_voci, f"nei .fav: {sorted(dichiarate)}; nell'interfaccia: {sorted(righe_voci)}")
 
 print("TUTTO OK" if all(esiti) else "CI SONO FALLIMENTI")
 sys.exit(0 if all(esiti) else 1)

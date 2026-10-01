@@ -23,6 +23,10 @@ Lo stato della grata è chiusa.
 Lo stato della discesa è uno stato.
 Lo stato della discesa è nuova.
 
+# Il bluff con la pistola scarica: non è sangue, ma Vito lo racconta, e la voce arriva al mercato.
+Lo stato del bluff è uno stato.
+Lo stato del bluff è nuovo.
+
 # Imma: del paese, è tornata dal casello con l'ultimo pane lasciato a Vito. Digiuna sulla
 # discesa; sfamata (nutrita) se ne va avanti, e a fine turno conta come un dono; arrivata
 # quando la si ritrova in osteria (z5-paese.fav).
@@ -120,6 +124,7 @@ La descrizione di Vito se la vita di Vito è al massimo 0 è "Vito è seduto a t
 
 Il dialogo di Vito comincia con "vito_inizio".
 Vito al nodo "vito_inizio" dice "Respira storto, seduto contro la sbarra, una mano sulle costole. Non ti guarda. «Hai vinto tu. Va', che qui non c'è più niente da prendere.»" se la vita di Vito è al massimo 0.
+Vito al nodo "vito_inizio" dice "Non si alza. «Tu.» Lo dice come si dice il nome di un cane che ha morso. «Hai tirato fuori un ferro vuoto, e io ti ho detto calma, calma, come a un bambino.» Si passa una mano sulla faccia. «Lo racconto, adesso, a chi passa. Lo racconto bene.» Una pausa. «La sbarra è su. Passa, e non fermarti.»" se lo stato del bluff è fatto e la fiducia di Vito è al massimo 0.
 Vito al nodo "vito_inizio" dice "«Tu.» Non si alza. «La sbarra è su. Passa, e non fermarti.»" se la fiducia di Vito è al massimo 0.
 Vito al nodo "vito_inizio" dice "«Adesso vuoi parlare?» Stringe il tubo. «Paga, e forse ci ripenso.»" se lo stato di Vito è ostile.
 Vito al nodo "vito_inizio" dice "«Strada privata, amico. La mia.» Batte il tubo sul bancone, due colpi, senza cattiveria. «Si paga il pedaggio: qualcosa di buono, e passi. Sennò, dietrofront.»" se lo stato del casello è chiuso.
@@ -160,7 +165,7 @@ Quando la vita di Vito è al massimo 0: dire "Vito arretra contro la sbarra, la 
 
 # --- VIA 4 · BLUFFARE: la pistola scarica (lui non sa che è vuota) ---
 "minaccia" è un comando.
-Invece di minaccia Vito se il giocatore ha la pistola e lo stato del casello è chiuso: dire "Tiri fuori la pistola e gliela punti in faccia. Vito non sa che è scarica: per un attimo lo legge nei tuoi occhi, poi alza le mani piano e solleva la sbarra. «Calma, calma. Passa. Passa pure.» Mentre passi, ti fissa la faccia per ricordarsela." e adesso lo stato del casello è aperto e adesso diminuisci la fiducia di Vito di 1.
+Invece di minaccia Vito se il giocatore ha la pistola e lo stato del casello è chiuso: dire "Tiri fuori la pistola e gliela punti in faccia. Vito non sa che è scarica: per un attimo lo legge nei tuoi occhi, poi alza le mani piano e solleva la sbarra. «Calma, calma. Passa. Passa pure.» Mentre passi, ti fissa la faccia per ricordarsela." e adesso lo stato del casello è aperto e adesso diminuisci la fiducia di Vito di 1 e adesso lo stato del bluff è fatto.
 Invece di minaccia Vito se lo stato del casello è aperto: dire "La sbarra è già su. Inutile fare il duro adesso.".
 Invece di minaccia Vito: dire "Minacciare Vito a mani vuote è il modo più rapido per prenderle.".
 

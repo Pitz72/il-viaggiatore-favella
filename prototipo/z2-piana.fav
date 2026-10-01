@@ -89,26 +89,15 @@ Invece di attacca il cane se lo stato del cane è minaccioso e il giocatore ha i
 Invece di attacca il cane se lo stato del cane è minaccioso: dire "Lo colpisci a mani nude. Ringhia, ti morde, non basta mai." e adesso diminuisci la vita del cane di 1.
 Invece di attacca il cane: dire "Il cane non è più un problema.".
 
-"getta" è un comando senza oggetto.
 "getta cibo" è un comando senza oggetto.
-"getta il cibo" è un comando senza oggetto.
-"lancia cibo" è un comando senza oggetto.
-"lancia il cibo" è un comando senza oggetto.
-Invece di getta se il giocatore è in la serra e il cibo è almeno 1 e lo stato del cane è minaccioso: dire "Strappi un boccone e lo lanci lontano tra i filari. Il cane scatta dietro l'odore e sparisce. Dalle casse prendi le conserve buone, quante ne porti." e adesso diminuisci il cibo di 1 e adesso lo stato del cane è sviato e adesso aumenta il cibo di 3 e adesso il cane è nel nulla.
-Invece di getta se il giocatore è in la serra e lo stato del cane è minaccioso: dire "Non hai niente da lanciargli. Il cane lo sente, e ringhia più forte.".
-Invece di getta: dire "Non c'è niente da gettare, o nessuno a cui interessi.".
+# Le altre parole dello stesso gesto: si dichiara una volta sola, le altre sono come lui.
+"getta" è come "getta cibo".
+"getta il cibo" è come "getta cibo".
+"lancia cibo" è come "getta cibo".
+"lancia il cibo" è come "getta cibo".
 Invece di getta cibo se il giocatore è in la serra e il cibo è almeno 1 e lo stato del cane è minaccioso: dire "Strappi un boccone e lo lanci lontano tra i filari. Il cane scatta dietro l'odore e sparisce. Dalle casse prendi le conserve buone, quante ne porti." e adesso diminuisci il cibo di 1 e adesso lo stato del cane è sviato e adesso aumenta il cibo di 3 e adesso il cane è nel nulla.
 Invece di getta cibo se il giocatore è in la serra e lo stato del cane è minaccioso: dire "Non hai niente da lanciargli. Il cane lo sente, e ringhia più forte.".
 Invece di getta cibo: dire "Non c'è niente da gettare, o nessuno a cui interessi.".
-Invece di getta il cibo se il giocatore è in la serra e il cibo è almeno 1 e lo stato del cane è minaccioso: dire "Strappi un boccone e lo lanci lontano tra i filari. Il cane scatta dietro l'odore e sparisce. Dalle casse prendi le conserve buone, quante ne porti." e adesso diminuisci il cibo di 1 e adesso lo stato del cane è sviato e adesso aumenta il cibo di 3 e adesso il cane è nel nulla.
-Invece di getta il cibo se il giocatore è in la serra e lo stato del cane è minaccioso: dire "Non hai niente da lanciargli. Il cane lo sente, e ringhia più forte.".
-Invece di getta il cibo: dire "Non c'è niente da gettare, o nessuno a cui interessi.".
-Invece di lancia cibo se il giocatore è in la serra e il cibo è almeno 1 e lo stato del cane è minaccioso: dire "Strappi un boccone e lo lanci lontano tra i filari. Il cane scatta dietro l'odore e sparisce. Dalle casse prendi le conserve buone, quante ne porti." e adesso diminuisci il cibo di 1 e adesso lo stato del cane è sviato e adesso aumenta il cibo di 3 e adesso il cane è nel nulla.
-Invece di lancia cibo se il giocatore è in la serra e lo stato del cane è minaccioso: dire "Non hai niente da lanciargli. Il cane lo sente, e ringhia più forte.".
-Invece di lancia cibo: dire "Non c'è niente da gettare, o nessuno a cui interessi.".
-Invece di lancia il cibo se il giocatore è in la serra e il cibo è almeno 1 e lo stato del cane è minaccioso: dire "Strappi un boccone e lo lanci lontano tra i filari. Il cane scatta dietro l'odore e sparisce. Dalle casse prendi le conserve buone, quante ne porti." e adesso diminuisci il cibo di 1 e adesso lo stato del cane è sviato e adesso aumenta il cibo di 3 e adesso il cane è nel nulla.
-Invece di lancia il cibo se il giocatore è in la serra e lo stato del cane è minaccioso: dire "Non hai niente da lanciargli. Il cane lo sente, e ringhia più forte.".
-Invece di lancia il cibo: dire "Non c'è niente da gettare, o nessuno a cui interessi.".
 
 # Il cane morde finché è minaccioso e tu sei nella serra. Critico raro. Il primo
 # ingresso no: ringhia soltanto (la regola sta dopo i morsi, così in quel turno non

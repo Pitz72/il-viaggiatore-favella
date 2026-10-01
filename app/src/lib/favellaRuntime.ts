@@ -129,6 +129,8 @@ export interface StatoMondo {
   undo?: number;
   /** la domanda (sì/no) del motore in attesa: «esci», «ricomincia» */
   conferma?: string | null;
+  /** le voci che corrono su di te e che qualcuno ti ha riferito: «del sangue», «del bluff»… */
+  voci?: string[];
 }
 
 /** Che cosa farebbe un comando, senza farlo (vedi fav_anteprima in ponte.py). */

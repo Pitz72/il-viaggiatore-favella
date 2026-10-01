@@ -14,6 +14,12 @@ Lo stato di Pasquale è malato.
 
 Lo stato di Peppe è uno stato.
 Lo stato di Peppe è qui.
+# Se hai le mani sporche, Peppe lo sa e te lo chiede una volta sola. Che cosa gli rispondi lo
+# accompagna lungo la strada: «vero» o «bugia»; chi non risponde resta «nuovo».
+Lo stato della domanda di Peppe è uno stato.
+Lo stato della domanda di Peppe è nuova.
+Lo stato del sapere di Peppe è uno stato.
+Lo stato del sapere di Peppe è nuovo.
 
 Lo stato della salita è uno stato.
 Lo stato della salita è nuova.
@@ -133,14 +139,14 @@ Al nodo "rosaria_pass" l'opzione "Grazie." chiude il dialogo.
 Invece di vai nord se il giocatore è in l'osteria e lo stato del permesso è negato: dire "Fai per imboccare la salita, ma Rosaria ti ferma con un'occhiata dal banco. «Senza una mia parola, lassù non ci arrivi.»".
 # La prima volta all'osteria: l'ospitalità è un effetto reale sul corpo (una volta sola).
 # Chi ha alzato le mani per strada trova l'ospitalità, non la fiducia: la voce della statale arriva prima.
-Quando il giocatore è in l'osteria e lo stato dell'accoglienza è nuova e il sangue è almeno 1 e lo stato di Imma è digiuna: dire "Rosaria ti mette davanti un bicchiere d'acqua e una scodella di legumi, come a chiunque passi di qui: l'ospitalità non si nega. Ma non si siede. In fondo, due uomini scesi dalla statale smettono di parlare quando entri. Lei ripiega lo straccio sul banco, e intanto ti guarda le mani." e adesso diminuisci la sete di 5 e adesso diminuisci la fame di 4 e adesso aumenta la vita di 2 e adesso diminuisci la fiducia di Rosaria di 1 e adesso lo stato dell'accoglienza è data.
+Quando il giocatore è in l'osteria e lo stato dell'accoglienza è nuova e il sangue è almeno 1 e lo stato di Imma è digiuna: dire "Rosaria ti mette davanti un bicchiere d'acqua e una scodella di legumi, come a chiunque passi di qui: l'ospitalità non si nega. Ma non si siede. In fondo, due uomini scesi dalla statale smettono di parlare quando entri. Lei ripiega lo straccio sul banco, e intanto ti guarda le mani." e adesso diminuisci la sete di 5 e adesso diminuisci la fame di 4 e adesso aumenta la vita di 2 e adesso diminuisci la fiducia di Rosaria di 1 e adesso lo stato dell'accoglienza è data e adesso lo stato della voce del sangue è udita.
 Quando il giocatore è in l'osteria e lo stato dell'accoglienza è nuova e il sangue è al massimo 0 e lo stato di Imma è digiuna: dire "Rosaria ti mette davanti un bicchiere d'acqua fresca prima ancora che tu apra bocca, e una scodella di legumi. Mangi e bevi senza parlare, e lei non ti chiede niente finché non hai finito." e adesso diminuisci la sete di 5 e adesso diminuisci la fame di 4 e adesso aumenta la vita di 2 e adesso lo stato dell'accoglienza è data.
 # Se hai sfamato Imma sulla discesa, in osteria c'è già lei, e parla. La voce della statale corre, ma
 # anche questa: col sangue Rosaria non perde fiducia in te, e si siede; senza, te ne dà una in più.
-Quando il giocatore è in l'osteria e lo stato dell'accoglienza è nuova e il sangue è almeno 1 e lo stato di Imma è nutrita: dire "Rosaria ti mette davanti un bicchiere d'acqua e una scodella di legumi, come a chiunque passi di qui. In fondo, due uomini scesi dalla statale smettono di parlare quando entri. Dal tavolo della finestra, Imma posa il cucchiaio. «Quello lì mi ha dato da mangiare, sulla discesa.» Lo dice a nessuno, e lo dice forte. I due uomini ricominciano a parlare, più piano. Rosaria ripiega lo straccio, ti guarda le mani a lungo, e alla fine si siede." e adesso diminuisci la sete di 5 e adesso diminuisci la fame di 4 e adesso aumenta la vita di 2 e adesso lo stato dell'accoglienza è data e adesso lo stato di Imma è arrivata e adesso Imma è in l'osteria.
-Quando il giocatore è in l'osteria e lo stato dell'accoglienza è nuova e il sangue è al massimo 0 e lo stato di Imma è nutrita: dire "Rosaria ti mette davanti un bicchiere d'acqua fresca prima ancora che tu apra bocca, e una scodella di legumi. Dal tavolo della finestra Imma ti fa un cenno col mento, e Rosaria, passandoti il pane, lo vede. «Mi ha detto della discesa.» Non aggiunge altro. La scodella, a guardarla, è più piena di come la riempie per gli altri." e adesso diminuisci la sete di 5 e adesso diminuisci la fame di 4 e adesso aumenta la vita di 2 e adesso aumenta la fiducia di Rosaria di 1 e adesso lo stato dell'accoglienza è data e adesso lo stato di Imma è arrivata e adesso Imma è in l'osteria.
+Quando il giocatore è in l'osteria e lo stato dell'accoglienza è nuova e il sangue è almeno 1 e lo stato di Imma è nutrita: dire "Rosaria ti mette davanti un bicchiere d'acqua e una scodella di legumi, come a chiunque passi di qui. In fondo, due uomini scesi dalla statale smettono di parlare quando entri. Dal tavolo della finestra, Imma posa il cucchiaio. «Quello lì mi ha dato da mangiare, sulla discesa.» Lo dice a nessuno, e lo dice forte. I due uomini ricominciano a parlare, più piano. Rosaria ripiega lo straccio, ti guarda le mani a lungo, e alla fine si siede." e adesso diminuisci la sete di 5 e adesso diminuisci la fame di 4 e adesso aumenta la vita di 2 e adesso lo stato dell'accoglienza è data e adesso lo stato di Imma è arrivata e adesso Imma è in l'osteria e adesso lo stato della voce del sangue è udita e adesso lo stato della voce della generosità è udita.
+Quando il giocatore è in l'osteria e lo stato dell'accoglienza è nuova e il sangue è al massimo 0 e lo stato di Imma è nutrita: dire "Rosaria ti mette davanti un bicchiere d'acqua fresca prima ancora che tu apra bocca, e una scodella di legumi. Dal tavolo della finestra Imma ti fa un cenno col mento, e Rosaria, passandoti il pane, lo vede. «Mi ha detto della discesa.» Non aggiunge altro. La scodella, a guardarla, è più piena di come la riempie per gli altri." e adesso diminuisci la sete di 5 e adesso diminuisci la fame di 4 e adesso aumenta la vita di 2 e adesso aumenta la fiducia di Rosaria di 1 e adesso lo stato dell'accoglienza è data e adesso lo stato di Imma è arrivata e adesso Imma è in l'osteria e adesso lo stato della voce della generosità è udita.
 # Chi ha sfamato Imma dopo essere stato in osteria la ritrova lì al ritorno: la voce arriva lo stesso, in ritardo.
-Quando il giocatore è in l'osteria e lo stato dell'accoglienza è data e lo stato di Imma è nutrita: dire "Al tavolo della finestra c'è Imma, con la scodella davanti. Rosaria ti guarda da dietro il banco e annuisce, una volta sola." e adesso aumenta la fiducia di Rosaria di 1 e adesso lo stato di Imma è arrivata e adesso Imma è in l'osteria.
+Quando il giocatore è in l'osteria e lo stato dell'accoglienza è data e lo stato di Imma è nutrita: dire "Al tavolo della finestra c'è Imma, con la scodella davanti. Rosaria ti guarda da dietro il banco e annuisce, una volta sola." e adesso aumenta la fiducia di Rosaria di 1 e adesso lo stato di Imma è arrivata e adesso Imma è in l'osteria e adesso lo stato della voce della generosità è udita.
 L'osteria collega nord a la salita.
 
 # --- CONCETTA  [vecchia: la memoria a pezzi. Nomina Cosimo, il fratello] ---
@@ -187,13 +193,24 @@ Peppe è in la piazzetta.
 La descrizione di Peppe è "Diciassette anni, le scarpe sbagliate per camminare e la testa piena di altrove. Ti ha visto arrivare dalla strada e non smette di fissarti.".
 
 Il dialogo di Peppe comincia con "peppe_inizio".
+Peppe al nodo "peppe_inizio" dice "Ti guarda le mani prima delle scarpe, e si alza. «Giù al mercato dicono che hai già fatto del male, per strada.» Si ferma, ricomincia. «Io voglio saperlo da te, non da loro.»" se lo stato di Peppe è qui e il sangue è almeno 1 e lo stato della domanda di Peppe è nuova.
 Peppe al nodo "peppe_inizio" dice "«Tu vai a ovest, vero? Oltre le colline.» Si alza di scatto. «Portami con te. Qui si muore da fermi. Io cammino, non mi lamento, ti giuro.»" se lo stato di Peppe è qui.
 Peppe al nodo "peppe_inizio" dice "«Allora si parte davvero?» Ha già un fagotto pronto, lo nasconde male." se lo stato di Peppe è preso.
 Peppe al nodo "peppe_inizio" dice "Non alza più gli occhi da terra. «Ho capito. Stammi bene, viandante.»" se lo stato di Peppe è lasciato.
 
+Al nodo "peppe_inizio" l'opzione "È vero. Non l'ho voluto." se lo stato di Peppe è qui e il sangue è almeno 1 e lo stato della domanda di Peppe è nuova conduce al nodo "peppe_vero" e adesso lo stato della domanda di Peppe è fatta e adesso lo stato del sapere di Peppe è vero.
+Al nodo "peppe_inizio" l'opzione "Non è così." se lo stato di Peppe è qui e il sangue è almeno 1 e lo stato della domanda di Peppe è nuova conduce al nodo "peppe_bugia" e adesso lo stato della domanda di Peppe è fatta e adesso lo stato del sapere di Peppe è bugia.
+Al nodo "peppe_inizio" l'opzione "Non devo dirti niente." se lo stato di Peppe è qui e il sangue è almeno 1 e lo stato della domanda di Peppe è nuova conduce al nodo "peppe_muro" e adesso lo stato della domanda di Peppe è fatta.
 Al nodo "peppe_inizio" l'opzione "Vieni con me, allora." se lo stato di Peppe è qui conduce al nodo "peppe_preso" e adesso lo stato di Peppe è preso e adesso Peppe è nel nulla.
 Al nodo "peppe_inizio" l'opzione "È troppo dura, dove vado. Resta." se lo stato di Peppe è qui conduce al nodo "peppe_lasciato" e adesso lo stato di Peppe è lasciato.
 Al nodo "peppe_inizio" l'opzione "…" chiude il dialogo.
+
+Peppe al nodo "peppe_vero" dice "Non distoglie gli occhi. «Allora lo sai com'è.» Ci pensa. «Mio padre diceva che chi lo dice subito fa meno paura di chi lo nasconde. Non so se è vero. Ma me l'hai detto.»".
+Al nodo "peppe_vero" l'opzione "…" conduce al nodo "peppe_inizio".
+Peppe al nodo "peppe_bugia" dice "«Ah.» Annuisce, come a un conto che non torna. «Rosaria di queste cose non sbaglia mai. Ma va bene. Va bene così.» Non va bene: si capisce da come si risiede sul gradino.".
+Al nodo "peppe_bugia" l'opzione "…" conduce al nodo "peppe_inizio".
+Peppe al nodo "peppe_muro" dice "Alza le spalle, a metà. «Almeno non mi hai detto una bugia.» Non è un ringraziamento.".
+Al nodo "peppe_muro" l'opzione "…" conduce al nodo "peppe_inizio".
 
 Peppe al nodo "peppe_preso" dice "Ride, una volta sola, e si copre la bocca. «Non te ne penti. Salutare non ho da salutare nessuno: sono pronto. Ti aspetto dove comincia la mulattiera.»".
 Al nodo "peppe_preso" l'opzione "…" chiude il dialogo.
@@ -243,7 +260,9 @@ Ciro al nodo "ciro_carta" dice "«Carta di Vito?» Ride, e se la mette in tasca.
 Al nodo "ciro_carta" l'opzione "Altro." conduce al nodo "ciro_inizio" e adesso lo stato del discorso di Ciro è avviato.
 Al nodo "ciro_carta" l'opzione "Basta così." chiude il dialogo e adesso lo stato del discorso di Ciro è avviato.
 # Ciro è creditore di Vito: se Vito è finito a terra, lo sa già.
-Quando il giocatore è in il mercato e lo stato del mercato è nuovo e la vita di Vito è al massimo 0: dire "Ciro ti vede entrare e fischia piano. «Quello del casello.» Lo dice ai banchi, non a te. «Vito mi doveva una tanica da due inverni. Adesso chi me la rende?»" e adesso lo stato del mercato è visto.
+Quando il giocatore è in il mercato e lo stato del mercato è nuovo e la vita di Vito è al massimo 0: dire "Ciro ti vede entrare e fischia piano. «Quello del casello.» Lo dice ai banchi, non a te. «Vito mi doveva una tanica da due inverni. Adesso chi me la rende?»" e adesso lo stato del mercato è visto e adesso lo stato della voce del sangue è udita.
+# Il bluff non è sangue: Vito, che non l'ha dimenticato, lo racconta a chi passa. A Ciro, che gli deve un favore e glielo ricorda, lo racconta meglio.
+Quando il giocatore è in il mercato e lo stato del mercato è nuovo e lo stato del bluff è fatto e la vita di Vito è più di 0: dire "Ciro ti vede entrare e non nasconde il sorriso. «Quello della pistola.» Lo dice ai banchi, e i banchi ridono piano. «Vito è passato a raccontarla: gliel'hai puntata in faccia, ed era scarica. Dice che l'ha capito da come la tenevi, come una cosa che si porta, non come una che si usa.» Conta qualcosa sul banco, senza guardarti. «Qui da me puoi puntare quello che vuoi. Io guardo le mani, e se hanno acqua.»" e adesso lo stato del mercato è visto e adesso lo stato della voce del bluff è udita.
 
 # --- Passaggio a Z6: la mulattiera sale verso le colline ---
 # (il sentiero è la stanza d'ingresso di z6-colline.fav)

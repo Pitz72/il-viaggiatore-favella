@@ -32,9 +32,7 @@ hanno segnalato; qui c'è l'elenco da cui ripartire.
 - **L'acqua oltre la tanica** (1.7.0): fatto con l'anteprima che dice il tetto e con
   Ciro che cambia in cibo le merci che darebbero solo acqua. L'anello e la benzina
   restano affidati alla sola anteprima.
-- Le dichiarazioni doppie di `z2-piana.fav` («getta il cibo», «lancia cibo»…) si
-  possono ridurre a una con i sinonimi del motore. Cambia l'impronta dei
-  salvataggi: da fare insieme al lavoro sulla storia (sezione 2).
+- Le dichiarazioni doppie di `z2-piana.fav` (1.10.0): ridotte a una con i sinonimi.
 
 ### Motore (da segnalare a FAVELLA: `motore/` è una copia)
 - Una mossa verso un'uscita che non c'è fa passare un turno (gli altri comandi non
@@ -101,8 +99,9 @@ lavoro è far sì che ciò che fai per strada ritorni.
 - I fili sono nel gioco dalla 1.5.0 ([`pre-produzione/06-ramificazione.md`](../pre-produzione/06-ramificazione.md)):
   il sangue e la generosità, la terza via al guado (il fucile posato, la veglia),
   la strada di Acquamorta che ricorda. Le conseguenze a distanza sono passate da 2 a 6.
+- Dalla 1.10.0 ci sono «si dice di te» (§3.6), il bluff che Vito racconta (§3.7) e Peppe che
+  chiede del sangue (§3.8). Le conseguenze a distanza sono 9.
 - Dalla 1.7.0 c'è Imma (§3.5): il cibo dato sulla discesa conta per la generosità e Rosaria lo sa. Le
   conseguenze a distanza sono 7.
-- Prossimi fili possibili (§8 del documento): Vito umiliato dal bluff che lo
-  racconta; Peppe che sa del sangue quando si unisce a te; che cosa mostrare a lato
-  dello schermo, ora che le fiducie non sono più le sole a contare.
+- Prossimi fili possibili (§8 del documento): le fiducie come barrette e «si dice di te»
+  vicini potrebbero dire anche che cosa hai fatto a ciascuno; un'eco di Imma alla soglia.

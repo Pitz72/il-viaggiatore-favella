@@ -75,6 +75,16 @@ export function analizza(testo: string): Blocco[] {
   return out;
 }
 
+/** Quello che si dice di te, a lato dello schermo, quando qualcuno te lo ha riferito.
+ *  Le chiavi sono gli stati «stato della voce …» della storia (il-viaggiatore.fav); la riga
+ *  è come la direbbe chi la racconta, non come la conta il gioco. collaudo/testo.py verifica
+ *  che ogni voce dichiarata nei .fav ne abbia una, e che nessuna sia di troppo. */
+export const VOCI: Record<string, string> = {
+  "del sangue": "che alzi le mani",
+  "della generosità": "che lasci qualcosa a chi resta",
+  "del bluff": "che al casello hai puntato una pistola scarica",
+};
+
 /** Testo di una descrizione: MAIUSCOLE (oggetti notevoli), parentesi (suggerimenti), «dialoghi». */
 export type Pezzo = { k: "t" | "chiave" | "aiuto"; s: string };
 

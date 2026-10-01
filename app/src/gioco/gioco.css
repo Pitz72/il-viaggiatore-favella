@@ -104,6 +104,10 @@
 .vg-oggetto:disabled { cursor: default; opacity: .7; }
 .vg-fiducie { list-style: none; margin: 0; padding: 0; }
 .vg-fiducie li { display: flex; align-items: center; justify-content: space-between; margin: 5px 0; font-size: 14px; color: #e3dccf; }
+.vg-voci { list-style: none; margin: 0; padding: 0; }
+.vg-voci li { margin: 5px 0; font-style: italic; font-size: 13px; line-height: 1.35; color: rgba(230,223,210,.7); }
+.vg-voci li::before { content: "«"; margin-right: 3px; opacity: .5; }
+.vg-voci li::after { content: "»"; margin-left: 3px; opacity: .5; }
 .vg-pip i { display: inline-block; width: 12px; height: 5px; margin-left: 3px; border-radius: 2px; background: rgba(255,255,255,.1); }
 .vg-pip i.on { background: var(--acc); box-shadow: 0 0 6px var(--acc); }
 .vg-cammino { display: flex; align-items: center; gap: 5px; }

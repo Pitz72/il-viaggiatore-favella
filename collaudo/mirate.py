@@ -24,7 +24,7 @@ PROVE = {
     ['Affondi il coltello', 'Vito arretra', 'Respira storto', 'seduto a terra contro la sbarra', 'contro il palo', '--- La discesa'], ['L\'amico mio'],
     dict(soglia_sete=9, soglia_fame=11)),
  'Vito: bluff con pistola': (FINO_CASELLO + ['nord', 'prendi pistola', 'esamina pistola', 'sud', 'minaccia Vito', 'parla con Vito', '1', 'ovest'],
-    ['MINACCIA chi ti sbarra', 'Vito non sa che è scarica', '«Tu.» Non si alza', '--- La discesa'], ['L\'amico mio', 'Cosa c\'è, oltre']),
+    ['MINACCIA chi ti sbarra', 'Vito non sa che è scarica', 'Lo racconto bene', '--- La discesa'], ['L\'amico mio', 'Cosa c\'è, oltre']),
  'Vito: paga, lasciapassare sul bancone': (FINO_CASELLO + ['parla con Vito', "tre d'acqua", 'grazie', 'guarda', 'parla con Vito', '1'],
     ['lo lascia sul bancone', 'un lasciapassare', 'la sbarra alzata', 'L\'amico mio'], []),
  'Rosaria: ingressi ripetuti': (FINO_Z5 + ['nord', 'sud', 'nord', 'sud', 'nord', 'nord'],

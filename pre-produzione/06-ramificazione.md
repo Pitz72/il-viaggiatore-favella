@@ -1,6 +1,6 @@
 # IL VIAGGIATORE — La ramificazione
 
-> Pre-produzione · Strato 6 · **v1.1, realizzato nel gioco 1.5.0 (30/09/2026); Imma dalla 1.7.0**
+> Pre-produzione · Strato 6 · **v1.2, realizzato nel gioco 1.5.0 (30/09/2026); Imma dalla 1.7.0; le voci, il bluff e Peppe dalla 1.10.0**
 > Fonte dei numeri: `sviluppo/mappa-narrativa.md`, generata da
 > `strumenti/mappa-narrativa.py` leggendo `prototipo/*.fav`. Si rigenera dopo ogni
 > modifica alla storia. Collaudo dedicato: `collaudo/fili.py`.
@@ -187,9 +187,78 @@ arriva prima di te). Imma è la prova che la voce corre anche per il bene.
 Chi non l'ha sfamata trova l'osteria com'era (senza sangue: acqua e legumi; col sangue: non si
 siede). Imma conta anche per la **generosità** (§3.2): quattro doni, soglia tre.
 
+Imma è anche la prima a dire, a voce alta, che cosa si sente dire di te per il bene: vedi §3.6.
+
 Perché non una delle altre due strade proposte (meno cibo prima del tratto; la fame che si
 vede): la prima sposta l'economia di tutta la prima metà per ottenere un disagio che nessuno
 sceglie; la seconda dà atmosfera, non paura. Imma dà una **scelta**, e la risposta torna.
+
+### 3.6 Quello che si dice di te, a lato dello schermo (1.10.0)
+
+Il sangue e la generosità contano più delle singole fiducie, ma restavano invisibili: il
+giocatore vedeva cinque barrette di fiducia e non sapeva che cosa aveva davvero pesato. Ora
+a lato dello schermo, sotto «fiducia», compare **«si dice di te»**, una riga per ogni voce che
+qualcuno ti ha *riferito in faccia*:
+
+| Voce | Si sente da | La riga |
+|---|---|---|
+| del sangue | Rosaria (l'accoglienza col sangue), Ciro (Vito a terra), Imma in osteria col sangue | «che alzi le mani» |
+| della generosità | Imma in osteria, in tutti e tre i casi in cui la ritrovi | «che lasci qualcosa a chi resta» |
+| del bluff | Ciro, la prima volta al mercato | «che al casello hai puntato una pistola scarica» |
+
+Non è un contatore e non compare mai prima: nessuno spoiler su ciò che i personaggi non hanno
+ancora detto. Nasce da uno stato per voce (`stato della voce …`, «ignota» → «udita»,
+dichiarato in `il-viaggiatore.fav`), che l'interfaccia legge (`fav_stato` → `voci`) e scrive
+con la sua riga (`VOCI` in `testo.ts`). `collaudo/testo.py` verifica che ogni voce dichiarata
+abbia la sua riga e viceversa.
+
+### 3.7 Vito umiliato dal bluff, che lo racconta (1.10.0)
+
+Il bluff con la pistola scarica non è sangue (decisione dell'autore): non muore nessuno. Ma
+Vito ha fatto «calma, calma» davanti a una pistola vuota, e non l'ha dimenticato.
+`stato del bluff` («nuovo» → «fatto») lo ricorda, e la storia lo riporta:
+
+- **Vito**, se torni al casello: «Hai tirato fuori un ferro vuoto, e io ti ho detto calma,
+  calma, come a un bambino. Lo racconto, adesso, a chi passa. Lo racconto bene.»
+- **Ciro**, la prima volta al mercato: «Quello della pistola.» Vito è passato a raccontarla; ha
+  capito «da come la tenevi, come una cosa che si porta, non come una che si usa». La voce del
+  bluff è udita (§3.6).
+- **Tore**, sulle colline: «Rosaria ha mandato a dire anche che al casello hai tirato fuori un
+  ferro vuoto.»
+- **Cosimo**: nella prima battuta («Hai fatto la faccia giusta», quasi un complimento: vale se
+  non c'è sangue né abbastanza generosità), e a «minaccia Cosimo» con la pistola («Quella del
+  casello. Vito l'ha capito dopo. Io l'avevo capito prima che la tirassi fuori»). L'effetto
+  sulla veglia non cambia: la minaccia con la pistola scarica la rompe.
+
+Il prezzo del bluff è la derisione, non la violenza: arriva prima di te, e non toglie fiducia a
+nessuno. Il bluff resta l'unico modo di passare senza che nessuno si faccia male, e senza che
+nessuno ti dimentichi.
+
+### 3.8 Peppe e il sangue (1.10.0)
+
+Se in piazzetta arrivi col sangue addosso, Peppe lo sa (la voce corre fino a lui) e **te lo
+chiede una volta sola**, prima di decidere se venire:
+
+```
+[Z5_PEPPE] «Giù al mercato dicono che hai già fatto del male, per strada.»
+Scelte:
+  A) «È vero. Non l'ho voluto.»   → sapere di Peppe = vero
+  B) «Non è così.»                → sapere di Peppe = bugia
+  C) «Non devo dirti niente.»     → resta «nuovo»; «Almeno non mi hai detto una bugia.»
+  (poi come sempre: «Vieni con me, allora.» / «È troppo dura. Resta.»)
+```
+
+Peppe viene o non viene come prima: **nessun finale cambia** (la sua presenza è un pilastro).
+Cambia come cammina con te:
+
+| Sapere | Sul valico | Al guado | Allo sparo (finale F) |
+|---|---|---|---|
+| nuovo (nessuna domanda, o C) | «È là, casa tua?» | ha capito chi è quell'uomo | corre via senza voltarsi |
+| vero | «Mi hai detto del male che hai fatto. Se là devi farne ancora, dimmelo prima.» | ti guarda le mani, «non per paura: per sapere» | «In paese ti aveva chiesto che uomo fossi, e tu gliel'avevi detto. Adesso l'ha visto.» |
+| bugia | «Giù, ti ho chiesto una cosa, e mi hai detto di no. Io i conti li tengo.» | tiene gli occhi sulle tue mani «come su una cosa che gli hanno già raccontato» | «…e tu gli avevi detto di no. Adesso non ha più niente da chiederti.» |
+
+La bugia non è punita con una meccanica: è punita da chi ti conosce. Il guadagno della verità
+è meno di una ricompensa e più di un silenzio.
 
 ## 4. I futuri possibili al guado
 
@@ -217,6 +286,10 @@ Il primo bivio che pesa sul modo di arrivare a casa è **la serra**, la seconda 
 | `stato di Pasquale` | già esisteva | malato | Z5 | **anche** Z6 (Onofrio), Z4 (Imma, in osteria) |
 | `stato di Imma` | stato | digiuna | Z4 (nutrita), Z5 (arrivata) | Z4, **Z5** (osteria, Rosaria), indirettamente **Z7** (la generosità) |
 | `stato del discorso di Imma` | stato | nuovo | Z4 | Z4 (non ripete il benvenuto) |
+| `stato della voce del sangue`, `…della generosità`, `…del bluff` | stato | ignota | Z5 (Rosaria, Ciro, Imma) | **l'interfaccia** (a lato dello schermo) |
+| `stato del bluff` | stato | nuovo | Z4 (minaccia Vito con la pistola) | Z4 (Vito), **Z5** (Ciro), **Z6** (Tore), **Z7** (Cosimo) |
+| `stato della domanda di Peppe` | stato | nuova | Z5 | Z5 (una volta sola) |
+| `stato del sapere di Peppe` | stato | nuovo | Z5 | **Z6** (valico), **Z7** (guado, lo sparo) |
 
 Nota tecnica: i «Quando» che contano la generosità scattano a fine turno. Un dono fatto in
 un dialogo si registra al primo turno che passa dopo (i dialoghi non fanno passare il tempo).
@@ -234,6 +307,13 @@ un dialogo si registra al primo turno che passa dopo (i dialoghi non fanno passa
 6. **Imma, non un taglio al cibo** (1.7.0): l'autore ha lasciato la scelta; si è preferita una
    scelta con un costo a una scarsità imposta (§3.5). Il dono conta per la generosità, soglia
    invariata a 3: quattro doni, nessuno gratis. Chi dà solo l'ultima porzione dà lo stesso.
+7. **Le voci, il bluff e Peppe insieme** (1.10.0): l'autore ha chiesto di scegliere senza
+   tagliare. La proposta era A (cosa si dice di te) e B (Peppe e il sangue), con C (il bluff)
+   «per dopo»; si sono scritte tutte e tre, perché si appoggiano l'una all'altra: la voce del
+   bluff e quella del sangue passano per Ciro e Rosaria, e Peppe è il terzo che le sente. L'eco di
+   Imma alla soglia è rimasta fuori: vive in paese, e un'eco ad Acquamorta sarebbe forzata.
+8. **«Non è così», non «Non è vero»** — perché «è vero» è anche dentro «È vero. Non l'ho voluto.» e
+   scrivendo il motore avrebbe trovato due risposte per una parola.
 
 ## 7. Impatto
 
@@ -243,6 +323,14 @@ un dialogo si registra al primo turno che passa dopo (i dialoghi non fanno passa
   posato, la veglia lunga) in `finali.py` e `pulsanti.py`; `fili.py` con 35 prove.
 - **Mappa**: le conseguenze a distanza passano da **2 a 6** (sangue, generosità, vita di
   Vito, Pasquale, e i due di Peppe).
+
+### 1.10.0 (1° ottobre 2026)
+- **Salvataggi**: l'impronta dell'avventura cambia di nuovo. Versione **minor**.
+- **Collaudi**: due percorsi (`K_peppe_vero`, `L_peppe_bugia`: Peppe che chiede, con la lettera e
+  con il fucile sparato) in `finali.py` e `pulsanti.py` (12 percorsi); `fili.py` con 104 prove
+  (44 nuove: il bluff, Peppe, le voci, «getta cibo»); `testo.py` verifica le voci; `interfaccia.py` le espone.
+- **Mappa**: le conseguenze a distanza passano da 7 a 9 (`stato del bluff`, `stato del sapere di
+  Peppe`); le tre voci sono lette dall'interfaccia, non dai `.fav`.
 
 ### 1.7.0 (1° ottobre 2026)
 - **Salvataggi**: l'impronta dell'avventura cambia di nuovo (Imma, Ciro). Versione **minor**.
@@ -258,5 +346,8 @@ un dialogo si registra al primo turno che passa dopo (i dialoghi non fanno passa
   ma il numero di ciascuno no. Si può valutare di mostrare i fili invece delle fiducie, o
   di lasciare il sangue e la generosità invisibili (scelta attuale: invisibili, si vedono
   solo nelle conseguenze).
-- Altri fili possibili, se servirà: Vito umiliato dal bluff che lo racconta; Peppe che sa
-  del sangue quando si unisce a te.
+- Fatti nella 1.10.0: le voci a lato dello schermo (§3.6), Vito umiliato dal bluff (§3.7), Peppe
+  che sa del sangue (§3.8).
+- Altri fili possibili: le fiducie restano mostrate come barrette; si può valutare di mostrare
+  in loro vece o accanto «che cosa hai fatto a chi», ora che «si dice di te» c'è. Un'eco di Imma
+  alla soglia (scartata per ora).
