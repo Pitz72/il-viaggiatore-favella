@@ -74,12 +74,17 @@ Chi lo ricorda:
 | Dove | Scelta | Come si conta una volta sola |
 |---|---|---|
 | Z2 pozzo | il cibo a Saverio | la fiducia di Saverio arriva a 3 (non cala mai) |
-| Z3 diga | l'acqua o il cibo a Iole | la fiducia di Iole arriva a 3 (non cala mai) |
 | Z5 osteria | l'acqua a Rosaria | la brocca a parte (`stato della brocca`) si riempie |
 | Z5 vicolo | le medicine a Pasquale | Pasquale curato |
 
 Ognuna costa già qualcosa che serve a sopravvivere: il filo non le rende convenienti, le fa
-ricordare. Soglia che conta al guado: **3 su 4**.
+ricordare. Soglia che conta al guado: **tutti e tre**.
+
+**Il dono a Iole non conta (dalla 1.6.0).** Senza, il casotto resta chiuso, le pastiglie
+non si prendono e la pompa non va: lo pagano tutti quelli che passano. Fino alla 1.5.0
+contava, e le partite giocate a mano hanno mostrato che così la soglia «3 su 4» si
+raggiungeva quasi da sola, anche dopo aver ucciso il cane e alzato le mani su Vito. Un
+prezzo non è un dono.
 
 Chi la ricorda: **Cosimo**, la prima battuta («Dicono che per strada lasci l'acqua a chi è
 rimasto. A me non l'ha lasciata nessuno.»); **il guado** (§3.3); **la strada** («Lo so da
@@ -157,7 +162,7 @@ Il primo bivio che pesa sul modo di arrivare a casa è **la serra**, la seconda 
 | Variabile | Tipo | Iniziale | Si scrive | Si legge |
 |---|---|---|---|---|
 | `il sangue` | contatore | 0 | Z2 (cane), Z4 (Vito ×2) | Z5 (Rosaria), Z6 (Tore), Z7 (Cosimo, fucile posato, veglia, strada) |
-| `la generosità` | contatore | 0 | Z2, Z3, Z5 (×2) | Z7 (Cosimo, fucile posato, strada) |
+| `la generosità` | contatore | 0 | Z2, Z5 (×2) | Z7 (Cosimo, fucile posato, strada) |
 | `stato della brocca` | stato | vuota | Z5 (dono a Rosaria) | Z5 (la generosità una volta sola) |
 | `stato del mercato` | stato | nuovo | Z5 | Z5 (Ciro, una volta sola) |
 | `stato del riconoscimento` | stato | nessuno | Z7 | Z7 (descrizione di Cosimo) |
@@ -174,7 +179,8 @@ un dialogo si registra al primo turno che passa dopo (i dialoghi non fanno passa
 1. **Il fucile posato**: l'autore ha chiesto di estendere quel pezzo di storia il più
    possibile. Oltre al gesto che basta, è nata la **veglia**, così che nessuno sia costretto
    a sparare e il sangue abbia un prezzo in tempo e sete.
-2. **La generosità**: 3 doni su 4, una volta per persona.
+2. **La generosità**: 3 doni su 4, una volta per persona. Dalla 1.6.0 i doni sono tre
+   (Saverio, Rosaria, Pasquale) e servono tutti: quello a Iole è il prezzo della pompa.
 3. **Il bluff con la pistola**: non è sangue, perché non muore nessuno.
 4. **Rosaria più fredda** col sangue: accettato.
 5. **I nomi**: «il sangue» e «la generosità».

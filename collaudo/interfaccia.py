@@ -7,8 +7,11 @@ Tre cose che i pulsanti danno per certe:
     fatta davvero su una copia, cambia le stesse scorte e le stesse cose;
   · le azioni di contesto compaiono dove il testo del luogo le suggerisce
     (ATTINGI al pozzo, GETTA CIBO alla serra, CURATI con le medicine, ATTACCA il cane)
-    e spariscono quando non servono più; lo stesso per le combinazioni di due cose
-    («usa la chiave inglese sulla grata»), offerte solo dove e quando la storia le prevede.
+    e spariscono quando non servono più, o quando direbbero soltanto di no («Giù le
+    mani», «Stai abbastanza in forze», «La sbarra è già su»); lo stesso per le
+    combinazioni di due cose («usa la chiave inglese sulla grata»), offerte solo dove
+    e quando la storia le prevede. Due gesti che farebbero la stessa cosa alla stessa
+    persona sono un pulsante solo.
 
 Uso:  python interfaccia.py      (esce con 1 se una prova fallisce)
 """
@@ -131,7 +134,15 @@ az = azioni(p)
 prova("alla stazione non c'è ATTINGI né GETTA né ATTACCA",
       not ({"attingi", "getta cibo", "getta", "curati"} & set(az["soli"])) and az["bersagli"] == [], str(az))
 p._mondo.posizione_giocatore = "pozzo"
-prova("al pozzo c'è ATTINGI", "attingi" in azioni(p)["soli"], str(azioni(p)))
+prova("al pozzo, prima della fiducia di Saverio, niente ATTINGI (direbbe «Giù le mani»)",
+      "attingi" not in azioni(p)["soli"], str(azioni(p)))
+p._mondo.variabili["fiducia di saverio"] = 3
+prova("al pozzo, con la fiducia di Saverio, c'è ATTINGI", "attingi" in azioni(p)["soli"], str(azioni(p)))
+p._mondo.variabili["stato del pozzo"] = "vuoto"
+p._mondo.variabili["acqua"] = 8
+prova("al pozzo vuoto, con la tanica piena, ATTINGI sparisce (solo fango)", "attingi" not in azioni(p)["soli"], str(azioni(p)))
+p._mondo.variabili["acqua"] = 1
+prova("al pozzo vuoto, a secco, ATTINGI torna (il fondo dà ancora un poco)", "attingi" in azioni(p)["soli"], str(azioni(p)))
 p._mondo.posizione_giocatore = "sorgente"
 prova("alla sorgente c'è ATTINGI", "attingi" in azioni(p)["soli"], str(azioni(p)))
 p = nuovo_ponte()
@@ -145,13 +156,42 @@ prova("a cane sviato non c'è più né GETTA CIBO né ATTACCA il cane",
       "getta cibo" not in az["soli"] and not [b for b in az["bersagli"] if b["id"] == "cane"], str(az))
 p = nuovo_ponte()
 p._mondo.inventario.add("medicine")
-prova("con le medicine c'è CURATI", "curati" in azioni(p)["soli"])
+prova("con le medicine e in forze, niente CURATI", "curati" not in azioni(p)["soli"])
+p._mondo.variabili["vita"] = 6
+prova("con le medicine e ferito c'è CURATI", "curati" in azioni(p)["soli"])
 p = nuovo_ponte()
 p._mondo.posizione_giocatore = "casello"
 az = azioni(p)
 prova("al casello c'è ATTACCA Vito (a mani nude)", any(b["verbo"] == "attacca" and b["id"] == "vito" for b in az["bersagli"]), str(az))
 p._mondo.variabili["vita di vito"] = 0
 prova("a Vito a terra, ATTACCA sparisce", not [b for b in azioni(p)["bersagli"] if b["id"] == "vito"], str(azioni(p)))
+p = nuovo_ponte()
+p._mondo.posizione_giocatore = "casello"
+prendi_a_mano = lambda p, *ids: [(p._mondo.inventario.add(i), setattr(p._mondo.oggetti[i], "posizione", "inventario")) for i in ids]
+prendi_a_mano(p, "pistola")
+prova("con la pistola, alla sbarra chiusa, c'è MINACCIA Vito",
+      any(b["verbo"] == "minaccia" and b["id"] == "vito" for b in azioni(p)["bersagli"]), str(azioni(p)))
+p._mondo.variabili["stato del casello"] = "aperto"
+prova("a sbarra alzata MINACCIA Vito sparisce (direbbe «La sbarra è già su»)",
+      not [b for b in azioni(p)["bersagli"] if b["verbo"] == "minaccia"], str(azioni(p)))
+# al guado col fucile: «attacca», «spara», «usa il fucile su» fanno la stessa cosa a Cosimo
+p = nuovo_ponte()
+p._mondo.posizione_giocatore = "guado"
+prendi_a_mano(p, "fucile")
+az = azioni(p)
+prova("al guado col fucile un gesto solo contro Cosimo (attacca), niente «usa il fucile su Cosimo»",
+      [b["verbo"] for b in az["bersagli"] if b["id"] == "cosimo"] == ["attacca"]
+      and "usa il fucile su Cosimo" not in [c["cmd"] for c in az["coppie"]], str(az))
+for cmd in ["spara a Cosimo", "usa il fucile su Cosimo", "uccidi Cosimo", "colpisci Cosimo"]:
+    a = json.loads(p.fav_anteprima(cmd))
+    prova(f"«{cmd}» fa quello che fa «attacca Cosimo»",
+          {s["nome"]: s["dopo"] for s in a["stati"]}.get("stato di cosimo") == "abbattuto", str(a.get("stati")))
+# la foto della casa si raddrizza (una volta)
+p = nuovo_ponte()
+p._mondo.posizione_giocatore = "casa"
+prova("nella casa c'è RADDRIZZA la foto", any(b["verbo"] == "raddrizza" for b in azioni(p)["bersagli"]), str(azioni(p)))
+passi(p, ["raddrizza la foto"])
+prova("raddrizzata, il gesto sparisce", not [b for b in azioni(p)["bersagli"] if b["verbo"] == "raddrizza"], str(azioni(p)))
 p = nuovo_ponte()
 p._mondo.posizione_giocatore = "fondale"
 prova("al fondale c'è «bevi salmastra»", "bevi salmastra" in azioni(p)["soli"], str(azioni(p)))

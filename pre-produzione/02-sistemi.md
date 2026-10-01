@@ -67,7 +67,19 @@ Quando la vita è al massimo 0 e la sete è meno di 9 e la fame è meno di 11: �
 Le tre condizioni si escludono: scatta sempre una sola frase. Le soglie estreme (13 e 15) restano come rete per i salti bruschi (per esempio `bevi salmastra`).
 
 ### La vita che risale
-La vita ha un tetto di 10 e risale **piano**, solo se il corpo sta bene: con sete e fame al massimo 3, fuori dai luoghi di scontro (serra, casello, guado), una volta ogni tanto (`càpita (1 su 6)`) torna su di 1. Le medicine danno +3 subito. Così una ferita di Vito si recupera camminando bene, ma non durante la rissa.
+La vita ha un tetto di 10 e risale **piano**, solo se il corpo sta bene: con sete e fame sotto i due avvisi (sete al massimo 5, fame al massimo 6), fuori dai luoghi di scontro (serra, casello, guado), una volta ogni tanto (`càpita (1 su 8)`) torna su di 1. Le medicine danno +3 subito. Così una ferita di Vito si recupera camminando bene, ma non durante la rissa.
+
+Fino alla 1.5.0 la condizione era «sete e fame al massimo 3»: per starci bisognava mangiare prima della fame, cioè sprecare cibo, e nelle partite giocate a mano la ripresa non scattava quasi mai. Ogni ferita (il cane, Vito, una crisi di sete) restava per sempre, e chi beveva solo quando la testa martellava moriva verso il turno 85 con la tanica piena. Misure con dodici semi per ciascun modo di giocare (`collaudo/giocate.py` e la voce del diario del 1° ottobre 2026):
+
+| Chi gioca | prima (1.5.0) | dopo (1.6.0) |
+|---|---|---|
+| beve e mangia agli avvisi (sete 6, fame 7) | arriva sempre, vita minima 8–9 | arriva sempre, mai ferito |
+| il percorso violento (il cane, Vito, la veglia) | 11 su 12, vita minima media 2 | 12 su 12, vita minima media 5, finale 10 |
+| beve solo quando la testa martella (sete 9, fame 11) | muore sempre, fra il turno 58 e l'85 | arriva sempre, con 2–3 di vita |
+
+I tetti e i pavimenti (vita al massimo 10, sete e fame non sotto 0) stanno in fondo a `il-viaggiatore.fav`, dopo le zone: i demoni si valutano nell'ordine in cui sono scritti, e così valgono anche per quello che una zona dà nello stesso turno (l'accoglienza di Rosaria lasciava sete −1 e vita 11 fino al turno dopo).
+
+Quando la sete o la fame fanno male, la riga lo dice: «La testa martella, le mani tremano. (BEVI.)», «La debolezza ti rallenta i passi. (MANGIA.)».
 
 ## 3. L'acqua come moneta
 
@@ -86,7 +98,7 @@ Niente prezzi dinamici nel motore: ogni scambio è **cablato** in un'opzione di 
 
 **Quanta se ne può portare:** la tanica tiene 10; con la damigiana, 20. L'eccedenza si perde («il resto lo lasci andare»), così un rifornimento abbondante non diventa una riserva infinita.
 
-**Dove va:** si beve, si regala (Iole, Rosaria: alza la fiducia), si paga (il pedaggio di Vito: 3 d'acqua), si baratta (Tore: 2 d'acqua per 3 di cibo).
+**Dove va:** si beve, si regala (Iole, Rosaria: alza la fiducia), si paga (il pedaggio di Vito: 3 d'acqua), si baratta (Tore: 2 d'acqua per 3 di cibo; Ciro, dalla 1.6.0: 3 d'acqua per 2 di cibo, al suo prezzo). Dopo la pompa l'acqua abbonda e il cibo stringe: al mercato l'una si cambia nell'altro.
 
 **Regola di design:** ogni baratto è una scelta che costa. Dare acqua oggi è sete domani; vendere l'anello è acqua per la strada e un finale in meno.
 
@@ -96,9 +108,9 @@ Tre avversari in tutto il gioco, scritti a mano. Il protagonista è fragile, la 
 
 | Avversario | Vita | Come si scioglie | Cosa costa |
 |---|---|---|---|
-| **Il cane** della serra (Z2) | 5 | `getta cibo` (lo distrai: via libera, niente morsi) · `attacca` col coltello (−3 a colpo) o a mani nude (−1, e lui morde) | morsi: vita −1 a turno, e 1 volta su 4 un morso a fondo; abbatterlo dà 3 di cibo (le conserve) |
+| **Il cane** della serra (Z2) | 5 | `getta cibo` (lo distrai: via libera, niente morsi) · `attacca` col coltello (−3 a colpo) o a mani nude (−1, e lui morde) | la prima volta che entri ringhia soltanto (dalla 1.6.0: prima mordeva prima che si potesse fare qualunque cosa); poi morsi: vita −1 a turno, e 1 volta su 4 un morso a fondo; abbatterlo dà 3 di cibo (le conserve) |
 | **Vito** al casello (Z4) | 7 | pagare (stecca, benzina o 3 d'acqua) · `minaccia Vito` con la pistola scarica (bluff) · `attacca` con chiave inglese o coltello (−3 a colpo) o a mani nude (−1) · aggirarlo dal sottopasso | il suo tubo di ferro: vita −2 a ogni turno di rissa, e 1 volta su 4 un colpo in più |
-| **Cosimo** al guado (Z7) | — | la via umana (`usa la lettera su Cosimo`) · la via violenta (`attacca Cosimo` col fucile) | la via violenta chiude i tre finali «di ritorno»; a mani nude non si ottiene niente |
+| **Cosimo** al guado (Z7) | — | la via umana (`usa la lettera su Cosimo`) · la via violenta (`attacca Cosimo` col fucile; anche `spara a`, `uccidi`, `colpisci`, `usa il fucile su`) · il fucile posato (`lascia il fucile`, la veglia) | la via violenta chiude i tre finali «di ritorno»; a mani nude non si ottiene niente |
 
 Cosimo non ha un contatore di vita di proposito: non è un nemico da consumare. O lo si riconosce, o gli si spara.
 

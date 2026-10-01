@@ -2,8 +2,9 @@
 
   · il sangue: il cane ucciso, Vito colpito, Vito a terra. Il bluff con la pistola
     scarica no: non muore nessuno;
-  · la generosità: il primo dono a Saverio, a Iole, a Rosaria, e Pasquale curato.
-    Una volta per persona: ridare non conta di nuovo;
+  · la generosità: il primo dono a Saverio, a Rosaria, e Pasquale curato. Una
+    volta per persona: ridare non conta di nuovo. Il dono a Iole no: senza, la
+    pompa non va, e lo pagano tutti (è un prezzo, non un dono);
   · chi li ricorda: Rosaria (più fredda col sangue), Ciro (creditore di Vito), Tore,
     Onofrio (la febbre di Pasquale), Cosimo (la prima battuta), la strada di
     Acquamorta (una volta sola);
@@ -69,7 +70,8 @@ prova("Saverio: due doni, la generosità conta uno", p.v("generosità") == 1 and
 
 p = partita("diga", acqua=6)
 fai(p, "parla con Iole", "Ti lascio dell'acqua", "grazie", "Ti lascio dell'acqua", "grazie", "niente", "aspetta")
-prova("Iole: due doni, la generosità conta uno", p.v("generosità") == 1, str(p.v("generosità")))
+prova("Iole: il dono apre il casotto, ma è un prezzo: la generosità non cresce",
+      p.v("generosità") == 0 and p.v("fiducia di iole") >= 3, str(p.v("generosità")))
 
 p = partita("osteria", acqua=6)
 fai(p, "parla con Rosaria", "Ti lascio dell'acqua", "…", "Ti lascio dell'acqua", "…", "Niente, grazie", "aspetta")
@@ -86,17 +88,17 @@ prova("Pasquale curato: la generosità conta uno", p.v("generosità") == 1 and p
 p = partita("piazzetta", sangue=1)
 t = fai(p, "nord")
 prova("col sangue Rosaria accoglie, ma ti guarda le mani (fiducia 0)",
-      "ti guarda le mani" in t and p.v("fiducia di rosaria") == 0 and p.v("sete") < 0, t[-160:])
+      "ti guarda le mani" in t and p.v("fiducia di rosaria") == 0 and p.v("sete") == 0, t[-160:])
 p = partita("piazzetta")
 t = fai(p, "nord")
 prova("senza sangue l'accoglienza di sempre (fiducia 1)",
       "prima ancora che tu apra bocca" in t and "ti guarda le mani" not in t and p.v("fiducia di rosaria") == 1, t[-120:])
 
 p = partita("piazzetta", **{"vita di vito": 0})
-t = fai(p, "est", "ovest", "est")
+t = fai(p, "sud", "nord", "sud")
 prova("Ciro sa di Vito, e lo dice una volta sola", t.count("Quello del casello") == 1, t[-200:])
 p = partita("piazzetta")
-prova("con Vito in piedi Ciro non ne parla", "Quello del casello" not in fai(p, "est"))
+prova("con Vito in piedi Ciro non ne parla", "Quello del casello" not in fai(p, "sud"))
 
 p = partita("pianoro", sangue=1)
 prova("Tore: Rosaria ha mandato a dire anche il resto", "anche il resto" in fai(p, "parla con Tore"))

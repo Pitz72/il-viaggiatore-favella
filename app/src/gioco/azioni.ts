@@ -55,7 +55,22 @@ export interface Conferma {
 /** Stati che il motore cambia con una scelta e che spostano la storia: chi viene
  *  con te, chi ti dà che cosa. Si riconoscono dal nome, non dal testo. */
 const STATI_DI_SVOLTA = new Set(["stato di peppe", "stato del lascito"]);
-const VERBI_DI_VIOLENZA = new Set(["attacca", "minaccia", "colpisci"]);
+/** I verbi della violenza e il loro infinito per la domanda («Vuoi davvero sparare a
+ *  Cosimo?»). Gli altri nomi di «attacca» (uccidi, picchia…) sono sinonimi nella storia. */
+const VERBI_DI_VIOLENZA: Record<string, string> = {
+  attacca: "attaccare", minaccia: "minacciare", colpisci: "colpire", spara: "sparare a",
+  uccidi: "uccidere", ammazza: "ammazzare", picchia: "picchiare", aggredisci: "aggredire",
+};
+
+/** «sparare a» + «il cane» → «sparare al cane». */
+const conPreposizioneA = (gesto: string, persona: string) => {
+  if (!gesto.endsWith(" a")) return `${gesto} ${persona}`;
+  const base = gesto.slice(0, -2);
+  const m = persona.match(/^(il|lo|la|i|gli|le|l')\s*(.*)$/);
+  if (!m) return `${base} a ${persona}`;
+  const art: Record<string, string> = { il: "al", lo: "allo", la: "alla", i: "ai", gli: "agli", le: "alle", "l'": "all'" };
+  return `${base} ${art[m[1]]}${m[1] === "l'" ? "" : " "}${m[2]}`;
+};
 
 const R = {
   acqua: (n: number) => `${n} d'acqua`,
@@ -89,7 +104,10 @@ export function valutaConferma(cmd: string, a: Anteprima, mondo: StatoMondo): Co
   const haPreso = a.ottiene.length > 0 || presoRisorse;
   const dopo = RISORSE.slice(0, 2).map((k) => `${k} ${a.dopo[k] ?? mondo.counters[k] ?? 0}`).join(" · ");
   const base = { perdi, ottieni, pesa, dopo };
-  const bersaglio = parole.slice(1).join(" ").replace(/^(il|lo|la|l'|i|gli|le)\s+/, "");
+  // «spara al cane», «attacca il cane», «spara a Cosimo» → «cane», «Cosimo»
+  const bersaglio = parole.slice(1).join(" ")
+    .replace(/^(a|ad|al|allo|alla|ai|agli|alle|contro)\s+|^all'/, "")
+    .replace(/^(il|lo|la|i|gli|le)\s+|^l'/, "");
   const chi = bersaglio ? (mondo.present ?? []).find((p) => p.id === bersaglio)?.nome ?? bersaglio : "";
   const persona = chi ? conArticolo(chi) : "";
 
@@ -100,10 +118,10 @@ export function valutaConferma(cmd: string, a: Anteprima, mondo: StatoMondo): Co
     return { tipo: "svolta", segno: "una svolta", domanda: "Questa scelta pesa sul resto del viaggio. Vuoi confermarla?", ...base };
   }
   const cambiaQualcosa = a.stati.length > 0 || Object.keys(a.delta).length > 0 || haPerso || haPreso;
-  if (VERBI_DI_VIOLENZA.has(verbo) && cambiaQualcosa) {
-    const gesto = verbo === "minaccia" ? "minacciare" : verbo === "colpisci" ? "colpire" : "attaccare";
+  const gesto = VERBI_DI_VIOLENZA[verbo];
+  if (gesto && cambiaQualcosa) {
     return { tipo: "violenza", segno: "la violenza costa",
-      domanda: persona ? `Vuoi davvero ${gesto} ${persona}?` : "Vuoi davvero alzare le mani?", ...base };
+      domanda: persona ? `Vuoi davvero ${conPreposizioneA(gesto, persona)}?` : "Vuoi davvero alzare le mani?", ...base };
   }
   // ciò che costa solo vita (l'acqua salmastra): non è un dono né un baratto, è un danno
   if ((a.delta.vita ?? 0) < 0 && a.perde.length === 0 && !(a.delta.acqua < 0) && !(a.delta.cibo < 0)) {
@@ -194,7 +212,7 @@ const NOTE: Record<string, Chip> = {
   "lancia il cibo": { chiave: "getta cibo", cmd: "getta cibo", etichetta: "Getta il cibo" },
   "bevi salmastra": { chiave: "bevi salmastra", cmd: "bevi salmastra", etichetta: "Bevi l'acqua salmastra" },
 };
-const VERBI_CON_BERSAGLIO: Record<string, string> = { attacca: "Attacca", minaccia: "Minaccia" };
+const VERBI_CON_BERSAGLIO: Record<string, string> = { attacca: "Attacca", minaccia: "Minaccia", raddrizza: "Raddrizza" };
 
 export function chipDiContesto(az: AzioniContesto): Chip[] {
   const out: Chip[] = [];

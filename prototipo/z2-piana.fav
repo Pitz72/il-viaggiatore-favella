@@ -13,6 +13,10 @@ La vita del cane parte da 5.
 Lo stato del cane è uno stato.
 Lo stato del cane è minaccioso.
 
+# Il cane avverte prima di mordere, la prima volta che entri (chi torna, sa).
+Lo stato del ringhio è uno stato.
+Lo stato del ringhio è nuovo.
+
 Lo stato del pozzo è uno stato.
 Lo stato del pozzo è pieno.
 
@@ -31,7 +35,7 @@ La descrizione del pozzo è "Un pozzo vero, di quelli che pescano in fondo. SAVE
 La descrizione del pozzo se lo stato del pozzo è vuoto è "Un pozzo vero, ma il fondo ormai è fango e la corda è sfilacciata. SAVERIO siede sul bordo di pietra, le gambe verso il buio. (Se sei a secco, ATTINGI: aspettando, il fondo dà ancora un poco.) Si torna a SUD.".
 
 La serra è una stanza.
-La descrizione della serra è "Una serra dai vetri opachi di salsedine. Tra i filari secchi, casse di CONSERVE ancora buone. Ma un CANE rognoso le fa la guardia, il pelo ritto. (Col cibo lo puoi distrarre: GETTA CIBO. Oppure ATTACCA il cane.) Si torna a NORD.".
+La descrizione della serra è "Una serra dai vetri opachi di salsedine. Tra i filari secchi, casse di conserve ancora buone. Ma un CANE rognoso le fa la guardia, il pelo ritto. (Col cibo lo puoi distrarre: GETTA CIBO. Oppure ATTACCA il cane.) Si torna a NORD.".
 La descrizione della serra se lo stato del cane è sviato è "Una serra dai vetri opachi di salsedine. Tra i filari secchi, le casse di conserve aperte. Del cane, solo le impronte nella polvere. Si torna a NORD.".
 La descrizione della serra se lo stato del cane è abbattuto è "Una serra dai vetri opachi di salsedine. Tra i filari secchi, le casse di conserve aperte, e il CANE steso su un fianco accanto a quelle che difendeva. Si torna a NORD.".
 
@@ -48,6 +52,7 @@ Ogni turno se il giocatore è in il tratto: dire "Il sole picchia sulla nuca. La
 # --- SAVERIO  [relazione: dargli cibo alza la fiducia → ti lascia il pozzo] ---
 Saverio è un personaggio.
 Saverio è in il pozzo.
+Saverio si chiama anche "uomo".
 La descrizione di Saverio è "Un uomo con la nuca bruciata e le mani grosse. Non se n'è andato perché il pozzo è suo padre e suo figlio. Diffida di tutto ciò che cammina.".
 
 Il dialogo di Saverio comincia con "guardia".
@@ -89,25 +94,28 @@ Invece di attacca il cane: dire "Il cane non è più un problema.".
 "getta il cibo" è un comando senza oggetto.
 "lancia cibo" è un comando senza oggetto.
 "lancia il cibo" è un comando senza oggetto.
-Invece di getta se il giocatore è in la serra e il cibo è almeno 1 e lo stato del cane è minaccioso: dire "Strappi un boccone e lo lanci lontano tra i filari. Il cane scatta dietro l'odore e sparisce. La serra è tua." e adesso diminuisci il cibo di 1 e adesso lo stato del cane è sviato e adesso aumenta il cibo di 3 e adesso il cane è nel nulla.
+Invece di getta se il giocatore è in la serra e il cibo è almeno 1 e lo stato del cane è minaccioso: dire "Strappi un boccone e lo lanci lontano tra i filari. Il cane scatta dietro l'odore e sparisce. Dalle casse prendi le conserve buone, quante ne porti." e adesso diminuisci il cibo di 1 e adesso lo stato del cane è sviato e adesso aumenta il cibo di 3 e adesso il cane è nel nulla.
 Invece di getta se il giocatore è in la serra e lo stato del cane è minaccioso: dire "Non hai niente da lanciargli. Il cane lo sente, e ringhia più forte.".
 Invece di getta: dire "Non c'è niente da gettare, o nessuno a cui interessi.".
-Invece di getta cibo se il giocatore è in la serra e il cibo è almeno 1 e lo stato del cane è minaccioso: dire "Strappi un boccone e lo lanci lontano tra i filari. Il cane scatta dietro l'odore e sparisce. La serra è tua." e adesso diminuisci il cibo di 1 e adesso lo stato del cane è sviato e adesso aumenta il cibo di 3 e adesso il cane è nel nulla.
+Invece di getta cibo se il giocatore è in la serra e il cibo è almeno 1 e lo stato del cane è minaccioso: dire "Strappi un boccone e lo lanci lontano tra i filari. Il cane scatta dietro l'odore e sparisce. Dalle casse prendi le conserve buone, quante ne porti." e adesso diminuisci il cibo di 1 e adesso lo stato del cane è sviato e adesso aumenta il cibo di 3 e adesso il cane è nel nulla.
 Invece di getta cibo se il giocatore è in la serra e lo stato del cane è minaccioso: dire "Non hai niente da lanciargli. Il cane lo sente, e ringhia più forte.".
 Invece di getta cibo: dire "Non c'è niente da gettare, o nessuno a cui interessi.".
-Invece di getta il cibo se il giocatore è in la serra e il cibo è almeno 1 e lo stato del cane è minaccioso: dire "Strappi un boccone e lo lanci lontano tra i filari. Il cane scatta dietro l'odore e sparisce. La serra è tua." e adesso diminuisci il cibo di 1 e adesso lo stato del cane è sviato e adesso aumenta il cibo di 3 e adesso il cane è nel nulla.
+Invece di getta il cibo se il giocatore è in la serra e il cibo è almeno 1 e lo stato del cane è minaccioso: dire "Strappi un boccone e lo lanci lontano tra i filari. Il cane scatta dietro l'odore e sparisce. Dalle casse prendi le conserve buone, quante ne porti." e adesso diminuisci il cibo di 1 e adesso lo stato del cane è sviato e adesso aumenta il cibo di 3 e adesso il cane è nel nulla.
 Invece di getta il cibo se il giocatore è in la serra e lo stato del cane è minaccioso: dire "Non hai niente da lanciargli. Il cane lo sente, e ringhia più forte.".
 Invece di getta il cibo: dire "Non c'è niente da gettare, o nessuno a cui interessi.".
-Invece di lancia cibo se il giocatore è in la serra e il cibo è almeno 1 e lo stato del cane è minaccioso: dire "Strappi un boccone e lo lanci lontano tra i filari. Il cane scatta dietro l'odore e sparisce. La serra è tua." e adesso diminuisci il cibo di 1 e adesso lo stato del cane è sviato e adesso aumenta il cibo di 3 e adesso il cane è nel nulla.
+Invece di lancia cibo se il giocatore è in la serra e il cibo è almeno 1 e lo stato del cane è minaccioso: dire "Strappi un boccone e lo lanci lontano tra i filari. Il cane scatta dietro l'odore e sparisce. Dalle casse prendi le conserve buone, quante ne porti." e adesso diminuisci il cibo di 1 e adesso lo stato del cane è sviato e adesso aumenta il cibo di 3 e adesso il cane è nel nulla.
 Invece di lancia cibo se il giocatore è in la serra e lo stato del cane è minaccioso: dire "Non hai niente da lanciargli. Il cane lo sente, e ringhia più forte.".
 Invece di lancia cibo: dire "Non c'è niente da gettare, o nessuno a cui interessi.".
-Invece di lancia il cibo se il giocatore è in la serra e il cibo è almeno 1 e lo stato del cane è minaccioso: dire "Strappi un boccone e lo lanci lontano tra i filari. Il cane scatta dietro l'odore e sparisce. La serra è tua." e adesso diminuisci il cibo di 1 e adesso lo stato del cane è sviato e adesso aumenta il cibo di 3 e adesso il cane è nel nulla.
+Invece di lancia il cibo se il giocatore è in la serra e il cibo è almeno 1 e lo stato del cane è minaccioso: dire "Strappi un boccone e lo lanci lontano tra i filari. Il cane scatta dietro l'odore e sparisce. Dalle casse prendi le conserve buone, quante ne porti." e adesso diminuisci il cibo di 1 e adesso lo stato del cane è sviato e adesso aumenta il cibo di 3 e adesso il cane è nel nulla.
 Invece di lancia il cibo se il giocatore è in la serra e lo stato del cane è minaccioso: dire "Non hai niente da lanciargli. Il cane lo sente, e ringhia più forte.".
 Invece di lancia il cibo: dire "Non c'è niente da gettare, o nessuno a cui interessi.".
 
-# Il cane morde finché è minaccioso e tu sei nella serra. Critico raro.
-Ogni turno se il giocatore è in la serra e lo stato del cane è minaccioso: dire "Il cane ti azzanna il polpaccio." e adesso diminuisci la vita di 1.
-Ogni turno se il giocatore è in la serra e lo stato del cane è minaccioso e càpita (1 su 4): dire "Stavolta affonda i denti a fondo." e adesso diminuisci la vita di 1.
+# Il cane morde finché è minaccioso e tu sei nella serra. Critico raro. Il primo
+# ingresso no: ringhia soltanto (la regola sta dopo i morsi, così in quel turno non
+# mordono ancora). Si ha un turno per decidere: il cibo, la lama, o la porta.
+Ogni turno se il giocatore è in la serra e lo stato del cane è minaccioso e lo stato del ringhio è dato: dire "Il cane ti azzanna il polpaccio." e adesso diminuisci la vita di 1.
+Ogni turno se il giocatore è in la serra e lo stato del cane è minaccioso e lo stato del ringhio è dato e càpita (1 su 4): dire "Stavolta affonda i denti a fondo." e adesso diminuisci la vita di 1.
+Quando il giocatore è in la serra e lo stato del cane è minaccioso e lo stato del ringhio è nuovo: dire "Il cane si pianta tra te e le casse, il muso basso, i denti scoperti. Un passo ancora, e morde." e adesso lo stato del ringhio è dato.
 
 # Sconfitto: lasci le conserve (cibo). Stesso stato finale dello sviato: via libera.
 Quando la vita del cane è al massimo 0: dire "Il cane crolla su un fianco con un guaìto e resta giù. Tra le casse, le conserve sono tue: cibo per giorni." e adesso lo stato del cane è abbattuto e adesso aumenta il cibo di 3 e adesso aumenta il sangue di 1.

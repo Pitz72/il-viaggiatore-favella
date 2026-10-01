@@ -117,8 +117,8 @@ Al nodo "iole_inizio" l'opzione "Niente, per ora." chiude il dialogo.
 Iole al nodo "iole_dono" dice "Mette da parte il dono senza guardarlo. «Il casotto è là dietro. Prendi quello che ti serve e fa' andare la pompa. Le pastiglie bastano per una volta. Dopo, col filtro solo, tiri su acqua che sa di ferro: si beve, non si ama.»".
 Iole al nodo "iole_dono" dice "Mette da parte il dono senza guardarlo. «La pompa la sai far andare, ormai. Il resto è pazienza.»" se lo stato della pompa è attiva.
 Al nodo "iole_dono" l'opzione "Grazie." conduce al nodo "iole_inizio".
-# Il primo dono a Iole entra nella generosità (una volta: la fiducia non cala mai).
-Quando la fiducia di Iole è almeno 3: aumenta la generosità di 1.
+# Il dono a Iole NON entra nella generosità: senza, il casotto resta chiuso e la
+# pompa non va. Lo pagano tutti quelli che passano: è un prezzo, non un dono.
 
 Iole al nodo "iole_sapere" dice "«Si filtra, poi si tratta. Il filtro lo monti tu: tela e carbone ce n'è là nella carcassa. Il trattamento sta in casa mia: pastiglie. Ma in casa mia non entra chi non conosco.»".
 Al nodo "iole_sapere" l'opzione "Capito." conduce al nodo "iole_inizio".
@@ -135,8 +135,8 @@ Invece di vai nord se il giocatore è in la diga e la fiducia di Iole è al mass
 La diga collega nord a il casotto.
 
 # --- IL PUZZLE DELL'ACQUA  [climax: usa le pastiglie su la pompa, col filtro] ---
-Invece di usa le pastiglie su la pompa se il giocatore è in la diga e il giocatore ha il filtro e il giocatore ha le pastiglie e il giocatore ha la damigiana: dire "Leghi il filtro alla bocca della pompa e tiri lo stantuffo: viene su un'acqua torbida che si schiarisce nella tela. Ci sciogli una pastiglia, aspetti che il cloro lavori. Poi riempi tanica e damigiana fino all'orlo. Per una volta, hai acqua da non contare." e adesso aumenta l'acqua di 12 e adesso lo stato della pompa è attiva e adesso le pastiglie è nel nulla e adesso il filtro è nel nulla.
-Invece di usa le pastiglie su la pompa se il giocatore è in la diga e il giocatore ha il filtro e il giocatore ha le pastiglie: dire "Leghi il filtro alla bocca della pompa e tiri lo stantuffo: l'acqua si schiarisce nella tela. Ci sciogli una pastiglia, aspetti. Poi bevi a lungo e riempi la tanica fino all'orlo. Acqua vera, finalmente." e adesso aumenta l'acqua di 8 e adesso lo stato della pompa è attiva e adesso le pastiglie è nel nulla e adesso il filtro è nel nulla.
+Invece di usa le pastiglie su la pompa se il giocatore è in la diga e il giocatore ha il filtro e il giocatore ha le pastiglie e il giocatore ha la damigiana: dire "Leghi il filtro alla bocca della pompa e tiri lo stantuffo: viene su un'acqua torbida che si schiarisce nella tela. Ci sciogli una pastiglia, aspetti che il cloro lavori. Poi bevi a lungo, e riempi tanica e damigiana fino all'orlo. Per una volta, hai acqua da non contare." e adesso aumenta l'acqua di 12 e adesso la sete diventa 0 e adesso lo stato della pompa è attiva e adesso le pastiglie è nel nulla e adesso il filtro è nel nulla.
+Invece di usa le pastiglie su la pompa se il giocatore è in la diga e il giocatore ha il filtro e il giocatore ha le pastiglie: dire "Leghi il filtro alla bocca della pompa e tiri lo stantuffo: l'acqua si schiarisce nella tela. Ci sciogli una pastiglia, aspetti. Poi bevi a lungo e riempi la tanica fino all'orlo. Acqua vera, finalmente." e adesso aumenta l'acqua di 8 e adesso la sete diventa 0 e adesso lo stato della pompa è attiva e adesso le pastiglie è nel nulla e adesso il filtro è nel nulla.
 Invece di usa le pastiglie su la pompa se il giocatore non ha le pastiglie: dire "Le pastiglie sono lì per terra: raccoglile, prima.".
 Invece di usa le pastiglie su la pompa: dire "Le pastiglie da sole non bastano: l'acqua della diga è troppo torbida e salata. Prima ci vuole un filtro.".
 # Dopo il puzzle la pompa col filtro resta una fonte di riserva: acqua di ferro, un po' salata.

@@ -31,21 +31,26 @@ Lo stato della brocca è uno stato.
 Lo stato della brocca è vuota.
 Lo stato del mercato è uno stato.
 Lo stato del mercato è nuovo.
+# Chi torna a parlare non si sente ripetere il benvenuto.
+Lo stato del discorso di Rosaria è uno stato.
+Lo stato del discorso di Rosaria è nuovo.
+Lo stato del discorso di Ciro è uno stato.
+Lo stato del discorso di Ciro è nuovo.
 
 # --- Stanze ---
 La porta è una stanza.
 La descrizione della porta è "Una porta di paese vera, di pietra, con la nicchia di un santo svuotata. Di qua si sente quello che non sentivi da giorni: voci, un cane che abbaia per gioco, una radio. Acquamorta è ancora lontana, oltre le colline. A OVEST la piazzetta; a EST la statale da cui sei sceso.".
 
 La piazzetta è una stanza.
-La descrizione della piazzetta è "Una piazzetta in salita, i panni stesi tra una finestra e l'altra. Su un gradino, PEPPE, diciassette anni e gli occhi già altrove. (PARLA CON Peppe.) A NORD l'osteria; a EST il mercato; a OVEST un vicolo stretto; a SUD si torna alla porta.".
-La descrizione della piazzetta se lo stato di Peppe è preso è "Una piazzetta in salita, i panni stesi tra una finestra e l'altra. Il gradino di Peppe è vuoto: ti aspetta alla mulattiera. A NORD l'osteria; a EST il mercato; a OVEST un vicolo stretto; a SUD si torna alla porta.".
-La descrizione della piazzetta se lo stato di Peppe è compagno è "Una piazzetta in salita, i panni stesi tra una finestra e l'altra. Il gradino di Peppe è vuoto. A NORD l'osteria; a EST il mercato; a OVEST un vicolo stretto; a SUD si torna alla porta.".
+La descrizione della piazzetta è "Una piazzetta in salita, i panni stesi tra una finestra e l'altra. Su un gradino, PEPPE, diciassette anni e gli occhi già altrove. (PARLA CON Peppe.) A NORD l'osteria; a SUD il mercato; a OVEST un vicolo stretto; a EST si torna alla porta.".
+La descrizione della piazzetta se lo stato di Peppe è preso è "Una piazzetta in salita, i panni stesi tra una finestra e l'altra. Il gradino di Peppe è vuoto: ti aspetta alla mulattiera. A NORD l'osteria; a SUD il mercato; a OVEST un vicolo stretto; a EST si torna alla porta.".
+La descrizione della piazzetta se lo stato di Peppe è compagno è "Una piazzetta in salita, i panni stesi tra una finestra e l'altra. Il gradino di Peppe è vuoto. A NORD l'osteria; a SUD il mercato; a OVEST un vicolo stretto; a EST si torna alla porta.".
 
 L'osteria è una stanza.
 La descrizione dell'osteria è "Una stanza bassa che sa di vino e di legna. ROSARIA tiene il banco, il grembiule legato due volte in vita. (PARLA CON Rosaria.) A EST un cortile; a NORD la mulattiera che sale alle colline; a SUD la piazzetta.".
 
 Il mercato è una stanza.
-La descrizione del mercato è "Quattro banchi sotto un telone scolorito: il mercato del baratto. CIRO ci sta in mezzo come un re senza regno. (PARLA CON Ciro per scambiare.) A OVEST la piazzetta.".
+La descrizione del mercato è "Quattro banchi sotto un telone scolorito: il mercato del baratto. CIRO ci sta in mezzo come un re senza regno. (PARLA CON Ciro per scambiare.) A NORD la piazzetta.".
 
 Il vicolo è una stanza.
 La descrizione del vicolo è "Un vicolo cieco, l'ombra fresca. Su un giaciglio di stracci, PASQUALE brucia di febbre. (Con le MEDICINE giuste lo si può curare: USA LE MEDICINE SU Pasquale. Oppure si tira dritto.) A EST la piazzetta.".
@@ -58,9 +63,11 @@ La salita è una stanza.
 La descrizione della salita è "Dove le case finiscono, una mulattiera si inerpica tra i fichi d'India verso le colline. L'aria cambia, si fa di pietra. È la via per Acquamorta.".
 
 # --- Collegamenti (auto-reciproci). La discesa è agganciata da z4-statale.fav. ---
+# La porta è a est della piazzetta: il mercato non può stare a est anche lui (fino
+# alla 1.5.0 ne prendeva il posto, e dal paese la porta non si ritrovava più).
 La porta collega ovest a la piazzetta.
 La piazzetta collega nord a l'osteria.
-La piazzetta collega est a il mercato.
+La piazzetta collega sud a il mercato.
 La piazzetta collega ovest a il vicolo.
 L'osteria collega est a il cortile.
 
@@ -90,29 +97,32 @@ Rosaria è in l'osteria.
 La descrizione di Rosaria è "Una donna sui sessanta, le braccia tonde, gli occhi che hanno visto andare via tutti a uno a uno. Sa il nome di ognuno che è partito, e a qualcuno tiene ancora il bicchiere da parte.".
 
 Il dialogo di Rosaria comincia con "rosaria_inizio".
-Rosaria al nodo "rosaria_inizio" dice "«Siediti, che sei bianco di polvere. Qui si entra come si entra in casa d'altri: con rispetto.» Ti versa da bere senza chiederti niente." se la fiducia di Rosaria è al massimo 2.
 Rosaria al nodo "rosaria_inizio" dice "«Eccoti. Siediti, che ti riempio il bicchiere.»" se la fiducia di Rosaria è almeno 3.
+# Col sangue addosso: l'ospitalità sì, la confidenza no.
+Rosaria al nodo "rosaria_inizio" dice "Non si siede nemmeno adesso. «Da mangiare e da bere, qui, si dà a tutti. La fiducia no: quella si guadagna.»" se il sangue è almeno 1.
+Rosaria al nodo "rosaria_inizio" dice "Ti rimette davanti il bicchiere, mezzo pieno. «Parla pure.»" se lo stato del discorso di Rosaria è avviato.
+Rosaria al nodo "rosaria_inizio" dice "«Siediti, che sei bianco di polvere. Qui si entra come si entra in casa d'altri: con rispetto.» Ti versa da bere senza chiederti niente.".
 
 Al nodo "rosaria_inizio" l'opzione "Ti lascio dell'acqua, per l'ospitalità." se l'acqua è almeno 1 conduce al nodo "rosaria_dono" e adesso diminuisci l'acqua di 1 e adesso aumenta la fiducia di Rosaria di 1 e adesso lo stato della brocca è piena.
 Quando lo stato della brocca è piena: aumenta la generosità di 1.
 Al nodo "rosaria_inizio" l'opzione "Cosa si dice di Acquamorta?" conduce al nodo "rosaria_notizia".
 Al nodo "rosaria_inizio" l'opzione "Mi serve salire alle colline." conduce al nodo "rosaria_colline".
-Al nodo "rosaria_inizio" l'opzione "Niente, grazie." chiude il dialogo.
+Al nodo "rosaria_inizio" l'opzione "Niente, grazie." chiude il dialogo e adesso lo stato del discorso di Rosaria è avviato.
 
 Rosaria al nodo "rosaria_dono" dice "Accetta con un cenno e la versa in una brocca a parte, per chi passerà dopo di te.".
-Al nodo "rosaria_dono" l'opzione "…" conduce al nodo "rosaria_inizio".
+Al nodo "rosaria_dono" l'opzione "…" conduce al nodo "rosaria_inizio" e adesso lo stato del discorso di Rosaria è avviato.
 
 Rosaria al nodo "rosaria_notizia" dice "Abbassa la voce. «Acquamorta è vuota, ormai. Tranne uno. Dicono sia rimasto a tenere il paese, o quel che ne resta, e che non lasci entrare nessuno. Chi è andato via, per lui, è come morto.» Ti guarda. «Tu di là vieni, eh? Pensaci, a cosa torni.»".
 Al nodo "rosaria_notizia" l'opzione "Chi è quest'uomo?" conduce al nodo "rosaria_chi".
-Al nodo "rosaria_notizia" l'opzione "…" conduce al nodo "rosaria_inizio".
+Al nodo "rosaria_notizia" l'opzione "…" conduce al nodo "rosaria_inizio" e adesso lo stato del discorso di Rosaria è avviato.
 
 Rosaria al nodo "rosaria_chi" dice "«Non lo so, e chi lo sa non lo dice.» Ti rimette il bicchiere davanti. «Chiedi a Concetta, nel cortile. Lei le famiglie le sa tutte, anche quelle che non ci sono più.»".
-Al nodo "rosaria_chi" l'opzione "…" conduce al nodo "rosaria_inizio".
+Al nodo "rosaria_chi" l'opzione "…" conduce al nodo "rosaria_inizio" e adesso lo stato del discorso di Rosaria è avviato.
 
 Rosaria al nodo "rosaria_colline" dice "«Su, da quelle parti, non si arriva da estranei: c'è Onofrio, e i pastori, gente che spara prima di chiedere. Ti do due righe mie, ma prima il paese deve fidarsi di te. Fatti voler bene. Aiuta qualcuno, qui.»" se la fiducia di Rosaria è al massimo 2.
 Rosaria al nodo "rosaria_colline" dice "«Te lo sei guadagnato. Due righe mie, a chi sta lassù.»" se la fiducia di Rosaria è almeno 3.
 Al nodo "rosaria_colline" l'opzione "Scrivile, allora." se la fiducia di Rosaria è almeno 3 e lo stato del permesso è negato conduce al nodo "rosaria_pass" e adesso lo stato del permesso è dato.
-Al nodo "rosaria_colline" l'opzione "Capito. Tornerò." conduce al nodo "rosaria_inizio".
+Al nodo "rosaria_colline" l'opzione "Capito. Tornerò." conduce al nodo "rosaria_inizio" e adesso lo stato del discorso di Rosaria è avviato.
 
 Rosaria al nodo "rosaria_pass" dice "Scrive in fretta su un foglio, lo piega e lo affida a un ragazzo che sale al pianoro. «Quando arrivi, lassù sanno già chi sei.» Poi: «E mangia, prima di salire. Lassù non ti invita nessuno.»".
 Al nodo "rosaria_pass" l'opzione "Grazie." chiude il dialogo.
@@ -121,7 +131,7 @@ Al nodo "rosaria_pass" l'opzione "Grazie." chiude il dialogo.
 Invece di vai nord se il giocatore è in l'osteria e lo stato del permesso è negato: dire "Fai per imboccare la salita, ma Rosaria ti ferma con un'occhiata dal banco. «Senza una mia parola, lassù non ci arrivi.»".
 # La prima volta all'osteria: l'ospitalità è un effetto reale sul corpo (una volta sola).
 # Chi ha alzato le mani per strada trova l'ospitalità, non la fiducia: la voce della statale arriva prima.
-Quando il giocatore è in l'osteria e lo stato dell'accoglienza è nuova e il sangue è almeno 1: dire "Rosaria ti mette davanti un bicchiere d'acqua e una scodella di legumi, come a chiunque passi di qui: l'ospitalità non si nega. Ma non si siede. In fondo, due uomini scesi dalla statale smettono di parlare quando entri. Lei asciuga un bicchiere già asciutto e ti guarda le mani." e adesso diminuisci la sete di 5 e adesso diminuisci la fame di 4 e adesso aumenta la vita di 2 e adesso diminuisci la fiducia di Rosaria di 1 e adesso lo stato dell'accoglienza è data.
+Quando il giocatore è in l'osteria e lo stato dell'accoglienza è nuova e il sangue è almeno 1: dire "Rosaria ti mette davanti un bicchiere d'acqua e una scodella di legumi, come a chiunque passi di qui: l'ospitalità non si nega. Ma non si siede. In fondo, due uomini scesi dalla statale smettono di parlare quando entri. Lei ripiega lo straccio sul banco, e intanto ti guarda le mani." e adesso diminuisci la sete di 5 e adesso diminuisci la fame di 4 e adesso aumenta la vita di 2 e adesso diminuisci la fiducia di Rosaria di 1 e adesso lo stato dell'accoglienza è data.
 Quando il giocatore è in l'osteria e lo stato dell'accoglienza è nuova e il sangue è al massimo 0: dire "Rosaria ti mette davanti un bicchiere d'acqua fresca prima ancora che tu apra bocca, e una scodella di legumi. Mangi e bevi senza parlare, e lei non ti chiede niente finché non hai finito." e adesso diminuisci la sete di 5 e adesso diminuisci la fame di 4 e adesso aumenta la vita di 2 e adesso lo stato dell'accoglienza è data.
 L'osteria collega nord a la salita.
 
@@ -183,9 +193,10 @@ Al nodo "peppe_preso" l'opzione "…" chiude il dialogo.
 Peppe al nodo "peppe_lasciato" dice "Incassa, annuisce, si rimette a sedere sul gradino. «Sì. Sì, certo. Era una cosa da ragazzini.» Non ci crede, e neanche tu.".
 Al nodo "peppe_lasciato" l'opzione "…" chiude il dialogo.
 # Peppe in cammino (preso in paese → compagno dalla mulattiera): divide scorte (costo reale della scelta) e ha voce nei passaggi chiave.
-Ogni turno se lo stato di Peppe è compagno e il cibo è almeno 1 e càpita (1 su 10): dire "Dividi un boccone con Peppe. Lo mangia in due morsi e ti ringrazia con gli occhi." e adesso diminuisci il cibo di 1.
-Ogni turno se lo stato di Peppe è compagno e il cibo è al massimo 0 e càpita (1 su 10): dire "Non c'è niente da dividere. Gli lasci la tua parte di niente, e cammini più vuoto." e adesso aumenta la fame di 1.
-Ogni turno se lo stato di Peppe è compagno e l'acqua è almeno 1 e càpita (1 su 12): dire "Peppe beve un sorso dalla tua tanica, piano, guardandoti mentre lo fa." e adesso diminuisci l'acqua di 1.
+# Al guado, sulla strada e sulla soglia no: lì la scena è di Cosimo e della casa.
+Ogni turno se lo stato di Peppe è compagno e il cibo è almeno 1 e il giocatore non è in il guado e il giocatore non è in la strada e il giocatore non è in la soglia e càpita (1 su 10): dire "Dividi un boccone con Peppe. Lo mangia in due morsi e ti ringrazia con gli occhi." e adesso diminuisci il cibo di 1.
+Ogni turno se lo stato di Peppe è compagno e il cibo è al massimo 0 e il giocatore non è in il guado e il giocatore non è in la strada e il giocatore non è in la soglia e càpita (1 su 10): dire "Non c'è niente da dividere. Gli lasci la tua parte di niente, e cammini più vuoto." e adesso aumenta la fame di 1.
+Ogni turno se lo stato di Peppe è compagno e l'acqua è almeno 1 e il giocatore non è in il guado e il giocatore non è in la strada e il giocatore non è in la soglia e càpita (1 su 12): dire "Peppe beve un sorso dalla tua tanica, piano, guardandoti mentre lo fa." e adesso diminuisci l'acqua di 1.
 Quando il giocatore è in la salita e lo stato di Peppe è preso: dire "Peppe è già lì, seduto su un muretto col suo fagotto. Si alza prima che tu arrivi, come se temesse che tu cambiassi idea." e adesso lo stato di Peppe è compagno e adesso lo stato della tappa di Peppe è salita.
 
 # --- CIRO  [barattaro: l'economia del paese, e la scelta dell'anello] ---
@@ -194,6 +205,7 @@ Ciro è in il mercato.
 La descrizione di Ciro è "Svelto d'occhi e di mani, la faccia di chi tratta da quando aveva i calzoni corti. Non vuole amicizia: vuole fare affari.".
 
 Il dialogo di Ciro comincia con "ciro_inizio".
+Ciro al nodo "ciro_inizio" dice "«Avanti, che anche il tempo è merce.» (Hai [acqua] d'acqua e [cibo] di cibo.)" se lo stato del discorso di Ciro è avviato.
 Ciro al nodo "ciro_inizio" dice "«Tutto si scambia, niente si regala.» Allarga le mani sui banchi. «Acqua, cibo, o qualcosa di buono da rivendere. Tu cos'hai?» (Hai [acqua] d'acqua e [cibo] di cibo.)".
 Al nodo "ciro_inizio" l'opzione "Ti do l'orologio per dell'acqua." se il giocatore ha l'orologio conduce al nodo "ciro_affare" e adesso l'orologio è nel nulla e adesso aumenta l'acqua di 3.
 Al nodo "ciro_inizio" l'opzione "Ti do i cristalli di sale per del cibo." se il giocatore ha i cristalli conduce al nodo "ciro_affare" e adesso i cristalli è nel nulla e adesso aumenta il cibo di 2.
@@ -205,17 +217,19 @@ Al nodo "ciro_inizio" l'opzione "Ti do il giubbotto." se il giocatore ha il giub
 Al nodo "ciro_inizio" l'opzione "Ti do la stecca di sigarette." se il giocatore ha la stecca conduce al nodo "ciro_affare" e adesso la stecca è nel nulla e adesso aumenta l'acqua di 3.
 Al nodo "ciro_inizio" l'opzione "Ti do la tanica di benzina." se il giocatore ha la benzina conduce al nodo "ciro_affare" e adesso la benzina è nel nulla e adesso aumenta l'acqua di 2 e adesso aumenta il cibo di 1.
 Al nodo "ciro_inizio" l'opzione "Ho la carta di Vito." se il giocatore ha il lasciapassare conduce al nodo "ciro_carta" e adesso il lasciapassare è nel nulla e adesso aumenta il cibo di 2.
-Al nodo "ciro_inizio" l'opzione "Niente, per ora." chiude il dialogo.
+# L'acqua, al mercato, è moneta: Ciro la cambia in cibo, al suo prezzo.
+Al nodo "ciro_inizio" l'opzione "Ti do tre d'acqua per del cibo." se l'acqua è almeno 3 conduce al nodo "ciro_affare" e adesso diminuisci l'acqua di 3 e adesso aumenta il cibo di 2.
+Al nodo "ciro_inizio" l'opzione "Niente, per ora." chiude il dialogo e adesso lo stato del discorso di Ciro è avviato.
 
 Ciro al nodo "ciro_affare" dice "«Affare.» Conta due volte e ti dà il dovuto, non un sorso di più. (Ora hai [acqua] d'acqua e [cibo] di cibo.)".
-Al nodo "ciro_affare" l'opzione "Altro." conduce al nodo "ciro_inizio".
-Al nodo "ciro_affare" l'opzione "Basta così." chiude il dialogo.
+Al nodo "ciro_affare" l'opzione "Altro." conduce al nodo "ciro_inizio" e adesso lo stato del discorso di Ciro è avviato.
+Al nodo "ciro_affare" l'opzione "Basta così." chiude il dialogo e adesso lo stato del discorso di Ciro è avviato.
 
 Ciro al nodo "ciro_anello" dice "Rigira la fede controluce, legge la data e non fa domande. Paga subito, e bene, prima che tu ci ripensi. (Ora hai [acqua] d'acqua.)".
-Al nodo "ciro_anello" l'opzione "Va bene così." chiude il dialogo.
+Al nodo "ciro_anello" l'opzione "Va bene così." chiude il dialogo e adesso lo stato del discorso di Ciro è avviato.
 Ciro al nodo "ciro_carta" dice "«Carta di Vito?» Ride, e se la mette in tasca. «Mi deve una tanica da due inverni. Questa la prendo per buona.» (Ora hai [acqua] d'acqua e [cibo] di cibo.)".
-Al nodo "ciro_carta" l'opzione "Altro." conduce al nodo "ciro_inizio".
-Al nodo "ciro_carta" l'opzione "Basta così." chiude il dialogo.
+Al nodo "ciro_carta" l'opzione "Altro." conduce al nodo "ciro_inizio" e adesso lo stato del discorso di Ciro è avviato.
+Al nodo "ciro_carta" l'opzione "Basta così." chiude il dialogo e adesso lo stato del discorso di Ciro è avviato.
 # Ciro è creditore di Vito: se Vito è finito a terra, lo sa già.
 Quando il giocatore è in il mercato e lo stato del mercato è nuovo e la vita di Vito è al massimo 0: dire "Ciro ti vede entrare e fischia piano. «Quello del casello.» Lo dice ai banchi, non a te. «Vito mi doveva una tanica da due inverni. Adesso chi me la rende?»" e adesso lo stato del mercato è visto.
 

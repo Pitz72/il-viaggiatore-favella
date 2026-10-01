@@ -21,6 +21,9 @@ Lo stato dell'arrivo è uno stato.
 Lo stato dell'arrivo è nuovo.
 Lo stato della strada è uno stato.
 Lo stato della strada è nuova.
+# Chi torna a parlargli non si sente ripetere l'accusa.
+Lo stato del discorso di Cosimo è uno stato.
+Lo stato del discorso di Cosimo è nuovo.
 
 # --- Stanze ---
 Il guado è una stanza.
@@ -41,6 +44,7 @@ La strada collega nord a la soglia.
 # --- COSIMO  [il boss umano: il fratello. Parla; poi lo riconosci o lo abbatti] ---
 Cosimo è un personaggio.
 Cosimo è in il guado.
+Cosimo si chiama anche "fratello".
 La descrizione di Cosimo è "Tuo fratello. Le stesse mani di vostro padre, la stessa fronte. Tiene il greto come si tiene una tomba.".
 La descrizione di Cosimo se lo stato di Cosimo è abbattuto è "Tuo fratello, steso sulle pietre bianche. Ha la faccia di vostro padre, adesso più che mai.".
 La descrizione di Cosimo se lo stato del riconoscimento è fucile è "Si è fatto da parte di un passo. Tiene il fucile aperto sul braccio, scarico, e guarda l'acqua morta, non te.".
@@ -50,19 +54,20 @@ La descrizione di Cosimo se lo stato di Cosimo è riconosciuto è "Si è fatto d
 Il dialogo di Cosimo comincia con "cosimo_inizio".
 Cosimo al nodo "cosimo_inizio" dice "È steso tra le pietre bianche, gli occhi aperti sul cielo. Non c'è più niente da dirgli." se lo stato di Cosimo è abbattuto.
 Cosimo al nodo "cosimo_inizio" dice "«Va' avanti tu.» Guarda l'acqua, non te. «Io arrivo. Dammi il tempo di ricordarmi la strada.»" se lo stato di Cosimo è riconosciuto.
+Cosimo al nodo "cosimo_inizio" dice "Non si è mosso di un passo. «Hai altro da dirmi, o hai finito?»" se lo stato del discorso di Cosimo è avviato.
 # La voce è arrivata prima di te: Cosimo sa come sei passato.
 Cosimo al nodo "cosimo_inizio" dice "«Lo sapevo, che saresti tornato. Quando non serve più a nessuno.» Guarda le tue mani prima della tua faccia. «E so anche come sei passato: la voce corre più svelta di te, su questa strada. Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi.»" se il sangue è almeno 1.
 Cosimo al nodo "cosimo_inizio" dice "«Lo sapevo, che saresti tornato. Quando non serve più a nessuno.» Non alza la voce. «Dicono che per strada lasci l'acqua a chi è rimasto.» Una pausa. «A me non l'ha lasciata nessuno. Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi.»" se la generosità è almeno 3.
 Cosimo al nodo "cosimo_inizio" dice "«Lo sapevo, che saresti tornato. Quando non serve più a nessuno.» Non alza la voce. «Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi.»".
 Al nodo "cosimo_inizio" l'opzione "Non sapevo. Te lo giuro." se lo stato di Cosimo è fermo conduce al nodo "cosimo_sapere".
 Al nodo "cosimo_inizio" l'opzione "Fammi passare, Cosimo." se lo stato di Cosimo è fermo conduce al nodo "cosimo_no".
-Al nodo "cosimo_inizio" l'opzione "…" chiude il dialogo.
+Al nodo "cosimo_inizio" l'opzione "…" chiude il dialogo e adesso lo stato del discorso di Cosimo è avviato.
 
 Cosimo al nodo "cosimo_sapere" dice "«Non sapevi.» Lo ripete piano. «Quella riga te la scrissi io. Per dirti di non venire, che ero capace di tenere tutto in piedi. Bugia. L'altra lettera non te l'ho mandata.» Si guarda le mani. «Non sapevi perché io non te l'ho lasciato sapere. Questo non ti assolve. Assolve me, semmai, e non voglio.»".
-Al nodo "cosimo_sapere" l'opzione "…" conduce al nodo "cosimo_inizio".
+Al nodo "cosimo_sapere" l'opzione "…" conduce al nodo "cosimo_inizio" e adesso lo stato del discorso di Cosimo è avviato.
 
 Cosimo al nodo "cosimo_no" dice "«No.» Allarga appena le braccia, a chiudere il passaggio. «Di là ci sono loro. Tu di là ci entri solo se prima passi da me. In un modo o nell'altro.»".
-Al nodo "cosimo_no" l'opzione "…" conduce al nodo "cosimo_inizio".
+Al nodo "cosimo_no" l'opzione "…" conduce al nodo "cosimo_inizio" e adesso lo stato del discorso di Cosimo è avviato.
 
 # --- VIA UMANA: usa la lettera su Cosimo → lo riconosci ---
 Invece di usa la lettera su Cosimo se il giocatore ha la lettera e lo stato di Cosimo è fermo: dire "Tiri fuori la lettera che lui credeva persa e gliela tieni davanti agli occhi. Cosimo riconosce la grafia, la sua. Allunga la mano e la ritira a metà strada. «Quella non doveva leggerla nessuno.» «L'ho letta.» Restate così, due uomini su un greto. Poi Cosimo si sposta di un passo, quanto basta, senza dire niente." e adesso lo stato di Cosimo è riconosciuto e adesso lo stato del riconoscimento è lettera.
@@ -75,6 +80,19 @@ Invece di usa il biglietto su Cosimo: dire "Lo rimetti in tasca. Adesso non serv
 Invece di attacca Cosimo se il giocatore ha il fucile e lo stato di Cosimo è fermo: dire "Alzi il fucile. Cosimo non scappa, non implora: fa un passo avanti, come per aiutarti a mirare. «Bravo. Almeno uno di noi due finisce questa storia.» Il colpo parte e copre il rumore del greto. Poi solo il vento, e l'acqua morta, e tu di qua, ancora in piedi." e adesso lo stato di Cosimo è abbattuto.
 Invece di attacca Cosimo se lo stato di Cosimo è fermo: dire "A mani nude non concludi niente, e lui non alza un dito per difendersi. Ti lascia provare. Alla fine sei tu a fermarti, col fiato rotto, e lui non si è mosso." e adesso lo stato della veglia è spenta e adesso la veglia diventa 0.
 Invece di attacca Cosimo: dire "È già fatta. Non c'è altro da togliergli.".
+# Le altre parole della stessa cosa. «Uccidi», «ammazza», «picchia», «colpisci» fanno
+# come «attacca» (il-viaggiatore.fav); «spara» e «usa il fucile su» chiedono il fucile.
+Invece di spara Cosimo se il giocatore ha il fucile e lo stato di Cosimo è fermo: dire "Alzi il fucile. Cosimo non scappa, non implora: fa un passo avanti, come per aiutarti a mirare. «Bravo. Almeno uno di noi due finisce questa storia.» Il colpo parte e copre il rumore del greto. Poi solo il vento, e l'acqua morta, e tu di qua, ancora in piedi." e adesso lo stato di Cosimo è abbattuto.
+Invece di spara Cosimo se il giocatore ha la pistola e lo stato di Cosimo è fermo: dire "Gli punti contro la pistola e premi il grilletto. Un clic secco, e niente. Cosimo non ha battuto ciglio." e adesso lo stato della veglia è spenta e adesso la veglia diventa 0.
+Invece di spara Cosimo se lo stato di Cosimo è abbattuto: dire "È già fatta. Non c'è altro da togliergli.".
+Invece di usa il fucile su Cosimo se il giocatore ha il fucile e lo stato di Cosimo è fermo: dire "Alzi il fucile. Cosimo non scappa, non implora: fa un passo avanti, come per aiutarti a mirare. «Bravo. Almeno uno di noi due finisce questa storia.» Il colpo parte e copre il rumore del greto. Poi solo il vento, e l'acqua morta, e tu di qua, ancora in piedi." e adesso lo stato di Cosimo è abbattuto.
+Invece di usa il fucile su Cosimo se lo stato di Cosimo è fermo: dire "Il fucile è tra i sassi, ai tuoi piedi. (Per riprenderlo: PRENDI IL FUCILE.)".
+Invece di usa il fucile su Cosimo: dire "Non c'è più niente da fare, con quel fucile.".
+# Minacciarlo. Col fucile in mano sono parole; con la pistola scarica, alzare le mani.
+Invece di minaccia Cosimo se il giocatore ha il fucile e lo stato di Cosimo è fermo: dire "Gli punti il fucile al petto. Cosimo non alza le mani. «O spari, o lo posi. Il resto sono chiacchiere.»".
+Invece di minaccia Cosimo se il giocatore ha la pistola e lo stato di Cosimo è fermo: dire "Tiri fuori la pistola. Cosimo la guarda appena. «Scarica. Si vede da come la tieni.»" e adesso lo stato della veglia è spenta e adesso la veglia diventa 0.
+Invece di minaccia Cosimo se lo stato di Cosimo è fermo: dire "Cosimo ti lascia finire. «Le stesse parole le dicevo io, a chi voleva passare. Non sono servite nemmeno a me.»".
+Invece di minaccia Cosimo: dire "Lasci perdere. Tra te e lui, ormai, le minacce non servono più.".
 
 # --- LA TERZA VIA: posare il fucile. Decide il viaggio (il sangue, la generosità) ---
 Quando il giocatore è in il guado e il giocatore ha il fucile e lo stato di Cosimo è fermo e lo stato dell'arrivo è nuovo: dire "Cosimo guarda il fucile prima di guardare te. Non fa un passo indietro." e adesso lo stato dell'arrivo è visto.

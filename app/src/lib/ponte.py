@@ -251,11 +251,19 @@ def fav_anteprima(cmd):
 #  AZIONI. I verbi che l'autore ha scritto per QUESTO momento e che un pulsante
 #  deve poter offrire, come il testo del luogo li suggerisce a parole
 #  («ATTINGI per prendere acqua», «Col cibo lo puoi distrarre: GETTA CIBO»):
-#    · senza oggetto (attingi, curati…): una regola con condizione, vera adesso
-#      (la regola di ripiego senza condizione non conta: vale ovunque);
-#    · con un bersaglio (attacca, minaccia…): il bersaglio è a portata e c'è una
-#      regola con condizione vera per lui (a cane sviato, «attacca il cane» sparisce);
-#    · con due cose («usa le pastiglie sulla pompa»): vedi _coppie.
+#    · senza oggetto (attingi, curati…): la regola che scatterebbe (la prima con
+#      condizione vera; quella di ripiego senza condizione vale ovunque e non
+#      conta) cambia il mondo. Al pozzo vuoto, con la tanica piena, «attingi»
+#      direbbe solo «il pozzo ormai dà solo fango»: niente pulsante;
+#    · con un bersaglio (attacca, minaccia…): il bersaglio è a portata e, come
+#      sopra, la regola che scatterebbe cambia il mondo. A cane sviato «attacca il
+#      cane» sparisce; a sbarra alzata sparisce «minaccia Vito», che direbbe solo
+#      «La sbarra è già su». Due gesti che farebbero la stessa cosa alla stessa
+#      persona («attacca Cosimo», «spara a Cosimo», col fucile) sono un pulsante
+#      solo, il primo dichiarato;
+#    · con due cose («usa le pastiglie sulla pompa»): vedi _coppie. Anche lì, una
+#      combinazione che farebbe ciò che fa già un gesto offerto («usa il fucile su
+#      Cosimo» e «attacca Cosimo») non raddoppia il pulsante.
 #  Le condizioni si valutano senza consumare il caso.
 # --------------------------------------------------------------------
 def _vera(m, condizione):
@@ -268,7 +276,13 @@ def _vera(m, condizione):
         m.rng.setstate(stato)
 
 
-def _coppie(m, portata):
+def _firma(conseguenze):
+    """Che cosa fa una regola al mondo, in forma confrontabile."""
+    return repr([(type(c).__name__, sorted((k, repr(v)) for k, v in vars(c).items()))
+                 for c in conseguenze])
+
+
+def _coppie(m, portata, effetti=frozenset()):
     """Le combinazioni di due cose che la storia prevede QUI e ADESSO.
 
     Un'interfaccia che proponesse ogni cosa della bisaccia su ogni cosa del luogo
@@ -307,6 +321,10 @@ def _coppie(m, portata):
             conseguenze = ripiego.altrimenti[1] if ripiego.condizione is not None else ripiego.conseguenze
             if not conseguenze:
                 continue
+        else:
+            conseguenze = scelta.conseguenze
+        if conseguenze and (b, _firma(conseguenze)) in effetti:
+            continue
         primo, secondo = m.oggetti[a].nome_visualizzato, m.oggetti[b].nome_visualizzato
         cmd = f"{verbo} {nome_in_frase(primo)} {con_preposizione(prep, secondo)}"
         out.append({"verbo": verbo, "cmd": cmd, "etichetta": prima_maiuscola(cmd),
@@ -320,21 +338,29 @@ def fav_azioni():
     if m is None:
         return json.dumps({"soli": [], "bersagli": [], "coppie": []})
     portata = set(m.oggetti_raggiungibili()) if m.c_e_luce() else set(m.inventario)
-    soli, bersagli, visti = [], [], set()
+    soli, bersagli, visti, effetti = [], [], set(), set()
     for r in m.regole:
         if getattr(r, "fase", "invece") != "invece" or r.verbo not in m.verbi_personalizzati:
             continue
         if r.condizione is None or not _vera(m, r.condizione):
             continue
         if r.globale:
-            if r.verbo not in soli:
-                soli.append(r.verbo)
+            if r.verbo not in visti:
+                visti.add(r.verbo)
+                if r.conseguenze:
+                    soli.append(r.verbo)
         elif (r.id_oggetto_bersaglio and r.categoria is None and r.id_oggetto_secondario is None
               and r.id_oggetto_bersaglio in portata and (r.verbo, r.id_oggetto_bersaglio) not in visti):
             visti.add((r.verbo, r.id_oggetto_bersaglio))
+            if not r.conseguenze:
+                continue
+            firma = (r.id_oggetto_bersaglio, _firma(r.conseguenze))
+            if firma in effetti:
+                continue
+            effetti.add(firma)
             bersagli.append({"verbo": r.verbo, "id": r.id_oggetto_bersaglio,
                              "nome": _nome(m, r.id_oggetto_bersaglio)})
-    return json.dumps({"soli": soli, "bersagli": bersagli, "coppie": _coppie(m, portata)}, ensure_ascii=False)
+    return json.dumps({"soli": soli, "bersagli": bersagli, "coppie": _coppie(m, portata, effetti)}, ensure_ascii=False)
 
 
 def _stato_essenziale():

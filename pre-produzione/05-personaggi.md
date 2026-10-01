@@ -87,7 +87,7 @@ Diciassette anni, le scarpe sbagliate per camminare. Vuole venire via con te.
 - **Al guado:** se abbatti Cosimo, Peppe scappa senza voltarsi. Se lo riconosci, Peppe aspetta al cancello, e il finale è suo.
 
 #### CIRO — il mercato · Z5
-Svelto d'occhi e di mani. Non vuole amicizia: vuole fare affari. Compra quasi tutta la merce raccolta in Z3 e Z4, «la carta di Vito», e l'anello (il prezzo più alto del gioco).
+Svelto d'occhi e di mani. Non vuole amicizia: vuole fare affari. Compra quasi tutta la merce raccolta in Z3 e Z4, «la carta di Vito», e l'anello (il prezzo più alto del gioco). Cambia anche l'acqua in cibo, al suo prezzo (3 per 2).
 
 #### PASQUALE — il vicolo · Z5
 Un uomo giovane invecchiato dalla febbre. Non chiede: gli brucia troppo l'orgoglio. Le medicine su di lui lo salvano, e Rosaria lo viene a sapere (+2 fiducia). Tenerle per sé è legittimo: sono l'unica cura rapida del gioco.

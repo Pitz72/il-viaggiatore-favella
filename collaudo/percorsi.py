@@ -24,7 +24,7 @@ def z5(peppe, giocattolo, anello):
     c = []
     c += ['lascia coltello', 'lascia occhiali', 'parla con Peppe', 'vieni' if peppe else 'resta', '1']
     c += ['ovest', 'usa le medicine su Pasquale', 'est']
-    c += ['est', 'parla con Ciro', 'batteria', 'altro', 'carta', 'basta', 'ovest']
+    c += ['sud', 'parla con Ciro', 'batteria', 'altro', 'carta', 'basta', 'nord']
     c += ['nord', 'esamina registro', 'parla con Rosaria', "dell'acqua", '1', 'colline', 'scrivile', 'grazie']
     c += ['est']
     if giocattolo: c += ['prendi giocattolo']

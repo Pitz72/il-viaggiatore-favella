@@ -58,6 +58,9 @@ jobs:
       - name: I fili del viaggio e il guado
         working-directory: collaudo
         run: python fili.py
+      - name: Le partite giocate a mano
+        working-directory: collaudo
+        run: python giocate.py
       - name: Le scelte che chiedono conferma
         run: |
           npm ci --prefix app

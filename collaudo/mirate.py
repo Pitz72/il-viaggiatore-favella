@@ -19,8 +19,10 @@ PROVE = {
     ['Tieni il cane a distanza', 'Il cane crolla', 'steso su un fianco', 'Il cane non è più un problema'], []),
  'cane: lancia il cibo': (P.Z1_Z4[:P.Z1_Z4.index('getta cibo')] + ['lancia il cibo', 'guarda'],
     ['Il cane scatta dietro', 'Del cane, solo le impronte'], ['azzanna il polpaccio.\n> guarda']),
- 'Vito KO col coltello': (FINO_CASELLO + ['attacca Vito'] * 4 + ['parla con Vito', '1', 'esamina Vito', 'guarda', 'stato', 'ovest'],
-    ['Affondi il coltello', 'Vito arretra', 'Respira storto', 'seduto a terra contro la sbarra', 'contro il palo', '--- La discesa'], ['L\'amico mio']),
+ # in rissa non ci si ferma a mangiare: si beve e si mangia prima di cominciare
+ 'Vito KO col coltello': (FINO_CASELLO + ['bevi', 'mangia qualcosa'] + ['attacca Vito'] * 4 + ['parla con Vito', '1', 'esamina Vito', 'guarda', 'stato', 'ovest'],
+    ['Affondi il coltello', 'Vito arretra', 'Respira storto', 'seduto a terra contro la sbarra', 'contro il palo', '--- La discesa'], ['L\'amico mio'],
+    dict(soglia_sete=9, soglia_fame=11)),
  'Vito: bluff con pistola': (FINO_CASELLO + ['nord', 'prendi pistola', 'esamina pistola', 'sud', 'minaccia Vito', 'parla con Vito', '1', 'ovest'],
     ['MINACCIA chi ti sbarra', 'Vito non sa che è scarica', '«Tu.» Non si alza', '--- La discesa'], ['L\'amico mio', 'Cosa c\'è, oltre']),
  'Vito: paga, lasciapassare sul bancone': (FINO_CASELLO + ['parla con Vito', "tre d'acqua", 'grazie', 'guarda', 'parla con Vito', '1'],
@@ -36,8 +38,8 @@ PROVE = {
 
 def main():
     tutto_ok = True
-    for nome, (cmds, attese, vietate) in PROVE.items():
-        p, _ = pilota(cmds, soglia_sete=4, soglia_fame=5)
+    for nome, (cmds, attese, vietate, *opzioni) in PROVE.items():
+        p, _ = pilota(cmds, **(opzioni[0] if opzioni else dict(soglia_sete=4, soglia_fame=5)))
         testo = p.trascrizione()
         manca = [a for a in attese if a not in testo]
         trovate = [v for v in vietate if v in testo]

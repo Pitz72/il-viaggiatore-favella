@@ -72,6 +72,8 @@ Ogni passaggio chiede **una risorsa, un oggetto, un favore o uno scontro**, e qu
 
 ### Z5 · IL PAESE — *il posto dove si potrebbe restare*
 `porta` ─ `piazzetta` (centro) ─ `osteria` ─ `cortile` · `salita` / `mercato` / `vicolo`
+
+Dalla piazzetta: a nord l'osteria, a sud il mercato, a ovest il vicolo, a est la porta. (Fino alla 1.5.0 il mercato stava a est e ne prendeva il posto: dal paese la porta non si ritrovava.)
 - **Cos'è:** l'unico paese ancora abitato. La zona più grande e più viva, il cuore sociale e morale del gioco.
 - **Rosaria**, all'osteria: accoglie con acqua e legumi la prima volta, dà **la notizia** su Acquamorta («Tranne uno»), e scrive il permesso per le colline a chi si è guadagnato la sua fiducia.
 - **Pasquale**, nel vicolo: la febbre. Le medicine si possono usare su di lui (e Rosaria lo saprà) o tenere per sé.

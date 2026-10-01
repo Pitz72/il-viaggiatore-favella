@@ -1,6 +1,6 @@
 # Prossimi passi
 
-Che cosa resta da fare e che cosa si vuole fare, dopo la 1.4.0 (30 settembre
+Che cosa resta da fare e che cosa si vuole fare, dopo la 1.6.0 (1° ottobre
 2026). Il *perché* di ogni punto sta nelle voci del [diario](DIARIO.md) che lo
 hanno segnalato; qui c'è l'elenco da cui ripartire.
 
@@ -26,9 +26,22 @@ hanno segnalato; qui c'è l'elenco da cui ripartire.
 - I due **MP4 in `video/`** (non versionati) hanno ancora la grafica vecchia.
 
 ### Storia
+- **Il giocatore attento non è mai in pericolo** (partite giocate a mano, 1.6.0): la
+  tensione, per lui, è solo nel cibo fra la statale e il mercato. Se si vuole più
+  paura, il posto è lì, non nella sete.
+- **L'acqua oltre la tanica**: barattare acqua con la tanica quasi piena la spreca, e
+  la conferma mostra il conto prima del tetto («acqua 9 → 12», poi 10). Far dire il
+  tetto all'anteprima, o togliere l'opzione quando non c'è posto.
 - Le dichiarazioni doppie di `z2-piana.fav` («getta il cibo», «lancia cibo»…) si
   possono ridurre a una con i sinonimi del motore. Cambia l'impronta dei
   salvataggi: da fare insieme al lavoro sulla storia (sezione 2).
+
+### Motore (da segnalare a FAVELLA: `motore/` è una copia)
+- Una mossa verso un'uscita che non c'è fa passare un turno (gli altri comandi non
+  capiti no, dalla 1.2.0).
+- Posare una cosa ristampa la stanza intera.
+- Rimappare un verbo del motore su un comando d'autore («"colpisci" è come attacca»)
+  dà un avviso anche quando è voluto, e l'avviso dice «fa come 'colpisci'».
 
 ### Collaudo
 - Oltre a `collaudo/pulsanti.py` (i finali raggiungibili solo coi pulsanti)

@@ -8,6 +8,67 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.6.0] - 2026-10-01
+
+Tre partite intere giocate a mano, leggendo il testo come un giocatore: una
+attenta, una violenta, una di chi beve e mangia solo quando il corpo fa male.
+Quello che hanno trovato è corretto qui.
+
+### Corretto
+- **Dal paese la porta non si ritrovava.** La piazzetta diceva «a SUD si torna
+  alla porta», ma a sud non c'era niente, e a est c'era il mercato. Ora il
+  mercato è a **sud** della piazzetta e la porta a **est**, come dice il testo.
+  Chi ha salvato dopo essere stato al mercato ricarica una partita ricostruita.
+- **Al guado si capiscono le parole che si scrivono davvero**: «spara a Cosimo»,
+  «uccidi Cosimo», «colpisci Cosimo», «usa il fucile su Cosimo» fanno quello che
+  fa «attacca Cosimo». «Minaccia Cosimo» non risponde più «Nessuno qui ti ha
+  fatto niente»: col fucile in mano Cosimo dice «O spari, o lo posi»; con la
+  pistola scarica se ne accorge, e la veglia si rompe. «Uccidi», «picchia»,
+  «ammazza» valgono anche per il cane e per Vito.
+- **Peppe non beve più dalla tua tanica in mezzo alla scena del guado**, né sulla
+  strada di casa.
+- **Chi torna a parlare non si sente ripetere il benvenuto.** Cosimo non ripete
+  l'accusa subito dopo averti detto la verità («Hai altro da dirmi, o hai
+  finito?»); Onofrio non ti riconosce due volte; Tore ricomincia a contare le
+  pecore; Rosaria, Ciro e Nunzio tagliano corto.
+- Rosaria, col sangue addosso, nel dialogo è fredda come all'accoglienza; e non
+  asciuga più «un bicchiere già asciutto», che è il gesto di Nunzio.
+- Alla pompa «bevi a lungo» disseta davvero.
+- Gettato il cibo al cane, il testo dice che prendi le conserve; «CONSERVE» non è
+  più scritto in maiuscolo come una cosa da toccare.
+- «Parla con l'uomo», al pozzo, è Saverio; «parla con il fratello», al guado, è
+  Cosimo.
+- La foto storta della casa di Acquaviva («Ti viene da raddrizzarla») si può
+  esaminare e raddrizzare.
+- Dopo l'accoglienza di Rosaria non compaiono più, per un turno, sete −1 e vita 11.
+- Pulsanti: non compaiono più i gesti che direbbero soltanto di no («Minaccia
+  Vito» a sbarra alzata, «Attingi» al pozzo prima della fiducia di Saverio,
+  «Curati» quando stai bene); due gesti che fanno la stessa cosa alla stessa
+  persona sono un pulsante solo. La conferma della violenza riconosce anche
+  «spara», «uccidi», «picchia».
+
+### Cambiato
+- **Le ferite guariscono camminando.** La vita risale di 1, una volta ogni tanto,
+  quando sete e fame stanno sotto i loro avvisi (prima servivano sete e fame al
+  massimo 3, cioè mangiare prima della fame: non succedeva quasi mai, e ogni morso
+  e ogni crisi restavano per sempre). Chi beve e mangia agli avvisi non è mai in
+  pericolo; il percorso violento costa ancora, ma si riprende; chi beve solo
+  quando la testa martella arriva a casa con due o tre tacche di vita, invece di
+  morire con la tanica piena.
+- **Il cane della serra, la prima volta, ringhia e non morde**: c'è un turno per
+  gettargli il cibo, attaccarlo o andarsene.
+- Quando la sete o la fame fanno male, la riga lo dice: «(BEVI.)», «(MANGIA.)».
+- **Ciro cambia l'acqua in cibo** (tre d'acqua per due di cibo): dopo la pompa
+  l'acqua abbonda e il cibo stringe.
+- **La generosità conta tre doni, e servono tutti**: a Saverio, a Rosaria (la
+  brocca), a Pasquale (le medicine). Il dono a Iole non conta più: senza, la pompa
+  non va, e lo pagano tutti; un prezzo non è un dono. Con quattro doni contati,
+  «3 su 4» arrivava quasi da sola, anche a chi aveva ucciso il cane e picchiato
+  Vito.
+- Collaudo nuovo `collaudo/giocate.py` (32 prove): l'equilibrio di sete, fame e
+  vita su dodici semi per tre modi di giocare, e tutto quello che le partite
+  hanno trovato.
+
 ## [1.5.0] - 2026-09-30
 
 ### Aggiunto
