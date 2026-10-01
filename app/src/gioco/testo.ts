@@ -24,9 +24,9 @@ export const PERSONAGGI = [
 // Messaggi del corpo e dell'ambiente (demoni del gioco): vanno in margine,
 // come sensazioni, non nella narrazione.
 const CORPO = [
-  "Hai la lingua impastata", "La lingua ti si incolla", "La testa martella", "Lo stomaco",
+  "Hai la lingua impastata", "La lingua ti si incolla", "Le mani tremano", "Lo stomaco",
   "La debolezza ti rallenta", "Il corpo, per una volta", "Il sole picchia", "Il riverbero del sale",
-  "Quassù il vento taglia", "Il cane ti azzanna", "Stavolta affonda", "Vito cala il tubo",
+  "Quassù il vento passa", "Il cane ti azzanna", "Stavolta i denti", "Vito cala il tubo",
   "Un colpo ti prende", "La tanica è piena", "Tanica e damigiana", "Dividi un boccone",
   "Non c'è niente da dividere", "Peppe beve un sorso",
 ];

@@ -8,6 +8,31 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.10.2] - 2026-10-01
+
+Una passata sui testi, con gli antipattern di prosa e la tipografia: i testi erano già
+puliti, quindi poche righe e mirate.
+
+### Corretto
+- **Quindici ritocchi**, ciascuno con la sua ragione: un'immagine da locanda («asciuga un
+  bicchiere che è già asciutto») sostituita da una cosa vista (bottiglie vuote, le etichette
+  in avanti); la fontana, la diga e l'invaso non sono più tutte «mute»; Iole non è «china
+  come su un malato» due volte; via «come specchi», «come bocche», «come un re senza regno»;
+  «affonda i denti a fondo» e «completamente scarica» non ci sono più; il cortile della
+  masseria non è «silenzioso» ma ha un trattore senza gomme; Nunzio non dice «le colline» due
+  volte nella stessa frase.
+- **Le due righe del corpo che tornano più spesso** sono nuove: «La testa martella, le mani
+  tremano» (sete) è ora «Le mani tremano, la vista si stringe ai bordi»; «Lo stomaco è un nodo
+  stretto» (fame) è ora «Lo stomaco ti si è chiuso». E il vento delle colline non «taglia».
+- Nessuna meccanica cambia: condizioni, conseguenze, nomi e numeri sono identici a prima
+  (lo verifica lo script della passata, riga per riga). L'impronta dell'avventura cambia,
+  come per ogni testo: i salvataggi si ricostruiscono, e il gioco lo dice.
+
+### Collaudo
+- `testo.py`: ogni messaggio dei demoni «Ogni turno» (la sete, la fame, il cane, il sole, il
+  vento: 19) deve restare di corpo, cioè in margine. Se si riscrive una riga nei `.fav` e non
+  in `testo.ts`, il collaudo se ne accorge.
+
 ## [1.10.1] - 2026-10-01
 
 Il motore passa alla 1.4.1: i quattro difetti che il gioco aveva trovato.

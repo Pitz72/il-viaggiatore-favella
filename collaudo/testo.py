@@ -13,7 +13,10 @@ prosa. Tre prove:
   3. ogni personaggio dichiarato nei .fav è fra quelli che l'interfaccia riconosce
      (altrimenti le sue battute finiscono nella prosa: è successo a Imma, nella 1.7.0);
   4. ogni «voce» (quello che si dice di te) dichiarata nei .fav ha la sua riga a lato
-     dello schermo, e l'interfaccia non ne ha di troppo.
+     dello schermo, e l'interfaccia non ne ha di troppo;
+  5. ogni messaggio dei demoni («Ogni turno se …: dire "…"»: la sete, la fame, il cane, il
+     sole, il vento) è di corpo, cioè va in margine come una sensazione: se si riscrive una
+     riga in `.fav` e non in `testo.ts`, la riga passa nella prosa del narratore.
 
 Uso:  python testo.py      (esce con 1 se una prova fallisce; serve `npm ci --prefix app`)
 """
@@ -147,6 +150,19 @@ dichiarate = set(re.findall(r"^Lo stato della voce (.+) è uno stato\.$", FAV, r
 righe_voci = set(analizza([])["voci"])
 prova(f"ogni voce dichiarata nei .fav ({len(dichiarate)}) ha la sua riga a lato dello schermo",
       dichiarate == righe_voci, f"nei .fav: {sorted(dichiarate)}; nell'interfaccia: {sorted(righe_voci)}")
+
+# ---------------------------------------------------------------------------
+# 5. le sensazioni del corpo vanno in margine
+# ---------------------------------------------------------------------------
+demoni = []
+for riga in FAV.splitlines():
+    if riga.startswith("Ogni turno"):
+        m = re.search(r'dire "((?:[^"\\]|\\.)+)"', riga)
+        if m:
+            demoni.append(m.group(1))
+tipi = [bl[0]["tipo"] if bl else None for bl in analizza(demoni)["blocchi"]]
+fuori = [d[:70] for d, t in zip(demoni, tipi) if t != "corpo"]
+prova(f"i {len(demoni)} messaggi dei demoni «Ogni turno» sono di corpo", not fuori, "\n    ".join([""] + fuori))
 
 print("TUTTO OK" if all(esiti) else "CI SONO FALLIMENTI")
 sys.exit(0 if all(esiti) else 1)

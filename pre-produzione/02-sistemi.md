@@ -54,7 +54,7 @@ I rifiuti «non hai sete / non hai fame» proteggono dallo spreco: le scorte son
 | | Avviso (una volta per crisi, poi radi) | Danno | Soglia estrema |
 |---|---|---|---|
 | **Sete** | 6: «Hai la lingua impastata. Devi bere.» | da 9: vita −1 a turno | 13 |
-| **Fame** | 7: «Lo stomaco è un nodo stretto.» | da 11: vita −1 a turno | 15 |
+| **Fame** | 7: «Lo stomaco ti si è chiuso.» | da 11: vita −1 a turno | 15 |
 
 **La morte dice la causa.** La sete sale di 1 ogni 3 turni: da 9 a 13 ne servono 12, mentre la vita (10) si esaurisce in 10. Quindi, in pratica, si muore sempre a **vita 0** mentre sete o fame fanno il danno. Il collaudo dei finali (`collaudo/finali.py`) ha scoperto che per questo le frasi «La sete ti ha avuto» e «La fame ti ha fermato» non comparivano mai. Ora la morte a vita 0 legge la causa:
 
@@ -75,11 +75,11 @@ Fino alla 1.5.0 la condizione era «sete e fame al massimo 3»: per starci bisog
 |---|---|---|
 | beve e mangia agli avvisi (sete 6, fame 7) | arriva sempre, vita minima 8–9 | arriva sempre, mai ferito |
 | il percorso violento (il cane, Vito, la veglia) | 11 su 12, vita minima media 2 | 12 su 12, vita minima media 5, finale 10 |
-| beve solo quando la testa martella (sete 9, fame 11) | muore sempre, fra il turno 58 e l'85 | arriva sempre, con 2–3 di vita |
+| beve solo quando fa male (sete 9, fame 11) | muore sempre, fra il turno 58 e l'85 | arriva sempre, con 2–3 di vita |
 
 I tetti e i pavimenti (vita al massimo 10, sete e fame non sotto 0) stanno in fondo a `il-viaggiatore.fav`, dopo le zone: i demoni si valutano nell'ordine in cui sono scritti, e così valgono anche per quello che una zona dà nello stesso turno (l'accoglienza di Rosaria lasciava sete −1 e vita 11 fino al turno dopo).
 
-Quando la sete o la fame fanno male, la riga lo dice: «La testa martella, le mani tremano. (BEVI.)», «La debolezza ti rallenta i passi. (MANGIA.)».
+Quando la sete o la fame fanno male, la riga lo dice: «Le mani tremano, la vista si stringe ai bordi. (BEVI.)», «La debolezza ti rallenta i passi. (MANGIA.)».
 
 ## 3. L'acqua come moneta
 

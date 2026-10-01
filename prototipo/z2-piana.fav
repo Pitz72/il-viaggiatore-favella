@@ -28,7 +28,7 @@ Il tratto è una stanza.
 La descrizione del tratto è "Un tratto di strada provinciale, dritto e nudo. Niente ombra, niente acqua, il catrame che ondeggia di calore. Si tira avanti a OVEST, verso una masseria; o si torna a EST, al paese.".
 
 La masseria è una stanza.
-La descrizione della masseria è "Una masseria bassa, intonaco scrostato. Un cortile silenzioso. A NORD il pozzo, dove un uomo monta la guardia. A SUD una serra di vetro. A OVEST una sterrata punta verso il bianco di un invaso. A EST si torna sulla provinciale.".
+La descrizione della masseria è "Una masseria bassa, intonaco scrostato. Nel cortile, un trattore senza gomme. A NORD il pozzo, dove un uomo monta la guardia. A SUD una serra di vetro. A OVEST una sterrata punta verso il bianco di un invaso. A EST si torna sulla provinciale.".
 
 Il pozzo è una stanza.
 La descrizione del pozzo è "Un pozzo vero, di quelli che pescano in fondo. SAVERIO siede sul bordo di pietra, le gambe verso il buio, gli occhi che ti misurano. (PARLA CON Saverio; poi ATTINGI per prendere acqua.) Si torna a SUD.".
@@ -103,7 +103,7 @@ Invece di getta cibo: dire "Non c'è niente da gettare, o nessuno a cui interess
 # ingresso no: ringhia soltanto (la regola sta dopo i morsi, così in quel turno non
 # mordono ancora). Si ha un turno per decidere: il cibo, la lama, o la porta.
 Ogni turno se il giocatore è in la serra e lo stato del cane è minaccioso e lo stato del ringhio è dato: dire "Il cane ti azzanna il polpaccio." e adesso diminuisci la vita di 1.
-Ogni turno se il giocatore è in la serra e lo stato del cane è minaccioso e lo stato del ringhio è dato e càpita (1 su 4): dire "Stavolta affonda i denti a fondo." e adesso diminuisci la vita di 1.
+Ogni turno se il giocatore è in la serra e lo stato del cane è minaccioso e lo stato del ringhio è dato e càpita (1 su 4): dire "Stavolta i denti vanno a fondo." e adesso diminuisci la vita di 1.
 Quando il giocatore è in la serra e lo stato del cane è minaccioso e lo stato del ringhio è nuovo: dire "Il cane si pianta tra te e le casse, il muso basso, i denti scoperti. Un passo ancora, e morde." e adesso lo stato del ringhio è dato.
 
 # Sconfitto: lasci le conserve (cibo). Stesso stato finale dello sviato: via libera.

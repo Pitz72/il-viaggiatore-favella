@@ -11,7 +11,7 @@ La piazza è una stanza.
 La descrizione della piazza è "La piazza del paese attorno a un pozzo asciutto. Persiane sbarrate, una fontana muta. Solo il BAR, a EST, tiene una luce accesa. A NORD una casa aperta, a OVEST il margine del paese e la strada. A SUD la stazione.".
 
 Il bar è una stanza.
-La descrizione del bar è "Un bar fermo agli ultimi avventori. Dietro il banco, NUNZIO asciuga un bicchiere che è già asciutto. (PARLA CON Nunzio per barattare.) Si torna a OVEST.".
+La descrizione del bar è "Un bar fermo agli ultimi avventori. Dietro il banco, NUNZIO tiene in fila bottiglie vuote, le etichette in avanti. (PARLA CON Nunzio per barattare.) Si torna a OVEST.".
 
 La casa è una stanza.
 La descrizione della casa è "Una casa lasciata in fretta: cassetti aperti, una FOTO storta alla parete. Marito, moglie, un bambino in braccio: gente di qui, che non conosci. Ti viene da raddrizzarla. Si torna a SUD.".
@@ -84,12 +84,12 @@ Nunzio al nodo "lavoro" dice "«Le casse vuote, nel retro. Portale giù in canti
 Al nodo "lavoro" l'opzione "Torno a vedere cos'hai." conduce al nodo "banco" e adesso lo stato del discorso di Nunzio è avviato.
 Al nodo "lavoro" l'opzione "Basta così." chiude il dialogo e adesso lo stato del discorso di Nunzio è avviato.
 
-Nunzio al nodo "indicazioni" dice "«A ovest, oltre la piana, c'è l'invaso secco. Poi la statale, e un paese che resiste. Le colline, infine. Acquamorta è dietro le colline.» Guarda la tua tanica. «Ma serve una mappa, e acqua. Senza, non ci arrivi.»".
+Nunzio al nodo "indicazioni" dice "«A ovest, oltre la piana, c'è l'invaso secco. Poi la statale, e un paese che resiste. Poi le colline: Acquamorta è dietro.» Guarda la tua tanica. «Ma serve una mappa, e acqua. Senza, non ci arrivi.»".
 Al nodo "indicazioni" l'opzione "Grazie." chiude il dialogo e adesso lo stato del discorso di Nunzio è avviato.
 Al nodo "indicazioni" l'opzione "Altro." conduce al nodo "banco" e adesso lo stato del discorso di Nunzio è avviato.
 
 # --- Gate [!] verso Z2: servono la mappa e un minimo d'acqua ---
 # (il tratto è la stanza d'ingresso di z2-piana.fav)
 Invece di vai ovest se il giocatore è in il margine e il giocatore non ha la mappa: dire "Senza una mappa, là fuori è solo perdersi. Cerca in giro prima di partire.".
-Invece di vai ovest se il giocatore è in il margine e l'acqua è meno di 3: dire "Guardi la distesa che frigge. Con quest'acqua non arrivi dall'altra parte. Fa' scorta, prima: al bar si baratta, e chi non ha niente da dare può sempre faticare.".
+Invece di vai ovest se il giocatore è in il margine e l'acqua è meno di 3: dire "Guardi la distesa bianca. Con quest'acqua non arrivi dall'altra parte. Fa' scorta, prima: al bar si baratta, e chi non ha niente da dare può sempre faticare.".
 Il margine collega ovest a il tratto.

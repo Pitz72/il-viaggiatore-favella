@@ -135,7 +135,7 @@ prova("dopo l'accoglienza di Rosaria: sete e fame a 0, vita al massimo 10, già 
       p.v("sete") == 0 and p.v("fame") == 0 and p.v("vita") == 10, f"{p.v('sete')} {p.v('fame')} {p.v('vita')}")
 p = partita("tratto", sete=9)
 t = fai(p, "aspetta")
-prova("la sete che fa male dice anche che cosa fare (BEVI.)", "La testa martella, le mani tremano. (BEVI.)" in t, t[-120:])
+prova("la sete che fa male dice anche che cosa fare (BEVI.)", "Le mani tremano, la vista si stringe ai bordi. (BEVI.)" in t, t[-120:])
 
 # ---------------------------------------------------------------------------
 # 5. il guado: le parole della violenza, e Peppe che non beve in mezzo alla scena

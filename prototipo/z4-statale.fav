@@ -45,7 +45,7 @@ La descrizione del casello se la vita di Vito è al massimo 0 è "Un casello di 
 La descrizione del casello se lo stato del casello è aperto è "Un casello di pedaggio in mezzo al nulla, la sbarra alzata. VITO ci sta dietro come dietro un bancone e ti guarda passare. A NORD una piazzola di sosta, a SUD una vecchia area di servizio. A OVEST la strada prosegue, oltre la sbarra. A EST la rampa.".
 
 La piazzola è una stanza.
-La descrizione della piazzola è "Una piazzola di sosta con due auto sventrate, gli sportelli aperti come bocche. Si torna a SUD, al casello.".
+La descrizione della piazzola è "Una piazzola di sosta con due auto sventrate, gli sportelli spalancati, i sedili ridotti alle molle. Si torna a SUD, al casello.".
 
 L'area di servizio è una stanza.
 La descrizione dell'area di servizio è "Una stazione di servizio diroccata, le pompe a secco da anni; la porta del ripostiglio è sfondata. A OVEST una GRATA chiude un sottopasso di servizio. A NORD il casello.".
@@ -74,7 +74,7 @@ La pistola è una cosa.
 La pistola è prendibile.
 La pistola è in la piazzola.
 Il posto della pistola è "Sotto il sedile della seconda, una PISTOLA.".
-La descrizione della pistola è "Una pistola vera, pesante, e completamente scarica. Non spara: ma chi se la trova puntata addosso non può saperlo. (Con questa in mano, MINACCIA chi ti sbarra la strada.)".
+La descrizione della pistola è "Una pistola vera, pesante, scarica da chissà quanto. Non spara: ma chi se la trova puntata addosso non può saperlo. (Con questa in mano, MINACCIA chi ti sbarra la strada.)".
 
 Le cartucce è una cosa.
 Le cartucce è prendibile.

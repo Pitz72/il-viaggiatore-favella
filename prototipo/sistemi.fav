@@ -77,11 +77,11 @@ Lo stato della pancia è quieta.
 Ogni turno se la sete è almeno 6 e la sete è meno di 9 e lo stato della gola è secca e càpita (1 su 4): dire "La lingua ti si incolla al palato.".
 Ogni turno se la sete è almeno 6 e lo stato della gola è quieta: dire "Hai la lingua impastata. Devi bere." e adesso lo stato della gola è secca.
 Ogni turno se la sete è meno di 6: lo stato della gola è quieta.
-Ogni turno se la sete è almeno 9: dire "La testa martella, le mani tremano. (BEVI.)" e adesso diminuisci la vita di 1.
+Ogni turno se la sete è almeno 9: dire "Le mani tremano, la vista si stringe ai bordi. (BEVI.)" e adesso diminuisci la vita di 1.
 Quando la sete è almeno 13: dire "Le gambe cedono sul ciglio della strada. Da terra, i sassi scottano più dell'aria." e adesso perdi "La sete ti ha avuto prima di casa.".
 
 Ogni turno se la fame è almeno 7 e la fame è meno di 11 e lo stato della pancia è vuota e càpita (1 su 4): dire "Lo stomaco brontola. (MANGIA.)".
-Ogni turno se la fame è almeno 7 e lo stato della pancia è quieta: dire "Lo stomaco è un nodo stretto. (MANGIA, se hai di che.)" e adesso lo stato della pancia è vuota.
+Ogni turno se la fame è almeno 7 e lo stato della pancia è quieta: dire "Lo stomaco ti si è chiuso. (MANGIA, se hai di che.)" e adesso lo stato della pancia è vuota.
 Ogni turno se la fame è meno di 7: lo stato della pancia è quieta.
 Ogni turno se la fame è almeno 11: dire "La debolezza ti rallenta i passi. (MANGIA.)" e adesso diminuisci la vita di 1.
 Quando la fame è almeno 15: dire "Non hai più la forza di rialzarti." e adesso perdi "La fame ti ha fermato lungo la strada.".
