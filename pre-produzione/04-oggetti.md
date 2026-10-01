@@ -1,7 +1,7 @@
 # IL VIAGGIATORE — Catalogo oggetti
 
 > Pre-produzione · Strato 4 di 6 · **v1.0, allineato al gioco (23/09/2026)**
-> **44 entità**: 27 oggetti che si possono prendere, 13 personaggi, il cane, e tre
+> **45 entità**: 27 oggetti che si possono prendere, 14 personaggi, il cane, e tre
 > cose fisse (la tanica, la pompa, la grata). La bozza ne prevedeva 65: sono
 > rimasti quelli con una funzione vera.
 > **Regola di ferro:** ogni oggetto ha almeno una funzione. Nessun oggetto puramente decorativo.
@@ -89,7 +89,7 @@ Le **conserve** della serra non sono un oggetto: abbattere il cane dà +3 di cib
 | pompa | diga | il nodo dell'acqua potabile |
 | grata | area di servizio | la via che aggira Vito |
 
-**Totale: 27 da prendere + 3 fisse + 13 personaggi + il cane = 44.**
+**Totale: 27 da prendere + 3 fisse + 14 personaggi + il cane = 45.**
 
 ---
 

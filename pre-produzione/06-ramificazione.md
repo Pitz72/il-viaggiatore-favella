@@ -1,6 +1,6 @@
 # IL VIAGGIATORE — La ramificazione
 
-> Pre-produzione · Strato 6 · **v1.0, realizzato nel gioco 1.5.0 (30/09/2026)**
+> Pre-produzione · Strato 6 · **v1.1, realizzato nel gioco 1.5.0 (30/09/2026); Imma dalla 1.7.0**
 > Fonte dei numeri: `sviluppo/mappa-narrativa.md`, generata da
 > `strumenti/mappa-narrativa.py` leggendo `prototipo/*.fav`. Si rigenera dopo ogni
 > modifica alla storia. Collaudo dedicato: `collaudo/fili.py`.
@@ -76,9 +76,14 @@ Chi lo ricorda:
 | Z2 pozzo | il cibo a Saverio | la fiducia di Saverio arriva a 3 (non cala mai) |
 | Z5 osteria | l'acqua a Rosaria | la brocca a parte (`stato della brocca`) si riempie |
 | Z5 vicolo | le medicine a Pasquale | Pasquale curato |
+| Z4 discesa | da mangiare a Imma (dalla 1.7.0) | `stato di Imma` diventa «nutrita» |
 
 Ognuna costa già qualcosa che serve a sopravvivere: il filo non le rende convenienti, le fa
-ricordare. Soglia che conta al guado: **tutti e tre**.
+ricordare. Soglia che conta al guado: **tre su quattro** (era «tutti e tre» finché i doni
+erano tre). Nessuno dei quattro è gratis né obbligato: Saverio costa cibo che serve sulla
+sterrata, Rosaria acqua, Pasquale le uniche medicine del gioco, Imma due porzioni proprio dove
+la bisaccia è più vuota. Chi tiene le medicine per sé può arrivare a tre con Imma, e viceversa:
+è una scelta in più, non una scorciatoia.
 
 **Il dono a Iole non conta (dalla 1.6.0).** Senza, il casotto resta chiuso, le pastiglie
 non si prendono e la pompa non va: lo pagano tutti quelli che passano. Fino alla 1.5.0
@@ -146,6 +151,46 @@ Una riga sola, la prima volta che si percorre la strada verso casa, prima della 
 I sei finali sono rimasti com'erano: la memoria del viaggio arriva un passo prima della
 soglia, e lascia al finale il suo spazio.
 
+### 3.5 Imma sulla discesa: il cibo che stringe, e la voce che corre in due sensi (1.7.0)
+
+Nata da una misura (`strumenti/gioca.py --pilota`): chi beve e mangia agli avvisi non perde
+mai vita, e fra la statale e il mercato non sceglie niente. Dodici partite su dodici arrivano
+alla piazzetta con 2 di cibo e fame 5: il margine c'è, ma il giocatore non lo sa e nessuno gli
+chiede niente. Mancava una scelta con un costo, non un numero più duro.
+
+```
+[Z4_DISCESA] Imma, sul guardrail
+Ultimo luogo prima del paese: la mano va alla tasca del biglietto, e qui c'è una donna.
+Chiede da mangiare (non l'acqua: «in paese qualcuno ne dà sempre»).
+Scelte:
+  A) «Tieni, mangia.»            cibo ≥ 2: cibo − 2        → generosità + 1 (una volta)
+  B) «È l'ultimo che ho. Tieni.» cibo = 1: cibo − 1        → generosità + 1
+  C) «Non posso. Mi dispiace.»   nessun costo; lei resta e si può ripensarci
+  D) Chi sei? · Com'è il paese?  parole: di sé (il vicolo di Pasquale), di Vito («mi ha
+                                 chiamata sorella»), di Rosaria e del ragazzo della piazzetta
+Se hai fame anche tu, lo vede; se non hai niente, lo capisce da come cammini.
+```
+
+Il costo è reale ma non letale: chi dà due porzioni al turno 45 arriva al mercato a 0 di
+cibo, con fame 5–7 (il danno comincia a 11) e un pasto d'accoglienza ad attenderlo in
+osteria. Il pilota, dodici semi, agli avvisi: 12/12 arrivano, vita minima 10, 6 turni a cibo 0.
+
+**Chi la ricorda**, e qui il filo cambia verso: finora ricordavano le brutte notizie (il sangue
+arriva prima di te). Imma è la prova che la voce corre anche per il bene.
+
+| Se hai sfamato Imma e | In osteria, la prima volta |
+|---|---|
+| sangue 0 | Imma al tavolo della finestra ti fa un cenno; Rosaria: «Mi ha detto della discesa.» La scodella è più piena. **Fiducia di Rosaria + 1.** |
+| sangue ≥ 1 | i due uomini scesi dalla statale smettono di parlare; Imma, forte: «Quello lì mi ha dato da mangiare, sulla discesa.» Rosaria **non perde la fiducia** (col sangue era − 1) e alla fine si siede: la fiducia da guadagnare resta, ma l'ostilità cade. |
+| l'hai fatto dopo essere già stato in osteria | la ritrovi lì al ritorno, e Rosaria annuisce: fiducia + 1 |
+
+Chi non l'ha sfamata trova l'osteria com'era (senza sangue: acqua e legumi; col sangue: non si
+siede). Imma conta anche per la **generosità** (§3.2): quattro doni, soglia tre.
+
+Perché non una delle altre due strade proposte (meno cibo prima del tratto; la fame che si
+vede): la prima sposta l'economia di tutta la prima metà per ottenere un disagio che nessuno
+sceglie; la seconda dà atmosfera, non paura. Imma dà una **scelta**, e la risposta torna.
+
 ## 4. I futuri possibili al guado
 
 | Futuro | Si arriva con | Al guado |
@@ -169,7 +214,9 @@ Il primo bivio che pesa sul modo di arrivare a casa è **la serra**, la seconda 
 | `la veglia` | contatore | 0 | Z7 | Z7 |
 | `stato della veglia` | stato | spenta | Z7 | Z7 |
 | `stato dell'arrivo`, `stato della strada` | stati | nuovo, nuova | Z7 | Z7 (una volta sola) |
-| `stato di Pasquale` | già esisteva | malato | Z5 | **anche** Z6 (Onofrio) |
+| `stato di Pasquale` | già esisteva | malato | Z5 | **anche** Z6 (Onofrio), Z4 (Imma, in osteria) |
+| `stato di Imma` | stato | digiuna | Z4 (nutrita), Z5 (arrivata) | Z4, **Z5** (osteria, Rosaria), indirettamente **Z7** (la generosità) |
+| `stato del discorso di Imma` | stato | nuovo | Z4 | Z4 (non ripete il benvenuto) |
 
 Nota tecnica: i «Quando» che contano la generosità scattano a fine turno. Un dono fatto in
 un dialogo si registra al primo turno che passa dopo (i dialoghi non fanno passare il tempo).
@@ -184,6 +231,9 @@ un dialogo si registra al primo turno che passa dopo (i dialoghi non fanno passa
 3. **Il bluff con la pistola**: non è sangue, perché non muore nessuno.
 4. **Rosaria più fredda** col sangue: accettato.
 5. **I nomi**: «il sangue» e «la generosità».
+6. **Imma, non un taglio al cibo** (1.7.0): l'autore ha lasciato la scelta; si è preferita una
+   scelta con un costo a una scarsità imposta (§3.5). Il dono conta per la generosità, soglia
+   invariata a 3: quattro doni, nessuno gratis. Chi dà solo l'ultima porzione dà lo stesso.
 
 ## 7. Impatto
 
@@ -193,6 +243,14 @@ un dialogo si registra al primo turno che passa dopo (i dialoghi non fanno passa
   posato, la veglia lunga) in `finali.py` e `pulsanti.py`; `fili.py` con 35 prove.
 - **Mappa**: le conseguenze a distanza passano da **2 a 6** (sangue, generosità, vita di
   Vito, Pasquale, e i due di Peppe).
+
+### 1.7.0 (1° ottobre 2026)
+- **Salvataggi**: l'impronta dell'avventura cambia di nuovo (Imma, Ciro). Versione **minor**.
+- **Collaudi**: due percorsi (`I_imma`: l'anello, la lettera, il cibo a Imma senza sangue;
+  `J_imma_sangue`: il cane ucciso, la veglia, Imma col sangue) in `finali.py` e `pulsanti.py`
+  (10 percorsi); `fili.py` con 60 prove (25 nuove: Imma, e Ciro con la tanica).
+- **Mappa**: `stato di Imma` è la settima conseguenza a distanza (Z4 → Z5, e per la generosità Z7);
+  `stato di Pasquale` si legge anche in Z4.
 
 ## 8. Cosa resta aperto
 

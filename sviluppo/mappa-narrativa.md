@@ -13,8 +13,8 @@
 | Z1 | Acquaviva | 5 | Nunzio 6 | 13 | 12 | 3 |
 | Z2 | la piana | 5 | Saverio 4 | 5 | 1 | 1 |
 | Z3 | l'invaso | 7 | Iole 7, Rocco 3 | 15 | 2 | 2 |
-| Z4 | la statale | 6 | Vito 8 | 7 | 3 | 4 |
-| Z5 | il paese | 7 | Rosaria 10, Concetta 4, Pasquale 2, Peppe 5, Ciro 5 | 41 | 26 | 15 |
+| Z4 | la statale | 6 | Vito 8, Imma 12 | 22 | 10 | 10 |
+| Z5 | il paese | 7 | Rosaria 11, Concetta 4, Pasquale 2, Peppe 5, Ciro 5 | 45 | 30 | 19 |
 | Z6 | le colline | 6 | Onofrio 12, Tore 6 | 23 | 14 | 7 |
 | Z7 | il guado | 3 | Cosimo 8 | 5 | 3 | 2 |
 
@@ -25,13 +25,13 @@ scelta si spegne lì. Una che si legge più avanti è una **conseguenza a distan
 
 | Variabile | Nasce | Si scrive in | Si legge in | Portata |
 |---|---|---|---|---|
-| acqua | storia | sistemi (5), Z1 (3), Z2 (2), Z3 (4), Z4 (1), Z5 (9), Z6 (2) | sistemi (7), Z1 (3), Z2 (2), Z3 (3), Z4 (1), Z5 (3), Z6 (1) | scorta (ovunque) |
-| cibo | storia | sistemi (3), Z1 (1), Z2 (12), Z3 (1), Z5 (8), Z6 (1) | sistemi (5), Z1 (1), Z2 (6), Z3 (1), Z5 (2) | scorta (ovunque) |
-| fame | storia | storia (1), sistemi (4), Z1 (1), Z2 (1), Z5 (3), Z6 (1) | storia (1), sistemi (11) | scorta (ovunque) |
-| generosità | storia | Z2 (1), Z5 (2) | Z7 (3) | **a distanza** |
-| sangue | storia | Z2 (1), Z4 (2) | Z5 (3), Z6 (1), Z7 (8) | **a distanza** |
-| sete | storia | storia (1), sistemi (4), Z2 (1), Z3 (6), Z5 (2), Z6 (1), Z7 (1) | storia (1), sistemi (12) | scorta (ovunque) |
-| vita | storia | storia (1), sistemi (3), Z2 (2), Z3 (1), Z4 (3), Z5 (2) | storia (1), sistemi (4), Z4 (1) | scorta (ovunque) |
+| acqua | storia | sistemi (5), Z1 (3), Z2 (2), Z3 (4), Z4 (1), Z5 (9), Z6 (2) | sistemi (7), Z1 (3), Z2 (2), Z3 (3), Z4 (1), Z5 (11), Z6 (1) | scorta (ovunque) |
+| cibo | storia | sistemi (3), Z1 (1), Z2 (12), Z3 (1), Z4 (2), Z5 (12), Z6 (1) | sistemi (5), Z1 (1), Z2 (6), Z3 (1), Z4 (3), Z5 (2) | scorta (ovunque) |
+| fame | storia | storia (1), sistemi (4), Z1 (1), Z2 (1), Z5 (5), Z6 (1) | storia (1), sistemi (11), Z4 (1) | scorta (ovunque) |
+| generosità | storia | Z2 (1), Z4 (1), Z5 (2) | Z7 (3) | **a distanza** |
+| sangue | storia | Z2 (1), Z4 (2) | Z5 (6), Z6 (1), Z7 (8) | **a distanza** |
+| sete | storia | storia (1), sistemi (4), Z2 (1), Z3 (6), Z5 (4), Z6 (1), Z7 (1) | storia (1), sistemi (12) | scorta (ovunque) |
+| vita | storia | storia (1), sistemi (3), Z2 (2), Z3 (1), Z4 (3), Z5 (4) | storia (1), sistemi (4), Z4 (1) | scorta (ovunque) |
 | stato della gola | sistemi | sistemi (2) | sistemi (2) | locale |
 | stato della pancia | sistemi | sistemi (2) | sistemi (2) | locale |
 | stato del discorso di nunzio | Z1 | Z1 (9) | Z1 (1) | locale |
@@ -47,20 +47,22 @@ scelta si spegne lì. Una che si legge più avanti è una **conseguenza a distan
 | stato della pompa | Z3 | Z3 (2) | Z3 (6) | locale |
 | fiducia di vito | Z4 | Z4 (4) | Z4 (4) | locale |
 | stato del casello | Z4 | Z4 (5) | Z4 (9) | locale |
+| stato del discorso di imma | Z4 | Z4 (5) | Z4 (1) | locale |
 | stato della discesa | Z4 | Z4 (1) | Z4 (1) | locale |
 | stato della grata | Z4 | Z4 (1) | Z4 (2) | locale |
+| stato di imma | Z4 | Z4 (2), Z5 (3) | Z4 (10), Z5 (7) | **a distanza** |
 | stato di vito | Z4 | Z4 (7) | Z4 (4) | locale |
 | vita di vito | Z4 | Z4 (3) | Z4 (10), Z5 (1) | **a distanza** |
-| fiducia di rosaria | Z5 | Z5 (3) | Z5 (4) | locale |
+| fiducia di rosaria | Z5 | Z5 (5) | Z5 (4) | locale |
 | stato del discorso di ciro | Z5 | Z5 (6) | Z5 (1) | locale |
 | stato del discorso di rosaria | Z5 | Z5 (5) | Z5 (1) | locale |
 | stato del mercato | Z5 | Z5 (1) | Z5 (1) | locale |
 | stato del permesso | Z5 | Z5 (1) | Z5 (2) | locale |
-| stato dell'accoglienza | Z5 | Z5 (2) | Z5 (2) | locale |
+| stato dell'accoglienza | Z5 | Z5 (4) | Z5 (5) | locale |
 | stato della brocca | Z5 | Z5 (1) | Z5 (1) | locale |
 | stato della salita | Z5 | Z5 (1) | Z5 (1) | locale |
 | stato della tappa di peppe | Z5 | Z5 (1), Z6 (1), Z7 (1) | Z6 (1), Z7 (1) | **a distanza** |
-| stato di pasquale | Z5 | Z5 (1) | Z5 (7), Z6 (1) | **a distanza** |
+| stato di pasquale | Z5 | Z5 (1) | Z4 (1), Z5 (7), Z6 (1) | **a distanza** |
 | stato di peppe | Z5 | Z5 (3), Z7 (1) | Z5 (11), Z6 (1), Z7 (4) | **a distanza** |
 | fiducia di onofrio | Z6 | Z6 (2) | Z6 (6) | locale |
 | stato del discorso di onofrio | Z6 | Z6 (5) | Z6 (1) | locale |
@@ -87,7 +89,7 @@ Le cose sono l'altra memoria del viaggio: si prendono in una zona e contano in u
 | batteria | Z3 (relitto) | Z5 | Z5 | **a distanza** |
 | borsa | Z3 (torre di presa) | Z5 | Z5 | **a distanza** |
 | cristalli | Z3 (fondale) | Z5 | Z5 | **a distanza** |
-| damigiana | Z3 (casotto) | sistemi, Z3 | — |  |
+| damigiana | Z3 (casotto) | sistemi, Z3, Z5 | — | **a distanza** |
 | filtro | Z3 (relitto) | Z3 | Z3 |  |
 | occhiali | Z3 (relitto) | Z3 | — |  |
 | pastiglie | Z3 (casotto) | Z3 | Z3 |  |
@@ -124,13 +126,14 @@ Le cose sono l'altra memoria del viaggio: si prendono in una zona e contano in u
 
 ## 5. In sintesi
 
-- Variabili dichiarate: 48 (di cui 5 scorte del corpo).
-- **Conseguenze a distanza** (variabili lette in una zona successiva): 6.
-  - `generosità`: si scrive in Z2, Z5, torna in Z7.
+- Variabili dichiarate: 50 (di cui 5 scorte del corpo).
+- **Conseguenze a distanza** (variabili lette in una zona successiva): 7.
+  - `generosità`: si scrive in Z2, Z4, Z5, torna in Z7.
   - `sangue`: si scrive in Z2, Z4, torna in Z5, Z6, Z7.
+  - `stato di imma`: si scrive in Z4, Z5, torna in Z5.
   - `vita di vito`: si scrive in Z4, torna in Z5.
   - `stato della tappa di peppe`: si scrive in Z5, Z6, Z7, torna in Z6, Z7.
   - `stato di pasquale`: si scrive in Z5, torna in Z6.
   - `stato di peppe`: si scrive in Z5, Z7, torna in Z6, Z7.
-- **Cose che contano lontano da dove nascono**: 16 — coltello, orologio, batteria, borsa, cristalli, benzina, cartucce, giubbotto, lasciapassare, medicine, pistola, stecca, anello, giocattolo, fucile, lettera.
+- **Cose che contano lontano da dove nascono**: 17 — coltello, orologio, batteria, borsa, cristalli, damigiana, benzina, cartucce, giubbotto, lasciapassare, medicine, pistola, stecca, anello, giocattolo, fucile, lettera.
 - **Variabili mai lette** (stato fantasma): 0 — —.

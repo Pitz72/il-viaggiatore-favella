@@ -98,6 +98,8 @@ Niente prezzi dinamici nel motore: ogni scambio è **cablato** in un'opzione di 
 
 **Quanta se ne può portare:** la tanica tiene 10; con la damigiana, 20. L'eccedenza si perde («il resto lo lasci andare»), così un rifornimento abbondante non diventa una riserva infinita.
 
+Dalla 1.7.0 il gioco non lascia sprecare un baratto senza dirlo. L'anteprima dell'interfaccia (`ponte.py`, `_applica_i_limiti`) applica i tetti e i pavimenti di fine turno: la finestra di conferma dice «4 d'acqua (ne entra 1)» e «La tanica tiene 10: 3 d'acqua andrebbero persi». I tetti non sono scritti due volte: si riconoscono dalla forma («Ogni turno se … l'acqua diventa N»). E Ciro, che dà acqua per l'orologio, la batteria, la stecca e le cartucce, non lo fa quando la tanica non ha posto (acqua dall'8 in su, senza damigiana): le stesse merci valgono cibo. Con la damigiana, o con la tanica più vuota, nulla cambia.
+
 **Dove va:** si beve, si regala (Iole, Rosaria: alza la fiducia), si paga (il pedaggio di Vito: 3 d'acqua), si baratta (Tore: 2 d'acqua per 3 di cibo; Ciro, dalla 1.6.0: 3 d'acqua per 2 di cibo, al suo prezzo). Dopo la pompa l'acqua abbonda e il cibo stringe: al mercato l'una si cambia nell'altro.
 
 **Regola di design:** ogni baratto è una scelta che costa. Dare acqua oggi è sete domani; vendere l'anello è acqua per la strada e un finale in meno.

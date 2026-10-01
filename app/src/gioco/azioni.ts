@@ -49,6 +49,7 @@ export interface Conferma {
   perdi: string[];
   ottieni: string[];
   pesa: string[];             // ciò che non si perde ma costa: più sete, più fame
+  spreco: string;             // ciò che il tetto della tanica rimanderebbe indietro, a parole (o vuoto)
   dopo: string;               // le scorte come resterebbero
 }
 
@@ -79,6 +80,23 @@ const R = {
 } as const;
 const RISORSE = ["acqua", "cibo", "vita"] as const;
 
+/** Che cosa dice il tetto, quando il gesto dà più di quanto la tanica (o la bisaccia, o il
+ *  corpo) tenga: «La tanica tiene 10: 2 d'acqua andrebbero persi.» */
+function dicoLoSpreco(a: Anteprima): string {
+  const sp = a.sprecato ?? {};
+  const frasi: string[] = [];
+  const acqua = sp.acqua ?? 0;
+  if (acqua > 0) {
+    const d = a.delta.acqua ?? 0, tetto = a.dopo.acqua ?? 0;
+    frasi.push(acqua >= d
+      ? `La tanica è già piena (${tetto}): quest'acqua andrebbe persa.`
+      : `La tanica tiene ${tetto}: ${acqua} d'acqua andrebbero persi.`);
+  }
+  const cibo = sp.cibo ?? 0;
+  if (cibo > 0) frasi.push(`Il cibo che entra è meno di quello che ricevi: ${cibo} di cibo andrebbero persi.`);
+  return frasi.join(" ");
+}
+
 export const conArticolo = (nome: string) =>
   nome.replace(/^(Il|Lo|La|L'|I|Gli|Le|Un|Uno|Una)(?=\b|')/, (a) => a.toLowerCase());
 
@@ -93,7 +111,11 @@ export function valutaConferma(cmd: string, a: Anteprima, mondo: StatoMondo): Co
   for (const k of RISORSE) {
     const d = a.delta[k] ?? 0;
     if (d < 0) { perdi.push(R[k](-d)); persoRisorse = true; }
-    if (d > 0) { ottieni.push(R[k](d)); presoRisorse = true; }
+    if (d > 0) {
+      const persi = Math.min(d, a.sprecato?.[k] ?? 0);
+      ottieni.push(persi === 0 ? R[k](d) : `${R[k](d)} (${d - persi > 0 ? `ne entrano ${d - persi}` : "non ne entra"})`);
+      presoRisorse = true;
+    }
   }
   const pesa: string[] = [];
   for (const [k, nome] of [["sete", "sete"], ["fame", "fame"]] as const) {
@@ -103,7 +125,7 @@ export function valutaConferma(cmd: string, a: Anteprima, mondo: StatoMondo): Co
   const haPerso = a.perde.length > 0 || persoRisorse;
   const haPreso = a.ottiene.length > 0 || presoRisorse;
   const dopo = RISORSE.slice(0, 2).map((k) => `${k} ${a.dopo[k] ?? mondo.counters[k] ?? 0}`).join(" · ");
-  const base = { perdi, ottieni, pesa, dopo };
+  const base = { perdi, ottieni, pesa, spreco: dicoLoSpreco(a), dopo };
   // «spara al cane», «attacca il cane», «spara a Cosimo» → «cane», «Cosimo»
   const bersaglio = parole.slice(1).join(" ")
     .replace(/^(a|ad|al|allo|alla|ai|agli|alle|contro)\s+|^all'/, "")

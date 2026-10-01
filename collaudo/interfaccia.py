@@ -259,5 +259,38 @@ for _ in range(4):
     ordini.add(tuple(json.loads(p.fav_stato())["inventory"]))
 prova("l'ordine della bisaccia è quello della storia", ordini == {("La tanica", "Il biglietto", "La mappa", "L'orologio", "Il coltello")}, str(ordini))
 
+# ---------------------------------------------------------------------------
+# l'anteprima applica i tetti di fine turno: la tanica tiene dieci litri (venti con la damigiana)
+# ---------------------------------------------------------------------------
+def al_mercato(acqua, cose=("anello",)):
+    q = nuovo_ponte()
+    q._mondo.posizione_giocatore = "mercato"
+    for i in cose:
+        q._mondo.inventario.add(i)
+        q._mondo.oggetti[i].posizione = "inventario"
+    q._mondo.variabili["acqua"] = acqua
+    q.fav_step("parla con Ciro")
+    return q
+
+
+q = al_mercato(9)
+a = json.loads(q.fav_anteprima("anello"))
+prova("anteprima: l'anello a 9 d'acqua ne dà 4, ma la tanica ne tiene 10: ne entra 1 e 3 si perdono",
+      a["delta"]["acqua"] == 4 and a["dopo"]["acqua"] == 10 and a["sprecato"] == {"acqua": 3}, str(a["sprecato"]))
+vera = contatori(q)["acqua"]
+prova("…e l'anteprima non ha toccato il mondo (l'acqua è ancora 9)", vera == 9, str(vera))
+json.loads(q.fav_step("anello"))
+json.loads(q.fav_step("Va bene così"))
+json.loads(q.fav_step("aspetta"))
+prova("…fatto davvero, la tanica finisce a 10: l'anteprima diceva il vero", contatori(q)["acqua"] == 10, str(contatori(q)["acqua"]))
+a = json.loads(al_mercato(5).fav_anteprima("anello"))
+prova("anteprima: a 5 d'acqua il baratto entra tutto, niente va perso", a["sprecato"] == {} and a["dopo"]["acqua"] == 9, str(a["sprecato"]))
+a = json.loads(al_mercato(10, ("anello", "damigiana")).fav_anteprima("anello"))
+prova("anteprima: con la damigiana il tetto è venti, niente va perso", a["sprecato"] == {} and a["dopo"]["acqua"] == 14, str(a))
+q = nuovo_ponte()
+q._mondo.variabili.update(sete=2, acqua=3)
+a = json.loads(q.fav_anteprima("bevi due sorsi"))
+prova("anteprima: il pavimento della sete a zero vale, e non è uno spreco d'acqua", a["dopo"]["sete"] == 0 and a["sprecato"] == {}, str(a))
+
 print("TUTTO OK" if all(esiti) else "CI SONO FALLIMENTI")
 sys.exit(0 if all(esiti) else 1)

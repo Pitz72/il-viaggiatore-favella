@@ -77,7 +77,7 @@ const CUES: Cue[] = [
     righe: [{ testo: "Un'avventura testuale in italiano, scritta e giocata col motore vero.", stile: serif(34, { color: "#b9c4d4", fontStyle: "italic" }) }] },
 ];
 
-const STATS = [{ n: 7, l: "tappe" }, { n: 39, l: "luoghi" }, { n: 13, l: "personaggi" }, { n: 6, l: "finali" }];
+const STATS = [{ n: 7, l: "tappe" }, { n: 39, l: "luoghi" }, { n: 14, l: "personaggi" }, { n: 6, l: "finali" }];
 
 const CINQUE = [
   // Saverio custodisce il pozzo: tetto a due falde, carrucola, secchio, muro di pietre

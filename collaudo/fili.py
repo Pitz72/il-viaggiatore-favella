@@ -175,5 +175,92 @@ for nome, cont, frase in [("riconosciuto, col sangue", {"stato di cosimo": "rico
     t = fai(p, "nord", "sud", "nord")
     prova(f"la strada: {nome}", t.count(frase) == 1, t[-200:])
 
+# ---------------------------------------------------------------------------
+# 6. Imma, sulla discesa: il cibo che stringe proprio lì (1.7.0)
+# ---------------------------------------------------------------------------
+p = partita("discesa", cibo=4)
+t = fai(p, "parla con Imma")
+prova("Imma, sulla discesa, chiede da mangiare e dà tre risposte", "Mi serve da mangiare" in t and "Tieni, mangia" in t
+      and "Non posso" in t and "Chi sei" in t, t[-240:])
+fai(p, "Tieni", "…", "aspetta")
+prova("«Tieni, mangia» costa due porzioni, vale un dono (la generosità, una volta sola) e Imma lascia la discesa",
+      p.v("cibo") == 2 and p.v("generosità") == 1 and p.m.variabili["stato di imma"] == "nutrita"
+      and "Imma" not in fai(p, "guarda"), f"cibo {p.v('cibo')} gen {p.v('generosità')}")
+fai(p, "aspetta", "aspetta")
+prova("…e non conta di nuovo", p.v("generosità") == 1)
+
+p = partita("discesa", cibo=1)
+t = fai(p, "parla con Imma")
+prova("con una porzione sola, l'offerta è «l'ultimo che ho» e «Tieni, mangia» non c'è", "È l'ultimo che ho" in t and "Tieni, mangia" not in t, t[-200:])
+t = fai(p, "ultimo", "…", "aspetta")
+prova("…costa l'ultima, e vale un dono", p.v("cibo") == 0 and p.v("generosità") == 1 and "L'ultimo non lo dà quasi nessuno" in t, t[-200:])
+
+p = partita("discesa", cibo=0)
+t = fai(p, "parla con Imma")
+prova("a mani vuote non c'è niente da dare, e lei lo vede", "Tu non ne hai" in t and "Tieni" not in t and "ultimo" not in t, t[-200:])
+t = fai(p, "Non posso")
+prova("«Non posso» non costa niente, e lei resta lì", "Lo dicono tutti" in t and p.m.variabili["stato di imma"] == "digiuna"
+      and p.v("generosità") == 0, t[-160:])
+
+p = partita("discesa", cibo=4, fame=8)
+prova("se anche tu hai fame, lei lo vede", "Anche tu" in fai(p, "parla con Imma"))
+
+p = partita("discesa", cibo=4)
+t = fai(p, "parla con Imma", "Chi sei", "casello", "…", "Com'è il paese", "…")
+prova("Imma racconta di sé, di Vito («mi ha chiamata sorella»), e del paese (Rosaria, Peppe)",
+      "Sono di giù" in t and "mi ha chiamata sorella" in t and "Rosaria ti mette a sedere" in t and "ragazzo della piazzetta" in t, t[-300:])
+prova("…e se torni al primo discorso non ripete il benvenuto", "Allora?" in p.storia[-1][1] and "tre giorni" not in p.storia[-1][1], p.storia[-1][1][-160:])
+
+# in osteria la voce corre: Imma ha parlato
+p = partita("discesa", cibo=4)
+fai(p, "parla con Imma", "Tieni", "…", "ovest", "ovest")
+t = fai(p, "nord")
+prova("senza sangue: Rosaria lo sa, la scodella è piena e la fiducia sale (1 → 2)", "Mi ha detto della discesa" in t
+      and p.v("fiducia di rosaria") == 2 and "Puoi vedere qui: Rosaria, Imma" in fai(p, "guarda"), f"fiducia {p.v('fiducia di rosaria')} | {t[-200:]}")
+p = partita("discesa", cibo=4, sangue=1)
+fai(p, "parla con Imma", "Tieni", "…", "ovest", "ovest")
+t = fai(p, "nord")
+prova("col sangue: Imma parla per te, Rosaria si siede e la fiducia non cala (1)", "Quello lì mi ha dato da mangiare" in t
+      and "alla fine si siede" in t and p.v("fiducia di rosaria") == 1 and "ti guarda le mani" in t, f"fiducia {p.v('fiducia di rosaria')} | {t[-200:]}")
+t = fai(p, "parla con Rosaria")
+prova("…e anche nel suo discorso: ha ancora la fiducia da guadagnare", "La fiducia no" in t and "ha parlato bene di te" in t, t[-200:])
+p = partita("piazzetta", sangue=1)
+prova("col sangue e senza Imma resta com'era (fiducia 0)", "Quello lì" not in fai(p, "nord") and p.v("fiducia di rosaria") == 0)
+
+p = partita("piazzetta", cibo=4)
+fai(p, "nord", "sud", "est", "est", "parla con Imma", "Tieni", "…", "ovest", "ovest")
+t = fai(p, "nord")
+prova("se ci vai dopo essere stato in osteria, la ritrovi lì lo stesso (fiducia +1)", "Al tavolo della finestra c'è Imma" in t
+      and p.v("fiducia di rosaria") == 2, f"fiducia {p.v('fiducia di rosaria')} | {t[-160:]}")
+
+p = partita("osteria", **{"stato di imma": "arrivata", "stato dell'accoglienza": "data"})
+p.m.oggetti["imma"].posizione = "osteria"
+p.m.trova_stanza("osteria").oggetti["imma"] = p.m.oggetti["imma"]
+t = fai(p, "parla con Imma", "vicolo")
+prova("in osteria Imma dice di Pasquale, se è malato", "Non l'ho mai sentito lamentarsi" in t, t[-200:])
+
+# conta come uno dei doni: tre su quattro bastano al guado, anche senza le medicine
+p = partita("guado", ["fucile"], generosità=3)
+prova("la generosità arriva a 3 anche con Saverio, Rosaria e Imma (senza Pasquale)",
+      "Quello che lasciava l'acqua" in fai(p, "lascia il fucile"))
+
+# ---------------------------------------------------------------------------
+# 7. Ciro non spreca la tanica: se non c'è posto, le stesse merci si cambiano in cibo
+# ---------------------------------------------------------------------------
+for acqua, damigiana, atteso_acqua, atteso_cibo in [(5, False, True, False), (7, False, True, False), (8, False, False, True),
+                                                    (10, False, False, True), (10, True, True, False), (17, True, True, False)]:
+    p = partita("mercato", ["orologio", "batteria", "stecca"] + (["damigiana"] if damigiana else []), acqua=acqua)
+    fai(p, "parla con Ciro")
+    opz = p.opzioni_dialogo()
+    ha_acqua = any(o.startswith("Ti do l'orologio") for o in opz)
+    ha_cibo = any(o.startswith("La tanica non ha posto: ti do l'orologio") for o in opz)
+    prova(f"Ciro, orologio con acqua {acqua}{' e la damigiana' if damigiana else ''}: "
+          f"{'per acqua' if atteso_acqua else 'per cibo'}", ha_acqua == atteso_acqua and ha_cibo == atteso_cibo, str(opz))
+p = partita("mercato", ["batteria"], acqua=9, cibo=1)
+fai(p, "parla con Ciro", "batteria")
+prova("la batteria a tanica piena: due di cibo, e l'acqua resta com'è", p.v("cibo") == 3 and p.v("acqua") == 9, f"{p.v('cibo')} {p.v('acqua')}")
+p = partita("mercato", ["cartucce"], acqua=8)
+prova("le cartucce (2 d'acqua) a 8 d'acqua ci stanno ancora", any(o.startswith("Ti do le cartucce") for o in (fai(p, "parla con Ciro") and p.opzioni_dialogo())))
+
 print("TUTTO OK" if all(esiti) else "CI SONO FALLIMENTI")
 sys.exit(0 if all(esiti) else 1)

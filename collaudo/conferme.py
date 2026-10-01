@@ -89,13 +89,15 @@ for nid, nodo in base.dialogo_nodi.items():
 # ---------------------------------------------------------------------------
 # 2. comandi fuori dai dialoghi
 # ---------------------------------------------------------------------------
-def scena(luogo, cmd, cose=(), **variabili):
+def scena(luogo, cmd, cose=(), prima=(), **variabili):
     q = nuovo_ponte()
     q._mondo.posizione_giocatore = luogo
     for i in cose:
         q._mondo.inventario.add(i)
         q._mondo.oggetti[i].posizione = "inventario"
     q._mondo.variabili.update(variabili)
+    for c in prima:                       # per esempio «parla con Ciro»: la risposta si dà dentro il dialogo
+        q.fav_step(c)
     scenari.append({"cmd": cmd, "anteprima": json.loads(q.fav_anteprima(cmd)), "mondo": mondo_visto(q)})
     etichette.append(f"comando   {cmd}   [{luogo}]")
 
@@ -116,6 +118,11 @@ scena("fondale", "bevi salmastra")
 scena("stazione", "esamina biglietto")
 scena("stazione", "lascia biglietto")
 scena("stazione", "aspetta")
+# la tanica tiene dieci litri: la conferma dice quanto del baratto andrebbe perso
+scena("mercato", "anello", cose=["anello"], prima=["parla con Ciro"], acqua=5)
+scena("mercato", "anello", cose=["anello"], prima=["parla con Ciro"], acqua=9)
+scena("mercato", "anello", cose=["anello"], prima=["parla con Ciro"], acqua=10)
+scena("mercato", "anello", cose=["anello", "damigiana"], prima=["parla con Ciro"], acqua=10)
 
 # ---------------------------------------------------------------------------
 # 3. la logica dell'interfaccia decide
@@ -130,7 +137,8 @@ print(f"{'':9s} {'risposta o comando':62s} conferma")
 for e, r in zip(etichette, esiti):
     c = r["conferma"]
     if c:
-        conto = f"dai {c['perdi']} → ricevi {c['ottieni']}" + (f" · pesa {c['pesa']}" if c["pesa"] else "")
+        conto = (f"dai {c['perdi']} → ricevi {c['ottieni']}" + (f" · pesa {c['pesa']}" if c["pesa"] else "")
+                 + (f" · {c['spreco']}" if c.get("spreco") else ""))
         print(f"{e[:74]:74s} {c['tipo']:9s} {conto}")
     else:
         print(f"{e[:74]:74s} —")
@@ -154,6 +162,9 @@ ATTESI = {
     "Ti lascio dell'acqua, ne hai bisogno anche tu.": "perdita",
     "Ti lascio dell'acqua, per l'ospitalità.": "perdita",
     "Ti lascio tre d'acqua.": "perdita",
+    "Tieni, mangia.": "perdita",
+    "È l'ultimo che ho. Tieni.": "perdita",
+    "La tanica non ha posto: ti do l'orologio per del cibo.": "scambio",
     "Ti do la stecca di sigarette.": ("scambio", "perdita"),
     # svolte
     "Vieni con me, allora.": "svolta",
@@ -199,6 +210,14 @@ vito = next(r["conferma"] for e, r in zip(etichette, esiti) if e.endswith("Ti la
 if vito["perdi"] != ["3 d'acqua"]:
     print("KO il conto del pedaggio di Vito:", vito)
     ok_tutto = False
+# il tetto della tanica: l'anello a 5 d'acqua entra tutto; a 9 ne entra uno; a 10 niente; con la damigiana tutto
+anelli = [r["conferma"] for e, r in zip(etichette, esiti) if e.startswith("comando   anello")]
+attesi = [("", ["4 d'acqua", "2 di cibo"]), ("La tanica tiene 10: 3 d'acqua andrebbero persi.", ["4 d'acqua (ne entrano 1)", "2 di cibo"]),
+          ("La tanica è già piena (10): quest'acqua andrebbe persa.", ["4 d'acqua (non ne entra)", "2 di cibo"]), ("", ["4 d'acqua", "2 di cibo"])]
+for c, (spreco, ottieni) in zip(anelli, attesi):
+    if not c or c["spreco"] != spreco or c["ottieni"] != ottieni:
+        print("KO l'anello e il tetto della tanica:", c, "atteso", spreco, ottieni)
+        ok_tutto = False
 # nessuna risposta di dialogo che non costa (solo parole) chiede conferma
 for e, r in zip(etichette, esiti):
     if r["conferma"] and not e.startswith("comando") and r["conferma"]["tipo"] not in ("scambio", "perdita", "svolta"):

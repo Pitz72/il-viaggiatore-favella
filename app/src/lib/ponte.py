@@ -35,6 +35,7 @@ from gioco import _preposizione_semplice                # noqa: E402  (privato: 
 from favella_utils import con_preposizione, nome_in_frase, prima_maiuscola  # noqa: E402
 from libreria_azioni import LIBRERIA_AZIONI             # noqa: E402
 from strutture import VERSIONE_MOTORE                   # noqa: E402
+from strutture import ConseguenzaContatore, ConseguenzaLimita  # noqa: E402  (vedi _applica_i_limiti)
 
 _mondo = None
 _entry = None
@@ -170,7 +171,9 @@ def fav_step(cmd):
 #
 #  Il comando gira su una COPIA del mondo (mai sul mondo vero) e solo fino
 #  alle sue conseguenze: senza il turno che ne segue, cioè senza eventi e
-#  demoni, che con l'anteprima non c'entrano. Il caso è quello del mondo vero
+#  demoni, che con l'anteprima non c'entrano. Fanno eccezione i tetti e i
+#  pavimenti (vedi _applica_i_limiti): dicono quanto dell'acqua guadagnata la
+#  tanica trattiene davvero. Il caso è quello del mondo vero
 #  (l'rng si copia), quindi ciò che l'anteprima mostra è ciò che succederà.
 #  Per lo stesso motivo `_esegui_comando` è quello privato del motore: è la
 #  funzione che il motore chiama per applicare il comando prima del turno.
@@ -204,6 +207,23 @@ def _nome(m, id_oggetto):
     return og.nome_visualizzato if og is not None else id_oggetto
 
 
+def _applica_i_limiti(copia):
+    """I tetti e i pavimenti di fine turno, sulla copia. Sono i demoni «Ogni turno
+    se … : adesso X diventa N» (la tanica che tiene dieci litri, la sete che non
+    scende sotto zero): fanno parte del turno che segue il comando, e senza non si
+    vedrebbe che un baratto d'acqua con la tanica quasi piena la spreca. Si
+    riconoscono dalla forma, non dal nome: tutte le conseguenze fissano un contatore
+    (diventa, o resta fra due numeri). Il testo che dicono non serve qui."""
+    for d in copia.demoni:
+        if d.tipo != "ogni_turno" or not d.conseguenze:
+            continue
+        if not all(isinstance(c, ConseguenzaLimita)
+                   or (isinstance(c, ConseguenzaContatore) and c.modo == "diventa") for c in d.conseguenze):
+            continue
+        if _vera(copia, d.condizione):
+            d.esegui_conseguenze(copia)
+
+
 def _anteprima_di(mondo, copia, cmd):
     """Il comando gira su `copia` (uguale a `mondo`): si confronta il prima e il dopo."""
     prima = _fotografia(mondo)
@@ -214,9 +234,14 @@ def _anteprima_di(mondo, copia, cmd):
             _esegui_comando(copia, cmd)
     except Exception as e:                               # noqa: BLE001
         errore = f"{type(e).__name__}: {e}"
-    dopo = _fotografia(copia)
-    delta = {k: v - prima["contatori"].get(k, 0) for k, v in dopo["contatori"].items()
+    grezzo = _fotografia(copia)
+    delta = {k: v - prima["contatori"].get(k, 0) for k, v in grezzo["contatori"].items()
              if v != prima["contatori"].get(k, 0)}
+    _applica_i_limiti(copia)
+    dopo = _fotografia(copia)
+    # ciò che il gesto dà e il tetto rimanda indietro: «acqua 9 + 3 = 12, la tanica tiene 10»
+    sprecato = {k: grezzo["contatori"][k] - v for k, v in dopo["contatori"].items()
+                if delta.get(k, 0) > 0 and grezzo["contatori"].get(k, 0) > v}
     stati = [{"nome": k, "prima": prima["stati"].get(k), "dopo": v}
              for k, v in dopo["stati"].items() if prima["stati"].get(k) != v]
     perde, ottiene = [], []
@@ -235,7 +260,7 @@ def _anteprima_di(mondo, copia, cmd):
         "capito": not getattr(copia, "_turno_libero", False),
         "testo": uscita.getvalue(),
         "delta": delta, "stati": stati, "perde": perde, "ottiene": ottiene,
-        "dopo": dopo["contatori"], "esito": dopo["esito"],
+        "dopo": dopo["contatori"], "sprecato": sprecato, "esito": dopo["esito"],
         "dialogo": bool(copia.in_dialogo()),
     }
 

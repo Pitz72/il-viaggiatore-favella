@@ -61,6 +61,9 @@ PERCORSI = {
     # la terza via: col fucile, ma senza sparare
     'G_posato':     dict(peppe=False, giocattolo=True,  anello=False, arma='fucile', guado='posa'),
     'H_veglia':     dict(peppe=False, giocattolo=True,  anello=False, arma='fucile', guado='veglia', cane='uccidi'),
+    # il cibo dato a Imma sulla discesa: in osteria la voce lo ha preceduto (senza sangue; col sangue H_veglia)
+    'I_imma':       dict(peppe=False, giocattolo=False, anello=True,  arma='lettera', imma=True),
+    'J_imma_sangue': dict(peppe=False, giocattolo=True, anello=False, arma='fucile', guado='veglia', cane='uccidi', imma=True),
 }
 
 
@@ -71,4 +74,6 @@ def comandi(nome):
     if p.get('cane') == 'uccidi':        # il cane della serra ucciso col coltello: è sangue
         i = inizio.index('getta cibo')
         inizio = inizio[:i] + ['attacca il cane', 'attacca il cane'] + inizio[i + 1:]
+    if p.get('imma'):                    # sulla discesa, fra il casello e la porta: gli ultimi tre «ovest»
+        inizio = inizio[:-2] + ['parla con Imma', 'tieni', '…'] + inizio[-2:]
     return inizio + z5(p['peppe'], p['giocattolo'], p['anello']) + z6(p['arma'], p['giocattolo']) + z7(p['arma'], p.get('guado'))

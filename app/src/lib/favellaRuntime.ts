@@ -145,8 +145,10 @@ export interface Anteprima {
   /** ciò che ti esce dalla bisaccia (dato via, consumato), non ciò che posi per terra */
   perde: { id: string; nome: string }[];
   ottiene: { id: string; nome: string }[];
-  /** i contatori dopo il comando */
+  /** i contatori dopo il comando e il suo turno di tetti e pavimenti: la tanica tiene 10 */
   dopo: Record<string, number>;
+  /** quanto di ciò che il gesto dà il tetto rimanda indietro: {acqua: 2} */
+  sprecato?: Record<string, number>;
   esito: StatoPartita;
   dialogo: boolean;
 }

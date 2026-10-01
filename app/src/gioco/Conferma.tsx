@@ -52,6 +52,7 @@ export default function Conferma({ conferma: c, etichetta, puoAnnullare, onSi, o
           </div>
         )}
         {c.pesa.length > 0 && <p className="vg-conf-pesa">Ti pesa: {c.pesa.join(", ")}.</p>}
+        {c.spreco && <p className="vg-conf-pesa vg-conf-spreco" role="note">{c.spreco}</p>}
         {(c.perdi.length > 0 || c.ottieni.length > 0) && <p className="vg-conf-dopo">Ti resterebbero: {c.dopo}</p>}
         <div className="vg-conf-azioni">
           <button ref={no} className="vg-bottone" onClick={onNo}>No, ci ripenso <kbd>N</kbd></button>

@@ -1,7 +1,7 @@
 # IL VIAGGIATORE — Schede personaggio
 
 > Pre-produzione · Strato 5 di 6 · **v1.0, allineato al gioco (23/09/2026)**
-> **13 personaggi**: 5 maggiori (con un contatore di fiducia), 7 minori, e Cosimo.
+> **14 personaggi**: 5 maggiori (con un contatore di fiducia), 8 minori, e Cosimo (Imma dalla 1.7.0).
 > In più il cane della serra, che non parla ma pesa.
 > Principio: ogni personaggio ha un **desiderio proprio**, indipendente dal
 > protagonista. Nessun **oracolo**: le informazioni sono parziali, interessate, e la
@@ -50,7 +50,7 @@ I cinque maggiori sono cinque risposte alla stessa domanda: *restare o andarsene
 #### ROSARIA — l'osteria · Z5
 - **Voce:** calda ma stanca. L'ospitalità come ultima economia: la prima volta ti mette davanti acqua e legumi prima che tu apra bocca.
 - **Vuole:** che il paese non si spenga. Sa il nome di chi è partito, e a qualcuno tiene ancora il posto.
-- **Meccanica:** fiducia 1; +1 per un dono d'acqua, +2 se curi Pasquale; −1 se arrivi col sangue addosso (la voce della statale arriva prima di te: ti accoglie lo stesso, ma non si siede). A 3 scrive il **permesso** per le colline. Dà **la notizia**: Acquamorta è vuota «tranne uno», che non lascia entrare nessuno.
+- **Meccanica:** fiducia 1; +1 per un dono d'acqua, +2 se curi Pasquale; −1 se arrivi col sangue addosso (la voce della statale arriva prima di te: ti accoglie lo stesso, ma non si siede). A 3 scrive il **permesso** per le colline. Se hai sfamato Imma sulla discesa, in osteria c'è già lei: senza sangue la fiducia sale di 1, col sangue non cala e Rosaria si siede. Dà **la notizia**: Acquamorta è vuota «tranne uno», che non lascia entrare nessuno.
 - **Anti-oracolo:** ti dice che c'è qualcuno, non chi è: «Chiedi a Concetta.»
 
 #### ONOFRIO — la grotta · Z6
@@ -87,7 +87,7 @@ Diciassette anni, le scarpe sbagliate per camminare. Vuole venire via con te.
 - **Al guado:** se abbatti Cosimo, Peppe scappa senza voltarsi. Se lo riconosci, Peppe aspetta al cancello, e il finale è suo.
 
 #### CIRO — il mercato · Z5
-Svelto d'occhi e di mani. Non vuole amicizia: vuole fare affari. Compra quasi tutta la merce raccolta in Z3 e Z4, «la carta di Vito», e l'anello (il prezzo più alto del gioco). Cambia anche l'acqua in cibo, al suo prezzo (3 per 2).
+Svelto d'occhi e di mani. Non vuole amicizia: vuole fare affari. Compra quasi tutta la merce raccolta in Z3 e Z4, «la carta di Vito», e l'anello (il prezzo più alto del gioco). Cambia anche l'acqua in cibo, al suo prezzo (3 per 2). Se la tanica non ha posto (acqua dall'8 in su, e senza damigiana) non paga più in acqua l'orologio, la batteria, la stecca e le cartucce: le stesse merci valgono cibo (1.7.0).
 
 #### PASQUALE — il vicolo · Z5
 Un uomo giovane invecchiato dalla febbre. Non chiede: gli brucia troppo l'orgoglio. Le medicine su di lui lo salvano, e Rosaria lo viene a sapere (+2 fiducia). Tenerle per sé è legittimo: sono l'unica cura rapida del gioco.
@@ -97,6 +97,13 @@ Tanto vecchia che il tempo, su di lei, sembra essersi seduto. Ti riconosce e poi
 
 #### TORE — il pianoro · Z6
 Conta le pecore a mezza voce anche mentre ti parla. Formaggio in cambio d'acqua (2 d'acqua per 3 di cibo). Sul guado dice quello che si dice giù al paese («Tuo fratello, dicono. Io non chiedo»), e manda da Onofrio: «se gli porti qualcosa di casa tua».
+
+#### IMMA — la discesa · Z4 (dalla 1.7.0)
+Una donna sui cinquant'anni, tutta tendini dentro una camicia da uomo. Abita nel vicolo dietro la piazzetta, di fronte a Pasquale. È andata oltre il casello a vedere se c'era ancora qualcosa («C'è la statale»), e per tornare ha lasciato a Vito l'ultimo pane: lui l'ha chiamata «sorella». Siede sul guardrail con una scarpa slacciata che non si china ad allacciare.
+- **Funzione:** è l'unico incontro che chiede *cibo* e lo chiede dove le scorte del giocatore attento sono più basse (la discesa, a undici turni dal pasto che Rosaria offre). È un altro che torna a casa, come te, e non ci arriva.
+- **Voce:** secca, senza scuse e senza pietà di sé. Non chiede l'acqua («in paese qualcuno ne dà sempre»). Se hai fame anche tu, lo vede; se non hai niente, lo capisce da come cammini.
+- **Meccanica:** nessuna fiducia. Due scelte che costano (due porzioni, o l'ultima che hai) e una che non costa («Non posso. Mi dispiace.»: lei resta lì, e puoi ripensarci). Dare vale un dono (la generosità, una volta sola). Parla di sé, di Vito («mi ha chiamata sorella») e del paese (Rosaria ti siede o ti serve in piedi, e il ragazzo della piazzetta ti chiederà di portarlo via: «digli di sì o di no, ma subito»). Non dice che cosa fare.
+- **Il ritorno:** sfamata, arriva in osteria prima di te. Se hai addosso il sangue, parla per te davanti ai due uomini scesi dalla statale: Rosaria non ti toglie la fiducia e alla fine si siede. Se no, la fiducia di Rosaria sale di uno. In osteria dice, se Pasquale è ancora malato, che non l'ha mai sentito lamentarsi, ed è questo che le fa paura.
 
 ### — L'ANIMALE —
 
@@ -114,6 +121,7 @@ Rimasto solo e tornato mezzo selvatico, difende le casse di conserve come fosser
 | Iole | l'accesso al casotto | acqua o cibo | come si rende potabile l'acqua |
 | Rocco | — | — | cosa fa la disperazione |
 | Vito | il passaggio, il lasciapassare | pedaggio, bluff o botte | — |
+| Imma | di Vito, del paese, di chi parla in osteria | da mangiare | come corre la voce |
 | Rosaria | accoglienza, il permesso | fiducia, Pasquale curato | **la notizia su Acquamorta** |
 | Peppe | compagnia | acqua e cibo, lungo la strada | il rovescio del tema |
 | Ciro | acqua e cibo | merce, l'anello | — |

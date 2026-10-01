@@ -1,6 +1,6 @@
 # Prossimi passi
 
-Che cosa resta da fare e che cosa si vuole fare, dopo la 1.6.0 (1° ottobre
+Che cosa resta da fare e che cosa si vuole fare, dopo la 1.7.0 (1° ottobre
 2026). Il *perché* di ogni punto sta nelle voci del [diario](DIARIO.md) che lo
 hanno segnalato; qui c'è l'elenco da cui ripartire.
 
@@ -26,12 +26,13 @@ hanno segnalato; qui c'è l'elenco da cui ripartire.
 - I due **MP4 in `video/`** (non versionati) hanno ancora la grafica vecchia.
 
 ### Storia
-- **Il giocatore attento non è mai in pericolo** (partite giocate a mano, 1.6.0): la
-  tensione, per lui, è solo nel cibo fra la statale e il mercato. Se si vuole più
-  paura, il posto è lì, non nella sete.
-- **L'acqua oltre la tanica**: barattare acqua con la tanica quasi piena la spreca, e
-  la conferma mostra il conto prima del tetto («acqua 9 → 12», poi 10). Far dire il
-  tetto all'anteprima, o togliere l'opzione quando non c'è posto.
+- **La paura del giocatore attento** (1.7.0): c'è Imma sulla discesa, che chiede da
+  mangiare, e la risposta torna in osteria (06-ramificazione §3.5). Se non basta, la
+  fame che si vede resta una frase sola: il resto del tratto statale–mercato è
+  silenzioso per chi non la incontra, e Imma non ha un'eco alla soglia.
+- **L'acqua oltre la tanica** (1.7.0): fatto con l'anteprima che dice il tetto e con
+  Ciro che cambia in cibo le merci che darebbero solo acqua. L'anello e la benzina
+  restano affidati alla sola anteprima.
 - Le dichiarazioni doppie di `z2-piana.fav` («getta il cibo», «lancia cibo»…) si
   possono ridurre a una con i sinonimi del motore. Cambia l'impronta dei
   salvataggi: da fare insieme al lavoro sulla storia (sezione 2).
@@ -101,6 +102,8 @@ lavoro è far sì che ciò che fai per strada ritorni.
 - I fili sono nel gioco dalla 1.5.0 ([`pre-produzione/06-ramificazione.md`](../pre-produzione/06-ramificazione.md)):
   il sangue e la generosità, la terza via al guado (il fucile posato, la veglia),
   la strada di Acquamorta che ricorda. Le conseguenze a distanza sono passate da 2 a 6.
+- Dalla 1.7.0 c'è Imma (§3.5): il cibo dato sulla discesa conta per la generosità e Rosaria lo sa. Le
+  conseguenze a distanza sono 7.
 - Prossimi fili possibili (§8 del documento): Vito umiliato dal bluff che lo
   racconta; Peppe che sa del sangue quando si unisce a te; che cosa mostrare a lato
   dello schermo, ora che le fiducie non sono più le sole a contare.

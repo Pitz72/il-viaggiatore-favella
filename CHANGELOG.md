@@ -8,6 +8,41 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.7.0] - 2026-10-01
+
+Dalle misure del banco di gioco: chi beve e mangia agli avvisi non perde mai vita, e
+fra la statale e il mercato non sceglie niente. Ora sceglie. E il gioco non lascia più
+sprecare, senza dirlo, l'acqua oltre la tanica.
+
+### Aggiunto
+- **Imma, sulla discesa**, l'ultimo tratto prima del paese: una donna del vicolo dietro
+  la piazzetta, tornata dal casello dopo aver lasciato a Vito l'ultimo pane. Chiede da
+  mangiare. Darle da mangiare costa due porzioni (o l'ultima che hai) proprio dove le
+  scorte stringono; chi lo fa arriva al mercato con la bisaccia vuota, ma ha dato. Si può
+  rifiutare, e ripensarci. Parla di sé, di Vito («mi ha chiamata sorella») e del paese.
+- **La voce corre anche per il bene.** Chi ha sfamato Imma la trova in osteria, già al
+  suo tavolo. Senza sangue Rosaria lo sa, e la fiducia sale di uno; col sangue, Imma
+  parla per te davanti ai due uomini scesi dalla statale: Rosaria non ti toglie la
+  fiducia e alla fine si siede. Il dono conta per la generosità (quattro doni, soglia tre).
+- **L'anteprima dice quanta acqua entra davvero.** Quando un baratto dà più acqua di
+  quanta la tanica ne tenga, la conferma lo scrive: «4 d'acqua (ne entra 1)», «La tanica
+  tiene 10: 3 d'acqua andrebbero persi», «La tanica è già piena».
+- **Ciro non spreca la tanica.** Con la tanica senza posto (acqua dall'8 in su, e senza
+  la damigiana) non paga più in acqua l'orologio, la batteria, la stecca e le cartucce:
+  le stesse merci valgono cibo («La tanica non ha posto: ti do l'orologio per del cibo»).
+
+### Cambiato
+- **La generosità sono quattro doni, soglia tre** (Saverio, Rosaria, Pasquale, Imma): chi
+  tiene le medicine per sé può arrivarci con Imma, e viceversa. Nessuno dei quattro è gratis.
+- **Salvataggi:** l'impronta dell'avventura cambia; chi ricarica una partita vecchia la
+  trova ricostruita, e il gioco lo dice.
+- I personaggi sono 14 (il trailer e la presentazione lo dicono).
+
+### Collaudo
+- Due percorsi nuovi (`I_imma`, `J_imma_sangue`) per `finali.py` e `pulsanti.py`: ora 10.
+- `fili.py`: 60 prove (25 nuove: Imma, e Ciro con la tanica). `interfaccia.py` e
+  `conferme.py`: l'anteprima e la conferma col tetto della tanica.
+
 ## [1.6.1] - 2026-10-01
 
 ### Aggiunto

@@ -14,7 +14,7 @@
 Le lettere di tua moglie hanno smesso di arrivare. L'ultimo biglietto, in stampatello e
 senza firma, dice soltanto: «Non è il caso di tornare.» Torni lo stesso.
 
-**7 zone · 39 luoghi · 13 personaggi · 6 finali.** Si gioca scrivendo in italiano
+**7 zone · 39 luoghi · 14 personaggi · 6 finali.** Si gioca scrivendo in italiano
 (`bevi`, `parla con Rosaria`, `usa la lettera su Cosimo`), o toccando le uscite, le
 cose e le risposte. La sete è la spina dorsale, l'acqua è la moneta, le scelte pesano.
 Il gioco si apre con un trailer di 88 secondi con la sua colonna sonora originale.

@@ -26,11 +26,11 @@ Ogni passaggio chiede **una risorsa, un oggetto, un favore o uno scontro**, e qu
 | Z1 Acquaviva | 5 | Nunzio | la mappa **e** almeno 3 d'acqua |
 | Z2 La piana | 5 | Saverio (+ il cane) | almeno 4 d'acqua |
 | Z3 L'invaso | 7 | Iole, Rocco | la pompa in funzione **e** almeno 6 d'acqua |
-| Z4 La statale | 6 | Vito | il casello aperto, **oppure** la grata forzata |
+| Z4 La statale | 6 | Vito, Imma | il casello aperto, **oppure** la grata forzata |
 | Z5 Il paese | 7 | Peppe, Rosaria, Ciro, Pasquale, Concetta | il permesso di Rosaria |
 | Z6 Le colline | 6 | Tore, Onofrio | la lettera **oppure** il fucile |
 | Z7 Il guado | 3 | Cosimo | Cosimo riconosciuto **oppure** abbattuto |
-| **Totale** | **39** | **13** | |
+| **Totale** | **39** | **14** | |
 
 ## 3. Le sette zone
 
@@ -68,6 +68,7 @@ Ogni passaggio chiede **una risorsa, un oggetto, un favore o uno scontro**, e qu
   3. **picchiare**: chiave inglese, coltello o mani nude, contro il suo tubo di ferro;
   4. **aggirare**: la chiave inglese sulla grata dell'area di servizio apre il sottopasso.
 - **Vicoli ciechi:** la piazzola (stecca, pistola, cartucce, giubbotto) e l'area di servizio (benzina, chiave inglese, medicine).
+- **Imma**, sulla discesa (dalla 1.7.0): del paese, è tornata dal casello dopo aver lasciato a Vito l'ultimo pane, e non ha più niente da mangiare. Dargliene costa due porzioni (o l'ultima che hai), proprio dove le scorte stringono: è il punto in cui chi ha ascoltato il corpo tutto il viaggio arriva al paese con la bisaccia vuota. La voce corre (vedi `06-ramificazione.md` §3.5).
 - **Soglia:** la discesa, dove la mano va da sola alla tasca del biglietto.
 
 ### Z5 · IL PAESE — *il posto dove si potrebbe restare*
@@ -75,9 +76,9 @@ Ogni passaggio chiede **una risorsa, un oggetto, un favore o uno scontro**, e qu
 
 Dalla piazzetta: a nord l'osteria, a sud il mercato, a ovest il vicolo, a est la porta. (Fino alla 1.5.0 il mercato stava a est e ne prendeva il posto: dal paese la porta non si ritrovava.)
 - **Cos'è:** l'unico paese ancora abitato. La zona più grande e più viva, il cuore sociale e morale del gioco.
-- **Rosaria**, all'osteria: accoglie con acqua e legumi la prima volta, dà **la notizia** su Acquamorta («Tranne uno»), e scrive il permesso per le colline a chi si è guadagnato la sua fiducia.
+- **Rosaria**, all'osteria: accoglie con acqua e legumi la prima volta, dà **la notizia** su Acquamorta («Tranne uno»), e scrive il permesso per le colline a chi si è guadagnato la sua fiducia. Se hai sfamato Imma sulla discesa, la ritrovi al tavolo della finestra: ha già parlato di te.
 - **Pasquale**, nel vicolo: la febbre. Le medicine si possono usare su di lui (e Rosaria lo saprà) o tenere per sé.
-- **Ciro**, al mercato: compra la merce raccolta nelle zone precedenti, e l'anello.
+- **Ciro**, al mercato: compra la merce raccolta nelle zone precedenti, e l'anello. Con la tanica che non ha posto (dalla 1.7.0) non paga in acqua l'orologio, la batteria, la stecca e le cartucce: li prende per del cibo.
 - **Concetta**, nel cortile: ricorda i due fratelli da bambini. Sul davanzale, il giocattolo; tra i gerani, l'anello.
 - **Peppe**, in piazzetta: vuole venire via. Portarlo o lasciarlo cambia le zone 6 e 7 e due finali.
 - **Il registro** dell'osteria: nella colonna dei morti, il tuo cognome.
