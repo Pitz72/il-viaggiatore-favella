@@ -125,6 +125,12 @@ class Mappa:
         if re.match(rf"^{ARTICOLO}.+? (è|parte da) ", r, re.I) and " se " not in r and "adesso" not in r:
             return                                   # dichiarazioni e descrizioni senza condizioni
         cond, effetti = spezza(r)
+        # Le condizioni dentro i testi («[se la generosità è almeno 3]…[fine]») sono letture come
+        # quelle dopo «se»: le sei chiusure della soglia raccolgono il viaggio così (1.12.0).
+        for testo in re.findall(r'"([^"]*)"', r.lower()):
+            for nel_testo in re.findall(r"\[se ([^\]]+)\]", testo):
+                for k in self._trova(nel_testo, self._chiavi):
+                    self.letture[k][zona] += 1
         if " se " in cond or cond.startswith(("quando", "ogni turno", "ogni ")):
             dove = cond.split(" se ", 1)[1] if " se " in cond else cond
             for k in self._trova(dove, self._chiavi):

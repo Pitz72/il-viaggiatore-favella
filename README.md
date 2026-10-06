@@ -25,6 +25,12 @@ Il gioco si apre con i loghi, un avviso e un trailer di 88 secondi con la sua co
 > modo, tramite design e programmazione, uno script narrativo Favella1 possa diventare un
 > gioco distribuibile.
 
+> **Il Viaggiatore è finito.** La versione **1.12.0** è la definitiva e **non verrà più
+> modificata**: la storia, l'app e i collaudi restano come sono. Il repository resta aperto, con le
+> sue licenze, come **riferimento**: per chi voglia leggere come una storia lunga diventa un gioco
+> in FAVELLA 1, o riprendere il lavoro altrove. Le partite salvate e l'aggiornamento automatico
+> continuano a funzionare finché le release restano su GitHub.
+
 ## Scaricare e giocare
 
 Dalla pagina [Releases](https://github.com/Pitz72/il-viaggiatore-favella/releases):

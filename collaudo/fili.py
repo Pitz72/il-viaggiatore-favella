@@ -11,6 +11,9 @@
   · il guado: col fucile, posarlo basta se il viaggio è stato generoso e senza
     sangue; altrimenti si resta (la veglia), tre turni senza sangue, cinque col
     sangue; riprendere il fucile, o alzare le mani su Cosimo, rompe la veglia.
+  · le chiusure: le sei che chiudono la storia alla soglia raccolgono il viaggio, con
+    una riga per ciò che hai fatto a Saverio, a Iole, a Vito, a Imma, a Rosaria, a
+    Pasquale e a Ciro (1.12.0), e solo per ciò che hai fatto davvero.
 
 Ogni prova parte da un mondo nuovo e mette il giocatore dove serve, con le cose e
 i contatori che servono: così si prova la regola, non il percorso per arrivarci
@@ -379,6 +382,76 @@ for cmd in ["getta cibo", "getta il cibo", "lancia cibo", "lancia il cibo", "get
     prova(f"alla serra «{cmd}» distrae il cane e dà le conserve", "prendi le conserve" in t and p.v("cibo") == 4, t[-120:])
     p = partita("masseria", cibo=2)
     prova(f"…e altrove «{cmd}» non fa niente", "Non c'è niente da gettare" in fai(p, cmd) and p.v("cibo") == 2)
+
+# ---------------------------------------------------------------------------
+# 12. le chiusure raccolgono il viaggio (1.12.0): una riga per ciò che hai fatto per strada
+# ---------------------------------------------------------------------------
+ATTACCO = "Dietro di te, la strada."
+FATTI = [  # (che cosa hai fatto, le variabili che lo dicono, la riga)
+    ("il cibo a Saverio", {"fiducia di saverio": 3}, "Saverio ha preso il cibo e non ha detto grazie."),
+    ("il cane ucciso", {"stato del cane": "abbattuto"}, "Nella serra il cane è rimasto giù, tra le casse."),
+    ("la pompa col tuo filtro", {"stato della pompa": "attiva"}, "La pompa della diga tira acqua da bere. Il filtro è il tuo."),
+    ("il bluff a Vito", {"stato del bluff": "fatto"}, "Vito, al casello, ti ha fissato in faccia per ricordarsela."),
+    ("Vito a terra", {"vita di vito": 0}, "Contro la sbarra del casello Vito è rimasto seduto."),
+    ("Imma sfamata", {"stato di imma": "arrivata"}, "Imma, sulla discesa, ha avuto da mangiare."),
+    ("l'acqua a Rosaria", {"stato della brocca": "piena"}, "Dietro il banco di Rosaria c'è una brocca piena: l'acqua è la tua."),
+    ("Pasquale curato", {"stato di pasquale": "curato"}, "Pasquale, nel vicolo, ha la febbre rotta. L'orgoglio, quello no."),
+]
+FEDE = "La fede di lei Ciro l'ha rigirata controluce, al mercato, e non ha fatto domande."
+TUTTE = [f for _, _, f in FATTI] + [FEDE]
+MANI_VUOTE = {"stato di cosimo": "riconosciuto"}
+
+
+def chiusura(var, cose=()):
+    """Dalla strada alla soglia, con queste variabili e queste cose: il testo che esce."""
+    p = partita("strada", cose, **var)
+    return fai(p, "nord")
+
+
+t = chiusura(MANI_VUOTE)
+prova("a mani vuote e senza fatti la chiusura è quella di sempre: niente attacco, niente righe del viaggio",
+      ATTACCO not in t and not any(f in t for f in TUTTE) and "FINALE — Sei arrivato a casa con le mani vuote" in t, t[-200:])
+prova("…e dopo l'ultima frase della scena non resta altro che spazio vuoto",
+      t.split("Nessuno dei due entra.")[1].split("FINALE")[0].strip() == "")
+
+for nome, var, frase in FATTI:
+    t = chiusura({**MANI_VUOTE, **var})
+    altre = [f for f in TUTTE if f != frase and f in t]
+    prova(f"{nome}: la chiusura lo dice (e con l'attacco)", frase in t and ATTACCO in t and not altre, f"altre righe: {altre}")
+
+t = chiusura({**MANI_VUOTE, **{k: v for _, var, _ in FATTI for k, v in var.items()}})
+prova("tutti i fatti insieme: tutte le righe, nell'ordine della strada, con un attacco solo",
+      all(f in t for f in TUTTE[:-1]) and t.count(ATTACCO) == 1
+      and [t.index(f) for f in TUTTE[:-1]] == sorted(t.index(f) for f in TUTTE[:-1]), t[-300:])
+
+p = partita("mercato", ["anello"])
+fai(p, "parla con Ciro", "Vendo l'anello", "Va bene così")
+p.m.posizione_giocatore = "strada"
+p.m.variabili["stato di cosimo"] = "riconosciuto"
+t = fai(p, "nord")
+prova("vendere la fede a Ciro: la chiusura lo dice (e con l'attacco)", FEDE in t and ATTACCO in t, t[-250:])
+p = partita("strada", ["anello"], **MANI_VUOTE)
+t = fai(p, "nord")
+prova("…tenerla, no", FEDE not in t and "le hai riportato quello che era suo" in t, t[-250:])
+
+FINALI = [  # (la chiusura, le variabili, le cose, un pezzo del suo FINALE)
+    ("la via violenta con Peppe fuggito", {"stato di cosimo": "abbattuto", "stato di peppe": "fuggito"}, [], "La casa è tua. Il ragazzo che ti seguiva"),
+    ("la via violenta", {"stato di cosimo": "abbattuto"}, [], "Sei entrato ad Acquamorta sopra il corpo di tuo fratello"),
+    ("la via umana con Peppe", {"stato di cosimo": "riconosciuto", "stato di peppe": "compagno"}, [], "Hai trovato la casa, e hai scelto di non restarci"),
+    ("la via umana col cavallo di legno", MANI_VUOTE, ["giocattolo"], "hai riportato a casa l'ultima cosa"),
+    ("la via umana con la fede", MANI_VUOTE, ["anello"], "le hai riportato quello che era suo"),
+    ("la via umana a mani vuote", MANI_VUOTE, [], "con le mani vuote"),
+]
+for nome, var, cose, finale in FINALI:
+    senza = chiusura(var, cose)
+    con = chiusura({**var, "fiducia di saverio": 3, "stato della brocca": "piena"}, cose)
+    prova(f"{nome}: senza fatti niente righe, coi fatti due righe e il suo finale",
+          finale in senza and ATTACCO not in senza and finale in con and ATTACCO in con
+          and FATTI[0][2] in con and FATTI[6][2] in con, con[-300:])
+prova("nessuna chiusura lascia parentesi quadre o doppi spazi nel testo",
+      all(("[" not in chiusura({**var, **{k: v for _, vv, _ in FATTI for k, v in vv.items()}}, cose)
+           and "  " not in chiusura({**var, **{k: v for _, vv, _ in FATTI for k, v in vv.items()}}, cose))
+          for _, var, cose, _ in FINALI))
 
 print("TUTTO OK" if all(esiti) else "CI SONO FALLIMENTI")
 sys.exit(0 if all(esiti) else 1)

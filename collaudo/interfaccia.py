@@ -12,6 +12,8 @@ Tre cose che i pulsanti danno per certe:
     due gesti che farebbero la stessa cosa alla stessa persona sono un pulsante solo.
     Le combinazioni di due cose («usa la chiave inglese sulla grata») non si offrono:
     sarebbe dare la soluzione. Si compongono, una cosa e poi l'altra.
+  · lo stato espone che cosa hai fatto a chi (i «gesti», sotto la fiducia, a lato dello schermo):
+    uno per ciascuna cosa fatta davvero, giocata in modo vero, e nessuno prima.
 
 Uso:  python interfaccia.py      (esce con 1 se una prova fallisce)
 """
@@ -296,6 +298,47 @@ p._mondo.variabili["sangue"] = 1
 passi(p, ["nord"])
 prova("stato: col sangue, entrando in osteria, la voce del sangue è udita", json.loads(p.fav_stato())["voci"] == ["del sangue"],
       str(json.loads(p.fav_stato())["voci"]))
+
+# ---------------------------------------------------------------------------
+# che cosa hai fatto a chi: i gesti si accendono giocando, uno per ciò che hai fatto davvero
+# ---------------------------------------------------------------------------
+def gesti(p):
+    return json.loads(p.fav_stato())["gesti"]
+
+
+def parti(luogo, cose=(), **var):
+    p = nuovo_ponte()
+    p._mondo.posizione_giocatore = luogo
+    for c in cose:
+        p._mondo.inventario.add(c)
+        p._mondo.oggetti[c].posizione = "inventario"
+    p._mondo.variabili.update(var)
+    return p
+
+
+prova("gesti: all'inizio nessuno", gesti(nuovo_ponte()) == {})
+GIOCATI = [  # (che cosa hai fatto, dove, con che cosa, i comandi, che cosa deve mostrare)
+    ("il cibo a Saverio", "pozzo", [], {"cibo": 5}, ["parla con Saverio", "Ti lascio del cibo", "grazie"], {"Saverio": ["cibo"]}),
+    ("un dono a Iole", "diga", [], {"acqua": 6}, ["parla con Iole", "Ti lascio dell'acqua", "grazie"], {"Iole": ["dono"]}),
+    ("il filtro alla pompa", "diga", ["filtro", "pastiglie"], {}, ["usa le pastiglie su la pompa"], {"Iole": ["pompa"]}),
+    ("il passaggio pagato a Vito", "casello", ["stecca"], {}, ["parla con Vito", "Ti do la stecca"], {"Vito": ["pagato"]}),
+    ("la pistola scarica a Vito", "casello", ["pistola"], {}, ["minaccia Vito"], {"Vito": ["bluff"]}),
+    ("Vito a terra", "casello", ["coltello"], {"vita": 10}, ["attacca Vito", "attacca Vito", "attacca Vito"], {"Vito": ["terra"]}),
+    ("l'acqua a Rosaria", "osteria", [], {"acqua": 6}, ["parla con Rosaria", "Ti lascio dell'acqua", "…"], {"Rosaria": ["acqua"]}),
+    ("il cavallo di legno a Onofrio", "grotta", ["giocattolo"], {}, ["parla con Onofrio", "Ti mostro questo cavallo di legno", "…"], {"Onofrio": ["ricordo"]}),
+    ("da mangiare a Imma", "discesa", [], {"cibo": 4}, ["parla con Imma", "Tieni", "…"], {"Imma": ["cibo"]}),
+    ("le medicine a Pasquale", "vicolo", ["medicine"], {}, ["usa le medicine su Pasquale"], {"Pasquale": ["cura"]}),
+]
+for nome, luogo, cose, var, comandi, atteso in GIOCATI:
+    p = parti(luogo, cose, **var)
+    prima = gesti(p)
+    passi(p, comandi)
+    dopo = gesti(p)
+    prova(f"gesti: {nome}", prima == {} and dopo == atteso, f"prima {prima}, dopo {dopo}, atteso {atteso}")
+p = parti("casello", ["stecca", "coltello"], vita=10)
+passi(p, ["parla con Vito", "Ti do la stecca", "esci", "attacca Vito", "attacca Vito", "attacca Vito", "attacca Vito"])
+prova("gesti: più gesti alla stessa persona restano nell'ordine della tabella (pagato, poi a terra)",
+      gesti(p) == {"Vito": ["pagato", "terra"]}, str(gesti(p)))
 
 print("TUTTO OK" if all(esiti) else "CI SONO FALLIMENTI")
 sys.exit(0 if all(esiti) else 1)

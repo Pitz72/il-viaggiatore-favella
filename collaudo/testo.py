@@ -18,6 +18,8 @@ prosa. Tre prove:
      sole, il vento) è di corpo, cioè va in margine come una sensazione: se si riscrive una
      riga in `.fav` e non in `testo.ts`, la riga passa nella prosa del narratore;
   6. l'avviso d'apertura dice, parola per parola, quello che l'autore ha scritto.
+  7. ogni gesto che il ponte sa mostrare («che cosa hai fatto a chi») ha la sua riga a lato dello
+     schermo, e l'interfaccia non ne ha di troppo; le righe sono una riga sola, di una persona della storia.
 
 Uso:  python testo.py      (esce con 1 se una prova fallisce; serve `npm ci --prefix app`)
 """
@@ -178,6 +180,25 @@ prova("l'avviso d'apertura dice quello che l'autore ha scritto, senza una parola
       "".join(re.findall(r'"((?:[^"\\]|\\.)*)"', blocco)) == AVVISO, blocco[:120])
 prova("…e sta fra i loghi e il trailer", re.search(r'fase === "loghi" && <Loghi onFine=\{\(\) => setFase\("avviso"\)\}',
       io.open(os.path.join(RADICE, "app", "src", "App.tsx"), encoding="utf-8").read()) is not None)
+
+# ---------------------------------------------------------------------------
+# 7. che cosa hai fatto a chi (app/src/lib/ponte.py, _GESTI  ↔  app/src/gioco/testo.ts, GESTI)
+# ---------------------------------------------------------------------------
+import importlib.util   # noqa: E402
+
+_spec = importlib.util.spec_from_file_location("ponte_gesti", os.path.join(RADICE, "app", "src", "lib", "ponte.py"))
+_ponte = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_ponte)
+dal_ponte = {f"{chi}:{gesto}" for chi, gesto, _ in _ponte._GESTI}
+righe_gesti = analizza([])["gesti"]
+prova(f"ogni gesto del ponte ({len(dal_ponte)}) ha la sua riga a lato dello schermo, e l'interfaccia non ne ha di troppo",
+      dal_ponte == set(righe_gesti), f"nel ponte: {sorted(dal_ponte)}; nell'interfaccia: {sorted(righe_gesti)}")
+prova("ogni riga di gesto è una riga sola, in minuscolo e senza punto finale (sta sotto un nome)",
+      all(r == r.strip() and len(r.splitlines()) == 1 and r[:1].islower() and not r.endswith(".") for r in righe_gesti.values()),
+      str([r for r in righe_gesti.values() if not (r[:1].islower() and not r.endswith("."))]))
+dichiarati = {chi for chi, _, _ in _ponte._GESTI}
+prova("ogni gesto è di una persona della storia (un personaggio dichiarato nei .fav)",
+      dichiarati <= set(persone), str(sorted(dichiarati - set(persone))))
 
 print("TUTTO OK" if all(esiti) else "CI SONO FALLIMENTI")
 sys.exit(0 if all(esiti) else 1)

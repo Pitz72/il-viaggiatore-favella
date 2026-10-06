@@ -1,6 +1,6 @@
 # IL VIAGGIATORE — La ramificazione
 
-> Pre-produzione · Strato 6 · **v1.2, realizzato nel gioco 1.5.0 (30/09/2026); Imma dalla 1.7.0; le voci, il bluff e Peppe dalla 1.10.0**
+> Pre-produzione · Strato 6 · **v1.2, realizzato nel gioco 1.5.0 (30/09/2026); Imma dalla 1.7.0; le voci, il bluff e Peppe dalla 1.10.0; le chiusure che raccolgono il viaggio e «chi hai incontrato» dalla 1.12.0 (7/10/2026): la ramificazione è conclusa**
 > Fonte dei numeri: `sviluppo/mappa-narrativa.md`, generata da
 > `strumenti/mappa-narrativa.py` leggendo `prototipo/*.fav`. Si rigenera dopo ogni
 > modifica alla storia. Collaudo dedicato: `collaudo/fili.py`.
@@ -260,6 +260,64 @@ Cambia come cammina con te:
 La bugia non è punita con una meccanica: è punita da chi ti conosce. Il guadagno della verità
 è meno di una ricompensa e più di un silenzio.
 
+### 3.9 Le chiusure raccolgono il viaggio (1.12.0)
+
+Le sei chiusure alla soglia dicevano soltanto come avevi sciolto il nodo di Cosimo: del resto
+della strada non restava traccia. Ora, dopo la scena, un capoverso dice che cosa hai lasciato per
+strada: una riga per ciascun fatto, e solo per quelli accaduti davvero. Senza nessun fatto la
+chiusura è quella di sempre, parola per parola.
+
+| Il fatto | Si legge da | La riga |
+|---|---|---|
+| il cibo a Saverio | `fiducia di Saverio` ≥ 3 | «Saverio ha preso il cibo e non ha detto grazie.» |
+| il cane ucciso | `stato del cane` abbattuto | «Nella serra il cane è rimasto giù, tra le casse.» |
+| la pompa col tuo filtro | `stato della pompa` attiva | «La pompa della diga tira acqua da bere. Il filtro è il tuo.» |
+| il bluff a Vito | `stato del bluff` fatto | «Vito, al casello, ti ha fissato in faccia per ricordarsela.» |
+| Vito a terra | `vita di Vito` ≤ 0 | «Contro la sbarra del casello Vito è rimasto seduto.» |
+| Imma sfamata | `stato di Imma` non digiuna | «Imma, sulla discesa, ha avuto da mangiare.» |
+| l'acqua a Rosaria | `stato della brocca` piena | «Dietro il banco di Rosaria c'è una brocca piena: l'acqua è la tua.» |
+| Pasquale curato | `stato di Pasquale` curato | «Pasquale, nel vicolo, ha la febbre rotta. L'orgoglio, quello no.» |
+| la fede venduta a Ciro | `l'anello` nel nulla | «La fede di lei Ciro l'ha rigirata controluce, al mercato, e non ha fatto domande.» |
+
+Le righe vengono nell'ordine della strada, precedute da «Dietro di te, la strada.» solo se ce n'è
+almeno una. Ogni riga riprende una frase che la scena originale aveva già detto (la febbre rotta e
+l'orgoglio di Pasquale, il filtro legato alla pompa, la faccia che Vito si fissa per ricordarsela):
+non spiega, mostra come sono rimasti i posti. Il capoverso è lo stesso in tutte e sei le chiusure,
+perché i fatti sono quelli, qualunque sia la via per cui si arriva alla soglia: il sangue e il dono
+stanno uno accanto all'altro, e non si cancellano.
+
+Sono testi condizionali (`[se …]…[fine]`, FAVELLA 1.3): nessuna variabile nuova, nessun cambio ai
+messaggi «FINALE —», né alle condizioni che scelgono la chiusura. Non hanno una riga il cane sviato
+col cibo, Vito pagato, Onofrio e Peppe: o non lasciano un fatto solo e chiaro, o le chiusure ne
+parlano già. Le sei chiusure leggono ora 13 variabili lontane da dove nascono (§5 della mappa).
+
+### 3.10 Chi hai incontrato: i gesti accanto alla fiducia (1.12.0)
+
+A lato dello schermo la sezione «fiducia» diventa **«chi hai incontrato»**: sotto il nome e le
+barrette di ciascuno dei cinque maggiori compare, in corsivo, *che cosa gli hai fatto*. Imma e
+Pasquale, che non hanno barrette, compaiono solo quando c'è un gesto da dire.
+
+| Chi | Il gesto | Si legge da | La riga |
+|---|---|---|---|
+| Saverio | cibo | `fiducia di Saverio` ≥ 3 | gli hai lasciato da mangiare |
+| Iole | dono | `fiducia di Iole` ≥ 3 | le hai lasciato qualcosa del tuo |
+| Iole | pompa | `stato della pompa` attiva | le hai legato il filtro alla pompa |
+| Vito | pagato | `fiducia di Vito` ≥ 2 | gli hai pagato il passaggio |
+| Vito | bluff | `stato del bluff` fatto | gli hai puntato una pistola scarica |
+| Vito | terra | `vita di Vito` ≤ 0 | l'hai lasciato a terra |
+| Rosaria | acqua | `stato della brocca` piena | le hai lasciato dell'acqua |
+| Onofrio | ricordo | `fiducia di Onofrio` ≥ 3 | gli hai mostrato qualcosa di tuo |
+| Imma | cibo | `stato di Imma` nutrita o arrivata | l'hai fatta mangiare |
+| Pasquale | cura | `stato di Pasquale` curato | l'hai curato con le tue medicine |
+
+Sono gesti compiuti, non conti: la riga non dice mai quanto manca né quale soglia conta (resta
+nascosta, §3.2), non compare prima di essere stata fatta (nessuno spoiler) e, come «si dice di
+te», non è un suggerimento. Il dono a Iole c'è fra i gesti anche se non conta per la generosità: è
+una cosa che hai fatto. Nasce dal ponte (`ponte.py`, `_GESTI` → `fav_stato` → `gesti`), che legge le
+variabili del mondo; le righe stanno in `testo.ts` (`GESTI`), `ViaggiatorePlayer.tsx` le disegna.
+`collaudo/testo.py` verifica che ponte e interfaccia coincidano; `collaudo/interfaccia.py` gioca
+ciascun gesto e controlla che si accenda solo dopo.
+
 ## 4. I futuri possibili al guado
 
 | Futuro | Si arriva con | Al guado |
@@ -315,6 +373,15 @@ un dialogo si registra al primo turno che passa dopo (i dialoghi non fanno passa
 8. **«Non è così», non «Non è vero»** — perché «è vero» è anche dentro «È vero. Non l'ho voluto.» e
    scrivendo il motore avrebbe trovato due risposte per una parola.
 
+9. **Le chiusure, un capoverso solo uguale nelle sei** (1.12.0): l'autore ha chiesto di compiere le
+   rifiniture rimaste. Si è scelto un capoverso dopo la scena, non righe sparse dentro la scena, per
+   non toccare le immagini finali; uguale in tutte e sei perché i fatti non dipendono dalla via.
+   Niente morale: sono righe di cose, non di giudizi.
+10. **Gesti, non conti** (1.12.0): sotto la fiducia compare ciò che hai fatto, non quanto vale. La
+   soglia della generosità e il numero di persone che servono restano nascosti (§3.2).
+11. **L'eco di Imma alla soglia resta fuori** (decisione 7): Imma vive in paese e un'eco ad
+   Acquamorta sarebbe forzata. Non si fa.
+
 ## 7. Impatto
 
 - **Salvataggi**: l'impronta dell'avventura è cambiata; i salvataggi si ricaricano
@@ -323,6 +390,16 @@ un dialogo si registra al primo turno che passa dopo (i dialoghi non fanno passa
   posato, la veglia lunga) in `finali.py` e `pulsanti.py`; `fili.py` con 35 prove.
 - **Mappa**: le conseguenze a distanza passano da **2 a 6** (sangue, generosità, vita di
   Vito, Pasquale, e i due di Peppe).
+
+### 1.12.0 (7 ottobre 2026)
+- **Salvataggi**: l'impronta dell'avventura cambia (`z7-guado.fav`). Versione **minor**: le partite
+  salvate si ricaricano rigiocando i comandi, e il gioco lo dice.
+- **Collaudi**: `fili.py` §12 (le chiusure: ogni fatto da solo, tutti insieme, la fede venduta
+  davvero a Ciro, le sei chiusure con e senza fatti, nessun doppio spazio né parentesi);
+  `interfaccia.py` (i gesti: uno per gesto, giocato in modo vero, e nessuno prima); `testo.py` §7
+  (ponte e interfaccia coincidono).
+- **Mappa**: le conseguenze a distanza passano da 9 a 13, perché `strumenti/mappa-narrativa.py`
+  ora legge anche le condizioni scritte dentro i testi (`[se …]`).
 
 ### 1.10.0 (1° ottobre 2026)
 - **Salvataggi**: l'impronta dell'avventura cambia di nuovo. Versione **minor**.
@@ -342,12 +419,12 @@ un dialogo si registra al primo turno che passa dopo (i dialoghi non fanno passa
 
 ## 8. Cosa resta aperto
 
-- Le fiducie restano mostrate a lato dello schermo; ora la generosità verso di loro conta,
-  ma il numero di ciascuno no. Si può valutare di mostrare i fili invece delle fiducie, o
-  di lasciare il sangue e la generosità invisibili (scelta attuale: invisibili, si vedono
-  solo nelle conseguenze).
-- Fatti nella 1.10.0: le voci a lato dello schermo (§3.6), Vito umiliato dal bluff (§3.7), Peppe
+Niente. La ramificazione è conclusa con la 1.12.0.
+
+- Fatte nella 1.10.0: le voci a lato dello schermo (§3.6), Vito umiliato dal bluff (§3.7), Peppe
   che sa del sangue (§3.8).
-- Altri fili possibili: le fiducie restano mostrate come barrette; si può valutare di mostrare
-  in loro vece o accanto «che cosa hai fatto a chi», ora che «si dice di te» c'è. Un'eco di Imma
-  alla soglia (scartata per ora).
+- Fatte nella 1.12.0: le chiusure che raccolgono il viaggio (§3.9) e i gesti accanto alla fiducia
+  (§3.10), cioè «che cosa hai fatto a chi».
+- Scartata: un'eco di Imma alla soglia (decisione 11). Resta fuori.
+- Le fiducie restano mostrate come barrette, e il sangue e la generosità restano invisibili come
+  numeri: si vedono solo nelle conseguenze, nelle voci, nei gesti e nelle chiusure.

@@ -8,6 +8,29 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.12.0] - 2026-10-07
+
+**La versione definitiva.** Il gioco è concluso: la storia, l'app e i collaudi restano come sono.
+
+### Aggiunto
+- **Le chiusure raccolgono il viaggio.** Alla soglia, dopo la scena, un capoverso dice che cosa hai
+  lasciato per strada: Saverio e il cibo, il cane della serra, la pompa della diga col tuo filtro,
+  Vito (al casello, il bluff o a terra), Imma sfamata, l'acqua a Rosaria, Pasquale in piedi, la fede
+  venduta a Ciro. Una riga per ciò che hai fatto davvero, nell'ordine della strada; se non hai fatto
+  niente, la chiusura è quella di sempre, parola per parola. Vale per tutte e sei.
+- **«Chi hai incontrato».** A lato dello schermo la fiducia ha, sotto ogni nome, che cosa gli hai
+  fatto: gli hai lasciato da mangiare, le hai legato il filtro alla pompa, gli hai pagato il passaggio,
+  l'hai lasciato a terra… Anche Imma e Pasquale, che non hanno barrette, quando c'è un gesto da dire.
+  Sono gesti, non conti: non dicono quanto manca, né quale soglia conta.
+
+### Cambiato
+- **Salvataggi:** l'impronta dell'avventura cambia; chi ricarica una partita vecchia la trova
+  ricostruita, e il gioco lo dice.
+- **Per chi sviluppa:** `fili.py`, `interfaccia.py` e `testo.py` provano le due novità; la mappa
+  narrativa (`sviluppo/mappa-narrativa.md`) legge anche le condizioni scritte dentro i testi, e le
+  conseguenze a distanza passano da 9 a 13. La ramificazione è conclusa
+  (`pre-produzione/06-ramificazione.md`, §8).
+
 ## [1.11.1] - 2026-10-07
 
 ### Cambiato
