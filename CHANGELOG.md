@@ -9,7 +9,8 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 ## [Non rilasciato]
 
 ### Cambiato
-- **Il motore in `motore/` è la 1.4.3** di FAVELLA1 (prima la 1.4.1): «usa X su Y» detto in
+- **Il motore in `motore/` è la 1.4.4** di FAVELLA1 (prima la 1.4.1): la riga giusta per gli
+  errori trovati dopo la lettura della frase (1.4.4); «usa X su Y» detto in
   più modi (1.4.2); una regola «Prima di vai» verso un'uscita che non c'è fa un turno vero;
   «usa la tanica su nord» risponde «Non vedi nulla del genere qui.» invece di un errore
   interno; «Con cosa vuoi usarla?» non consuma un turno; un salvataggio fatto con un altro

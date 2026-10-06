@@ -1,6 +1,6 @@
 # Motore FAVELLA 1 — copia del progetto
 
-Versione **1.4.3** (6 ottobre 2026), copiata dal repository del motore,
+Versione **1.4.4** (6 ottobre 2026), copiata dal repository del motore,
 [Pitz72/FAVELLA1](https://github.com/Pitz72/FAVELLA1) (licenza MIT, vedi `LICENSE`
 in questa cartella). Quella resta la fonte: qui non si modifica niente a mano.
 
@@ -10,7 +10,8 @@ in questa cartella). Quella resta la fonte: qui non si modifica niente a mano.
 > e si silenzia con «(voluto)»). La 1.4.2 capisce «usa X su Y» detto in più modi. La
 > 1.4.3 chiude tre difetti trovati da una verifica completa: una regola «Prima di vai»
 > verso un'uscita che non c'è fa un turno vero; «usa la tanica su nord» non dà più un
-> errore interno; «Con cosa vuoi usarla?» non consuma un turno. Le correzioni, i test e il registro delle modifiche sono
+> errore interno; «Con cosa vuoi usarla?» non consuma un turno. La 1.4.4 indica la riga giusta per gli
+> errori che il compilatore trova dopo aver letto la frase. Le correzioni, i test e il registro delle modifiche sono
 > nel repository del motore, che è la fonte. Se il motore va cambiato, lo si cambia là
 > (con i suoi test) e si ricopia.
 
