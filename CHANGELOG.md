@@ -8,15 +8,17 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.11.1] - 2026-10-07
+
 ### Cambiato
-- **Il motore in `motore/` è la 1.4.4** di FAVELLA1 (prima la 1.4.1): la riga giusta per gli
-  errori trovati dopo la lettura della frase (1.4.4); «usa X su Y» detto in
-  più modi (1.4.2); una regola «Prima di vai» verso un'uscita che non c'è fa un turno vero;
-  «usa la tanica su nord» risponde «Non vedi nulla del genere qui.» invece di un errore
-  interno; «Con cosa vuoi usarla?» non consuma un turno; un salvataggio fatto con un altro
-  motore lo dice al caricamento. Le undici suite di `collaudo/` sono verdi. L'app si allinea
-  col prossimo `npm run sincronizza`/build (la versione del gioco resta 1.11.0 finché non si
-  rilascia).
+- **Il motore FAVELLA dentro il gioco passa dalla 1.4.1 alla 1.4.4.** La 1.11.0 conteneva
+  ancora la 1.4.1; ora gli installer hanno quello nuovo. Cosa cambia giocando:
+  «usa X su Y» si può dire in più modi (1.4.2); una regola «Prima di vai» verso un'uscita che
+  non c'è fa passare un turno vero (1.4.3); «usa la tanica su nord» risponde «Non vedi nulla del
+  genere qui.» invece di un errore interno (1.4.3); «Con cosa vuoi usarla?» non consuma un
+  turno (1.4.3); un salvataggio fatto con un altro motore lo dice al caricamento (1.4.3).
+  Per chi scrive: la riga giusta per gli errori trovati dopo la lettura della frase (1.4.4).
+  Le undici suite di `collaudo/` sono verdi (100 partite a caso, nessuna anomalia).
 
 ## [1.11.0] - 2026-10-01
 
