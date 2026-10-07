@@ -9,6 +9,12 @@
 </p>
 
 <p align="center">
+  <a href="https://pitz72.github.io/il-viaggiatore-favella/"><b>▶ GIOCA ORA NEL BROWSER</b></a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/Pitz72/il-viaggiatore-favella/releases/latest">scarica per Windows e Linux</a>
+</p>
+
+<p align="center">
   <b>QUESTO PROGETTO È CONCLUSO.</b><br>
   Il sorgente è aperto: si può studiare, e chi ama FAVELLA 1 è libero di estenderlo o di farne una propria versione.
 </p>
