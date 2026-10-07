@@ -18,6 +18,8 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 ### Cambiato
 - **Per chi sviluppa:** i due video del trailer in `video/` (non versionati) sono rigirati con la
   grafica attuale; `strumenti/esporta-trailer.cjs` li rifà dal trailer vero.
+- **Il README** ha il banner del titolo (`grafica/banner.jpg`, un fotogramma del trailer), dice che si gioca
+  anche a clic e che il progetto è concluso, aperto allo studio e a chi vuole estenderlo.
 
 ## [1.12.0] - 2026-10-07
 

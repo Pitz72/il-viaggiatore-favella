@@ -1,12 +1,16 @@
 <p align="center">
-  <img src="grafica/png/icona-256.png" width="128" height="128" alt="Il Viaggiatore">
+  <img src="grafica/banner.jpg" width="100%" alt="Il Viaggiatore">
 </p>
 
-<h1 align="center">Il Viaggiatore</h1>
+<p align="center">
+  Un'avventura testuale di sopravvivenza e cammino, scritta in <a href="https://github.com/Pitz72/FAVELLA1">FAVELLA 1</a>:<br>
+  si scrive in italiano come nelle avventure classiche, o si gioca a clic, con le uscite, le cose e le risposte a portata di mano.<br>
+  Un uomo torna a piedi a casa attraverso un sud rimasto senz'acqua.
+</p>
 
 <p align="center">
-  Un'avventura testuale di sopravvivenza e cammino, scritta in <a href="https://github.com/Pitz72/FAVELLA1">FAVELLA 1</a>.<br>
-  Un uomo torna a piedi a casa attraverso un sud rimasto senz'acqua.
+  <b>QUESTO PROGETTO È CONCLUSO.</b><br>
+  Il sorgente è aperto: si può studiare, e chi ama FAVELLA 1 è libero di estenderlo o di farne una propria versione.
 </p>
 
 ---
@@ -25,11 +29,12 @@ Il gioco si apre con i loghi, un avviso e un trailer di 88 secondi con la sua co
 > modo, tramite design e programmazione, uno script narrativo Favella1 possa diventare un
 > gioco distribuibile.
 
-> **Il Viaggiatore è finito.** La versione **1.12.0** è la definitiva e **non verrà più
-> modificata**: la storia, l'app e i collaudi restano come sono. Il repository resta aperto, con le
-> sue licenze, come **riferimento**: per chi voglia leggere come una storia lunga diventa un gioco
-> in FAVELLA 1, o riprendere il lavoro altrove. Le partite salvate e l'aggiornamento automatico
-> continuano a funzionare finché le release restano su GitHub.
+> **Il Viaggiatore è concluso.** La versione **1.13.0** è l'ultima: la storia, l'app e i
+> collaudi restano come sono. Il repository resta aperto, con le sue licenze (MIT per il codice,
+> CC BY-SA 4.0 per storia, testi, musica e grafica): per **studiare** come una storia lunga diventa
+> un gioco in FAVELLA 1 e, per chi ama FAVELLA 1, per **estenderlo**: nuove zone, nuovi personaggi,
+> nuovi finali, o un'altra storia sullo stesso impianto. Le partite salvate e l'aggiornamento
+> automatico continuano a funzionare finché le release restano su GitHub.
 
 ## Scaricare e giocare
 
@@ -76,7 +81,7 @@ segnalazione, insieme alla versione che trovi in basso a destra nel menu.
 | `desktop/` | il guscio Electron per Windows e Linux |
 | `collaudo/` | i collaudi automatici: i nove finali, le prove mirate, i salvataggi, l'esploratore |
 | `pre-produzione/` | i documenti di progetto: visione, sistemi, mappa, oggetti, personaggi, ramificazione |
-| `grafica/` | l'icona (SVG) e gli script che la rasterizzano |
+| `grafica/` | l'icona (SVG), il banner del README e gli script che rasterizzano l'icona |
 | `sviluppo/` | le regole delle versioni e il diario di sviluppo |
 | `strumenti/` | gli strumenti delle versioni, del diario e della mappa narrativa |
 
