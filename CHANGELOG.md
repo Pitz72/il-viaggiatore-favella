@@ -8,6 +8,13 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.13.1] - 2026-10-07
+
+### Corretto
+- **Nel browser la musica del trailer non partiva.** Il clic che chiude l'avviso arrivava prima che il
+  trailer esistesse, e il trailer aspettava un gesto che non sarebbe più venuto. Ora, se la pagina ha
+  già avuto un gesto, la musica parte da sola (sul desktop partiva già).
+
 ## [1.13.0] - 2026-10-07
 
 ### Aggiunto
