@@ -38,6 +38,9 @@ Il gioco si apre con i loghi, un avviso e un trailer di 88 secondi con la sua co
 
 ## Scaricare e giocare
 
+**Subito, senza scaricare niente:** [gioca nel browser](https://pitz72.github.io/il-viaggiatore-favella/)
+(Chrome, Edge, Firefox; le partite salvate restano nel tuo browser). Oppure scarica la versione desktop.
+
 Dalla pagina [Releases](https://github.com/Pitz72/il-viaggiatore-favella/releases):
 
 | Sistema | File |
