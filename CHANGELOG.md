@@ -8,6 +8,17 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.13.0] - 2026-10-07
+
+### Aggiunto
+- **Il tasto «✕ esci» in partita.** Nella barra in alto, accanto a «salva», «carica» e «← intro», e
+  nella schermata finale accanto a «← intro»; chiude il gioco (solo nella versione desktop, come
+  nel menu iniziale). Se c'è strada non salvata, scrive prima il posto automatico, come «← intro».
+
+### Cambiato
+- **Per chi sviluppa:** i due video del trailer in `video/` (non versionati) sono rigirati con la
+  grafica attuale; `strumenti/esporta-trailer.cjs` li rifà dal trailer vero.
+
 ## [1.12.0] - 2026-10-07
 
 **La versione definitiva.** Il gioco è concluso: la storia, l'app e i collaudi restano come sono.

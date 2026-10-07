@@ -1,8 +1,8 @@
 # Il Viaggiatore — intro: foglio dei tempi per la musica
 
-File video (stesso montaggio, traccia audio muta solo per compatibilità):
-- `il-viaggiatore-intro.mp4` · 1920×1080 · 30 fps · 88,4 s · circa 110 MB
-- `il-viaggiatore-intro-720p.mp4` · 1280×720 · 30 fps · 88,4 s · circa 9 MB, per i servizi con limiti di caricamento
+File video, rigirati il 7 ottobre 2026 con la grafica attuale del trailer (`strumenti/esporta-trailer.cjs`; stessi tempi, stesso montaggio, traccia audio muta solo per compatibilità):
+- `il-viaggiatore-intro.mp4` · 1920×1080 · 30 fps · 88,4 s · circa 125 MB
+- `il-viaggiatore-intro-720p.mp4` · 1280×720 · 30 fps · 88,4 s · circa 14 MB, per i servizi con limiti di caricamento
 
 ## Carattere generale
 

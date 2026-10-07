@@ -9,6 +9,7 @@ Questo indice si rigenera da sé (`node strumenti/diario.mjs indice`).
 
 | Data | Tipo | Versione | Voce |
 |---|---|---|---|
+| 2026-10-07 | sessione | 1.13.0 | [Il tasto esci in partita e il trailer rigirato](diario/2026-10-07-il-tasto-esci-in-partita-e-il-trailer-rigirato.md) — Con il gioco dichiarato concluso, due ultime cose: in partita c'è il tasto «✕ esci», e i due video del trailer in `video/` sono rigirati con la grafica nuova. |
 | 2026-10-07 | sessione | 1.12.0 | [Le chiusure raccolgono il viaggio, e chi hai incontrato](diario/2026-10-07-le-chiusure-raccolgono-il-viaggio-e-chi-hai-incontrato.md) — Le due rifiniture che restavano alla ramificazione, e la chiusura del gioco: le sei chiusure alla soglia raccolgono il viaggio con un capoverso di righe di cose, e a lato dello schermo la fiducia diventa «chi hai incontrato», con ciò che hai fatto a ciascuno. Il gioco è concluso con la 1.12.0. |
 | 2026-10-01 | sessione | 1.11.0 | [La versione definitiva e l'avviso d'apertura](diario/2026-10-01-la-versione-definitiva-e-l-avviso-d-apertura.md) — Un avviso all'apertura (dopo i loghi, prima del trailer) dice che cos'è questo progetto; poi la 1.11.0, che l'autore ha dichiarato la versione definitiva del gioco e che raccoglie tutto ciò che mancava dalla v1.7.0. |
 | 2026-10-01 | sessione | 1.10.2 | [La passata sui testi](diario/2026-10-01-la-passata-sui-testi.md) — Prima passata dei testi con gli antipattern di prosa e la tipografia. Il risultato più onesto: i testi erano già puliti. Quindici ritocchi mirati, nessuna riscrittura, nessuna meccanica toccata. |

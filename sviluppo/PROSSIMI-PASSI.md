@@ -17,6 +17,10 @@
 - **La storia:** Imma sulla discesa (1.7.0); le dichiarazioni doppie di `z2-piana.fav` ridotte a
   una con i sinonimi (1.10.0).
 
+- **I due MP4 in `video/`** (non versionati) rigirati con la grafica nuova, fotogramma per
+  fotogramma dal trailer vero (`strumenti/esporta-trailer.cjs`, 7 ottobre 2026).
+- **Il tasto «esci»** nella barra di gioco e nella schermata finale, oltre che nel menu (1.13.0).
+
 ## Non si fa
 
 - **Un'eco di Imma alla soglia.** Vive in paese: un'eco ad Acquamorta sarebbe forzata
@@ -25,7 +29,6 @@
   costa 30–115 ms; la risoluzione adattiva lo compensa, ma non è stato provato su una macchina
   lenta. Preparare le tele in un Worker con `OffscreenCanvas` libererebbe il thread principale
   durante i loghi: idea non fatta.
-- **I due MP4 in `video/`** (non versionati) hanno ancora la grafica vecchia.
 - **Il tratto statale–mercato** resta silenzioso per chi non incontra Imma.
 - **Nuove zone, nuovi personaggi, nuovi finali:** fuori dal perimetro di un gioco concluso.
 
