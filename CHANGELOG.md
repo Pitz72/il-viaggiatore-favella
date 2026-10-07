@@ -8,6 +8,12 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.13.2] - 2026-10-07
+
+### Aggiunto
+- **Anteprima social della versione web.** Il link a GitHub Pages mostra ora il banner (immagine e descrizione
+  Open Graph) quando lo si condivide; la descrizione dice 14 personaggi, come il README.
+
 ## [1.13.1] - 2026-10-07
 
 ### Corretto

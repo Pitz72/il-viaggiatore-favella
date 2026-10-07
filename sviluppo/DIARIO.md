@@ -9,6 +9,7 @@ Questo indice si rigenera da sé (`node strumenti/diario.mjs indice`).
 
 | Data | Tipo | Versione | Voce |
 |---|---|---|---|
+| 2026-10-07 | sessione | 1.13.2 | [L'anteprima del link](diario/2026-10-07-l-anteprima-del-link.md) — Il link a GitHub Pages non mostrava nessuna immagine quando veniva condiviso. Ora ha l'anteprima (banner, titolo, descrizione). |
 | 2026-10-07 | sessione | 1.13.1 | [L'audio del trailer nel browser](diario/2026-10-07-l-audio-del-trailer-nel-browser.md) — Sulla versione web (GitHub Pages) la musica del trailer non si sentiva. Ora parte da sola quando la pagina ha già avuto un gesto dell'utente. |
 | 2026-10-07 | sessione | 1.13.0 | [Il tasto esci in partita e il trailer rigirato](diario/2026-10-07-il-tasto-esci-in-partita-e-il-trailer-rigirato.md) — Con il gioco dichiarato concluso, due ultime cose: in partita c'è il tasto «✕ esci», e i due video del trailer in `video/` sono rigirati con la grafica nuova. |
 | 2026-10-07 | sessione | 1.12.0 | [Le chiusure raccolgono il viaggio, e chi hai incontrato](diario/2026-10-07-le-chiusure-raccolgono-il-viaggio-e-chi-hai-incontrato.md) — Le due rifiniture che restavano alla ramificazione, e la chiusura del gioco: le sei chiusure alla soglia raccolgono il viaggio con un capoverso di righe di cose, e a lato dello schermo la fiducia diventa «chi hai incontrato», con ciò che hai fatto a ciascuno. Il gioco è concluso con la 1.12.0. |
