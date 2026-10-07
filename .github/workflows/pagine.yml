@@ -1,0 +1,52 @@
+# Versione web giocabile su GitHub Pages: SOLO A MANO (Actions → «Pagine» → Run workflow).
+#
+# Costruisce l'app (la stessa del desktop, col motore FAVELLA dentro Pyodide),
+# la pubblica su https://pitz72.github.io/il-viaggiatore-favella/ e lascia fra
+# gli artefatti dell'esecuzione lo zip `Il-Viaggiatore-web.zip`, pronto da
+# caricare su itch.io, Game Jolt o Newgrounds come gioco HTML5.
+# I salvataggi, nel browser, stanno nel browser di chi gioca.
+name: Pagine
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pagine
+  cancel-in-progress: false
+
+jobs:
+  costruisci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - run: |
+          npm ci --prefix app
+          npm run build --prefix app
+      - name: Zip per itch.io e simili
+        run: cd app/dist && zip -qr ../../Il-Viaggiatore-web.zip .
+      - uses: actions/upload-artifact@v7
+        with:
+          name: Il-Viaggiatore-web
+          path: Il-Viaggiatore-web.zip
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: app/dist
+
+  pubblica:
+    needs: costruisci
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v5
