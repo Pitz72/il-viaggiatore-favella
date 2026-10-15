@@ -149,7 +149,9 @@ prova("…e le loro battute sono battute", all(bl and bl[0]["tipo"] == "battuta"
 # ---------------------------------------------------------------------------
 # 4. le voci che corrono su di te
 # ---------------------------------------------------------------------------
-dichiarate = set(re.findall(r"^Lo stato della voce (.+) è uno stato\.$", FAV, re.M))
+# «(voluto)» dalla 1.5.0 del motore: lo stato lo legge solo l'interfaccia
+dichiarate = set(re.findall(r"^Lo stato della voce (.+?) è uno stato(?: \(voluto\))?\.$", FAV, re.M))
+prova("le voci si trovano nei .fav", bool(dichiarate))
 righe_voci = set(analizza([])["voci"])
 prova(f"ogni voce dichiarata nei .fav ({len(dichiarate)}) ha la sua riga a lato dello schermo",
       dichiarate == righe_voci, f"nei .fav: {sorted(dichiarate)}; nell'interfaccia: {sorted(righe_voci)}")

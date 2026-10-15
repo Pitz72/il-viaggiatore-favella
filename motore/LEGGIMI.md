@@ -1,6 +1,6 @@
 # Motore FAVELLA 1 — copia del progetto
 
-Versione **1.4.4** (6 ottobre 2026), copiata dal repository del motore,
+Versione **1.5.0** (15 ottobre 2026), copiata dal repository del motore,
 [Pitz72/FAVELLA1](https://github.com/Pitz72/FAVELLA1) (licenza MIT, vedi `LICENSE`
 in questa cartella). Quella resta la fonte: qui non si modifica niente a mano.
 
@@ -11,7 +11,10 @@ in questa cartella). Quella resta la fonte: qui non si modifica niente a mano.
 > 1.4.3 chiude tre difetti trovati da una verifica completa: una regola «Prima di vai»
 > verso un'uscita che non c'è fa un turno vero; «usa la tanica su nord» non dà più un
 > errore interno; «Con cosa vuoi usarla?» non consuma un turno. La 1.4.4 indica la riga giusta per gli
-> errori che il compilatore trova dopo aver letto la frase. Le correzioni, i test e il registro delle modifiche sono
+> errori che il compilatore trova dopo aver letto la frase. La 1.5.0, «le lezioni del Relitto», aggiunge frasi
+> nuove e lascia identiche le storie della 1.4 (Il Viaggiatore compreso, provato comando per comando); da lei
+> il compilatore avvisa degli stati che si scrivono e non si leggono, e i tre stati delle voci, che legge solo
+> l'interfaccia, sono dichiarati «(voluto)». Le correzioni, i test e il registro delle modifiche sono
 > nel repository del motore, che è la fonte. Se il motore va cambiato, lo si cambia là
 > (con i suoi test) e si ricopia.
 

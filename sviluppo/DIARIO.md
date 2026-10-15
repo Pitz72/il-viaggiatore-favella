@@ -9,6 +9,7 @@ Questo indice si rigenera da sé (`node strumenti/diario.mjs indice`).
 
 | Data | Tipo | Versione | Voce |
 |---|---|---|---|
+| 2026-10-15 | sessione | 1.14.0 | [Il motore 1.5.0, i loghi che si creano e il nome dell'autore](diario/2026-10-15-il-motore-1-5-0-i-loghi-che-si-creano-e-il-nome-dell-autore.md) — Il gioco passa alla FAVELLA 1.5.0 senza che la storia cambi; i due loghi d'apertura si creano davanti a chi guarda, con il loro suono; il nome dell'autore entra nel gioco. |
 | 2026-10-07 | sessione | 1.13.2 | [L'anteprima del link](diario/2026-10-07-l-anteprima-del-link.md) — Il link a GitHub Pages non mostrava nessuna immagine quando veniva condiviso. Ora ha l'anteprima (banner, titolo, descrizione). |
 | 2026-10-07 | sessione | 1.13.1 | [L'audio del trailer nel browser](diario/2026-10-07-l-audio-del-trailer-nel-browser.md) — Sulla versione web (GitHub Pages) la musica del trailer non si sentiva. Ora parte da sola quando la pagina ha già avuto un gesto dell'utente. |
 | 2026-10-07 | sessione | 1.13.0 | [Il tasto esci in partita e il trailer rigirato](diario/2026-10-07-il-tasto-esci-in-partita-e-il-trailer-rigirato.md) — Con il gioco dichiarato concluso, due ultime cose: in partita c'è il tasto «✕ esci», e i due video del trailer in `video/` sono rigirati con la grafica nuova. |

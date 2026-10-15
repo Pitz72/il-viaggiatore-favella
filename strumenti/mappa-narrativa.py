@@ -92,7 +92,7 @@ class Mappa:
                 self._uso(zona, r)
 
     def _dichiarazioni(self, zona, r):
-        m = re.match(rf"^{ARTICOLO}(.+?) è (uno stato|un contatore)\.$", r, re.I)
+        m = re.match(rf"^{ARTICOLO}(.+?) è (uno stato|un contatore)(?: \(voluto\))?\.$", r, re.I)
         if m:
             self.variabili[m.group(1).lower()] = (zona, "stato" if "stato" in m.group(2) else "contatore")
             return

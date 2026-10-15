@@ -8,6 +8,42 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.14.0] - 2026-10-15
+
+### Aggiunto
+- **I loghi d'apertura si creano davanti a chi guarda.** Il marchio nuovo di **Runtime Multimedia**, a
+  colori: nel buio si accende uno schermo come un vecchio televisore, una testina di lettura scrive
+  RUNTIME e MULTIMEDIA lettera per lettera, arriva in fondo e diventa il lato del triangolo «play», che
+  si chiude, si riempie e lancia i suoi pixel; poi lo schermo si spegne come un tubo catodico. Il logo di
+  **FAVELLA 1**: una scintilla accende la gemma, il libro si apre, le pagine si aprono a ventaglio, le
+  graffe del codice si disegnano attorno, poi la scritta lettera per lettera e il motto battuto a
+  macchina. Tutto vettoriale, nitido a ogni risoluzione; Esc li salta e con «riduci movimento» non si
+  mostrano, come prima.
+- **Il suono dei loghi.** Ogni gesto ha il suo: il tonfo e il ronzio del televisore che si accende, i bip
+  delle lettere, la zip e il colpo del triangolo «play» con il suo accordo, le scintille dei pixel, lo
+  spegnimento; la scintilla della gemma, il libro che si apre, le pagine che frusciano su un arpeggio
+  d'arpa, il motto a tasti, sopra un accordo caldo che sfuma col logo. È sintetizzato dal vivo (Web
+  Audio, nessun file in più) e scritto sugli stessi istanti delle animazioni. Sul desktop si sente da
+  sé; nel browser, come la musica del trailer, solo se la pagina ha già avuto un clic o un tasto.
+- **Il nome dell'autore nel gioco.** Sotto il titolo del trailer, e quindi nel menu d'avvio, c'è «un
+  gioco di Simone Pizzi». La storia dichiara titolo e autore (`Il titolo è "Il Viaggiatore".`,
+  `L'autore è "Simone Pizzi".`): il motore li stampa quando la si gioca nel terminale, nella galleria
+  del sito di FAVELLA e in Favella Studio.
+
+### Cambiato
+- **Il motore FAVELLA dentro il gioco passa dalla 1.4.4 alla 1.5.0** («le lezioni del Relitto»). Le
+  storie scritte per la 1.4 restano identiche: il motore è stato provato su undici storie ufficiali, Il
+  Viaggiatore compreso, con impronta e testo uguali a ogni comando. Per chi gioca, nei comandi la
+  tipografia non conta più: un apostrofo curvo scritto dal telefono («l’orologio») vale come quello
+  dritto. Le undici suite di `collaudo/` sono verdi (100 partite a caso, nessuna anomalia).
+- **Salvataggi:** cambiano il motore e l'impronta dell'avventura; chi ricarica una partita vecchia la
+  trova ricostruita, e il gioco lo dice.
+- **Per chi sviluppa:** i tre stati delle voci («si dice di te») sono dichiarati `(voluto)`, perché li
+  legge solo l'interfaccia: dalla 1.5.0 il compilatore avvisa degli stati che si scrivono e non si
+  leggono. `collaudo/testo.py` e `strumenti/mappa-narrativa.py` riconoscono la nuova forma. I loghi
+  raster (`app/src/assets/loghi/`) lasciano il posto alle forme vettoriali e alle animazioni in
+  `app/src/loghi/`.
+
 ## [1.13.2] - 2026-10-07
 
 ### Aggiunto

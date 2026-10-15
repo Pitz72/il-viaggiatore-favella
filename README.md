@@ -27,7 +27,7 @@ senza firma, dice soltanto: «Non è il caso di tornare.» Torni lo stesso.
 **7 zone · 39 luoghi · 14 personaggi · 6 finali.** Si gioca scrivendo in italiano
 (`bevi`, `parla con Rosaria`, `usa la lettera su Cosimo`), o toccando le uscite, le
 cose e le risposte. La sete è la spina dorsale, l'acqua è la moneta, le scelte pesano.
-Il gioco si apre con i loghi, un avviso e un trailer di 88 secondi con la sua colonna sonora originale.
+Il gioco si apre con i loghi animati (e sonori) di Runtime Multimedia e di FAVELLA 1, un avviso e un trailer di 88 secondi con la sua colonna sonora originale.
 
 > **Che cos'è questo progetto.** Questo gioco, nato come demo del linguaggio di
 > programmazione e motore di narrativa interattiva Favella1, è stato generato con un
@@ -35,8 +35,8 @@ Il gioco si apre con i loghi, un avviso e un trailer di 88 secondi con la sua co
 > modo, tramite design e programmazione, uno script narrativo Favella1 possa diventare un
 > gioco distribuibile.
 
-> **Il Viaggiatore è concluso.** La versione **1.13.0** è l'ultima: la storia, l'app e i
-> collaudi restano come sono. Il repository resta aperto, con le sue licenze (MIT per il codice,
+> **Il Viaggiatore è concluso.** La storia è definitiva dalla 1.12.0; la versione **1.14.0** porta
+> dentro il motore FAVELLA 1.5.0 e i nuovi loghi d'apertura, e l'app e i collaudi restano come sono. Il repository resta aperto, con le sue licenze (MIT per il codice,
 > CC BY-SA 4.0 per storia, testi, musica e grafica): per **studiare** come una storia lunga diventa
 > un gioco in FAVELLA 1 e, per chi ama FAVELLA 1, per **estenderlo**: nuove zone, nuovi personaggi,
 > nuovi finali, o un'altra storia sullo stesso impianto. Le partite salvate e l'aggiornamento
@@ -85,8 +85,8 @@ segnalazione, insieme alla versione che trovi in basso a destra nel menu.
 | Cartella | Cosa contiene |
 |---|---|
 | `prototipo/` | **l'avventura**: `il-viaggiatore.fav` (radice) + `sistemi.fav` + le sette zone `z1…z7` |
-| `motore/` | il motore FAVELLA 1.2.0 (Python), vedi `motore/LEGGIMI.md` |
-| `app/` | l'app React: trailer (canvas procedurale + colonna sonora), gioco, guida «come si gioca» |
+| `motore/` | il motore FAVELLA 1.5.0 (Python), vedi `motore/LEGGIMI.md` |
+| `app/` | l'app React: loghi animati, trailer (canvas procedurale + colonna sonora), gioco, guida «come si gioca» |
 | `desktop/` | il guscio Electron per Windows e Linux |
 | `collaudo/` | i collaudi automatici: i nove finali, le prove mirate, i salvataggi, l'esploratore |
 | `pre-produzione/` | i documenti di progetto: visione, sistemi, mappa, oggetti, personaggi, ramificazione |
@@ -179,8 +179,9 @@ salva e ricarica. Non pubblica niente.
 | [electron-updater](https://github.com/electron-userland/electron-builder) | MIT | dipendenza npm della versione desktop |
 | Font Inter, Lora, Sora, Source Code Pro | SIL Open Font License 1.1 | `app/public/fonts/` (`OFL.txt`) |
 
-I loghi di **Runtime** e di **FAVELLA 1** mostrati all'avvio sono marchi dei
-rispettivi titolari, esclusi da entrambe le licenze (vedi `LICENSE-CONTENUTI.md`).
+I loghi di **Runtime Multimedia** e di **FAVELLA 1** mostrati all'avvio sono marchi dei
+rispettivi titolari, esclusi da entrambe le licenze (vedi `LICENSE-CONTENUTI.md`); il codice
+che li anima è MIT come il resto.
 
 ## Autore
 

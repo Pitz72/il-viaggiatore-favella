@@ -21,14 +21,17 @@ Il codice che fa funzionare tutto questo è invece sotto licenza MIT (`LICENSE`)
 
 ## Cosa NON copre: i marchi
 
-I loghi in `app/src/assets/loghi/` sono marchi dei rispettivi titolari e **non**
-sono coperti né da questa licenza né dalla licenza MIT:
+Le forme dei loghi d'apertura, in `app/src/loghi/forme.ts`, sono marchi dei
+rispettivi titolari e **non** sono coperte né da questa licenza né dalla licenza MIT:
 
-- `runtime.webp` — il logo di **Runtime, la radio geek**;
-- `favella.webp` — il logo di **FAVELLA 1**.
+- il marchio di **Runtime Multimedia** (i tracciati del logo ufficiale a colori);
+- il simbolo e la scritta di **FAVELLA 1** (il simbolo è il marchio ufficiale
+  ridisegnato in vettoriale).
 
 Tutti i diritti riservati. Si possono ridistribuire solo come parte di questo
-gioco, senza modifiche; un'opera derivata deve toglierli o sostituirli.
+gioco, senza modifiche; un'opera derivata deve toglierli o sostituirli. Il codice
+che li anima (`app/src/loghi/LogoRuntime.tsx`, `LogoFavella.tsx`) è sotto licenza
+MIT come il resto.
 
 ## In breve
 
