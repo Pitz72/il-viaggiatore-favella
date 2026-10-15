@@ -8,6 +8,10 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+### Aggiunto
+- **Per chi sviluppa:** `strumenti/esporta-loghi.cjs` esporta i due loghi d'apertura in video 4K a 60 fps, con
+  il loro suono (la stessa partitura del gioco, resa offline), dalle animazioni vere.
+
 ## [1.14.0] - 2026-10-15
 
 ### Aggiunto

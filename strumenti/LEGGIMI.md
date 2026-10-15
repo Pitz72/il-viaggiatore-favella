@@ -6,6 +6,7 @@
 | `diario.mjs` | il diario di sviluppo: `nuovo "Titolo"`, `indice`, `verifica` |
 | `mappa-narrativa.py` | la memoria della storia ricavata dai `.fav` → `sviluppo/mappa-narrativa.md` |
 | `esporta-trailer.cjs` | esporta il trailer in `video/*.mp4` (1080p e 720p) dal trailer vero, con Electron e ffmpeg: `desktop/node_modules/.bin/electron strumenti/esporta-trailer.cjs` (server di sviluppo su 5200) |
+| `esporta-loghi.cjs` | esporta i due loghi d'apertura in video 4K a 60 fps col loro suono (la stessa partitura del gioco, resa offline): `desktop/node_modules/.bin/electron strumenti/esporta-loghi.cjs [cartella]` (server di sviluppo su 5200; `--prova` per mezzo secondo) |
 | `gioca.py` | **il banco di gioco**: giocare a mano, e misurare l'equilibrio (qui sotto) |
 
 ## Il banco di gioco (`gioca.py`)
