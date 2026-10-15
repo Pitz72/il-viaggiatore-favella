@@ -31,8 +31,7 @@ Simone ha chiesto di verificare se la versione desktop usasse la FAVELLA 1.5.0: 
 - Le undici suite di `collaudo/`: exit 0; esploratore 100 partite, 15.803 comandi, nessuna anomalia; la storia compila senza avvisi.
 - Autoverifica nel browser (il motore vero dentro Pyodide): superata. Una partita a mano nel server di sviluppo: «usa la tanica su nord» risponde «Non vedi nulla del genere qui.», nessun errore in console.
 - Loghi: fotogrammi a istanti fissi (`?loghi=t`) e un video in tempo reale (circa 46 fotogrammi al secondo in un Chrome senza scheda grafica), su schermo 16:9 e su telefono in verticale. Audio reso offline e misurato: picchi a −1,4 e −5,5 dBFS.
-- L'audio dal vivo nell'app desktop non l'ha ascoltato nessuno: va sentito.
+- Dopo il rilascio Simone ha ascoltato i loghi nell'app desktop: il suono va bene così.
 
 ## Questioni aperte
-- Ascoltare il suono dei loghi sul desktop e dire se va bilanciato.
 - La versione per Mac non si costruisce (come sempre).
