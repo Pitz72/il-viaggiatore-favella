@@ -88,7 +88,7 @@ segnalazione, insieme alla versione che trovi in basso a destra nel menu.
 | `motore/` | il motore FAVELLA 1.5.0 (Python), vedi `motore/LEGGIMI.md` |
 | `app/` | l'app React: loghi animati, trailer (canvas procedurale + colonna sonora), gioco, guida «come si gioca» |
 | `desktop/` | il guscio Electron per Windows e Linux |
-| `collaudo/` | i collaudi automatici: i nove finali, le prove mirate, i salvataggi, l'esploratore |
+| `collaudo/` | gli undici collaudi automatici: i nove finali, le prove mirate, i salvataggi, le scorte, il ponte dell'interfaccia, i fili del viaggio, le giocate, il testo, le conferme, i pulsanti, l'esploratore |
 | `pre-produzione/` | i documenti di progetto: visione, sistemi, mappa, oggetti, personaggi, ramificazione |
 | `grafica/` | l'icona (SVG), il banner del README e gli script che rasterizzano l'icona |
 | `sviluppo/` | le regole delle versioni e il diario di sviluppo |
@@ -134,10 +134,21 @@ npm run pacchetto:win     # oppure pacchetto:linux
 ```bash
 cd collaudo
 python finali.py        # una partita per ognuno dei 9 finali (6 di storia + 3 morti)
-python mirate.py        # 8 situazioni precise da non rompere
+python mirate.py        # 10 situazioni precise da non rompere
 python salvataggi.py    # salva, ricarica, pretende lo stesso stato e le stesse risposte
+python scorte.py        # bere e mangiare, con tutti i loro sinonimi e le dosi
+python interfaccia.py   # il ponte dell'app: anteprime, azioni, stato per i pulsanti
+python fili.py          # i fili del viaggio (sangue, generosità) e chi se ne ricorda
+python giocate.py       # ciò che hanno trovato le partite giocate a mano
+python testo.py         # il testo del motore e della storia come lo distingue l'interfaccia
+python conferme.py      # quali scelte chiedono conferma
+python pulsanti.py      # i sei finali giocati senza tastiera, coi soli pulsanti
 python esploratore.py   # 100 partite a caso che cercano i punti in cui il gioco si rompe
 ```
+
+Sono undici ([che cosa fa ciascuno](collaudo/LEGGIMI.md)); `testo.py`, `conferme.py` e `pulsanti.py`
+servono `npm ci --prefix app`. La CI ne esegue dieci: tutti tranne l'esploratore, che dura qualche
+minuto e si lancia a mano.
 
 La CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) a ogni push verifica
 le versioni e il diario, esegue il collaudo, costruisce i pacchetti Windows e Linux e
