@@ -10,7 +10,8 @@
 //  programma tutto all'inizio sul clock dell'audio, e l'orologio delle
 //  immagini parte con lui. Si parte a caratteri caricati, perché scritta e
 //  motto di FAVELLA si misurano su Sora e Inter.
-//  Esc salta i loghi. Con «riduci movimento» non si mostrano.
+//  Esc o un clic in qualunque punto saltano i loghi (piccolo invito «salta» in
+//  basso a destra). Con «riduci movimento» non si mostrano.
 //  Solo in sviluppo: ?loghi=3.2 ferma l'orologio a quel secondo (muto);
 //  window.__loghiT lo sposta, window.__rendiSuonoLoghi rende l'audio in un
 //  file (vedi src/loghi/esporta.ts): servono a esportare i video dei loghi.
@@ -71,11 +72,29 @@ export default function Loghi({ onFine }: { onFine: () => void }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pronti]);
 
+  // il mouse resta nascosto finché sta fermo: si vede solo se lo si muove, per cliccare «salta»
+  const nascondi = useRef(0);
+  useEffect(() => () => window.clearTimeout(nascondi.current), []);
+  const muovi = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
+    el.style.cursor = "pointer";
+    window.clearTimeout(nascondi.current);
+    nascondi.current = window.setTimeout(() => { el.style.cursor = "none"; }, 1600);
+  };
+
   return (
-    <div style={{ position: "fixed", inset: 0, background: "#000", cursor: "none", overflow: "hidden", userSelect: "none" }}
+    <div onClick={chiudi} onMouseMove={muovi}
+      style={{ position: "fixed", inset: 0, background: "#000", cursor: "none", overflow: "hidden", userSelect: "none" }}
       aria-label="Loghi di apertura">
       <LogoRuntime ref={runtime} />
       <LogoFavella ref={favella} />
+      {/* un clic in qualunque punto salta i loghi (come Esc); l'invito compare dopo un istante */}
+      {fermo === null && <button type="button" aria-label="Salta i loghi"
+        style={{ position: "absolute", right: "2.2vw", bottom: "2.6vh", padding: "0.6em 0.4em", background: "none", border: 0, cursor: "inherit",
+          fontFamily: "'Source Code Pro', ui-monospace, monospace", fontSize: "max(13px, 0.85vw)", letterSpacing: ".22em", textTransform: "uppercase",
+          color: "rgba(214,224,238,.62)", opacity: 0, animation: "kf-on .8s ease 1.2s forwards" }}>
+        salta · clic o esc
+      </button>}
     </div>
   );
 }

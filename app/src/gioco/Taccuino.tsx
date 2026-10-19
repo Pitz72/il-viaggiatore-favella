@@ -15,6 +15,7 @@ import {
 } from "../lib/salvataggi";
 import { ZONE_THEME, type ZoneKey } from "../data/viaggiatore";
 import { VERSIONE } from "../lib/versione";
+import { useDialogo } from "./useDialogo";
 
 const SERIF = "'Lora', Georgia, serif";
 const MONO = "'Source Code Pro', ui-monospace, monospace";
@@ -47,6 +48,7 @@ export default function Taccuino({ base, modo: modoIniziale, accento = "#f0b77e"
   const [occupato, setOccupato] = useState(false);
   const [dove, setDove] = useState<string | null>(null);
   const [daFile, setDaFile] = useState<Salvataggio | null>(null);
+  const dialogo = useDialogo<HTMLDivElement>();   // il fuoco entra, Tab resta dentro, alla chiusura torna; Esc è qui sotto
 
   const ricarica = useCallback(() => {
     elenco().then(setVoci).catch((e) => { setVoci([]); setNota({ testo: String(e?.message ?? e), errore: true }); });
@@ -167,8 +169,8 @@ export default function Taccuino({ base, modo: modoIniziale, accento = "#f0b77e"
   };
 
   return (
-    <div role="dialog" aria-modal="true" aria-label="Il taccuino: salva e carica"
-      style={{ fontSize: base, position: "absolute", inset: 0, zIndex: 70, display: "flex", alignItems: "center", justifyContent: "center",
+    <div ref={dialogo} tabIndex={-1} role="dialog" aria-modal="true" aria-label="Il taccuino: salva e carica"
+      style={{ outline: "none", fontSize: base, position: "absolute", inset: 0, zIndex: 70, display: "flex", alignItems: "center", justifyContent: "center",
         background: "rgba(4,4,8,.74)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", animation: "kf-launch .3s ease both", pointerEvents: "auto" }}
       onClick={onChiudi}>
       <div onClick={(e) => e.stopPropagation()} className="gv-scroll"

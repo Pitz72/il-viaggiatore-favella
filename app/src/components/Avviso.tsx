@@ -29,6 +29,9 @@ export default function Avviso({ onFine }: { onFine: () => void }) {
   const fine = useRef(onFine);
   fine.current = onFine;
   const prosegui = () => { if (!fatto.current) { fatto.current = true; fine.current(); } };
+  // i primi istanti i clic non contano: chi ha cliccato due volte per saltare i loghi non salta anche l'avviso
+  const apparso = useRef(performance.now());
+  const clic = () => { if (performance.now() - apparso.current > 700) prosegui(); };
 
   useEffect(() => {
     const ridotto = !!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
@@ -43,7 +46,7 @@ export default function Avviso({ onFine }: { onFine: () => void }) {
   }, []);
 
   return (
-    <div role="alertdialog" aria-modal="true" aria-label="Avviso" aria-describedby="avviso-testo" onClick={prosegui}
+    <div role="alertdialog" aria-modal="true" aria-label="Avviso" aria-describedby="avviso-testo" onClick={clic}
       style={{ position: "fixed", inset: 0, background: "#000", display: "flex", alignItems: "center", justifyContent: "center",
         padding: "6vh 8vw", cursor: "pointer", color: "#e6e0d6" }}>
       <div style={{ maxWidth: "40rem", textAlign: "center", opacity: visibile ? 1 : 0,

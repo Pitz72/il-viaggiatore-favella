@@ -39,7 +39,8 @@ const DIREZIONI: Record<string, string> = { nord: "↑", sud: "↓", est: "→",
 
 interface Voce { id: number; cmd?: string; blocchi: Blocco[] }
 type Menu = Cosa | null;
-type Richiesta = { cmd: string; etichetta: string; conferma: DatiConferma } | null;
+/** `annullabile`: dopo la mossa il pulsante ↶ annulla potrà disfarla (non se il dialogo continua o la partita finisce) */
+type Richiesta = { cmd: string; etichetta: string; conferma: DatiConferma; annullabile: boolean } | null;
 const SENZA_AZIONI: AzioniContesto = { soli: [], bersagli: [] };
 
 const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; carica?: Salvataggio | null }) => {
@@ -145,10 +146,12 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     const cmd = grezzo.trim();
     if (!cmd || finita || !sessione.current || richiesta) return;
     if (serveAnteprima(cmd, mondo)) {
-      const c = valutaConferma(cmd, sessione.current.anteprima(cmd), mondo);
+      const antep = sessione.current.anteprima(cmd);
+      const c = valutaConferma(cmd, antep, mondo);
       if (c) {
         setBozza(""); chiudiPannelli();
-        setRichiesta({ cmd, etichetta: etichettaDi(cmd, etichetta), conferma: c });
+        // ANNULLA disfa un turno intero: dentro un dialogo che continua, o a partita chiusa, il pulsante non c'è
+        setRichiesta({ cmd, etichetta: etichettaDi(cmd, etichetta), conferma: c, annullabile: !antep.dialogo && antep.esito === "in_corso" });
         return;
       }
     }
@@ -440,7 +443,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
       <div className="vg-pagina">
         {/* DIARIO */}
         <main className="vg-diario-col">
-          <div ref={diarioRef} className="vg-diario gv-scroll">
+          <div ref={diarioRef} className="vg-diario gv-scroll" role="log" aria-live="polite" aria-relevant="additions" aria-label="Diario del viaggio">
             <div className="vg-colonna">
               {voci.map((v, i) => (
                 <section key={v.id} className={"vg-voce" + (i < ultima ? " vg-passata" : "")}>
@@ -654,7 +657,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
           onChiudi={() => { setTaccuino(null); inputRef.current?.focus(); }} />
       )}
       {richiesta && (
-        <Conferma conferma={richiesta.conferma} etichetta={richiesta.etichetta} puoAnnullare={(mondo.undo ?? 0) >= 0}
+        <Conferma conferma={richiesta.conferma} etichetta={richiesta.etichetta} puoAnnullare={richiesta.annullabile}
           onSi={confermaSi} onNo={confermaNo} />
       )}
     </div>

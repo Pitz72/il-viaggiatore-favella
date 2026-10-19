@@ -6,7 +6,9 @@
 //  motore FAVELLA reale). Dal menu del trailer si
 //  comincia un nuovo viaggio o se ne riprende uno salvato; «← intro» dal
 //  gioco torna al trailer, ma DIRETTO al menu (non si rivede tutto il filmato).
-//  Sopra tutto, sul desktop, l'avviso dell'aggiornamento automatico.
+//  Sopra tutto, sul desktop, l'avviso dell'aggiornamento automatico. Le fasi stanno
+//  dentro un confine d'errore (ConfineErrori): se una si rompe, un messaggio e
+//  «torna all'intro» al posto dello schermo nero.
 // ====================================================================
 import { useEffect, useState } from "react";
 import Loghi from "./components/Loghi";
@@ -15,6 +17,7 @@ import { avviaPreparazione } from "./trailer/paesaggi";
 import Trailer from "./components/Trailer";
 import GameShell from "./components/GameShell";
 import AvvisoAggiornamento from "./components/AvvisoAggiornamento";
+import ConfineErrori from "./components/ConfineErrori";
 import type { Salvataggio } from "./lib/salvataggi";
 
 type Fase = "loghi" | "avviso" | "trailer" | "gioco";
@@ -31,18 +34,24 @@ export default function App() {
   // a pezzi mentre girano i loghi: quando comincia il trailer sono già pronte.
   useEffect(() => { avviaPreparazione(); }, []);
 
+  // dopo un errore di disegno: si ricomincia dal menu d'avvio, con un confine nuovo
+  const [ripartenza, setRipartenza] = useState(0);
+  const tornaAllIntro = () => { setGiaVisto(true); setFase("trailer"); setRipartenza((n) => n + 1); };
+
   return (
     <div className="h-full w-full bg-black">
-      {fase === "loghi" && <Loghi onFine={() => setFase("avviso")} />}
-      {fase === "avviso" && <Avviso onFine={() => setFase("trailer")} />}
-      {fase === "trailer" && (
-        <Trailer
-          key={giaVisto ? "fine" : "intero"}
-          startAtEnd={giaVisto}
-          onLaunch={(daCaricare) => { setCarica(daCaricare ?? null); setPartita((n) => n + 1); setGiaVisto(true); setFase("gioco"); }}
-        />
-      )}
-      {fase === "gioco" && <GameShell key={partita} carica={carica} onExit={() => setFase("trailer")} />}
+      <ConfineErrori key={ripartenza} onTorna={tornaAllIntro}>
+        {fase === "loghi" && <Loghi onFine={() => setFase("avviso")} />}
+        {fase === "avviso" && <Avviso onFine={() => setFase("trailer")} />}
+        {fase === "trailer" && (
+          <Trailer
+            key={giaVisto ? "fine" : "intero"}
+            startAtEnd={giaVisto}
+            onLaunch={(daCaricare) => { setCarica(daCaricare ?? null); setPartita((n) => n + 1); setGiaVisto(true); setFase("gioco"); }}
+          />
+        )}
+        {fase === "gioco" && <GameShell key={partita} carica={carica} onExit={() => setFase("trailer")} />}
+      </ConfineErrori>
       <AvvisoAggiornamento />
     </div>
   );
