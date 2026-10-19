@@ -22,6 +22,8 @@ in cui è comparsa, in collaudo/esiti/):
   DIALOGO     una conversazione senza nessuna risposta disponibile
   SILENZIO    un comando che non produce nessun testo
   STALLO      molti turni vivi senza scoprire luoghi nuovi (possibile vicolo cieco)
+  SINONIMO    due verbi della stessa azione («prendi» / «raccogli») che portano a
+              stati diversi (come `favella.py esplora`; è una segnalazione, non un fallimento)
 
 Il motore salva un'istantanea del mondo a ogni turno (per ANNULLA): conta circa
 75 comandi al secondo, quindi il giro predefinito dura qualche minuto.
@@ -47,6 +49,7 @@ from partita import Partita, ESITI, RADICE, VERSIONE_MOTORE, finali_dichiarati, 
 
 sys.path.insert(0, os.path.join(RADICE, "motore"))
 from favella_utils import normalizza_nome  # noqa: E402
+from gioco import prova  # noqa: E402
 
 # --- la mappa delle zone, letta dai .fav --------------------------------------
 _RE_STANZA = re.compile(r"^(.+?) è una stanza\.\s*$")
@@ -249,6 +252,43 @@ def controlla(p, cmd, out, reg, prima):
         reg.segnala("SILENZIO", f"«{cmd}» non produce testo (in {m.posizione_giocatore})", p, ("SILENZIO", cmd.split()[0]))
 
 
+def prova_sinonimi(p, cmd, reg, visti):
+    """Prima di giocare `cmd`, su un RAMO della partita (che non cambia), lo si confronta con lo
+    stesso comando detto con un altro verbo della stessa azione del motore («prendi» / «raccogli»):
+    due verbi equivalenti che portano a stati diversi sono un difetto. Come `favella.py esplora`
+    (motore/esploratore.py), non si confrontano i verbi che l'autore usa in una regola sua: una
+    regola scritta con «leggi» vale solo per «leggi»."""
+    m = p.m
+    parole = cmd.split()
+    if not parole or m.dialogo_attivo or not p.in_corso:
+        return
+    verbo, resto = parole[0], " ".join(parole[1:])
+    azioni = m.azioni_del_verbo.get(verbo, ())
+    if len(azioni) != 1 or azioni[0] not in m.azioni or azioni[0].startswith("_"):
+        return
+    azione = m.azioni[azioni[0]]
+    if not resto and azione.richiede_oggetto:
+        return
+    chiave = (azioni[0], resto, m.posizione_giocatore)
+    if chiave in visti:
+        return
+    visti.add(chiave)
+    verbi_delle_regole = {r.verbo for r in m.regole}
+    if verbo in verbi_delle_regole and verbo != azione.nomi[0]:
+        return
+    equivalenti = [v for v in azione.nomi
+                   if v != verbo and len(v) > 1 and v not in verbi_delle_regole
+                   and len(m.azioni_del_verbo.get(v, ())) == 1
+                   and v not in m.verbi_personalizzati and v not in m.sinonimi_verbo][:2]
+    if not equivalenti:
+        return
+    base = prova(m, cmd)
+    for v in equivalenti:
+        altro = f"{v} {resto}".strip()
+        if prova(m, altro)["impronta"] != base["impronta"]:
+            reg.segnala("SINONIMO", f"«{cmd}» e «{altro}» portano a stati diversi", p, ("SINONIMO", azioni[0], v))
+
+
 # --- punti di partenza: l'inizio e l'ingresso di ogni zona -------------------------
 def punti_di_partenza():
     p = Partita(seme=1)
@@ -270,7 +310,7 @@ def punti_di_partenza():
     return punti
 
 
-def gioca(partenza, carattere, seme, turni, provati, reg, cop):
+def gioca(partenza, carattere, seme, turni, provati, reg, cop, sinonimi):
     rng = random.Random(seme)
     p = copy.deepcopy(partenza)
     p.m.rng = random.Random(seme)
@@ -284,6 +324,7 @@ def gioca(partenza, carattere, seme, turni, provati, reg, cop):
         prima = dict(eccezioni=len(p.eccezioni), presenti={_nome(o) for o in p.presenti()},
                      uscite=set(p.uscite()), stanza=p.m.posizione_giocatore)
         cmd = es.scegli(p)
+        prova_sinonimi(p, cmd, reg, sinonimi)
         provati[(p.m.posizione_giocatore, cmd)] += 1
         out = p.esegui(cmd)
         controlla(p, cmd, out, reg, prima)
@@ -324,6 +365,7 @@ def main():
     reg = Registro()
     provati = collections.Counter()
     cop = dict(luoghi=set(), nodi=set(), presi=set(), stalli=[])
+    sinonimi = set()      # (azione, resto, stanza) già confrontati
     esiti = collections.Counter()
     finali = collections.Counter()
     comandi = 0
@@ -332,7 +374,7 @@ def main():
         for i in range(args.n):
             seme = args.seme * 100000 + ci * 1000 + i
             partenza = punti[nomi_punti[i % len(nomi_punti)]]
-            p, esito, finale = gioca(partenza, carattere, seme, args.t, provati, reg, cop)
+            p, esito, finale = gioca(partenza, carattere, seme, args.t, provati, reg, cop, sinonimi)
             comandi += len(p.storia)
             esiti[esito] += 1
             if esito != "in_corso":

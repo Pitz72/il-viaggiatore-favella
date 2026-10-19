@@ -3,7 +3,9 @@
 Un sorso toglie 4 alla sete e costa 1 d'acqua; una porzione toglie 3 alla fame e
 costa 1 di cibo. «bevi due sorsi» e «mangia tre porzioni» sono un turno solo.
 I pulsanti dell'interfaccia (la tanica, le scorte) mandano questi comandi, e le
-forme vecchie («mangia qualcosa») restano valide perché stanno nei salvataggi.
+forme vecchie («mangia qualcosa») restano valide perché stanno nei salvataggi. Anche
+l'infinito («bere due sorsi», «mangiare una porzione», con la cifra o senza) vale come
+l'imperativo: prima rispondeva «Non vedo 'una porzione' qui».
 
 Ogni prova parte da una partita nuova (turno 0, niente logorio di mezzo) e
 controlla le quattro variabili dopo il comando, il turno e la frase.
@@ -18,37 +20,38 @@ SORSO_SETE, PORZIONE_FAME = 4, 3
 
 # (comandi equivalenti, partenza, attesi dopo, frase che deve comparire, turni)
 BERE = [
-    (["bevi", "bevi acqua", "bere acqua", "bevi un sorso", "bevi 1"], dict(sete=8, acqua=3),
+    (["bevi", "bevi acqua", "bere acqua", "bevi un sorso", "bevi 1", "bere un sorso", "bere 1"], dict(sete=8, acqua=3),
      dict(sete=8 - SORSO_SETE, acqua=2), "Bevi a piccoli sorsi", 1),
-    (["bevi due sorsi", "bevi 2", "bevi 2 sorsi"], dict(sete=11, acqua=3),
+    (["bevi due sorsi", "bevi 2", "bevi 2 sorsi", "bere due sorsi", "bere 2", "bere 2 sorsi"], dict(sete=11, acqua=3),
      dict(sete=11 - 2 * SORSO_SETE, acqua=1), "Bevi due sorsi lenti", 1),
-    (["bevi tre sorsi", "bevi 3", "bevi 3 sorsi"], dict(sete=12, acqua=3),
+    (["bevi tre sorsi", "bevi 3", "bevi 3 sorsi", "bere tre sorsi", "bere 3", "bere 3 sorsi"], dict(sete=12, acqua=3),
      dict(sete=12 - 3 * SORSO_SETE, acqua=0), "Bevi a lungo", 1),
     # rifiuti: niente cambia
-    (["bevi", "bevi due sorsi", "bevi tre sorsi"], dict(sete=1, acqua=3),
+    (["bevi", "bevi due sorsi", "bevi tre sorsi", "bere un sorso", "bere due sorsi", "bere tre sorsi"], dict(sete=1, acqua=3),
      dict(sete=1, acqua=3), "Non hai sete", 1),
-    (["bevi due sorsi"], dict(sete=8, acqua=1),
+    (["bevi due sorsi", "bere due sorsi", "bere 2"], dict(sete=8, acqua=1),
      dict(sete=8, acqua=1), "un fondo solo", 1),
-    (["bevi tre sorsi"], dict(sete=8, acqua=2),
+    (["bevi tre sorsi", "bere tre sorsi", "bere 3 sorsi"], dict(sete=8, acqua=2),
      dict(sete=8, acqua=2), "non c'è acqua per tre sorsi", 1),
-    (["bevi", "bevi due sorsi", "bevi tre sorsi"], dict(sete=8, acqua=0),
+    (["bevi", "bevi due sorsi", "bevi tre sorsi", "bere un sorso", "bere due sorsi", "bere tre sorsi"], dict(sete=8, acqua=0),
      dict(sete=8, acqua=0), "vuota", 1),
 ]
 
 MANGIARE = [
-    (["mangia qualcosa", "mangia cibo", "mangia una porzione", "mangia 1"],
+    (["mangia qualcosa", "mangia cibo", "mangia una porzione", "mangia 1",
+      "mangiare qualcosa", "mangiare cibo", "mangiare una porzione", "mangiare 1"],
      dict(fame=9, cibo=2), dict(fame=9 - PORZIONE_FAME, cibo=1), "Mastichi piano", 1),
-    (["mangia due porzioni", "mangia 2", "mangia 2 porzioni"], dict(fame=10, cibo=3),
+    (["mangia due porzioni", "mangia 2", "mangia 2 porzioni", "mangiare due porzioni", "mangiare 2", "mangiare 2 porzioni"], dict(fame=10, cibo=3),
      dict(fame=10 - 2 * PORZIONE_FAME, cibo=1), "Mangi con metodo", 1),
-    (["mangia tre porzioni", "mangia 3", "mangia 3 porzioni"], dict(fame=12, cibo=3),
+    (["mangia tre porzioni", "mangia 3", "mangia 3 porzioni", "mangiare tre porzioni", "mangiare 3", "mangiare 3 porzioni"], dict(fame=12, cibo=3),
      dict(fame=12 - 3 * PORZIONE_FAME, cibo=0), "Mangi tutto", 1),
-    (["mangia qualcosa", "mangia due porzioni", "mangia tre porzioni"], dict(fame=1, cibo=3),
+    (["mangia qualcosa", "mangia due porzioni", "mangia tre porzioni", "mangiare una porzione", "mangiare due porzioni", "mangiare tre porzioni"], dict(fame=1, cibo=3),
      dict(fame=1, cibo=3), "Non hai fame", 1),
-    (["mangia due porzioni"], dict(fame=9, cibo=1),
+    (["mangia due porzioni", "mangiare due porzioni", "mangiare 2"], dict(fame=9, cibo=1),
      dict(fame=9, cibo=1), "per una porzione sola", 1),
-    (["mangia tre porzioni"], dict(fame=9, cibo=2),
+    (["mangia tre porzioni", "mangiare tre porzioni", "mangiare 3 porzioni"], dict(fame=9, cibo=2),
      dict(fame=9, cibo=2), "Non hai cibo per tre porzioni", 1),
-    (["mangia qualcosa", "mangia due porzioni", "mangia tre porzioni"], dict(fame=9, cibo=0),
+    (["mangia qualcosa", "mangia due porzioni", "mangia tre porzioni", "mangiare una porzione", "mangiare due porzioni", "mangiare tre porzioni"], dict(fame=9, cibo=0),
      dict(fame=9, cibo=0), "Non hai niente da mettere", 1),
 ]
 
@@ -74,6 +77,13 @@ def prova(cmd, partenza, attesi, frase, turni):
 def altre_prove():
     """Cose che non devono cambiare."""
     esiti = []
+    # «bere» e «mangiare» soli chiedono che cosa (li completa il ponte dell'app): niente cambia, nessun turno
+    for solo, domanda in (("bere", "Cosa vuoi bere?"), ("mangiare", "Cosa vuoi mangiare?")):
+        p = partita.Partita(seme=1)
+        p.m.variabili.update(sete=9, acqua=3, fame=9, cibo=3)
+        out = p.esegui(solo)
+        esiti.append((f"«{solo}» solo chiede che cosa, senza consumare",
+                      domanda in out and p.m.turno_corrente == 0 and (p.v("acqua"), p.v("cibo")) == (3, 3)))
     # un oggetto non si mangia: «mangia il biglietto» resta al motore, senza toccare il cibo
     p = partita.Partita(seme=1)
     p.m.variabili.update(fame=9, cibo=2)

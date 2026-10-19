@@ -11,6 +11,7 @@ from finali import pilota
 
 FINO_CASELLO = P.Z1_Z4[:P.Z1_Z4.index('parla con Vito')]
 FINO_Z5 = P.Z1_Z4
+FINO_SAVERIO = P.Z1_Z4[:P.Z1_Z4.index('parla con Saverio')]
 
 PROVE = {
  'tanica e guardie': (['lascia tanica', 'bevi', 'mangia qualcosa', 'getta cibo', 'attingi', 'nord', 'est', 'attacca Nunzio', 'minaccia Nunzio'],
@@ -29,6 +30,11 @@ PROVE = {
     ['lo lascia sul bancone', 'un lasciapassare', 'la sbarra alzata', 'L\'amico mio'], []),
  'Rosaria: ingressi ripetuti': (FINO_Z5 + ['nord', 'sud', 'nord', 'sud', 'nord', 'nord'],
     ['Rosaria ti mette', 'Senza una mia parola'], []),
+ # la richiesta d'acqua dice la cosa giusta per la fiducia: a zero un motivo da portare, da due in su il via libera
+ 'Saverio: fiducia bassa, chiede un motivo': (FINO_SAVERIO + ['parla con Saverio', 'acqua dal pozzo', 'capito', 'niente'],
+    ['Portami un motivo per fidarmi'], ['Cala piano, la corda è vecchia']),
+ 'Saverio: fiducia alta, via libera': (FINO_SAVERIO + ['parla con Saverio', 'cibo', 'grazie', 'parla con Saverio', 'acqua dal pozzo', 'capito', 'niente'],
+    ['Cala piano, la corda è vecchia', 'Stavolta non sputa'], ['Portami un motivo per fidarmi']),
  'Onofrio: rifiuto senza ricordi': (FINO_Z5 + ['nord', 'parla con Rosaria', "dell'acqua", '1', "dell'acqua", '1', "dell'acqua", '1', 'colline', 'scrivile', 'grazie',
      'nord', 'nord', 'nord', 'ovest', 'parla con Onofrio', 'aiuto', '1', 'lasciami', 'est', 'nord', 'nord'],
     ['Portami qualcosa di quella casa', 'a mani vuote, non ci si arriva'], ['Devo passare il guado']),
