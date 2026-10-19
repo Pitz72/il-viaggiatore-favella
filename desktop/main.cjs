@@ -25,7 +25,16 @@ const aggiornamenti = require("./aggiornamenti.cjs");
 const WEB = path.join(__dirname, "web");
 const AUTOVERIFICA = process.argv.includes("--autoverifica");
 const SCHEMA = "app";
-const ORIGINE = `${SCHEMA}://gioco`;
+const HOST = "gioco";
+const ORIGINE = `${SCHEMA}://${HOST}`;
+
+// L'indirizzo è dell'app? Si confrontano protocollo e host, non `URL.origin`: per uno schema
+// proprio come app:// l'origine di Node è «null». Un host come gioco.altro.it, o un indirizzo con
+// utente o porta, non passano.
+const dellApp = (indirizzo) => {
+  try { const u = new URL(indirizzo); return u.protocol === `${SCHEMA}:` && u.host === HOST; }
+  catch { return false; }
+};
 
 protocol.registerSchemesAsPrivileged([
   { scheme: SCHEMA, privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true, codeCache: true } },
@@ -57,7 +66,7 @@ async function servi(richiesta) {
   let rel = decodeURIComponent(url.pathname);
   if (rel === "/" || rel === "") rel = "/index.html";
   const file = path.normalize(path.join(WEB, rel));
-  if (!file.startsWith(WEB)) return new Response("vietato", { status: 403 });
+  if (!file.startsWith(WEB + path.sep)) return new Response("vietato", { status: 403 });   // anche «web-altro» è fuori
   let stat;
   try { stat = await fs.promises.stat(file); } catch { return new Response("non trovato", { status: 404 }); }
   if (!stat.isFile()) return new Response("non trovato", { status: 404 });
@@ -117,7 +126,7 @@ function creaFinestra() {
     return { action: "deny" };
   });
   finestra.webContents.on("will-navigate", (e, url) => {
-    if (!url.startsWith(ORIGINE)) e.preventDefault();
+    if (!dellApp(url)) e.preventDefault();
   });
 
   // gli errori della pagina finiscono nel registro tecnico
