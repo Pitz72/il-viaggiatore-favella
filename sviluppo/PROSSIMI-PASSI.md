@@ -23,8 +23,7 @@
 - **Il tasto «esci»** nella barra di gioco e nella schermata finale, oltre che nel menu (1.13.0).
 - **I loghi d'apertura** animati e sonori, di Runtime Multimedia e di FAVELLA 1, e il nome dell'autore
   nel menu d'avvio (1.14.0).
-- **Le rifiniture dell'analisi del 20 ottobre 2026** (1.15.0): loghi e trailer si saltano anche con un
-  clic; il diario è una regione viva per i lettori di schermo; Esc chiude «Come si gioca» e i dialoghi
+- **Le rifiniture dell'analisi del 20 ottobre 2026** (1.15.0): il diario è una regione viva per i lettori di schermo; Esc chiude «Come si gioca» e i dialoghi
   portano il fuoco dentro e lo restituiscono; un confine d'errore al posto dello schermo nero; contrasto
   e dimensioni del testo piccolo; il caricamento dei salvataggi diffida del diario guasto; il desktop
   controlla l'origine e il percorso nel modo giusto, mette in fila le scritture dei salvataggi e rilegge

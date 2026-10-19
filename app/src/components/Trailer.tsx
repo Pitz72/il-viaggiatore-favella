@@ -4,8 +4,7 @@
 //  Un cortometraggio di ~88 s in dieci inquadrature (vedi trailer/scaletta.ts
 //  per il découpage). Architettura:
 //   · UN orologio (rAF) → tempo t. Tutto è funzione di t: canvas, testi,
-//     suono. Nessun comando a schermo durante il trailer: Esc, o un clic in
-//     qualunque punto (con un piccolo invito «salta»), lo salta.
+//     suono. Nessun comando a schermo durante il trailer: Esc lo salta.
 //   · Canvas 16:9 in coordinate di progetto 1920×1080 per le immagini
 //     (paesaggi procedurali, viandante articolato, mappa, polvere).
 //   · Livello DOM, stessa superficie 1920×1080 scalata, per la tipografia
@@ -320,11 +319,10 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
       const h = BANDA * (1 - apre) * clamp(seg(t, 0, 0.9) + (startAtEnd ? 1 : 0));
       bs.style.height = h + "px"; bg.style.height = h + "px";
     }
+    const ctr = extraRef.current.controlli;
+    if (ctr) ctr.style.opacity = String(1 - apre);
     const barra = extraRef.current.barra;
     if (barra) barra.style.transform = `scaleX(${clamp(t / DURATA)})`;
-    // l'invito «salta» non entra nei fotogrammi esportati (là il tempo lo guida chi esporta)
-    const invito = extraRef.current.salta;
-    if (invito) invito.style.visibility = pausaRef.current ? "hidden" : "visible";
 
     // la grana della pellicola si muove a ogni fotogramma
     const gr = graneRef.current;
@@ -411,9 +409,8 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
     else { suono.current.attiva(); setAudio(true); }
   }, []);
 
-  // Durante il trailer Esc lo salta, e così un clic in qualunque punto (invito «salta» in basso a
-  // destra). Nel browser, il primo gesto (tasto o clic) accende anche la musica: i browser non la
-  // lasciano partire da sola.
+  // Durante il trailer un solo tasto: Esc lo salta. Nel browser, il primo gesto
+  // (tasto o clic) accende anche la musica: i browser non la lasciano partire da sola.
   useEffect(() => {
     const tasto = (e: KeyboardEvent) => {
       if (taccuino || guida) return;   // il taccuino e la guida gestiscono Esc da sé
@@ -432,15 +429,6 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
     window.addEventListener("keydown", accendi); window.addEventListener("pointerdown", accendi);
     return () => { window.removeEventListener("keydown", accendi); window.removeEventListener("pointerdown", accendi); };
   }, []);
-
-  // il menu d'avvio risponde ai clic solo dopo un istante: un doppio clic per saltare non lo sfiora
-  const [attivo, setAttivo] = useState(false);
-  useEffect(() => {
-    setAttivo(false);
-    if (!finito) return;
-    const id = window.setTimeout(() => setAttivo(true), 700);
-    return () => window.clearTimeout(id);
-  }, [finito]);
 
   // il salvataggio più recente, per «continua»
   useEffect(() => { if (finito) piuRecente().then(setUltimo).catch(() => setUltimo(null)); }, [finito, taccuino]);
@@ -463,8 +451,7 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
   };
 
   return (
-    <div onClick={finito ? undefined : salta}
-      style={{ position: "relative", height: "100%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "#000", overflow: "hidden", cursor: finito ? undefined : "pointer" }}>
+    <div style={{ position: "relative", height: "100%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "#000", overflow: "hidden" }}>
       <div ref={palcoRef} style={{ position: "relative", overflow: "hidden", width: "min(100vw, calc(100dvh * 16 / 9))", height: "min(100dvh, calc(100vw * 9 / 16))", background: "#000" }}>
         <canvas ref={telaRef} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }} />
 
@@ -552,17 +539,9 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
           {/* letterbox */}
           <div ref={reg("bandaSu")} style={{ position: "absolute", left: 0, right: 0, top: 0, height: BANDA, background: "#000" }} />
           <div ref={reg("bandaGiu")} style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: BANDA, background: "#000" }} />
-          {/* l'invito a saltare: un clic in qualunque punto fa lo stesso (vedi sopra) */}
-          {!finito && pronto && (
-            <button ref={reg("salta")} type="button" aria-label="Salta il trailer"
-              style={{ position: "absolute", right: 60, bottom: 40, padding: "10px 8px", background: "none", border: 0, cursor: "pointer", pointerEvents: "auto",
-                ...mono(18, { letterSpacing: "0.22em", color: "rgba(214,224,238,.62)" }), opacity: 0, animation: "kf-on .8s ease 1.2s forwards" }}>
-              salta · clic o esc
-            </button>
-          )}
-          {/* schermata d'avvio (i primi istanti non risponde ai clic: chi ha cliccato due volte per saltare non parte per sbaglio) */}
+          {/* schermata d'avvio */}
           {finito && !compatto && (
-            <section style={{ position: "absolute", left: 0, right: 0, top: 500, textAlign: "center", pointerEvents: attivo ? "auto" : "none", animation: "kf-launch 1.2s ease .3s both" }}>
+            <section style={{ position: "absolute", left: 0, right: 0, top: 500, textAlign: "center", pointerEvents: "auto", animation: "kf-launch 1.2s ease .3s both" }}>
               <div style={{ position: "absolute", left: "50%", top: -140, width: 1500, height: 720, transform: "translateX(-50%)", background: "radial-gradient(50% 50% at 50% 50%, rgba(6,5,10,.78) 0%, rgba(6,5,10,.5) 50%, rgba(6,5,10,0) 100%)", pointerEvents: "none", zIndex: -1 }} />
               <p style={{ margin: 0, ...serif(40, { color: "#f4ece0" }) }}>Si parte a piedi.</p>
               <p style={{ margin: "22px auto 0", maxWidth: 820, ...serif(27, { color: "rgba(230,222,208,.72)", lineHeight: 1.5 }) }}>

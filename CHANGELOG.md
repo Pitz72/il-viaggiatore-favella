@@ -11,10 +11,6 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 ## [1.15.0] - 2026-10-19
 
 ### Aggiunto
-- **Loghi e trailer si saltano anche con un clic.** Oltre a Esc, un clic in qualunque punto; un piccolo
-  invito «salta · clic o esc» compare in basso a destra. Il menu d'avvio del trailer risponde ai clic solo
-  dopo un istante, e l'avviso ignora quelli dei primi istanti: chi clicca due volte per saltare non salta
-  anche ciò che segue.
 - **Il diario si lascia leggere dagli schermi parlanti.** È una regione viva (`role="log"`,
   `aria-live="polite"`): il testo nuovo viene letto da sé.
 - **Se una schermata non si disegna, niente più schermo nero.** Un messaggio e il pulsante «← torna
