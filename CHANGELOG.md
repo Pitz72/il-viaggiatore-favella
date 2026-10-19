@@ -8,9 +8,45 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.15.0] - 2026-10-19
+
 ### Aggiunto
+- **Loghi e trailer si saltano anche con un clic.** Oltre a Esc, un clic in qualunque punto; un piccolo
+  invito «salta · clic o esc» compare in basso a destra. Il menu d'avvio del trailer risponde ai clic solo
+  dopo un istante, e l'avviso ignora quelli dei primi istanti: chi clicca due volte per saltare non salta
+  anche ciò che segue.
+- **Il diario si lascia leggere dagli schermi parlanti.** È una regione viva (`role="log"`,
+  `aria-live="polite"`): il testo nuovo viene letto da sé.
+- **Se una schermata non si disegna, niente più schermo nero.** Un messaggio e il pulsante «← torna
+  all'intro»; l'errore finisce nel registro tecnico.
+- **Bere e mangiare anche all'infinito.** «bere un sorso», «bere due sorsi», «bere 3», «mangiare qualcosa»,
+  «mangiare una porzione», «mangiare 2 porzioni» (con la cifra o con la parola) valgono come «bevi due sorsi»
+  e «mangia una porzione». Prima il gioco rispondeva «Non vedo 'una porzione' qui».
 - **Per chi sviluppa:** `strumenti/esporta-loghi.cjs` esporta i due loghi d'apertura in video 4K a 60 fps, con
-  il loro suono (la stessa partitura del gioco, resa offline), dalle animazioni vere.
+  il loro suono (la stessa partitura del gioco, resa offline), dalle animazioni vere. `collaudo/scorte.py`
+  prova anche le forme all'infinito; `collaudo/mirate.py` ha due prove per Saverio; `collaudo/esploratore.py`
+  segnala i verbi sinonimi che portano a stati diversi (come `favella.py esplora`), senza far fallire il collaudo.
+
+### Cambiato
+- **Esc chiude «Come si gioca»** anche in partita. La guida e il taccuino portano il fuoco dentro, tengono
+  Tab fra i propri controlli e alla chiusura lo restituiscono.
+- **Il testo piccolo si legge meglio.** Etichette, suggerimenti, voci passate del diario e note hanno un
+  contrasto di almeno 4,5:1 (ora oltre 6:1), e nessuna etichetta scende sotto gli 11 px; nelle scorte la
+  scritta «bevi» / «mangia» passa sotto il numero.
+- **Saverio, a fiducia 2 o più,** alla richiesta d'acqua non dice più «Portami un motivo per fidarmi»: accenna
+  alla corda e lascia calare la tanica.
+- **Salvataggi:** cambia l'impronta dell'avventura (i `.fav`); chi ricarica una partita vecchia la trova
+  ricostruita, e il gioco lo dice. Un salvataggio con il diario guasto (voci, blocchi, incontrati, storia) si
+  carica lo stesso, con un valore di ripiego per i pezzi mancanti.
+
+### Corretto
+- **La nota «Dopo, se ti pesa, puoi tornare indietro con ↶ annulla»** compariva sempre nella conferma, anche
+  dentro un dialogo che continua o per una scelta che chiude il viaggio, dove il pulsante non c'è. Ora
+  compare solo quando annulla potrà davvero disfare la scelta.
+- **Desktop:** l'indirizzo e il percorso dei file dell'app si controllano per intero (host `app://gioco`,
+  cartella `web/`), non più per prefisso. Ogni scrittura di un salvataggio ha il suo file temporaneo e più
+  scritture dello stesso posto si mettono in fila; se il file di un posto è illeggibile si rilegge la copia di
+  riserva (`.bak`).
 
 ## [1.14.0] - 2026-10-15
 
