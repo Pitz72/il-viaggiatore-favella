@@ -8,6 +8,24 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.17.0] - 2026-10-20
+
+### Cambiato
+- **Il trailer, luce e pellicola** (solo l'aspetto: durata, ordine, tempi, testi e musica sono quelli di prima):
+  - il sole dell'alba e del titolo è dorato, non giallo limone: i grandi aloni si compongono in «screen» e non in
+    somma (che portava rosso e verde al massimo insieme e il blu no); la tinta vicino al sole scende da 55° a 42° al
+    titolo e da 48° a 39° all'alba, e il sole resta vivo;
+  - i raggi di luce dell'alba e del guado hanno i bordi morbidi, come luce nella polvere, e si dipingono una volta sola
+    (prima ogni fotogramma tracciava nove e otto spicchi dai lati netti);
+  - **la grana è di pellicola**: grano fine di 1–1,4 pixel veri (prima era un fruscio che cambiava con lo schermo: 2×2
+    pixel a 4K), con un filo di colore, più viva nei mezzitoni; cambia a 24 fotogrammi al secondo e dal tempo, non dal
+    caso, quindi anche i video esportati escono uguali; la stessa intensità a 1080p, 1440p e 4K (σ 4,0 contro 5,7·4,0·3,8);
+    i neri sono più profondi (la vecchia grana li velava di grigio) e il banding dei gradienti scuri resta coperto;
+  - la notte dell'invaso ha materia: la diga conserva il 15–20 % del suo cemento (le arcate) sotto un velo freddo, con
+    il bordo della luna sul ciglio e sulla torre, e sul sale un velo di riflessi di stelle.
+- **Per chi sviluppa:** `strumenti/trailer-clip.cjs` esporta un breve video del trailer con la sua musica (per i
+  confronti prima/dopo in movimento); i video esportati con la grana nuova pesano un terzo di prima.
+
 ## [1.16.2] - 2026-10-20
 
 ### Corretto
