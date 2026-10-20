@@ -14,7 +14,10 @@ strumenti/doppiaggio.py, trailer compreso) e controlla:
      descrizione di mezzo secondo: un file scambiato si vede qui);
   5. il volume: ogni blocco sta attorno al bersaglio e nessun picco tocca lo 0 dBFS
      (dal resoconto doppiaggio/banco.json; con ffmpeg, rimisurato sui file veri);
-  6. il peso della voce nel pacchetto.
+  6. il peso della voce nel pacchetto;
+  7. con la logica vera dell'app (app/src/gioco/parti.ts, in Node): lungo i dodici percorsi e le
+     tre morti di finali.py, ogni riga che il motore stampa trova le sue parti, pezzo per pezzo, e
+     ogni risposta di dialogo offerta ha la voce del narratore (serve `npm ci --prefix app`).
 
 Uso:  python doppiaggio.py      (esce con 1 se qualcosa non va; ffmpeg è facoltativo)
 """
@@ -37,6 +40,38 @@ TOLLERANZA_LU = 2.0     # quanto un blocco può stare lontano dal bersaglio (Opu
 PICCO_VERO_MAX = -0.2   # dBTP
 PESO_MAX_MB = 25.0
 TOLLERANZA_MS = 25
+PARTI_NODE = os.path.join(RADICE, "app", "scripts", "parti-node.mjs")
+# Ciò che il motore dice da sé (non sta nei .fav): non ha voce, lo legge il lettore di schermo.
+DEL_MOTORE = ("La partita è finita.",)
+# I numeri delle scorte dentro le battute («Hai 6 d'acqua e 2 di cibo.»): li compone la fase 3 del piano 08.
+NUMERI_FASE_3 = re.compile(r"\b\d+ (d'acqua|di cibo)\b")
+
+
+def testi_dei_percorsi():
+    """Ogni testo che il motore stampa lungo i dodici percorsi e le tre morti di finali.py, e ogni
+    risposta di dialogo offerta lungo la strada."""
+    sys.path.insert(0, QUI)
+    import finali
+    from partita import Partita
+    stampati, scelte = [], []
+    originale = Partita.esegui
+
+    def esegui(self, cmd):
+        out = originale(self, cmd)
+        stampati.append(out)
+        scelte.extend(self.opzioni_dialogo())
+        return out
+
+    Partita.esegui = esegui
+    try:
+        stampati.append(Partita(seme=1).trascrizione())
+        for nome in finali.percorsi.PERCORSI:
+            finali.pilota(finali.percorsi.comandi(nome))
+        for cfg in finali.MORTI.values():
+            finali.pilota(**cfg)
+    finally:
+        Partita.esegui = originale
+    return stampati, scelte
 
 
 def strumento_doppiaggio():
@@ -177,6 +212,59 @@ def main():
     esito(mb <= PESO_MAX_MB, "la voce pesa %.1f MB nel pacchetto (tetto %.0f)" % (mb, PESO_MAX_MB))
     for motivo, ids in indice.get("muti", {}).items():
         print("-- %d parti mute: %s" % (len(ids), motivo))
+
+    # 7. dal testo stampato alle parti, con la logica vera dell'app (parti.ts, in Node)
+    testi_indice = indice.get("testi", {})
+    esito(set(testi_indice) == set(parti) | set(muti),
+          "l'indice ha il testo di ogni parte (l'app ritrova le parti dal testo)",
+          sorted(set(testi_indice) ^ (set(parti) | set(muti))))
+    stampati, scelte = testi_dei_percorsi()
+    # in più, ogni testo dei .fav come lo stamperebbe il motore (anche quelli che i percorsi non toccano);
+    # quelli con i segnaposto ([acqua], [i fili del viaggio]) li compone la fase 3
+    statici, scelte_fav = [], []
+    for x in S.costruisci_tutto()["stringhe"]:
+        t = x["origine"].replace("\\n", "\n")   # nei .fav l'a capo è scritto «\n»
+        if "[" in t:
+            continue
+        if x["tipo"] == "opzione":
+            scelte_fav.append(t)
+        elif x["tipo"] == "dialogo":
+            statici.append("\n".join("%s: %s" % (x["parlante"], r) for r in t.split("\n")))
+        else:
+            statici.append(t)
+    n_percorsi, n_scelte = len(stampati), len(scelte)
+    stampati += statici
+    scelte += scelte_fav
+    risposta = subprocess.run(["node", PARTI_NODE], input=json.dumps({"testi": stampati, "scelte": scelte}),
+                              capture_output=True, text=True, encoding="utf-8")
+    if risposta.returncode:
+        esito(False, "parti.ts gira in Node (serve `npm ci --prefix app`)", [risposta.stderr[-500:]])
+    else:
+        r = json.loads(risposta.stdout)
+        righe = [x for t in r["testi"] for x in t if x["blocco"]["tipo"] not in ("sistema", "stanza", "comando")]
+        righe_percorsi = [x for t in r["testi"][:n_percorsi] for x in t if x["blocco"]["tipo"] not in ("sistema", "stanza", "comando")]
+        senza, da_fare = [], 0
+        for x in righe:
+            for m in x["mancano"]:
+                if any(m["testo"].startswith(p) for p in DEL_MOTORE):
+                    continue
+                if NUMERI_FASE_3.search(m["testo"]):
+                    da_fare += 1
+                    continue
+                senza.append("%s «%s» (nella riga «%s»)" % (m["voce"], m["testo"][:70], x["blocco"].get("testo", "")[:50]))
+        esito(not senza, "lungo i percorsi %d righe stampate dal motore, più %d testi dei .fav: ogni pezzo ha la sua parte" % (
+            len(righe_percorsi), len(statici)),
+              sorted(set(senza)))
+        if da_fare:
+            print("-- %d pezzi con i numeri delle scorte: si compongono nella fase 3" % da_fare)
+        viste = {i for x in righe_percorsi for i in x["ids"]} | {i for x in r["scelte"][:n_scelte] for i in x["ids"]}
+        tutte = {i for x in righe for i in x["ids"]} | {i for x in r["scelte"] for i in x["ids"]}
+        print("-- parti ritrovate: %d lungo i percorsi, %d con i testi dei .fav, su %d (le altre: numeri, fili, trailer)" % (
+            len(viste), len(tutte), len(serve)))
+        scelte_senza = sorted({o for o, x in zip(scelte, r["scelte"]) if x["mancano"]})
+        esito(not scelte_senza, "ogni risposta di dialogo (%d incontrate, %d nei .fav) ha la voce del narratore" % (
+            len(set(scelte[:n_scelte])), len(scelte_fav)),
+              scelte_senza)
 
     tutto_ok = all(esiti)
     print("TUTTO OK" if tutto_ok else "CI SONO FALLIMENTI")

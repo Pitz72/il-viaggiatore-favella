@@ -68,9 +68,6 @@ jobs:
       - name: Le partite giocate a mano
         working-directory: collaudo
         run: python giocate.py
-      - name: La voce del doppiaggio (ogni testo ha il suo audio)
-        working-directory: collaudo
-        run: python doppiaggio.py
       - name: Le scelte che chiedono conferma, e il testo del motore
         run: |
           npm ci --prefix app
@@ -78,6 +75,8 @@ jobs:
           python collaudo/testo.py
       - name: I finali giocati solo con i pulsanti
         run: python collaudo/pulsanti.py
+      - name: La voce del doppiaggio (ogni testo stampato trova il suo audio)
+        run: python collaudo/doppiaggio.py
       - name: L'esploratore (giro corto, non blocca)
         continue-on-error: true
         timeout-minutes: 6
