@@ -33,6 +33,15 @@
       "web/**/*"
     ],
     "asar": true,
+    "electronFuses": {
+      "runAsNode": false,
+      "enableNodeOptionsEnvironmentVariable": false,
+      "enableNodeCliInspectArguments": false,
+      "grantFileProtocolExtraPrivileges": false,
+      "onlyLoadAppFromAsar": true,
+      "enableEmbeddedAsarIntegrityValidation": true,
+      "enableCookieEncryption": true
+    },
     "artifactName": "Il-Viaggiatore-${version}-${os}-${arch}.${ext}",
     "win": {
       "icon": "build/icon.ico",
