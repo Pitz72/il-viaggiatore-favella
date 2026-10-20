@@ -30,6 +30,13 @@
   la copia di riserva; nella storia «bere due sorsi» e «mangiare una porzione» (e simili) valgono come
   le forme all'imperativo, e Saverio, a fiducia alta, non chiede più «un motivo per fidarmi».
 
+## Pianificato
+
+- **L'estetica della cinematica d'apertura** (il trailer di 88,5 s e il suo titolo; non i loghi né
+  l'avviso). Il piano è in `pre-produzione/07-intro-estetica-e-dettagli.md`: diciannove migliorie in sei
+  fasi, quattro voci «da chiedere» perché toccano i tempi, dieci domande per Simone. Il comportamento
+  non cambia (solo Esc). Non eseguito: parte solo su ordine di Simone, una fase alla volta.
+
 ## Non si fa
 
 - **Un'eco di Imma alla soglia.** Vive in paese: un'eco ad Acquamorta sarebbe forzata
