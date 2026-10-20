@@ -8,6 +8,13 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.22.1] - 2026-10-20
+
+### Cambiato
+- L'autoverifica (quella che la CI esegue sui pacchetti appena costruiti) prova anche la voce del doppiaggio: carica
+  l'indice, decodifica una parte per ogni voce del pacchetto e la traccia del trailer, e ritrova dal testo d'avvio le sue
+  parti. Il pacchetto Windows pesa 128,5 MB (114 nella 1.18.2): 14,5 MB in più, la voce.
+
 ## [1.22.0] - 2026-10-20
 
 ### Aggiunto
