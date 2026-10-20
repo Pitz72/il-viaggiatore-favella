@@ -11,7 +11,7 @@
 | storia | l'avventura (file principale) | 0 | — | 0 | 0 | 0 |
 | sistemi | il corpo e le scorte | 0 | — | 0 | 0 | 0 |
 | Z1 | Acquaviva | 5 | Nunzio 6 | 13 | 12 | 3 |
-| Z2 | la piana | 5 | Saverio 4 | 5 | 1 | 1 |
+| Z2 | la piana | 5 | Saverio 5 | 5 | 1 | 1 |
 | Z3 | l'invaso | 7 | Iole 7, Rocco 3 | 15 | 2 | 2 |
 | Z4 | la statale | 6 | Vito 9, Imma 12 | 22 | 10 | 10 |
 | Z5 | il paese | 7 | Rosaria 11, Concetta 4, Pasquale 2, Peppe 9, Ciro 5 | 51 | 33 | 22 |
@@ -39,24 +39,24 @@ scelta si spegne lì. Una che si legge più avanti è una **conseguenza a distan
 | stato della pancia | sistemi | sistemi (2) | sistemi (2) | locale |
 | stato del discorso di nunzio | Z1 | Z1 (9) | Z1 (1) | locale |
 | stato della foto | Z1 | Z1 (1) | Z1 (2) | locale |
-| fiducia di saverio | Z2 | Z2 (1) | Z2 (4), Z7 (12) | **a distanza** |
-| stato del cane | Z2 | Z2 (2) | Z2 (10), Z7 (12) | **a distanza** |
+| fiducia di saverio | Z2 | Z2 (1) | Z2 (6), Z7 (2) | **a distanza** |
+| stato del cane | Z2 | Z2 (2) | Z2 (10), Z7 (2) | **a distanza** |
 | stato del crinale | Z2 | Z2 (1) | Z2 (1) | locale |
 | stato del pozzo | Z2 | Z2 (1) | Z2 (4) | locale |
 | stato del ringhio | Z2 | Z2 (1) | Z2 (3) | locale |
 | vita del cane | Z2 | Z2 (2) | Z2 (1) | locale |
 | fiducia di iole | Z3 | Z3 (2) | Z3 (3) | locale |
 | stato della condotta | Z3 | Z3 (1) | Z3 (1) | locale |
-| stato della pompa | Z3 | Z3 (2) | Z3 (6), Z7 (12) | **a distanza** |
+| stato della pompa | Z3 | Z3 (2) | Z3 (6), Z7 (2) | **a distanza** |
 | fiducia di vito | Z4 | Z4 (4) | Z4 (5) | locale |
-| stato del bluff | Z4 | Z4 (1) | Z4 (1), Z5 (1), Z6 (1), Z7 (14) | **a distanza** |
+| stato del bluff | Z4 | Z4 (1) | Z4 (1), Z5 (1), Z6 (1), Z7 (4) | **a distanza** |
 | stato del casello | Z4 | Z4 (5) | Z4 (9) | locale |
 | stato del discorso di imma | Z4 | Z4 (5) | Z4 (1) | locale |
 | stato della discesa | Z4 | Z4 (1) | Z4 (1) | locale |
 | stato della grata | Z4 | Z4 (1) | Z4 (2) | locale |
-| stato di imma | Z4 | Z4 (2), Z5 (3) | Z4 (10), Z5 (7), Z7 (12) | **a distanza** |
+| stato di imma | Z4 | Z4 (2), Z5 (3) | Z4 (10), Z5 (7), Z7 (2) | **a distanza** |
 | stato di vito | Z4 | Z4 (7) | Z4 (4) | locale |
-| vita di vito | Z4 | Z4 (3) | Z4 (10), Z5 (2), Z7 (12) | **a distanza** |
+| vita di vito | Z4 | Z4 (3) | Z4 (10), Z5 (2), Z7 (2) | **a distanza** |
 | fiducia di rosaria | Z5 | Z5 (5) | Z5 (4) | locale |
 | stato del discorso di ciro | Z5 | Z5 (6) | Z5 (1) | locale |
 | stato del discorso di rosaria | Z5 | Z5 (5) | Z5 (1) | locale |
@@ -64,11 +64,11 @@ scelta si spegne lì. Una che si legge più avanti è una **conseguenza a distan
 | stato del permesso | Z5 | Z5 (1) | Z5 (2) | locale |
 | stato del sapere di peppe | Z5 | Z5 (2) | Z6 (3), Z7 (6) | **a distanza** |
 | stato dell'accoglienza | Z5 | Z5 (4) | Z5 (5) | locale |
-| stato della brocca | Z5 | Z5 (1) | Z5 (1), Z7 (12) | **a distanza** |
+| stato della brocca | Z5 | Z5 (1) | Z5 (1), Z7 (2) | **a distanza** |
 | stato della domanda di peppe | Z5 | Z5 (3) | Z5 (4) | locale |
 | stato della salita | Z5 | Z5 (1) | Z5 (1) | locale |
 | stato della tappa di peppe | Z5 | Z5 (1), Z6 (3), Z7 (3) | Z6 (3), Z7 (3) | **a distanza** |
-| stato di pasquale | Z5 | Z5 (1) | Z4 (1), Z5 (7), Z6 (1), Z7 (12) | **a distanza** |
+| stato di pasquale | Z5 | Z5 (1) | Z4 (1), Z5 (7), Z6 (1), Z7 (2) | **a distanza** |
 | stato di peppe | Z5 | Z5 (3), Z7 (3) | Z5 (15), Z6 (3), Z7 (8) | **a distanza** |
 | fiducia di onofrio | Z6 | Z6 (2) | Z6 (6) | locale |
 | stato del discorso di onofrio | Z6 | Z6 (5) | Z6 (1) | locale |

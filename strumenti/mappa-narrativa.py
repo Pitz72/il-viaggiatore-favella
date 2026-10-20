@@ -122,11 +122,13 @@ class Mappa:
         return trovate
 
     def _uso(self, zona, r):
-        if re.match(rf"^{ARTICOLO}.+? (è|parte da) ", r, re.I) and " se " not in r and "adesso" not in r:
-            return                                   # dichiarazioni e descrizioni senza condizioni
+        if (re.match(rf"^{ARTICOLO}.+? (è|parte da) ", r, re.I) and " se " not in r and "adesso" not in r
+                and not re.match(r'^il testo "', r, re.I)):
+            return                                   # dichiarazioni e descrizioni senza condizioni; non i testi con un nome, che le hanno nel testo
         cond, effetti = spezza(r)
         # Le condizioni dentro i testi («[se la generosità è almeno 3]…[fine]») sono letture come
-        # quelle dopo «se»: le sei chiusure della soglia raccolgono il viaggio così (1.12.0).
+        # quelle dopo «se»: le sei chiusure della soglia raccolgono il viaggio così (1.12.0), ora
+        # con un testo con un nome («Il testo "i fili del viaggio" è "…"») che i finali richiamano.
         for testo in re.findall(r'"([^"]*)"', r.lower()):
             for nel_testo in re.findall(r"\[se ([^\]]+)\]", testo):
                 for k in self._trova(nel_testo, self._chiavi):
