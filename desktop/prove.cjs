@@ -6,7 +6,9 @@
 //   · i canali IPC (ipc.cjs) rifiutano chi non è la pagina dell'app: un altro
 //     indirizzo, un altro host o porta, un indirizzo con utente, un frame sparito;
 //   · i salvataggi su disco (salvataggi.cjs): l'elenco libero della cartella,
-//     i nomi di file ammessi e quelli no, la copia di riserva, l'eliminazione.
+//     i nomi di file ammessi e quelli no, la copia di riserva, l'eliminazione;
+//   · le impostazioni della finestra (impostazioni.cjs): i valori guasti, una
+//     posizione su uno schermo che non c'è più, la lettura e la scrittura.
 //  «electron» è sostituito da un finto che ricorda i gestori registrati.
 //  Il controllo vero, con un Electron vero, lo fa --autoverifica sul pacchetto.
 // ====================================================================
@@ -166,6 +168,51 @@ prova("i salvataggi: con la cartella che non c'è, l'elenco è vuoto e non si ro
   process.env.VIAGGIATORE_SALVATAGGI = path.join(cartellaSalvataggi, "non-c-e");
   try { assert.deepEqual(await chiama("salvataggi:elenco"), []); }
   finally { process.env.VIAGGIATORE_SALVATAGGI = prima; }
+});
+
+// ---- le impostazioni della finestra ---------------------------------------
+const impostazioni = require("./impostazioni.cjs");
+
+prova("le impostazioni: un valore guasto torna a quello di base, gli altri restano", () => {
+  const B = impostazioni.BASE;
+  assert.deepEqual(impostazioni.pulisci(null), { ...B });
+  assert.deepEqual(impostazioni.pulisci({ schermoIntero: false, larghezza: 1920, altezza: 1080, x: 10, y: 20, massimizzata: true, cercaAggiornamenti: false }),
+    { schermoIntero: false, larghezza: 1920, altezza: 1080, x: 10, y: 20, massimizzata: true, cercaAggiornamenti: false });
+  const strano = impostazioni.pulisci({ schermoIntero: "no", larghezza: 99999, altezza: 300.5, x: 10, y: "venti", cercaAggiornamenti: 0 });
+  assert.equal(strano.schermoIntero, true);
+  assert.equal(strano.larghezza, B.larghezza);
+  assert.equal(strano.altezza, B.altezza);
+  assert.equal(strano.x, null, "x senza y non dice dove");
+  assert.equal(strano.y, null);
+  assert.equal(strano.cercaAggiornamenti, true);
+});
+
+prova("le impostazioni: una finestra deve cadere su uno schermo che c'è", () => {
+  const due = [{ x: 0, y: 0, width: 1920, height: 1040 }, { x: 1920, y: 0, width: 2560, height: 1400 }];
+  assert.equal(impostazioni.posizioneValida(100, 100, 1600, 900, due), true);
+  assert.equal(impostazioni.posizioneValida(2200, 50, 1600, 900, due), true, "sul secondo schermo");
+  assert.equal(impostazioni.posizioneValida(5000, 100, 1600, 900, due), false, "il terzo schermo non c'è");
+  assert.equal(impostazioni.posizioneValida(-1550, 100, 1600, 900, due), false, "ne resta fuori quasi tutta");
+  assert.equal(impostazioni.posizioneValida(100, 1030, 1600, 900, due), false, "la barra del titolo sotto lo schermo");
+  assert.equal(impostazioni.posizioneValida(null, null, 1600, 900, due), false);
+  assert.equal(impostazioni.posizioneValida(100, 100, 1600, 900, [due[1]]), false, "staccato il primo schermo");
+});
+
+prova("le impostazioni: si scrivono, si rileggono; un file guasto dà quelle di base", async () => {
+  const cartella = fs.mkdtempSync(path.join(os.tmpdir(), "viaggiatore-impostazioni-"));
+  try {
+    assert.deepEqual(impostazioni.leggi(cartella), { ...impostazioni.BASE }, "senza file");
+    impostazioni.scrivi(cartella, { ...impostazioni.BASE, schermoIntero: false, larghezza: 1280, altezza: 720, x: 5, y: 6 }, true);
+    assert.deepEqual(impostazioni.leggi(cartella), { ...impostazioni.BASE, schermoIntero: false, larghezza: 1280, altezza: 720, x: 5, y: 6 });
+    // le scritture ravvicinate se ne fanno una: vale l'ultima
+    impostazioni.scrivi(cartella, { ...impostazioni.BASE, larghezza: 1700 });
+    impostazioni.scrivi(cartella, { ...impostazioni.BASE, larghezza: 1800 });
+    await new Promise((r) => setTimeout(r, 600));
+    assert.equal(impostazioni.leggi(cartella).larghezza, 1800);
+    assert.deepEqual(fs.readdirSync(cartella), ["impostazioni.json"], "niente .tmp lasciati in giro");
+    fs.writeFileSync(path.join(cartella, "impostazioni.json"), "{ guasto");
+    assert.deepEqual(impostazioni.leggi(cartella), { ...impostazioni.BASE });
+  } finally { fs.rmSync(cartella, { recursive: true, force: true }); }
 });
 
 (async () => {

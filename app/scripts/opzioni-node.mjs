@@ -71,6 +71,8 @@ ok("il deposito nuovo vince sulla voce di prima");
 // 4. i valori guasti tornano a quelli di base uno per uno, i buoni restano; i livelli vanno a passi di 0,05
 o = da({ "viaggiatore.opzioni": JSON.stringify({ voce: 3, volume: 1.4, volumeMusica: -0.1, volumeVoce: 0.33, volumeEffetti: null, mono: "sì", secondoPiano: "silenzia" }) });
 assert.deepEqual(o, { ...BASE, volumeVoce: 0.35, secondoPiano: "silenzia" });
+assert.equal(da({ "viaggiatore.opzioni": JSON.stringify({ qualita: "altissima" }) }).qualita, "automatica");
+assert.equal(da({ "viaggiatore.opzioni": JSON.stringify({ qualita: "bassa" }) }).qualita, "bassa");
 assert.deepEqual(da({ "viaggiatore.opzioni": "{non è json" }), BASE);
 assert.deepEqual(da({ "viaggiatore.opzioni": "[1,2,3]" }), BASE);
 assert.deepEqual(da({ "viaggiatore.opzioni": "null" }), BASE);
