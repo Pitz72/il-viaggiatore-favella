@@ -23,17 +23,16 @@ MAIUSCOLO (NORD, PARLA CON…) sono abbassate, perché il servizio le leggerebbe
 
 ## Il pilota: Z1 (la stazione e Nunzio)
 
-1. **Le voci.** In AI Studio, Playground → *Create new voice*, tre volte, con i testi di
-   `voci.md`. Ascolta la frase di prova di ciascuna e ritocca la descrizione finché ti
-   convince; poi salva con il nome indicato. Se in libreria trovi una voce italiana che ti
-   piace di più, va bene anche quella: dimmi quale.
-2. **Il narratore** (`blocchi/z1-narratore.txt`, circa 3 minuti). *Create new dialog* →
-   Speaker 1 = Narratore → un solo blocco di parlato, incolla **tutto** il file → *Run*.
-   Lascia vuoto il campo dello stile: Google consiglia di provare prima senza. Scarica con
-   l'icona di download e salva come `master/z1-narratore.wav`.
+1. **Le voci.** Le tre prove del 20/10 hanno fissato le voci provvisorie (tabella in
+   `voci.md`): in ogni generazione la voce di libreria e la **stessa** descrizione, incollata
+   uguale nel campo accanto alla voce. Se all'ascolto una non convince, si cambia.
+2. **Il narratore** (`blocchi/z1-narratore.txt`, circa 4 minuti). *Create new dialog* →
+   Speaker 1 = Enzo con la descrizione del narratore → un solo blocco di parlato, incolla
+   **tutto** il file → *Run*. Scarica con l'icona di download e salva come
+   `master/z1-narratore.wav`.
 3. **Nunzio** (`blocchi/z1-nunzio.txt`) → `master/z1-nunzio.wav`.
 4. **La voce di servizio** (`blocchi/z1-servizio.txt`) → `master/z1-servizio.wav`.
-5. **I numeri** (`blocchi/z1-servizio-numeri.txt`, 68 pezzi di una frase, circa 2 minuti):
+5. **I numeri** (`blocchi/z1-servizio-numeri.txt`, 68 pezzi di una frase, circa 3 minuti):
    la prova più importante per i testi con numeri («Hai sette d'acqua, e tre di cibo.»).
    → `master/z1-servizio-numeri.wav`.
 

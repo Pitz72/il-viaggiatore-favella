@@ -1,9 +1,9 @@
 # Le voci del Viaggiatore
 
-> Le voci si creano una volta sola in Google AI Studio («Create new voice»), si salvano con
-> un nome e si riusano in tutte le generazioni. Questo è il motivo per cui la descrizione di
-> una voce sta **qui** e non in ogni blocco di testo: Google sconsiglia i lunghi «profili»
-> ripetuti a ogni richiesta, perché fanno deviare la voce da una generazione all'altra.
+> Nell'editor di AI Studio ogni speaker ha una **voce di libreria** (Enzo, Kira, Riko…) e,
+> accanto, un campo con la **descrizione**: è lì che va il testo di questo file, **identico in
+> ogni generazione**, perché la voce non devii da un blocco all'altro. La descrizione sta
+> qui e non nei blocchi di testo: Google sconsiglia i lunghi «profili» dentro la trascrizione.
 
 Le descrizioni sono in inglese perché lo sono gli esempi del servizio («Low, gravelly,
 world-weary noir narration»); il parlato resta italiano. Il giocatore non ha voce: le sue
@@ -11,8 +11,16 @@ scelte le legge la voce di servizio.
 
 ## Il pilota: tre voci
 
-Nome da dare in AI Studio: `Viaggiatore – Narratore`, `Viaggiatore – Servizio`,
-`Viaggiatore – Nunzio`.
+Scelte provvisorie (prove del 20/10/2026, ore 12:18 e 12:20, nei `master/prove/`):
+
+| Voce | Voce di libreria | Descrizione in AI Studio |
+|---|---|---|
+| Narratore | Enzo (Storyteller: «Crisp and eager», tono basso) | quella qui sotto |
+| Servizio | Kira | quella qui sotto |
+| Nunzio | Riko («Confident and clear», tono profondo) | quella qui sotto |
+
+I nomi di libreria sono un punto di partenza: se all'ascolto una voce non convince, si
+cambia la voce di libreria e si tiene la descrizione (o si ritocca quella).
 
 ### Narratore
 > A man in his early fifties narrating in Italian. Calm, low-pitched and dry, with a worn,

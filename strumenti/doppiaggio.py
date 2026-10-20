@@ -22,7 +22,7 @@ pezzi «Hai sette d'acqua,» / «e tre di cibo.» (uno per ogni valore) e il gio
 
 Uso:  python strumenti/doppiaggio.py stato                 (conti per zona e per voce)
       python strumenti/doppiaggio.py blocchi z1            (scrive blocchi e manifest della zona)
-      python strumenti/doppiaggio.py blocchi z1 --max-parole 900
+      python strumenti/doppiaggio.py blocchi z1 --max-minuti 5
 """
 import argparse
 import hashlib
@@ -51,8 +51,13 @@ ZONE = OrderedDict([
 ])
 
 PAUSA = "<long pause>"
-PAROLE_AL_MINUTO = 150
-MAX_PAROLE = 1000  # un blocco da ~6-7 minuti: il tetto del servizio è ~11, ma conviene stare larghi
+# Il ritmo vero, misurato sulle prime prove di AI Studio (20/10/2026, poche frasi: da rivedere con
+# i blocchi interi): il narratore (voce Enzo) fa ~125 parole al minuto contando le pause, Nunzio
+# (Riko) ~85; per la voce di servizio si stima 150. Ogni parte costa in più la sua pausa.
+RITMO = {"narratore": 125, "servizio": 150}
+RITMO_PERSONAGGI = 90
+SECONDI_DI_PAUSA = 1.0  # presunti, per <long pause>: si misurano sul primo blocco vero
+MAX_MINUTI = 6.5  # il tetto del servizio è ~11 minuti a richiesta: si sta larghi, per non perdere righe
 
 # Le parole scritte in maiuscolo nei testi sono comandi e direzioni: la voce le leggerebbe
 # come enfasi, quindi si abbassano. I nomi dei personaggi tornano con l'iniziale maiuscola.
@@ -75,6 +80,12 @@ def slug(nome):
 
 def parole(t):
     return len(re.findall(r"\w[\w']*", t))
+
+
+def minuti_di(voce, n_parole):
+    """Quanto dura (stima) una parte detta da questa voce, pausa compresa."""
+    ritmo = RITMO.get(voce, RITMO_PERSONAGGI)
+    return n_parole / ritmo + SECONDI_DI_PAUSA / 60
 
 
 # ---------------------------------------------------------------------------------------
@@ -275,7 +286,7 @@ def costruisci(zona):
 
 
 def dividi(lista, massimo):
-    """Divide una lista di (id, parole) in blocchi di circa lo stesso peso, sotto il massimo."""
+    """Divide una lista di (id, minuti) in blocchi di circa lo stesso peso, sotto il massimo."""
     totale = sum(p for _, p in lista)
     n = max(1, math.ceil(totale / massimo))
     bersaglio = totale / n
@@ -295,7 +306,7 @@ def gruppi_di_blocchi(z, massimo):
     per_voce = OrderedDict()
     for i, u in z["unita"].items():
         nome = u["voce"] + ("-numeri" if u.get("numero") else "")
-        per_voce.setdefault(nome, []).append((i, u["parole"]))
+        per_voce.setdefault(nome, []).append((i, minuti_di(u["voce"], u["parole"])))
     out = OrderedDict()
     for nome, lista in per_voce.items():
         parti = dividi(lista, massimo)
@@ -333,14 +344,15 @@ def scrivi(z, massimo):
 
 
 def riepilogo(z, blocchi):
-    per = defaultdict(lambda: [0, 0])
+    per = defaultdict(lambda: [0, 0, 0.0])
     for u in z["unita"].values():
         nome = u["voce"] + (" (numeri)" if u.get("numero") else "")
         per[nome][0] += 1
         per[nome][1] += u["parole"]
+        per[nome][2] += minuti_di(u["voce"], u["parole"])
     print("%-8s %-22s %6s %7s %8s" % ("zona", "voce", "parti", "parole", "minuti"))
-    for nome, (n, p) in per.items():
-        print("%-8s %-22s %6d %7d %8.1f" % (z["zona"], nome, n, p, p / PAROLE_AL_MINUTO))
+    for nome, (n, p, m) in per.items():
+        print("%-8s %-22s %6d %7d %8.1f" % (z["zona"], nome, n, p, m))
     if blocchi:
         print("blocchi:", ", ".join("%s(%d)" % (n, len(i)) for n, i in blocchi.items()))
     if z["da_attribuire"]:
@@ -357,18 +369,18 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("comando", choices=["stato", "blocchi"])
     ap.add_argument("zona", nargs="?", choices=list(ZONE))
-    ap.add_argument("--max-parole", type=int, default=MAX_PAROLE)
+    ap.add_argument("--max-minuti", type=float, default=MAX_MINUTI)
     a = ap.parse_args()
     sys.stdout.reconfigure(encoding="utf-8")
     if a.comando == "stato":
         for zona in ([a.zona] if a.zona else ZONE):
             z = costruisci(zona)
-            riepilogo(z, gruppi_di_blocchi(z, a.max_parole))
+            riepilogo(z, gruppi_di_blocchi(z, a.max_minuti))
     else:
         if not a.zona:
             ap.error("serve la zona (per esempio z1)")
         z = costruisci(a.zona)
-        blocchi = scrivi(z, a.max_parole)
+        blocchi = scrivi(z, a.max_minuti)
         riepilogo(z, blocchi)
 
 
