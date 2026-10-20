@@ -180,8 +180,12 @@ sorgente = io.open(os.path.join(RADICE, "app", "src", "components", "Avviso.tsx"
 blocco = re.search(r"TESTO_AVVISO\s*=(.*?);", sorgente, re.S).group(1)
 prova("l'avviso d'apertura dice quello che l'autore ha scritto, senza una parola di più né di meno",
       "".join(re.findall(r'"((?:[^"\\]|\\.)*)"', blocco)) == AVVISO, blocco[:120])
-prova("…e sta fra i loghi e il trailer", re.search(r'fase === "loghi" && <Loghi onFine=\{\(\) => setFase\("avviso"\)\}',
-      io.open(os.path.join(RADICE, "app", "src", "App.tsx"), encoding="utf-8").read()) is not None)
+# l'ordine d'apertura: loghi → licenze e crediti (voluti da Simone il 20/10/2026) → avviso → trailer
+_app = io.open(os.path.join(RADICE, "app", "src", "App.tsx"), encoding="utf-8").read()
+prova("…e sta fra i loghi (con le licenze e i crediti in mezzo) e il trailer",
+      re.search(r'fase === "loghi" && <Loghi onFine=\{\(\) => setFase\("crediti"\)\}', _app) is not None
+      and re.search(r'fase === "crediti" && <Crediti onFine=\{\(\) => setFase\("avviso"\)\}', _app) is not None
+      and re.search(r'fase === "avviso" && <Avviso onFine=\{\(\) => setFase\("trailer"\)\}', _app) is not None)
 
 # ---------------------------------------------------------------------------
 # 7. che cosa hai fatto a chi (app/src/lib/ponte.py, _GESTI  ↔  app/src/gioco/testo.ts, GESTI)
