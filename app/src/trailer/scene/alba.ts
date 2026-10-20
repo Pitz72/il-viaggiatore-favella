@@ -8,9 +8,9 @@
 //  dipingono una volta sola; a ogni fotogramma si spostano e si accendono.
 // ====================================================================
 import { W, H, CAMMINATE, faseDiPasso } from "../scaletta";
-import { clamp, lerp, mix, rng, rgba, seg, easeInOut, easeOut } from "../tempo";
+import { clamp, lerp, mix, rng, seg, easeInOut, easeOut } from "../tempo";
 import type { Cache } from "../cache";
-import { alone, camera, catenaScorre, cielo, crinale, nuvole, nuvoleScorrono, pulviscolo, type C2D } from "../pittura";
+import { alone, camera, catenaScorre, cielo, crinale, disegnaRaggio, nuvole, nuvoleScorrono, pulviscolo, raggioMorbido, type C2D, type RaggioMorbido } from "../pittura";
 import { creaTela, ctxDi, fbmPeriodico, hexRgb, rgbCss, riempi, smooth, sfoca, type Tela } from "../texture";
 import { disegnaOmbra, disegnaViandante, velocitaSuolo } from "../viandante";
 
@@ -26,7 +26,7 @@ const CATENE = [
 ] as const;
 
 interface StatoAlba {
-  nubiAlte: Tela; nubiBasse: Tela; monti: Tela[]; erbaFar: Tela; erbaNear: Tela; asfalto: Tela; nebbia: Tela; campo: Tela; sagome: Tela;
+  nubiAlte: Tela; nubiBasse: Tela; monti: Tela[]; erbaFar: Tela; erbaNear: Tela; asfalto: Tela; nebbia: Tela; campo: Tela; sagome: Tela; raggi: RaggioMorbido[];
 }
 
 // --------------------------------------------------------------------
@@ -205,7 +205,15 @@ export async function preparaAlba(c: Cache) {
     nebbia: await nebbiaTela(),
     campo: await campoTela(),
     sagome: sagomeTela(),
+    raggi: [],
   };
+  // i nove raggi del sole, con i bordi morbidi (uno per ogni apertura: sette diverse)
+  const sprite = new Map<number, RaggioMorbido>();
+  for (let i = 0; i < 9; i++) {
+    const w2 = 0.06 + ((i * 37) % 7) * 0.012;
+    if (!sprite.has(w2)) sprite.set(w2, raggioMorbido(1500, w2, 40, 1300, "#ffcf8a"));
+    a.raggi.push(sprite.get(w2) as RaggioMorbido);
+  }
   c.alba = a;
 }
 
@@ -273,15 +281,17 @@ export function disegnaAlba(ctx: C2D, t: number, c: Cache, titolo: boolean) {
   // ── il sole
   const sy = titolo ? 700 - Math.min(l, 20) * 2 : lerp(752, 668, easeOut(seg(l, 0, 8)));
   const sx = titolo ? 1640 : 1510;
-  ctx.globalCompositeOperation = "lighter";
+  // I grandi aloni si compongono in «screen», non in somma: sommandoli il rosso e il verde arrivano al massimo insieme
+  // e il blu no, e il cielo vira dall'arancio al giallo limone (tinta 50–58°); in «screen» restano dorati (≈ 40°).
+  ctx.globalCompositeOperation = "screen";
   alone(ctx, sx, sy, 1100, "#ff8f4a", 0.30 + luce * 0.16, 0.62);
   alone(ctx, sx, ORIZZONTE + 4, 1500, "#ff9550", 0.26 + luce * 0.1, 0.16);
-  alone(ctx, sx, sy, 280, "#ffd39a", 0.55);
+  alone(ctx, sx, sy, 280, "#ffc486", 0.55);
   ctx.globalCompositeOperation = "source-over";
 
   // ── nuvole: alte, lontane; e basse, scaldate da sotto
   nuvoleScorrono(ctx, a.nubiAlte, 0, 20, LARGH_CIELO, 640, t * 5.5, 0.92);
-  ctx.globalCompositeOperation = "lighter";
+  ctx.globalCompositeOperation = "screen";
   alone(ctx, sx - 60, sy + 20, 900, "#ff9a5c", 0.16 * (0.4 + luce), 0.5);
   ctx.globalCompositeOperation = "source-over";
   nuvoleScorrono(ctx, a.nubiBasse, 0, 470, LARGH_CIELO, 380, t * 9, 0.95);
@@ -290,20 +300,12 @@ export function disegnaAlba(ctx: C2D, t: number, c: Cache, titolo: boolean) {
   ctx.fillStyle = "#fff0cf";
   ctx.beginPath(); ctx.arc(sx, sy, 50, 0, Math.PI * 2); ctx.fill();
   ctx.globalCompositeOperation = "lighter";
-  alone(ctx, sx, sy, 130, "#fff3d8", 0.85);
-  // raggi: spicchi che salgono dal sole e respirano
+  alone(ctx, sx, sy, 130, "#ffe9c6", 0.85);
+  // raggi: spicchi dai bordi morbidi che salgono dal sole e respirano (sommati: sono i soli a dare la luce viva al sole)
   ctx.save(); ctx.translate(sx, sy);
   for (let i = 0; i < 9; i++) {
     const ang = -Math.PI * (0.30 + i * 0.105) - Math.PI * 0.15;
-    const w2 = 0.06 + ((i * 37) % 7) * 0.012;
-    const gr = ctx.createRadialGradient(0, 0, 40, 0, 0, 1300);
-    const al = (0.07 + 0.05 * Math.sin(t * 0.6 + i * 1.7)) * (0.5 + luce);
-    gr.addColorStop(0, rgba("#ffcf8a", al)); gr.addColorStop(1, rgba("#ffcf8a", 0));
-    ctx.fillStyle = gr;
-    ctx.beginPath(); ctx.moveTo(0, 0);
-    ctx.lineTo(Math.cos(ang - w2) * 1500, Math.sin(ang - w2) * 1500);
-    ctx.lineTo(Math.cos(ang + w2) * 1500, Math.sin(ang + w2) * 1500);
-    ctx.closePath(); ctx.fill();
+    disegnaRaggio(ctx, a.raggi[i], ang, 1.3 * (0.07 + 0.05 * Math.sin(t * 0.6 + i * 1.7)) * (0.5 + luce));   // 1,3: i bordi morbidi tolgono contrasto, il peso resta
   }
   ctx.restore();
   ctx.globalCompositeOperation = "source-over";

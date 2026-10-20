@@ -7,7 +7,7 @@
 import { W, H } from "./scaletta";
 import { clamp, lerp, rng, rgba } from "./tempo";
 import {
-  creaTela, ctxDi, fbm, fbmPeriodico, hexRgb, mescola, perlin, riempi, rgbCss, smooth,
+  creaTela, ctxDi, fbm, fbmPeriodico, hexRgb, mescola, perlin, riempi, rgbCss, sfoca, smooth,
   type RGB, type Tela,
 } from "./texture";
 
@@ -32,6 +32,35 @@ export function alone(ctx: C2D, x: number, y: number, r: number, colore: string,
   g.addColorStop(1, rgba(colore, 0));
   ctx.fillStyle = g;
   ctx.fillRect(-r, -r, r * 2, r * 2);
+  ctx.restore();
+}
+
+// --------------------------------------------------------------------
+//  Raggi di luce dai bordi morbidi: uno spicchio dall'apice, dissolto verso la fine e sfocato ai lati, dipinto
+//  UNA volta (a mezza risoluzione: è morbido) e copiato a ogni fotogramma con l'opacità che «respira». Uno spicchio
+//  tracciato a ogni fotogramma con un gradiente radiale ha i lati netti, come ritagliati, accanto a nuvole morbide.
+// --------------------------------------------------------------------
+export interface RaggioMorbido { tela: Tela; pad: number; hh: number; scala: number }
+
+export function raggioMorbido(lung: number, w2: number, partenza: number, fine: number, colore: string, scala = 0.5, sfumatura = 2.5): RaggioMorbido {
+  const pad = 26;
+  const semi = lung * Math.sin(w2) * scala;
+  const hh = Math.ceil(semi) + pad, L = Math.ceil(lung * Math.cos(w2) * scala);
+  const t = creaTela(L + pad * 2, hh * 2), g = ctxDi(t);
+  const gr = g.createLinearGradient(pad + partenza * scala, 0, pad + fine * scala, 0);
+  gr.addColorStop(0, "rgba(255,255,255,1)"); gr.addColorStop(1, "rgba(255,255,255,0)");
+  g.fillStyle = gr;
+  g.beginPath(); g.moveTo(pad, hh); g.lineTo(pad + L, hh - semi); g.lineTo(pad + L, hh + semi); g.closePath(); g.fill();
+  g.globalCompositeOperation = "source-in";
+  g.fillStyle = colore; g.fillRect(0, 0, t.width, t.height);
+  return { tela: sfoca(t, sfumatura), pad, hh, scala };
+}
+
+/** Copia un raggio dal punto (0, 0) già traslato, nella direzione `ang`, con l'opacità `alfa`. */
+export function disegnaRaggio(ctx: C2D, r: RaggioMorbido, ang: number, alfa: number) {
+  ctx.save();
+  ctx.rotate(ang); ctx.globalAlpha = alfa;
+  ctx.drawImage(r.tela, -r.pad / r.scala, -r.hh / r.scala, r.tela.width / r.scala, r.tela.height / r.scala);
   ctx.restore();
 }
 

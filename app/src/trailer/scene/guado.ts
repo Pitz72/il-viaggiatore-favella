@@ -8,16 +8,16 @@
 //  aperte: è Cosimo. Da destra arriva il viandante, e si ferma.
 // ====================================================================
 import { W, H, CAMMINATE, faseDiPasso } from "../scaletta";
-import { easeInOut, lerp, rng, rgba, seg } from "../tempo";
+import { easeInOut, lerp, rng, seg } from "../tempo";
 import type { Cache } from "../cache";
-import { alone, camera, cielo, crinale, nuvole, nuvoleScorrono, pulviscolo, type C2D } from "../pittura";
+import { alone, camera, cielo, crinale, disegnaRaggio, nuvole, nuvoleScorrono, pulviscolo, raggioMorbido, type C2D, type RaggioMorbido } from "../pittura";
 import { creaTela, ctxDi, fbmPeriodico, riempi, type Tela } from "../texture";
 import { disegnaViandante, velocitaSuolo } from "../viandante";
 
 const AMP = 0.4;
 const RIVA = 662;
 
-interface StatoGuado { citta: Tela; sassi: Tela; nubi: Tela; colline: Tela }
+interface StatoGuado { citta: Tela; sassi: Tela; nubi: Tela; colline: Tela; raggi: RaggioMorbido[] }
 
 // --------------------------------------------------------------------
 //  Acquamorta, sull'altra riva: case, tetti crollati, il campanile, la torre dell'acqua
@@ -113,7 +113,15 @@ export async function preparaGuado(c: Cache) {
       chiaro: "#ff9a6a", scuro: "#4a1226", alto: 0.25, basso: 0.55 }),
     colline: await crinale({ seme: 808, larghezza: 1920, altezza: 200, base: 120, ampiezza: 60, frequenza: 3, aspro: 0.4, luce: -1,
       chiaro: "#9a3a3c", scuro: "#2c0d1c", nebbia: "#7a2a36", nebbiaForza: 0.5, grana: 0.1 }),
+    raggi: [],
   };
+  // gli otto raggi del sole, con i bordi morbidi (uno per ogni apertura)
+  const sprite = new Map<number, RaggioMorbido>();
+  for (let i = 0; i < 8; i++) {
+    const w2 = 0.05 + ((i * 41) % 7) * 0.01;
+    if (!sprite.has(w2)) sprite.set(w2, raggioMorbido(1500, w2, 40, 1300, "#ff9a6a"));
+    s.raggi.push(sprite.get(w2) as RaggioMorbido);
+  }
   c.guado = s;
 }
 
@@ -146,11 +154,7 @@ export function disegnaGuado(ctx: C2D, t: number, c: Cache) {
   ctx.save(); ctx.translate(380, 668);
   for (let i = 0; i < 8; i++) {
     const ang = -Math.PI * (0.08 + i * 0.12);
-    const w2 = 0.05 + ((i * 41) % 7) * 0.01;
-    const gr = ctx.createRadialGradient(0, 0, 40, 0, 0, 1300);
-    gr.addColorStop(0, rgba("#ff9a6a", (0.09 + 0.05 * Math.sin(t * 0.7 + i * 1.9)))); gr.addColorStop(1, rgba("#ff9a6a", 0));
-    ctx.fillStyle = gr; ctx.beginPath(); ctx.moveTo(0, 0);
-    ctx.lineTo(Math.cos(ang - w2) * 1500, Math.sin(ang - w2) * 1500); ctx.lineTo(Math.cos(ang + w2) * 1500, Math.sin(ang + w2) * 1500); ctx.closePath(); ctx.fill();
+    disegnaRaggio(ctx, a.raggi[i], ang, 1.3 * (0.09 + 0.05 * Math.sin(t * 0.7 + i * 1.9)));
   }
   ctx.restore();
   ctx.globalCompositeOperation = "source-over";

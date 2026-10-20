@@ -266,16 +266,33 @@ export function disegnaInvaso(ctx: C2D, t: number, c: Cache) {
     alone(ctx, 330, ORIZZONTE + 70, 420, "#9fb8e8", 0.14 * clamp((notte - 0.3) * 1.6), 0.22);
     ctx.globalCompositeOperation = "source-over";
   }
+  // le stelle e la luna si specchiano sul sale: trattini freddi che si allungano e si spengono con la distanza dall'orizzonte
+  if (vis > 0.05) {
+    const rs = rng(9);
+    for (let i = 0; i < 110; i++) {
+      const x = rs() * W, d = rs(), b = 0.3 + rs() * 0.7, tw = 0.5 + 0.5 * Math.sin(t * (0.8 + rs() * 2) + i);
+      const vicino = Math.abs(x - 330) < 120 ? 2.4 : 1;                       // sotto la luna il riflesso è più fitto
+      const al = vis * b * (1 - d) * (0.45 + 0.55 * tw) * 0.2 * vicino;
+      if (al < 0.01) continue;
+      ctx.fillStyle = `rgba(190,212,255,${al})`;
+      ctx.fillRect(x, ORIZZONTE + 8 + d * 150, 1.4, 2 + d * 11);
+    }
+  }
 
   // la diga a destra: un muro di cemento in prospettiva
   ctx.save();
   ctx.beginPath(); ctx.moveTo(1420, ORIZZONTE + 12); ctx.lineTo(1462, 528); ctx.lineTo(W + 20, 503); ctx.lineTo(W + 20, ORIZZONTE + 12); ctx.closePath();
   ctx.clip();
   ctx.drawImage(a.diga, 1420, 490, 540, 226);
-  ctx.fillStyle = `rgba(6,10,24,${0.05 + 0.93 * notte})`; ctx.fillRect(1400, 480, 560, 260);
+  ctx.fillStyle = `rgba(6,10,24,${0.05 + 0.80 * notte})`; ctx.fillRect(1400, 480, 560, 260);       // di notte resta il 15–20 % della materia
+  if (notte > 0.2) {                                                                              // il velo freddo della luna, più forte in alto
+    const lunare = ctx.createLinearGradient(0, 500, 0, 700);
+    lunare.addColorStop(0, rgba("#9cb6ee", 0.30 * notte)); lunare.addColorStop(0.55, rgba("#9cb6ee", 0.08 * notte)); lunare.addColorStop(1, rgba("#9cb6ee", 0));
+    ctx.globalCompositeOperation = "screen"; ctx.fillStyle = lunare; ctx.fillRect(1400, 480, 560, 260); ctx.globalCompositeOperation = "source-over";
+  }
   ctx.restore();
   // luce sul ciglio della diga, nel crepuscolo
-  ctx.strokeStyle = rgba(mix("#ffe2b4", "#8aa4d8", notte), 0.5 * (1 - notte * 0.6)); ctx.lineWidth = 1.6;
+  ctx.strokeStyle = rgba(mix("#ffe2b4", "#a9c0f0", notte), 0.5 * (1 - notte * 0.6) + 0.4 * notte); ctx.lineWidth = 1.6;
   ctx.beginPath(); ctx.moveTo(1462, 528); ctx.lineTo(W + 20, 503); ctx.stroke();
 
   // la torre di presa, con il faro rosso che lampeggia di notte
@@ -286,6 +303,10 @@ export function disegnaInvaso(ctx: C2D, t: number, c: Cache) {
   ctx.fillRect(1188, 618, 6, 10); ctx.fillRect(1198, 618, 6, 10); ctx.fillRect(1188, 640, 6, 10); ctx.fillRect(1198, 640, 6, 10);
   ctx.fillStyle = mix("#7c8494", "#0a0d18", notte); ctx.fillRect(1180, 604, 3, 100);
   ctx.strokeStyle = cT; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(1195, 594); ctx.lineTo(1195, 566); ctx.stroke();
+  if (notte > 0.3) {                                                                              // il bordo freddo della luna sulla torre
+    ctx.fillStyle = rgba("#a9c0f0", 0.6 * clamp((notte - 0.3) * 1.5));
+    ctx.fillRect(1180, 604, 2, 100); ctx.fillRect(1166, 594, 58, 1.6); ctx.fillRect(1166, 594, 1.6, 12);
+  }
   if (notte > 0.4) {
     const lampo = Math.pow(Math.max(0, Math.sin(t * 3.2)), 8);
     ctx.globalCompositeOperation = "lighter";

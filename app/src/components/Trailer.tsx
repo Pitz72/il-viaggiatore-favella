@@ -18,7 +18,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { W, H, BANDA, SCENE, DURATA, presenza, TAPPE_T0, TAPPE_PASSO, CINQUE_T0, CINQUE_PASSO, REGOLA_DUR } from "../trailer/scaletta";
 import { disegnaScena, avviaPreparazione, seguiPreparazione, tappaCorrente, REGOLE, FONT, cacheTrailer } from "../trailer/paesaggi";
-import { clamp, seg, easeOut, easeIn, expoOut, inviluppo } from "../trailer/tempo";
+import { clamp, seg, easeOut, easeIn, expoOut, inviluppo, rng } from "../trailer/tempo";
 import { ColonnaSonora } from "../trailer/audio";
 import branoIntro from "../assets/intro.mp3";
 import { inDesktop, esciDalGioco } from "../lib/desktop";
@@ -135,27 +135,59 @@ const CINQUE = [
 ];
 
 // --------------------------------------------------------------------
-//  Grana: rumore generato una volta e fatto scorrere
+//  Grana di pellicola. Una tessera di rumore gaussiano appena sfumato (il grano è di 1–1,4 pixel VERI, qualunque sia
+//  lo schermo: la tessera si genera alla risoluzione dello schermo e non si ingrandisce), con un filo di colore. Due
+//  strati dalla stessa tessera, «soft-light» e «overlay», la rendono più viva nei mezzitoni che nelle ombre e nelle luci.
+//  Cambia a 24 fotogrammi al secondo, in modo deterministico dal tempo (niente Math.random: anche i video esportati
+//  escono uguali). Fa anche da dithering: copre il banding dei gradienti scuri.
 // --------------------------------------------------------------------
+const LATO_GRANA = 256;
+const AMPIEZZA_GRANA = 44, COLORE_GRANA = 0.3;
+const OPACITA_GRANA = { dolce: 0.3, forte: 0.035 };
+const FOTOGRAMMI_GRANA = 24;
+
 function faiGrana(): string {
-  const c = document.createElement("canvas");
-  c.width = c.height = 256;
-  const g = c.getContext("2d")!;
-  const img = g.createImageData(256, 256);
-  for (let i = 0; i < img.data.length; i += 4) {
-    const v = Math.random() * 255;
-    img.data[i] = img.data[i + 1] = img.data[i + 2] = v;
-    img.data[i + 3] = 255;
+  const n = LATO_GRANA, r = rng(20261020);
+  const gauss = () => { const u = Math.max(r(), 1e-9), v = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
+  // lo sfumo: tre punti [0,12 0,76 0,12] in x e poi in y, con il giro (la tessera si ripete)
+  const sfuma = (a: Float32Array) => {
+    const b = new Float32Array(n * n), c = new Float32Array(n * n);
+    for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) b[y * n + x] = 0.12 * a[y * n + (x + n - 1) % n] + 0.76 * a[y * n + x] + 0.12 * a[y * n + (x + 1) % n];
+    for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) c[y * n + x] = 0.12 * b[((y + n - 1) % n) * n + x] + 0.76 * b[y * n + x] + 0.12 * b[((y + 1) % n) * n + x];
+    return c;
+  };
+  const campo = () => sfuma(Float32Array.from({ length: n * n }, gauss));
+  const L = campo(), R = campo(), G = campo(), B = campo();
+  const cv = document.createElement("canvas");
+  cv.width = cv.height = n;
+  const g = cv.getContext("2d")!;
+  const img = g.createImageData(n, n);
+  for (let i = 0, p = 0; i < n * n; i++, p += 4) {
+    img.data[p] = 128 + AMPIEZZA_GRANA * (L[i] + COLORE_GRANA * R[i]);
+    img.data[p + 1] = 128 + AMPIEZZA_GRANA * (L[i] + COLORE_GRANA * G[i]);
+    img.data[p + 2] = 128 + AMPIEZZA_GRANA * (L[i] + COLORE_GRANA * B[i]);
+    img.data[p + 3] = 255;
   }
   g.putImageData(img, 0, 0);
-  return c.toDataURL("image/png");
+  return cv.toDataURL("image/png");
+}
+
+/** Lo scostamento della tessera a un dato fotogramma: pseudocasuale ma fisso (un hash del numero), in pixel veri. */
+function scostamentoGrana(q: number): [number, number] {
+  let h = Math.imul(q + 1, 0x9e3779b1);
+  h ^= h >>> 15; h = Math.imul(h, 0x85ebca6b); h ^= h >>> 13; h = Math.imul(h, 0xc2b2ae35); h ^= h >>> 16;
+  const a = h >>> 0;
+  return [a % LATO_GRANA, Math.floor(a / LATO_GRANA) % LATO_GRANA];
 }
 
 // ====================================================================
 const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLaunch: (carica?: Salvataggio | null) => void }) => {
   const palcoRef = useRef<HTMLDivElement>(null);
   const telaRef = useRef<HTMLCanvasElement>(null);
-  const graneRef = useRef<HTMLDivElement>(null);
+  const granaDolceRef = useRef<HTMLDivElement>(null);
+  const granaForteRef = useRef<HTMLDivElement>(null);
+  const granaQuadro = useRef(-1);
+  const pixelVeri = useRef(1);                    // pixel veri per pixel CSS: la tessera si dimensiona su questo
   const cueRef = useRef<Record<string, HTMLDivElement | null>>({});
   const extraRef = useRef<Record<string, HTMLElement | null>>({});
   const tRef = useRef(startAtEnd ? DURATA : 0);
@@ -175,6 +207,7 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
   const [ultimo, setUltimo] = useState<Salvataggio | null>(null);
   const [guida, setGuida] = useState(false);
   const grana = useMemo(faiGrana, []);
+  pixelVeri.current = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
   const ridotto = useMemo(() => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false, []);
 
   // palco 16:9 → scala della superficie di progetto + risoluzione del canvas
@@ -344,9 +377,13 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
     const barra = extraRef.current.barra;
     if (barra) barra.style.transform = `scaleX(${clamp(t / DURATA)})`;
 
-    // la grana della pellicola si muove a ogni fotogramma
-    const gr = graneRef.current;
-    if (gr) gr.style.backgroundPosition = `${Math.floor(Math.random() * 256)}px ${Math.floor(Math.random() * 256)}px`;
+    // la grana cambia a 24 fotogrammi al secondo, dal tempo del trailer (sul menu, fermo, dal tempo vero)
+    const quadro = Math.floor((t >= DURATA ? performance.now() / 1000 : t) * FOTOGRAMMI_GRANA);
+    if (quadro !== granaQuadro.current) {
+      granaQuadro.current = quadro;
+      const [ox, oy] = scostamentoGrana(quadro), dpr = pixelVeri.current;
+      for (const el of [granaDolceRef.current, granaForteRef.current]) if (el) el.style.backgroundPosition = `${-ox / dpr}px ${-oy / dpr}px`;
+    }
   }, [startAtEnd]);
 
   // solo in sviluppo: posizionare il tempo per controllare le inquadrature, e misurare quanto costa un fotogramma
@@ -475,11 +512,19 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
       <div ref={palcoRef} style={{ position: "relative", overflow: "hidden", width: "min(100vw, calc(100dvh * 16 / 9))", height: "min(100dvh, calc(100vw * 9 / 16))", background: "#000" }}>
         <canvas ref={telaRef} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }} />
 
+        {/* la pellicola: vignetta e grana, sopra il disegno e sotto testi e comandi. Stanno fuori dalla superficie scalata, che
+            isolerebbe il fondersi (mix-blend-mode) dal disegno; la tessera ha un pixel vero per grano, a ogni schermo */}
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 95% at 50% 48%, transparent 55%, rgba(0,0,0,.55) 100%)", pointerEvents: "none" }} />
+        {(["dolce", "forte"] as const).map((strato) => (
+          <div key={strato} ref={strato === "dolce" ? granaDolceRef : granaForteRef} data-grana="1" aria-hidden="true" style={{
+            position: "absolute", inset: 0, pointerEvents: "none", backgroundImage: `url(${grana})`,
+            backgroundSize: `${LATO_GRANA / pixelVeri.current}px ${LATO_GRANA / pixelVeri.current}px`,
+            opacity: OPACITA_GRANA[strato], mixBlendMode: strato === "dolce" ? "soft-light" : "overlay",
+          }} />
+        ))}
+
         {/* superficie di progetto 1920×1080 per testi e controlli */}
         <div style={{ position: "absolute", left: 0, top: 0, width: W, height: H, transform: `scale(${scala})`, transformOrigin: "0 0", pointerEvents: "none" }}>
-          {/* la pellicola: vignetta e grana */}
-          <div style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 95% at 50% 48%, transparent 55%, rgba(0,0,0,.55) 100%)" }} />
-          <div ref={graneRef} style={{ position: "absolute", inset: 0, backgroundImage: `url(${grana})`, opacity: 0.075, mixBlendMode: "overlay" }} />
 
           {/* le tele si dipingono a pezzi mentre girano i loghi; su un computer lento possono servire ancora un momento */}
           {!pronto && (
