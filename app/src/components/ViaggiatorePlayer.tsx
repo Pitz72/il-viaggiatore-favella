@@ -40,6 +40,7 @@ import { voce, PAUSA_FRASE, PAUSA_RIGA, type Parte } from "../gioco/voce";
 import PannelloOpzioni from "../gioco/Opzioni";
 import Pausa from "../gioco/Pausa";
 import { useOpzioni } from "../lib/useOpzioni";
+import { movimentoRidotto } from "../lib/accessibilita";
 import "../gioco/gioco.css";
 
 const VUOTO: StatoMondo = { inventory: [], counters: {}, room: null, roomId: null };
@@ -207,7 +208,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
   }, [mondo, fase, finita]);
   useEffect(() => {
     const el = diarioRef.current;
-    if (el) requestAnimationFrame(() => el.scrollTo({ top: el.scrollHeight, behavior: "smooth" }));
+    if (el) requestAnimationFrame(() => el.scrollTo({ top: el.scrollHeight, behavior: movimentoRidotto() ? "auto" : "smooth" }));
   }, [voci, finita]);
 
   // ── un turno ───────────────────────────────────────────────────────

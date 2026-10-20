@@ -6,6 +6,8 @@
 //  il fuoco entra e torna (useDialogo).
 // ====================================================================
 import { useDialogo } from "./useDialogo";
+import { useOpzioni } from "../lib/useOpzioni";
+import { scalaTesto } from "../lib/accessibilita";
 
 const SERIF = "'Lora', Georgia, serif";
 const DISPLAY = "'Sora', 'Inter', sans-serif";
@@ -37,9 +39,10 @@ const SCHEDE: Scheda[] = [
 export default function ComeSiGioca({ base, accento = "#f0b77e", onChiudi, compatto = false }:
   { base: number; accento?: string; onChiudi: () => void; compatto?: boolean }) {
   const dialogo = useDialogo<HTMLDivElement>(onChiudi);   // Esc chiude, anche in partita
+  const [opz] = useOpzioni();
   return (
     <div ref={dialogo} tabIndex={-1} role="dialog" aria-modal="true" aria-label="Come si gioca"
-      style={{ outline: "none", fontSize: base, position: "absolute", inset: 0, zIndex: 60, display: "flex", alignItems: "center", justifyContent: "center",
+      style={{ outline: "none", fontSize: base * scalaTesto(opz), position: "absolute", inset: 0, zIndex: 60, display: "flex", alignItems: "center", justifyContent: "center",
         background: "rgba(4,4,8,.72)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", animation: "kf-launch .35s ease both", pointerEvents: "auto" }}
       onClick={onChiudi}>
       <div onClick={(e) => e.stopPropagation()} className="gv-scroll"

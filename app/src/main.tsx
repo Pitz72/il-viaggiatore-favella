@@ -3,6 +3,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
+import "./accessibilita.css";
+import "./lib/accessibilita";
 
 // PRIMA del primo render: robustezza DOM contro lettura/traduzione (vedi
 // domSafetyPatch.ts). Stesso accorgimento del sito principale.

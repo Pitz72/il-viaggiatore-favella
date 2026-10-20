@@ -12,6 +12,8 @@
 //  scrivendo un nome, torna all'elenco). Il mouse: un clic sceglie, due
 //  caricano. Misure in em (prop `base`): 13 nella partita, 19 nel menu.
 // ====================================================================
+import { scalaTesto } from "../lib/accessibilita";
+import { useOpzioni } from "../lib/useOpzioni";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   type Posto, type Riassunto, type Salvataggio, type VoceTaccuino,
@@ -51,6 +53,7 @@ interface Props {
 const TAG: Record<string, string> = { rapido: "rapido", automatico: "automatico" };
 
 export default function Taccuino({ base, modo: modoIniziale, accento = "#f0b77e", puoSalvare, avvisaPerdita = false, istantanea, onSalva, onCarica, onChiudi }: Props) {
+  const [opz] = useOpzioni();
   const [modo, setModo] = useState<Modo>(puoSalvare ? modoIniziale : "carica");
   const [voci, setVoci] = useState<VoceTaccuino[] | null>(null);
   const [scelto, setScelto] = useState<Scelto | null>(null);
@@ -298,7 +301,7 @@ export default function Taccuino({ base, modo: modoIniziale, accento = "#f0b77e"
   const vr = richiesta?.voce;
   return (
     <div ref={dialogo} tabIndex={-1} role="dialog" aria-modal="true" aria-label="Il taccuino: salva e carica"
-      style={{ ["--opz-acc" as string]: accento, ["--tc-acc" as string]: accento, outline: "none", fontSize: base, position: "absolute", inset: 0, zIndex: 70,
+      style={{ ["--opz-acc" as string]: accento, ["--tc-acc" as string]: accento, outline: "none", fontSize: base * scalaTesto(opz), position: "absolute", inset: 0, zIndex: 70,
         display: "flex", alignItems: "center", justifyContent: "center",
         background: "rgba(4,4,8,.74)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", animation: "kf-launch .3s ease both", pointerEvents: "auto" }}
       onClick={onChiudi}>

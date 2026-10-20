@@ -12,10 +12,11 @@
 //  finestra e la qualità della grafica (piano 09, fase 4); la finestra e gli
 //  aggiornamenti li tiene il processo principale (desktop/impostazioni.cjs).
 // ====================================================================
+import { scalaTesto } from "../lib/accessibilita";
 import { useEffect, useRef, useState } from "react";
 import { useDialogo } from "./useDialogo";
 import { useOpzioni } from "../lib/useOpzioni";
-import { ripristinaOpzioni, type Opzioni, type Qualita } from "../lib/opzioni";
+import { ACCESSIBILE, altaAccessibilita, NON_ACCESSIBILE, ripristinaOpzioni, type Opzioni, type Qualita } from "../lib/opzioni";
 import { cercaAggiornamenti, dimensioneFinestra, impostaSchermoIntero, inDesktop, seguiFinestra, statoFinestra, statoSchermoIntero, type StatoFinestra } from "../lib/desktop";
 import "./opzioni.css";
 
@@ -52,6 +53,7 @@ interface Props {
 
 export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta, onChiudi }: Props) {
   const [o, cambia] = useOpzioni();
+  const acc = altaAccessibilita(o);
   const [scheda, setScheda] = useState<Scheda>(ultimaScheda);
   const [ripristino, setRipristino] = useState(false);
   const ripristinoRef = useRef(false);
@@ -136,7 +138,7 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
         ))}
         {inPiu}
       </span>
-      {spiega && <span style={stileSpiega}>{spiega}</span>}
+      {spiega && <span className="opz-spiega" style={stileSpiega}>{spiega}</span>}
     </div>
   );
 
@@ -153,18 +155,18 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
             style={{ flex: 1, minWidth: 0, accentColor: accento, height: "1.2em", margin: 0, cursor: "pointer" }} />
           <output htmlFor={`opz-${chiave}`} style={{ fontFamily: MONO, fontSize: ".9em", color: "#ece5da", minWidth: "4.2em", textAlign: "right" }}>{detto}</output>
         </span>
-        <span style={stileSpiega}>{spiega}</span>
+        <span className="opz-spiega" style={stileSpiega}>{spiega}</span>
       </div>
     );
   };
 
   return (
     <div ref={dialogo} tabIndex={-1} role="dialog" aria-modal="true" aria-label="Opzioni"
-      style={{ ["--opz-acc" as string]: accento, outline: "none", fontSize: base, position: "absolute", inset: 0, zIndex: 75, display: "flex", alignItems: "center", justifyContent: "center",
+      style={{ ["--opz-acc" as string]: accento, outline: "none", fontSize: base * scalaTesto(o), position: "absolute", inset: 0, zIndex: 75, display: "flex", alignItems: "center", justifyContent: "center",
         background: "rgba(4,4,8,.74)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", animation: "kf-launch .3s ease both", pointerEvents: "auto" }}
       onClick={onChiudi}>
       <div onClick={(e) => e.stopPropagation()}
-        style={{ width: "74em", maxWidth: "94%", height: "38em", maxHeight: "92%", display: "flex", flexDirection: "column", boxSizing: "border-box", padding: "1.7em 2.4em 1.3em", borderRadius: "1.2em",
+        style={{ width: "74em", maxWidth: "94%", height: "41em", maxHeight: "92%", display: "flex", flexDirection: "column", boxSizing: "border-box", padding: "1.7em 2.4em 1.3em", borderRadius: "1.2em",
           background: "linear-gradient(180deg, rgba(20,18,24,.97), rgba(10,10,14,.98))", border: "1px solid rgba(255,255,255,.08)", boxShadow: "0 2em 6em rgba(0,0,0,.6)" }}>
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: "1em" }}>
           <div>
@@ -188,7 +190,7 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
           {scheda === "generale" && finestra && (
             <div style={stileColonne}>
               <section aria-label="All'avvio">
-                <h3 style={stileSezione}>All'avvio</h3>
+                <h3 className="opz-sezione" style={stileSezione}>All'avvio</h3>
                 <div role="group" aria-label="Aggiornamenti" className="opz-riga" style={stileRiga}>
                   <span className="opz-nome" style={stileNome}>Aggiornamenti</span>
                   <span style={{ display: "flex", flexWrap: "wrap", gap: ".5em" }}>
@@ -197,7 +199,7 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
                         onClick={() => cercaAggiornamenti(v).then(() => statoFinestra().then(setFinestra)).catch(() => {})}>{etichetta}</button>
                     ))}
                   </span>
-                  <span style={stileSpiega}>
+                  <span className="opz-spiega" style={stileSpiega}>
                     {finestra.aggiornamenti.motivo
                       ? `Questa versione non si aggiorna da sola (${finestra.aggiornamenti.motivo}): le versioni nuove si scaricano da GitHub.`
                       : "All'avvio il gioco chiede a GitHub se c'è una versione nuova e la scarica; non manda niente di tuo. Vale dall'avvio dopo."}
@@ -207,16 +209,16 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
             </div>
           )}
           {scheda === "video" && (
-            <div style={stileColonne}>
-              <section aria-label="Schermo">
-                <h3 style={stileSezione}>Schermo</h3>
+            <div style={{ ...stileColonne, gridTemplateColumns: "1fr 1fr" }}>
+              <section aria-label="Schermo e grafica">
+                <h3 className="opz-sezione" style={stileSezione}>Schermo</h3>
                 <div role="group" aria-label="Schermo" className="opz-riga" style={stileRiga}>
                   <span className="opz-nome" style={stileNome}>Schermo</span>
                   <span style={{ display: "flex", flexWrap: "wrap", gap: ".5em" }}>
                     <button type="button" className="opz-valore" aria-pressed={intero === true} onClick={() => schermo(true)} style={pulsante(intero === true)}>schermo intero</button>
                     <button type="button" className="opz-valore" aria-pressed={intero === false} onClick={() => schermo(false)} style={pulsante(intero === false)}>finestra</button>
                   </span>
-                  <span style={stileSpiega}>Si cambia anche con F11.{finestra ? " Il gioco riparte com'era." : ""}</span>
+                  <span className="opz-spiega" style={stileSpiega}>Si cambia anche con F11.{finestra ? " Il gioco riparte com'era." : ""}</span>
                 </div>
                 {finestra && (
                   <div role="group" aria-label="Dimensione della finestra" className="opz-riga" style={stileRiga}>
@@ -228,7 +230,7 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
                         </button>
                       ))}
                     </span>
-                    <span style={stileSpiega}>
+                    <span className="opz-spiega" style={stileSpiega}>
                       {avviso ?? (!inFinestra
                         ? "La dimensione della finestra, in pixel dello schermo: sceglierne una esce dallo schermo intero."
                         : scelta ? "In pixel dello schermo; ci sono solo le misure che entrano in questo."
@@ -236,24 +238,42 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
                     </span>
                   </div>
                 )}
-              </section>
-              <section aria-label="Grafica">
-                <h3 style={stileSezione}>Grafica</h3>
+                <h3 className="opz-sezione" style={stileSezione}>Grafica</h3>
                 {riga("Qualità", "qualita", [["automatica", "automatica"], ["alta", "alta"], ["media", "media"], ["bassa", "bassa"]], SPIEGA_QUALITA[o.qualita])}
+              </section>
+              <section aria-label="Accessibilità">
+                <h3 className="opz-sezione" style={stileSezione}>Accessibilità</h3>
+                <div role="group" aria-label="Alta accessibilità" className="opz-riga" style={stileRiga}>
+                  <span className="opz-nome" style={stileNome}>Alta accessibilità</span>
+                  <span style={{ display: "flex", flexWrap: "wrap", gap: ".5em" }}>
+                    {([["si", "sì", ACCESSIBILE], ["no", "no", NON_ACCESSIBILE]] as const).map(([v, etichetta, valori]) => (
+                      <button key={v} type="button" className="opz-valore" aria-pressed={acc === v} onClick={() => cambia(valori)} style={pulsante(acc === v)}>{etichetta}</button>
+                    ))}
+                  </span>
+                  <span className="opz-spiega" style={stileSpiega}>
+                    {acc === "personalizzata" ? "Personalizzata: righe scelte una per una." : "Accende insieme le cinque righe qui sotto."}
+                  </span>
+                </div>
+                {riga("Contrasto", "contrasto", [["normale", "normale"], ["alto", "alto"]])}
+                {riga("Testo", "testo", [["normale", "normale"], ["grande", "grande"]])}
+                {riga("Carattere", "carattere", [["lora", "Lora"], ["atkinson", "Atkinson Hyperlegible"]])}
+                {riga("Movimento", "movimento", [["sistema", "come il sistema"], ["ridotto", "ridotto"], ["pieno", "pieno"]],
+                  "Ridotto: in partita e nei menu tutto sta fermo. Loghi e trailer restano: Esc li salta.")}
+                {riga("Fuoco", "fuoco", [["normale", "normale"], ["marcato", "marcato"]])}
               </section>
             </div>
           )}
           {scheda === "audio" && (
             <div style={stileColonne}>
               <section aria-label="Volumi">
-              <h3 style={stileSezione}>Volumi</h3>
+              <h3 className="opz-sezione" style={stileSezione}>Volumi</h3>
               {cursore("Volume generale", "volume", "Alza o abbassa tutto insieme.")}
               {cursore("Musica", "volumeMusica", "Il brano del trailer e del menu d'avvio.")}
               {cursore("Voce", "volumeVoce", "Il racconto doppiato e la voce del trailer.")}
               {cursore("Effetti", "volumeEffetti", "I suoni dei loghi e i rumori del trailer.")}
               </section>
               <section aria-label="Ascolto">
-              <h3 style={stileSezione}>Ascolto</h3>
+              <h3 className="opz-sezione" style={stileSezione}>Ascolto</h3>
               {riga("Voce del gioco", "voce", [["recitata", "recitata"], ["lettore", "lettore di schermo"]],
                 o.voce === "recitata"
                   ? "Il gioco ti legge il racconto con le voci del doppiaggio. La voce si ferma al primo tasto; F2 ridice l'ultimo testo; le risposte di un dialogo si sentono passandoci sopra."

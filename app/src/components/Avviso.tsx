@@ -8,6 +8,7 @@
 //  Il testo è quello dell'autore: collaudo/testo.py verifica che nessuno
 //  lo cambi per distrazione.
 // ====================================================================
+import { movimentoRidotto } from "../lib/accessibilita";
 import { useEffect, useRef, useState } from "react";
 
 export const TESTO_AVVISO =
@@ -31,7 +32,7 @@ export default function Avviso({ onFine }: { onFine: () => void }) {
   const prosegui = () => { if (!fatto.current) { fatto.current = true; fine.current(); } };
 
   useEffect(() => {
-    const ridotto = !!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    const ridotto = movimentoRidotto();
     const comparsa = window.setTimeout(() => setVisibile(true), ridotto ? 0 : 350);
     const scadenza = window.setTimeout(prosegui, ATTESA_MASSIMA);
     const tasto = (e: KeyboardEvent) => {

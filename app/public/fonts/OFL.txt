@@ -5,6 +5,7 @@ Lora — Copyright 2011 The Lora Project Authors (https://github.com/cyrealtype/
 Sora — Copyright 2019 The Sora Project Authors (https://github.com/sora-xor/sora-font)
 Source Code Pro — Copyright 2010-2020 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'
 Covered By Your Grace — Copyright (c) 2010, Kimberly Geswein (kimberlygeswein.com)
+Atkinson Hyperlegible Next — Copyright 2020-2024 The Atkinson Hyperlegible Next Project Authors (https://github.com/googlefonts/atkinson-hyperlegible-next)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:

@@ -10,7 +10,8 @@
 //  programma tutto all'inizio sul clock dell'audio, e l'orologio delle
 //  immagini parte con lui. Si parte a caratteri caricati, perché scritta e
 //  motto di FAVELLA si misurano su Sora e Inter.
-//  Esc salta i loghi. Con «riduci movimento» non si mostrano.
+//  Esc salta i loghi. Si mostrano anche col movimento ridotto (Simone, D2):
+//  chi non li vuole li salta con Esc.
 //  Solo in sviluppo: ?loghi=3.2 ferma l'orologio a quel secondo (muto);
 //  window.__loghiT lo sposta, window.__rendiSuonoLoghi rende l'audio in un
 //  file (vedi src/loghi/esporta.ts): servono a esportare i video dei loghi.
@@ -41,7 +42,6 @@ export default function Loghi({ onFine }: { onFine: () => void }) {
   const chiudi = () => { if (!fatto.current && fermo === null) { fatto.current = true; fine.current(); } };
 
   useEffect(() => {
-    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) { chiudi(); return; }
     let vivo = true;
     const caratteri = Promise.all(CARATTERI.map((f) => document.fonts?.load(f).catch(() => null)));
     Promise.race([caratteri, new Promise((r) => setTimeout(r, 1500))])

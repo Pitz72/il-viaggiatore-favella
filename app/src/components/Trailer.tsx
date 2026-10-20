@@ -30,6 +30,8 @@ import { etichettaVersione } from "../lib/versione";
 import ComeSiGioca from "../gioco/ComeSiGioca";
 import PannelloOpzioni from "../gioco/Opzioni";
 import { ascoltaOpzioni, opzioni, type Qualita } from "../lib/opzioni";
+import { useOpzioni } from "../lib/useOpzioni";
+import { scalaTesto } from "../lib/accessibilita";
 import VociMenu, { type VoceMenu } from "../gioco/VociMenu";
 import Domanda from "../gioco/Domanda";
 
@@ -254,9 +256,9 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
   const [guida, setGuida] = useState(false);
   const [opzioniAperte, setOpzioniAperte] = useState(false);
   const [domandaNuovo, setDomandaNuovo] = useState(false);
+  const [opz] = useOpzioni();   // il testo grande fa crescere la colonna del menu e i pannelli
   const grana = useMemo(faiGrana, []);
   pixelVeri.current = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
-  const ridotto = useMemo(() => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false, []);
 
   // palco 16:9 → scala della superficie di progetto + risoluzione del canvas
   useLayoutEffect(() => {
@@ -473,7 +475,7 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
   // larghezza maggiore sulle inquadrature più pesanti e la si tiene solo se la peggiore costa meno di SOGLIA_MS; se no si
   // scende al gradino dopo, fino al tetto di sempre. Dura una frazione di secondo e avviene prima che il tempo cominci a scorrere.
   useEffect(() => {
-    if (!pronto || ridotto || grafica.current !== "automatica") return;   // le altre qualità non si misurano: le ha scelte chi gioca
+    if (!pronto || grafica.current !== "automatica") return;   // le altre qualità non si misurano: le ha scelte chi gioca
     if (import.meta.env.DEV && !location.search.includes("calibra")) return;   // in sviluppo catture e misure scelgono da sé (__trailer.tetto)
     const el = palcoRef.current, tela = telaRef.current;
     if (!el || !tela) return;
@@ -499,12 +501,11 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
     }
     tetto.current = scelta; adattaRef.current();
     if (import.meta.env.DEV) console.info(`[trailer] tela di ${tela.width} px (voluta ${voluta}; provate: ${provati.join(", ") || "nessuna"}; soglia ${SOGLIA_MS} ms)`);
-  }, [pronto, ridotto, disegna]);
+  }, [pronto, disegna]);
 
   // ── l'orologio ────────────────────────────────────────────────────
   useEffect(() => {
     if (!pronto) return;
-    if (ridotto) { tRef.current = DURATA; setFinito(true); disegna(DURATA); return; }
     let raf = 0, prec = performance.now(), finePrec = startAtEnd, giri = 0, lento = 0;
     const passo = (ora: number) => {
       const grezzo = ora - prec;
@@ -532,7 +533,7 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
     };
     raf = requestAnimationFrame(passo);
     return () => cancelAnimationFrame(raf);
-  }, [pronto, disegna, ridotto, startAtEnd]);
+  }, [pronto, disegna, startAtEnd]);
 
   // ── comandi ───────────────────────────────────────────────────────
   const salta = useCallback(() => {
@@ -707,13 +708,13 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
             <section style={{ position: "absolute", left: 0, right: 0, top: 492, textAlign: "center", pointerEvents: "auto", animation: "kf-launch 1.2s ease .3s both" }}>
               <div style={{ position: "absolute", left: "50%", top: -190, width: 1760, height: 860, transform: "translateX(-50%)", background: "radial-gradient(50% 50% at 50% 50%, rgba(6,5,10,.86) 0%, rgba(6,5,10,.62) 52%, rgba(6,5,10,0) 100%)", pointerEvents: "none", zIndex: -1 }} />
               <p style={{ margin: 0, ...serif(36, { color: "rgba(244,236,224,.94)", fontStyle: "italic", textShadow: "0 1px 3px rgba(10,6,14,.85), 0 0 16px rgba(10,6,14,.7)" }) }}>Si parte a piedi.</p>
-              <div style={{ marginTop: 30, fontSize: 19 }}>
+              <div style={{ marginTop: 30, fontSize: 19 * scalaTesto(opz) }}>
                 <VociMenu voci={vociMenu} etichetta="Menu d'avvio" accento="#f0b77e" coperto={guida || taccuino || opzioniAperte || domandaNuovo} />
               </div>
             </section>
           )}
           {finito && !compatto && (
-            <div style={{ position: "absolute", left: 60, bottom: 46, ...mono(14, { color: "rgba(214,224,238,.34)", letterSpacing: "0.14em", textTransform: "none" }) }}>
+            <div className="mv-nota" style={{ position: "absolute", left: 60, bottom: 46, ...mono(14, { color: "rgba(214,224,238,.34)", letterSpacing: "0.14em", textTransform: "none" }) }}>
               ↑↓ scegli · Invio conferma
             </div>
           )}

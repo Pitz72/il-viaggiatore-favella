@@ -15,6 +15,7 @@
 export type ModoVoce = "recitata" | "lettore";
 export type Qualita = "automatica" | "alta" | "media" | "bassa";
 export const QUALITA: readonly Qualita[] = ["automatica", "alta", "media", "bassa"];
+export type Movimento = "sistema" | "ridotto" | "pieno";
 
 export interface Opzioni {
   /** la voce del gioco: il doppiaggio, oppure nessuna voce (il lettore di schermo legge il diario) */
@@ -33,6 +34,29 @@ export interface Opzioni {
   secondoPiano: "continua" | "silenzia";
   /** la risoluzione a cui si disegnano i paesaggi e il trailer: automatica è quella di sempre */
   qualita: Qualita;
+  // l'accessibilità (piano 09, §3.4): cinque righe che l'interruttore «alta accessibilità» accende insieme
+  /** testi pieni su fondi pieni, niente velature né sfocature dietro i pannelli */
+  contrasto: "normale" | "alto";
+  /** il diario e i pannelli più grandi */
+  testo: "normale" | "grande";
+  /** il carattere dei testi: Lora (quello del libro) o Atkinson Hyperlegible */
+  carattere: "lora" | "atkinson";
+  /** «sistema» segue l'impostazione di Windows; ridotto ferma ciò che si muove in partita e nei menu (non loghi e trailer) */
+  movimento: Movimento;
+  /** un contorno spesso e staccato su ciò che ha il fuoco della tastiera */
+  fuoco: "normale" | "marcato";
+}
+
+export type RigaAccessibile = "contrasto" | "testo" | "carattere" | "movimento" | "fuoco";
+/** Che cosa accende l'alta accessibilità, e com'è spenta. */
+export const ACCESSIBILE: Readonly<Pick<Opzioni, RigaAccessibile>> = { contrasto: "alto", testo: "grande", carattere: "atkinson", movimento: "ridotto", fuoco: "marcato" };
+export const NON_ACCESSIBILE: Readonly<Pick<Opzioni, RigaAccessibile>> = { contrasto: "normale", testo: "normale", carattere: "lora", movimento: "sistema", fuoco: "normale" };
+const RIGHE_ACCESSIBILI = Object.keys(ACCESSIBILE) as RigaAccessibile[];
+/** L'interruttore: «sì» se le cinque righe sono tutte accese, «no» se sono tutte spente, se no «personalizzata». */
+export function altaAccessibilita(o: Opzioni): "si" | "no" | "personalizzata" {
+  if (RIGHE_ACCESSIBILI.every((k) => o[k] === ACCESSIBILE[k])) return "si";
+  if (RIGHE_ACCESSIBILI.every((k) => o[k] === NON_ACCESSIBILE[k])) return "no";
+  return "personalizzata";
 }
 
 export const OPZIONI_DI_BASE: Readonly<Opzioni> = {
@@ -44,6 +68,7 @@ export const OPZIONI_DI_BASE: Readonly<Opzioni> = {
   mono: false,
   secondoPiano: "continua",
   qualita: "automatica",
+  ...NON_ACCESSIBILE,
 };
 
 const CHIAVE = "viaggiatore.opzioni";
@@ -69,6 +94,11 @@ export function pulisci(grezzo: unknown): Opzioni {
     mono: typeof d.mono === "boolean" ? d.mono : b.mono,
     secondoPiano: d.secondoPiano === "continua" || d.secondoPiano === "silenzia" ? d.secondoPiano : b.secondoPiano,
     qualita: QUALITA.includes(d.qualita as Qualita) ? (d.qualita as Qualita) : b.qualita,
+    contrasto: d.contrasto === "normale" || d.contrasto === "alto" ? d.contrasto : b.contrasto,
+    testo: d.testo === "normale" || d.testo === "grande" ? d.testo : b.testo,
+    carattere: d.carattere === "lora" || d.carattere === "atkinson" ? d.carattere : b.carattere,
+    movimento: d.movimento === "sistema" || d.movimento === "ridotto" || d.movimento === "pieno" ? d.movimento : b.movimento,
+    fuoco: d.fuoco === "normale" || d.fuoco === "marcato" ? d.fuoco : b.fuoco,
   };
 }
 

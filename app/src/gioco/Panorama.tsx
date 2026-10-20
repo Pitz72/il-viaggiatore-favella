@@ -10,6 +10,7 @@ import { useEffect, useLayoutEffect, useRef } from "react";
 import { crinale, rng, mix, rgba, clamp } from "../trailer/tempo";
 import { disegnaViandante } from "../trailer/viandante";
 import { ascoltaOpzioni, opzioni } from "../lib/opzioni";
+import { movimentoRidotto } from "../lib/accessibilita";
 import type { ZoneKey } from "../data/viaggiatore";
 
 export type Clima = ZoneKey | "vinta" | "persa";
@@ -187,19 +188,27 @@ export default function Panorama({ clima, luogo, camminaDa, fermo = false }: { c
   useEffect(() => {
     let raf = 0;
     const buf = document.createElement("canvas");
+    let firma = "";   // col movimento ridotto: che cosa c'era nell'ultimo disegno
     const disegna = (ora: number) => {
       const s = stato.current, tela = telaRef.current;
       const dt = Math.min(0.1, (ora - s.ultimo) / 1000); s.ultimo = ora;
       // un cambio di clima o d'ambiente (all'aperto ↔ dentro una stanza) dissolve la scena vecchia nella nuova
       const { clima: c, luogo: l } = forzato.current ?? prop.current;
+      const ridotto = movimentoRidotto();
       if (c !== s.clima || ambienteDi(c, l) !== ambienteDi(s.clima, s.luogo)) {
-        s.prec = s.clima; s.precLuogo = s.luogo; s.clima = c; s.luogo = l; s.mix = 0;
+        s.prec = s.clima; s.precLuogo = s.luogo; s.clima = c; s.luogo = l; s.mix = ridotto ? 1 : 0;
       } else s.luogo = l;
+      // movimento ridotto: un fotogramma fermo, il viandante in piedi; si ridisegna solo se cambia il luogo o la tela
+      if (ridotto) {
+        const ora_ = `${s.clima}|${s.luogo}|${tela?.width}|${tela?.height}`;
+        if (ora_ === firma) return;
+        firma = ora_;
+      } else firma = "";
       if (tela && tela.width > 0) {
-        const t = ora / 1000;
+        const t = ridotto ? 0 : ora / 1000;
         // cammina per ~2.4 s dopo un cambio di luogo, poi si ferma con un passo morbido
         const dopo = t - s.camminaDa / 1000;
-        const cammina = clamp(1 - (dopo - 2.0) / 0.5) * (dopo >= 0 ? 1 : 0);
+        const cammina = ridotto ? 0 : clamp(1 - (dopo - 2.0) / 0.5) * (dopo >= 0 ? 1 : 0);
         s.passo = cammina;
         s.fase += dt * 1.05 * cammina;
         s.off += dt * 60 * cammina;

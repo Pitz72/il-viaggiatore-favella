@@ -59,11 +59,7 @@ body {
 .gv-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,.08); border-radius: 4px; }
 .gv-scroll::-webkit-scrollbar-track { background: transparent; }
 
-/* ---------- Rispetto delle preferenze di movimento ridotto ---------- */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-  }
-}
+/* Il movimento ridotto non sta più qui (una media query che fermava tutto, loghi e trailer compresi): lo decide
+   l'opzione «Movimento» (lib/accessibilita.ts → data-movimento), che segue Windows se la si lascia «come il sistema»,
+   e accessibilita.css lo applica alla partita, ai pannelli e ai menu. Loghi e trailer restano sempre (Simone, D2). */
+

@@ -10,6 +10,7 @@
 //  oppure subito con Invio, Spazio, Esc o un clic. I testi delle licenze per
 //  intero stanno nel repository (LICENSE, LICENSE-CONTENUTI.md, README).
 // ====================================================================
+import { movimentoRidotto } from "../lib/accessibilita";
 import { useEffect, useRef, useState } from "react";
 
 const SERIF = "'Lora', Georgia, serif";
@@ -23,7 +24,7 @@ export const CREDITI: [string, string][] = [
   ["Imma, Rosaria, Tore e Vito", "voci ElevenLabs · elevenlabs.io · solo uso non commerciale, fuori dalla licenza libera"],
   ["Codice", "MIT"],
   ["Motore", "FAVELLA 1 · MIT"],
-  ["Componenti", "Pyodide (MPL-2.0) · Lark, React, Electron (MIT) · caratteri Inter, Lora, Sora, Source Code Pro, Covered By Your Grace (SIL OFL 1.1)"],
+  ["Componenti", "Pyodide (MPL-2.0) · Lark, React, Electron (MIT) · caratteri Inter, Lora, Sora, Source Code Pro, Covered By Your Grace, Atkinson Hyperlegible Next (SIL OFL 1.1)"],
   ["Marchi", "i loghi di Runtime Multimedia e di FAVELLA 1 sono dei rispettivi titolari"],
 ];
 
@@ -38,7 +39,7 @@ export default function Crediti({ onFine }: { onFine: () => void }) {
   const prosegui = () => { if (!fatto.current) { fatto.current = true; fine.current(); } };
 
   useEffect(() => {
-    const ridotto = !!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    const ridotto = movimentoRidotto();
     const comparsa = window.setTimeout(() => setVisibile(true), ridotto ? 0 : 300);
     const scadenza = window.setTimeout(prosegui, ATTESA_MASSIMA);
     const tasto = (e: KeyboardEvent) => {

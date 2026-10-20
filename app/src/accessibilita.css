@@ -1,0 +1,114 @@
+/* ====================================================================
+   L'ACCESSIBILITÀ (lib/accessibilita.ts mette gli attributi sulla radice).
+   Ogni regola vale solo con la sua riga accesa: con tutto a «normale»
+   il gioco è quello di sempre. Le regole toccano la partita (.vg), i
+   pannelli (dialog), la colonna dei menu (.mv-voci) e i testi accanto;
+   non toccano loghi, trailer e la loro tela (Simone, D2).
+   Molti colori dei pannelli sono scritti nel componente: qui li si
+   supera con !important, solo quando la riga è accesa.
+   ==================================================================== */
+
+/* ── MOVIMENTO RIDOTTO: niente transizioni né animazioni nella partita, nei pannelli e nei menu ──────────── */
+[data-movimento="ridotto"] :is(.vg, .mv-voci, [role="dialog"], [role="alertdialog"]),
+[data-movimento="ridotto"] :is(.vg, .mv-voci, [role="dialog"], [role="alertdialog"]) *,
+[data-movimento="ridotto"] :is(.vg, .mv-voci, [role="dialog"], [role="alertdialog"]) *::before,
+[data-movimento="ridotto"] :is(.vg, .mv-voci, [role="dialog"], [role="alertdialog"]) *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* ── CARATTERE: Atkinson Hyperlegible al posto di Lora, Sora e Source Code Pro, ovunque si legge ─────────── */
+[data-carattere="atkinson"] :is(.vg, .mv-voci, .mv-nota, [role="dialog"], [role="alertdialog"]),
+[data-carattere="atkinson"] :is(.vg, .mv-voci, .mv-nota, [role="dialog"], [role="alertdialog"]) * {
+  font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', system-ui, sans-serif !important;
+  letter-spacing: normal;
+}
+/* le piccole maiuscole spaziate (sopratitoli, etichette) restano leggibili anche senza la spaziatura larga */
+[data-carattere="atkinson"] :is(.vg-sopratitolo, .vg-etichetta, .vg-sezione, .vg-chi, .vg-stanza, .tc-tag, .tc-quando, .tc-etichetta) { letter-spacing: .08em !important; }
+
+/* ── FUOCO MARCATO: un contorno spesso e staccato su ciò che ha il fuoco della tastiera ─────────────────── */
+[data-fuoco="marcato"] :focus-visible {
+  outline: 3px solid #ffd27a !important;
+  outline-offset: 3px !important;
+}
+[data-fuoco="marcato"] .vg-input:focus-within { border-color: #ffd27a !important; box-shadow: 0 0 0 3px #ffd27a !important; }
+[data-fuoco="marcato"] .vg-input input:focus-visible { outline: none !important; }
+
+/* ── TESTO GRANDE: il diario, i comandi e la barra laterale (i pannelli crescono dalla loro base in em) ────── */
+[data-testo="grande"] .vg-prosa { font-size: 20.5px; line-height: 1.6; }
+[data-testo="grande"] .vg-aiuto { font-size: 14.5px; }
+[data-testo="grande"] .vg-sistema { font-size: 15px; }
+[data-testo="grande"] .vg-sensazione { font-size: 18px; }
+[data-testo="grande"] .vg-comando { font-size: 15.5px; }
+[data-testo="grande"] .vg-chi { font-size: 13px; }
+[data-testo="grande"] .vg-stanza { font-size: 13.5px; }
+[data-testo="grande"] .vg-finale-testo { font-size: 27px; }
+[data-testo="grande"] .vg-risposta { font-size: 17.5px; }
+[data-testo="grande"] .vg-num { font-size: 14px; }
+[data-testo="grande"] .vg-input input { font-size: 19px; }
+[data-testo="grande"] .vg-chip { font-size: 13.5px; }
+[data-testo="grande"] .vg-chip em { font-size: 14px; }
+[data-testo="grande"] .vg-etichetta { font-size: 12.5px; }
+[data-testo="grande"] .vg-dose { font-size: 16.5px; }
+[data-testo="grande"] .vg-pannello-nota { font-size: 16px; }
+[data-testo="grande"] .vg-conf h2 { font-size: 26px; }
+[data-testo="grande"] .vg-conf-col li { font-size: 18px; }
+[data-testo="grande"] .vg-conf-quota { font-size: 17px; }
+[data-testo="grande"] .vg-conf-dopo, [data-testo="grande"] .vg-conf-pesa { font-size: 13.5px; }
+/* la barra laterale è stretta (292 px): cresce meno del diario */
+[data-testo="grande"] .vg-metro-nome { font-size: 14.5px; }
+[data-testo="grande"] .vg-metro-stato { font-size: 13.5px; }
+[data-testo="grande"] .vg-sezione { font-size: 12px; }
+[data-testo="grande"] .vg-oggetto { font-size: 14px; }
+[data-testo="grande"] .vg-fiducie li { font-size: 15px; }
+[data-testo="grande"] .vg-gesti { font-size: 13px; }
+[data-testo="grande"] .vg-voci li, [data-testo="grande"] .vg-cammino-nome { font-size: 14px; }
+[data-testo="grande"] .vg-scorta span { font-size: 12px; }
+
+/* ── CONTRASTO ALTO: testi pieni su fondi pieni, niente velature né sfocature, bordi netti ──────────────── */
+/* la partita */
+[data-contrasto="alto"] .vg { background: #050507; }
+[data-contrasto="alto"] .vg-passata .vg-prosa { color: #f2ece1; }
+[data-contrasto="alto"] .vg-passata .vg-sensazione { color: #f6c79f; }
+[data-contrasto="alto"] .vg-passata .vg-sistema,
+[data-contrasto="alto"] .vg-sistema { color: #e4eaf2; }
+[data-contrasto="alto"] .vg-prosa { color: #fbf7f0; }
+[data-contrasto="alto"] .vg-aiuto { color: #f0eadf; }
+[data-contrasto="alto"] .vg-stanza { color: #f5f5f5; }
+[data-contrasto="alto"] .vg-stanza::after { background: rgba(255, 255, 255, .5); }
+[data-contrasto="alto"] :is(.vg-etichetta, .vg-sezione span, .vg-metro-stato, .vg-scorta span, .vg-gesti, .vg-voci li, .vg-cammino-nome,
+  .vg-pannello-testa span, .vg-pannello-nota, .vg-conf-quota, .vg-conf-dopo, .vg-conf-nota, .vg-carica-msg, .vg-carica-nota) { color: #ece6db; }
+[data-contrasto="alto"] .vg-input input::placeholder { color: #d8d2c6; }
+[data-contrasto="alto"] .vg-comandi { background: #08080b; border-top-color: rgba(255, 255, 255, .35); }
+[data-contrasto="alto"] .vg-lato { background: #000; border-left-color: rgba(255, 255, 255, .35); }
+[data-contrasto="alto"] .vg-diario { -webkit-mask-image: none; mask-image: none; }
+[data-contrasto="alto"] :is(.vg-chip, .vg-risposta, .vg-oggetto, .vg-scorta, .vg-dose, .vg-annulla, .vg-input, .vg-azioni, .vg-pannello) {
+  background: #000; border-color: rgba(255, 255, 255, .5); color: #fff;
+}
+[data-contrasto="alto"] .vg-chip em, [data-contrasto="alto"] .vg-tenue { color: #ece6db; }
+[data-contrasto="alto"] .vg-vuoto { border-color: rgba(255, 255, 255, .4); }
+[data-contrasto="alto"] .vg-bottone { background: #000; border-color: rgba(255, 255, 255, .6); color: #fff; backdrop-filter: none; -webkit-backdrop-filter: none; }
+[data-contrasto="alto"] .vg-panorama-sfuma { background: linear-gradient(to bottom, rgba(0, 0, 0, .7) 0%, rgba(0, 0, 0, .25) 30%, rgba(0, 0, 0, .25) 55%, rgba(0, 0, 0, .9) 90%, #050507 100%); }
+[data-contrasto="alto"] .vg-conf-velo { background: rgba(0, 0, 0, .9); backdrop-filter: none; -webkit-backdrop-filter: none; }
+[data-contrasto="alto"] .vg-conf { background: #050507; border-color: rgba(255, 255, 255, .55); }
+
+/* i pannelli: il velo dietro pieno e senza sfocatura, la scatola piena col bordo netto */
+[data-contrasto="alto"] :is([role="dialog"], [role="alertdialog"]) {
+  background: rgba(0, 0, 0, .92) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+}
+[data-contrasto="alto"] :is([role="dialog"], [role="alertdialog"]) > div {
+  background: #050507 !important; border-color: rgba(255, 255, 255, .55) !important;
+}
+[data-contrasto="alto"] :is(.opz-spiega, .opz-sezione, .tc-sotto, .tc-dati, .tc-quando, .tc-luogo, .tc-vuoto, .dm-sotto, .mv-nota) { color: #ece6db !important; }
+[data-contrasto="alto"] .opz-scheda[aria-selected="false"] { color: #dcd5c9 !important; }
+[data-contrasto="alto"] :is(.opz-valore, .opz-bottone)[aria-pressed="false"],
+[data-contrasto="alto"] .opz-bottone:not([aria-pressed]) { border-color: rgba(255, 255, 255, .55) !important; color: #fff !important; }
+[data-contrasto="alto"] .tc-riga { background: #000; border-color: rgba(255, 255, 255, .35); }
+[data-contrasto="alto"] .tc-riga[aria-current="true"] { background: #15151a; border-color: rgba(255, 255, 255, .7); }
+
+/* la colonna dei menu (avvio e pausa) */
+[data-contrasto="alto"] .mv-voce { color: #f2ece1; }
+[data-contrasto="alto"] .mv-dettaglio { color: #f2ece1; }
+[data-contrasto="alto"] .mv-tasto { color: #e4eaf2; }
