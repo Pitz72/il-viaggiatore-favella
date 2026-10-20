@@ -4,7 +4,9 @@
 //  Si lanciano con  node desktop/prove.cjs  (la CI lo fa a ogni push).
 //   · il registro tecnico ruota anche durante la sessione, contando i byte scritti;
 //   · i canali IPC (ipc.cjs) rifiutano chi non è la pagina dell'app: un altro
-//     indirizzo, un altro host o porta, un indirizzo con utente, un frame sparito.
+//     indirizzo, un altro host o porta, un indirizzo con utente, un frame sparito;
+//   · i salvataggi su disco (salvataggi.cjs): l'elenco libero della cartella,
+//     i nomi di file ammessi e quelli no, la copia di riserva, l'eliminazione.
 //  «electron» è sostituito da un finto che ricorda i gestori registrati.
 //  Il controllo vero, con un Electron vero, lo fa --autoverifica sul pacchetto.
 // ====================================================================
@@ -20,6 +22,9 @@ const finto = {
     on: (canale, f) => gestori.on.set(canale, f),
     handle: (canale, f) => gestori.handle.set(canale, f),
   },
+  app: { getPath: () => os.tmpdir() },
+  dialog: {},
+  shell: {},
 };
 const caricaOriginale = Module._load;
 Module._load = function (richiesta, ...resto) {
@@ -28,6 +33,12 @@ Module._load = function (richiesta, ...resto) {
 
 const registro = require("./registro.cjs");
 const ipc = require("./ipc.cjs");
+// i salvataggi in una cartella di prova (mai nei Documenti di chi prova)
+const cartellaSalvataggi = fs.mkdtempSync(path.join(os.tmpdir(), "viaggiatore-salvataggi-"));
+process.env.VIAGGIATORE_SALVATAGGI = cartellaSalvataggi;
+const salvataggi = require("./salvataggi.cjs");
+salvataggi.registra(() => null);
+process.on("exit", () => fs.rmSync(cartellaSalvataggi, { recursive: true, force: true }));
 
 let fatte = 0;
 const coda = [];
@@ -108,6 +119,53 @@ prova("gestisci() esegue per la pagina dell'app e lancia per gli altri", async (
     try { assert.throws(() => f(evento(url), 21), /non autorizzato/); } finally { process.stderr.write = silenzio; }
   }
   assert.equal(chiamate, 1);
+});
+
+// ---- i salvataggi su disco ------------------------------------------------
+const chiama = (canale, ...a) => gestori.handle.get(canale)(evento("app://gioco/index.html"), ...a);
+const finto_ = (n) => JSON.stringify({ formato: "il-viaggiatore/salvataggio", n });
+const zitto = async (f) => { const w = process.stderr.write; process.stderr.write = () => true; try { return await f(); } finally { process.stderr.write = w; } };
+
+prova("i salvataggi: si scrive e si rilegge ogni genere di posto, anche quelli fino alla 1.25", async () => {
+  for (const posto of ["rapido", "automatico-1", "automatico-2", "automatico-3", "s-20261020-234512-a9z0", "automatico", "posto-3"]) {
+    await chiama("salvataggi:scrivi", posto, finto_(posto));
+    const r = await chiama("salvataggi:leggi", posto);
+    assert.equal(JSON.parse(r.testo).n, posto);
+  }
+  const elenco = await chiama("salvataggi:elenco");
+  assert.deepEqual(elenco.map((v) => v.posto),
+    ["automatico", "automatico-1", "automatico-2", "automatico-3", "posto-3", "rapido", "s-20261020-234512-a9z0"]);
+});
+
+prova("i salvataggi: i nomi che non sono di un posto si rifiutano, e l'elenco non li vede", async () => {
+  for (const no of ["../fuori", "posto-7", "automatico-4", "s-1", "auto", "1", "rapido.bak", "", "C:\\x"]) {
+    await assert.rejects(() => zitto(() => chiama("salvataggi:scrivi", no, finto_(no))), /Posto di salvataggio sconosciuto/, no);
+  }
+  fs.writeFileSync(path.join(cartellaSalvataggi, "appunti.viaggiatore"), finto_("x"));
+  fs.writeFileSync(path.join(cartellaSalvataggi, "rapido.viaggiatore.bak"), finto_("x"));
+  fs.writeFileSync(path.join(cartellaSalvataggi, "posto-9.viaggiatore"), finto_("x"));
+  const elenco = await chiama("salvataggi:elenco");
+  assert.ok(!elenco.some((v) => ["appunti", "rapido.viaggiatore", "posto-9"].includes(v.posto)), JSON.stringify(elenco.map((v) => v.posto)));
+  assert.equal(fs.readdirSync(path.dirname(cartellaSalvataggi)).filter((n) => n === "fuori.viaggiatore").length, 0, "niente fuori dalla cartella");
+});
+
+prova("i salvataggi: un file guasto si riprende dalla copia di riserva; eliminato, non torna", async () => {
+  const posto = "s-20261020-234513-bbbb";
+  await chiama("salvataggi:scrivi", posto, finto_("primo"));
+  await chiama("salvataggi:scrivi", posto, finto_("secondo"));            // la riserva ora è «primo»
+  fs.writeFileSync(path.join(cartellaSalvataggi, `${posto}.viaggiatore`), "{ non è json");
+  const r = await zitto(() => chiama("salvataggi:leggi", posto));
+  assert.equal(JSON.parse(r.testo).n, "primo");
+  await chiama("salvataggi:elimina", posto);
+  assert.equal((await chiama("salvataggi:leggi", posto)).testo, null, "la riserva non resuscita un posto eliminato");
+  assert.ok(!(await chiama("salvataggi:elenco")).some((v) => v.posto === posto));
+});
+
+prova("i salvataggi: con la cartella che non c'è, l'elenco è vuoto e non si rompe", async () => {
+  const prima = process.env.VIAGGIATORE_SALVATAGGI;
+  process.env.VIAGGIATORE_SALVATAGGI = path.join(cartellaSalvataggi, "non-c-e");
+  try { assert.deepEqual(await chiama("salvataggi:elenco"), []); }
+  finally { process.env.VIAGGIATORE_SALVATAGGI = prima; }
 });
 
 (async () => {

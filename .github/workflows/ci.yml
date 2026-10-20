@@ -74,6 +74,7 @@ jobs:
           python collaudo/conferme.py
           python collaudo/testo.py
           node app/scripts/opzioni-node.mjs
+          node app/scripts/posti-node.mjs
       - name: I finali giocati solo con i pulsanti
         run: python collaudo/pulsanti.py
       - name: La voce del doppiaggio (ogni testo stampato trova il suo audio)
