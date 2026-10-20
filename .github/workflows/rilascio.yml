@@ -172,7 +172,8 @@ jobs:
         with:
           path: pacchetti
           merge-multiple: true
-      - uses: softprops/action-gh-release@v3
+      # azione di terzi, fissata per SHA di commit e non per un tag che si può spostare
+      - uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64  # v3.0.3 (era @v3)
         with:
           tag_name: v${{ needs.verifica.outputs.versione }}
           target_commitish: ${{ github.sha }}
