@@ -80,6 +80,39 @@ aggiornano scaricando la nuova release.
 `~/.config/Il Viaggiatore/logs/viaggiatore.log` (Linux): allegalo alla
 segnalazione, insieme alla versione che trovi in basso a destra nel menu.
 
+## Sicurezza
+
+**Gli eseguibili non sono firmati**, e l'aggiornamento automatico (installer Windows e AppImage) scarica e
+installa la versione nuova dalle release di GitHub: la fiducia sta tutta nell'account GitHub che le pubblica.
+Chi lo controllasse potrebbe far girare codice suo su ogni copia installata. Sta scritto qui perché è giusto saperlo.
+
+**Che cosa protegge.** Il download passa da HTTPS e l'aggiornatore confronta lo SHA-512 del file con quello
+di `latest.yml` (un file rovinato o troncato non si installa); una release nasce solo dal workflow «Rilascio», a mano,
+dopo collaudo e autoverifica. Il gioco in sé è chiuso: finestra isolata e senza Node, nessuna navigazione fuori
+dall'app, ogni canale con il processo principale controlla chi lo chiama, le fuse di Electron sono spente (niente
+`ELECTRON_RUN_AS_NODE`, `NODE_OPTIONS`, `--inspect`), e un salvataggio non contiene codice (sono comandi che il
+motore rigioca). **Che cosa non protegge.** Lo SHA-512 sta nella stessa release del file: dimostra che il file è
+quello dichiarato, non che sia fidato; non c'è un'identità dell'editore (Windows SmartScreen lo segnala); e gli
+strumenti di build hanno ancora qualche avviso `npm audit` che si chiude solo cambiando electron-builder.
+
+**Come si verifica un pacchetto** scaricato: lo SHA-512 in base 64 dev'essere quello di `latest.yml` (o
+`latest-linux.yml`), allegato alla stessa release. Meglio ancora, confrontalo con una copia di `latest.yml` presa
+altrove o in un altro momento.
+
+```powershell
+# Windows
+[Convert]::ToBase64String([Security.Cryptography.SHA512]::Create().ComputeHash([IO.File]::ReadAllBytes("Il-Viaggiatore-<versione>-win-x64.exe")))
+```
+```bash
+# Linux
+openssl dgst -sha512 -binary Il-Viaggiatore-<versione>-linux-x86_64.AppImage | base64 -w0
+```
+
+**Che cosa si può fare** (non è stato fatto): la **firma del codice** (un certificato Authenticode per Windows: l'aggiornatore
+verificherebbe anche l'editore) oppure **spegnere l'aggiornamento automatico** e lasciare solo il download manuale, con
+gli hash nelle note della release; in più l'autenticazione a due fattori sull'account e le attestazioni di provenienza
+di GitHub per i pacchetti.
+
 ## Com'è fatto
 
 | Cartella | Cosa contiene |
@@ -147,8 +180,9 @@ python esploratore.py   # 100 partite a caso che cercano i punti in cui il gioco
 ```
 
 Sono undici ([che cosa fa ciascuno](collaudo/LEGGIMI.md)); `testo.py`, `conferme.py` e `pulsanti.py`
-servono `npm ci --prefix app`. La CI ne esegue dieci: tutti tranne l'esploratore, che dura qualche
-minuto e si lancia a mano.
+servono `npm ci --prefix app`. La CI li esegue tutti: l'esploratore in un giro corto (`-n 5 -t 150`) che non
+blocca, il giro intero (qualche minuto) si lancia a mano. Del processo principale desktop e della data delle
+versioni, che non hanno bisogno di Electron, si occupano `node desktop/prove.cjs` e `node strumenti/prova-data.mjs`.
 
 La CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) a ogni push verifica
 le versioni e il diario, esegue il collaudo, costruisce i pacchetti Windows e Linux e
