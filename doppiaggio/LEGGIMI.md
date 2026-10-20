@@ -56,12 +56,15 @@ MAIUSCOLO (NORD, PARLA CON…) sono abbassate, perché il servizio le leggerebbe
 
 ## Dopo la generazione: il taglio
 
-`strumenti/doppiaggio-taglia.py` prende i WAV di un blocco, li trascrive con whisper (con i
-tempi di ogni parola), allinea le parole sentite con quelle attese, taglia ogni parte nel
-silenzio fra lei e la vicina e scrive un WAV per parte in `master/clip/<blocco>/`, con un
-`rapporto.txt` che elenca le parti da riascoltare (mancanti o diverse dal testo). Se una
-generazione è stata divisa in più WAV, si danno nell'ordine. Le parti da rifare si raccolgono
-in un solo blocco di ritocchi, per una generazione sola.
+`strumenti/doppiaggio-taglia.py` prende i WAV di un blocco, li trascrive con faster-whisper
+(sul processore, modello medium già in cache, con il filtro delle pause: senza, i tempi di
+whisper sono sfasati anche di un secondo), allinea le parole sentite con quelle attese, taglia
+ogni parte nel silenzio fra lei e la vicina e scrive un WAV per parte in `master/clip/<blocco>/`,
+con un `rapporto.txt` che elenca le parti da riascoltare. Con `--controlla` riconosce anche
+ogni parte tagliata da sola e la confronta col testo: è il controllo che dice se dentro c'è
+proprio quella frase e niente delle vicine. Se una generazione è stata divisa in più WAV, si
+danno nell'ordine. Le parti da rifare si raccolgono in un solo blocco di ritocchi, per una
+generazione sola. (Si lancia con `python`, non `python -I`; non scarica niente.)
 
 ## Comandi
 
@@ -69,8 +72,8 @@ in un solo blocco di ritocchi, per una generazione sola.
 python strumenti/doppiaggio.py stato                      # parti, parole e minuti per voce, blocchi
 python strumenti/doppiaggio.py blocchi --voce servizio    # scrive blocchi/servizio.txt e manifest.json
 python strumenti/doppiaggio.py blocchi                    # scrive tutti i blocchi (cancella i vecchi)
-python strumenti/doppiaggio-taglia.py servizio a.wav b.wav                        # taglia un blocco del manifest
-python strumenti/doppiaggio-taglia.py servizio-kira a.wav b.wav --da-file doppiaggio/generati/servizio-kira.txt --voce servizio
+python strumenti/doppiaggio-taglia.py servizio a.wav b.wav --controlla            # taglia un blocco del manifest
+python strumenti/doppiaggio-taglia.py servizio-kira a.wav b.wav --controlla --da-file doppiaggio/generati/servizio-kira.txt --voce servizio
 ```
 
 Restano da fare prima dei personaggi: le 40 frasi tra «» fuori dai dialoghi di cui non si sa
