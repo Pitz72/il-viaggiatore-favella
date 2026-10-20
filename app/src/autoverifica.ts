@@ -1,6 +1,7 @@
 // ====================================================================
 //  Autoverifica: avvia il gioco vero (Pyodide + motore + avventura),
-//  gioca qualche comando e controlla le risposte. Si apre con
+//  gioca qualche comando e controlla le risposte; prova anche la voce del
+//  doppiaggio (indice, una parte per voce, il trailer). Si apre con
 //  ?autoverifica; nella versione desktop la lancia `--autoverifica`, e la
 //  CI la esegue sul pacchetto appena costruito prima di pubblicarlo.
 // ====================================================================
@@ -8,6 +9,54 @@ import { avviaGioco } from "./lib/favellaRuntime";
 import { VIAGGIATORE_GAME } from "./data/viaggiatore";
 import { riferisciAutoverifica } from "./lib/desktop";
 import branoIntro from "./assets/intro.mp3";
+import { analizza } from "./gioco/testo";
+import { tabella, partiDelBlocco, type Testi } from "./gioco/parti";
+
+/** La voce del doppiaggio: l'indice, una parte decodificata per ogni voce che il pacchetto contiene, la
+ *  traccia del trailer, e le parti del testo d'avvio ritrovate dal testo stampato. */
+async function provaLaVoce(testoAvvio: string, nota: (r: string) => void): Promise<boolean> {
+  const base = `${import.meta.env.BASE_URL}voce/`;
+  const r = await fetch(`${base}indice.json`);
+  if (!r.ok) { nota(`KO voce: indice HTTP ${r.status}`); return false; }
+  const indice = await r.json() as { estensione: string; parti: Record<string, number>; muti?: Record<string, string[]>; testi: Testi };
+  const muti = Object.values(indice.muti ?? {}).reduce((n, ids) => n + ids.length, 0);
+  let ok = true;
+  // una parte per voce, decodificata davvero: la durata deve essere quella dell'indice
+  const perVoce = new Map<string, string>();
+  for (const id of Object.keys(indice.parti)) {
+    const v = indice.testi[id]?.[0];
+    if (v && !perVoce.has(v)) perVoce.set(v, id);
+  }
+  const ctx = new OfflineAudioContext(1, 1, 48000);
+  for (const [v, id] of perVoce) {
+    try {
+      const dati = await (await fetch(`${base}${id}${indice.estensione}`)).arrayBuffer();
+      const b = await ctx.decodeAudioData(dati);
+      if (Math.abs(b.duration * 1000 - indice.parti[id]) > 60) { ok = false; nota(`KO voce ${v}: ${id} dura ${Math.round(b.duration * 1000)} ms, l'indice ${indice.parti[id]}`); }
+    } catch (e) {
+      ok = false; nota(`KO voce ${v}: ${id} non si decodifica (${e instanceof Error ? e.message : e})`);
+    }
+  }
+  if (ok) nota(`ok voce: ${Object.keys(indice.parti).length} parti, ${perVoce.size} voci, una per voce decodificata${muti ? ` (${muti} parti mute)` : ""}`);
+  // il testo d'avvio: ogni sua parte si ritrova ed esiste (o è dichiarata muta)
+  const tab = tabella(indice.testi);
+  const blocchi = analizza(testoAvvio).map((b) => partiDelBlocco(b, tab));
+  const senza = blocchi.flatMap((x) => x.mancano.map((m) => m.testo)).concat(
+    blocchi.flatMap((x) => x.ids).filter((id) => !(id in indice.parti) && !Object.values(indice.muti ?? {}).some((l) => l.includes(id))));
+  const trovate = blocchi.reduce((n, x) => n + x.ids.length, 0);
+  if (senza.length || !trovate) { ok = false; nota(`KO voce: il testo d'avvio non ritrova le parti: ${JSON.stringify(senza).slice(0, 200)}`); }
+  else nota(`ok voce: il testo d'avvio ritrova le sue ${trovate} parti`);
+  // la traccia del trailer
+  try {
+    const sc = await (await fetch(`${base}trailer.json`)).json() as { durata: number; file: string; frasi: unknown[] };
+    const b = await ctx.decodeAudioData(await (await fetch(`${base}${sc.file}`)).arrayBuffer());
+    if (Math.abs(b.duration - sc.durata) > 0.1) { ok = false; nota(`KO voce del trailer: dura ${b.duration.toFixed(2)} s invece di ${sc.durata}`); }
+    else nota(`ok voce del trailer: ${sc.frasi.length} frasi, ${b.duration.toFixed(1)} s`);
+  } catch (e) {
+    ok = false; nota(`KO voce del trailer: ${e instanceof Error ? e.message : e}`);
+  }
+  return ok;
+}
 
 type Prova = { cmd: string; attese: string[] };
 
@@ -39,6 +88,7 @@ export async function autoverifica(scrivi: (riga: string) => void) {
     if (avvio.stato === "errore" || !avvio.text.includes("La stazione")) {
       ok = false; nota(`KO avvio: ${avvio.text.slice(0, 300)}`);
     } else nota(`ok avvio del motore (${((performance.now() - t0) / 1000).toFixed(1)} s)`);
+    if (!(await provaLaVoce(avvio.text, nota))) ok = false;
 
     for (const p of PROVE) {
       const r = s.step(p.cmd);
