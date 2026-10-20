@@ -13,7 +13,7 @@ import { clamp, easeInOut, easeOut, expoOut, lerp, rng, seg } from "../tempo";
 import type { Cache } from "../cache";
 import { camera, pulviscolo, type C2D } from "../pittura";
 import { carta, scriviLettera, scriviRiga } from "../scritta";
-import { creaTela, ctxDi, fbmPeriodico, hexRgb, perlin, riempi, type Tela } from "../texture";
+import { campoLento, creaTela, ctxDi, fbmPeriodico, hexRgb, perlin, riempi, RES_TELE, type Tela } from "../texture";
 import { FONT } from "../font";
 
 export const POSIZIONI_LETTERE = [
@@ -23,7 +23,8 @@ export const POSIZIONI_LETTERE = [
   { x: 1210, y: 400, r: 0.16, d: "11 ottobre" },
 ];
 
-const FW = 520, FH = 350, RES = 1.5;
+const FW = 520, FH = 350, RES = RES_TELE;
+const RES_SCRITTURA = 1.5;                           // la geometria delle righe (corpo, interlinea) è pensata su fogli di FW·1,5 × FH·1,5
 const BW = 430, BH = 190;
 const LARGO_MANO = 300;                              // quanto è larga la prima riga del biglietto (px): il corpo si ricava da qui
 
@@ -33,17 +34,22 @@ interface StatoLettere { tavolo: Tela; fogli: Tela[]; inchiostri: Tela[]; biglie
 //  Il tavolo: assi di noce, venature, nodi, graffi, l'anello di un bicchiere
 // --------------------------------------------------------------------
 async function tavoloTela(): Promise<Tela> {
-  const w = 960, h = 540;
-  const gran = fbmPeriodico(41, 4, 5, 0);
+  const w = 960, h = 540;                                // le unità del campo (le stesse di sempre: il disegno non cambia)
+  const F = 2;                                           // la tela è dipinta a 1920×1080: il campo si campiona due volte più fitto
+  const nGran = fbmPeriodico(41, 4, 5, 0);
   const fibre = perlin(7);
   const assi = 4, hh = h / assi;
+  // le venature larghe sono lente: il rumore a griglia (ogni 2 unità) e, per ogni asse, la fibra lungo x in una tabella
+  const granF = campoLento((x, y) => nGran(x * 0.006, y * 0.03), w, h, 2, false);
+  const fibreX = Array.from({ length: assi }, (_, a) => Float32Array.from({ length: w * F + 2 }, (_, i) => fibre((i / F) * 0.004, a * 7.3)));
   const base = [hexRgb("#4a3020"), hexRgb("#3f281a"), hexRgb("#523625"), hexRgb("#3a2517")];
   const nodi = [{ x: 220, y: 70, r: 34 }, { x: 700, y: 330, r: 40 }, { x: 430, y: 470, r: 26 }];
-  const t = await riempi(w, h, (x, y, px) => {
+  const t = await riempi(w * F, h * F, (px0, py0, px) => {
+    const x = px0 / F, y = py0 / F;
     const a = Math.min(assi - 1, Math.floor(y / hh)), yl = y - a * hh;
     const col = base[a];
     // andamento delle venature: righe che ondeggiano piano
-    let v = (yl * 0.32 + gran(x * 0.006, y * 0.03) * 22 + fibre(x * 0.004, a * 7.3) * 9);
+    let v = (yl * 0.32 + granF(x, y) * 22 + fibreX[a][px0] * 9);
     // i nodi: anelli concentrici che deviano le fibre
     for (const n of nodi) {
       const dx = (x - n.x) / 1.6, dy = y - n.y, d = Math.hypot(dx, dy);
@@ -59,6 +65,7 @@ async function tavoloTela(): Promise<Tela> {
     px[0] = r; px[1] = g; px[2] = b;
   });
   const g = ctxDi(t), r = rng(5);
+  g.scale(F, F);
   g.lineCap = "round";
   for (let i = 0; i < 70; i++) {                         // graffi
     const x = r() * w, y = r() * h, l = 8 + r() * 46, a = (r() - 0.5) * 0.5;
@@ -70,7 +77,8 @@ async function tavoloTela(): Promise<Tela> {
 
 /** L'anello lasciato da un bicchiere: due cerchi scuri, il secondo più sottile. */
 function macchiaTela(): Tela {
-  const t = creaTela(240, 240), g = ctxDi(t);
+  const t = creaTela(240 * RES_TELE, 240 * RES_TELE), g = ctxDi(t);
+  g.scale(RES_TELE, RES_TELE);
   g.translate(120, 120);
   for (const [rr, a, lw] of [[84, 0.22, 7], [79, 0.10, 3], [70, 0.06, 9]] as const) {
     g.strokeStyle = `rgba(10,5,2,${a})`; g.lineWidth = lw;
@@ -174,7 +182,7 @@ export async function preparaLettere(c: Cache) {
   const toni = [["#efe6d1", "#d8ccb0"], ["#ece3cd", "#d3c5a8"], ["#f0e7d3", "#dccfb3"], ["#e9dfc8", "#d0c2a3"]];
   for (let i = 0; i < 4; i++) {
     fogli.push(await carta({ w: FW * RES, h: FH * RES, seme: 200 + i, chiara: toni[i][0], scura: toni[i][1], invecchiata: 0.6, piegheOrizzontali: 2, piegaVerticale: i % 2 === 0 }));
-    inchiostri.push(scriviLettera(FW * RES, FH * RES, 300 + i, "rgb(30,44,86)", 0.86));
+    inchiostri.push(scriviLettera(FW * RES_SCRITTURA, FH * RES_SCRITTURA, 300 + i, "rgb(30,44,86)", 0.86, RES / RES_SCRITTURA));
   }
   // le lettere sono scritte a risoluzione piena: la geometria delle righe va scalata
   c.lettere = {

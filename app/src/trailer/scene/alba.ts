@@ -11,7 +11,7 @@ import { W, H, CAMMINATE, faseDiPasso } from "../scaletta";
 import { clamp, lerp, mix, rng, seg, easeInOut, easeOut } from "../tempo";
 import type { Cache } from "../cache";
 import { alone, camera, catenaScorre, cielo, crinale, disegnaRaggio, nuvole, nuvoleScorrono, pulviscolo, raggioMorbido, type C2D, type RaggioMorbido } from "../pittura";
-import { creaTela, ctxDi, fbmPeriodico, hexRgb, rgbCss, riempi, smooth, sfoca, type Tela } from "../texture";
+import { creaTelaR, fbmPeriodico, hexRgb, rgbCss, riempi, smooth, sfoca, type Tela } from "../texture";
 import { disegnaOmbra, disegnaViandante, velocitaSuolo } from "../viandante";
 
 const ORIZZONTE = 700;
@@ -33,7 +33,7 @@ interface StatoAlba {
 //  Precalcolo
 // --------------------------------------------------------------------
 function ciuffi(seme: number, w: number, h: number, n: number, altMin: number, altMax: number, base: string, punta: string, vento: number): Tela {
-  const t = creaTela(w, h), g = ctxDi(t), r = rng(seme);
+  const { tela: t, g } = creaTelaR(w, h), r = rng(seme);
   g.lineCap = "round";
   // n ciuffi in tutta la larghezza; quelli vicini ai bordi si ripetono dall'altra parte: la tessera si salda
   for (let i = 0; i < n; i++) {
@@ -57,7 +57,7 @@ function ciuffi(seme: number, w: number, h: number, n: number, altMin: number, a
 
 async function asfaltoTela(): Promise<Tela> {
   const w = LARGH_CIELO, h = 64;
-  const t = creaTela(w, h), g = ctxDi(t), r = rng(77);
+  const { tela: t, g } = creaTelaR(w, h), r = rng(77);
   const gr = g.createLinearGradient(0, 0, 0, h);
   gr.addColorStop(0, "#41373d"); gr.addColorStop(0.5, "#332b31"); gr.addColorStop(1, "#231e24");
   g.fillStyle = gr; g.fillRect(0, 0, w, h);
@@ -68,7 +68,7 @@ async function asfaltoTela(): Promise<Tela> {
     const s = (r() - 0.5) * 34 + v * 30;
     px[0] = 128 + s; px[1] = 124 + s; px[2] = 132 + s; px[3] = 34;
   });
-  g.drawImage(grana, 0, 0);
+  g.drawImage(grana, 0, 0, w, h);
   // crepe e rattoppi
   g.strokeStyle = "rgba(8,6,10,.55)"; g.lineCap = "round";
   for (let i = 0; i < 26; i++) {
@@ -106,7 +106,7 @@ async function campoTela(): Promise<Tela> {
   // la piana secca: dalla foschia dell'orizzonte alla terra scura, con strisce d'erba
   // riarsa e file di ciuffi che crescono col vicino
   const w = LARGH_CIELO, h = 190;
-  const t = creaTela(w, h), g = ctxDi(t), r = rng(31);
+  const { tela: t, g } = creaTelaR(w, h), r = rng(31);
   const gr = g.createLinearGradient(0, 0, 0, h);
   gr.addColorStop(0, "#5a4247"); gr.addColorStop(0.18, "#3a2c3a"); gr.addColorStop(0.55, "#211a27"); gr.addColorStop(1, "#110d15");
   g.fillStyle = gr; g.fillRect(0, 0, w, h);
@@ -118,7 +118,7 @@ async function campoTela(): Promise<Tela> {
     px[0] = chiara ? 230 : 6; px[1] = chiara ? 150 : 4; px[2] = chiara ? 105 : 10;
     px[3] = Math.abs(v) * (chiara ? 95 : 130) * (1 - y / h * 0.6);
   });
-  g.drawImage(strisce, 0, 0);
+  g.drawImage(strisce, 0, 0, w, h);
   // file di ciuffi: piccoli in alto, grandi in basso
   for (let i = 0; i < 700; i++) {
     const k = Math.pow(r(), 0.7);
@@ -138,7 +138,7 @@ async function campoTela(): Promise<Tela> {
 /** Sagome sull'orizzonte: masserie, cipressi, una pompa a vento. Una fascia che si ripete. */
 function sagomeTela(): Tela {
   const w = LARGH_CIELO, h = 150, y0 = 132;
-  const t = creaTela(w, h), g = ctxDi(t), r = rng(64);
+  const { tela: t, g } = creaTelaR(w, h), r = rng(64);
   const col = "#2b2032", luce = "rgba(255,168,110,.5)";
   const masseria = (x: number, s: number) => {
     g.fillStyle = col;
@@ -325,7 +325,7 @@ export function disegnaAlba(ctx: C2D, t: number, c: Cache, titolo: boolean) {
   // masserie, cipressi e pompe a vento sull'orizzonte
   const offH = (pan * 0.30) % LARGH_CIELO;
   ctx.globalAlpha = 0.85;
-  for (let x = -offH; x < W; x += LARGH_CIELO) ctx.drawImage(a.sagome, x, ORIZZONTE - 132 + 4);
+  for (let x = -offH; x < W; x += LARGH_CIELO) ctx.drawImage(a.sagome, x, ORIZZONTE - 132 + 4, LARGH_CIELO, 150);
   ctx.globalAlpha = 1;
   // ciuffi lontani, sulla riga della piana
   const off = (pan * 0.9) % W;
@@ -390,7 +390,7 @@ export function disegnaAlba(ctx: C2D, t: number, c: Cache, titolo: boolean) {
 
   // ── in primo piano: ciuffi d'erba secca controluce e polvere nella luce
   const offN = (pan * 1.7) % LARGH_CIELO;
-  for (let xx = -offN; xx < W; xx += LARGH_CIELO) ctx.drawImage(a.erbaNear, xx, 800);
+  for (let xx = -offN; xx < W; xx += LARGH_CIELO) ctx.drawImage(a.erbaNear, xx, 800, LARGH_CIELO, 150);
   ctx.globalCompositeOperation = "lighter";
   pulviscolo(ctx, t, 8, 70, { x: 700, y: 360, w: 1300, h: 560 }, "#ffd9ae", 0.55 + luce * 0.6);
   ctx.globalCompositeOperation = "source-over";

@@ -145,6 +145,38 @@ const LATO_GRANA = 256;
 const AMPIEZZA_GRANA = 44, COLORE_GRANA = 0.3;
 const OPACITA_GRANA = { dolce: 0.3, forte: 0.035 };
 const FOTOGRAMMI_GRANA = 24;
+/** La tela non supera questa larghezza (px) se la misura non dice che si può: sopra, un quadro costa quanto i pixel in più. */
+const TETTO_TELA = 2560;
+/** Le larghezze oltre il tetto che si provano su uno schermo più grande (dalla più larga): la tela tiene la prima che la misura permette. */
+const TELE_GRANDI = [3840, 3200];
+/** Le inquadrature più pesanti (le lettere, l'alba, la terra, il guado, il titolo) e quanto può costare, al massimo, la peggiore (mediana, ms). */
+const ISTANTI_PESANTI = [8, 13, 24, 66, 86];
+const SOGLIA_MS = 14;                         // misurato a freddo, appena dopo la preparazione: a regime un fotogramma costa 2–3 ms in meno
+
+/**
+ * Un misuratore del costo dei fotogrammi: dà `n` fotogrammi consecutivi da `t` e restituisce i millisecondi (mediana, p95, massimo).
+ * La sincronia passa da WebGL: leggere i pixel dal canvas 2D farebbe passare Chrome al disegno su CPU e falserebbe la misura.
+ * Null se WebGL non c'è.
+ */
+function creaMisuratore(tela: HTMLCanvasElement) {
+  const gl = document.createElement("canvas").getContext("webgl");
+  if (!gl) return null;
+  const tex = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, tex);
+  const px = new Uint8Array(4);
+  return (disegnaF: (t: number) => void, t: number, n: number) => {
+    const ms: number[] = [];
+    for (let i = 0; i < n; i++) {
+      const a = performance.now();
+      disegnaF(t + i / 60);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, tela);
+      gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px);
+      ms.push(performance.now() - a);
+    }
+    ms.sort((x, y) => x - y);
+    return { mediana: ms[Math.floor(n / 2)], p95: ms[Math.floor(n * 0.95)], max: ms[n - 1] };
+  };
+}
 
 function faiGrana(): string {
   const n = LATO_GRANA, r = rng(20261020);
@@ -196,6 +228,8 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
   const buffer = useRef<HTMLCanvasElement | null>(null);
   // la risoluzione del canvas cala (1 → .75 → .5) se il computer non regge i 30 fotogrammi: meglio meno nitido che a scatti
   const qualita = useRef(1);
+  // il tetto della larghezza della tela (px): 2560 di partenza; sale (3840) solo se la misura dice che il computer regge
+  const tetto = useRef(TETTO_TELA);
   const adattaRef = useRef<() => void>(() => {});
 
   const [scala, setScala] = useState(1);
@@ -218,7 +252,7 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
       const s = el.clientWidth / W;
       setScala(s);
       const dpr = Math.min(window.devicePixelRatio || 1, 2) * qualita.current;
-      const bw = Math.max(320, Math.min(Math.round(el.clientWidth * dpr), 2560));
+      const bw = Math.max(320, Math.min(Math.round(el.clientWidth * dpr), tetto.current));
       const bh = Math.round(bw * H / W);
       if (tela.width !== bw) { tela.width = bw; tela.height = bh; }
       if (!buffer.current) buffer.current = document.createElement("canvas");
@@ -393,6 +427,7 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
     w.__trailer = {
       vai: (t: number) => { tRef.current = t; pausaRef.current = true; setFinito(t >= DURATA); },
       riprendi: () => { pausaRef.current = false; },
+      tetto: (n: number) => { tetto.current = n; adattaRef.current(); return telaRef.current?.width ?? 0; },
       t: () => tRef.current,
       brano: () => suono.current?.diagnosi(),
       // disegna n fotogrammi consecutivi da t e restituisce i millisecondi (la lettura di un pixel costringe la GPU a finire)
@@ -400,25 +435,45 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
       prova: (t: number, n = 30) => {
         const tela = telaRef.current;
         if (!tela) return null;
-        const gl = document.createElement("canvas").getContext("webgl");
-        if (!gl) return null;
-        const tex = gl.createTexture();
-        gl.bindTexture(gl.TEXTURE_2D, tex);
-        const px = new Uint8Array(4);
-        const ms: number[] = [];
-        for (let i = 0; i < n; i++) {
-          const a = performance.now();
-          disegna(t + i / 60);
-          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, tela);
-          gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px);
-          ms.push(performance.now() - a);
-        }
-        ms.sort((x, y) => x - y);
-        return { mediana: +ms[Math.floor(n / 2)].toFixed(1), p95: +ms[Math.floor(n * 0.95)].toFixed(1), max: +ms[n - 1].toFixed(1) };
+        const r = creaMisuratore(tela)?.(disegna, t, n);
+        return r && { mediana: +r.mediana.toFixed(1), p95: +r.p95.toFixed(1), max: +r.max.toFixed(1) };
       },
     };
     return () => { delete w.__trailer; };
   }, [disegna]);
+
+  // ── la tela più grande, se il computer la regge ────────────────────────
+  // Fino a 2560 px di larghezza non c'è niente da scegliere. Uno schermo più grande (4K) ne vorrebbe di più: si prova la
+  // larghezza maggiore sulle inquadrature più pesanti e la si tiene solo se la peggiore costa meno di SOGLIA_MS; se no si
+  // scende al gradino dopo, fino al tetto di sempre. Dura una frazione di secondo e avviene prima che il tempo cominci a scorrere.
+  useEffect(() => {
+    if (!pronto || ridotto) return;
+    if (import.meta.env.DEV && !location.search.includes("calibra")) return;   // in sviluppo catture e misure scelgono da sé (__trailer.tetto)
+    const el = palcoRef.current, tela = telaRef.current;
+    if (!el || !tela) return;
+    const voluta = Math.round(el.clientWidth * Math.min(window.devicePixelRatio || 1, 2));
+    const candidate = [...new Set([Math.min(voluta, TELE_GRANDI[0]), ...TELE_GRANDI])].filter((l) => l > TETTO_TELA && l <= voluta);
+    if (!candidate.length) return;
+    const misura = creaMisuratore(tela);
+    let scelta = TETTO_TELA;
+    const provati: string[] = [];
+    if (misura) {
+      for (const larg of candidate) {
+        tetto.current = larg; adattaRef.current();
+        misura(disegna, ISTANTI_PESANTI[0], 4);                         // il primo fotogramma di una tela nuova paga l'allocazione
+        let peggiore = 0;
+        for (const t of ISTANTI_PESANTI) {
+          misura(disegna, t, 2);
+          peggiore = Math.max(peggiore, misura(disegna, t, 5).mediana);
+          if (peggiore > SOGLIA_MS) break;
+        }
+        provati.push(`${larg}: ${peggiore.toFixed(1)} ms`);
+        if (peggiore <= SOGLIA_MS) { scelta = larg; break; }
+      }
+    }
+    tetto.current = scelta; adattaRef.current();
+    if (import.meta.env.DEV) console.info(`[trailer] tela di ${tela.width} px (voluta ${voluta}; provate: ${provati.join(", ") || "nessuna"}; soglia ${SOGLIA_MS} ms)`);
+  }, [pronto, ridotto, disegna]);
 
   // ── l'orologio ────────────────────────────────────────────────────
   useEffect(() => {

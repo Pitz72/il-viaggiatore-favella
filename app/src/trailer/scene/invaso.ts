@@ -12,7 +12,7 @@ import { W, H, CAMMINATE, faseDiPasso } from "../scaletta";
 import { clamp, easeInOut, mix, rng, rgba, seg } from "../tempo";
 import type { Cache } from "../cache";
 import { alone, cielo, crinale, nuvole, nuvoleScorrono, type C2D } from "../pittura";
-import { casoDi, creaTela, ctxDi, fbmPeriodico, riempi, smooth, voronoiTessera, type Tela } from "../texture";
+import { campoLento, casoDi, creaTela, ctxDi, fbmPeriodico, RES_TELE, riempi, smooth, voronoiTessera, type Tela } from "../texture";
 import { disegnaOmbra, disegnaViandante, velocitaSuolo } from "../viandante";
 
 const ORIZZONTE = 700;
@@ -31,19 +31,23 @@ const hashPx = (x: number, y: number) => {
 };
 
 async function pianaTela(): Promise<Tela> {
-  const TW = 1024, TH = 256;
-  const vor = voronoiTessera(9, 86, TW, TH, 0.9);          // le lastre: larghe, irregolari
-  const vor2 = voronoiTessera(21, 31, TW, TH, 0.9);        // le fessure sottili dentro la lastra
+  const K = RES_TELE;                                      // pixel di tela per unità di progetto: la tessera e la piana hanno K volte i pixel
+  const TW = 1024 * K, TH = 256 * K;
+  const vor = voronoiTessera(9, 86 * K, TW, TH, 0.9);      // le lastre: larghe, irregolari
+  const vor2 = voronoiTessera(21, 31 * K, TW, TH, 0.9);    // le fessure sottili dentro la lastra
   const grano = fbmPeriodico(14, 32, 3, 8);
-  const umido = fbmPeriodico(41, 6, 4, 2);
-  const larg = fbmPeriodico(23, 16, 3, 4);                 // quanto è larga la cresta, lungo il confine
-  const fess = fbmPeriodico(29, 12, 3, 3);                 // dove il confine si apre in una fessura scura
+  // i campi lenti (umidità, larghezza della cresta, dove si apre la fessura, dove le crepe sottili si spezzano)
+  const nUmido = fbmPeriodico(41, 6, 4, 2), nLarg = fbmPeriodico(23, 16, 3, 4), nFess = fbmPeriodico(29, 12, 3, 3);
+  const umidoF = campoLento((x, y) => nUmido(x / TW * 6, y / TH * 2) * 0.5 + 0.5, TW, TH, 8);
+  const largF = campoLento((x, y) => nLarg(x / TW * 16, y / TH * 4) * 0.5 + 0.5, TW, TH, 8);
+  const fessF = campoLento((x, y) => nFess(x / TW * 12, y / TH * 3), TW, TH, 8);
+  const lacunaF = campoLento((x, y) => nLarg(x / TW * 16 + 5, y / TH * 4 + 2), TW, TH, 8);
   const luce = [-0.6, -0.8];
   const tessera = await riempi(TW, TH, (x, y, px) => {
     const c = vor(x, y);
-    const d = (c.f2 - c.f1) * 0.5;                          // distanza (circa) dal confine fra due lastre
+    const d = (c.f2 - c.f1) * 0.5 / K;                      // distanza (circa) dal confine fra due lastre, in unità di progetto
     const caso = casoDi(c.id);
-    const lg = larg(x / TW * 16, y / TH * 4) * 0.5 + 0.5;
+    const lg = largF(x, y);
     const dx = x - c.cx, dy = y - c.cy, len = Math.hypot(dx, dy) || 1;
     const verso = -(dx * luce[0] + dy * luce[1]) / len;     // > 0: il fianco interno della cresta guarda la luce
     // la lastra: bianco azzurrino, un poco diverso per ogni lastra, più scuro e freddo nel mezzo
@@ -51,16 +55,17 @@ async function pianaTela(): Promise<Tela> {
     const fondo = smooth(0, 52, d);
     r -= fondo * 6; g -= fondo * 5; b -= fondo * 1.5;
     // le chiazze di umidità: più scure e più fredde, a macchie larghe e morbide
-    const um = smooth(0.10, 0.62, umido(x / TW * 6, y / TH * 2) * 0.5 + 0.5 + (caso - 0.5) * 0.25);
+    const um = smooth(0.10, 0.62, umidoF(x, y) + (caso - 0.5) * 0.25);
     r -= um * 26; g -= um * 20; b -= um * 12;
     // il granulo dei cristalli, e un luccichio rado
     const gr = grano(x / TW * 32, y / TH * 8) * 11 + (hashPx(x, y) - 0.5) * 9;
     r += gr; g += gr; b += gr * 0.9;
     if (hashPx(x + 7, y + 3) > 0.9985) { r += 18; g += 18; b += 16; }
     // le fessure sottili dentro la lastra (non tutte: solo dove il caso le apre)
-    const c2 = vor2(x, y);
-    const d2 = (c2.f2 - c2.f1) * 0.5;
-    if (d2 < 0.75 && d > 9 && larg(x / TW * 16 + 5, y / TH * 4 + 2) > 0.05) { r *= 0.93; g *= 0.94; b *= 0.95; }
+    if (d > 9 && lacunaF(x, y) > 0.05) {
+      const c2 = vor2(x, y);
+      if ((c2.f2 - c2.f1) * 0.5 / K < 0.75) { r *= 0.93; g *= 0.94; b *= 0.95; }
+    }
     // la cresta di pressione: rialzata sul confine, chiara dal lato della luce, in ombra dall'altro
     const wR = 3.4 + lg * 3.4;
     const cresta = 1 - smooth(0, wR, d);
@@ -68,7 +73,7 @@ async function pianaTela(): Promise<Tela> {
     const scuro = cresta * clamp(-verso + 0.05) * 48;
     r += chiaro - scuro; g += chiaro - scuro * 0.94; b += chiaro * 0.9 - scuro * 0.80;
     // sul confine, a tratti, la fessura: una riga sottile e fredda
-    const apre = 0.40 + 0.60 * smooth(-0.20, 0.35, fess(x / TW * 12, y / TH * 3));
+    const apre = 0.40 + 0.60 * smooth(-0.20, 0.35, fessF(x, y));
     const fd = (1 - smooth(0, 0.7 + lg * 0.9, d)) * apre;
     r += (112 - r) * fd * 0.75; g += (124 - g) * fd * 0.75; b += (138 - b) * fd * 0.75;
     px[0] = r; px[1] = g; px[2] = b;
@@ -76,52 +81,52 @@ async function pianaTela(): Promise<Tela> {
 
   // la prospettiva: ogni riga è letta con più campioni (quanti ne copre sulla tessera), così lontano la
   // tessera si fa media e non puntinatura; vicino la riga è ingrandita e vale la sfumatura del canvas
-  const alt = 400;
-  const trama = creaTela(W, alt), gt = ctxDi(trama);
+  const alt = 400, righe = alt * K;
+  const trama = creaTela(W * K, righe), gt = ctxDi(trama);
   const pat = gt.createPattern(tessera, "repeat")!;
   const F0 = 0.09, F1 = 1.55;
   const opaca: number[] = [];
   let v = 0;
-  for (let y = 0; y < alt; y += 1) {
-    const f = F0 + (F1 - F0) * Math.pow(y / alt, 1.15);
+  for (let yi = 0; yi < righe; yi += 1) {
+    const f = F0 + (F1 - F0) * Math.pow((yi + 0.5) / righe, 1.15);
     const ky = 0.36 * f;
-    const dv = 1 / ky;                                       // righe di tessera coperte da una riga di schermo
+    const dv = 1 / ky;                                       // righe di tessera coperte da una riga di tela
     const A = smooth(0.10, 0.34, f) * 0.95;
     opaca.push(A);
     if (A > 0.004) {
-      const nh = Math.max(1, Math.min(8, Math.round(1 / f))), nv = Math.max(1, Math.min(16, Math.round(dv)));
+      const nh = Math.max(1, Math.min(6, Math.round(1 / f))), nv = Math.max(1, Math.min(12, Math.round(dv)));
+      const cx = (W * K) / 2 * (1 - f);                      // la tessera resta ancorata al centro dello schermo
       gt.fillStyle = pat;
       let k = 0;
       for (let sv = 0; sv < nv; sv++) {
-        const vs = v + ((sv + 0.5) / nv - 0.5) * dv;       // il centro del pixel cade a vs + dv/2
+        const vs = v + ((sv + 0.5) / nv - 0.5) * dv;         // il centro del pixel cade a vs + dv/2
         for (let sh = 0; sh < nh; sh++) {
           const dxs = (sh + 0.5) / nh - 0.5;
           k++;
           gt.save();
           gt.globalAlpha = 1 / k;
-          gt.transform(f, 0, 0, ky, (W / 2) * (1 - f) + dxs, y - ky * vs);
-          gt.fillRect((-2 - (W / 2) * (1 - f)) / f - 1, vs, (W + 4) / f + 2, 1 / ky + 0.5);
+          gt.transform(f, 0, 0, ky, cx + dxs, yi - ky * vs);
+          gt.fillRect((-2 - cx) / f - 1, vs, (W * K + 4) / f + 2, 1 / ky + 0.5);
           gt.restore();
         }
       }
     }
     v += dv;
   }
-  const alt2 = alt;
-  const piana = creaTela(W, alt2), g = ctxDi(piana);
-  const gr = g.createLinearGradient(0, 0, 0, alt2);
+  const piana = creaTela(W * K, righe), g = ctxDi(piana);
+  const gr = g.createLinearGradient(0, 0, 0, righe);
   gr.addColorStop(0, "#e2e8ea"); gr.addColorStop(1, "#bcc5c8");
-  g.fillStyle = gr; g.fillRect(0, 0, W, alt2);
-  for (let y = 0; y < alt2; y++) {
+  g.fillStyle = gr; g.fillRect(0, 0, W * K, righe);
+  for (let y = 0; y < righe; y++) {
     if (opaca[y] <= 0.004) continue;
     g.globalAlpha = opaca[y];
-    g.drawImage(trama, 0, y, W, 1, 0, y, W, 1);
+    g.drawImage(trama, 0, y, W * K, 1, 0, y, W * K, 1);
   }
   g.globalAlpha = 1;
   // foschia lontana che mangia il dettaglio
-  const fos = g.createLinearGradient(0, 0, 0, 120);
+  const fos = g.createLinearGradient(0, 0, 0, 120 * K);
   fos.addColorStop(0, "rgba(232,238,238,.95)"); fos.addColorStop(1, "rgba(232,238,238,0)");
-  g.fillStyle = fos; g.fillRect(0, 0, W, 120);
+  g.fillStyle = fos; g.fillRect(0, 0, W * K, 120 * K);
   return piana;
 }
 
@@ -301,7 +306,7 @@ export function disegnaInvaso(ctx: C2D, t: number, c: Cache) {
   if (notte < 1) { ctx.globalAlpha = 1 - notte; ctx.drawImage(a.colline, 0, ORIZZONTE - 96); }
   if (notte > 0) { ctx.globalAlpha = notte; ctx.drawImage(a.collineNotte, 0, ORIZZONTE - 96); }
   ctx.restore();
-  ctx.drawImage(a.piana, 0, ORIZZONTE - 2);
+  ctx.drawImage(a.piana, 0, ORIZZONTE - 2, W, 400);
   // il cielo si specchia sul sale: una fascia chiara sotto l'orizzonte, che sbiadisce
   cielo(ctx, [[0, mix("#f4e7d0", "#33466a", notte).replace("#", "#")], [1, "rgba(0,0,0,0)"]], ORIZZONTE - 2, ORIZZONTE + 1);
   const rifl = ctx.createLinearGradient(0, ORIZZONTE, 0, ORIZZONTE + 150);

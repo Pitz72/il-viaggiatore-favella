@@ -7,7 +7,7 @@
 //  pre-produzione/07, §6.3: mediana ≤ la misura di partenza + 1,5 ms; a 2560 ≤ 12 ms.
 //
 //  Uso (dalla cartella del progetto):
-//    desktop\node_modules\.bin\electron strumenti\trailer-misura.cjs [--densita 1|1.333|2] [--istanti 3,8,13] [--n 40]
+//    desktop\node_modules\.bin\electron strumenti\trailer-misura.cjs [--densita 1|1.333|2] [--istanti 3,8,13] [--n 40] [--tetto 3840]
 //  Densità: 1 = 1920×1080, 1.333 = 2560×1440, 2 = 3840×2160 (la tela resta al tetto della scena).
 //  Stampa una riga con la scheda e la tela, poi una tabella «istante → ms».
 // ====================================================================
@@ -17,6 +17,7 @@ const args = process.argv.slice(2);
 const opz = (nome, ripiego) => { const i = args.indexOf(nome); return i >= 0 ? args[i + 1] : ripiego; };
 const DENSITA = Number(opz("--densita", 1));
 const N = Number(opz("--n", 40));
+const TETTO = opz("--tetto") ? Number(opz("--tetto")) : null;   // la larghezza massima della tela (px): 2560 di partenza, 3840 per provare il 4K pieno
 const ISTANTI = opz("--istanti") ? opz("--istanti").split(",").map(Number)
   : [3, 8, 13, 20, 24, 29, 31, 38, 47, 55, 61, 66, 71, 73, 75, 77, 86];
 const L = 1920, A = 1080;
@@ -48,6 +49,7 @@ app.whenReady().then(async () => {
   const t0 = Date.now();
   for (let i = 0; i < 600 && (await js(`document.body.innerText.includes("PREPARO IL VIAGGIO")`)); i++) await dormi(500);
   const preparazione = ((Date.now() - t0) / 1000).toFixed(1);
+  if (TETTO) await js(`window.__trailer.tetto(${TETTO})`);
   await dormi(1000);
   console.log(await js(`JSON.stringify({ tela: document.querySelector("canvas").width + "x" + document.querySelector("canvas").height, dpr: devicePixelRatio, scheda: (() => { const g = document.createElement("canvas").getContext("webgl"); const e = g && g.getExtension("WEBGL_debug_renderer_info"); return e ? g.getParameter(e.UNMASKED_RENDERER_WEBGL) : "?"; })() })`));
   console.log(`attesa «preparo il viaggio» dopo i loghi saltati: ${preparazione} s`);

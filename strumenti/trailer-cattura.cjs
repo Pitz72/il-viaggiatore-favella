@@ -15,6 +15,7 @@
 //    --insieme4k           i 7 istanti ★ da guardare a 4K (con --densita 2)
 //    --tempi 3,8.5,20      istanti a scelta (secondi)
 //    --densita 1|2         1 = 1920×1080, 2 = 3840×2160 (finestra e zoom raddoppiati)
+//    --tetto 3840          la larghezza massima della tela (px; 2560 di partenza): con --densita 2 prova il 4K pieno
 //    --prefisso t          prefisso dei file (default «t»): <prefisso>-<istante>.png, il punto diventa «_»
 //    --libero              NON deterministico: lascia la grana e il caso com'erano (per giudicare la grana)
 //    --nascondi <selettore>  nasconde gli elementi del DOM che corrispondono (per esempio «[data-riga]»: i testi): la
@@ -43,6 +44,7 @@ const USCITA = opz("--uscita") ? path.resolve(opz("--uscita")) : null;
 if (!USCITA) { console.error("Manca --uscita <cartella>. Vedi l'intestazione di questo file."); process.exit(2); }
 const DENSITA = Number(opz("--densita", 1));
 const PREFISSO = opz("--prefisso", "t");
+const TETTO = opz("--tetto") ? Number(opz("--tetto")) : null;
 const TEMPI = opz("--tempi") ? opz("--tempi").split(",").map(Number).filter((x) => !Number.isNaN(x))
   : flag("--insieme4k") ? INSIEME_4K : INSIEME;
 const L = 1920, A = 1080;
@@ -79,6 +81,7 @@ app.whenReady().then(async () => {
   // le tele si dipingono a pezzi: finché c'è la scritta «PREPARO IL VIAGGIO» si aspetta
   for (let i = 0; i < 600 && (await js(`document.body.innerText.includes("PREPARO IL VIAGGIO")`)); i++) await dormi(500);
   await dormi(800);
+  if (TETTO) await js(`window.__trailer.tetto(${TETTO})`);
   if (opz("--nascondi")) await js(`(() => { const s = document.createElement("style"); s.textContent = ${JSON.stringify(opz("--nascondi") + "{visibility:hidden !important}")}; document.head.appendChild(s); })()`);
   const larghezzaTela = () => js(`document.querySelector("canvas").width`);
   const tela0 = await larghezzaTela();

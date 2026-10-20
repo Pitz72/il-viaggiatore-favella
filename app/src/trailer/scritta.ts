@@ -8,7 +8,7 @@
 //  E un generatore di carta con fibre, macchie e pieghe.
 // ====================================================================
 import { rng, lerp, clamp } from "./tempo";
-import { creaTela, ctxDi, fbmPeriodico, riempi, smooth, type Tela } from "./texture";
+import { campoLento, creaTela, ctxDi, fbmPeriodico, riempi, smooth, type Tela } from "./texture";
 
 type C2D = CanvasRenderingContext2D;
 
@@ -68,8 +68,11 @@ const PENNINO = 0.5;
 export function scriviRiga(g: C2D, r: () => number, o: OpzioniRiga) {
   const h = o.altezzaX, inc = o.inclinazione ?? 0.22, sp = o.spessore ?? 1.5;
   const largo = Math.ceil(o.larghezza + h * 6 + 40), alto = Math.ceil(h * 7 + 20), ox = 20, oy = Math.round(h * 4.2);
-  // la riga si scrive piena su una tela a parte, poi si posa con la sua trasparenza: dove due tratti si incrociano non si scurisce
-  const foglio = creaTela(largo, alto), t = ctxDi(foglio);
+  // la riga si scrive piena su una tela a parte, poi si posa con la sua trasparenza: dove due tratti si incrociano non si scurisce.
+  // La tela a parte ha i pixel della tela su cui si posa (se questa è scalata, la riga non si ingrandisce sfocata)
+  const sc = Math.max(1, g.getTransform().a);
+  const foglio = creaTela(largo * sc, alto * sc), t = ctxDi(foglio);
+  t.scale(sc, sc);
   t.lineCap = "round"; t.lineJoin = "round";
   t.strokeStyle = o.inchiostro; t.fillStyle = o.inchiostro;
   // la riga ondeggia piano (due onde lente, fasi a caso)
@@ -134,13 +137,14 @@ export function scriviRiga(g: C2D, r: () => number, o: OpzioniRiga) {
   }
   g.save();
   g.globalAlpha = o.opacita ?? 1;
-  g.drawImage(foglio, o.x - ox, o.y - oy);
+  g.drawImage(foglio, o.x - ox, o.y - oy, largo, alto);
   g.restore();
 }
 
 /** Un foglio di corsivo su più righe, con margine, data in alto e firma in fondo. */
-export function scriviLettera(w: number, h: number, seme: number, inchiostro: string, opacita = 1): Tela {
-  const t = creaTela(w, h), g = ctxDi(t), r = rng(seme);
+export function scriviLettera(w: number, h: number, seme: number, inchiostro: string, opacita = 1, scala = 1): Tela {
+  const t = creaTela(w * scala, h * scala), g = ctxDi(t), r = rng(seme);
+  g.scale(scala, scala);                                    // la geometria è quella di w × h; i pixel sono `scala` volte di più
   const rigaH = 27, primo = 96;
   const righe = Math.floor((h - primo - 40) / rigaH);
   for (let k = 0; k < righe; k++) {
@@ -177,6 +181,7 @@ export interface OpzioniCarta {
 export async function carta(o: OpzioniCarta): Promise<Tela> {
   const n = fbmPeriodico(o.seme, 6, 4, 0);
   const c1 = hex(o.chiara), c2 = hex(o.scura);
+  const macchiaF = campoLento((x, y) => n(x * 0.012 + 9, y * 0.012 + 5), o.w, o.h, 8, false);   // le macchie di tempo sono lente: a griglia
   const t = await riempi(o.w, o.h, (x, y, px) => {
     const u = x / o.w, v = y / o.h;
     const diag = clamp(u * 0.55 + v * 0.45);
@@ -186,7 +191,7 @@ export async function carta(o: OpzioniCarta): Promise<Tela> {
     const fibra = n(x * 0.05 + 40, y * 0.9);
     const grana = fine * 7 + fibra * 6;
     // macchie di tempo, brune e larghe
-    const macchia = smooth(0.25, 0.75, n(x * 0.012 + 9, y * 0.012 + 5) * 0.5 + 0.5) * o.invecchiata;
+    const macchia = smooth(0.25, 0.75, macchiaF(x, y) * 0.5 + 0.5) * o.invecchiata;
     // bordo ingiallito e un po' consumato
     const dx = Math.min(x, o.w - x) / o.w, dy = Math.min(y, o.h - y) / o.h;
     const bordo = 1 - smooth(0, 0.07, Math.min(dx, dy * 1.4));

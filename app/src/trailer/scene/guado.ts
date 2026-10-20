@@ -11,7 +11,7 @@ import { W, H, CAMMINATE, faseDiPasso } from "../scaletta";
 import { easeInOut, lerp, rng, seg } from "../tempo";
 import type { Cache } from "../cache";
 import { alone, camera, cielo, crinale, disegnaRaggio, nuvole, nuvoleScorrono, pulviscolo, raggioMorbido, type C2D, type RaggioMorbido } from "../pittura";
-import { creaTela, ctxDi, fbmPeriodico, riempi, type Tela } from "../texture";
+import { creaTelaR, fbmPeriodico, riempi, type Tela } from "../texture";
 import { disegnaViandante, velocitaSuolo } from "../viandante";
 
 const AMP = 0.4;
@@ -24,7 +24,7 @@ interface StatoGuado { citta: Tela; sassi: Tela; nubi: Tela; colline: Tela; ragg
 // --------------------------------------------------------------------
 function cittaTela(): Tela {
   const w = 1300, h = 300, base = 250;
-  const t = creaTela(w, h), g = ctxDi(t), r = rng(61);
+  const { tela: t, g } = creaTelaR(w, h), r = rng(61);
   g.fillStyle = "#12050b";
   const luce = "rgba(255,130,96,.75)";
   let x = 30;
@@ -73,13 +73,13 @@ function cittaTela(): Tela {
 // --------------------------------------------------------------------
 async function sassiTela(): Promise<Tela> {
   const w = W + 400, h = 400;
-  const t = creaTela(w, h), g = ctxDi(t), r = rng(91);
+  const { tela: t, g } = creaTelaR(w, h), r = rng(91);
   const fondo = g.createLinearGradient(0, 0, 0, h);
   fondo.addColorStop(0, "#28101a"); fondo.addColorStop(0.5, "#1c0b12"); fondo.addColorStop(1, "#12070c");
   g.fillStyle = fondo; g.fillRect(0, 0, w, h);
   const n = fbmPeriodico(2, 10, 3, 0);
   const grana = await riempi(w, h, (x, y, px) => { const v = n(x / w * 10, y / 40) * 30; px[0] = v > 0 ? 255 : 0; px[1] = v > 0 ? 190 : 0; px[2] = v > 0 ? 160 : 0; px[3] = Math.abs(v) * 1.4; });
-  g.drawImage(grana, 0, 0);
+  g.drawImage(grana, 0, 0, w, h);
   const sassi: { x: number; y: number; rx: number; ry: number; a: number }[] = [];
   for (let i = 0; i < 620; i++) {
     const y = Math.pow(r(), 1.7) * h, prof = y / h;
@@ -161,7 +161,7 @@ export function disegnaGuado(ctx: C2D, t: number, c: Cache) {
 
   // ── colline dietro, poi Acquamorta sull'altra riva
   ctx.drawImage(a.colline, 0, 470);
-  ctx.drawImage(a.citta, 30, RIVA - 250 + 4);
+  ctx.drawImage(a.citta, 30, RIVA - 250 + 4, 1300, 300);
   // foschia bassa: la calura della sera sale dall'acqua
   cielo(ctx, [[0, "rgba(255,150,100,0)"], [1, "rgba(255,150,100,.30)"]], 610, 700);
 
@@ -171,7 +171,7 @@ export function disegnaGuado(ctx: C2D, t: number, c: Cache) {
   gw.addColorStop(0, "#e07a52"); gw.addColorStop(0.35, "#a63f44"); gw.addColorStop(1, "#3b1220");
   ctx.fillStyle = gw; ctx.fillRect(-100, ay, W + 200, 110);
   // il riflesso della città: la stessa sagoma capovolta e sfumata
-  ctx.save(); ctx.globalAlpha = 0.34; ctx.translate(30, ay); ctx.scale(1, -0.55); ctx.drawImage(a.citta, 0, -250); ctx.restore();
+  ctx.save(); ctx.globalAlpha = 0.34; ctx.translate(30, ay); ctx.scale(1, -0.55); ctx.drawImage(a.citta, 0, -250, 1300, 300); ctx.restore();
   // il bagliore del sole sull'acqua: una colonna di scintille
   ctx.globalCompositeOperation = "lighter";
   const rr = rng(12);
