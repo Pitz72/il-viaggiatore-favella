@@ -6,6 +6,9 @@
 #  3. pacchetti desktop Windows e Linux costruiti e AUTOVERIFICATI (il gioco
 #     vero parte dentro il pacchetto, gioca, salva e ricarica).
 #
+#  Il giro corto dell'esploratore (partite a caso) non blocca: segnala anomalie
+#  da guardare a mano, ma un'anomalia non è per forza un difetto del commit.
+#
 #  Qui non si pubblica niente: le release le crea solo il workflow «Rilascio»,
 #  a mano, dalla scheda Actions.
 name: CI
@@ -34,6 +37,10 @@ jobs:
         run: node strumenti/versione.mjs verifica
       - name: Diario di sviluppo ben formato
         run: node strumenti/diario.mjs verifica
+      - name: Prove del processo principale (registro, IPC) e della data
+        run: |
+          node desktop/prove.cjs
+          node strumenti/prova-data.mjs
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
@@ -68,6 +75,11 @@ jobs:
           python collaudo/testo.py
       - name: I finali giocati solo con i pulsanti
         run: python collaudo/pulsanti.py
+      - name: L'esploratore (giro corto, non blocca)
+        continue-on-error: true
+        timeout-minutes: 6
+        working-directory: collaudo
+        run: python esploratore.py -n 5 -t 150
 
   desktop:
     name: Pacchetto ${{ matrix.nome }}
