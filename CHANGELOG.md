@@ -8,6 +8,26 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.18.0] - 2026-10-20
+
+### Cambiato
+- **Il trailer, la materia** (durata, ordine, tempi, testi e musica sono quelli di prima):
+  - la piana di sale dell'invaso non è più un selciato: lastre irregolari e più larghe, con la cresta di pressione
+    rialzata sul bordo (chiara dal lato della luce, in ombra dall'altro), fessure sottili a tratti, chiazze di umidità e
+    granulo di cristalli; lontano la tessera si media e l'orizzonte è pulito, senza i puntini che sfarfallavano;
+  - la terra della Secca ha crepe vere: fessure da un filo a una spaccatura di una dozzina di pixel, con la polvere
+    chiara depositata ai bordi, piastre che si incurvano ognuna a modo suo, zone più pallide e piastre scure e umide,
+    crepe sottili dentro una piastra su due; spariscono i contorni a «mappa» e i sassolini rosa; la preparazione della
+    terra passa da 0,93 a 0,60 s;
+  - la mano che scrive: il corsivo delle lettere e della busta è tracciato con un pennino (più grosso nelle discese,
+    più sottile nelle salite), con la pressione che cambia da lettera a lettera, la riga che ondeggia piano e
+    l'inchiostro che ristagna a fine parola; la riga che si sta scrivendo ha il bordo bagnato che sfuma;
+  - il biglietto «NON È IL CASO DI TORNARE.» è scritto a mano in stampatello a pennarello, col carattere
+    **Covered By Your Grace** (Kimberly Geswein, licenza OFL 1.1, sottoinsieme latino di 16 kB in `app/public/fonts/`,
+    scelto fra quattro candidati): ogni lettera si svela dietro la punta, da sinistra a destra, invece di comparire di colpo.
+- **Per chi sviluppa:** `strumenti/trailer-preparazione.cjs` dice quanto ci mette a prepararsi ogni scena; `campoLento()`
+  in `trailer/texture.ts` dà campi lenti (toni a zone, umidità) calcolati a griglia e interpolati.
+
 ## [1.17.1] - 2026-10-20
 
 ### Cambiato
