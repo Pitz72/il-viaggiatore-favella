@@ -216,6 +216,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
   const manda = (grezzo: string, etichetta?: string) => {
     const cmd = grezzo.trim();
     if (!cmd || finita || !sessione.current || richiesta) return;
+    voce.ferma();   // anche un comando dato col mouse zittisce la voce: non parli sopra una scelta nuova
     if (serveAnteprima(cmd, mondo)) {
       const antep = sessione.current.anteprima(cmd);
       const c = valutaConferma(cmd, antep, mondo);
