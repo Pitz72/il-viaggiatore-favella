@@ -16,8 +16,10 @@ strumenti/doppiaggio.py, trailer compreso) e controlla:
      (dal resoconto doppiaggio/banco.json; con ffmpeg, rimisurato sui file veri);
   6. il peso della voce nel pacchetto;
   7. con la logica vera dell'app (app/src/gioco/parti.ts, in Node): lungo i dodici percorsi e le
-     tre morti di finali.py, ogni riga che il motore stampa trova le sue parti, pezzo per pezzo, e
-     ogni risposta di dialogo offerta ha la voce del narratore (serve `npm ci --prefix app`).
+     tre morti di finali.py, ogni riga che il motore stampa trova le sue parti, pezzo per pezzo; così
+     ogni testo dei .fav stampato come lo stampa il motore (i numeri delle scorte con ogni valore
+     registrato, i fili del viaggio uno per uno e tutti insieme) e ogni risposta di dialogo; e ogni
+     parte del gioco (non del trailer) si ritrova da almeno un testo (serve `npm ci --prefix app`).
 
 Uso:  python doppiaggio.py      (esce con 1 se qualcosa non va; ffmpeg è facoltativo)
 """
@@ -43,8 +45,6 @@ TOLLERANZA_MS = 25
 PARTI_NODE = os.path.join(RADICE, "app", "scripts", "parti-node.mjs")
 # Ciò che il motore dice da sé (non sta nei .fav): non ha voce, lo legge il lettore di schermo.
 DEL_MOTORE = ("La partita è finita.",)
-# I numeri delle scorte dentro le battute («Hai 6 d'acqua e 2 di cibo.»): li compone la fase 3 del piano 08.
-NUMERI_FASE_3 = re.compile(r"\b\d+ (d'acqua|di cibo)\b")
 
 
 def testi_dei_percorsi():
@@ -219,19 +219,32 @@ def main():
           "l'indice ha il testo di ogni parte (l'app ritrova le parti dal testo)",
           sorted(set(testi_indice) ^ (set(parti) | set(muti))))
     stampati, scelte = testi_dei_percorsi()
-    # in più, ogni testo dei .fav come lo stamperebbe il motore (anche quelli che i percorsi non toccano);
-    # quelli con i segnaposto ([acqua], [i fili del viaggio]) li compone la fase 3
-    statici, scelte_fav = [], []
-    for x in S.costruisci_tutto()["stringhe"]:
+    # in più, ogni testo dei .fav come lo stamperebbe il motore (anche quelli che i percorsi non toccano):
+    # i numeri delle scorte con ogni valore registrato, i fili del viaggio uno per uno e tutti insieme
+    stringhe = S.costruisci_tutto()["stringhe"]
+    fili = [re.findall(r"\[se [^\]]*\](.*?)\[fine\]", x["origine"], re.S) for x in stringhe if "[se " in x["origine"]]
+    fili = [f for gruppo in fili for f in gruppo]
+    tutti_i_fili = "".join(fili).strip()
+    statici, scelte_fav, combinazioni = [], [], 0
+    for x in stringhe:
         t = x["origine"].replace("\\n", "\n")   # nei .fav l'a capo è scritto «\n»
-        if "[" in t:
+        if "[se " in t:
+            statici += [f.strip() for f in fili] + [tutti_i_fili]
             continue
-        if x["tipo"] == "opzione":
-            scelte_fav.append(t)
-        elif x["tipo"] == "dialogo":
-            statici.append("\n".join("%s: %s" % (x["parlante"], r) for r in t.split("\n")))
-        else:
-            statici.append(t)
+        varianti = [t.replace("[i fili del viaggio]", tutti_i_fili)]
+        for nome, valori in S.VALORI.items():   # i valori che la voce di servizio ha registrato
+            if "[%s]" % nome in t:
+                varianti = [v.replace("[%s]" % nome, str(n)) for v in varianti for n in valori]
+        combinazioni += len(varianti) - 1
+        for v in varianti:
+            if re.search(r"\[\w", v):
+                continue   # la riga di STATO («Vita [vita]/10 …») resta muta: piano 08, decisione 2
+            if x["tipo"] == "opzione":
+                scelte_fav.append(v)
+            elif x["tipo"] == "dialogo":
+                statici.append("\n".join("%s: %s" % (x["parlante"], r) for r in v.split("\n")))
+            else:
+                statici.append(v)
     n_percorsi, n_scelte = len(stampati), len(scelte)
     stampati += statici
     scelte += scelte_fav
@@ -243,24 +256,21 @@ def main():
         r = json.loads(risposta.stdout)
         righe = [x for t in r["testi"] for x in t if x["blocco"]["tipo"] not in ("sistema", "stanza", "comando")]
         righe_percorsi = [x for t in r["testi"][:n_percorsi] for x in t if x["blocco"]["tipo"] not in ("sistema", "stanza", "comando")]
-        senza, da_fare = [], 0
+        senza = []
         for x in righe:
             for m in x["mancano"]:
                 if any(m["testo"].startswith(p) for p in DEL_MOTORE):
                     continue
-                if NUMERI_FASE_3.search(m["testo"]):
-                    da_fare += 1
-                    continue
                 senza.append("%s «%s» (nella riga «%s»)" % (m["voce"], m["testo"][:70], x["blocco"].get("testo", "")[:50]))
-        esito(not senza, "lungo i percorsi %d righe stampate dal motore, più %d testi dei .fav: ogni pezzo ha la sua parte" % (
-            len(righe_percorsi), len(statici)),
+        esito(not senza, "lungo i percorsi %d righe stampate dal motore, più %d testi dei .fav (%d combinazioni di numeri, "
+              "%d fili): ogni pezzo ha la sua parte" % (len(righe_percorsi), len(statici), combinazioni, len(fili)),
               sorted(set(senza)))
-        if da_fare:
-            print("-- %d pezzi con i numeri delle scorte: si compongono nella fase 3" % da_fare)
         viste = {i for x in righe_percorsi for i in x["ids"]} | {i for x in r["scelte"][:n_scelte] for i in x["ids"]}
         tutte = {i for x in righe for i in x["ids"]} | {i for x in r["scelte"] for i in x["ids"]}
-        print("-- parti ritrovate: %d lungo i percorsi, %d con i testi dei .fav, su %d (le altre: numeri, fili, trailer)" % (
-            len(viste), len(tutte), len(serve)))
+        del_gioco = {i for i in serve if unita[i].get("categoria") != "trailer"}
+        esito(del_gioco <= tutte, "ogni parte del gioco si ritrova da un testo stampato (%d lungo i percorsi, %d in tutto; "
+              "le %d del trailer sono della fase 4)" % (len(viste), len(tutte & del_gioco), len(serve - del_gioco)),
+              ["%s «%s»" % (i, unita[i]["testo"][:70]) for i in sorted(del_gioco - tutte)])
         scelte_senza = sorted({o for o, x in zip(scelte, r["scelte"]) if x["mancano"]})
         esito(not scelte_senza, "ogni risposta di dialogo (%d incontrate, %d nei .fav) ha la voce del narratore" % (
             len(set(scelte[:n_scelte])), len(scelte_fav)),
