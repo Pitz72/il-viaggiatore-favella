@@ -8,7 +8,58 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
-## [1.15.0] - 2026-10-19
+## [1.16.0] - 2026-10-20
+
+### Aggiunto
+- **Il panorama sa dov'è il viandante.** Nel bar, in casa, all'osteria, nel casotto, nella serra, nella grotta,
+  nella torre di presa, nella condotta e nel sottopasso lo sfondo non è più lo skyline all'aperto: sono scene
+  d'interno con la tavolozza della zona più scura, senza sole né colline, e la luce che c'è lì (la lampada e le
+  bottiglie del bar, la finestra e la foto storta di casa, il camino dell'osteria, la branda e gli attrezzi del
+  casotto, i vetri opachi della serra, la porta di tavole della grotta, le feritoie della torre, l'uscita in fondo
+  alla galleria). Il viandante resta, cammina al cambio di luogo e il pavimento scorre sotto i piedi; entrando e
+  uscendo la scena si dissolve come fra una zona e l'altra. A fine partita il panorama torna all'aperto.
+- **Per chi sviluppa:** `window.__panorama.imposta(clima, luogo)` e `.prova(n)` (solo in sviluppo) per guardare e
+  misurare ogni scena; `desktop/prove.cjs` prova senza Electron il registro e il controllo dei canali IPC;
+  `strumenti/prova-data.mjs` la data delle versioni; `collaudo/salvataggi.py` prova che un caricamento rotto a
+  metà lasci il ponte com'era; la CI esegue anche un giro corto dell'esploratore (non blocca).
+
+### Cambiato
+- **«Come si gioca» e il taccuino si leggono meglio.** Nessun testo sotto gli 11 px (prima fino a 7,8 px nella
+  partita); la guida è più larga e ci sta a 1280×720 senza scorrere, a 960×540 e nel menu del trailer. Nel
+  taccuino esporta ed elimina salgono sulla riga del nome del luogo.
+- **I contrasti arrivano a 4,5:1 ovunque.** Controllati in inizio, dialogo, conferma, pannelli, taccuino, guida e
+  partita persa, con gli otto accenti di zona: il segnaposto del comando, le voci passate del diario (si attenua il
+  colore del testo, non più l'intera voce), il prompt del comando, «bevi»/«mangia» sotto le scorte, la conferma e
+  i testi piccoli sul panorama (testata e nome del luogo, anche sul cielo bianco del sale).
+- **Storia:** il paragrafo di chiusura dei finali («Dietro di te, la strada. …») si scrive una volta sola, come
+  testo con un nome. Il testo che il giocatore legge non cambia di un carattere (provato su tutte le 512
+  combinazioni dei suoi fatti e sulle trascrizioni dei dodici percorsi); cambia l'impronta dell'avventura, quindi i
+  salvataggi vecchi si ricostruiscono e il gioco lo dice.
+- **Pyodide 0.27.8** (era 0.27.2); gli avvisi npm sistemati senza forzare niente (restano 8 moderati negli
+  strumenti di build di electron-builder).
+
+### Corretto
+- **Un caricamento fallito a metà non lascia il motore con un mondo parziale** mentre lo schermo mostra ancora
+  quello di prima: il ponte ripristina mondo, sequenza e posizioni di ANNULLA.
+- **Gli errori non presi** (gestori di eventi, timer, promesse rifiutate) finiscono nel registro tecnico, senza
+  nessuno schermo d'errore; un `play()` rifiutato dell'audio è solo un avviso.
+- **Le schede del taccuino non hanno più pulsanti dentro un pulsante**: la scheda è un contenitore, con un
+  pulsante per tutta l'area (preso dai suoi testi) ed esporta ed elimina come pulsanti a parte. Meglio per chi
+  usa un lettore di schermo; il fuoco da tastiera ora si vede.
+- **Il registro tecnico del desktop ruota anche durante la sessione** oltre 1 MB, non solo all'apertura.
+- **`versione.mjs prepara` data il CHANGELOG col giorno locale**, non quello UTC: fra mezzanotte e le 2 in Italia
+  dava il giorno prima (è successo alla 1.15.0, che qui sotto ora porta la data giusta).
+
+### Sicurezza
+- **I canali fra la pagina e il processo principale controllano chi li chiama**: devono arrivare dal frame
+  `app://gioco` (con l'utente e la porta nell'indirizzo non passa più). Un solo punto, `desktop/ipc.cjs`.
+- **Le fuse di Electron sono chiuse** nel pacchetto: niente `ELECTRON_RUN_AS_NODE`, `NODE_OPTIONS` né `--inspect`,
+  si carica solo l'asar (con la sua integrità), niente privilegi speciali per `file://`, cookie cifrati.
+- **L'azione che crea la release è fissata per SHA di commit**, non per un tag che si può spostare.
+- **README: sezione «Sicurezza»**: gli eseguibili non sono firmati e l'aggiornamento automatico si fida del solo
+  account GitHub; che cosa protegge, che cosa no, come si verifica un pacchetto con gli hash di `latest.yml`.
+
+## [1.15.0] - 2026-10-20
 
 ### Aggiunto
 - **Il diario si lascia leggere dagli schermi parlanti.** È una regione viva (`role="log"`,
