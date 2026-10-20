@@ -19,6 +19,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { dataLocale } from "./data-locale.mjs";
 
 const radice = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const P = (...p) => path.join(radice, ...p);
@@ -172,7 +173,7 @@ try {
     if (giaRilasciata ? confronta(nuova, gioco) <= 0 : confronta(nuova, gioco) < 0) {
       throw new Error(`La nuova versione ${nuova} deve seguire la ${gioco}.`);
     }
-    const oggi = new Date().toISOString().slice(0, 10);
+    const oggi = dataLocale();   // il giorno di chi lavora: toISOString() è in UTC e fra mezzanotte e le 2 darebbe quello prima
     const righe = cl.split("\n");
     righe.splice(nr.inizio, nr.fine - nr.inizio,
       INTESTAZIONE_NR, "", `## [${nuova}] - ${oggi}`, "", nr.corpo, "");
