@@ -100,6 +100,21 @@ assert.deepEqual(O.opzioni(), BASE);
 assert.deepEqual(JSON.parse(cassetto.get("viaggiatore.opzioni")), BASE);
 ok("ripristina riporta tutto come al primo avvio");
 
+// 6b. l'alta accessibilità: l'interruttore accende e spegne le cinque righe, e se ne cambia una dice «personalizzata»
+da({});
+assert.equal(O.altaAccessibilita(O.opzioni()), "no");
+O.cambiaOpzioni(O.ACCESSIBILE);
+assert.equal(O.altaAccessibilita(O.opzioni()), "si");
+assert.deepEqual([O.opzioni().contrasto, O.opzioni().testo, O.opzioni().carattere, O.opzioni().movimento, O.opzioni().fuoco], ["alto", "grande", "atkinson", "ridotto", "marcato"]);
+O.cambiaOpzioni({ fuoco: "normale" });
+assert.equal(O.altaAccessibilita(O.opzioni()), "personalizzata");
+O.cambiaOpzioni(O.NON_ACCESSIBILE);
+assert.equal(O.altaAccessibilita(O.opzioni()), "no");
+assert.deepEqual(O.opzioni(), BASE, "spenta, è come al primo avvio");
+const guasta = da({ "viaggiatore.opzioni": JSON.stringify({ contrasto: "altissimo", testo: "grande", carattere: "comic", movimento: "fermo", fuoco: true }) });
+assert.deepEqual([guasta.contrasto, guasta.testo, guasta.carattere, guasta.movimento, guasta.fuoco], ["normale", "grande", "lora", "sistema", "normale"]);
+ok("l'alta accessibilità accende e spegne insieme le cinque righe; una cambiata la rende personalizzata");
+
 // 7. lo spazio negato: le opzioni valgono lo stesso finché il gioco è aperto, e la vecchia voce non si perde
 pieno = true;
 o = da({ "viaggiatore.voce": JSON.stringify({ modo: "lettore", volume: 0.9 }) });
