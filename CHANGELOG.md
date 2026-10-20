@@ -8,6 +8,16 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.19.0] - 2026-10-20
+
+### Aggiunto
+- **Il banco della voce** (doppiaggio, fase 1 del piano 08): le 878 parti doppiate diventano un file Opus ciascuna
+  (mono, 32 kbit/s) in `app/public/voce/`, con un indice delle durate. Ogni blocco generato è portato allo stesso volume
+  (−23 LUFS, EBU R128, senza compressione), con i silenzi in testa e in coda tolti. Nel repository e nei pacchetti ne
+  vanno 809 (61 minuti, 13,7 MB); le 69 di Imma, Rosaria, Tore e Vito, fatte con ElevenLabs sul piano gratuito, restano
+  sul PC dell'autore e si rifaranno prima del rilascio. Il gioco non le suona ancora. Strumento
+  `strumenti/doppiaggio-banco.py`, collaudo `collaudo/doppiaggio.py` (anche in CI).
+
 ## [1.18.2] - 2026-10-20
 
 ### Corretto
