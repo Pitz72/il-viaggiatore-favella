@@ -5,10 +5,11 @@ strumenti/doppiaggio-banco.py); l'id è l'impronta di voce + testo. Questo colla
 ricava dai .fav di OGGI le parti che devono avere una voce (lo stesso spezzamento di
 strumenti/doppiaggio.py, trailer compreso) e controlla:
 
-  1. ogni parte ha il suo audio, o è dichiarata muta col motivo (indice → «muti»): un
-     testo cambiato nel gioco ha un id nuovo, e qui risulta senza audio;
+  1. ogni parte ha il suo audio, nella cartella principale o in una di quelle che l'indice
+     nomina («cartelle»: elevenlabs/, le voci fuori dalla licenza libera, con la loro licenza);
+     un testo cambiato nel gioco ha un id nuovo, e qui risulta senza audio;
   2. l'indice non ha parti che il gioco non dice più (audio scaduto);
-  3. ogni file c'è, è un Ogg Opus vero, dura quanto dice l'indice, e nella cartella
+  3. ogni file c'è, è un Ogg Opus vero, dura quanto dice l'indice, e nelle cartelle
      non c'è niente di più;
   4. le durate sono sensate per il testo (né una parola di trenta secondi né una
      descrizione di mezzo secondo: un file scambiato si vede qui);
@@ -140,36 +141,51 @@ def main():
 
     with open(os.path.join(VOCE, "indice.json"), encoding="utf-8") as f:
         indice = json.load(f)
-    parti = indice["parti"]
     est = indice["estensione"]
-    muti = {i: motivo for motivo, ids in indice.get("muti", {}).items() for i in ids}
+    # ogni parte e la sua cartella: la principale e quelle che l'indice nomina, ognuna col suo indice
+    cartelle = {"": indice}
+    for c in indice.get("cartelle", []):
+        with open(os.path.join(VOCE, c, "indice.json"), encoding="utf-8") as f:
+            cartelle[c] = json.load(f)
+    parti, cartella_di = {}, {}
+    for c, ix in cartelle.items():
+        for i, ms in ix["parti"].items():
+            parti[i] = ms
+            cartella_di[i] = c
+    file_di = lambda i: os.path.join(VOCE, cartella_di[i], i + est)
+    senza_licenza = [c for c, ix in cartelle.items() if c and not ix.get("licenza")]
+    esito(not senza_licenza, "ogni cartella a parte dice la sua licenza (%s)" % ", ".join(c for c in cartelle if c), senza_licenza)
 
     # 1-2. le parti che il gioco di oggi dice, contro l'indice
     S = strumento_doppiaggio()
     unita = S.costruisci_tutto()["unita"]
     serve = set(unita)
-    mancano = sorted(serve - set(parti) - set(muti))
-    esito(not mancano, "ogni parte che il gioco dice ha la sua voce o è dichiarata muta (%d parti, %d mute)" % (
-        len(serve), len(muti)),
+    mancano = sorted(serve - set(parti))
+    esito(not mancano, "ogni parte che il gioco dice ha la sua voce (%d parti, %s)" % (
+        len(serve), ", ".join("%d in %s" % (sum(1 for i in parti if cartella_di[i] == c), c or "voce/") for c in cartelle)),
         ["%s %s: «%s»" % (i, unita[i]["voce"], unita[i]["testo"][:70]) for i in mancano])
-    scadute = sorted((set(parti) | set(muti)) - serve)
+    scadute = sorted(set(parti) - serve)
     esito(not scadute, "nessun audio scaduto (parti che il gioco non dice più)", scadute)
-    doppie = sorted(set(parti) & set(muti))
-    esito(not doppie, "nessuna parte è insieme suonata e muta", doppie)
+    doppie = sorted(i for c, ix in cartelle.items() if c for i in ix["parti"] if i in indice["parti"])
+    esito(not doppie, "nessuna parte sta in due cartelle", doppie)
 
     # 3. i file
-    presenti = {f[:-len(est)] for f in os.listdir(VOCE) if f.endswith(est)} - {"trailer"}
-    altri = sorted(f for f in os.listdir(VOCE)
-                   if os.path.isfile(os.path.join(VOCE, f)) and not f.endswith(est) and f not in ("indice.json", "trailer.json"))
-    esito(set(parti) <= presenti and not (presenti - set(parti)) and not altri,
-          "la cartella della voce è l'indice: %d file" % len(presenti),
-          ["manca %s%s" % (i, est) for i in sorted(set(parti) - presenti)] +
-          ["di troppo %s%s" % (i, est) for i in sorted(presenti - set(parti))] + ["di troppo %s" % f for f in altri])
+    storti, presenti = [], set()
+    for c in cartelle:
+        dentro = {f[:-len(est)] for f in os.listdir(os.path.join(VOCE, c)) if f.endswith(est)} - {"trailer"}
+        attesi = {i for i in parti if cartella_di[i] == c}
+        altri = sorted(f for f in os.listdir(os.path.join(VOCE, c)) if os.path.isfile(os.path.join(VOCE, c, f))
+                       and not f.endswith(est) and f not in ("indice.json", "trailer.json"))
+        storti += ["manca %s%s%s" % (c and c + "/", i, est) for i in sorted(attesi - dentro)]
+        storti += ["di troppo %s%s%s" % (c and c + "/", i, est) for i in sorted(dentro - attesi)]
+        storti += ["di troppo %s%s" % (c and c + "/", f) for f in altri]
+        presenti |= dentro & attesi
+    esito(not storti, "le cartelle della voce sono i loro indici: %d file" % len(presenti), storti)
     storti = []
     for i, ms in sorted(parti.items()):
         if i not in presenti:
             continue
-        d, errore = durata_ogg_opus(os.path.join(VOCE, i + est))
+        d, errore = durata_ogg_opus(file_di(i))
         if errore:
             storti.append("%s: %s" % (i, errore))
         elif abs(d - ms) > TOLLERANZA_MS:
@@ -200,7 +216,7 @@ def main():
             blocchi = json.load(f)["blocchi"]
         fuori = []
         for b, v in blocchi.items():
-            file = [os.path.join(VOCE, i + est) for i in v["parti"] if i in parti]
+            file = [file_di(i) for i in v["parti"] if i in parti]
             if not file:
                 continue
             lufs, picco = loudness(file)
@@ -212,16 +228,17 @@ def main():
         print("-- senza ffmpeg: il volume non si rimisura sui file (resta il controllo del resoconto)")
 
     # 6. il peso
-    mb = sum(os.path.getsize(os.path.join(VOCE, i + est)) for i in presenti) / 1048576
+    mb = sum(os.path.getsize(file_di(i)) for i in presenti) / 1048576
     esito(mb <= PESO_MAX_MB, "la voce pesa %.1f MB nel pacchetto (tetto %.0f)" % (mb, PESO_MAX_MB))
-    for motivo, ids in indice.get("muti", {}).items():
-        print("-- %d parti mute: %s" % (len(ids), motivo))
+    for c, ix in cartelle.items():
+        if c:
+            print("-- %s/: %d parti. %s" % (c, len(ix["parti"]), ix["licenza"]))
 
     # 7. dal testo stampato alle parti, con la logica vera dell'app (parti.ts, in Node)
     testi_indice = indice.get("testi", {})
-    esito(set(testi_indice) == set(parti) | set(muti),
+    esito(set(testi_indice) == set(parti),
           "l'indice ha il testo di ogni parte (l'app ritrova le parti dal testo)",
-          sorted(set(testi_indice) ^ (set(parti) | set(muti))))
+          sorted(set(testi_indice) ^ set(parti)))
     stampati, scelte = testi_dei_percorsi()
     # in più, ogni testo dei .fav come lo stamperebbe il motore (anche quelli che i percorsi non toccano):
     # i numeri delle scorte con ogni valore registrato, i fili del viaggio uno per uno e tutti insieme
