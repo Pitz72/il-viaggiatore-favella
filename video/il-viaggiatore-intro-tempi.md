@@ -22,7 +22,7 @@ Realismo dolente, non epico. Un uomo torna a piedi in un sud senz'acqua. La musi
 | 49,0–59,6 | Chi è rimasto | «Cinque modi di stare in un mondo che muore.» Cinque segni: 52,3 · 52,7 · 53,1 · 53,6 · 54,0 s. | Sospensione, cinque tocchi leggeri. |
 | 59,6–67,8 | Il guado | Controluce cremisi, il viandante si ferma davanti al fratello. «tuo fratello» a 63,7 s. | Punto più alto. Il bordone si incrina (entra un intervallo minore); a 63,7 un colpo grave e poi quasi silenzio. |
 | 67,8–77,0 | Le regole | Montaggio serrato, cinque stacchi: 67,8 · 69,6 · 71,5 · 73,3 · 75,2 s. | Più ritmico, asciutto; un accento per stacco. |
-| 77,0–81,8 | I numeri | 7 tappe · 39 luoghi · 13 personaggi · 6 finali. | Trattenuto, prepara il titolo. |
+| 77,0–81,8 | I numeri | 7 tappe · 39 luoghi · 14 personaggi · 6 finali. | Trattenuto, prepara il titolo. |
 | 81,4–88,4 | Il titolo | Di nuovo l'alba; IL VIAGGIATORE a 82,3 s; il letterbox si apre. | Risoluzione calma, non trionfale. Coda lunga, sfumata oltre la fine. |
 
 ## Suggerimento di prompt per il generatore

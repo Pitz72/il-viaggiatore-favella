@@ -1,6 +1,6 @@
 # IL VIAGGIATORE — La cinematica d'apertura: estetica e dettagli
 
-> Pre-produzione · Strato 7 · **v0.1, piano del 20/10/2026: non eseguito, da eseguire solo su ordine di Simone**
+> Pre-produzione · Strato 7 · **v0.2, 20/10/2026: le dieci domande hanno avuto risposta (§7), si esegue una fase alla volta con il via libera di Simone alla fine di ciascuna**
 > Riguarda l'**aspetto** del trailer di 88,5 secondi che precede il gioco, non il suo comportamento.
 > Il materiale su cui poggia (fotogrammi, ritagli a 4K, misure, gli strumenti di cattura) sta in
 > `collaudo/esiti/piano-intro/` (cartella locale, non versionata: si rigenera con gli strumenti di §6).
@@ -483,7 +483,7 @@ contrasto. S · basso.
 | 0 | 1 | Niente di visibile: la prova che due catture sono identiche e la tabella delle misure di partenza | commit degli strumenti |
 | 1 | 2–8 | Sette coppie «prima e dopo» affiancate, ognuna con la sua cifra (colonne, giunture, contrasto…) | versione + commit + push + build |
 | 2 | 9–12 | Sei inquadrature affiancate (alba 16,5 · titolo 87 · guado 61,5 · invaso 31 e due con grana) a 1080p, un ritaglio a 4K, 10 secondi di video per la grana in movimento | idem |
-| 3 | 13–15 | Ascolto: file A/B (resa offline) dei cinque passaggi, poi ascolto nell'app desktop | idem |
+| 3 | ~~13~~, 14–15 | Ascolto nell'app desktop (la 13, il compressore, è caduta il 20/10: §7) | idem |
 | 4 | 16–18 | Per ogni voce la prova A/B su tre fotogrammi; per la scrittura, ritagli a 4K | idem |
 | 5 | 19 | Ritagli a 4K prima/dopo, tabella dei costi, esito della prova a scheda spenta | idem |
 | 6 | T1–T4, C1–C2 | Solo se Simone ha risposto alle domande del §7; fotogrammi e ascolto | idem |
@@ -602,6 +602,27 @@ fase, gli undici collaudi. «Riduci movimento»: emulare la preferenza (DevTools
 10. **Versioni e video.** Una versione per fase (patch o minor), e rigirare alla fine i due MP4 in
     `video/`?
 
+### Le risposte di Simone (20/10/2026)
+
+Date in chat, con le immagini del piano davanti (`trans-25.png`, `menu-avvio.png`, i ritagli a 4K di sale,
+terra e busta).
+
+| # | Domanda | Risposta | Che cosa ne segue |
+|---|---|---|---|
+| 1 | Perimetro: la schermata d'avvio | **Sì, rientra** | C1 e C2 si fanno (fase 6) |
+| 2 | Dissolvenze (T1) | **A: incrocio vero** | terra → invaso con finestre di 0,8 s; il taglio nominale a 25,2 resta al centro |
+| 3 | «tuo fratello» (T2) | **«decidi tu»** | Si allinea al colpo misurato: testo da 63,7 a 64,0 s, arresto a 64,0, passi in `CAMMINATE`. Si fa nella fase 6 e Simone lo approva a occhio e all'orecchio sul risultato; se non lo sente, si torna indietro. |
+| 4 | Il biglietto (T3) | **B: si scrive più in fretta** | `BIGLIETTO.perCarattere` 0,042 → 0,034 s; cambiano di conseguenza i tempi dei tasti in `EVENTI` (e i loro suoni) |
+| 5 | Calligrafia (18) | **A: procedurale** | nessun file nuovo, nessun download |
+| 6 | Sale e crepe (16, 17) | **Ridipingere, con prove A/B** | per ognuna prima/dopo su tre fotogrammi; sceglie Simone |
+| 7 | 4K (19) | **(a) poi (b) dove c'è margine** | tele statiche raddoppiate; poi la tela mobile oltre 2560 solo se la misura lo permette |
+| 8 | Grana (11) | **Sì: grano fine, 24 fotogrammi al secondo** | deterministica dal tempo; conserva la funzione di *dithering* |
+| 9 | Il suono (13) | **No, lascia com'è** | **la voce 13 cade**: il brano resta nel compressore. Restano 14 (latenza) e 15 (passi e rumori) |
+| 10 | Versioni e video | **Una versione per fase, MP4 alla fine** | patch se corregge, minor se ridipinge, nel dubbio la più alta; il rilascio resta uno solo, a fine sessione |
+
+**T4** (gli stacchi delle cinque regole) non è stata chiesta: resta ferma, come il piano la dà (priorità bassa,
+solo se all'ascolto il difetto si sentisse).
+
 ---
 
 ## 8. Cosa NON si farà
@@ -618,9 +639,11 @@ fase, gli undici collaudi. «Riduci movimento»: emulare la preferenza (DevTools
 - **Non si tocca il meglio**: il viandante (passo e appoggi), la mappa, le icone dei cinque modi, il
   colore per zona, il suolo cotto.
 - Niente telefono, touch, web. Niente rilascio. Niente `motore/`, `prototipo/`, salvataggi.
-- **Segnalato, non pianificato**: il foglio dei tempi (`video/il-viaggiatore-intro-tempi.md`) dice «13
-  personaggi» e il trailer «14» (`STATS`): 14 = 13 più il cane della serra; è un testo, lo decide
-  l'autore. I loghi e l'avviso non sono stati esaminati per questo piano.
+- **Chiuso il 20/10/2026**: il foglio dei tempi (`video/il-viaggiatore-intro-tempi.md`) diceva «13
+  personaggi» e il trailer «14» (`STATS`). Dal codice: i `.fav` dichiarano 14 personaggi (Nunzio, Saverio,
+  Iole, Rocco, Vito, Imma, Rosaria, Concetta, Pasquale, Peppe, Ciro, Onofrio, Tore, Cosimo); il cane della
+  serra è «una cosa», non uno dei 14. Vale 14, e il foglio dei tempi è allineato. I loghi e l'avviso non
+  sono stati esaminati per questo piano.
 
 ---
 
