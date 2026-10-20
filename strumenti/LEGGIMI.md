@@ -7,6 +7,10 @@
 | `mappa-narrativa.py` | la memoria della storia ricavata dai `.fav` → `sviluppo/mappa-narrativa.md` |
 | `esporta-trailer.cjs` | esporta il trailer in `video/*.mp4` (1080p e 720p) dal trailer vero, con Electron e ffmpeg: `desktop/node_modules/.bin/electron strumenti/esporta-trailer.cjs` (server di sviluppo su 5200) |
 | `esporta-loghi.cjs` | esporta i due loghi d'apertura in video 4K a 60 fps col loro suono (la stessa partitura del gioco, resa offline): `desktop/node_modules/.bin/electron strumenti/esporta-loghi.cjs [cartella]` (server di sviluppo su 5200; `--prova` per mezzo secondo) |
+| `trailer-cattura.cjs` | **il banco del trailer, 1/3**: cattura PNG del trailer a istanti scelti (l'insieme canonico di 40 a 1080p, i 7 ★ a 4K) in un Electron fuori schermo e **deterministico** (due catture dello stesso istante sono uguali al bit): `desktop/node_modules/.bin/electron strumenti/trailer-cattura.cjs --uscita collaudo/esiti/prima` (server di sviluppo su 5200; `--densita 2` per 4K, `--tempi 16.5,64.5`, `--libero` per giudicare la grana) |
+| `trailer-preload-determinista.js` | il preload del banco: `Math.random` con seme fisso, grana nascosta, animazioni CSS ferme (non fa parte dell'app) |
+| `trailer-confronta.mjs` | **il banco del trailer, 2/3**: confronta due cartelle di catture con il PSNR (`inf` = identico) e, con `--tavola`, scrive tavole «prima \| dopo \| differenza»: `node strumenti/trailer-confronta.mjs collaudo/esiti/prima collaudo/esiti/dopo` |
+| `trailer-misura.cjs` | **il banco del trailer, 3/3**: il costo di un fotogramma (mediana e p95, in ms) a 17 istanti, via `__trailer.prova` e sincronia WebGL: `desktop/node_modules/.bin/electron strumenti/trailer-misura.cjs --densita 1` |
 | `gioca.py` | **il banco di gioco**: giocare a mano, e misurare l'equilibrio (qui sotto) |
 
 ## Il banco di gioco (`gioca.py`)
