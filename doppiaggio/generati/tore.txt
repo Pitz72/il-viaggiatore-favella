@@ -1,22 +1,25 @@
-### asciutto — style: dry, curt
-Che altro? <long pause>
-Tuo fratello, dicono giù al paese. Io non chiedo.
+[dry, curt] Che altro?
 
-### calmo — style: calm, even
-Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire di lasciarti passare. <long pause>
-Gente così, quassù, si ferma poco. Ho formaggio, se hai da scambiare. Acqua, magari: di quella, quassù, se ne beve poca. <long pause>
-Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire che sei uno a posto. <long pause>
-Roba che cammina con te per giorni. <long pause>
+Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire di lasciarti passare.
+
+[wary, guarded] Ha mandato a dire anche il resto.
+
+Ho formaggio, se hai da scambiare. Acqua, magari: di quella, quassù, se ne beve poca.
+
+[teasing, mocking] Ha mandato a dire anche che al casello hai tirato fuori un ferro vuoto, e che l'altro ha fatto calma, calma.
+
+[wry, ironic] Quassù i ferri vuoti non li tiriamo fuori. Ma ho formaggio, se hai da scambiare. Acqua, magari.
+
+Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire che lasci qualcosa a chi resta.
+
+Gente così, quassù, si ferma poco. Ho formaggio, se hai da scambiare. Acqua, magari: di quella, quassù, se ne beve poca.
+
+Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire che sei uno a posto.
+
+Roba che cammina con te per giorni.
+
+[bitter, resigned] Uno che non lascia passare. Sta là da quando il paese è morto, a guardia di niente.
+
+[dry, curt] Tuo fratello, dicono giù al paese. Io non chiedo.
+
 Onofrio non parla con anima viva. Con te, forse, se gli porti qualcosa di casa tua. È l'unico che sappia com'è andata davvero, laggiù.
-
-### diffidente — style: wary, guarded
-Ha mandato a dire anche il resto.
-
-### canzonatorio — style: teasing, mocking
-Ha mandato a dire anche che al casello hai tirato fuori un ferro vuoto, e che l'altro ha fatto calma, calma.
-
-### ironico — style: wry, ironic
-Quassù i ferri vuoti non li tiriamo fuori. Ma ho formaggio, se hai da scambiare. Acqua, magari.
-
-### amaro — style: bitter, resigned
-Uno che non lascia passare. Sta là da quando il paese è morto, a guardia di niente.

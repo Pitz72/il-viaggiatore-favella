@@ -1089,19 +1089,21 @@
   "tore": {
    "voce": "Tore",
    "generato": true,
-   "minuti_stimati": 1.8,
+   "minuti_stimati": 2.2,
    "parti": [
     "138255b0",
-    "d5e57403",
     "a690219d",
+    "2a21e690",
+    "7e4b4a5a",
+    "ccf6423e",
+    "5226cd05",
+    "febb9a69",
     "e11a4130",
     "c7bd5b4a",
     "5db163f7",
-    "5240c0b1",
-    "2a21e690",
-    "ccf6423e",
-    "5226cd05",
-    "8e21d1b9"
+    "8e21d1b9",
+    "d5e57403",
+    "5240c0b1"
    ],
    "fuori_uso": []
   },
@@ -1138,15 +1140,6 @@
    "minuti_stimati": 0.0,
    "parti": [
     "3062fcfe"
-   ]
-  },
-  "tore-b": {
-   "voce": "Tore",
-   "generato": false,
-   "minuti_stimati": 0.4,
-   "parti": [
-    "7e4b4a5a",
-    "febb9a69"
    ]
   }
  },
@@ -14005,7 +13998,7 @@
    ],
    "categoria": "testo",
    "tono": "calmo",
-   "blocco": "tore-b"
+   "blocco": "tore"
   },
   "4c574126": {
    "voce": "narratore",
@@ -14072,7 +14065,7 @@
    ],
    "categoria": "testo",
    "tono": "calmo",
-   "blocco": "tore-b"
+   "blocco": "tore"
   },
   "e11a4130": {
    "voce": "Tore",
