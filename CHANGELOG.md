@@ -8,6 +8,31 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.26.0] - 2026-10-21
+
+### Aggiunto
+- **Il taccuino nuovo, da gioco per computer.** Salvataggi quanti se ne vuole, ciascuno col suo nome (il gioco propone
+  il luogo; si scrive sopra). A sinistra l'elenco, dal più recente, con una miniatura del paesaggio; a destra il
+  salvataggio scelto: la miniatura grande, il nome, il luogo con la zona, la tappa e il turno, la data, **il tempo di
+  gioco**, vita, sete, fame, acqua e cibo. Azioni: carica o sovrascrivi, rinomina, esporta, elimina; le conferme sono
+  domande a parte (S / N). Tastiera: ↑ ↓ Inizio Fine PagSu PagGiù, Invio, Canc; due clic caricano. Restano «apri un
+  file…» e «apri la cartella».
+- **F5 salva al volo** in un posto rapido (un cartiglio dice «Salvato · rapido»); **F9 lo ricarica**, con una domanda se
+  c'è strada non salvata.
+- **Tre salvataggi automatici a turno**: a ogni cambio di luogo e quando si lascia la partita si riscrive il più vecchio
+  dei tre; se uno si guasta, ci sono gli altri.
+- Il tempo di gioco: corre a partita in corso, con la pausa chiusa e la finestra in primo piano, e si somma da un
+  caricamento all'altro.
+
+### Cambiato
+- «Continua il viaggio» dice il nome del salvataggio, il luogo e il tempo di gioco.
+- I salvataggi delle versioni di prima si aprono come gli altri («Posto 1»…, «Salvataggio automatico»); i file nuovi
+  hanno tre campi in più, facoltativi (nome, miniatura, tempo), e il formato resta lo stesso.
+
+### Corretto
+- Dopo un caricamento il diario diceva «Ripreso dal automatico»: ora «Ripreso da «Salvataggio automatico», salvato
+  il …», col nome del salvataggio.
+
 ## [1.25.0] - 2026-10-20
 
 ### Aggiunto
