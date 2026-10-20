@@ -8,6 +8,26 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.18.2] - 2026-10-20
+
+### Corretto
+- **Il trailer, le ultime rifiniture** (durata 88,5 s, ordine, testi e musica sono quelli di prima; cambiano pochi decimi
+  di secondo, per volere di Simone):
+  - la dissolvenza fra la terra e l'invaso è un incrocio vero, centrato sul taglio nominale a 25,2 s: la terra resta piena
+    finché l'invaso, che le entra sopra da 24,8 a 25,6 s, non è tutto opaco. Prima le due scene si dissolvevano insieme sul
+    nero e a 25 s il quadro perdeva più di metà della luce (luminosità media 75 su 175); ora non scende mai sotto la minore
+    delle due scene;
+  - «tuo fratello.» entra a 64,0 s e non a 63,7, sul colpo grave del brano (63,99 s); il viandante finisce di fermarsi
+    nello stesso istante (prima a 64,2) e anche il colpo sintetico che lo accompagna passa a 64,0 (un colpo solo, non due
+    a trecento millesimi di distanza);
+  - il biglietto «NON È IL CASO DI TORNARE.» si scrive un po' più in fretta (0,034 s a carattere invece di 0,042: finisce
+    a 8,2 s e non a 8,5) e resta leggibile intero più a lungo prima che la scena sfumi; i tasti battuti seguono lo stesso
+    passo;
+  - la schermata d'avvio si legge meglio (i pulsanti sono quelli di prima, tutti, e il testo non cambia): il paragrafo
+    «Da qui in poi comandi tu…» sta su due righe invece di tre, più chiaro e su un velo più alto e largo (non si perde più
+    fra i fili del telegrafo); «? come si gioca», «carica», «rivedi il trailer» e «audio» hanno il carattere a 18 px
+    (prima 15) e un fondo scuro, con il bordo più netto.
+
 ## [1.18.1] - 2026-10-20
 
 ### Cambiato
