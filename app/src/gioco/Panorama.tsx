@@ -2,7 +2,9 @@
 //  Il panorama del gioco: una striscia di paesaggio viva in cima allo
 //  schermo, stesso linguaggio del trailer. Ogni zona ha cielo, luce e
 //  segni propri; quando il giocatore cambia luogo il viandante cammina e il
-//  paesaggio scorre, poi si ferma e respira.
+//  paesaggio scorre, poi si ferma e respira. Dentro una stanza, una grotta, una
+//  galleria (vedi INTERNI) la scena cambia: stessa tavolozza, ma niente
+//  orizzonte, e la luce di una finestra, di una lampada, di un cunicolo.
 // ====================================================================
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { crinale, rng, mix, rgba, clamp } from "../trailer/tempo";
