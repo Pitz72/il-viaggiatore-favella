@@ -9,6 +9,11 @@
 //  tonfo) restano spenti: li fa già il brano.
 //  Senza brano (file assente o illeggibile) torna la colonna sintetizzata
 //  completa: vento, bordone che cresce e si incrina al guado, tutti gli effetti.
+//  La VOCE di Enzo (il doppiaggio, se il giocatore ha scelto la voce recitata):
+//  una traccia sola lunga quanto il trailer (public/voce/trailer.opus, scritta da
+//  strumenti/doppiaggio-trailer.py) che segue lo stesso orologio; mentre parla la
+//  musica si abbassa (VOCE_SOTTO) e torna su appena tace. Passa dal master: il
+//  tasto audio spegne anche lei.
 //  Parte spenta: i browser lo permettono solo dopo un gesto (il tasto audio).
 // ====================================================================
 import { EVENTI, type Evento, type TipoSuono } from "./scaletta";
@@ -17,6 +22,16 @@ import { rng } from "./tempo";
 const INTONATI: TipoSuono[] = ["rintocco", "tonfo"];
 const LIV_RUMORI_CON_BRANO = 0.55;
 const CODA = 81.4;   // inizio della scena del titolo (vedi scaletta)
+// la musica sotto la voce: quanto scende, quanto prima comincia a scendere e quanto dopo risale (due frasi
+// vicine meno di ANTICIPO + RILASCIO restano sotto insieme: la musica non fa su e giù fra l'una e l'altra)
+const VOCE_SOTTO = 0.4;   // -8 dB
+const ANTICIPO = 0.15, RILASCIO = 0.35;
+const SCENDE = 0.08, SALE = 0.3;   // costanti di tempo (s) di setTargetAtTime
+const SCARTO_VOCE = 0.06;          // oltre questo scarto dall'orologio la voce si riposiziona
+
+/** Dove trovare la voce del trailer e a che volume. */
+export interface VoceDelTrailer { traccia: string; scaletta: string; volume: number }
+interface Frase { id: string; da: number; a: number }
 
 export class ColonnaSonora {
   private ac: AudioContext | null = null;
@@ -32,10 +47,21 @@ export class ColonnaSonora {
   private rumore!: AudioBuffer;
   private rumori!: GainNode;     // l'uscita dei rumori sintetici: passano da una «stanza» brevissima
   private ultimoT = -1;
+  private datiVoce: VoceDelTrailer | null = null;
+  private voce: AudioBuffer | null = null;
+  private frasi: Frase[] = [];
+  private gVoce: GainNode | null = null;
+  private sorgVoce: AudioBufferSourceNode | null = null;
+  private voceDa = 0;          // istante del contesto in cui la sorgente è partita
+  private voceOffset = 0;      // e da che punto della traccia
+  /** si risolve quando la voce è pronta (o non c'è): serve agli strumenti che rendono il suono offline */
+  voceCaricata: Promise<void> = Promise.resolve();
   attivo = false;
 
-  /** url del brano (facoltativo): il file si precarica subito, prima del tasto audio. */
-  constructor(urlBrano?: string) {
+  /** url del brano (facoltativo): il file si precarica subito, prima del tasto audio.
+   *  `voce` (facoltativa): la voce del trailer; si carica quando nasce il contesto audio. */
+  constructor(urlBrano?: string, voce?: VoceDelTrailer) {
+    this.datiVoce = voce ?? null;
     if (!urlBrano) return;
     const a = new Audio();
     a.preload = "auto";
@@ -65,7 +91,13 @@ export class ColonnaSonora {
   /** Solo per il collaudo in sviluppo. */
   diagnosi() {
     const b = this.brano;
-    return { attivo: this.attivo, branoOk: this.branoOk, t: b?.currentTime ?? null, fermo: b?.paused ?? null, durata: b?.duration ?? null };
+    const ac = this.ac;
+    return {
+      attivo: this.attivo, branoOk: this.branoOk, t: b?.currentTime ?? null, fermo: b?.paused ?? null, durata: b?.duration ?? null,
+      voce: this.voce ? { durata: this.voce.duration, frasi: this.frasi.length, suona: !!this.sorgVoce,
+        posizione: this.sorgVoce && ac ? this.voceOffset + (ac.currentTime - this.voceDa) : null,
+        musica: this.gBrano?.gain.value ?? null } : null,
+    };
   }
 
   private get conBrano() { return !!this.brano && this.branoOk; }
@@ -85,7 +117,67 @@ export class ColonnaSonora {
 
   chiudi() {
     this.brano?.pause();
+    this.fermaVoce();
     this.ac?.close(); this.ac = null; this.attivo = false;
+  }
+
+  private async caricaVoce(ac: BaseAudioContext, d: VoceDelTrailer) {
+    try {
+      const [scaletta, dati] = await Promise.all([
+        fetch(d.scaletta).then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status))))),
+        fetch(d.traccia).then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(String(r.status))))),
+      ]);
+      this.voce = await ac.decodeAudioData(dati);
+      this.frasi = (scaletta as { frasi: Frase[] }).frasi;
+    } catch {
+      this.voce = null; this.frasi = [];   // senza voce il trailer è quello di sempre
+    }
+  }
+
+  /** Il livello della musica all'istante t: sotto mentre Enzo parla. */
+  private livelloMusica(t: number): number {
+    if (!this.voce) return 1;
+    return this.frasi.some((f) => t >= f.da - ANTICIPO && t < f.a + RILASCIO) ? VOCE_SOTTO : 1;
+  }
+
+  private fermaVoce() {
+    if (!this.sorgVoce) return;
+    try { this.sorgVoce.stop(); } catch { /* già ferma */ }
+    this.sorgVoce.disconnect();
+    this.sorgVoce = null;
+  }
+
+  /** La voce segue il tempo del trailer come il brano: parte, si ferma, si riposiziona se si scosta. */
+  private guidaVoce(t: number, inPausa: boolean) {
+    const ac = this.ac, buf = this.voce;
+    if (!ac || !buf || !this.gVoce) return;
+    const voluta = t + (this.conBrano ? this.latenza() : 0);   // come il brano: ciò che parte ora si sente fra «latenza»
+    if (inPausa || voluta < 0 || voluta >= buf.duration - 0.05) { this.fermaVoce(); return; }
+    if (this.sorgVoce && Math.abs(this.voceOffset + (ac.currentTime - this.voceDa) - voluta) < SCARTO_VOCE) return;
+    this.fermaVoce();
+    const s = ac.createBufferSource();
+    s.buffer = buf;
+    s.connect(this.gVoce);
+    s.start(ac.currentTime, voluta);
+    this.sorgVoce = s; this.voceDa = ac.currentTime; this.voceOffset = voluta;
+  }
+
+  /** Per gli strumenti (strumenti/trailer-mix.cjs): su un contesto offline, la voce e la musica che le scende
+   *  sotto fra `da` e `a` secondi del trailer, programmate dall'istante 0 del contesto. Restituisce le frasi. */
+  programmaVoceOffline(da: number, a: number) {
+    const ac = this.ac, buf = this.voce;
+    if (!ac || !buf || !this.gVoce || !this.gBrano) return 0;
+    const s = ac.createBufferSource();
+    s.buffer = buf; s.connect(this.gVoce);
+    s.start(0, da, Math.max(0, Math.min(a, buf.duration) - da));
+    const g = this.gBrano.gain;
+    let prec = this.livelloMusica(da);
+    g.setValueAtTime(prec, 0);
+    for (let t = da; t < a; t += 0.01) {   // gli stessi scalini che il trailer vivo segue fotogramma per fotogramma
+      const l = this.livelloMusica(t);
+      if (l !== prec) { g.setTargetAtTime(l, t - da, l < prec ? SCENDE : SALE); prec = l; }
+    }
+    return this.frasi.filter((f) => f.a > da && f.da < a).length;
   }
 
   private costruisci() {
@@ -134,9 +226,15 @@ export class ColonnaSonora {
     terza.connect(this.gTerza).connect(this.bordone); terza.start();
 
     // il brano entra nello stesso master (il tasto audio spegne tutto insieme)
-    if (this.brano) {
-      this.gBrano = ac.createGain(); this.gBrano.gain.value = 1;
-      ac.createMediaElementSource(this.brano).connect(this.gBrano).connect(this.master);
+    this.gBrano = ac.createGain(); this.gBrano.gain.value = 1;
+    this.gBrano.connect(this.master);
+    if (this.brano) ac.createMediaElementSource(this.brano).connect(this.gBrano);
+
+    // la voce del trailer, anche lei nel master
+    if (this.datiVoce) {
+      this.gVoce = ac.createGain(); this.gVoce.gain.value = this.datiVoce.volume;
+      this.gVoce.connect(this.master);
+      this.voceCaricata = this.caricaVoce(ac, this.datiVoce);
     }
   }
 
@@ -148,7 +246,9 @@ export class ColonnaSonora {
     if (!b || !g || !ac || !this.branoOk) return;
     if (inPausa) { if (!b.paused) b.pause(); return; }
     const fine = (b.duration || 0) - 0.05;
-    g.gain.setTargetAtTime(1, ac.currentTime, 0.05);
+    // sotto la voce la musica scende; l'abbassamento si sente insieme alla voce, quindi guarda avanti di «latenza»
+    const liv = this.livelloMusica(t + this.latenza());
+    g.gain.setTargetAtTime(liv, ac.currentTime, liv < g.gain.value ? SCENDE : SALE);
     if (t < fine) {
       this.coda = false;
       const lat = this.latenza();
@@ -169,10 +269,12 @@ export class ColonnaSonora {
   aggiorna(t: number, inPausa: boolean) {
     if (!this.ac || !this.attivo) {
       if (this.brano && !this.brano.paused) this.brano.pause();
+      this.fermaVoce();
       this.ultimoT = t; return;
     }
     const now = this.ac.currentTime;
     this.guidaBrano(t, inPausa, this.ultimoT);
+    this.guidaVoce(t, inPausa);
     if (this.conBrano) {
       this.bordone.gain.setTargetAtTime(0, now, 0.3);
       this.gTerza.gain.setTargetAtTime(0, now, 0.3);

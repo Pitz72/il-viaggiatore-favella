@@ -13,7 +13,9 @@
 //     a 60 fps.
 //   · Colonna sonora: il brano src/assets/intro.mp3 (fa anche da orologio)
 //     più il rumorismo sintetizzato; senza brano, tutta sintetizzata. Sul
-//     desktop parte da sola; nel browser col primo tasto o clic.
+//     desktop parte da sola; nel browser col primo tasto o clic. Con la voce
+//     recitata (le impostazioni della voce del gioco) Enzo legge i testi sullo
+//     stesso orologio, e la musica gli scende sotto (trailer/audio.ts).
 // ====================================================================
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { W, H, BANDA, SCENE, DURATA, presenza, TAPPE_T0, TAPPE_PASSO, CINQUE_T0, CINQUE_PASSO, REGOLA_DUR } from "../trailer/scaletta";
@@ -26,6 +28,7 @@ import Taccuino from "../gioco/Taccuino";
 import { piuRecente, type Salvataggio } from "../lib/salvataggi";
 import { etichettaVersione } from "../lib/versione";
 import ComeSiGioca from "../gioco/ComeSiGioca";
+import { leggiImpostazioni } from "../gioco/voce";
 
 // --------------------------------------------------------------------
 //  Testi (cue): tempi, posizione, tipo d'animazione
@@ -274,9 +277,13 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
     return () => { vivo = false; smetti(); };
   }, []);
 
-  // la colonna si crea subito, così il brano si precarica prima del tasto audio
+  // la colonna si crea subito, così il brano si precarica prima del tasto audio; con la voce recitata
+  // (le impostazioni della voce del gioco) Enzo legge il trailer sopra la musica
   useEffect(() => {
-    suono.current = new ColonnaSonora(branoIntro);
+    const imp = leggiImpostazioni();
+    const base = `${import.meta.env.BASE_URL}voce/`;
+    suono.current = new ColonnaSonora(branoIntro, imp.modo === "recitata"
+      ? { traccia: `${base}trailer.opus`, scaletta: `${base}trailer.json`, volume: imp.volume } : undefined);
     // Sul desktop l'audio parte da solo (Electron permette l'autoplay): il
     // trailer è il primo schermo del gioco, non una pagina web.
     // Nel browser il gesto che ha chiuso l'avviso (clic o Invio) è passato PRIMA che il trailer
