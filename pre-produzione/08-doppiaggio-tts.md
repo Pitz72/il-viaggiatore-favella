@@ -24,7 +24,7 @@
 | Servizio (suggerimenti, numeri) | Gemini 3.8 Flash TTS | Kira | 1 blocco, 120 parti usate (201 generate) |
 | Nunzio, Saverio, Iole, Rocco, Peppe, Pasquale, Concetta, Onofrio, Cosimo | Gemini | voci di libreria non registrate | 1 blocco ciascuno |
 | Imma, Rosaria, Tore, Vito | ElevenLabs Eleven v4 | Victoria, Valeria, Criss, Luigi | 1 blocco ciascuno, interi |
-| Ciro | Gemini (da rifare con ElevenLabs) | — | una parola spezzata all'inizio della prima battuta |
+| Ciro | Gemini | voce di libreria non registrata | 1 blocco; la prima battuta sembrava spezzata: era un errore di TAGLIO (corretto), non dell'audio |
 | Trailer | Gemini, Enzo | Enzo, narrativo ed enfatico | da generare (33 parti, `doppiaggio/trailer.json`) |
 
 Il registro di chi ha detto che cosa è `doppiaggio/voci-scelte.md`. I WAV grezzi e le parti tagliate stanno in `doppiaggio/master/` (fuori da git); i blocchi com'erano quando sono stati letti in `doppiaggio/generati/`.
@@ -34,7 +34,7 @@ Il registro di chi ha detto che cosa è `doppiaggio/voci-scelte.md`. I WAV grezz
 ## 3. Che cosa resta da fare nel software
 
 ### 3.1 Il banco dell'audio
-1. Scegliere le parti definitive: per ogni blocco generato, le clip di `master/clip/<blocco>/`; **non** usare le clip archiviate (`tore-gemini`, `vito-gemini`, e `ciro-gemini` quando Ciro sarà rifatto) né le 81 scelte di riserva dell'audio di Kira (voce di servizio).
+1. Scegliere le parti definitive: per ogni blocco generato, le clip di `master/clip/<blocco>/`; **non** usare le clip archiviate (`tore-gemini`, `vito-gemini`, e `ciro-gemini` se mai Ciro verrà rifatto) né le 81 scelte di riserva dell'audio di Kira (voce di servizio).
 2. **Pareggiare il volume** voce per voce (Gemini ed ElevenLabs escono a livelli diversi) e togliere i silenzi in testa e in coda con precisione.
 3. **Codificare in Opus** (ffmpeg, mono, circa 24–32 kbit/s): stimati 15–25 MB per circa 90 minuti. Un file per parte (circa 1.100) o un solo archivio con indice: da decidere col costo di caricamento.
 4. Un indice `id → file, durata` (o si ricava dal manifest) caricato dall'app.
@@ -70,7 +70,7 @@ Il registro di chi ha detto che cosa è `doppiaggio/voci-scelte.md`. I WAV grezz
 - **Diritti** (da chiudere prima di rilasciare): Google «non rivendica la proprietà» dell'output, che non è esclusivo, e ogni clip ha SynthID (inaudibile); per ElevenLabs contano le condizioni del **piano** usato (attribuzione? uso commerciale?) e le regole delle voci della libreria (Valeria, Criss e Luigi sono cloni professionali di altri). Il gioco è CC BY-SA e libero: va verificata la compatibilità e scritta l'attribuzione.
 
 ## 4. Decisioni ancora aperte
-1. **Gemini per alcuni personaggi e ElevenLabs per altri, o ElevenLabs per tutti?** Oggi 9 sono Gemini e 4 ElevenLabs (più Ciro, in arrivo): da risentire in gioco.
+1. **Gemini per alcuni personaggi e ElevenLabs per altri, o ElevenLabs per tutti?** Oggi 10 sono Gemini e 4 ElevenLabs: da risentire in gioco.
 2. **La riga di `STATO`:** registrarla o no.
 3. **La versione web:** con o senza voce.
 4. **Un file per parte o un archivio:** secondo i tempi di caricamento.
@@ -78,7 +78,7 @@ Il registro di chi ha detto che cosa è `doppiaggio/voci-scelte.md`. I WAV grezz
 6. **Licenza dell'audio di ElevenLabs** sul piano di Simone.
 
 ## 5. Ordine di lavoro
-1. Chiudere la produzione: Ciro (ElevenLabs), «L'ho letta.» e il trailer (Gemini, Enzo).
+1. Chiudere la produzione: «L'ho letta.» e il trailer (Gemini, Enzo).
 2. Il banco dell'audio (3.1) e un collaudo che lo verifica.
 3. La riproduzione dei testi statici nel gioco e le impostazioni (3.2), con la voce che si ferma al tasto.
 4. I testi che si compongono (3.3).

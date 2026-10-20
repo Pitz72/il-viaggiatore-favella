@@ -283,12 +283,16 @@ def riempi_i_buchi(info, sil):
     return fatte
 
 
-def controlla_le_parti(uscita, ok):
+def controlla_le_parti(uscita, ok, solo_bordi=False):
     """Il controllo indipendente: ogni parte tagliata si riconosce da sola e si confronta col
     testo. Dentro deve esserci quella frase e niente delle vicine (ne verrebbe una somiglianza
     bassa, o parole in più)."""
     modello = carica_modello()
     for x in ok:
+        if solo_bordi and not x.get("bordo"):
+            x["controllo"], x["in_piu"], x["sentito"] = 1.0, False, ""
+            continue
+        x["controllato"] = True
         segmenti, _ = modello.transcribe(os.path.join(uscita, x["file"]), language="it",
                                          condition_on_previous_text=False, vad_filter=False)
         sentito = " ".join(s.text.strip() for s in segmenti)
@@ -297,6 +301,23 @@ def controlla_le_parti(uscita, ok):
         x["controllo"] = difflib.SequenceMatcher(None, atteso, trovato, autojunk=False).ratio()
         x["sentito"] = sentito
         x["in_piu"] = len(trovato) > len(atteso) * 1.25 + 3
+
+
+def inizio_vero(sil, inizio):
+    """Dove tagliare l'inizio della prima parte di un WAV: la fine del silenzio che precede la voce. I tempi
+    di whisper sono in ritardo, e tagliarci dentro mangia la prima sillaba."""
+    cand = [(a, b) for a, b in sil if b <= inizio + 0.15 and b >= inizio - 1.0]  # finisce PRIMA dell'inizio stimato
+    if cand:
+        return max(0.0, max(cand, key=lambda s: s[1])[1] - MARGINE)
+    return max(0.0, inizio - 0.5)
+
+
+def fine_vera(sil, fine, durata):
+    """Dove tagliare la fine dell'ultima parte di un WAV: l'inizio del silenzio che segue la voce."""
+    cand = [(a, b) for a, b in sil if a >= fine - 0.5 and a <= fine + 1.0]
+    if cand:
+        return min(durata, min(cand, key=lambda s: abs(s[0] - fine))[0] + MARGINE)
+    return min(durata, fine + 0.5)
 
 
 def scrivi_wav(percorso, campioni, rate):
@@ -322,8 +343,12 @@ def main():
     ap.add_argument("--solo-verifica", action="store_true", help="non scrive i WAV delle parti")
     ap.add_argument("--controlla", action="store_true",
                     help="dopo il taglio, riconosce ogni parte da sola e la confronta col testo (qualche minuto)")
+    ap.add_argument("--controlla-bordi", action="store_true",
+                    help="come --controlla, ma solo per la prima e l'ultima parte di ogni WAV (pochi secondi)")
     ap.add_argument("--uscita", help="cartella delle parti (predefinita: doppiaggio/master/clip/<blocco>)")
     a = ap.parse_args()
+    solo_bordi = a.controlla_bordi and not a.controlla
+    a.controlla = a.controlla or a.controlla_bordi
     sys.stdout.reconfigure(encoding="utf-8")
 
     da_file = a.da_file
@@ -391,8 +416,9 @@ def main():
         if x["wav"] == y["wav"]:
             x["taglio_fine"], y["taglio_inizio"] = punto_di_taglio(x["fine"], y["inizio"], sil[x["wav"]])
     for x in ok:
-        x.setdefault("taglio_inizio", max(0.0, x["inizio"] - MARGINE))
-        x.setdefault("taglio_fine", min(durate[x["wav"]], x["fine"] + 0.25))
+        x["bordo"] = "taglio_inizio" not in x or "taglio_fine" not in x  # prima o ultima parte del WAV
+        x.setdefault("taglio_inizio", inizio_vero(sil[x["wav"]], x["inizio"]))
+        x.setdefault("taglio_fine", fine_vera(sil[x["wav"]], x["fine"], durate[x["wav"]]))
     for x in ok:
         if x["taglio_fine"] - x["taglio_inizio"] < 0.2:  # tempi di whisper e silenzi non tornano
             x["taglio_inizio"] = max(0.0, x["inizio"] - MARGINE)
@@ -416,7 +442,7 @@ def main():
             scrivi_wav(os.path.join(uscita, x["file"]), array.array("h", parte), rate)
 
     if a.controlla and not a.solo_verifica:
-        controlla_le_parti(uscita, ok)
+        controlla_le_parti(uscita, ok, solo_bordi)
 
     # 5. il rapporto
     brutti = [x for x in info if x.get("mancante") or x.get("tagli_incerti")
@@ -451,8 +477,10 @@ def main():
             statistics.median(pause), min(pause), max(pause)) if pause else "",
         "ritmo mentre parla (pause escluse): %.0f parole al minuto" % (parole_attese / tempo_parlato * 60) if tempo_parlato else "",
         "ritmo contando anche le pause: %.0f parole al minuto" % (parole_attese / (sum(durate) / 60)),
-        ("controllo di ogni parte tagliata: %d su %d con somiglianza almeno 85%% e senza parole in più" % (
-            sum(1 for x in ok if x["controllo"] >= 0.85 and not x["in_piu"]), len(ok)))
+        ("controllo di %s: %d su %d con somiglianza almeno 85%% e senza parole in più" % (
+            "le sole parti ai bordi del WAV" if solo_bordi else "ogni parte tagliata",
+            sum(1 for x in ok if x.get("controllato") and x["controllo"] >= 0.85 and not x["in_piu"]),
+            sum(1 for x in ok if x.get("controllato"))))
         if a.controlla and not a.solo_verifica else "",
     ]
     testo = "\n".join([r for r in riepilogo if r] + [""] + righe) + "\n"
