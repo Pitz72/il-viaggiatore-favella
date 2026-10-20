@@ -183,7 +183,7 @@ salva e ricarica. Non pubblica niente.
 
 | Componente | Licenza | Dove |
 |---|---|---|
-| [Pyodide](https://github.com/pyodide/pyodide) 0.27.2 | MPL-2.0 | copiato da npm in `app/public/pyodide/` durante la build |
+| [Pyodide](https://github.com/pyodide/pyodide) 0.27.8 | MPL-2.0 | copiato da npm in `app/public/pyodide/` durante la build |
 | [Lark](https://github.com/lark-parser/lark) 1.3.1 | MIT | `app/vendor/` |
 | [React](https://react.dev) | MIT | dipendenza npm |
 | [Electron](https://www.electronjs.org) | MIT | dipendenza npm della versione desktop |
