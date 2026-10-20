@@ -8,6 +8,26 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.23.0] - 2026-10-20
+
+### Aggiunto
+- **Il cartello delle licenze e dei crediti**, subito dopo i loghi e prima dell'avviso (voluto da Simone): chi ha fatto il
+  gioco, con che cosa e sotto quali licenze (storia, testi, musica e grafica CC BY-SA; le voci Google Gemini TTS; le voci
+  ElevenLabs di quattro personaggi; il codice e il motore MIT; i componenti; i marchi). Si comporta come l'avviso: va
+  avanti da solo dopo 15 secondi, oppure subito con Invio, Spazio, Esc o un clic.
+- **Le voci di Imma, Rosaria, Tore e Vito nei pacchetti e nel web**: prima suonavano solo sul PC dell'autore. Sono
+  fatte con ElevenLabs sul piano gratuito e stanno in `app/public/voce/elevenlabs/`, **escluse dalla licenza libera e solo
+  per uso non commerciale** (`LICENSE-CONTENUTI.md`); un'opera derivata o un uso commerciale deve toglierle o sostituirle.
+  Adesso tutte le battute del gioco hanno la loro voce.
+
+### Cambiato
+- Il README è rivisto: l'apertura (loghi, licenze e crediti, avviso, trailer), la voce, le licenze delle voci, il
+  doppiaggio fra gli strumenti, l'autoverifica che prova la voce.
+
+### Corretto
+- Rifare il banco della voce non cancella più la traccia del trailer (`trailer.opus`): toglie solo i file col nome di una
+  parte.
+
 ## [1.22.1] - 2026-10-20
 
 ### Cambiato
