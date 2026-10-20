@@ -8,6 +8,22 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.17.1] - 2026-10-20
+
+### Cambiato
+- **Il trailer, il suono** (la musica, i tempi e i testi sono quelli di prima; la lista dei 222 eventi sonori ha gli stessi
+  tempi, tipi e livelli):
+  - l'immagine e i rumori seguono ciò che si sente, non ciò che il file ha già decodificato: il trailer sottrae la
+    latenza d'uscita del contesto audio (circa 40 ms con una scheda normale, di più con le cuffie senza fili; non più
+    di 250 ms) al tempo del brano, e i rumori partono con la stessa latenza d'anticipo, così cadono insieme alla musica e
+    al fotogramma (circa tre fotogrammi di anticipo dell'immagine sul suono, prima);
+  - i passi hanno la materia del terreno: asfalto secco sulla provinciale, crosta di fango che scricchiola nella secca,
+    sale che si schiaccia sull'invaso, sassi che rotolano al guado; ogni passo è un po' diverso dall'altro (altezza,
+    livello ±2 dB), ma lo stesso trailer suona sempre uguale; sinistro e destro sono appena separati nello stereo e i
+    rumori passano da una «stanza» brevissima; carta e tasti hanno le loro variazioni.
+- **Per chi sviluppa:** `strumenti/trailer-rumori.cjs` rende offline i rumori con la musica sotto, in un WAV, per
+  ascoltare un «prima» e un «dopo» del suono; i `.wav` di `video/` non sono versionati.
+
 ## [1.17.0] - 2026-10-20
 
 ### Cambiato
