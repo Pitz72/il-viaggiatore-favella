@@ -8,6 +8,21 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.16.2] - 2026-10-20
+
+### Corretto
+- **Il trailer, rifinito nei dettagli** (solo l'aspetto: durata, ordine, tempi, testi e musica sono quelli di prima):
+  - nel cielo dell'alba, del guado e dell'invaso non corre più una cucitura verticale che scorreva con le nuvole
+    (la tessera si ripeteva con un gradino di luminosità);
+  - nelle lettere il tavolo segue la macchina che avanza: le assi scivolano quanto la busta e i fogli;
+  - nella mappa i nomi delle tappe stanno fuori dai disegni dei luoghi e non li attraversano più;
+  - nei «cinque modi» «rinunciare» ha il suo respiro (colonne di 330 px, verbi a 56 px);
+  - le due parole su cui il trailer batte, «A piedi.» e «tuo fratello.», si leggono sul cielo (da 1,9:1 a 4,7:1 e da
+    2,1:1 a 4,2:1 sul fondo vicino) grazie a un velo scuro e morbido che entra ed esce con loro;
+  - tipografia: gli apostrofi dei testi grandi sono quelli tipografici (l’acqua, L’invaso morto), le regole a 76 px non
+    hanno più la «l» e la «t» di «scelte» a contatto, e le quattro cifre dei numeri hanno la stessa distanza dal filetto;
+  - il titolo entra sul colpo grave del brano e poi si assesta (era al 56 % a 82,8 s).
+
 ## [1.16.1] - 2026-10-20
 
 ### Corretto
