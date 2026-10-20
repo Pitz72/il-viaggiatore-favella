@@ -8,6 +8,17 @@
 
 export interface StatoAggiornamento { stato: "fermo" | "scarico" | "pronto"; versione?: string; percento?: number }
 
+/** Com'è la finestra, per le opzioni: `contenuto` e `area` in pixel indipendenti dalla scala di Windows (`scala`). */
+export interface StatoFinestra {
+  schermoIntero: boolean;
+  massimizzata: boolean;
+  contenuto: [number, number];
+  scala: number;
+  area: [number, number];
+  /** `motivo`: perché questa versione non si aggiorna da sola (portatile, sviluppo…), o null */
+  aggiornamenti: { attivo: boolean; motivo: string | null };
+}
+
 interface PonteDesktop {
   versione: string;
   registro: (livello: "info" | "warn" | "error", testo: string) => void;
@@ -19,6 +30,13 @@ interface PonteDesktop {
   esci: () => void;
   commutaSchermoIntero: () => Promise<boolean>;
   schermoIntero: () => Promise<boolean>;
+  finestra: {
+    stato: () => Promise<StatoFinestra | null>;
+    schermoIntero: (si: boolean) => Promise<boolean>;
+    dimensione: (larghezza: number, altezza: number) => Promise<boolean>;
+    aggiornamenti: (si: boolean) => Promise<boolean>;
+    quandoCambia: (fn: () => void) => () => void;
+  };
   esitoAutoverifica: (ok: boolean, dettagli: string) => void;
 }
 
@@ -43,6 +61,28 @@ export async function commutaSchermoIntero(el: HTMLElement | null): Promise<bool
 export async function statoSchermoIntero(): Promise<boolean> {
   const p = ponte();
   return p ? p.schermoIntero() : !!document.fullscreenElement;
+}
+
+/** La finestra, per le opzioni (solo desktop; nel browser null). */
+export const statoFinestra = async (): Promise<StatoFinestra | null> => (ponte()?.finestra ? ponte()!.finestra.stato() : null);
+/** Schermo intero sì o no: nel desktop la finestra, nel browser la Fullscreen API. */
+export async function impostaSchermoIntero(si: boolean): Promise<boolean> {
+  const p = ponte();
+  if (p?.finestra) return p.finestra.schermoIntero(si);
+  if (si !== !!document.fullscreenElement) return commutaSchermoIntero(document.documentElement);
+  return si;
+}
+/** Una dimensione della finestra, in pixel veri dello schermo (solo desktop). */
+export const dimensioneFinestra = (larghezza: number, altezza: number) => ponte()?.finestra?.dimensione(larghezza, altezza) ?? Promise.resolve(false);
+/** Cercare gli aggiornamenti all'avvio (solo desktop; vale dall'avvio dopo). */
+export const cercaAggiornamenti = (si: boolean) => ponte()?.finestra?.aggiornamenti(si) ?? Promise.resolve(false);
+/** Segue i cambi della finestra (F11, trascinamento…). Restituisce come smettere. */
+export function seguiFinestra(fn: () => void): () => void {
+  const p = ponte();
+  if (p?.finestra) return p.finestra.quandoCambia(fn);
+  window.addEventListener("resize", fn);
+  document.addEventListener("fullscreenchange", fn);
+  return () => { window.removeEventListener("resize", fn); document.removeEventListener("fullscreenchange", fn); };
 }
 
 /** Riferisce al processo principale l'esito dell'autoverifica (solo desktop). */

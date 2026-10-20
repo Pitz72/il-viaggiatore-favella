@@ -29,6 +29,7 @@ import { durataLeggibile, nomeVisibile, piuRecente, type Salvataggio } from "../
 import { etichettaVersione } from "../lib/versione";
 import ComeSiGioca from "../gioco/ComeSiGioca";
 import PannelloOpzioni from "../gioco/Opzioni";
+import { ascoltaOpzioni, opzioni, type Qualita } from "../lib/opzioni";
 import VociMenu, { type VoceMenu } from "../gioco/VociMenu";
 import Domanda from "../gioco/Domanda";
 
@@ -154,6 +155,9 @@ const FOTOGRAMMI_GRANA = 24;
 const TETTO_TELA = 2560;
 /** Le larghezze oltre il tetto che si provano su uno schermo più grande (dalla più larga): la tela tiene la prima che la misura permette. */
 const TELE_GRANDI = [3840, 3200];
+/** La qualità della grafica: quanto della risoluzione piena (automatica parte da tutta e scende da sola) e il tetto della tela. */
+const fattoreDi = (q: Qualita) => (q === "media" ? 0.75 : q === "bassa" ? 0.5 : 1);
+const tettoDi = (q: Qualita) => (q === "alta" ? TELE_GRANDI[0] : q === "bassa" ? 1920 : TETTO_TELA);
 /** Le inquadrature più pesanti (le lettere, l'alba, la terra, il guado, il titolo) e quanto può costare, al massimo, la peggiore (mediana, ms). */
 const ISTANTI_PESANTI = [8, 13, 24, 66, 86];
 const SOGLIA_MS = 14;                         // misurato a freddo, appena dopo la preparazione: a regime un fotogramma costa 2–3 ms in meno
@@ -232,9 +236,12 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
   const suono = useRef<ColonnaSonora | null>(null);
   const buffer = useRef<HTMLCanvasElement | null>(null);
   // la risoluzione del canvas cala (1 → .75 → .5) se il computer non regge i 30 fotogrammi: meglio meno nitido che a scatti
-  const qualita = useRef(1);
-  // il tetto della larghezza della tela (px): 2560 di partenza; sale (3840) solo se la misura dice che il computer regge
-  const tetto = useRef(TETTO_TELA);
+  // (solo con la qualità «automatica»; le altre la fissano: lib/opzioni.ts)
+  const grafica = useRef<Qualita>(opzioni().qualita);
+  const qualita = useRef(fattoreDi(grafica.current));
+  // il tetto della larghezza della tela (px): 2560 di partenza; in automatica sale (3840) solo se la misura dice che il
+  // computer regge; in alta è 3840 subito, in bassa 1920
+  const tetto = useRef(tettoDi(grafica.current));
   const adattaRef = useRef<() => void>(() => {});
 
   const [scala, setScala] = useState(1);
@@ -271,6 +278,15 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
     adatta();
     return () => ro.disconnect();
   }, []);
+
+  // la qualità cambiata dalle opzioni (nel menu, mentre il trailer è sul suo ultimo fotogramma) vale subito
+  useEffect(() => ascoltaOpzioni((o) => {
+    if (o.qualita === grafica.current) return;
+    grafica.current = o.qualita;
+    qualita.current = fattoreDi(o.qualita);
+    tetto.current = tettoDi(o.qualita);
+    adattaRef.current();
+  }), []);
 
   // font (servono al canvas) + tele precalcolate, poi si parte. La preparazione è già cominciata
   // durante i loghi (vedi App.tsx): qui si aspetta soltanto che finisca.
@@ -457,7 +473,7 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
   // larghezza maggiore sulle inquadrature più pesanti e la si tiene solo se la peggiore costa meno di SOGLIA_MS; se no si
   // scende al gradino dopo, fino al tetto di sempre. Dura una frazione di secondo e avviene prima che il tempo cominci a scorrere.
   useEffect(() => {
-    if (!pronto || ridotto) return;
+    if (!pronto || ridotto || grafica.current !== "automatica") return;   // le altre qualità non si misurano: le ha scelte chi gioca
     if (import.meta.env.DEV && !location.search.includes("calibra")) return;   // in sviluppo catture e misure scelgono da sé (__trailer.tetto)
     const el = palcoRef.current, tela = telaRef.current;
     if (!el || !tela) return;
@@ -504,7 +520,7 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
         // passati i primi due secondi, se i fotogrammi restano lenti a lungo si scende di risoluzione
         if (++giri > 120) {
           lento = grezzo > 36 ? lento + 1 : Math.max(0, lento - 1);
-          if (lento > 50 && qualita.current > 0.5) { qualita.current -= 0.25; lento = 0; adattaRef.current(); }
+          if (lento > 50 && qualita.current > 0.5 && grafica.current === "automatica") { qualita.current -= 0.25; lento = 0; adattaRef.current(); }
         }
       }
       const t = tRef.current;

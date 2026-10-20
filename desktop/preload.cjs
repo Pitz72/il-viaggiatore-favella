@@ -7,6 +7,17 @@ contextBridge.exposeInMainWorld("viaggiatoreDesktop", {
   esci: () => ipcRenderer.send("esci"),
   schermoIntero: () => ipcRenderer.invoke("schermo"),
   commutaSchermoIntero: () => ipcRenderer.invoke("commuta-schermo"),
+  finestra: {
+    stato: () => ipcRenderer.invoke("finestra:stato"),
+    schermoIntero: (si) => ipcRenderer.invoke("finestra:schermo-intero", !!si),
+    dimensione: (larghezza, altezza) => ipcRenderer.invoke("finestra:dimensione", Number(larghezza), Number(altezza)),
+    aggiornamenti: (si) => ipcRenderer.invoke("impostazioni:aggiornamenti", !!si),
+    quandoCambia: (fn) => {
+      const f = () => fn();
+      ipcRenderer.on("finestra", f);
+      return () => ipcRenderer.removeListener("finestra", f);
+    },
+  },
   esitoAutoverifica: (ok, dettagli) => ipcRenderer.send("autoverifica", !!ok, String(dettagli)),
   registro: (livello, testo) => ipcRenderer.send("registro", String(livello), String(testo)),
 

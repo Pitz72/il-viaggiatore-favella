@@ -7,23 +7,38 @@
 //  «ripristina le opzioni di base», con una conferma (S / N).
 //  Misure in em (prop `base`), come la guida e il taccuino: 19 sulla
 //  superficie 1920 del menu, 13 su quella 1280 della partita.
-//  Le schede compaiono quando hanno qualcosa: Generale arriva con i comandi.
+//  Le schede compaiono quando hanno qualcosa: Generale, per ora, solo sul
+//  desktop (gli aggiornamenti). Video: lo schermo, la dimensione della
+//  finestra e la qualità della grafica (piano 09, fase 4); la finestra e gli
+//  aggiornamenti li tiene il processo principale (desktop/impostazioni.cjs).
 // ====================================================================
 import { useEffect, useRef, useState } from "react";
 import { useDialogo } from "./useDialogo";
 import { useOpzioni } from "../lib/useOpzioni";
-import { ripristinaOpzioni, type Opzioni } from "../lib/opzioni";
-import { commutaSchermoIntero, statoSchermoIntero } from "../lib/desktop";
+import { ripristinaOpzioni, type Opzioni, type Qualita } from "../lib/opzioni";
+import { cercaAggiornamenti, dimensioneFinestra, impostaSchermoIntero, inDesktop, seguiFinestra, statoFinestra, statoSchermoIntero, type StatoFinestra } from "../lib/desktop";
 import "./opzioni.css";
 
 const SERIF = "'Lora', Georgia, serif";
 const DISPLAY = "'Sora', 'Inter', sans-serif";
 const MONO = "'Source Code Pro', ui-monospace, monospace";
 
-type Scheda = "video" | "audio";
-const SCHEDE: readonly [Scheda, string][] = [["video", "Video"], ["audio", "Audio"]];
+type Scheda = "generale" | "video" | "audio";
+const SCHEDE: readonly [Scheda, string][] = [
+  ...(inDesktop() ? [["generale", "Generale"] as [Scheda, string]] : []),
+  ["video", "Video"], ["audio", "Audio"],
+];
 // la scheda scelta resta finché il gioco è aperto: riaprendo le opzioni si ritrova
-let ultimaScheda: Scheda = "video";
+let ultimaScheda: Scheda = SCHEDE[0][0];
+
+/** Le dimensioni della finestra, in pixel veri dello schermo: tutte 16:9, come il gioco. */
+const DIMENSIONI: readonly [number, number][] = [[1280, 720], [1600, 900], [1920, 1080], [2560, 1440], [3840, 2160]];
+const SPIEGA_QUALITA: Record<Qualita, string> = {
+  automatica: "Come ha sempre fatto il gioco: i paesaggi alla densità dello schermo, e il trailer scende da solo se il computer arranca.",
+  alta: "I paesaggi della partita alla risoluzione piena dello schermo e il trailer fino al 4K: più nitidi, più lavoro per il computer.",
+  media: "Tre quarti della risoluzione: per un computer che fatica.",
+  bassa: "Metà della risoluzione: per i computer lenti. Meno nitido, più fluido.",
+};
 
 type Volume = "volume" | "volumeMusica" | "volumeVoce" | "volumeEffetti";
 
@@ -45,20 +60,41 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
   const dialogo = useDialogo<HTMLDivElement>(() => { if (ripristinoRef.current) setRipristino(false); else onChiudi(); });
   const schedeRef = useRef<HTMLDivElement>(null);
   const [intero, setIntero] = useState<boolean | null>(null);
+  // la finestra del desktop (null nel browser): dimensione, scala, area utile, aggiornamenti
+  const [finestra, setFinestra] = useState<StatoFinestra | null>(null);
+  const [avviso, setAvviso] = useState<string | null>(null);
 
   useEffect(() => { ultimaScheda = scheda; }, [scheda]);
 
-  // lo schermo: si legge dalla finestra (F11 lo cambia da fuori)
+  // lo schermo e la finestra: si leggono da fuori, e si rileggono a ogni cambio (F11, trascinamento)
   useEffect(() => {
-    const leggi = () => { statoSchermoIntero().then(setIntero).catch(() => setIntero(null)); };
+    const leggi = () => {
+      statoFinestra().then((f) => {
+        setFinestra(f);
+        if (f) setIntero(f.schermoIntero);
+        else statoSchermoIntero().then(setIntero).catch(() => setIntero(null));
+      }).catch(() => setFinestra(null));
+    };
     leggi();
-    window.addEventListener("resize", leggi);
-    document.addEventListener("fullscreenchange", leggi);
-    return () => { window.removeEventListener("resize", leggi); document.removeEventListener("fullscreenchange", leggi); };
+    return seguiFinestra(leggi);
   }, []);
   const schermo = (voluto: boolean) => {
     if (intero === voluto) return;
-    commutaSchermoIntero(document.documentElement).then(setIntero).catch(() => {});
+    impostaSchermoIntero(voluto).then(setIntero).catch(() => {});
+  };
+  const dimensione = (l: number, a: number) => {
+    setAvviso(null);
+    dimensioneFinestra(l, a).catch((e) => setAvviso(e instanceof Error ? e.message.replace(/^.*Error: /, "") : String(e)));
+  };
+  // la dimensione di adesso, in pixel veri, e quali delle misure entrano in questo schermo
+  const adesso = finestra ? [Math.round(finestra.contenuto[0] * finestra.scala), Math.round(finestra.contenuto[1] * finestra.scala)] : null;
+  const entra = ([l, a]: readonly [number, number]) => !!finestra && l / finestra.scala <= finestra.area[0] && a / finestra.scala <= finestra.area[1];
+  const inFinestra = !!finestra && !finestra.schermoIntero && !finestra.massimizzata;
+  const scelta = inFinestra && adesso ? DIMENSIONI.find(([l, a]) => Math.abs(l - adesso[0]) <= 2 && Math.abs(a - adesso[1]) <= 2) : undefined;
+  const ripristina = () => {
+    ripristinaOpzioni();
+    if (finestra) { impostaSchermoIntero(true).catch(() => {}); cercaAggiornamenti(true).then(() => statoFinestra().then(setFinestra)).catch(() => {}); }
+    setRipristino(false);
   };
 
   // la domanda del ripristino: S sì, N no
@@ -66,12 +102,12 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
     if (!ripristino) return;
     const tasto = (e: KeyboardEvent) => {
       const k = e.key.toLowerCase();
-      if (k === "s") { e.preventDefault(); e.stopPropagation(); ripristinaOpzioni(); setRipristino(false); }
+      if (k === "s") { e.preventDefault(); e.stopPropagation(); ripristina(); }
       else if (k === "n") { e.preventDefault(); e.stopPropagation(); setRipristino(false); }
     };
     window.addEventListener("keydown", tasto, true);
     return () => window.removeEventListener("keydown", tasto, true);
-  }, [ripristino]);
+  }, [ripristino]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const frecce = (e: React.KeyboardEvent) => {
     const i = SCHEDE.findIndex(([id]) => id === scheda), n = SCHEDE.length;
@@ -149,6 +185,27 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
 
         <div id="opz-foglio" role="tabpanel" aria-labelledby={`opz-scheda-${scheda}`} className="gv-scroll"
           style={{ marginTop: "1em", flex: 1, minHeight: 0, overflowY: "auto", borderTop: "1px solid rgba(255,255,255,.07)" }}>
+          {scheda === "generale" && finestra && (
+            <div style={stileColonne}>
+              <section aria-label="All'avvio">
+                <h3 style={stileSezione}>All'avvio</h3>
+                <div role="group" aria-label="Aggiornamenti" className="opz-riga" style={stileRiga}>
+                  <span className="opz-nome" style={stileNome}>Aggiornamenti</span>
+                  <span style={{ display: "flex", flexWrap: "wrap", gap: ".5em" }}>
+                    {([[true, "cercali all'avvio"], [false, "no"]] as const).map(([v, etichetta]) => (
+                      <button key={String(v)} type="button" className="opz-valore" aria-pressed={finestra.aggiornamenti.attivo === v} style={pulsante(finestra.aggiornamenti.attivo === v)}
+                        onClick={() => cercaAggiornamenti(v).then(() => statoFinestra().then(setFinestra)).catch(() => {})}>{etichetta}</button>
+                    ))}
+                  </span>
+                  <span style={stileSpiega}>
+                    {finestra.aggiornamenti.motivo
+                      ? `Questa versione non si aggiorna da sola (${finestra.aggiornamenti.motivo}): le versioni nuove si scaricano da GitHub.`
+                      : "All'avvio il gioco chiede a GitHub se c'è una versione nuova e la scarica; non manda niente di tuo. Vale dall'avvio dopo."}
+                  </span>
+                </div>
+              </section>
+            </div>
+          )}
           {scheda === "video" && (
             <div style={stileColonne}>
               <section aria-label="Schermo">
@@ -159,8 +216,30 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
                     <button type="button" className="opz-valore" aria-pressed={intero === true} onClick={() => schermo(true)} style={pulsante(intero === true)}>schermo intero</button>
                     <button type="button" className="opz-valore" aria-pressed={intero === false} onClick={() => schermo(false)} style={pulsante(intero === false)}>finestra</button>
                   </span>
-                  <span style={stileSpiega}>Si cambia anche con F11.</span>
+                  <span style={stileSpiega}>Si cambia anche con F11.{finestra ? " Il gioco riparte com'era." : ""}</span>
                 </div>
+                {finestra && (
+                  <div role="group" aria-label="Dimensione della finestra" className="opz-riga" style={stileRiga}>
+                    <span className="opz-nome" style={stileNome}>Finestra</span>
+                    <span style={{ display: "flex", flexWrap: "wrap", gap: ".45em" }}>
+                      {DIMENSIONI.filter(entra).map(([l, a]) => (
+                        <button key={l} type="button" className="opz-valore" aria-pressed={scelta?.[0] === l} onClick={() => dimensione(l, a)} style={pulsante(scelta?.[0] === l)}>
+                          {l} × {a}
+                        </button>
+                      ))}
+                    </span>
+                    <span style={stileSpiega}>
+                      {avviso ?? (!inFinestra
+                        ? "La dimensione della finestra, in pixel dello schermo: sceglierne una esce dallo schermo intero."
+                        : scelta ? "In pixel dello schermo; ci sono solo le misure che entrano in questo."
+                        : `Adesso è ${adesso![0]} × ${adesso![1]}, presa a mano col bordo.`)}
+                    </span>
+                  </div>
+                )}
+              </section>
+              <section aria-label="Grafica">
+                <h3 style={stileSezione}>Grafica</h3>
+                {riga("Qualità", "qualita", [["automatica", "automatica"], ["alta", "alta"], ["media", "media"], ["bassa", "bassa"]], SPIEGA_QUALITA[o.qualita])}
               </section>
             </div>
           )}
@@ -193,7 +272,7 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
           {ripristino ? (
             <span style={{ display: "flex", alignItems: "center", gap: ".8em", flexWrap: "wrap" }}>
               <span style={{ fontFamily: SERIF, fontSize: ".98em", color: "#f4ece0" }}>Tutte le opzioni tornano come al primo avvio?</span>
-              <button type="button" className="opz-bottone" autoFocus style={{ ...stileBottone, background: accento, color: "#140c06", borderColor: accento }} onClick={() => { ripristinaOpzioni(); setRipristino(false); }}>sì <b>S</b></button>
+              <button type="button" className="opz-bottone" autoFocus style={{ ...stileBottone, background: accento, color: "#140c06", borderColor: accento }} onClick={ripristina}>sì <b>S</b></button>
               <button type="button" className="opz-bottone" style={stileBottone} onClick={() => setRipristino(false)}>no <b>N</b></button>
             </span>
           ) : (

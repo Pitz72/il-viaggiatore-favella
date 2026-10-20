@@ -9,6 +9,7 @@
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { crinale, rng, mix, rgba, clamp } from "../trailer/tempo";
 import { disegnaViandante } from "../trailer/viandante";
+import { ascoltaOpzioni, opzioni } from "../lib/opzioni";
 import type { ZoneKey } from "../data/viaggiatore";
 
 export type Clima = ZoneKey | "vinta" | "persa";
@@ -161,16 +162,26 @@ export default function Panorama({ clima, luogo, camminaDa, fermo = false }: { c
   prop.current = { clima, luogo };
   const forzato = useRef<{ clima: Clima; luogo: string | null } | null>(null);
 
+  // la risoluzione della tela secondo la qualità della grafica (lib/opzioni.ts): automatica è quella di sempre (la misura
+  // della superficie per la densità dello schermo, fino a 2); alta è la risoluzione vera sullo schermo, ingrandimento della
+  // superficie compreso (fino a 3840 di larghezza, mai meno di quella di sempre); media e bassa sono tre quarti e metà
   useLayoutEffect(() => {
     const tela = telaRef.current;
     if (!tela) return;
-    const ro = new ResizeObserver(() => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      tela.width = Math.round(tela.clientWidth * dpr);
-      tela.height = Math.round(tela.clientHeight * dpr);
-    });
+    const misura = () => {
+      const q = opzioni().qualita;
+      const diSempre = tela.clientWidth * Math.min(window.devicePixelRatio || 1, 2);
+      // alta: la risoluzione vera sullo schermo, ma mai meno di quella di sempre (con la superficie rimpicciolita)
+      const l = Math.round(q === "alta" ? Math.min(3840, Math.max(diSempre, tela.getBoundingClientRect().width * (window.devicePixelRatio || 1)))
+        : diSempre * (q === "media" ? 0.75 : q === "bassa" ? 0.5 : 1));
+      const a = Math.round(l * tela.clientHeight / Math.max(1, tela.clientWidth));
+      if (l > 0 && (tela.width !== l || tela.height !== a)) { tela.width = l; tela.height = a; }
+    };
+    const ro = new ResizeObserver(misura);
     ro.observe(tela);
-    return () => ro.disconnect();
+    window.addEventListener("resize", misura);   // la superficie si ingrandisce con la finestra senza cambiare misura
+    const smetti = ascoltaOpzioni(misura);
+    return () => { ro.disconnect(); window.removeEventListener("resize", misura); smetti(); };
   }, []);
 
   useEffect(() => {

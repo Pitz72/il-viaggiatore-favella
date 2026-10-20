@@ -13,6 +13,8 @@
 // ====================================================================
 
 export type ModoVoce = "recitata" | "lettore";
+export type Qualita = "automatica" | "alta" | "media" | "bassa";
+export const QUALITA: readonly Qualita[] = ["automatica", "alta", "media", "bassa"];
 
 export interface Opzioni {
   /** la voce del gioco: il doppiaggio, oppure nessuna voce (il lettore di schermo legge il diario) */
@@ -29,6 +31,8 @@ export interface Opzioni {
   mono: boolean;
   /** quando la finestra non è in primo piano (ridotta a icona, o un'altra davanti) */
   secondoPiano: "continua" | "silenzia";
+  /** la risoluzione a cui si disegnano i paesaggi e il trailer: automatica è quella di sempre */
+  qualita: Qualita;
 }
 
 export const OPZIONI_DI_BASE: Readonly<Opzioni> = {
@@ -39,6 +43,7 @@ export const OPZIONI_DI_BASE: Readonly<Opzioni> = {
   volumeEffetti: 1,
   mono: false,
   secondoPiano: "continua",
+  qualita: "automatica",
 };
 
 const CHIAVE = "viaggiatore.opzioni";
@@ -63,6 +68,7 @@ export function pulisci(grezzo: unknown): Opzioni {
     volumeEffetti: livello(d.volumeEffetti, b.volumeEffetti),
     mono: typeof d.mono === "boolean" ? d.mono : b.mono,
     secondoPiano: d.secondoPiano === "continua" || d.secondoPiano === "silenzia" ? d.secondoPiano : b.secondoPiano,
+    qualita: QUALITA.includes(d.qualita as Qualita) ? (d.qualita as Qualita) : b.qualita,
   };
 }
 

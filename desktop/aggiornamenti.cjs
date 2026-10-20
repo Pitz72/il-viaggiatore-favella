@@ -11,6 +11,8 @@
 //  portatile e il pacchetto .deb non si aggiornano da soli: per loro si
 //  scarica la nuova release a mano (il .deb lo aggiorna il sistema).
 //  Le pre-release (alpha, beta, rc) le riceve solo chi ne sta già usando una.
+//  Chi nelle opzioni ha scelto di non cercarli (Generale, «Aggiornamenti: no»)
+//  non si collega a GitHub: vale dall'avvio dopo.
 // ====================================================================
 const { app } = require("electron");
 const registro = require("./registro.cjs");
@@ -24,7 +26,7 @@ function supportato() {
   return null;
 }
 
-function avvia(finestra) {
+function avvia(finestra, attivo = true) {
   let stato = { stato: "fermo" };
   const invia = (s) => {
     stato = s;
@@ -33,7 +35,7 @@ function avvia(finestra) {
   };
   gestisci("aggiornamento:stato", () => stato);
 
-  const motivo = supportato();
+  const motivo = supportato() ?? (attivo ? null : "spento nelle opzioni");
   if (motivo) {
     registro.info(`aggiornamento automatico non attivo: ${motivo}`);
     su("aggiornamento:installa", () => {});
@@ -61,4 +63,4 @@ function avvia(finestra) {
   setTimeout(() => autoUpdater.checkForUpdates().catch((e) => registro.warn("controllo aggiornamenti:", e?.message ?? String(e))), 8000);
 }
 
-module.exports = { avvia };
+module.exports = { avvia, supportato };
