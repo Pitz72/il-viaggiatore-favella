@@ -1,32 +1,37 @@
-### stanco — style: tired, weary
-Hai vinto tu. Va', che qui non c'è più niente da prendere. <long pause>
-…e va'. Va' pure, allora.
+[tired, weary] Hai vinto tu. Va', che qui non c'è più niente da prendere.
 
-### rabbia trattenuta — style: tightly controlled anger
-Tu. <long pause>
-Hai tirato fuori un ferro vuoto, e io ti ho detto calma, calma, come a un bambino.
+[tightly controlled anger] Tu.
 
-### minaccioso — style: quietly menacing
-Lo racconto, adesso, a chi passa. Lo racconto bene. <long pause>
-Adesso vuoi parlare? <long pause>
-Paga, e forse ci ripenso. <long pause>
-Di là non si passa gratis. Lo sai come funziona.
+[tightly controlled anger] Hai tirato fuori un ferro vuoto, e io ti ho detto calma, calma, come a un bambino.
 
-### asciutto — style: dry, curt
-La sbarra è su. Passa, e non fermarti. <long pause>
-Il paese, sì. Ci arrivi, se paghi. <long pause>
-Il resto non è merce mia.
+[quietly menacing] Lo racconto, adesso, a chi passa. Lo racconto bene.
 
-### affabile — style: affable, friendly on the surface
-Strada privata, amico. La mia. <long pause>
-Si paga il pedaggio: qualcosa di buono, e passi. Sennò, dietrofront. <long pause>
-L'amico mio. La sbarra è su, per te: passa quando vuoi. <long pause>
-Affare fatto. <long pause>
-Il lasciapassare, se lo vuoi: agli altri dici che hai già pagato. <long pause>
-Il paese? Gente ancora ce n'è: l'osteria, il mercato. Ciro ti spenna, ma onesto.
+[dry, curt] La sbarra è su. Passa, e non fermarti.
 
-### grave — style: grave, slow, weighing each word
-Oltre le colline, no. Dicono che al guado ci sta uno che rimanda indietro tutti. Io là non ci vado: non ci guadagno niente.
+[quietly menacing] Adesso vuoi parlare?
 
-### paura — style: frightened, unsteady
-Calma, calma. Passa. Passa pure.
+[quietly menacing] Paga, e forse ci ripenso.
+
+[affable, friendly on the surface] Strada privata, amico. La mia.
+
+[affable, friendly on the surface] Si paga il pedaggio: qualcosa di buono, e passi. Sennò, dietrofront.
+
+[affable, friendly on the surface] L'amico mio. La sbarra è su, per te: passa quando vuoi.
+
+[affable, friendly on the surface] Affare fatto.
+
+[affable, friendly on the surface] Il lasciapassare, se lo vuoi: agli altri dici che hai già pagato.
+
+[affable, friendly on the surface] Il paese? Gente ancora ce n'è: l'osteria, il mercato. Ciro ti spenna, ma onesto.
+
+[grave, slow, weighing each word] Oltre le colline, no. Dicono che al guado ci sta uno che rimanda indietro tutti. Io là non ci vado: non ci guadagno niente.
+
+[dry, curt] Il paese, sì. Ci arrivi, se paghi.
+
+[dry, curt] Il resto non è merce mia.
+
+[tired, weary] …e va'. Va' pure, allora.
+
+[frightened, unsteady] Calma, calma. Passa. Passa pure.
+
+[quietly menacing] Di là non si passa gratis. Lo sai come funziona.
