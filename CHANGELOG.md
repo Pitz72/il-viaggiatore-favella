@@ -8,6 +8,24 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.25.0] - 2026-10-20
+
+### Aggiunto
+- **La pausa.** In partita Esc, a riga vuota, mette il gioco in pausa: Riprendi, Salva, Carica, Opzioni, Come si gioca,
+  Torna al menu d'avvio, Esci dal gioco (sul desktop). Si sceglie con ↑ ↓ e Invio o col mouse; Esc riprende. Le opzioni,
+  il taccuino e la guida aperti dalla pausa le stanno sopra, e chiudendoli si torna lì. Mentre è aperta il paesaggio si
+  ferma. Esc, prima, chiude il menu di una cosa o un pannello aperto; se la voce sta parlando, la zittisce soltanto.
+- **«Nuovo viaggio» chiede conferma** quando c'è un viaggio da continuare (S sì, N o Esc no).
+
+### Cambiato
+- **Il menu d'avvio è una colonna di voci**, sotto il titolo e «Si parte a piedi.»: Continua il viaggio (con dove
+  riprende), Nuovo viaggio (o Inizia il viaggio), Carica un viaggio, Opzioni, Come si gioca, Rivedi il trailer, Esci.
+  ↑ ↓ (e Inizio, Fine) da una voce all'altra, Invio sceglie, il mouse come sempre; la voce scelta ha un filo d'ambra ai
+  due lati. Il resto della vecchia frase d'invito sta nella guida.
+- **La testata della partita** ha tre tasti: salva, carica, ☰ pausa. Opzioni, guida, ritorno al menu e uscita stanno
+  nella pausa.
+- Il tasto dello schermo intero sul palco della partita non c'è più: restano F11 e le opzioni.
+
 ## [1.24.0] - 2026-10-20
 
 ### Aggiunto
