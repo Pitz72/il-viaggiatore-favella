@@ -1,7 +1,7 @@
 # IL VIAGGIATORE — Opzioni, menu d'avvio, pausa, salvataggi, trofei
 
-> Pre-produzione · Strato 9 · **v0.2, 20/10/2026: le domande hanno avuto risposta (§1), piano non ancora
-> eseguito.** Si esegue una fase alla volta (§10) con il via libera di Simone alla fine di ciascuna.
+> Pre-produzione · Strato 9 · **v0.2, 20/10/2026: le domande hanno avuto risposta (§1). Fase 1 eseguita
+> (1.24.0); le altre da fare.** Si esegue una fase alla volta (§10) con il via libera di Simone alla fine di ciascuna.
 > Obiettivo: confezionare il gioco come un prodotto commerciale per desktop, sul modello di **Il Relitto**
 > per l'impostazione (non per la tecnologia: lì Tauri, qui Electron). Ogni voce cita i file da toccare.
 
@@ -408,7 +408,7 @@ commit e push. Il rilascio pubblico, solo su ordine.
 
 | Fase | Che cosa | Versione |
 |---|---|---|
-| 1 | Deposito delle opzioni, pannello con le tre schede, **Audio** completo (volumi veri, mono, secondo piano, la voce dentro) | 1.24.0 |
+| 1 | Deposito delle opzioni, pannello con le schede, **Audio** completo (volumi veri, mono, secondo piano, la voce dentro) — ✅ eseguita; pannello largo e fisso a due colonne, fuoco senza riquadro (richieste di Simone a metà fase) | 1.24.0 |
 | 2 | **Menu d'avvio** riorganizzato, **pausa** con Esc, testata «salva · carica · ☰ pausa», via il tastino dello schermo | 1.25.0 |
 | 3 | **Taccuino da desktop**: salvataggi liberi con nome, rapidi F5/F9, tre automatici, miniatura, tempo di gioco | 1.26.0 |
 | 4 | **Video**: schermo e finestra ricordati, dimensione, qualità grafica; `impostazioni.cjs`; aggiornamenti sì/no | 1.27.0 |

@@ -66,9 +66,13 @@ Windows SmartScreen può chiedere una conferma.
 
 **La voce.** Con la *voce recitata* (com'è all'inizio) il gioco legge ogni testo con le voci del doppiaggio: un tasto
 qualunque la ferma (il testo resta), **F2** ridice l'ultimo testo, e le risposte di un dialogo le legge il narratore
-quando ci passi sopra col mouse o le raggiungi con la tastiera. Il pulsante **«♪ voce»**, in alto, sceglie fra voce
-recitata e *lettore di schermo* (nessuna voce del gioco: il diario si annuncia al tuo lettore) e regola il volume. Con la
-voce recitata anche il trailer ha la voce del narratore, e la musica gli scende sotto.
+quando ci passi sopra col mouse o le raggiungi con la tastiera. Nelle **opzioni** («⚙ opzioni», nel menu d'avvio e in
+alto nella partita) si sceglie fra voce recitata e *lettore di schermo* (nessuna voce del gioco: il diario si annuncia al
+tuo lettore). Con la voce recitata anche il trailer ha la voce del narratore, e la musica gli scende sotto.
+
+**Le opzioni.** Schermo intero o finestra; i volumi (generale, musica, voce, effetti), che cambiano dal vivo; stereo o
+mono; il silenzio quando il gioco non è in primo piano. Valgono subito e restano; «ripristina le opzioni di base» torna
+alle scelte del primo avvio.
 
 **Salvataggi.** Sei posti più uno automatico, che si scrive a ogni cambio di
 luogo; dal menu, «Continua il viaggio» riprende il più recente. Sono file
