@@ -12,6 +12,8 @@ Per ogni partita, a intervalli:
   4. A e B proseguono con gli stessi comandi: ogni risposta deve coincidere
      parola per parola, e le impronte restare uguali.
 
+In più prova che un caricamento rotto a metà non lasci il ponte con un mondo parziale (caricamento_fallito).
+
 Uso:  python salvataggi.py              (40 partite)
       python salvataggi.py -n 200       (più partite)
 Esce con 1 al primo disallineamento, lasciando la trascrizione in esiti/.
@@ -144,12 +146,79 @@ def partita(seme, comandi, ogni, log):
     return True, "", verifiche, massimo, t_carica
 
 
+def caricamento_fallito():
+    """Un caricamento che si rompe a metà rigiocata lascia il ponte com'era.
+
+    Il ponte ricompila il mondo e rigioca la sequenza: se un comando solleva un'eccezione a metà, il motore non
+    deve restare con un mondo parziale mentre l'interfaccia mostra ancora quello di prima. Qui un'istanza gioca un
+    pezzo di percorso (dentro un dialogo, con delle istantanee di ANNULLA), poi carica un salvataggio con
+    elabora_comando guastato al quinto comando: l'esito dev'essere «non ok» e tutto ciò che il ponte ricorda
+    (mondo, sequenza, posizioni di ANNULLA, dialogo in corso) identico a prima. Una gemella mai toccata, che
+    gioca gli stessi comandi, deve dare le stesse risposte."""
+    import percorsi
+    rotta = percorsi.comandi("A_peppe")[:60]
+    a, gemella = nuovo_ponte(), nuovo_ponte()
+    for p in (a, gemella):
+        p.fav_boot(GIOCO)
+    for c in rotta:
+        if a._mondo.stato_partita != "in_corso":
+            break
+        if not a._mondo.in_dialogo():
+            v = a._mondo.variabili
+            if v.get("sete", 0) >= 5 and v.get("acqua", 0) >= 1:
+                a.fav_step("bevi"); gemella.fav_step("bevi")
+            if v.get("fame", 0) >= 6 and v.get("cibo", 0) >= 1:
+                a.fav_step("mangia qualcosa"); gemella.fav_step("mangia qualcosa")
+        a.fav_step(c); gemella.fav_step(c)
+    assert len(a._registro) > 20, "il percorso è troppo corto per la prova"
+
+    def ricordi(p):
+        return (p._mondo, p._entry, list(p._registro), list(p._posizioni), p._ingresso_dialogo,
+                p.fav_impronta_stato(), p.fav_stato(), p.fav_salva())
+
+    prima = ricordi(a)
+    salvato = json.loads(a.fav_salva())
+    originale, chiamate = a.elabora_comando, [0]
+
+    def guasto(mondo, cmd):
+        chiamate[0] += 1
+        if chiamate[0] == 5:
+            raise RuntimeError("guasto di prova a metà del caricamento")
+        return originale(mondo, cmd)
+
+    a.elabora_comando = guasto
+    try:
+        esito = json.loads(a.fav_carica(GIOCO, json.dumps(salvato["comandi"]), salvato["impronta"], salvato["ultimo"]))
+    finally:
+        a.elabora_comando = originale
+    if chiamate[0] < 5:
+        return False, "il guasto non è scattato: la prova non prova niente"
+    if esito.get("ok") or "guasto di prova" not in esito.get("errore", ""):
+        return False, f"un caricamento rotto deve dire «non ok» con la causa, ha detto {esito}"
+    dopo = ricordi(a)
+    nomi = ("mondo", "avventura", "sequenza", "posizioni di annulla", "dialogo in corso", "impronta", "stato", "salvataggio")
+    for nome, x, y in zip(nomi, prima, dopo):
+        if (x is not y) if nome == "mondo" else (x != y):
+            return False, f"dopo un caricamento fallito il ponte non è com'era: {nome} è cambiato"
+    # e la partita prosegue come se niente fosse (anche ANNULLA, che si regge sulle posizioni)
+    for c in ("guarda", "stato", "annulla", "guarda", "inventario"):
+        ra, rg = json.loads(a.fav_step(c)), json.loads(gemella.fav_step(c))
+        if ra["text"] != rg["text"] or a.fav_impronta_stato() != gemella.fav_impronta_stato():
+            return False, f"dopo il caricamento fallito la partita non prosegue come la gemella, a «{c}»"
+    return True, ""
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("-n", type=int, default=40, help="partite (default 40)")
     ap.add_argument("-c", type=int, default=160, help="comandi per partita (default 160)")
     args = ap.parse_args()
     t0 = time.time()
+    ok, motivo = caricamento_fallito()
+    if not ok:
+        print(f"KO caricamento fallito: {motivo}")
+        return 1
+    print("OK un caricamento rotto a metà lascia il ponte com'era (mondo, sequenza, ANNULLA, dialogo).")
     totale, massimo, peggiore = 0, 0, 0.0
     for s in range(args.n):
         log = []
