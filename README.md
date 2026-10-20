@@ -27,7 +27,7 @@ senza firma, dice soltanto: «Non è il caso di tornare.» Torni lo stesso.
 **7 zone · 39 luoghi · 14 personaggi · 6 finali.** Si gioca scrivendo in italiano
 (`bevi`, `parla con Rosaria`, `usa la lettera su Cosimo`), o toccando le uscite, le
 cose e le risposte. La sete è la spina dorsale, l'acqua è la moneta, le scelte pesano.
-Il gioco si apre con i loghi animati (e sonori) di Runtime Multimedia e di FAVELLA 1, un avviso e un trailer di 88 secondi con la sua colonna sonora originale.
+Il gioco si apre con i loghi animati (e sonori) di Runtime Multimedia e di FAVELLA 1, il cartello delle licenze e dei crediti, un avviso e un trailer di 88 secondi con la sua colonna sonora originale.
 **Il racconto ha una voce:** è doppiato per intero con la sintesi vocale (il narratore, i personaggi, i suggerimenti e il
 trailer, circa un'ora di parlato); si ascolta con la *voce recitata*, oppure si lascia leggere al proprio lettore di schermo.
 
@@ -37,9 +37,10 @@ trailer, circa un'ora di parlato); si ascolta con la *voce recitata*, oppure si 
 > modo, tramite design e programmazione, uno script narrativo Favella1 possa diventare un
 > gioco distribuibile.
 
-> **Il Viaggiatore è concluso.** La storia è definitiva dalla 1.12.0; la versione **1.14.0** porta
-> dentro il motore FAVELLA 1.5.0 e i nuovi loghi d'apertura, e l'app e i collaudi restano come sono. Il repository resta aperto, con le sue licenze (MIT per il codice,
-> CC BY-SA 4.0 per storia, testi, musica e grafica): per **studiare** come una storia lunga diventa
+> **Il Viaggiatore è concluso.** La storia è definitiva dalla 1.12.0 e il motore è FAVELLA 1.5.0 dalla 1.14.0; dalla
+> 1.19.0 alla 1.23.0 il gioco ha avuto il **doppiaggio** (la storia e le regole non cambiano). Il repository resta aperto,
+> con le sue licenze (MIT per il codice, CC BY-SA 4.0 per storia, testi, musica, voci e grafica, con le eccezioni dette in
+> [Licenze](#licenze)): per **studiare** come una storia lunga diventa
 > un gioco in FAVELLA 1 e, per chi ama FAVELLA 1, per **estenderlo**: nuove zone, nuovi personaggi,
 > nuovi finali, o un'altra storia sullo stesso impianto. Le partite salvate e l'aggiornamento
 > automatico continuano a funzionare finché le release restano su GitHub.
@@ -59,7 +60,7 @@ Dalla pagina [Releases](https://github.com/Pitz72/il-viaggiatore-favella/release
 | Linux, Debian/Ubuntu/Mint | `Il-Viaggiatore-<versione>-linux-amd64.deb` |
 
 Il gioco parte a schermo intero e funziona senza connessione. **Esc** salta i
-loghi e il trailer (e chiude l'avviso, come Invio), **F11** commuta lo schermo intero, **F5** salva, **F9**
+loghi e il trailer (e chiude il cartello dei crediti e l'avviso, come Invio), **F11** commuta lo schermo intero, **F5** salva, **F9**
 carica, **«esci»** nel menu (o Alt+F4) chiude. Gli eseguibili non sono firmati:
 Windows SmartScreen può chiedere una conferma.
 
@@ -127,7 +128,7 @@ di GitHub per i pacchetti.
 |---|---|
 | `prototipo/` | **l'avventura**: `il-viaggiatore.fav` (radice) + `sistemi.fav` + le sette zone `z1…z7` |
 | `motore/` | il motore FAVELLA 1.5.0 (Python), vedi `motore/LEGGIMI.md` |
-| `app/` | l'app React: loghi animati, trailer (canvas procedurale + colonna sonora), gioco, guida «come si gioca»; in `app/public/voce/` la voce del doppiaggio, un file Opus per parte |
+| `app/` | l'app React: loghi animati, licenze e crediti, avviso, trailer (canvas procedurale + colonna sonora + voce), gioco, guida «come si gioca»; in `app/public/voce/` la voce del doppiaggio, un file Opus per parte |
 | `doppiaggio/` | il doppiaggio: i testi per le voci ricavati dai `.fav`, il manifest delle parti, le voci scelte, il resoconto del banco; vedi `doppiaggio/LEGGIMI.md` |
 | `desktop/` | il guscio Electron per Windows e Linux |
 | `collaudo/` | i dodici collaudi automatici: i nove finali, le prove mirate, i salvataggi, le scorte, il ponte dell'interfaccia, i fili del viaggio, le giocate, il testo, le conferme, i pulsanti, la voce del doppiaggio, l'esploratore |
@@ -164,8 +165,13 @@ npm ci --prefix desktop
 cd desktop
 node prepara.mjs          # costruisce l'app e la copia in desktop/web
 npm run avvia             # apre il gioco in Electron
-npm run autoverifica      # avvia il gioco vero, gioca qualche comando, esce con 0 o 1
+npm run autoverifica      # avvia il gioco vero, gioca qualche comando, prova la voce, esce con 0 o 1
 npm run pacchetto:win     # oppure pacchetto:linux
+
+# il doppiaggio (serve ffmpeg; i WAV generati stanno in doppiaggio/master/, fuori da git)
+python strumenti/doppiaggio.py stato          # le parti da doppiare, per voce
+python strumenti/doppiaggio-banco.py          # dalle parti tagliate ai file Opus del gioco
+python strumenti/doppiaggio-trailer.py        # la traccia della voce del trailer
 ```
 
 `npm run dev` e `npm run build` copiano motore, avventura e Pyodide dentro
@@ -197,7 +203,7 @@ versioni, che non hanno bisogno di Electron, si occupano `node desktop/prove.cjs
 La CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) a ogni push verifica
 le versioni e il diario, esegue il collaudo, costruisce i pacchetti Windows e Linux e
 li **autoverifica**: avvia il gioco dentro il pacchetto appena costruito, gioca,
-salva e ricarica. Non pubblica niente.
+salva e ricarica, e prova la voce (una parte per ogni voce, la traccia del trailer). Non pubblica niente.
 
 ## Versioni, diario, rilascio
 
@@ -221,7 +227,11 @@ salva e ricarica. Non pubblica niente.
 
 - **Codice** (app, desktop, collaudo, script): [MIT](LICENSE).
 - **Motore FAVELLA 1** (`motore/`): MIT, © Simone (Pitz72), [motore/LICENSE](motore/LICENSE).
-- **Storia, testi, colonna sonora, voci del doppiaggio, icona e grafica**: [CC BY-SA 4.0](LICENSE-CONTENUTI.md).
+- **Storia, testi, colonna sonora, voci del doppiaggio, icona e grafica**: [CC BY-SA 4.0](LICENSE-CONTENUTI.md), tranne
+  le voci di Imma, Rosaria, Tore e Vito (qui sotto).
+- **Le voci di Imma, Rosaria, Tore e Vito** (`app/public/voce/elevenlabs/`): fatte con [ElevenLabs](https://elevenlabs.io)
+  sul piano gratuito, **escluse dalla licenza libera** e **solo per uso non commerciale**; chi fa un'opera derivata o un
+  uso commerciale del gioco deve toglierle o sostituirle.
 
 ### Le voci
 
@@ -232,10 +242,11 @@ Il doppiaggio è fatto con la sintesi vocale, a partire dai testi del gioco:
 | il narratore (anche le scelte del giocatore e il trailer) | Google Gemini 3.8 Flash TTS | Enzo |
 | la voce di servizio (suggerimenti, numeri delle scorte) | Google Gemini 3.8 Flash TTS | Kira |
 | Nunzio, Saverio, Iole, Rocco, Peppe, Ciro, Pasquale, Concetta, Onofrio, Cosimo | Google Gemini 3.8 Flash TTS | voci della libreria di AI Studio |
-| Imma, Rosaria, Tore, Vito | ElevenLabs Eleven v4 (Victoria, Valeria, Criss, Luigi) | **non distribuite**: generate sul piano gratuito, che non permette l'uso commerciale; nei pacchetti queste battute sono mute finché non si rifanno |
+| Imma, Rosaria, Tore, Vito | ElevenLabs Eleven v4 · elevenlabs.io | Victoria, Valeria, Criss, Luigi: generate sul piano gratuito, distribuite **fuori dalla licenza libera, solo per uso non commerciale** (scelta dell'autore, che ne accetta il rischio) |
 
 Google non rivendica la proprietà dell'audio generato, che però non è esclusivo; ogni clip porta la filigrana SynthID,
-che non si sente. Chi è stato generato come, e quando, sta in `doppiaggio/voci-scelte.md`; il progetto del doppiaggio in
+che non si sente. Le stesse indicazioni sono nel gioco, nel cartello delle licenze e dei crediti che segue i loghi.
+Chi è stato generato come, e quando, sta in `doppiaggio/voci-scelte.md`; il progetto del doppiaggio in
 [`pre-produzione/08-doppiaggio-tts.md`](pre-produzione/08-doppiaggio-tts.md).
 
 ### Componenti di terze parti

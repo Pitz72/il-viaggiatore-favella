@@ -12,7 +12,7 @@ mano: se un testo cambia, si rigenera il blocco.
 | `master/` | i WAV scaricati da AI Studio, come escono (circa 48 KB al secondo), e le parti tagliate | **no** (`.gitignore`) |
 | `voci.md` | le descrizioni delle voci da incollare in AI Studio | sì |
 | `banco.json` | il resoconto del banco della voce: per ogni blocco la loudness prima e dopo, il guadagno, il picco, il peso | sì |
-| `../app/public/voce/` | ciò che il gioco suona: un file Opus per parte (`<id>.opus`) e `indice.json` (id → durata in ms, e le parti mute col motivo); `locale/` (ignorata da git) ha le voci che non vanno nel repository | sì (tranne `locale/`) |
+| `../app/public/voce/` | ciò che il gioco suona: un file Opus per parte (`<id>.opus`) e `indice.json` (id → durata in ms, il testo di ogni parte, le cartelle a parte); `elevenlabs/`, col suo indice, ha le voci di Imma, Rosaria, Tore e Vito, escluse dalla licenza libera; `trailer.opus` e `trailer.json` la voce del trailer | sì |
 
 ## Una voce per volta
 
@@ -120,7 +120,10 @@ blocco un sussurro resta più piano di un grido (una parte il cui picco superere
 niente compressione), codifica in **Opus mono a 32 kbit/s** e scrive `app/public/voce/` e `banco.json`. Una
 parte che dopo la codifica supera −0,5 dBFS si ricodifica un poco più piano. Lo stesso ingresso dà gli stessi
 byte: rifarlo non sporca git. I blocchi fatti sul piano gratuito di ElevenLabs (Imma, Rosaria, Tore, Vito)
-vanno in `voce/locale/`, che git ignora: nell'indice principale sono «muti» col motivo, finché non si rifanno.
+vanno in `voce/elevenlabs/`, con un indice loro che dice la licenza: sono distribuiti col gioco ma esclusi
+dalla licenza CC BY-SA, solo per uso non commerciale (scelta di Simone, che ne accetta il rischio:
+`LICENSE-CONTENUTI.md`, piano 08, decisione 6). Se un giorno si rifanno su un piano a pagamento o con Gemini,
+basta toglierli da `A_PARTE` in `strumenti/doppiaggio-banco.py` e rifare il banco.
 Il collaudo è `collaudo/doppiaggio.py`.
 
 ## Nel gioco

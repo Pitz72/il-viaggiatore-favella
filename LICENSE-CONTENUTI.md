@@ -14,7 +14,7 @@ Testo legale completo: <https://creativecommons.org/licenses/by-sa/4.0/legalcode
 | La storia, i luoghi, i personaggi e tutta la prosa dell'avventura | `prototipo/*.fav` |
 | I documenti di progetto | `pre-produzione/`, `video/il-viaggiatore-intro-tempi.md` |
 | La colonna sonora originale dell'intro («Il Viaggiatore — Intro») | `app/src/assets/intro.mp3` |
-| Le voci del doppiaggio (la lettura dei testi qui sopra, generata con Google Gemini TTS) | `app/public/voce/` |
+| Le voci del doppiaggio (la lettura dei testi qui sopra, generata con Google Gemini TTS) | `app/public/voce/`, tranne `app/public/voce/elevenlabs/` |
 | L'icona, la copertina e la grafica | `grafica/` (immagini) |
 | I testi a schermo del trailer e della guida | `app/src/trailer/`, `app/src/gioco/ComeSiGioca.tsx` (solo i testi) |
 
@@ -33,6 +33,15 @@ Tutti i diritti riservati. Si possono ridistribuire solo come parte di questo
 gioco, senza modifiche; un'opera derivata deve toglierli o sostituirli. Il codice
 che li anima (`app/src/loghi/LogoRuntime.tsx`, `LogoFavella.tsx`) è sotto licenza
 MIT come il resto.
+
+## Cosa NON copre: le voci di ElevenLabs
+
+Le voci di **Imma, Rosaria, Tore e Vito** (`app/public/voce/elevenlabs/`) sono state generate con
+ElevenLabs (elevenlabs.io) sul piano gratuito, che non concede l'uso commerciale. **Non** sono
+coperte da questa licenza: si possono ridistribuire solo come parte di questo gioco e **solo per
+uso non commerciale**, citando elevenlabs.io. Un'opera derivata o un uso commerciale deve toglierle
+o sostituirle (il gioco funziona anche senza: quelle battute restano scritte). Le voci della
+libreria di ElevenLabs (Victoria, Valeria, Criss, Luigi) sono dei loro titolari.
 
 ## In breve
 
