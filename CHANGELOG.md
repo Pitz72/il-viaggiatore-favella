@@ -8,6 +8,21 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.20.0] - 2026-10-20
+
+### Aggiunto
+- **La voce nel gioco** (doppiaggio, fase 2 del piano 08): il racconto si sente. Il narratore, i personaggi e i
+  suggerimenti suonano parte per parte, in fila, con una pausa breve fra le frasi e una più lunga fra le righe; la voce
+  si ferma al primo tasto (il testo resta) e **F2** ridice l'ultimo testo. Le risposte di un dialogo le legge il
+  narratore quando ci si passa sopra col mouse o le si raggiunge con la tastiera. Il pannello **«voce»**, in alto, sceglie
+  fra *voce recitata* e *lettore di schermo* e regola il volume (si ricorda). In voce recitata il diario non si annuncia,
+  per non sentire due voci; ciò che la voce non dice (le risposte del motore, i titoli dei luoghi, le battute ancora
+  senza audio) va comunque al lettore di schermo. L'app ritrova le parti dal testo che il motore stampa
+  (`app/src/gioco/parti.ts`, lo stesso spezzamento di `strumenti/doppiaggio.py`); i numeri delle scorte dentro le
+  battute non si sentono ancora (fase 3). La guida lo dice in una riga.
+- Il collaudo della voce gioca i dodici percorsi e le tre morti e pretende che ogni riga stampata trovi le sue parti, e
+  così ogni testo dei `.fav` e ogni risposta di dialogo.
+
 ## [1.19.0] - 2026-10-20
 
 ### Aggiunto
