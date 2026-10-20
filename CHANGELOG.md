@@ -8,6 +8,28 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.28.0] - 2026-10-21
+
+### Aggiunto
+- **L'alta accessibilità** (opzioni, scheda Video): un interruttore che accende insieme cinque righe, regolabili poi una
+  per una (se se ne cambia una, l'interruttore dice «personalizzata»):
+  - **Contrasto alto**: testi pieni su fondi pieni, niente velature né sfocature dietro i pannelli, bordi netti; i testi
+    del diario e della barra laterale stanno oltre 16:1 sul fondo (il livello AAA chiede 7:1).
+  - **Testo grande**: il diario, i comandi e la barra laterale più grandi (la prosa da 17 a 20,5 px); i pannelli e la
+    colonna dei menu crescono del 15%, e restano in vista senza scorrere.
+  - **Carattere Atkinson Hyperlegible** (Atkinson Hyperlegible Next, SIL OFL 1.1), al posto di Lora, Sora e Source Code
+    Pro, ovunque si legge: nella partita, nei pannelli, nei menu.
+  - **Movimento**: come il sistema, ridotto, pieno. Ridotto ferma ciò che si muove nella partita e nei menu: il viandante
+    non cammina, il paesaggio sta fermo, niente transizioni né pulsazioni.
+  - **Fuoco marcato**: un contorno spesso, giallo e staccato su ciò che ha il fuoco della tastiera.
+
+### Cambiato
+- **Loghi e trailer si vedono anche col movimento ridotto** (scelta di Simone): prima, con il movimento ridotto di
+  Windows, i loghi non comparivano e il trailer saltava al menu. Esc li salta come sempre.
+- Il movimento ridotto non è più soltanto quello di Windows: lo decide l'opzione, che lo segue se la si lascia «come il
+  sistema».
+- Il cartello delle licenze e dei crediti nomina anche Atkinson Hyperlegible Next.
+
 ## [1.27.0] - 2026-10-21
 
 ### Aggiunto
