@@ -64,6 +64,18 @@ MAIUSCOLO (NORD, PARLA CON…) sono abbassate, perché il servizio le leggerebbe
 4. Scarica con l'icona di download e salva in `master/` con il nome del blocco e la voce
    (per esempio `master/servizio-kira.wav`: il nome del file WAV è libero, conta il blocco a cui lo dai al taglio).
 
+## Con ElevenLabs (Eleven v4)
+
+Un personaggio si può rifare con Eleven v4 (`eleven_v4`, uscito il 28/09/2026; italiano compreso, fino
+a 10.000 caratteri a richiesta, 5.000 sul sito). Il formato è diverso da quello di Gemini: il **tono
+sta a inizio riga**, in un tag fra parentesi quadre («[dry, curt] Che altro?»), le battute si
+separano con una riga vuota e non c'è `<long pause>` (v4 non ha SSML) né intestazioni. Il tono
+«calmo» è il tono di base e non ha tag. Si fa col comando `python strumenti/doppiaggio.py da-fare
+--elevenlabs Imma Tore …`, che scrive in `DA-FARE/` i personaggi **interi** (mai mezzi: la voce
+cambierebbe a metà) più un `DA-FARE-0-LEGGIMI-PRIMA.txt` con le impostazioni (Stability 50,
+Similarity 75), come scegliere e salvare la voce e che voce cercare. Il taglio legge anche questi
+blocchi: toglie i tag di tono prima di confrontare.
+
 ## Dopo la generazione: il taglio
 
 `strumenti/doppiaggio-taglia.py` prende i WAV di un blocco, li trascrive con faster-whisper

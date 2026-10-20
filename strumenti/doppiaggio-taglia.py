@@ -53,6 +53,17 @@ def impronta(voce, testo):
     return hashlib.sha1((voce + "\n" + testo).encode("utf-8")).hexdigest()[:8]
 
 
+def testo_della_riga(r):
+    """Il testo parlato di una riga di un blocco (come in doppiaggio.py): senza il tag di pausa in coda
+    (Gemini) né i tag di tono in testa «[wary, guarded] …» (ElevenLabs); None per le righe vuote e
+    le intestazioni «###»."""
+    r = r.rstrip("\n")
+    if not r.strip() or r.startswith("###"):
+        return None
+    r = re.sub(r"^(\[[^\]]*\]\s*)+", "", r)
+    return r.removesuffix(" <long pause>")
+
+
 def gettoni(testo):
     """Le parole di un testo, in minuscolo, senza punteggiatura né apostrofi (d'acqua → d, acqua);
     le cifre diventano parole."""
@@ -327,8 +338,7 @@ def main():
         # un blocco già generato, com'era quando è stato incollato in AI Studio (doppiaggio/generati/);
         # le intestazioni di gruppo («### tono …») non sono parti
         with open(da_file, encoding="utf-8") as f:
-            testi = [r.rstrip("\n").removesuffix(" <long pause>") for r in f
-                     if r.strip() and not r.startswith("###")]
+            testi = [x for x in (testo_della_riga(r) for r in f) if x]
         ids = [impronta(voce or a.blocco, t) for t in testi]
     else:
         with open(os.path.join(CARTELLA, "manifest.json"), encoding="utf-8") as f:

@@ -401,6 +401,17 @@ def spezza_in_blocchi(lista, voce, massimo):
     return blocchi
 
 
+def testo_della_riga(r):
+    """Il testo parlato di una riga di un blocco, o None se la riga non è una parte: toglie il tag di
+    pausa in coda (Gemini) e i tag di tono in testa «[wary, guarded] …» (ElevenLabs); le righe vuote
+    e le intestazioni «###» non sono parti."""
+    r = r.rstrip("\n")
+    if not r.strip() or r.startswith(INTESTAZIONE):
+        return None
+    r = re.sub(r"^(\[[^\]]*\]\s*)+", "", r)
+    return r.removesuffix(" " + PAUSA)
+
+
 def blocchi_generati(unita):
     """{nome: (gruppo, voce, [id,…])} dai file di doppiaggio/generati/: i blocchi com'erano quando
     sono stati incollati in AI Studio. Sono l'audio che esiste: non si riorganizzano mai, anche se
@@ -418,8 +429,7 @@ def blocchi_generati(unita):
         if voce is None:
             continue
         with open(os.path.join(GENERATI, f), encoding="utf-8") as fh:
-            testi = [r.rstrip("\n").removesuffix(" " + PAUSA) for r in fh
-                     if r.strip() and not r.startswith(INTESTAZIONE)]
+            testi = [x for x in (testo_della_riga(r) for r in fh) if x]
         out[nome] = (gruppo, voce, [impronta(voce, x) for x in testi])
     return out
 
@@ -558,6 +568,19 @@ def scrivi(tutto, blocchi, generati, solo_voce=None):
         f.write("\n")
 
 
+def testo_elevenlabs(unita, ids, stili):
+    """Il blocco per Eleven v4: una battuta per paragrafo (le parti si separano con una riga vuota), con
+    il tono come tag fra parentesi quadre a inizio riga. Niente pause con tag di pausa (v4 non
+    ha SSML) e niente intestazioni: il file si incolla intero. Il tono «calmo» è quello di base
+    e non ha tag."""
+    righe = []
+    for i in ids:
+        tono = unita[i].get("tono")
+        tag = "[%s] " % stili[tono] if tono and tono != "calmo" and tono in stili else ""
+        righe.append(tag + unita[i]["testo"])
+    return "\n\n".join(righe) + "\n"
+
+
 def descrizioni_delle_voci():
     """{nome minuscolo: (titolo, descrizione)} da doppiaggio/voci.md: i paragrafi «> …» sotto ogni «### Nome …»."""
     voci = OrderedDict()
@@ -575,7 +598,7 @@ def descrizioni_delle_voci():
     return {k: (v[0], " ".join(v[1])) for k, v in voci.items()}
 
 
-def scrivi_da_fare(tutto, blocchi, generati):
+def scrivi_da_fare(tutto, blocchi, generati, eleven=()):
     """doppiaggio/DA-FARE/: una copia di ogni blocco ancora da generare, con un nome che non si confonde
     con gli altri file e, in testa, tutto ciò che serve per farlo (voce, descrizione). Le righe «###»
     non si incollano. La cartella si rifà da zero a ogni comando."""
@@ -585,14 +608,50 @@ def scrivi_da_fare(tutto, blocchi, generati):
         os.remove(os.path.join(cartella, vecchio))
     unita = tutto["unita"]
     voci = descrizioni_delle_voci()
-    for n, (nome, ids) in enumerate(blocchi.items(), 1):
-        voce = unita[ids[0]]["voce"]
+    # i personaggi per ElevenLabs si rifanno INTERI (altrimenti la voce cambierebbe a metà personaggio)
+    eleven = [v for v in eleven]
+    da_fare = [(v, None) for v in eleven] + [(unita[ids[0]]["voce"], (nome, ids)) for nome, ids in blocchi.items()
+                                              if unita[ids[0]]["voce"] not in eleven]
+    totale = len(da_fare)
+    if eleven:
+        righe = [
+            "COME SI FA CON ELEVENLABS (modello Eleven v4)", "",
+            "Cosa trovi: un file DA-FARE-…-ELEVENLABS.txt per personaggio, già pronto da incollare INTERO",
+            "(non c'è niente da togliere). Ogni riga è una battuta; il TONO è il tag tra [ ] all'inizio della",
+            "riga; le righe senza tag sono «calme», il tono di base.", "",
+            "1. Text to Speech, modello «Eleven v4».",
+            "2. Impostazioni, le stesse per tutti i personaggi: Stability 50, Similarity 75 (in v4 non ci",
+            "   sono Style e Speed).",
+            "3. Voce: una voce ITALIANA della Voice Library (filtra lingua = italiano, poi genere ed età):",
+            "   con una voce non italiana il parlato ha accento straniero. Salvala in «My Voices» con il nome",
+            "   «Viaggiatore – <Personaggio>», così non devi ricordare quale hai usato.",
+            "   Ogni personaggio si rifà INTERO con la stessa voce: non si mescola vecchio audio (Gemini) e nuovo.",
+            "4. Incolla il file intero e premi Generate. Poi History → icona di download → WAV.",
+            "5. Prima di fare gli altri, ascolta i primi secondi: se senti PRONUNCIARE un tag (per esempio",
+            "   «dry, curt»), fermati e dimmelo: il modello può leggere ad alta voce i tag che non capisce.", "",
+            "Che voce cercare:"]
+        for v in eleven:
+            titolo, descr = voci.get(slug(v), (v, ""))
+            righe += ["", " - %s" % titolo.upper(), "   %s" % descr]
+        with open(os.path.join(cartella, "DA-FARE-0-LEGGIMI-PRIMA.txt"), "w", encoding="utf-8", newline="\n") as f:
+            f.write("\n".join(righe) + "\n")
+        print("DA-FARE/DA-FARE-0-LEGGIMI-PRIMA.txt")
+    for n, (voce, blocco) in enumerate(da_fare, 1):
+        if blocco is None:  # un personaggio intero, in formato ElevenLabs
+            ids = [i for i, u in unita.items() if u["voce"] == voce]
+            titolo, descr = voci.get(slug(voce), (voce, ""))
+            nome_file = "DA-FARE-%d-%s-ELEVENLABS.txt" % (n, slug(voce).upper())
+            with open(os.path.join(cartella, nome_file), "w", encoding="utf-8", newline="\n") as f:
+                f.write(testo_elevenlabs(unita, ids, tutto.get("stili", {})))
+            print("DA-FARE/%s  (%d righe, %d caratteri)" % (nome_file, len(ids), sum(len(unita[i]["testo"]) for i in ids)))
+            continue
+        nome, ids = blocco
         gia = [g for g, (_, v, _) in generati.items() if v == voce]
         titolo, descr = voci.get(slug(voce), (voce, ""))
         ritocco = bool(gia)
         testo = [
             "%s ============================================================" % INTESTAZIONE,
-            "%s DA FARE %d di %d — %s%s" % (INTESTAZIONE, n, len(blocchi), voce.upper(),
+            "%s DA FARE %d di %d — %s%s" % (INTESTAZIONE, n, totale, voce.upper(),
                                             (" — SOLO %d %s DA RIFARE" % (len(ids), "RIGA" if len(ids) == 1 else "RIGHE"))
                                             if ritocco else ""),
             "%s %d %s, %s. Le righe che cominciano con %s non si incollano." % (
@@ -611,7 +670,7 @@ def scrivi_da_fare(tutto, blocchi, generati):
             "descrizione + « Delivery: <style>.» (il tono «calmo» è quello di base)." % INTESTAZIONE,
             "%s ============================================================" % INTESTAZIONE, ""]
         corpo = testo_del_blocco(unita, ids, tutto.get("stili", {}))
-        nome_file = "DA-FARE-%d-%s%s.txt" % (n, slug(voce).upper(), "-RITOCCO" if ritocco else "")
+        nome_file = "DA-FARE-%d-%s%s-GEMINI.txt" % (n, slug(voce).upper(), "-RITOCCO" if ritocco else "")
         with open(os.path.join(cartella, nome_file), "w", encoding="utf-8", newline="\n") as f:
             f.write("\n".join(testo) + corpo)
         print("DA-FARE/%s" % nome_file)
@@ -660,6 +719,8 @@ def main():
     ap.add_argument("--voce", help="scrive solo i blocchi di questa voce o di questo blocco "
                                    "(servizio, narratore, narratore-scelte, Nunzio…)")
     ap.add_argument("--max-minuti", type=float, help="tetto di un blocco, al posto di quello predefinito")
+    ap.add_argument("--elevenlabs", nargs="+", metavar="PERSONAGGIO",
+                    help="con da-fare: questi personaggi si rifanno interi, in formato ElevenLabs (Eleven v4)")
     a = ap.parse_args()
     sys.stdout.reconfigure(encoding="utf-8")
     tutto = costruisci_tutto()
@@ -667,7 +728,7 @@ def main():
     if a.comando == "blocchi":
         scrivi(tutto, blocchi, generati, a.voce)
     if a.comando == "da-fare":
-        scrivi_da_fare(tutto, blocchi, generati)
+        scrivi_da_fare(tutto, blocchi, generati, a.elevenlabs or ())
     riepilogo(tutto, blocchi, generati)
     riserva = [(n, len([i for i in ids if i not in tutto["unita"]])) for n, (_, _, ids) in generati.items()]
     riserva = [(n, k) for n, k in riserva if k]
