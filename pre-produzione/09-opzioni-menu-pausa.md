@@ -1,7 +1,7 @@
 # IL VIAGGIATORE — Opzioni, menu d'avvio, pausa, salvataggi, trofei
 
-> Pre-produzione · Strato 9 · **v0.2, 20/10/2026: le domande hanno avuto risposta (§1). Fase 1 eseguita
-> (1.24.0); le altre da fare.** Si esegue una fase alla volta (§10) con il via libera di Simone alla fine di ciascuna.
+> Pre-produzione · Strato 9 · **v0.2, 20/10/2026: le domande hanno avuto risposta (§1). Fasi 1 e 2 eseguite
+> (1.24.0, 1.25.0); le altre da fare.** Si esegue una fase alla volta (§10) con il via libera di Simone alla fine di ciascuna.
 > Obiettivo: confezionare il gioco come un prodotto commerciale per desktop, sul modello di **Il Relitto**
 > per l'impostazione (non per la tecnologia: lì Tauri, qui Electron). Ogni voce cita i file da toccare.
 
@@ -192,7 +192,7 @@ gioca, carica, rivedi il trailer, audio, esci). Si usa col mouse o con Tab.
      continuare chiede conferma (D4): «Cominciare un viaggio nuovo? I tuoi salvataggi restano nel
      taccuino.» Sì (S) / No (N)
   3. **Carica un viaggio** — il taccuino (§6)
-  4. **Trofei** — la collezione (§7)
+  4. **Trofei** — la collezione (§7); arriva con la fase 7, insieme alla pagina
   5. **Opzioni**
   6. **Come si gioca**
   7. **Rivedi il trailer**
@@ -409,7 +409,7 @@ commit e push. Il rilascio pubblico, solo su ordine.
 | Fase | Che cosa | Versione |
 |---|---|---|
 | 1 | Deposito delle opzioni, pannello con le schede, **Audio** completo (volumi veri, mono, secondo piano, la voce dentro) — ✅ eseguita; pannello largo e fisso a due colonne, fuoco senza riquadro (richieste di Simone a metà fase) | 1.24.0 |
-| 2 | **Menu d'avvio** riorganizzato, **pausa** con Esc, testata «salva · carica · ☰ pausa», via il tastino dello schermo | 1.25.0 |
+| 2 | **Menu d'avvio** riorganizzato, **pausa** con Esc, testata «salva · carica · ☰ pausa», via il tastino dello schermo — ✅ eseguita; la voce «Trofei» del menu e della pausa arriva con la fase 7 | 1.25.0 |
 | 3 | **Taccuino da desktop**: salvataggi liberi con nome, rapidi F5/F9, tre automatici, miniatura, tempo di gioco | 1.26.0 |
 | 4 | **Video**: schermo e finestra ricordati, dimensione, qualità grafica; `impostazioni.cjs`; aggiornamenti sì/no | 1.27.0 |
 | 5 | **Comandi**: i tre modi; guida e testi adattati | 1.28.0 |

@@ -60,8 +60,10 @@ Dalla pagina [Releases](https://github.com/Pitz72/il-viaggiatore-favella/release
 | Linux, Debian/Ubuntu/Mint | `Il-Viaggiatore-<versione>-linux-amd64.deb` |
 
 Il gioco parte a schermo intero e funziona senza connessione. **Esc** salta i
-loghi e il trailer (e chiude il cartello dei crediti e l'avviso, come Invio), **F11** commuta lo schermo intero, **F5** salva, **F9**
-carica, **«esci»** nel menu (o Alt+F4) chiude. Gli eseguibili non sono firmati:
+loghi e il trailer (e chiude il cartello dei crediti e l'avviso, come Invio). Il **menu d'avvio** è una colonna di voci
+(continua, nuovo viaggio, carica, opzioni, come si gioca, rivedi il trailer, esci) che si sceglie con le frecce e Invio o
+col mouse. In partita **Esc** apre la **pausa** (riprendi, salva, carica, opzioni, come si gioca, menu d'avvio, esci),
+**F11** commuta lo schermo intero, **F5** salva, **F9** carica; Alt+F4 chiude. Gli eseguibili non sono firmati:
 Windows SmartScreen può chiedere una conferma.
 
 **La voce.** Con la *voce recitata* (com'è all'inizio) il gioco legge ogni testo con le voci del doppiaggio: un tasto
