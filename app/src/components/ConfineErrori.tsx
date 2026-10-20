@@ -33,20 +33,17 @@ export function registraErroriGlobali(): () => void {
     if (scritti >= 200) return;
     scritti++;
     visti.set(chiave, { quando: ora, ripetuti: 0 });
-    annota(livello, testo.slice(0, 2000) + (v?.ripetuti ? `
-(ripetuto altre ${v.ripetuti} volte)` : ""));
+    annota(livello, testo.slice(0, 2000) + (v?.ripetuti ? `\n(ripetuto altre ${v.ripetuti} volte)` : ""));
   };
   const suErrore = (ev: ErrorEvent) => {
     const benigno = /^ResizeObserver loop/.test(ev.message);
     const dove = ev.filename ? ` (${ev.filename}:${ev.lineno}:${ev.colno})` : "";
-    scrivi(benigno ? "warn" : "error", `errore non preso${benigno ? " (innocuo)" : ""}: ${ev.message}${dove}
-${ev.error instanceof Error ? ev.error.stack ?? "" : ""}`);
+    scrivi(benigno ? "warn" : "error", `errore non preso${benigno ? " (innocuo)" : ""}: ${ev.message}${dove}\n${ev.error instanceof Error ? ev.error.stack ?? "" : ""}`);
   };
   const suRifiuto = (ev: PromiseRejectionEvent) => {
     const r = ev.reason;
     const benigno = r instanceof Error && INNOCUI.has(r.name);
-    const testo = r instanceof Error ? `${r.name}: ${r.message}
-${r.stack ?? ""}` : String(r);
+    const testo = r instanceof Error ? `${r.name}: ${r.message}\n${r.stack ?? ""}` : String(r);
     scrivi(benigno ? "warn" : "error", `promessa rifiutata${benigno ? " (innocua)" : ""}: ${testo}`);
   };
   window.addEventListener("error", suErrore);
