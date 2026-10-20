@@ -20,6 +20,10 @@ strumenti/doppiaggio.py, trailer compreso) e controlla:
      ogni testo dei .fav stampato come lo stampa il motore (i numeri delle scorte con ogni valore
      registrato, i fili del viaggio uno per uno e tutti insieme) e ogni risposta di dialogo; e ogni
      parte del gioco (non del trailer) si ritrova da almeno un testo (serve `npm ci --prefix app`).
+  8. la voce del trailer (app/public/voce/trailer.opus e trailer.json, strumenti/doppiaggio-trailer.py):
+     le frasi non si sovrappongono, cominciano vicino al loro testo, «tuo FRATELLO.» e il titolo sono
+     agganciati al colpo grave e al titolo, ogni frase è detta o dichiarata solo scritta, nessuna è
+     scaduta, e la traccia dura quanto il trailer.
 
 Uso:  python doppiaggio.py      (esce con 1 se qualcosa non va; ffmpeg è facoltativo)
 """
@@ -154,9 +158,9 @@ def main():
     esito(not doppie, "nessuna parte è insieme suonata e muta", doppie)
 
     # 3. i file
-    presenti = {f[:-len(est)] for f in os.listdir(VOCE) if f.endswith(est)}
+    presenti = {f[:-len(est)] for f in os.listdir(VOCE) if f.endswith(est)} - {"trailer"}
     altri = sorted(f for f in os.listdir(VOCE)
-                   if os.path.isfile(os.path.join(VOCE, f)) and not f.endswith(est) and f != "indice.json")
+                   if os.path.isfile(os.path.join(VOCE, f)) and not f.endswith(est) and f not in ("indice.json", "trailer.json"))
     esito(set(parti) <= presenti and not (presenti - set(parti)) and not altri,
           "la cartella della voce è l'indice: %d file" % len(presenti),
           ["manca %s%s" % (i, est) for i in sorted(set(parti) - presenti)] +
@@ -269,12 +273,42 @@ def main():
         tutte = {i for x in righe for i in x["ids"]} | {i for x in r["scelte"] for i in x["ids"]}
         del_gioco = {i for i in serve if unita[i].get("categoria") != "trailer"}
         esito(del_gioco <= tutte, "ogni parte del gioco si ritrova da un testo stampato (%d lungo i percorsi, %d in tutto; "
-              "le %d del trailer sono della fase 4)" % (len(viste), len(tutte & del_gioco), len(serve - del_gioco)),
+              "le %d del trailer suonano nella sua traccia)" % (len(viste), len(tutte & del_gioco), len(serve - del_gioco)),
               ["%s «%s»" % (i, unita[i]["testo"][:70]) for i in sorted(del_gioco - tutte)])
         scelte_senza = sorted({o for o, x in zip(scelte, r["scelte"]) if x["mancano"]})
         esito(not scelte_senza, "ogni risposta di dialogo (%d incontrate, %d nei .fav) ha la voce del narratore" % (
             len(set(scelte[:n_scelte])), len(scelte_fav)),
               scelte_senza)
+
+    # 8. la voce del trailer: una traccia sola, sul tempo del trailer (strumenti/doppiaggio-trailer.py)
+    with open(os.path.join(VOCE, "trailer.json"), encoding="utf-8") as f:
+        tr = json.load(f)
+    attese = {x["id"]: x for x in S.costruisci_tutto()["trailer"]}
+    frasi = tr["frasi"]
+    storte = []
+    for x in frasi:
+        p = attese.get(x["id"])
+        if not p:
+            storte.append("%s: non è una frase del trailer" % x["id"])
+            continue
+        if x["unita"] != p["unita"]:
+            storte.append("%s: il testo è cambiato (rifare strumenti/doppiaggio-trailer.py)" % x["id"])
+        if p.get("aggancia") and abs(x["da"] - p["aggancia"]) > 0.005:
+            storte.append("%s: comincia a %.2f s, deve a %.2f" % (x["id"], x["da"], p["aggancia"]))
+        if x["da"] < p["da"] - 0.3 or x["da"] > p["da"] + 5:
+            storte.append("%s: comincia a %.2f s, il suo testo compare a %.2f" % (x["id"], x["da"], p["da"]))
+    for x, y in zip(frasi, frasi[1:]):
+        if x["a"] > y["da"]:
+            storte.append("%s e %s si sovrappongono" % (x["id"], y["id"]))
+    if set(attese) != {x["id"] for x in frasi} | set(tr["escluse"]):
+        storte.append("frasi né dette né escluse: %s" % sorted(set(attese) - {x["id"] for x in frasi} - set(tr["escluse"])))
+    d, errore = durata_ogg_opus(os.path.join(VOCE, "trailer.opus"))
+    if errore or abs(d - 1000 * tr["durata"]) > 50:
+        storte.append("trailer.opus: %s" % (errore or "dura %d ms invece di %d" % (d, 1000 * tr["durata"])))
+    if frasi and frasi[-1]["a"] > tr["durata"]:
+        storte.append("la voce va oltre la fine del trailer")
+    esito(not storte, "la voce del trailer: %d frasi al loro posto (%s solo scritte), «tuo FRATELLO.» e il titolo agganciati, "
+          "nessuna sovrapposizione" % (len(frasi), len(tr["escluse"])), storte)
 
     tutto_ok = all(esiti)
     print("TUTTO OK" if tutto_ok else "CI SONO FALLIMENTI")
