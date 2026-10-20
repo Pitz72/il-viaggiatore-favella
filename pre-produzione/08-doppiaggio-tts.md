@@ -77,10 +77,13 @@ Il registro di chi ha detto che cosa è `doppiaggio/voci-scelte.md`. I WAV grezz
 5. **Le scelte del giocatore:** niente lettura automatica dopo la battuta e niente segnale. **Il narratore legge una scelta quando il mouse le passa sopra** (e, per chi usa la tastiera, quando la scelta prende il fuoco); la voce che stava parlando si ferma.
 6. **ElevenLabs:** Imma, Rosaria, Tore e Vito sono stati generati sul **piano gratuito**, che non concede l'uso commerciale e chiede l'attribuzione «elevenlabs.io»; ciò che si genera fuori da un piano a pagamento non diventa commerciale nemmeno pagando dopo (pagina ufficiale «Can I publish the content I generate on the platform?», letta il 20/10/2026). Il gioco è CC BY-SA, che permette usi commerciali: **quei quattro vanno rifatti prima del rilascio** (con Gemini, o con ElevenLabs su un piano a pagamento: si decide più avanti). **Nel frattempo il loro audio sta solo in locale**: sul PC di Simone suona in gioco (per giudicarlo), ma non va su GitHub né nei pacchetti, dove quelle battute restano mute.
 
-## 5. Ordine di lavoro
-1. ~~Chiudere la produzione~~ **fatto il 20/10/2026** (28 blocchi su 28 generati, tagliati e verificati; resta da ascoltare «Bevi.» di Kira).
-2. Il banco dell'audio (3.1) e un collaudo che lo verifica.
-3. La riproduzione dei testi statici nel gioco e le impostazioni (3.2), con la voce che si ferma al tasto.
-4. I testi che si compongono (3.3).
-5. Il trailer con la voce (3.4), con la misura del costo come per le altre fasi del trailer.
-6. Rilascio.
+## 5. Ordine di lavoro (le fasi approvate da Simone il 20/10/2026)
+Si fa una fase per volta; a fine fase si mostra il risultato e si aspetta il via libera.
+
+0. ~~Chiudere la produzione~~ **fatto il 20/10/2026** (28 blocchi su 28 generati, tagliati e verificati; resta da ascoltare «Bevi.» di Kira).
+1. ~~**Il banco dell'audio** (3.1) e un collaudo che lo verifica~~ **fatto il 20/10/2026:** `strumenti/doppiaggio-banco.py` → `app/public/voce/` (un `<id>.opus` per parte e `indice.json`), resoconto `doppiaggio/banco.json`, collaudo `collaudo/doppiaggio.py` (anche in CI). Ogni blocco a −23 LUFS (EBU R128: a −18 quasi tutte le parti del narratore avrebbero toccato il tetto dei picchi), silenzi tolti (0,04 s prima, 0,08 s dopo), Opus mono 32 kbit/s, picchi decodificati sotto −0,3 dBTP. **809 parti nel repository (61,2 minuti, 13,7 MB)**, 69 solo in locale (i quattro ElevenLabs, 4,5 minuti). I minuti veri sono meno dei 90 stimati: i silenzi fra le parti non ci sono più (le pause le metterà il gioco).
+2. **La voce nel gioco** (3.2): i testi fissi, le impostazioni (voce recitata / lettore di schermo / nessuna, volume), l'arresto al primo tasto, il comando per riascoltare, le scelte lette al passaggio del mouse o al fuoco. → versione 1.20.0 (la fase 1 è la 1.19.0).
+3. **I testi che si compongono** (3.3): le scorte con i numeri e `[i fili del viaggio]`.
+4. **Il trailer con la voce di Enzo** (3.4), con la misura del costo come per le altre fasi del trailer.
+5. **Le verifiche** (3.5): tutti i collaudi, una partita intera con la voce, il peso, la CI.
+6. **I documenti** (3.6): CHANGELOG, README (voci e diritti), diario. Il rilascio solo su ordine di Simone, e non prima di aver rifatto i quattro personaggi ElevenLabs.
