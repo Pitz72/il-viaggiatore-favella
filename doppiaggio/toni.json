@@ -1,0 +1,827 @@
+{
+ "stili": {
+  "calmo": "calm, even",
+  "asciutto": "dry, curt",
+  "stanco": "tired, weary",
+  "diffidente": "wary, guarded",
+  "minaccioso": "quietly menacing",
+  "affabile": "affable, friendly on the surface",
+  "rabbia trattenuta": "tightly controlled anger",
+  "paura": "frightened, unsteady",
+  "tristezza": "sad, subdued",
+  "tenero": "tender, gentle",
+  "sollievo": "relieved, a little lighter",
+  "felice": "happy, bright",
+  "ironico": "wry, ironic",
+  "canzonatorio": "teasing, mocking",
+  "amaro": "bitter, resigned",
+  "commosso": "moved, voice catching",
+  "ansioso": "eager, anxious",
+  "deciso": "firm, resolute",
+  "incerto": "unsure, searching for the words",
+  "febbrile": "weak and feverish, trying to sound fine",
+  "grave": "grave, slow, weighing each word"
+ },
+ "personaggi": {
+  "Nunzio": [
+   [
+    "asciutto",
+    "Altro?"
+   ],
+   [
+    "diffidente",
+    "Acqua non ne ho da regalare, di questi tempi. Ma qualcosa per la strada lo trovo, se hai da scambiare."
+   ],
+   [
+    "ironico",
+    "Oro per acqua. Ai miei tempi avrei riso. Tieni."
+   ],
+   [
+    "calmo",
+    "Un po' di scorta secca. Ti costa un sorso, ma cammini meglio."
+   ],
+   [
+    "asciutto",
+    "Le casse vuote, nel retro. Portale giù in cantina e un bicchiere te lo verso."
+   ],
+   [
+    "calmo",
+    "A ovest, oltre la piana, c'è l'invaso secco. Poi la statale, e un paese che resiste. Poi le colline: Acquamorta è dietro."
+   ],
+   [
+    "grave",
+    "Ma serve una mappa, e acqua. Senza, non ci arrivi."
+   ]
+  ],
+  "Saverio": [
+   [
+    "diffidente",
+    "Cosa vuoi."
+   ],
+   [
+    "asciutto",
+    "Tu. Il secchio sai dov'è."
+   ],
+   [
+    "asciutto",
+    "Il pozzo. Una tanica, non di più: la corda è vecchia."
+   ],
+   [
+    "diffidente",
+    "Acqua."
+   ],
+   [
+    "amaro",
+    "Tutti vogliono acqua. Portami un motivo per fidarmi, e ne parliamo."
+   ],
+   [
+    "calmo",
+    "Cala piano, la corda è vecchia. Quel che viene su è tuo."
+   ],
+   [
+    "minaccioso",
+    "Giù le mani"
+   ],
+   [
+    "deciso",
+    "Questo pozzo non è una fontana."
+   ]
+  ],
+  "Iole": [
+   [
+    "amaro",
+    "Tutta quest'acqua, e non se ne beve un sorso."
+   ],
+   [
+    "diffidente",
+    "Cosa vuoi dalla mia pompa."
+   ],
+   [
+    "ironico",
+    "Sei ancora qui. Quelli che hanno fretta di solito li ritrovo giù al fondale, a bere con Rocco."
+   ],
+   [
+    "calmo",
+    "Dimmi."
+   ],
+   [
+    "calmo",
+    "Il casotto è là dietro. Prendi quello che ti serve e fa' andare la pompa. Le pastiglie bastano per una volta. Dopo, col filtro solo, tiri su acqua che sa di ferro: si beve, non si ama."
+   ],
+   [
+    "calmo",
+    "La pompa la sai far andare, ormai. Il resto è pazienza."
+   ],
+   [
+    "calmo",
+    "Si filtra, poi si tratta. Il filtro lo monti tu: tela e carbone ce n'è là nella carcassa. Il trattamento sta in casa mia: pastiglie. Ma in casa mia non entra chi non conosco."
+   ],
+   [
+    "amaro",
+    "Non è crollato niente. Hanno solo chiuso un rubinetto lontano, un anno dopo l'altro, finché la valle ha smesso di valere l'acqua che costava."
+   ],
+   [
+    "tristezza",
+    "Io sono rimasta a tenere caldo il posto, caso mai tornasse a scorrere."
+   ],
+   [
+    "calmo",
+    "No."
+   ],
+   [
+    "calmo",
+    "Ma aspettare è l'ultimo lavoro rimasto, e lo faccio bene."
+   ],
+   [
+    "deciso",
+    "Casa mia no. Non ti conosco."
+   ]
+  ],
+  "Rocco": [
+   [
+    "canzonatorio",
+    "Acqua? Qui non si chiede acqua."
+   ],
+   [
+    "amaro",
+    "C'è il sale. Quello sì. Quello non finisce mai."
+   ],
+   [
+    "ansioso",
+    "Quella? Quella è buona."
+   ],
+   [
+    "ansioso",
+    "Più in là è meno salata, fidati. Bevi e cammini meglio."
+   ],
+   [
+    "amaro",
+    "Una volta che cominci, non smetti. La sete dopo è peggio. Ma intanto è acqua, no?"
+   ]
+  ],
+  "Vito": [
+   [
+    "stanco",
+    "Hai vinto tu. Va', che qui non c'è più niente da prendere."
+   ],
+   [
+    "rabbia trattenuta",
+    "Tu."
+   ],
+   [
+    "rabbia trattenuta",
+    "Hai tirato fuori un ferro vuoto, e io ti ho detto calma, calma, come a un bambino."
+   ],
+   [
+    "minaccioso",
+    "Lo racconto, adesso, a chi passa. Lo racconto bene."
+   ],
+   [
+    "asciutto",
+    "La sbarra è su. Passa, e non fermarti."
+   ],
+   [
+    "minaccioso",
+    "Adesso vuoi parlare?"
+   ],
+   [
+    "minaccioso",
+    "Paga, e forse ci ripenso."
+   ],
+   [
+    "affabile",
+    "Strada privata, amico. La mia."
+   ],
+   [
+    "affabile",
+    "Si paga il pedaggio: qualcosa di buono, e passi. Sennò, dietrofront."
+   ],
+   [
+    "affabile",
+    "L'amico mio. La sbarra è su, per te: passa quando vuoi."
+   ],
+   [
+    "affabile",
+    "Affare fatto."
+   ],
+   [
+    "affabile",
+    "Il lasciapassare, se lo vuoi: agli altri dici che hai già pagato."
+   ],
+   [
+    "affabile",
+    "Il paese? Gente ancora ce n'è: l'osteria, il mercato. Ciro ti spenna, ma onesto."
+   ],
+   [
+    "grave",
+    "Oltre le colline, no. Dicono che al guado ci sta uno che rimanda indietro tutti. Io là non ci vado: non ci guadagno niente."
+   ],
+   [
+    "asciutto",
+    "Il paese, sì. Ci arrivi, se paghi."
+   ],
+   [
+    "asciutto",
+    "Il resto non è merce mia."
+   ],
+   [
+    "stanco",
+    "…e va'. Va' pure, allora."
+   ],
+   [
+    "paura",
+    "Calma, calma. Passa. Passa pure."
+   ],
+   [
+    "minaccioso",
+    "Di là non si passa gratis. Lo sai come funziona."
+   ]
+  ],
+  "Imma": [
+   [
+    "calmo",
+    "Per oggi ho detto abbastanza. Se vuoi sapere del paese, chiedi a Rosaria."
+   ],
+   [
+    "asciutto",
+    "Allora?"
+   ],
+   [
+    "calmo",
+    "Tu non ne hai. Si vede da come cammini."
+   ],
+   [
+    "asciutto",
+    "Non ti chiedo l'acqua: in paese qualcuno ne dà sempre. Mi serve da mangiare."
+   ],
+   [
+    "calmo",
+    "Sì, lo so. Anche tu."
+   ],
+   [
+    "stanco",
+    "Sono tre giorni che mi tengo in piedi con la saliva."
+   ],
+   [
+    "sollievo",
+    "Alla Rosaria ci arrivo prima di te."
+   ],
+   [
+    "sollievo",
+    "Non so dirti cosa le racconterò. Ma per ora ho la bocca piena."
+   ],
+   [
+    "grave",
+    "L'ultimo non lo dà quasi nessuno. Quello, in paese, si viene a sapere."
+   ],
+   [
+    "calmo",
+    "Lo so."
+   ],
+   [
+    "amaro",
+    "Lo dicono tutti, e quasi tutti hanno ragione."
+   ],
+   [
+    "asciutto",
+    "Imma. Sono di giù, dal vicolo dietro la piazzetta."
+   ],
+   [
+    "asciutto",
+    "Sono andata a vedere se oltre il casello c'era ancora qualcosa. C'è la statale."
+   ],
+   [
+    "asciutto",
+    "Tu vai dall'altra parte, o torni. Non si capisce."
+   ],
+   [
+    "asciutto",
+    "Vito."
+   ],
+   [
+    "amaro",
+    "All'andata guardava altrove. Al ritorno mi ha preso il pane che mi restava e mi ha chiamata sorella."
+   ],
+   [
+    "calmo",
+    "Il paese tiene."
+   ],
+   [
+    "asciutto",
+    "Rosaria ti mette a sedere, se arrivi pulito. Se arrivi con qualcosa addosso, ti serve in piedi: la statale parla più in fretta di chi la cammina."
+   ],
+   [
+    "asciutto",
+    "E il ragazzo della piazzetta ti chiederà di portarlo via. Digli di sì o di no, ma subito. Ha già aspettato abbastanza per tre."
+   ],
+   [
+    "calmo",
+    "Pasquale? Quello con la febbre."
+   ],
+   [
+    "paura",
+    "Non l'ho mai sentito lamentarsi. È questo che mi fa paura."
+   ],
+   [
+    "deciso",
+    "Quello lì mi ha dato da mangiare, sulla discesa."
+   ]
+  ],
+  "Rosaria": [
+   [
+    "tenero",
+    "Eccoti. Siediti, che ti riempio il bicchiere."
+   ],
+   [
+    "deciso",
+    "Da mangiare e da bere, qui, si dà a tutti. La fiducia no: quella si guadagna."
+   ],
+   [
+    "calmo",
+    "Ma c'è chi ha parlato bene di te, e si sente."
+   ],
+   [
+    "calmo",
+    "Parla pure."
+   ],
+   [
+    "calmo",
+    "Siediti, che sei bianco di polvere. Qui si entra come si entra in casa d'altri: con rispetto."
+   ],
+   [
+    "grave",
+    "Acquamorta è vuota, ormai. Tranne uno. Dicono sia rimasto a tenere il paese, o quel che ne resta, e che non lasci entrare nessuno. Chi è andato via, per lui, è come morto."
+   ],
+   [
+    "grave",
+    "Tu di là vieni, eh? Pensaci, a cosa torni."
+   ],
+   [
+    "asciutto",
+    "Non lo so, e chi lo sa non lo dice."
+   ],
+   [
+    "calmo",
+    "Chiedi a Concetta, nel cortile. Lei le famiglie le sa tutte, anche quelle che non ci sono più."
+   ],
+   [
+    "deciso",
+    "Su, da quelle parti, non si arriva da estranei: c'è Onofrio, e i pastori, gente che spara prima di chiedere. Ti do due righe mie, ma prima il paese deve fidarsi di te. Fatti voler bene. Aiuta qualcuno, qui."
+   ],
+   [
+    "tenero",
+    "Te lo sei guadagnato. Due righe mie, a chi sta lassù."
+   ],
+   [
+    "deciso",
+    "Quando arrivi, lassù sanno già chi sei."
+   ],
+   [
+    "tenero",
+    "E mangia, prima di salire. Lassù non ti invita nessuno."
+   ],
+   [
+    "deciso",
+    "Senza una mia parola, lassù non ci arrivi."
+   ],
+   [
+    "calmo",
+    "Mi ha detto della discesa."
+   ]
+  ],
+  "Concetta": [
+   [
+    "incerto",
+    "Tu… Ma tu sei dei… Aspetta."
+   ],
+   [
+    "incerto",
+    "La casa in fondo, ad Acquamorta. Due maschi, c'erano. Tu quale dei due?"
+   ],
+   [
+    "tristezza",
+    "Due, sì. Tu te ne andasti, col treno, e non tornasti più. L'altro restò. Cosimo."
+   ],
+   [
+    "incerto",
+    "Cosimo restò, e si chiuse. Dopo che… No. Dopo non ricordo. C'è stata una disgrazia, in quella casa, ma il quando mi sfugge."
+   ],
+   [
+    "tenero",
+    "Non me lo far dire, che poi sbaglio e ti faccio male per niente. Vacci, e guardala tu, la casa."
+   ],
+   [
+    "tenero",
+    "Pìgliati il cavallo di legno. Era vostro."
+   ],
+   [
+    "tenero",
+    "Pìgliatelo. Lo tenevo io, da quando la casa si è chiusa. Uno di voi due ci dormiva insieme, ma quale non te lo so dire."
+   ],
+   [
+    "tenero",
+    "Portatelo a casa, quel cavallo. Le case vogliono indietro le loro cose."
+   ]
+  ],
+  "Pasquale": [
+   [
+    "febbrile",
+    "Non sto male."
+   ],
+   [
+    "febbrile",
+    "Passa pure, viandante. Non sei il primo che passa."
+   ],
+   [
+    "sollievo",
+    "Sto meglio. Te lo devo."
+   ],
+   [
+    "calmo",
+    "Rosaria l'ha già saputo. Qui le cose si sanno prima di sera."
+   ]
+  ],
+  "Peppe": [
+   [
+    "incerto",
+    "Giù al mercato dicono che hai già fatto del male, per strada."
+   ],
+   [
+    "deciso",
+    "Io voglio saperlo da te, non da loro."
+   ],
+   [
+    "ansioso",
+    "Tu vai a ovest, vero? Oltre le colline."
+   ],
+   [
+    "ansioso",
+    "Portami con te. Qui si muore da fermi. Io cammino, non mi lamento, ti giuro."
+   ],
+   [
+    "felice",
+    "Allora si parte davvero?"
+   ],
+   [
+    "tristezza",
+    "Ho capito. Stammi bene, viandante."
+   ],
+   [
+    "calmo",
+    "Allora lo sai com'è."
+   ],
+   [
+    "calmo",
+    "Mio padre diceva che chi lo dice subito fa meno paura di chi lo nasconde. Non so se è vero. Ma me l'hai detto."
+   ],
+   [
+    "amaro",
+    "Ah."
+   ],
+   [
+    "amaro",
+    "Rosaria di queste cose non sbaglia mai. Ma va bene. Va bene così."
+   ],
+   [
+    "amaro",
+    "Almeno non mi hai detto una bugia."
+   ],
+   [
+    "felice",
+    "Non te ne penti. Salutare non ho da salutare nessuno: sono pronto. Ti aspetto dove comincia la mulattiera."
+   ],
+   [
+    "tristezza",
+    "Sì. Sì, certo. Era una cosa da ragazzini."
+   ],
+   [
+    "incerto",
+    "È là, casa tua?"
+   ],
+   [
+    "calmo",
+    "Mi hai detto del male che hai fatto."
+   ],
+   [
+    "deciso",
+    "Se là devi farne ancora, dimmelo prima. Io resto indietro, ma voglio saperlo."
+   ],
+   [
+    "rabbia trattenuta",
+    "Giù, ti ho chiesto una cosa, e mi hai detto di no. Io i conti li tengo."
+   ]
+  ],
+  "Ciro": [
+   [
+    "affabile",
+    "Avanti, che anche il tempo è merce."
+   ],
+   [
+    "affabile",
+    "Tutto si scambia, niente si regala."
+   ],
+   [
+    "affabile",
+    "Acqua, cibo, o qualcosa di buono da rivendere. Tu cos'hai?"
+   ],
+   [
+    "asciutto",
+    "Affare."
+   ],
+   [
+    "canzonatorio",
+    "Carta di Vito?"
+   ],
+   [
+    "canzonatorio",
+    "Mi deve una tanica da due inverni. Questa la prendo per buona."
+   ],
+   [
+    "ironico",
+    "Quello del casello."
+   ],
+   [
+    "amaro",
+    "Vito mi doveva una tanica da due inverni. Adesso chi me la rende?"
+   ],
+   [
+    "canzonatorio",
+    "Quello della pistola."
+   ],
+   [
+    "canzonatorio",
+    "Vito è passato a raccontarla: gliel'hai puntata in faccia, ed era scarica. Dice che l'ha capito da come la tenevi, come una cosa che si porta, non come una che si usa."
+   ],
+   [
+    "ironico",
+    "Qui da me puoi puntare quello che vuoi. Io guardo le mani, e se hanno acqua."
+   ]
+  ],
+  "Onofrio": [
+   [
+    "asciutto",
+    "Chiedi, finché ho voglia di rispondere."
+   ],
+   [
+    "amaro",
+    "Non scendo, non parlo, non prego più. Cosa vuoi da un vecchio rimasto."
+   ],
+   [
+    "incerto",
+    "Ma tu… Io ti conosco. Tu sei di quella casa."
+   ],
+   [
+    "amaro",
+    "Sei andato via per mandare i soldi. Per un po' sono arrivati, i soldi. Poi l'acqua se n'è andata, e i soldi non si bevono."
+   ],
+   [
+    "tristezza",
+    "Il piccolo per primo, l'estate della febbre. Lei un mese dopo. Cosimo li ha messi sotto terra da solo, dietro la casa, e non ha voluto nessuno ad aiutarlo."
+   ],
+   [
+    "calmo",
+    "Giù al paese hai rimesso in piedi uno con la febbre, mi hanno detto."
+   ],
+   [
+    "tristezza",
+    "Quell'estate, qui, le medicine non le aveva nessuno."
+   ],
+   [
+    "asciutto",
+    "Quella riga l'ha scritta Cosimo. Il perché chiedilo a lui."
+   ],
+   [
+    "grave",
+    "Poi ne scrisse un'altra, di notte, e non la spedì. Ce l'ho io. Lui non sa che ce l'ho."
+   ],
+   [
+    "commosso",
+    "Era del piccolo. Lo so perché glielo intagliai io."
+   ],
+   [
+    "deciso",
+    "Adesso ascolta."
+   ],
+   [
+    "tristezza",
+    "L'ho messo io, nella cappella. Qualcuno doveva."
+   ],
+   [
+    "asciutto",
+    "Il guado."
+   ],
+   [
+    "diffidente",
+    "Ne sono passati, di quelli che chiedevano. Io non do niente a chi non so chi è."
+   ],
+   [
+    "deciso",
+    "Portami qualcosa di quella casa. Allora parliamo."
+   ],
+   [
+    "grave",
+    "Al guado c'è Cosimo, e non ti lascia passare. Posso darti una cosa sola."
+   ],
+   [
+    "grave",
+    "La lettera che non spedì: portagliela, e mettilo davanti a quello che ha scritto. O il fucile: e fattela tu, la strada. Scegli, e va'."
+   ],
+   [
+    "asciutto",
+    "Ho già dato. Quello che hai in mano è la tua scelta, ormai."
+   ],
+   [
+    "grave",
+    "È là, piegata dentro il messale. Prendila tu: io non la tocco più."
+   ],
+   [
+    "grave",
+    "Va'. E qualunque cosa fai al guado, falla guardandolo in faccia."
+   ],
+   [
+    "grave",
+    "È là, carico. Prendilo tu: io non lo tocco più."
+   ]
+  ],
+  "Tore": [
+   [
+    "asciutto",
+    "Che altro?"
+   ],
+   [
+    "calmo",
+    "Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire di lasciarti passare."
+   ],
+   [
+    "diffidente",
+    "Ha mandato a dire anche il resto."
+   ],
+   [
+    "calmo",
+    "Ho formaggio, se hai da scambiare. Acqua, magari: di quella, quassù, se ne beve poca."
+   ],
+   [
+    "canzonatorio",
+    "Ha mandato a dire anche che al casello hai tirato fuori un ferro vuoto, e che l'altro ha fatto calma, calma."
+   ],
+   [
+    "ironico",
+    "Quassù i ferri vuoti non li tiriamo fuori. Ma ho formaggio, se hai da scambiare. Acqua, magari."
+   ],
+   [
+    "calmo",
+    "Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire che lasci qualcosa a chi resta."
+   ],
+   [
+    "calmo",
+    "Gente così, quassù, si ferma poco. Ho formaggio, se hai da scambiare. Acqua, magari: di quella, quassù, se ne beve poca."
+   ],
+   [
+    "calmo",
+    "Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire che sei uno a posto."
+   ],
+   [
+    "calmo",
+    "Roba che cammina con te per giorni."
+   ],
+   [
+    "amaro",
+    "Uno che non lascia passare. Sta là da quando il paese è morto, a guardia di niente."
+   ],
+   [
+    "asciutto",
+    "Tuo fratello, dicono giù al paese. Io non chiedo."
+   ],
+   [
+    "calmo",
+    "Onofrio non parla con anima viva. Con te, forse, se gli porti qualcosa di casa tua. È l'unico che sappia com'è andata davvero, laggiù."
+   ]
+  ],
+  "Cosimo": [
+   [
+    "calmo",
+    "Va' avanti tu."
+   ],
+   [
+    "commosso",
+    "Io arrivo. Dammi il tempo di ricordarmi la strada."
+   ],
+   [
+    "asciutto",
+    "Hai altro da dirmi, o hai finito?"
+   ],
+   [
+    "amaro",
+    "Lo sapevo, che saresti tornato. Quando non serve più a nessuno."
+   ],
+   [
+    "rabbia trattenuta",
+    "E so anche come sei passato: la voce corre più svelta di te, su questa strada. Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi."
+   ],
+   [
+    "amaro",
+    "Dicono che per strada lasci l'acqua a chi è rimasto."
+   ],
+   [
+    "rabbia trattenuta",
+    "A me non l'ha lasciata nessuno. Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi."
+   ],
+   [
+    "ironico",
+    "Dicono che al casello hai puntato una pistola a uno che ti stava addosso, e che era scarica. Hai fatto la faccia giusta."
+   ],
+   [
+    "rabbia trattenuta",
+    "Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi."
+   ],
+   [
+    "tristezza",
+    "Non sapevi."
+   ],
+   [
+    "tristezza",
+    "Quella riga te la scrissi io. Per dirti di non venire, che ero capace di tenere tutto in piedi. Bugia. L'altra lettera non te l'ho mandata."
+   ],
+   [
+    "grave",
+    "Non sapevi perché io non te l'ho lasciato sapere. Questo non ti assolve. Assolve me, semmai, e non voglio."
+   ],
+   [
+    "deciso",
+    "No."
+   ],
+   [
+    "deciso",
+    "Di là ci sono loro. Tu di là ci entri solo se prima passi da me. In un modo o nell'altro."
+   ],
+   [
+    "commosso",
+    "Quella non doveva leggerla nessuno."
+   ],
+   [
+    "tristezza",
+    "Quello lo conosco. L'ho scritto per tenerti lontano, e non è bastato."
+   ],
+   [
+    "amaro",
+    "Bravo. Almeno uno di noi due finisce questa storia."
+   ],
+   [
+    "deciso",
+    "O spari, o lo posi. Il resto sono chiacchiere."
+   ],
+   [
+    "asciutto",
+    "Quella del casello."
+   ],
+   [
+    "asciutto",
+    "Vito l'ha capito dopo. Io l'avevo capito prima che la tirassi fuori."
+   ],
+   [
+    "asciutto",
+    "Scarica. Si vede da come la tieni."
+   ],
+   [
+    "amaro",
+    "Le stesse parole le dicevo io, a chi voleva passare. Non sono servite nemmeno a me."
+   ],
+   [
+    "calmo",
+    "Quello che lasciava l'acqua per strada."
+   ],
+   [
+    "diffidente",
+    "E per strada? L'hai posato anche lì?"
+   ],
+   [
+    "diffidente",
+    "Posarlo non basta. Che ne so io di chi sei diventato, per strada?"
+   ],
+   [
+    "tenero",
+    "Da ragazzi ci passavamo i pomeriggi, qui. A tirare sassi per vedere chi arrivava di là."
+   ],
+   [
+    "amaro",
+    "Chi alza le mani per strada non le posa per sempre al guado."
+   ],
+   [
+    "calmo",
+    "Sei ancora capace di stare fermo. Almeno questo."
+   ],
+   [
+    "asciutto",
+    "Di come sei passato, si è saputo anche qui."
+   ],
+   [
+    "calmo",
+    "Rosaria ha mandato un ragazzo su dai pastori, e i pastori scendono al greto per le bestie. Così si sa."
+   ],
+   [
+    "calmo",
+    "Lo so da tre giorni, che arrivavi. So anche dove hai lasciato l'acqua."
+   ]
+  ]
+ }
+}

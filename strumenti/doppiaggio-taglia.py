@@ -122,21 +122,66 @@ def carica_modello():
     return _MODELLO[0]
 
 
+def riconosci(wav, da=0.0):
+    segmenti, _ = carica_modello().transcribe(wav, language="it", word_timestamps=True,
+                                              condition_on_previous_text=False, vad_filter=True,
+                                              vad_parameters=dict(min_silence_duration_ms=300, speech_pad_ms=120))
+    return [(w.word.strip(), round(w.start + da, 3), round(w.end + da, 3)) for s in segmenti for w in s.words]
+
+
+def buchi_con_parlato(parole, sil, durata, minimo=5.0):
+    """Gli intervalli di almeno `minimo` secondi senza parole riconosciute ma con voce."""
+    punti = [(0.0, 0.0)] + [(a, b) for _, a, b in parole] + [(durata, durata)]
+    out = []
+    for (_, fine), (inizio, _) in zip(punti, punti[1:]):
+        lungo = inizio - fine
+        if lungo >= minimo:
+            muto = sum(max(0.0, min(e, inizio) - max(s, fine)) for s, e in sil)
+            if 1.0 - muto / lungo >= 0.3:
+                out.append((fine, inizio))
+    return out
+
+
+def riempi_i_buchi_di_riconoscimento(wav, parole):
+    """Riconosce a parte i tratti che il riconoscimento ha lasciato vuoti; restituisce le parole
+    complete e quante ne ha aggiunte."""
+    with wave.open(wav) as wv:
+        rate, durata = wv.getframerate(), wv.getnframes() / wv.getframerate()
+        tutto = array.array("h")
+        tutto.frombytes(wv.readframes(wv.getnframes()))
+    nuove = []
+    for da, a in buchi_con_parlato(parole, silenzi(wav), durata):
+        da, a = max(0.0, da - 0.3), min(durata, a + 0.3)
+        temp = wav + ".buco.wav"
+        with wave.open(temp, "wb") as w:
+            w.setnchannels(1)
+            w.setsampwidth(2)
+            w.setframerate(rate)
+            w.writeframes(tutto[int(da * rate):int(a * rate)].tobytes())
+        try:
+            nuove += riconosci(temp, da)
+        finally:
+            os.remove(temp)
+    if not nuove:
+        return parole, 0
+    return sorted(parole + nuove, key=lambda x: x[1]), len(nuove)
+
+
 def trascrivi(wav):
     """[(parola, inizio, fine)] di un WAV; la trascrizione si tiene in <cartella>/trascrizioni/."""
     cart = os.path.join(os.path.dirname(wav), "trascrizioni")
     cache = os.path.join(cart, os.path.splitext(os.path.basename(wav))[0] + ".fw.json")
     if os.path.exists(cache):
         with open(cache, encoding="utf-8") as f:
-            return json.load(f)
-    segmenti, _ = carica_modello().transcribe(wav, language="it", word_timestamps=True,
-                                     condition_on_previous_text=False, vad_filter=True,
-                                     vad_parameters=dict(min_silence_duration_ms=300, speech_pad_ms=120))
-    out = [(w.word.strip(), round(w.start, 3), round(w.end, 3)) for s in segmenti for w in s.words]
-    os.makedirs(cart, exist_ok=True)
-    with open(cache, "w", encoding="utf-8", newline="\n") as f:
-        json.dump(out, f, ensure_ascii=False)
-    return out
+            parole = json.load(f)
+    else:
+        parole = riconosci(wav)
+        os.makedirs(cart, exist_ok=True)
+    parole, aggiunte = riempi_i_buchi_di_riconoscimento(wav, parole)
+    if aggiunte or not os.path.exists(cache):
+        with open(cache, "w", encoding="utf-8", newline="\n") as f:
+            json.dump(parole, f, ensure_ascii=False)
+    return parole
 
 
 def parole_riconosciute(parole, indice_wav):
@@ -238,7 +283,7 @@ def controlla_le_parti(uscita, ok):
         sentito = " ".join(s.text.strip() for s in segmenti)
         atteso = "".join(gettoni(x["testo"]))
         trovato = "".join(gettoni(sentito))
-        x["controllo"] = difflib.SequenceMatcher(None, atteso, trovato).ratio()
+        x["controllo"] = difflib.SequenceMatcher(None, atteso, trovato, autojunk=False).ratio()
         x["sentito"] = sentito
         x["in_piu"] = len(trovato) > len(atteso) * 1.25 + 3
 
@@ -270,11 +315,21 @@ def main():
     a = ap.parse_args()
     sys.stdout.reconfigure(encoding="utf-8")
 
-    if a.da_file:
-        # un blocco già generato, com'era quando è stato incollato in AI Studio (doppiaggio/generati/)
-        with open(a.da_file, encoding="utf-8") as f:
-            testi = [r.rstrip("\n").removesuffix(" <long pause>") for r in f if r.strip()]
-        ids = [impronta(a.voce or a.blocco, t) for t in testi]
+    da_file = a.da_file
+    voce = a.voce
+    if not da_file:
+        gen = os.path.join(CARTELLA, "generati", a.blocco + ".txt")
+        if os.path.exists(gen):  # un blocco già generato: le parti attese sono quelle che sono state lette
+            da_file = gen
+            with open(os.path.join(CARTELLA, "manifest.json"), encoding="utf-8") as f:
+                voce = voce or json.load(f)["blocchi"][a.blocco]["voce"]
+    if da_file:
+        # un blocco già generato, com'era quando è stato incollato in AI Studio (doppiaggio/generati/);
+        # le intestazioni di gruppo («### tono …») non sono parti
+        with open(da_file, encoding="utf-8") as f:
+            testi = [r.rstrip("\n").removesuffix(" <long pause>") for r in f
+                     if r.strip() and not r.startswith("###")]
+        ids = [impronta(voce or a.blocco, t) for t in testi]
     else:
         with open(os.path.join(CARTELLA, "manifest.json"), encoding="utf-8") as f:
             man = json.load(f)
@@ -311,7 +366,7 @@ def main():
         j0, j1 = trovati[0][1], trovati[-1][1]
         riconosciuto = " ".join(r[0] for r in R[j0:j1 + 1])
         sim = difflib.SequenceMatcher(None, "".join(E[e] for e in idx),
-                                      "".join(r[0] for r in R[j0:j1 + 1])).ratio()
+                                      "".join(r[0] for r in R[j0:j1 + 1]), autojunk=False).ratio()
         wavs = {R[j][3] for _, j in trovati}
         info.append({"k": k, "id": ids[k], "testo": t, "wav": R[j0][3], "a_cavallo": len(wavs) > 1,
                      "inizio": R[j0][1], "fine": R[j1][2], "somiglianza": sim,

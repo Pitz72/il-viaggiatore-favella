@@ -8,7 +8,7 @@ mano: se un testo cambia, si rigenera il blocco.
 |---|---|---|
 | `blocchi/` | il testo da incollare in AI Studio: **un file per voce** su tutto il gioco (le voci lunghe, in più file) | sì |
 | `manifest.json` | per ogni parte: id, voce, testo, da quale riga di quale `.fav` viene; per ogni testo del gioco, le parti che lo compongono; per ogni blocco, l'ordine delle parti | sì |
-| `generati/` | i blocchi **com'erano quando sono stati incollati** in AI Studio: servono a tagliare l'audio anche se poi il piano cambia (`servizio-kira.txt`: 201 parti, comprese 81 scelte del giocatore che poi sono passate al narratore) | sì |
+| `generati/` | i blocchi **com'erano quando sono stati incollati** in AI Studio: servono a tagliare l'audio anche se poi il piano cambia (`servizio.txt`: 201 parti, comprese 81 scelte del giocatore che poi sono passate al narratore) | sì |
 | `master/` | i WAV scaricati da AI Studio, come escono (circa 48 KB al secondo), e le parti tagliate | **no** (`.gitignore`) |
 | `voci.md` | le descrizioni delle voci da incollare in AI Studio | sì |
 
@@ -31,6 +31,16 @@ Chi dice che cosa:
 
 Ogni parte nel manifest ha una `categoria` (`testo`, `scelta`, `suggerimento`, `numeri`).
 
+**I personaggi hanno un tono per ogni battuta** (`toni.json`, da rileggere in `toni-personaggi.md`).
+Il file di un personaggio (`blocchi/<nome>.txt`) è a gruppi di tono, ognuno con la sua
+intestazione `### tono — style: …` (che non si incolla): in AI Studio un gruppo è un blocco di
+parlato, con nel campo accanto alla voce la descrizione di `voci.md` più «Delivery: <style>».
+Il tono non può stare nel testo: AI Studio legge tutto ciò che c'è.
+
+**Dove stanno i blocchi:** `generati/` = già letti da AI Studio (Enzo, Kira): sono fermi e il
+taglio li usa; `blocchi/` = ancora da generare (i personaggi, e `narratore-k`: una frase
+sola, «L'ho letta.», da unire ai ritocchi di Enzo).
+
 ## Come si legge un file di `blocchi/`
 
 Una **parte** per riga. Una parte è ciò che una voce dice senza interruzioni: una
@@ -52,7 +62,7 @@ MAIUSCOLO (NORD, PARLA CON…) sono abbassate, perché il servizio le leggerebbe
    strumenti/doppiaggio.py stato`). Se è vicina a 10:50 e il finale è tagliato, il testo
    era troppo lungo: dillo, si rigenera la coda.
 4. Scarica con l'icona di download e salva in `master/` con il nome del blocco e la voce
-   (per esempio `master/servizio-kira.wav`).
+   (per esempio `master/servizio-kira.wav`: il nome del file WAV è libero, conta il blocco a cui lo dai al taglio).
 
 ## Dopo la generazione: il taglio
 
@@ -69,13 +79,13 @@ generazione sola. (Si lancia con `python`, non `python -I`; non scarica niente.)
 ## Comandi
 
 ```
-python strumenti/doppiaggio.py stato                      # parti, parole e minuti per voce, blocchi
-python strumenti/doppiaggio.py blocchi --voce servizio    # scrive blocchi/servizio.txt e manifest.json
-python strumenti/doppiaggio.py blocchi                    # scrive tutti i blocchi (cancella i vecchi)
-python strumenti/doppiaggio-taglia.py servizio a.wav b.wav --controlla            # taglia un blocco del manifest
-python strumenti/doppiaggio-taglia.py servizio-kira a.wav b.wav --controlla --da-file doppiaggio/generati/servizio-kira.txt --voce servizio
+python strumenti/doppiaggio.py stato                      # parti, parole e minuti per voce; che cosa è già generato
+python strumenti/doppiaggio.py blocchi                    # scrive blocchi/ (da generare), manifest.json e toni-personaggi.md
+python strumenti/doppiaggio.py blocchi --voce cosimo      # solo i blocchi di una voce
+python strumenti/doppiaggio-riconosci.py a.wav b.wav …    # quale blocco è ogni WAV (hanno il nome dell'ora)
+python strumenti/doppiaggio-taglia.py narratore-a 104.wav --controlla   # taglia e controlla (usa generati/narratore-a.txt)
 ```
 
-Restano da fare prima dei personaggi: le 40 frasi tra «» fuori dai dialoghi di cui non si sa
-chi parla (`attribuzioni.json`), e i testi con numeri che il gioco ricompone (`[i fili del
-viaggio]`, la riga di `STATO`).
+Quando un blocco è generato: si copia da `blocchi/` in `generati/` (com'è stato incollato, con le
+intestazioni dei toni) e si taglia. Restano da fare: i testi con numeri che il gioco ricompone
+(`[i fili del viaggio]`, la riga di `STATO`) e l'integrazione nel gioco.

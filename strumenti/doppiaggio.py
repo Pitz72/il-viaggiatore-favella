@@ -44,6 +44,9 @@ RADICE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROTOTIPO = os.path.join(RADICE, "prototipo")
 CARTELLA = os.path.join(RADICE, "doppiaggio")
 ATTRIBUZIONI = os.path.join(CARTELLA, "attribuzioni.json")
+GENERATI = os.path.join(CARTELLA, "generati")
+TONI = os.path.join(CARTELLA, "toni.json")
+INTESTAZIONE = "###"  # nei blocchi, le righe che cominciano così sono intestazioni di gruppo: non si incollano
 
 ZONE = OrderedDict([
     ("storia", "il-viaggiatore.fav"),
@@ -61,9 +64,12 @@ PAUSA = "<long pause>"
 # Il ritmo vero, misurato sulle prime prove di AI Studio (20/10/2026, poche frasi: da rivedere con
 # i blocchi interi): il narratore (voce Enzo) fa ~125 parole al minuto contando le pause, Nunzio
 # (Riko) ~85; per la voce di servizio si stima 150. Ogni parte costa in più la sua pausa.
-RITMO = {"narratore": 125, "servizio": 150}
-RITMO_PERSONAGGI = 90
-SECONDI_DI_PAUSA = 1.0  # presunti, per <long pause>: si misurano sul primo blocco vero
+RITMO = {"narratore": 170, "servizio": 220}  # parole al minuto MENTRE PARLA (pause escluse)
+RITMO_PERSONAGGI = 100  # una prova sola (Nunzio): da rivedere sul primo personaggio vero
+# secondi di pausa per ogni parte (fra una parte e l'altra, più le pause dei segni di punteggiatura
+# dentro le parti): misurati sui WAV veri; i personaggi sono una stima
+SECONDI_DI_PAUSA = {"narratore": 1.4, "servizio": 0.8}
+SECONDI_DI_PAUSA_PERSONAGGI = 1.2
 # Il tetto del servizio è ~11 minuti a richiesta (16.384 token a 25 al secondo): si sta larghi, per
 # non perdere righe. La voce di servizio, che è poca, si vuole in una generazione sola (Simone).
 MAX_MINUTI = {"_": 9.0, "servizio": 10.0}
@@ -94,7 +100,7 @@ def parole(t):
 def minuti_di(voce, n_parole):
     """Quanto dura (stima) una parte detta da questa voce, pausa compresa."""
     ritmo = RITMO.get(voce, RITMO_PERSONAGGI)
-    return n_parole / ritmo + SECONDI_DI_PAUSA / 60
+    return n_parole / ritmo + SECONDI_DI_PAUSA.get(voce, SECONDI_DI_PAUSA_PERSONAGGI) / 60
 
 
 # ---------------------------------------------------------------------------------------
@@ -188,6 +194,8 @@ def per_la_voce(t, suggerimento=False):
 def parti_di_una_stringa(tipo, parlante, testo, attribuzione=None):
     """Lista di (voce, testo_grezzo, testo_per_la_voce). Controlla di non perdere niente."""
     voce_citazioni = tipo_di_voce(tipo, parlante, attribuzione)
+    # una lista di voci (doppiaggio/attribuzioni.json) assegna le frasi tra «» una per una, nell'ordine
+    elenco = iter(voce_citazioni) if isinstance(voce_citazioni, list) else None
     # Se le parole tra «» le dice il narratore (il biglietto, una targa) non si staccano dalla frase:
     # «…e dice una cosa sola: «Non è il caso di tornare.»» si legge d'un fiato.
     stacco = r"(\([^)]*\))" if voce_citazioni == "narratore" else r"(\([^)]*\)|«[^»]*»)"
@@ -201,7 +209,8 @@ def parti_di_una_stringa(tipo, parlante, testo, attribuzione=None):
                 if grezzo.startswith("("):
                     voce, t, sugg = "servizio", grezzo[1:-1].strip(), True
                 elif grezzo.startswith("«"):
-                    voce, t, sugg = voce_citazioni or "?", grezzo[1:-1].strip(), False
+                    voce = next(elenco, "?") if elenco is not None else (voce_citazioni or "?")
+                    t, sugg = grezzo[1:-1].strip(), False
                 else:
                     voce, t, sugg = "narratore", grezzo.replace("«", "").replace("»", ""), False
                 if not re.search(r"[A-Za-zÀ-ÿ0-9]", t):
@@ -309,9 +318,24 @@ def costruisci_tutto():
         tutto["stringhe"] += z["stringhe"]
         tutto["da_attribuire"] += z["da_attribuire"]
         tutto["dinamici"].update(z["dinamici"])
+    stili, toni = carica_toni()
+    tutto["stili"] = stili
     for u in tutto["unita"].values():
         u["categoria"] = categoria_di(u)
+        tono = toni.get(u["voce"], {}).get(u["testo"])
+        if tono:
+            u["tono"] = tono
     return tutto
+
+
+def carica_toni():
+    """(stili, {personaggio: {testo: tono}}) da doppiaggio/toni.json: il tono di ogni battuta, ricavato
+    dal contesto in cui si dice (chi parla, a chi, che cosa è appena successo)."""
+    if not os.path.exists(TONI):
+        return {}, {}
+    with open(TONI, encoding="utf-8") as f:
+        d = json.load(f)
+    return d["stili"], {v: {x: tono for tono, x in righe} for v, righe in d["personaggi"].items()}
 
 
 def categoria_di(u):
@@ -376,9 +400,33 @@ def spezza_in_blocchi(lista, voce, massimo):
     return blocchi
 
 
+def blocchi_generati(unita):
+    """{nome: (gruppo, voce, [id,…])} dai file di doppiaggio/generati/: i blocchi com'erano quando
+    sono stati incollati in AI Studio. Sono l'audio che esiste: non si riorganizzano mai, anche se
+    cambiano le stime; un testo che cambia nel gioco si riconosce perché il suo id non c'è più."""
+    voci = {slug(u["voce"]): u["voce"] for u in unita.values()}
+    out = OrderedDict()
+    if not os.path.isdir(GENERATI):
+        return out
+    for f in sorted(os.listdir(GENERATI)):
+        if not f.endswith(".txt"):
+            continue
+        nome = f[:-4]
+        gruppo = re.sub(r"-[a-z]$", "", nome)
+        voce = voci.get(gruppo.removesuffix("-scelte"))
+        if voce is None:
+            continue
+        with open(os.path.join(GENERATI, f), encoding="utf-8") as fh:
+            testi = [r.rstrip("\n").removesuffix(" " + PAUSA) for r in fh
+                     if r.strip() and not r.startswith(INTESTAZIONE)]
+        out[nome] = (gruppo, voce, [impronta(voce, x) for x in testi])
+    return out
+
+
 def blocchi_per_voce(unita, massimo=None):
-    """{nome_blocco: [id,…]}: una voce per volta, nell'ordine del gioco. I numeri della voce
-    di servizio vengono dopo i suoi testi fissi."""
+    """(da_generare, generati): i blocchi nuovi, per le parti che non hanno ancora un audio, e
+    quelli già generati. Una voce per volta, nell'ordine del gioco; i numeri della voce di
+    servizio vengono dopo i suoi testi fissi."""
     # le scelte del giocatore, anche se le dice il narratore, sono un blocco a parte: parlano in
     # prima persona e si possono provare e rifare senza toccare la narrazione
     def gruppo(u):
@@ -390,26 +438,94 @@ def blocchi_per_voce(unita, massimo=None):
             gruppi.append(gruppo(u))
     prime = [g for g in ("narratore", "narratore-scelte", "servizio") if g in gruppi]
     gruppi = prime + [g for g in gruppi if g not in prime]
+    generati = blocchi_generati(unita)
+    coperte = {i for _, _, ids in generati.values() for i in ids}
+    for nome, (_, _, ids) in generati.items():
+        for i in ids:
+            if i in unita:
+                unita[i]["blocco"] = nome
     out = OrderedDict()
     for g in gruppi:
-        lista = [(i, u) for i, u in unita.items() if u["voce"] != "?" and gruppo(u) == g]
+        lista = [(i, u) for i, u in unita.items()
+                 if u["voce"] != "?" and gruppo(u) == g and i not in coperte]
+        if not lista:
+            continue
         voce = lista[0][1]["voce"]
         if voce == "servizio":
             lista = ([x for x in lista if not x[1].get("numero")]
                      + [x for x in lista if x[1].get("numero")])
+        if any(u.get("tono") for _, u in lista):
+            ordine = []
+            for _, u in lista:
+                if u.get("tono") not in ordine:
+                    ordine.append(u.get("tono"))
+            lista = sorted(lista, key=lambda x: ordine.index(x[1].get("tono")))
         tetto = massimo if massimo else MAX_MINUTI.get(g, MAX_MINUTI.get(voce, MAX_MINUTI["_"]))
         parti = spezza_in_blocchi(lista, voce, tetto)
+        gia = sum(1 for gg, _, _ in generati.values() if gg == slug(g))
         for k, p in enumerate(parti):
-            suff = "" if len(parti) == 1 else "-" + "abcdefghij"[k]
+            suff = "" if (len(parti) == 1 and not gia) else "-" + "abcdefghijklmnopqrstuvwxyz"[gia + k]
             out[slug(g) + suff] = [i for i, _ in p]
-    return out
+            for i, _ in p:
+                unita[i]["blocco"] = slug(g) + suff
+    return out, generati
 
 
 def durata_blocco(unita, ids):
     return minuti_dei(unita[ids[0]]["voce"], [(i, unita[i]) for i in ids])
 
 
-def scrivi(tutto, blocchi, solo_voce=None):
+def testo_del_blocco(unita, ids, stili):
+    """Il file di un blocco. Una parte per riga, con <long pause> fra l'una e l'altra. Se le parti hanno
+    un tono, stanno in gruppi, ognuno sotto un'intestazione «### tono — style: …»: in AI Studio ogni
+    gruppo è un blocco di parlato, col suo stile; l'intestazione non si incolla."""
+    righe = []
+    gruppi = []
+    for i in ids:
+        tono = unita[i].get("tono")
+        if not gruppi or gruppi[-1][0] != tono:
+            gruppi.append((tono, []))
+        gruppi[-1][1].append(unita[i]["testo"])
+    for g, (tono, testi) in enumerate(gruppi):
+        if tono:
+            righe.append("%s %s — style: %s" % (INTESTAZIONE, tono, stili.get(tono, "")))
+        ultimo_gruppo = g == len(gruppi) - 1
+        for k, x in enumerate(testi):
+            ultima = k == len(testi) - 1
+            righe.append(x + ("" if ultima and (ultimo_gruppo or tono) else " " + PAUSA))
+        if tono and not ultimo_gruppo:
+            righe.append("")
+    return "\n".join(righe) + "\n"
+
+
+def scrivi_toni(tutto):
+    """doppiaggio/toni-personaggi.md: il tono di ogni battuta, da rileggere e correggere."""
+    unita = tutto["unita"]
+    stili = tutto.get("stili", {})
+    per = OrderedDict()
+    for u in unita.values():
+        if u.get("tono"):
+            per.setdefault(u["voce"], []).append(u)
+    righe = ["# I toni dei personaggi", "",
+             "> Il tono di ogni battuta è ricavato dal contesto in cui si dice (chi parla, a chi, che cosa è",
+             "> appena successo). Si corregge in `toni.json`, poi `python strumenti/doppiaggio.py blocchi`",
+             "> riscrive i blocchi. In AI Studio ogni tono è un blocco di parlato con il suo stile.", "",
+             "| Tono | Stile (da incollare in inglese) |", "|---|---|"]
+    righe += ["| %s | %s |" % (k, v) for k, v in stili.items()]
+    for voce, us in per.items():
+        toni = []
+        for u in us:
+            if u["tono"] not in toni:
+                toni.append(u["tono"])
+        righe += ["", "## %s — %d battute, %d toni" % (voce, len(us), len(toni)), "",
+                  "| # | Tono | Battuta |", "|---|---|---|"]
+        for k, u in enumerate(us, 1):
+            righe.append("| %d | %s | %s |" % (k, u["tono"], u["testo"].replace("|", "/")))
+    with open(os.path.join(CARTELLA, "toni-personaggi.md"), "w", encoding="utf-8", newline="\n") as f:
+        f.write("\n".join(righe) + "\n")
+
+
+def scrivi(tutto, blocchi, generati, solo_voce=None):
     cartella = os.path.join(CARTELLA, "blocchi")
     os.makedirs(cartella, exist_ok=True)
     unita = tutto["unita"]
@@ -420,14 +536,18 @@ def scrivi(tutto, blocchi, solo_voce=None):
     for nome, ids in blocchi.items():
         if solo_voce and not (nome == slug(solo_voce) or nome.startswith(slug(solo_voce) + "-")):
             continue
-        righe = [unita[i]["testo"] for i in ids]
-        testo = "".join(r + ((" " + PAUSA + "\n") if k < len(righe) - 1 else "\n")
-                        for k, r in enumerate(righe))
         with open(os.path.join(cartella, nome + ".txt"), "w", encoding="utf-8", newline="\n") as f:
-            f.write(testo)
+            f.write(testo_del_blocco(unita, ids, tutto.get("stili", {})))
+    scrivi_toni(tutto)
     manifest = {
-        "blocchi": {n: {"voce": unita[ids[0]]["voce"], "minuti_stimati": round(durata_blocco(unita, ids), 1),
-                        "parti": ids} for n, ids in blocchi.items()},
+        "blocchi": {**{n: {"voce": v, "generato": True,
+                           "minuti_stimati": round(minuti_dei(v, [(i, unita[i]) for i in ids if i in unita]), 1),
+                           "parti": [i for i in ids if i in unita],
+                           "fuori_uso": [i for i in ids if i not in unita]}
+                       for n, (_, v, ids) in generati.items()},
+                    **{n: {"voce": unita[ids[0]]["voce"], "generato": False,
+                           "minuti_stimati": round(durata_blocco(unita, ids), 1), "parti": ids}
+                       for n, ids in blocchi.items()}},
         "unita": unita, "stringhe": tutto["stringhe"],
         "da_attribuire": tutto["da_attribuire"],
         "dinamici_non_scomposti": tutto["dinamici"],
@@ -437,7 +557,7 @@ def scrivi(tutto, blocchi, solo_voce=None):
         f.write("\n")
 
 
-def riepilogo(tutto, blocchi):
+def riepilogo(tutto, blocchi, generati):
     unita = tutto["unita"]
     per = OrderedDict()
     for u in unita.values():
@@ -449,12 +569,23 @@ def riepilogo(tutto, blocchi):
         lista = [(i, u) for i, u in unita.items() if u["voce"] == voce]
         mie = [(nome, durata_blocco(unita, ids)) for nome, ids in blocchi.items()
                if unita[ids[0]]["voce"] == voce]
+        gia = [nome for nome, (_, v, _) in generati.items() if v == voce]
+        con_audio = sum(1 for i, u in lista if u.get("blocco") in gia)
+        stato = ("GENERATO (%s)" % ", ".join(gia)) if gia and not mie else ""
+        da_fare = ("da generare: " + ", ".join("%s %.1f min" % x for x in mie)) if mie else ""
         print("%-12s %6d %7d %8.1f  %s" % (voce, n, p, minuti_dei(voce, lista),
-              ", ".join("%s %.1f" % x for x in mie) or "(non si registra: da attribuire)"))
+              " ".join(x for x in (stato, da_fare) if x) or "(non si registra: da attribuire)"))
+        if gia and mie:
+            print("%-12s %6s %7s %8s  (già generate: %d parti su %d, nei blocchi %s)" % (
+                "", "", "", "", con_audio, n, ", ".join(gia)))
     for nome, ids in blocchi.items():
         m = durata_blocco(unita, ids)
         if m > 9.5:
             print("ATTENZIONE: %s dura circa %.1f minuti: il tetto del servizio è 10,9 e la stima è incerta" % (nome, m))
+    senza = [u for u in unita.values() if u["voce"] not in ("narratore", "servizio", "?")
+             and tutto.get("stili") and not u.get("tono")]
+    if senza:
+        print("PERSONAGGI SENZA TONO: %d battute (aggiungile a doppiaggio/toni.json)" % len(senza))
     if tutto["da_attribuire"]:
         print("DA ATTRIBUIRE: %d frasi tra «» di cui non si sa chi parla" % len(tutto["da_attribuire"]))
     if tutto["dinamici"]:
@@ -472,10 +603,15 @@ def main():
     a = ap.parse_args()
     sys.stdout.reconfigure(encoding="utf-8")
     tutto = costruisci_tutto()
-    blocchi = blocchi_per_voce(tutto["unita"], a.max_minuti)
+    blocchi, generati = blocchi_per_voce(tutto["unita"], a.max_minuti)
     if a.comando == "blocchi":
-        scrivi(tutto, blocchi, a.voce)
-    riepilogo(tutto, blocchi)
+        scrivi(tutto, blocchi, generati, a.voce)
+    riepilogo(tutto, blocchi, generati)
+    riserva = [(n, len([i for i in ids if i not in tutto["unita"]])) for n, (_, _, ids) in generati.items()]
+    riserva = [(n, k) for n, k in riserva if k]
+    if riserva:
+        print("audio generato ma non più nel gioco (di riserva, o da rifare se il testo è cambiato): " +
+              ", ".join("%s %d parti" % x for x in riserva))
 
 
 if __name__ == "__main__":

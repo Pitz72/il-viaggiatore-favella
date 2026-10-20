@@ -6,12 +6,20 @@
 > qui e non nei blocchi di testo: Google sconsiglia i lunghi «profili» dentro la trascrizione.
 
 Le descrizioni sono in inglese perché lo sono gli esempi del servizio («Low, gravelly,
-world-weary noir narration»); il parlato resta italiano. Il giocatore non ha voce: le sue
-scelte le legge la voce di servizio.
+world-weary noir narration»); il parlato resta italiano. Il giocatore non ha una voce sua:
+le sue scelte le legge il narratore.
 
-## Le prime tre voci (si comincia da Kira)
+**Il tono di ogni battuta** sta in `toni-personaggi.md` e nei blocchi dei personaggi
+(`blocchi/<personaggio>.txt`, a gruppi «### tono — style: …»). Per ogni gruppo: un blocco di
+parlato, e nel campo accanto alla voce la descrizione del personaggio **più** lo stile:
 
-Scelte provvisorie (prove del 20/10/2026, ore 12:18 e 12:20, nei `master/prove/`):
+> `<descrizione del personaggio> Delivery: <style>.`
+
+Il tono *calmo* è quello di base: per quelle righe si può lasciare la sola descrizione.
+
+## Le prime voci
+
+Scelte provvisorie (prove del 20/10/2026, nei `master/prove/`; Enzo e Kira sono già generati):
 
 | Voce | Voce di libreria | Descrizione in AI Studio |
 |---|---|---|
@@ -29,46 +37,88 @@ cambia la voce di libreria e si tiene la descrizione (o si ritocca quella).
 > what you are seeing without performing it, never theatrical, never sentimental. A quiet
 > documentary voice walking beside you at dusk.
 
-*Frase di prova:* «La stazione di Acquaviva. I binari finiscono qui, mangiati dalla gramigna;
-un cartello arrugginito promette treni che non passano da anni.»
-
 ### Servizio (suggerimenti e numeri)
 > A woman in her thirties speaking Italian. Neutral, clear and light, mid-pitch, brisk and
 > even pacing. Friendly but flat, like a well-made audio guide or a game menu voice. Crisp
 > consonants, no drama, no emotion, standard Italian.
 
-*Frase di prova:* «Hai sette d'acqua, e tre di cibo.»
-
 La scelta di una voce femminile e leggera per il servizio è voluta: si deve capire a
 orecchio, senza guardare lo schermo, se parla il mondo o parla il gioco.
 
-### Nunzio (il bar, Z1)
+## I quattordici personaggi
+
+Dalle schede (`pre-produzione/05-personaggi.md`) e dai loro dialoghi. Tutti parlano con un
+accento del sud, leggero e senza dialetto marcato; età e sesso sono scelti perché la voce di
+libreria sia facile da trovare e le voci si distinguano tra loro a orecchio. Il cane della
+serra non parla.
+
+### Nunzio (il bar, Z1) — uomo, 65 anni
 > A thin man of about sixty-five, a bar owner in a southern Italian town that has emptied
 > out. Dry, tired and stubborn. Light southern Italian accent, mid-low pitch, a slightly
 > cracked voice, economical with words, a little formal, never complaining. A dry humour
 > under the weariness.
 
-*Frase di prova:* «Oro per acqua. Ai miei tempi avrei riso. Tieni.»
+### Saverio (il pozzo, Z2) — uomo, 70 anni
+> A man in his seventies who guards an old well on a dry plain. Few words, spoken like
+> verdicts. Hoarse, flat, low pitch, slow; suspicious of everything that walks. Light
+> southern Italian accent. No warmth to spare, and no need to raise his voice.
 
-## Gli altri dodici (dopo il pilota)
+### Iole (la diga, Z3) — donna, 60 anni
+> A woman of about sixty who keeps an old pump running at a dried-out dam. Slow and precise,
+> she talks to machines more than to people. Low, even, patient voice, a little rusty; the
+> quiet dignity of someone who waits. Light southern Italian accent.
 
-Dalle schede (`pre-produzione/05-personaggi.md`). Le descrizioni si scrivono dopo il pilota,
-quando si sa che cosa funziona nell'italiano del servizio.
+### Rocco (il fondale, Z3) — uomo, 45 anni
+> A thin man in his forties who gathers salt by hand, his lips cracked from thirst.
+> Dry-throated, hoarse, higher and scratchier than the others. A nervous humour that turns
+> into a laugh too quickly; he talks fast when he lies. Light southern Italian accent.
 
-| Personaggio | Zona | Voce, dalla scheda |
-|---|---|---|
-| Saverio | Z2 | poche parole, sentenze; diffida di tutto ciò che cammina |
-| Rocco | Z3 | le labbra spaccate; beve salmastro di nascosto |
-| Iole | Z3 | lenta, precisa; parla alle cose più che a te |
-| Vito | Z4 | affabile e minaccioso insieme; ti chiama «amico» |
-| Imma | Z4 | secca, senza scuse e senza pietà di sé |
-| Rosaria | Z5 | calda ma stanca; l'ospitalità come ultima economia |
-| Peppe | Z5 | diciassette anni, le scarpe sbagliate per camminare |
-| Ciro | Z5 | svelto d'occhi e di mani; vuole fare affari |
-| Pasquale | Z5 | un uomo giovane invecchiato dalla febbre; gli brucia l'orgoglio |
-| Concetta | Z5 | tanto vecchia che il tempo, su di lei, sembra essersi seduto |
-| Tore | Z6 | conta le pecore a mezza voce anche mentre ti parla |
-| Onofrio | Z6 | asciutta, a scatti; vuole essere lasciato in pace |
-| Cosimo | Z7 | il fratello rimasto; non scappa, non implora |
+### Vito (il casello, Z4) — uomo, 50 anni
+> A man in his fifties who runs a toll on an empty highway. Affable and menacing at once:
+> warm, sing-song, he calls everyone "amico" before knowing their name. Mid-low pitch,
+> relaxed pace, a smile you can hear and a threat underneath it. Southern Italian accent.
 
-Il cane della serra non parla.
+### Imma (la discesa, Z4) — donna, 50 anni
+> A woman of about fifty, all sinew, wearing a man's shirt. Dry and spare, with no
+> apologies and no self-pity. Mid-low pitch, flat delivery, tired but upright. Light
+> southern Italian accent.
+
+### Rosaria (l'osteria, Z5) — donna, 55 anni
+> A woman in her fifties who keeps the last inn open. Warm but tired: hospitality as her
+> last economy. A low, round, slightly husky voice, unhurried; kindness that does not ask
+> for thanks. Light southern Italian accent.
+
+### Peppe (la piazzetta, Z5) — ragazzo, 17 anni
+> A seventeen-year-old boy in the wrong shoes for walking. Eager and restless, a young voice
+> that cracks between bravado and fear; he speeds up when excited and goes small when hurt.
+> Mid-high pitch. Light southern Italian accent.
+
+### Ciro (il mercato, Z5) — uomo, 40 anni
+> A quick-eyed, quick-handed market trader in his forties. Brisk and ingratiating, always
+> counting, amused by anything that can be priced. Mid pitch, fast, with a salesman's
+> sing-song. Southern Italian accent.
+
+### Pasquale (il vicolo, Z5) — uomo, 35 anni
+> A young man aged by fever, in his thirties, too proud to ask for help. Weak and hoarse,
+> with a voice that trembles when he insists he is fine. Mid pitch, slow. Light southern
+> Italian accent.
+
+### Concetta (il cortile, Z5) — donna, 85 anni
+> A very old woman, as if time had sat down on her. A thin, cracked, wandering voice that
+> loses its thread and finds it again; gentle, with a toothless smile in the sound. Slow.
+> A strong southern Italian regional flavour.
+
+### Tore (il pianoro, Z6) — uomo, 60 anni
+> A shepherd in his sixties who counts his sheep under his breath even while he talks.
+> Slow, earthy and sparing, with the numbers slipping into his sentences. Low pitch, rough.
+> Southern Italian accent.
+
+### Onofrio (la grotta, Z6) — uomo, 80 anni
+> A very old hermit who carves wood in a cave, withdrawn from everyone. Dry and clipped,
+> in jerks, with long silences between sentences. Low, gravelly, cracked with age; says
+> little and means all of it. A thick southern Italian accent.
+
+### Cosimo (il guado, Z7) — uomo, 50 anni
+> A man of about fifty, the brother who stayed behind and buried everyone. Hardened and
+> grieving; he never raises his voice, he speaks with long pauses, and the anger stays under
+> the surface. Low pitch, the same age and region as the narrator. Southern Italian accent.
