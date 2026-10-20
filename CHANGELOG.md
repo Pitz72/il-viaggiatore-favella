@@ -8,6 +8,27 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.24.0] - 2026-10-20
+
+### Aggiunto
+- **Le opzioni**: un pannello solo, largo e di misura fissa, che si apre dal menu d'avvio («⚙ opzioni», al posto di
+  «♪ audio») e dalla partita («⚙ opzioni», al posto di «♪ voce»). Scheda *Video*: schermo intero o finestra. Scheda
+  *Audio*, in due colonne: i **volumi** (generale, musica, voce, effetti) e l'**ascolto** (la voce del gioco, recitata o
+  lettore di schermo, con «↻ riascolta»; stereo o **mono**, per chi sente da un orecchio solo; **in secondo piano**
+  continua o silenzia, quando il gioco è ridotto a icona o un'altra finestra gli sta davanti). Ogni cambio vale subito
+  e resta; «ripristina le opzioni di base» chiede conferma (S / N). Le schede si scorrono con ← →, i volumi con le
+  frecce, Esc chiude; il fuoco della tastiera si riconosce senza il riquadro del browser.
+- **Volumi veri.** Tutto ciò che suona passa da un bus sonoro con tre canali: la musica (il brano del trailer e del
+  menu), la voce (il doppiaggio ed Enzo nel trailer), gli effetti (i loghi sonori, i rumori del trailer); sopra, il
+  volume generale. I cursori cambiano il suono dal vivo, senza scatti. Al 100% tutto suona come prima.
+
+### Cambiato
+- Il pannello «La voce» non c'è più: le sue scelte stanno nelle opzioni, e chi aveva scelto il lettore di schermo o un
+  altro volume li ritrova.
+- La voce di Enzo nel trailer segue la scelta dal vivo: cambiarla nelle opzioni del menu vale già per «rivedi il
+  trailer».
+- L'autoverifica dei pacchetti prova anche il bus sonoro (i canali nascono ai volumi delle opzioni, senza cambiarle).
+
 ## [1.23.0] - 2026-10-20
 
 ### Aggiunto
