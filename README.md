@@ -72,9 +72,10 @@ quando ci passi sopra col mouse o le raggiungi con la tastiera. Nelle **opzioni*
 alto nella partita) si sceglie fra voce recitata e *lettore di schermo* (nessuna voce del gioco: il diario si annuncia al
 tuo lettore). Con la voce recitata anche il trailer ha la voce del narratore, e la musica gli scende sotto.
 
-**Le opzioni.** Schermo intero o finestra; i volumi (generale, musica, voce, effetti), che cambiano dal vivo; stereo o
-mono; il silenzio quando il gioco non è in primo piano. Valgono subito e restano; «ripristina le opzioni di base» torna
-alle scelte del primo avvio.
+**Le opzioni.** Schermo intero o finestra, ricordati da un lancio all'altro, e la dimensione della finestra; la qualità
+della grafica (automatica, alta, media, bassa); i volumi (generale, musica, voce, effetti), che cambiano dal vivo; stereo
+o mono; il silenzio quando il gioco non è in primo piano; sul desktop, se cercare gli aggiornamenti all'avvio. Valgono
+subito e restano; «ripristina le opzioni di base» torna alle scelte del primo avvio.
 
 **Salvataggi.** Il taccuino (dalla testata, dalla pausa o dal menu) tiene quanti salvataggi si vuole, ciascuno col suo
 nome, una miniatura del paesaggio, il luogo, il tempo di gioco, il corpo e le scorte; si caricano, si riscrivono, si
