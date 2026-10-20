@@ -27,6 +27,10 @@
 | incerto | unsure, searching for the words |
 | febbrile | weak and feverish, trying to sound fine |
 | grave | grave, slow, weighing each word |
+| solenne | solemn, slow, weighty |
+| enfatico | emphatic, dramatic, building |
+| sospeso | hushed, questioning, suspended |
+| secco | crisp, clipped, punchy |
 
 ## Nunzio — 7 battute, 5 toni
 

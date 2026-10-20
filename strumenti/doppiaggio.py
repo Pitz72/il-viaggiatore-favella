@@ -47,6 +47,7 @@ CARTELLA = os.path.join(RADICE, "doppiaggio")
 ATTRIBUZIONI = os.path.join(CARTELLA, "attribuzioni.json")
 GENERATI = os.path.join(CARTELLA, "generati")
 TONI = os.path.join(CARTELLA, "toni.json")
+TRAILER = os.path.join(CARTELLA, "trailer.json")
 INTESTAZIONE = "###"  # nei blocchi, le righe che cominciano così sono intestazioni di gruppo: non si incollano
 
 ZONE = OrderedDict([
@@ -321,7 +322,22 @@ def costruisci_tutto():
         tutto["dinamici"].update(z["dinamici"])
     stili, toni = carica_toni()
     tutto["stili"] = stili
+    tutto["trailer"] = []
+    if os.path.exists(TRAILER):
+        with open(TRAILER, encoding="utf-8") as f:
+            tr = json.load(f)
+        stili.update(tr.get("toni", {}))
+        for k, x in enumerate(tr["parti"]):
+            i = impronta("narratore", x["testo"])
+            if i in tutto["unita"]:
+                raise SystemExit("trailer: il testo «%s» è già un testo del gioco (stessa impronta): serve un testo diverso" % x["testo"])
+            tutto["unita"][i] = {"voce": "narratore", "zona": "trailer", "testo": x["testo"], "parole": parole(x["testo"]),
+                                 "fonti": [{"file": "trailer.json", "riga": k + 1, "tipo": "trailer", "parte": 0}],
+                                 "categoria": "trailer", "tono": x["tono"]}
+            tutto["trailer"].append({**x, "unita": i})
     for u in tutto["unita"].values():
+        if u.get("categoria") == "trailer":
+            continue
         u["categoria"] = categoria_di(u)
         tono = toni.get(u["voce"], {}).get(u["testo"])
         if tono:
@@ -441,13 +457,13 @@ def blocchi_per_voce(unita, massimo=None):
     # le scelte del giocatore, anche se le dice il narratore, sono un blocco a parte: parlano in
     # prima persona e si possono provare e rifare senza toccare la narrazione
     def gruppo(u):
-        return u["voce"] + ("-scelte" if u["categoria"] == "scelta" else "")
+        return u["voce"] + {"scelta": "-scelte", "trailer": "-trailer"}.get(u["categoria"], "")
 
     gruppi = []
     for u in unita.values():
         if u["voce"] != "?" and gruppo(u) not in gruppi:
             gruppi.append(gruppo(u))
-    prime = [g for g in ("narratore", "narratore-scelte", "servizio") if g in gruppi]
+    prime = [g for g in ("narratore", "narratore-scelte", "narratore-trailer", "servizio") if g in gruppi]
     gruppi = prime + [g for g in gruppi if g not in prime]
     generati = blocchi_generati(unita)
     coperte = {i for _, _, ids in generati.values() for i in ids}
@@ -462,6 +478,8 @@ def blocchi_per_voce(unita, massimo=None):
         if not lista:
             continue
         voce = lista[0][1]["voce"]
+        if g == "narratore-trailer":  # nell'ordine del trailer, non per zona
+            pass
         if voce == "servizio":
             lista = ([x for x in lista if not x[1].get("numero")]
                      + [x for x in lista if x[1].get("numero")])
@@ -515,7 +533,7 @@ def scrivi_toni(tutto):
     stili = tutto.get("stili", {})
     per = OrderedDict()
     for u in unita.values():
-        if u.get("tono"):
+        if u.get("tono") and u.get("categoria") != "trailer":
             per.setdefault(u["voce"], []).append(u)
     righe = ["# I toni dei personaggi", "",
              "> Il tono di ogni battuta è ricavato dal contesto in cui si dice (chi parla, a chi, che cosa è",
@@ -559,7 +577,7 @@ def scrivi(tutto, blocchi, generati, solo_voce=None):
                     **{n: {"voce": unita[ids[0]]["voce"], "generato": False,
                            "minuti_stimati": round(durata_blocco(unita, ids), 1), "parti": ids}
                        for n, ids in blocchi.items()}},
-        "unita": unita, "stringhe": tutto["stringhe"],
+        "unita": unita, "stringhe": tutto["stringhe"], "trailer": tutto.get("trailer", []),
         "da_attribuire": tutto["da_attribuire"],
         "dinamici_non_scomposti": tutto["dinamici"],
     }
@@ -648,15 +666,16 @@ def scrivi_da_fare(tutto, blocchi, generati, eleven=()):
         nome, ids = blocco
         gia = [g for g, (_, v, _) in generati.items() if v == voce]
         titolo, descr = voci.get(slug(voce), (voce, ""))
-        ritocco = bool(gia)
+        ritocco = bool(gia)  # lo stesso personaggio ha già un audio: serve la stessa voce
+        e_trailer = all(unita[i].get("categoria") == "trailer" for i in ids)
         testo = [
             "%s ============================================================" % INTESTAZIONE,
-            "%s DA FARE %d di %d — %s%s" % (INTESTAZIONE, n, totale, voce.upper(),
+            "%s DA FARE %d di %d — %s%s" % (INTESTAZIONE, n, totale, voce.upper() + (" — TRAILER, VOCE NARRATIVA ED ENFATICA" if e_trailer else ""),
                                             (" — SOLO %d %s DA RIFARE" % (len(ids), "RIGA" if len(ids) == 1 else "RIGHE"))
-                                            if ritocco else ""),
+                                            if ritocco and not e_trailer else ""),
             "%s %d %s, %s. Le righe che cominciano con %s non si incollano." % (
                 INTESTAZIONE, len(ids), "riga" if len(ids) == 1 else "righe",
-                "meno di un minuto" if durata_blocco(unita, ids) < 1 else "circa %.0f minuti" % durata_blocco(unita, ids),
+                "meno di un minuto" if durata_blocco(unita, ids) < 1 else ("circa %.0f %s" % (round(durata_blocco(unita, ids)), "minuto" if round(durata_blocco(unita, ids)) == 1 else "minuti")),
                 INTESTAZIONE),
         ]
         if ritocco:
@@ -670,7 +689,7 @@ def scrivi_da_fare(tutto, blocchi, generati, eleven=()):
             "descrizione + « Delivery: <style>.» (il tono «calmo» è quello di base)." % INTESTAZIONE,
             "%s ============================================================" % INTESTAZIONE, ""]
         corpo = testo_del_blocco(unita, ids, tutto.get("stili", {}))
-        nome_file = "DA-FARE-%s%s-GEMINI.txt" % (slug(voce).upper(), "-RITOCCO" if ritocco else "")
+        nome_file = "DA-FARE-%s-GEMINI.txt" % slug(nome).upper()
         with open(os.path.join(cartella, nome_file), "w", encoding="utf-8", newline="\n") as f:
             f.write("\n".join(testo) + corpo)
         print("DA-FARE/%s" % nome_file)

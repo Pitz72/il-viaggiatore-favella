@@ -1141,6 +1141,46 @@
    "parti": [
     "3062fcfe"
    ]
+  },
+  "narratore-trailer": {
+   "voce": "narratore",
+   "generato": false,
+   "minuti_stimati": 1.5,
+   "parti": [
+    "2dcdbb88",
+    "31012c6f",
+    "aa0ce382",
+    "6353f3dc",
+    "77c0eeab",
+    "74697de4",
+    "64b18afe",
+    "d0432231",
+    "f8179677",
+    "ab14658c",
+    "473d5257",
+    "025735d4",
+    "9d1957cf",
+    "9f872d40",
+    "1e946c1d",
+    "3b68b0bd",
+    "5fb68bd4",
+    "9bda4201",
+    "6ffe5077",
+    "2bdee786",
+    "b55abdc4",
+    "0c1af6b0",
+    "6a0c05f9",
+    "bfccf25c",
+    "07d3cacd",
+    "c9d75ea5",
+    "0b91c6f5",
+    "d94d827e",
+    "b220d308",
+    "25a9b12f",
+    "74fc3f66",
+    "84b4a744",
+    "e837b436"
+   ]
   }
  },
  "unita": {
@@ -16583,6 +16623,567 @@
    ],
    "categoria": "testo",
    "blocco": "narratore-j"
+  },
+  "2dcdbb88": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "Non è il caso di tornare.",
+   "parole": 6,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 1,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "solenne",
+   "blocco": "narratore-trailer"
+  },
+  "31012c6f": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "Un uomo torna a casa.",
+   "parole": 5,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 2,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "solenne",
+   "blocco": "narratore-trailer"
+  },
+  "74697de4": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "A PIEDI.",
+   "parole": 2,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 3,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "enfatico",
+   "blocco": "narratore-trailer"
+  },
+  "aa0ce382": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "Attraverso una terra che l'acqua ha svuotato.",
+   "parole": 7,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 4,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "solenne",
+   "blocco": "narratore-trailer"
+  },
+  "64b18afe": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "La SECCA. Dieci anni senza pioggia.",
+   "parole": 6,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 5,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "enfatico",
+   "blocco": "narratore-trailer"
+  },
+  "ab14658c": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "A cosa stai tornando — e cosa resterà di te quando ci arrivi?",
+   "parole": 12,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 6,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "sospeso",
+   "blocco": "narratore-trailer"
+  },
+  "6353f3dc": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "Sette tappe fino a casa.",
+   "parole": 5,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 7,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "solenne",
+   "blocco": "narratore-trailer"
+  },
+  "9d1957cf": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "Acquaviva.",
+   "parole": 1,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 8,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "secco",
+   "blocco": "narratore-trailer"
+  },
+  "9f872d40": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "La piana.",
+   "parole": 2,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 9,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "secco",
+   "blocco": "narratore-trailer"
+  },
+  "1e946c1d": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "L'invaso morto.",
+   "parole": 2,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 10,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "secco",
+   "blocco": "narratore-trailer"
+  },
+  "3b68b0bd": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "La statale.",
+   "parole": 2,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 11,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "secco",
+   "blocco": "narratore-trailer"
+  },
+  "5fb68bd4": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "Il paese.",
+   "parole": 2,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 12,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "secco",
+   "blocco": "narratore-trailer"
+  },
+  "9bda4201": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "Le colline.",
+   "parole": 2,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 13,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "secco",
+   "blocco": "narratore-trailer"
+  },
+  "6ffe5077": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "Il guado.",
+   "parole": 2,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 14,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "secco",
+   "blocco": "narratore-trailer"
+  },
+  "77c0eeab": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "Cinque modi di stare in un mondo che MUORE.",
+   "parole": 9,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 15,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "solenne",
+   "blocco": "narratore-trailer"
+  },
+  "2bdee786": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "Custodire.",
+   "parole": 1,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 16,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "secco",
+   "blocco": "narratore-trailer"
+  },
+  "b55abdc4": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "Aspettare.",
+   "parole": 1,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 17,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "secco",
+   "blocco": "narratore-trailer"
+  },
+  "0c1af6b0": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "Predare.",
+   "parole": 1,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 18,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "secco",
+   "blocco": "narratore-trailer"
+  },
+  "6a0c05f9": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "Restare.",
+   "parole": 1,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 19,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "secco",
+   "blocco": "narratore-trailer"
+  },
+  "bfccf25c": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "Rinunciare.",
+   "parole": 1,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 20,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "secco",
+   "blocco": "narratore-trailer"
+  },
+  "473d5257": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "E al guado, ad aspettarti,",
+   "parole": 5,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 21,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "sospeso",
+   "blocco": "narratore-trailer"
+  },
+  "d0432231": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "tuo FRATELLO.",
+   "parole": 2,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 22,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "enfatico",
+   "blocco": "narratore-trailer"
+  },
+  "07d3cacd": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "La sete è la spina dorsale.",
+   "parole": 6,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 23,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "secco",
+   "blocco": "narratore-trailer"
+  },
+  "c9d75ea5": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "L'acqua è la moneta.",
+   "parole": 4,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 24,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "secco",
+   "blocco": "narratore-trailer"
+  },
+  "0b91c6f5": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "La fiducia apre le porte.",
+   "parole": 5,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 25,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "secco",
+   "blocco": "narratore-trailer"
+  },
+  "d94d827e": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "La violenza costa. Ed è evitabile.",
+   "parole": 6,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 26,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "secco",
+   "blocco": "narratore-trailer"
+  },
+  "b220d308": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "Le scelte arrivano fino in fondo.",
+   "parole": 6,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 27,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "secco",
+   "blocco": "narratore-trailer"
+  },
+  "25a9b12f": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "Sette tappe.",
+   "parole": 2,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 28,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "secco",
+   "blocco": "narratore-trailer"
+  },
+  "74fc3f66": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "Trentanove luoghi.",
+   "parole": 2,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 29,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "secco",
+   "blocco": "narratore-trailer"
+  },
+  "84b4a744": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "Quattordici personaggi.",
+   "parole": 2,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 30,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "secco",
+   "blocco": "narratore-trailer"
+  },
+  "e837b436": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "Sei finali.",
+   "parole": 2,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 31,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "secco",
+   "blocco": "narratore-trailer"
+  },
+  "025735d4": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "Un'avventura testuale in italiano, scritta e giocata col motore vero.",
+   "parole": 10,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 32,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "sospeso",
+   "blocco": "narratore-trailer"
+  },
+  "f8179677": {
+   "voce": "narratore",
+   "zona": "trailer",
+   "testo": "Il Viaggiatore.",
+   "parole": 2,
+   "fonti": [
+    {
+     "file": "trailer.json",
+     "riga": 33,
+     "tipo": "trailer",
+     "parte": 0
+    }
+   ],
+   "categoria": "trailer",
+   "tono": "enfatico",
+   "blocco": "narratore-trailer"
   }
  },
  "stringhe": [
@@ -22758,6 +23359,288 @@
    "parti": [
     "817b30b3"
    ]
+  }
+ ],
+ "trailer": [
+  {
+   "id": "biglietto",
+   "testo": "Non è il caso di tornare.",
+   "tono": "solenne",
+   "da": 6.7,
+   "a": 9.6,
+   "nota": "il biglietto in stampatello; si scrive a 7,25 s e finisce a 8,2",
+   "unita": "2dcdbb88"
+  },
+  {
+   "id": "alba1",
+   "testo": "Un uomo torna a casa.",
+   "tono": "solenne",
+   "da": 10.6,
+   "a": 16.9,
+   "unita": "31012c6f"
+  },
+  {
+   "id": "alba2",
+   "testo": "A PIEDI.",
+   "tono": "enfatico",
+   "da": 12.3,
+   "a": 16.9,
+   "unita": "74697de4"
+  },
+  {
+   "id": "terra",
+   "testo": "Attraverso una terra che l'acqua ha svuotato.",
+   "tono": "solenne",
+   "da": 18.3,
+   "a": 22.4,
+   "unita": "aa0ce382"
+  },
+  {
+   "id": "secca",
+   "testo": "La SECCA. Dieci anni senza pioggia.",
+   "tono": "enfatico",
+   "da": 22.6,
+   "a": 25.1,
+   "nota": "il timbro «la secca» cade a 22,6 s",
+   "unita": "64b18afe"
+  },
+  {
+   "id": "domanda",
+   "testo": "A cosa stai tornando — e cosa resterà di te quando ci arrivi?",
+   "tono": "sospeso",
+   "da": 27.2,
+   "a": 32.9,
+   "nota": "sullo schermo sono due righe: la prima a 27,2 s, la seconda a 28,7 s",
+   "unita": "ab14658c"
+  },
+  {
+   "id": "mappa",
+   "testo": "Sette tappe fino a casa.",
+   "tono": "solenne",
+   "da": 33.6,
+   "a": 36.1,
+   "unita": "6353f3dc"
+  },
+  {
+   "id": "tappa1",
+   "testo": "Acquaviva.",
+   "tono": "secco",
+   "da": 35.2,
+   "a": 36.9,
+   "nota": "le sette tappe compaiono ogni 1,72 s: 35,2 · 36,9 · 38,6 · 40,4 · 42,1 · 43,8 · 45,5",
+   "unita": "9d1957cf"
+  },
+  {
+   "id": "tappa2",
+   "testo": "La piana.",
+   "tono": "secco",
+   "da": 36.9,
+   "a": 38.6,
+   "unita": "9f872d40"
+  },
+  {
+   "id": "tappa3",
+   "testo": "L'invaso morto.",
+   "tono": "secco",
+   "da": 38.6,
+   "a": 40.4,
+   "unita": "1e946c1d"
+  },
+  {
+   "id": "tappa4",
+   "testo": "La statale.",
+   "tono": "secco",
+   "da": 40.4,
+   "a": 42.1,
+   "unita": "3b68b0bd"
+  },
+  {
+   "id": "tappa5",
+   "testo": "Il paese.",
+   "tono": "secco",
+   "da": 42.1,
+   "a": 43.8,
+   "unita": "5fb68bd4"
+  },
+  {
+   "id": "tappa6",
+   "testo": "Le colline.",
+   "tono": "secco",
+   "da": 43.8,
+   "a": 45.5,
+   "unita": "9bda4201"
+  },
+  {
+   "id": "tappa7",
+   "testo": "Il guado.",
+   "tono": "secco",
+   "da": 45.5,
+   "a": 47.2,
+   "nota": "a 47,2 s la rotta arriva a casa",
+   "unita": "6ffe5077"
+  },
+  {
+   "id": "cinque",
+   "testo": "Cinque modi di stare in un mondo che MUORE.",
+   "tono": "solenne",
+   "da": 49.3,
+   "a": 52.4,
+   "unita": "77c0eeab"
+  },
+  {
+   "id": "modo1",
+   "testo": "Custodire.",
+   "tono": "secco",
+   "da": 52.3,
+   "a": 59.6,
+   "nota": "Saverio, il pozzo. I cinque segni compaiono a 52,3 · 52,7 · 53,1 · 53,6 · 54,0 s e restano fino a 59,6: la voce può dirli un po' dopo, con più calma",
+   "unita": "2bdee786"
+  },
+  {
+   "id": "modo2",
+   "testo": "Aspettare.",
+   "tono": "secco",
+   "da": 52.3,
+   "a": 59.6,
+   "nota": "Iole, la diga",
+   "unita": "b55abdc4"
+  },
+  {
+   "id": "modo3",
+   "testo": "Predare.",
+   "tono": "secco",
+   "da": 52.3,
+   "a": 59.6,
+   "nota": "Vito, il casello",
+   "unita": "0c1af6b0"
+  },
+  {
+   "id": "modo4",
+   "testo": "Restare.",
+   "tono": "secco",
+   "da": 52.3,
+   "a": 59.6,
+   "nota": "Rosaria, l'osteria",
+   "unita": "6a0c05f9"
+  },
+  {
+   "id": "modo5",
+   "testo": "Rinunciare.",
+   "tono": "secco",
+   "da": 52.3,
+   "a": 59.6,
+   "nota": "Onofrio, la grotta",
+   "unita": "bfccf25c"
+  },
+  {
+   "id": "guado1",
+   "testo": "E al guado, ad aspettarti,",
+   "tono": "sospeso",
+   "da": 61.8,
+   "a": 64.0,
+   "unita": "473d5257"
+  },
+  {
+   "id": "guado2",
+   "testo": "tuo FRATELLO.",
+   "tono": "enfatico",
+   "da": 64.0,
+   "a": 67.5,
+   "aggancia": 64.0,
+   "nota": "deve cadere esattamente sul colpo grave del brano (63,99 s)",
+   "unita": "d0432231"
+  },
+  {
+   "id": "regola1",
+   "testo": "La sete è la spina dorsale.",
+   "tono": "secco",
+   "da": 67.86,
+   "a": 69.6,
+   "nota": "cinque regole, una ogni 1,84 s a partire da 67,8",
+   "unita": "07d3cacd"
+  },
+  {
+   "id": "regola2",
+   "testo": "L'acqua è la moneta.",
+   "tono": "secco",
+   "da": 69.7,
+   "a": 71.44,
+   "unita": "c9d75ea5"
+  },
+  {
+   "id": "regola3",
+   "testo": "La fiducia apre le porte.",
+   "tono": "secco",
+   "da": 71.54,
+   "a": 73.28,
+   "unita": "0b91c6f5"
+  },
+  {
+   "id": "regola4",
+   "testo": "La violenza costa. Ed è evitabile.",
+   "tono": "secco",
+   "da": 73.38,
+   "a": 75.12,
+   "unita": "d94d827e"
+  },
+  {
+   "id": "regola5",
+   "testo": "Le scelte arrivano fino in fondo.",
+   "tono": "secco",
+   "da": 75.22,
+   "a": 77.0,
+   "unita": "b220d308"
+  },
+  {
+   "id": "numeri1",
+   "testo": "Sette tappe.",
+   "tono": "secco",
+   "da": 77.0,
+   "a": 81.8,
+   "nota": "i numeri: 7 tappe · 39 luoghi · 14 personaggi · 6 finali",
+   "unita": "25a9b12f"
+  },
+  {
+   "id": "numeri2",
+   "testo": "Trentanove luoghi.",
+   "tono": "secco",
+   "da": 77.0,
+   "a": 81.8,
+   "unita": "74fc3f66"
+  },
+  {
+   "id": "numeri3",
+   "testo": "Quattordici personaggi.",
+   "tono": "secco",
+   "da": 77.0,
+   "a": 81.8,
+   "unita": "84b4a744"
+  },
+  {
+   "id": "numeri4",
+   "testo": "Sei finali.",
+   "tono": "secco",
+   "da": 77.0,
+   "a": 81.8,
+   "unita": "e837b436"
+  },
+  {
+   "id": "tagline",
+   "testo": "Un'avventura testuale in italiano, scritta e giocata col motore vero.",
+   "tono": "sospeso",
+   "da": 78.9,
+   "a": 81.7,
+   "unita": "025735d4"
+  },
+  {
+   "id": "titolo",
+   "testo": "Il Viaggiatore.",
+   "tono": "enfatico",
+   "da": 82.3,
+   "a": 88.5,
+   "aggancia": 82.3,
+   "nota": "il titolo compare a 82,3 s, con un colpo",
+   "unita": "f8179677"
   }
  ],
  "da_attribuire": [],
