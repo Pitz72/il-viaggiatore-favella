@@ -1,5 +1,99 @@
 {
  "blocchi": {
+  "ciro": {
+   "voce": "Ciro",
+   "generato": true,
+   "minuti_stimati": 1.3,
+   "parti": [
+    "b8bee090",
+    "01609c64",
+    "f6af42cb",
+    "7ad2b6bd",
+    "4f559a95",
+    "c910b9c2",
+    "dacfff14",
+    "8bb792e8",
+    "41d4553d",
+    "43263455",
+    "23d9a4bd"
+   ],
+   "fuori_uso": []
+  },
+  "concetta": {
+   "voce": "Concetta",
+   "generato": true,
+   "minuti_stimati": 1.4,
+   "parti": [
+    "8229108e",
+    "44c56127",
+    "3e5c2e65",
+    "02259fa6",
+    "87001611",
+    "f53de897",
+    "cc0ea5ff",
+    "ab069e93"
+   ],
+   "fuori_uso": []
+  },
+  "cosimo": {
+   "voce": "Cosimo",
+   "generato": true,
+   "minuti_stimati": 4.7,
+   "parti": [
+    "8dff9ef8",
+    "9f7f7b29",
+    "11bbe6b8",
+    "074faba7",
+    "bf6c75ee",
+    "5cfc0f22",
+    "836b6a8c",
+    "7074a217",
+    "1da0e305",
+    "fc175199",
+    "f4b5fa84",
+    "1eb2f558",
+    "0168462f",
+    "273d33ed",
+    "5ead9887",
+    "28148f3f",
+    "8dbfa723",
+    "c99ae148",
+    "edbe2361",
+    "45f1fc97",
+    "f2f27119",
+    "871a69ba",
+    "bb2a0ebf",
+    "a78cba18",
+    "966838c7",
+    "67612a68",
+    "aa359148",
+    "1e82d93d",
+    "002e5d8f",
+    "6036b514",
+    "eb229220"
+   ],
+   "fuori_uso": []
+  },
+  "iole": {
+   "voce": "Iole",
+   "generato": true,
+   "minuti_stimati": 1.9,
+   "parti": [
+    "f6f15ca5",
+    "1b4f6625",
+    "7f9bcecb",
+    "6dff4e38",
+    "826e9e51",
+    "071b80b7",
+    "0e09ff23",
+    "a232b87a",
+    "44b665d8",
+    "77465e37",
+    "23ea08c7",
+    "37f8a6b7"
+   ],
+   "fuori_uso": []
+  },
   "narratore-a": {
    "voce": "narratore",
    "generato": true,
@@ -619,6 +713,116 @@
    ],
    "fuori_uso": []
   },
+  "nunzio": {
+   "voce": "Nunzio",
+   "generato": true,
+   "minuti_stimati": 1.0,
+   "parti": [
+    "af7219f5",
+    "6f3440d8",
+    "369411dd",
+    "87b0b6d4",
+    "96a4b7a7",
+    "0e0ab5ba",
+    "483588b6"
+   ],
+   "fuori_uso": []
+  },
+  "onofrio": {
+   "voce": "Onofrio",
+   "generato": true,
+   "minuti_stimati": 3.1,
+   "parti": [
+    "535dce07",
+    "6ce63943",
+    "00c6adc1",
+    "f563170e",
+    "619da0fb",
+    "79e3c0f5",
+    "0f8a2b97",
+    "2e37e5ce",
+    "4196b26c",
+    "9df13399",
+    "c704b5b4",
+    "03e9d1c8",
+    "0d1a59d2",
+    "994bc332",
+    "9ac16dd7",
+    "2596d613",
+    "28514652",
+    "cbfbda7e",
+    "cbe79769",
+    "f59f4fbd",
+    "2c74c560"
+   ],
+   "fuori_uso": []
+  },
+  "pasquale": {
+   "voce": "Pasquale",
+   "generato": true,
+   "minuti_stimati": 0.4,
+   "parti": [
+    "e602b094",
+    "e0a78c87",
+    "34803803",
+    "4fbd3660"
+   ],
+   "fuori_uso": []
+  },
+  "peppe": {
+   "voce": "Peppe",
+   "generato": true,
+   "minuti_stimati": 2.0,
+   "parti": [
+    "f88bc4ce",
+    "a75694d0",
+    "8ed1c71a",
+    "4a6e68e2",
+    "7bb49317",
+    "6ae4d014",
+    "bc016b42",
+    "a0a7f7d9",
+    "d41b19ee",
+    "64d5d182",
+    "3c783442",
+    "5336eebf",
+    "c6afb935",
+    "792aa5ff",
+    "3a796f0a",
+    "3c8ba63f",
+    "92741a25"
+   ],
+   "fuori_uso": []
+  },
+  "rocco": {
+   "voce": "Rocco",
+   "generato": true,
+   "minuti_stimati": 0.6,
+   "parti": [
+    "85877725",
+    "faab0326",
+    "3c3e2e61",
+    "783b1e18",
+    "1ad54bd2"
+   ],
+   "fuori_uso": []
+  },
+  "saverio": {
+   "voce": "Saverio",
+   "generato": true,
+   "minuti_stimati": 0.7,
+   "parti": [
+    "d3692b8d",
+    "26856ef7",
+    "42d876e0",
+    "16deb83a",
+    "9b81944a",
+    "27a7864e",
+    "29a47a12",
+    "ce297368"
+   ],
+   "fuori_uso": []
+  },
   "servizio": {
    "voce": "servizio",
    "generato": true,
@@ -829,77 +1033,28 @@
     "f0c85f91"
    ]
   },
-  "narratore-k": {
-   "voce": "narratore",
-   "generato": false,
-   "minuti_stimati": 0.0,
+  "tore": {
+   "voce": "Tore",
+   "generato": true,
+   "minuti_stimati": 1.8,
    "parti": [
-    "3062fcfe"
-   ]
-  },
-  "nunzio": {
-   "voce": "Nunzio",
-   "generato": false,
-   "minuti_stimati": 1.0,
-   "parti": [
-    "af7219f5",
-    "6f3440d8",
-    "369411dd",
-    "87b0b6d4",
-    "96a4b7a7",
-    "0e0ab5ba",
-    "483588b6"
-   ]
-  },
-  "saverio": {
-   "voce": "Saverio",
-   "generato": false,
-   "minuti_stimati": 0.7,
-   "parti": [
-    "d3692b8d",
-    "26856ef7",
-    "42d876e0",
-    "16deb83a",
-    "9b81944a",
-    "27a7864e",
-    "29a47a12",
-    "ce297368"
-   ]
-  },
-  "iole": {
-   "voce": "Iole",
-   "generato": false,
-   "minuti_stimati": 1.9,
-   "parti": [
-    "f6f15ca5",
-    "1b4f6625",
-    "7f9bcecb",
-    "6dff4e38",
-    "826e9e51",
-    "071b80b7",
-    "0e09ff23",
-    "a232b87a",
-    "44b665d8",
-    "77465e37",
-    "23ea08c7",
-    "37f8a6b7"
-   ]
-  },
-  "rocco": {
-   "voce": "Rocco",
-   "generato": false,
-   "minuti_stimati": 0.6,
-   "parti": [
-    "85877725",
-    "faab0326",
-    "3c3e2e61",
-    "783b1e18",
-    "1ad54bd2"
-   ]
+    "138255b0",
+    "d5e57403",
+    "a690219d",
+    "e11a4130",
+    "c7bd5b4a",
+    "5db163f7",
+    "5240c0b1",
+    "2a21e690",
+    "ccf6423e",
+    "5226cd05",
+    "8e21d1b9"
+   ],
+   "fuori_uso": []
   },
   "vito": {
    "voce": "Vito",
-   "generato": false,
+   "generato": true,
    "minuti_stimati": 2.1,
    "parti": [
     "b413c9d2",
@@ -921,6 +1076,15 @@
     "a7b468a1",
     "07b25122",
     "cf16de2f"
+   ],
+   "fuori_uso": []
+  },
+  "narratore-k": {
+   "voce": "narratore",
+   "generato": false,
+   "minuti_stimati": 0.0,
+   "parti": [
+    "3062fcfe"
    ]
   },
   "imma": {
@@ -974,158 +1138,13 @@
     "041a0963"
    ]
   },
-  "concetta": {
-   "voce": "Concetta",
-   "generato": false,
-   "minuti_stimati": 1.4,
-   "parti": [
-    "8229108e",
-    "44c56127",
-    "3e5c2e65",
-    "02259fa6",
-    "87001611",
-    "f53de897",
-    "cc0ea5ff",
-    "ab069e93"
-   ]
-  },
-  "pasquale": {
-   "voce": "Pasquale",
+  "tore-b": {
+   "voce": "Tore",
    "generato": false,
    "minuti_stimati": 0.4,
    "parti": [
-    "e602b094",
-    "e0a78c87",
-    "34803803",
-    "4fbd3660"
-   ]
-  },
-  "peppe": {
-   "voce": "Peppe",
-   "generato": false,
-   "minuti_stimati": 2.0,
-   "parti": [
-    "f88bc4ce",
-    "a75694d0",
-    "8ed1c71a",
-    "4a6e68e2",
-    "7bb49317",
-    "6ae4d014",
-    "bc016b42",
-    "a0a7f7d9",
-    "d41b19ee",
-    "64d5d182",
-    "3c783442",
-    "5336eebf",
-    "c6afb935",
-    "792aa5ff",
-    "3a796f0a",
-    "3c8ba63f",
-    "92741a25"
-   ]
-  },
-  "ciro": {
-   "voce": "Ciro",
-   "generato": false,
-   "minuti_stimati": 1.3,
-   "parti": [
-    "b8bee090",
-    "01609c64",
-    "f6af42cb",
-    "7ad2b6bd",
-    "4f559a95",
-    "c910b9c2",
-    "dacfff14",
-    "8bb792e8",
-    "41d4553d",
-    "43263455",
-    "23d9a4bd"
-   ]
-  },
-  "onofrio": {
-   "voce": "Onofrio",
-   "generato": false,
-   "minuti_stimati": 3.1,
-   "parti": [
-    "535dce07",
-    "6ce63943",
-    "00c6adc1",
-    "f563170e",
-    "619da0fb",
-    "79e3c0f5",
-    "0f8a2b97",
-    "2e37e5ce",
-    "4196b26c",
-    "9df13399",
-    "c704b5b4",
-    "03e9d1c8",
-    "0d1a59d2",
-    "994bc332",
-    "9ac16dd7",
-    "2596d613",
-    "28514652",
-    "cbfbda7e",
-    "cbe79769",
-    "f59f4fbd",
-    "2c74c560"
-   ]
-  },
-  "tore": {
-   "voce": "Tore",
-   "generato": false,
-   "minuti_stimati": 2.2,
-   "parti": [
-    "138255b0",
-    "d5e57403",
-    "a690219d",
     "7e4b4a5a",
-    "febb9a69",
-    "e11a4130",
-    "c7bd5b4a",
-    "5db163f7",
-    "5240c0b1",
-    "2a21e690",
-    "ccf6423e",
-    "5226cd05",
-    "8e21d1b9"
-   ]
-  },
-  "cosimo": {
-   "voce": "Cosimo",
-   "generato": false,
-   "minuti_stimati": 4.7,
-   "parti": [
-    "8dff9ef8",
-    "9f7f7b29",
-    "11bbe6b8",
-    "074faba7",
-    "bf6c75ee",
-    "5cfc0f22",
-    "836b6a8c",
-    "7074a217",
-    "1da0e305",
-    "fc175199",
-    "f4b5fa84",
-    "1eb2f558",
-    "0168462f",
-    "273d33ed",
-    "5ead9887",
-    "28148f3f",
-    "8dbfa723",
-    "c99ae148",
-    "edbe2361",
-    "45f1fc97",
-    "f2f27119",
-    "871a69ba",
-    "bb2a0ebf",
-    "a78cba18",
-    "966838c7",
-    "67612a68",
-    "aa359148",
-    "1e82d93d",
-    "002e5d8f",
-    "6036b514",
-    "eb229220"
+    "febb9a69"
    ]
   }
  },
@@ -13984,7 +14003,7 @@
    ],
    "categoria": "testo",
    "tono": "calmo",
-   "blocco": "tore"
+   "blocco": "tore-b"
   },
   "4c574126": {
    "voce": "narratore",
@@ -14051,7 +14070,7 @@
    ],
    "categoria": "testo",
    "tono": "calmo",
-   "blocco": "tore"
+   "blocco": "tore-b"
   },
   "e11a4130": {
    "voce": "Tore",

@@ -30,6 +30,7 @@ Uso:  python strumenti/doppiaggio.py stato                    (parti, parole e m
       python strumenti/doppiaggio.py blocchi --voce servizio  (scrive blocchi/servizio.txt e manifest.json)
       python strumenti/doppiaggio.py blocchi                  (tutte le voci; cancella i blocchi vecchi)
       python strumenti/doppiaggio.py blocchi --max-minuti 8
+      python strumenti/doppiaggio.py da-fare                  (doppiaggio/DA-FARE/: solo ciò che manca, con le istruzioni in testa)
 """
 import argparse
 import hashlib
@@ -557,6 +558,65 @@ def scrivi(tutto, blocchi, generati, solo_voce=None):
         f.write("\n")
 
 
+def descrizioni_delle_voci():
+    """{nome minuscolo: (titolo, descrizione)} da doppiaggio/voci.md: i paragrafi «> …» sotto ogni «### Nome …»."""
+    voci = OrderedDict()
+    corrente = None
+    with open(os.path.join(CARTELLA, "voci.md"), encoding="utf-8") as f:
+        for r in f:
+            r = r.rstrip("\n")
+            if r.startswith("## "):
+                corrente = None
+            elif r.startswith("### "):
+                corrente = slug(r[4:].split()[0])
+                voci[corrente] = [r[4:], []]
+            elif r.startswith("> ") and corrente:
+                voci[corrente][1].append(r[2:])
+    return {k: (v[0], " ".join(v[1])) for k, v in voci.items()}
+
+
+def scrivi_da_fare(tutto, blocchi, generati):
+    """doppiaggio/DA-FARE/: una copia di ogni blocco ancora da generare, con un nome che non si confonde
+    con gli altri file e, in testa, tutto ciò che serve per farlo (voce, descrizione). Le righe «###»
+    non si incollano. La cartella si rifà da zero a ogni comando."""
+    cartella = os.path.join(CARTELLA, "DA-FARE")
+    os.makedirs(cartella, exist_ok=True)
+    for vecchio in os.listdir(cartella):
+        os.remove(os.path.join(cartella, vecchio))
+    unita = tutto["unita"]
+    voci = descrizioni_delle_voci()
+    for n, (nome, ids) in enumerate(blocchi.items(), 1):
+        voce = unita[ids[0]]["voce"]
+        gia = [g for g, (_, v, _) in generati.items() if v == voce]
+        titolo, descr = voci.get(slug(voce), (voce, ""))
+        ritocco = bool(gia)
+        testo = [
+            "%s ============================================================" % INTESTAZIONE,
+            "%s DA FARE %d di %d — %s%s" % (INTESTAZIONE, n, len(blocchi), voce.upper(),
+                                            (" — SOLO %d %s DA RIFARE" % (len(ids), "RIGA" if len(ids) == 1 else "RIGHE"))
+                                            if ritocco else ""),
+            "%s %d %s, %s. Le righe che cominciano con %s non si incollano." % (
+                INTESTAZIONE, len(ids), "riga" if len(ids) == 1 else "righe",
+                "meno di un minuto" if durata_blocco(unita, ids) < 1 else "circa %.0f minuti" % durata_blocco(unita, ids),
+                INTESTAZIONE),
+        ]
+        if ritocco:
+            testo.append("%s USA LA STESSA voce di libreria e la STESSA descrizione del blocco già fatto (%s)." % (
+                INTESTAZIONE, ", ".join(gia)))
+        else:
+            testo.append("%s Voce di libreria: scegline una adatta al personaggio (%s)." % (INTESTAZIONE, titolo))
+        testo += [
+            "%s Descrizione (campo accanto alla voce): %s" % (INTESTAZIONE, descr),
+            "%s Se sotto ci sono gruppi «### tono — style: …»: un blocco di parlato per gruppo, e nel campo "
+            "descrizione + « Delivery: <style>.» (il tono «calmo» è quello di base)." % INTESTAZIONE,
+            "%s ============================================================" % INTESTAZIONE, ""]
+        corpo = testo_del_blocco(unita, ids, tutto.get("stili", {}))
+        nome_file = "DA-FARE-%d-%s%s.txt" % (n, slug(voce).upper(), "-RITOCCO" if ritocco else "")
+        with open(os.path.join(cartella, nome_file), "w", encoding="utf-8", newline="\n") as f:
+            f.write("\n".join(testo) + corpo)
+        print("DA-FARE/%s" % nome_file)
+
+
 def riepilogo(tutto, blocchi, generati):
     unita = tutto["unita"]
     per = OrderedDict()
@@ -596,7 +656,7 @@ def riepilogo(tutto, blocchi, generati):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("comando", choices=["stato", "blocchi"])
+    ap.add_argument("comando", choices=["stato", "blocchi", "da-fare"])
     ap.add_argument("--voce", help="scrive solo i blocchi di questa voce o di questo blocco "
                                    "(servizio, narratore, narratore-scelte, Nunzio…)")
     ap.add_argument("--max-minuti", type=float, help="tetto di un blocco, al posto di quello predefinito")
@@ -606,6 +666,8 @@ def main():
     blocchi, generati = blocchi_per_voce(tutto["unita"], a.max_minuti)
     if a.comando == "blocchi":
         scrivi(tutto, blocchi, generati, a.voce)
+    if a.comando == "da-fare":
+        scrivi_da_fare(tutto, blocchi, generati)
     riepilogo(tutto, blocchi, generati)
     riserva = [(n, len([i for i in ids if i not in tutto["unita"]])) for n, (_, _, ids) in generati.items()]
     riserva = [(n, k) for n, k in riserva if k]
