@@ -1,8 +1,8 @@
 # Il Viaggiatore — intro: foglio dei tempi per la musica
 
-File video, rigirati il 7 ottobre 2026 con la grafica attuale del trailer (`strumenti/esporta-trailer.cjs`; stessi tempi, stesso montaggio, traccia audio muta solo per compatibilità):
-- `il-viaggiatore-intro.mp4` · 1920×1080 · 30 fps · 88,4 s · circa 125 MB
-- `il-viaggiatore-intro-720p.mp4` · 1280×720 · 30 fps · 88,4 s · circa 14 MB, per i servizi con limiti di caricamento
+File video, rigirati il 20 ottobre 2026 con la grafica attuale del trailer (versione 1.18.2; `strumenti/esporta-trailer.cjs`; stesso montaggio, traccia audio muta solo per compatibilità; cambiano rispetto al 7 ottobre i pochi tempi di questo foglio che differiscono: «tuo fratello» a 64,0 s, l'incrocio terra → invaso a 24,8–25,6 s, il biglietto che si scrive in 0,034 s a carattere):
+- `il-viaggiatore-intro.mp4` · 1920×1080 · 30 fps · 88,4 s · circa 74 MB (la grana di pellicola nuova si comprime meglio)
+- `il-viaggiatore-intro-720p.mp4` · 1280×720 · 30 fps · 88,4 s · circa 7 MB, per i servizi con limiti di caricamento
 
 ## Carattere generale
 
