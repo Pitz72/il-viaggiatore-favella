@@ -14,6 +14,7 @@ Testo legale completo: <https://creativecommons.org/licenses/by-sa/4.0/legalcode
 | La storia, i luoghi, i personaggi e tutta la prosa dell'avventura | `prototipo/*.fav` |
 | I documenti di progetto | `pre-produzione/`, `video/il-viaggiatore-intro-tempi.md` |
 | La colonna sonora originale dell'intro («Il Viaggiatore — Intro») | `app/src/assets/intro.mp3` |
+| Le voci del doppiaggio (la lettura dei testi qui sopra, generata con Google Gemini TTS) | `app/public/voce/` |
 | L'icona, la copertina e la grafica | `grafica/` (immagini) |
 | I testi a schermo del trailer e della guida | `app/src/trailer/`, `app/src/gioco/ComeSiGioca.tsx` (solo i testi) |
 

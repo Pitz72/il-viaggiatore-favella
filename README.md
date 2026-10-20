@@ -28,6 +28,8 @@ senza firma, dice soltanto: «Non è il caso di tornare.» Torni lo stesso.
 (`bevi`, `parla con Rosaria`, `usa la lettera su Cosimo`), o toccando le uscite, le
 cose e le risposte. La sete è la spina dorsale, l'acqua è la moneta, le scelte pesano.
 Il gioco si apre con i loghi animati (e sonori) di Runtime Multimedia e di FAVELLA 1, un avviso e un trailer di 88 secondi con la sua colonna sonora originale.
+**Il racconto ha una voce:** è doppiato per intero con la sintesi vocale (il narratore, i personaggi, i suggerimenti e il
+trailer, circa un'ora di parlato); si ascolta con la *voce recitata*, oppure si lascia leggere al proprio lettore di schermo.
 
 > **Che cos'è questo progetto.** Questo gioco, nato come demo del linguaggio di
 > programmazione e motore di narrativa interattiva Favella1, è stato generato con un
@@ -60,6 +62,12 @@ Il gioco parte a schermo intero e funziona senza connessione. **Esc** salta i
 loghi e il trailer (e chiude l'avviso, come Invio), **F11** commuta lo schermo intero, **F5** salva, **F9**
 carica, **«esci»** nel menu (o Alt+F4) chiude. Gli eseguibili non sono firmati:
 Windows SmartScreen può chiedere una conferma.
+
+**La voce.** Con la *voce recitata* (com'è all'inizio) il gioco legge ogni testo con le voci del doppiaggio: un tasto
+qualunque la ferma (il testo resta), **F2** ridice l'ultimo testo, e le risposte di un dialogo le legge il narratore
+quando ci passi sopra col mouse o le raggiungi con la tastiera. Il pulsante **«♪ voce»**, in alto, sceglie fra voce
+recitata e *lettore di schermo* (nessuna voce del gioco: il diario si annuncia al tuo lettore) e regola il volume. Con la
+voce recitata anche il trailer ha la voce del narratore, e la musica gli scende sotto.
 
 **Salvataggi.** Sei posti più uno automatico, che si scrive a ogni cambio di
 luogo; dal menu, «Continua il viaggio» riprende il più recente. Sono file
@@ -119,13 +127,14 @@ di GitHub per i pacchetti.
 |---|---|
 | `prototipo/` | **l'avventura**: `il-viaggiatore.fav` (radice) + `sistemi.fav` + le sette zone `z1…z7` |
 | `motore/` | il motore FAVELLA 1.5.0 (Python), vedi `motore/LEGGIMI.md` |
-| `app/` | l'app React: loghi animati, trailer (canvas procedurale + colonna sonora), gioco, guida «come si gioca» |
+| `app/` | l'app React: loghi animati, trailer (canvas procedurale + colonna sonora), gioco, guida «come si gioca»; in `app/public/voce/` la voce del doppiaggio, un file Opus per parte |
+| `doppiaggio/` | il doppiaggio: i testi per le voci ricavati dai `.fav`, il manifest delle parti, le voci scelte, il resoconto del banco; vedi `doppiaggio/LEGGIMI.md` |
 | `desktop/` | il guscio Electron per Windows e Linux |
-| `collaudo/` | gli undici collaudi automatici: i nove finali, le prove mirate, i salvataggi, le scorte, il ponte dell'interfaccia, i fili del viaggio, le giocate, il testo, le conferme, i pulsanti, l'esploratore |
+| `collaudo/` | i dodici collaudi automatici: i nove finali, le prove mirate, i salvataggi, le scorte, il ponte dell'interfaccia, i fili del viaggio, le giocate, il testo, le conferme, i pulsanti, la voce del doppiaggio, l'esploratore |
 | `pre-produzione/` | i documenti di progetto: visione, sistemi, mappa, oggetti, personaggi, ramificazione |
 | `grafica/` | l'icona (SVG), il banner del README e gli script che rasterizzano l'icona |
 | `sviluppo/` | le regole delle versioni e il diario di sviluppo |
-| `strumenti/` | gli strumenti delle versioni, del diario e della mappa narrativa |
+| `strumenti/` | gli strumenti delle versioni, del diario, della mappa narrativa, del trailer e del doppiaggio ([elenco](strumenti/LEGGIMI.md)) |
 
 Il motore è quello vero, in Python: nell'app gira dentro il browser con
 [Pyodide](https://pyodide.org) (WebAssembly), incluso nel progetto insieme a
@@ -176,11 +185,12 @@ python giocate.py       # ciò che hanno trovato le partite giocate a mano
 python testo.py         # il testo del motore e della storia come lo distingue l'interfaccia
 python conferme.py      # quali scelte chiedono conferma
 python pulsanti.py      # i sei finali giocati senza tastiera, coi soli pulsanti
+python doppiaggio.py    # ogni testo che il gioco dice ha la sua voce, e il trailer la sua traccia
 python esploratore.py   # 100 partite a caso che cercano i punti in cui il gioco si rompe
 ```
 
-Sono undici ([che cosa fa ciascuno](collaudo/LEGGIMI.md)); `testo.py`, `conferme.py` e `pulsanti.py`
-servono `npm ci --prefix app`. La CI li esegue tutti: l'esploratore in un giro corto (`-n 5 -t 150`) che non
+Sono dodici ([che cosa fa ciascuno](collaudo/LEGGIMI.md)); `testo.py`, `conferme.py`, `pulsanti.py` e
+`doppiaggio.py` servono `npm ci --prefix app`. La CI li esegue tutti: l'esploratore in un giro corto (`-n 5 -t 150`) che non
 blocca, il giro intero (qualche minuto) si lancia a mano. Del processo principale desktop e della data delle
 versioni, che non hanno bisogno di Electron, si occupano `node desktop/prove.cjs` e `node strumenti/prova-data.mjs`.
 
@@ -211,7 +221,22 @@ salva e ricarica. Non pubblica niente.
 
 - **Codice** (app, desktop, collaudo, script): [MIT](LICENSE).
 - **Motore FAVELLA 1** (`motore/`): MIT, © Simone (Pitz72), [motore/LICENSE](motore/LICENSE).
-- **Storia, testi, colonna sonora, icona e grafica**: [CC BY-SA 4.0](LICENSE-CONTENUTI.md).
+- **Storia, testi, colonna sonora, voci del doppiaggio, icona e grafica**: [CC BY-SA 4.0](LICENSE-CONTENUTI.md).
+
+### Le voci
+
+Il doppiaggio è fatto con la sintesi vocale, a partire dai testi del gioco:
+
+| Chi | Servizio | Voce |
+|---|---|---|
+| il narratore (anche le scelte del giocatore e il trailer) | Google Gemini 3.8 Flash TTS | Enzo |
+| la voce di servizio (suggerimenti, numeri delle scorte) | Google Gemini 3.8 Flash TTS | Kira |
+| Nunzio, Saverio, Iole, Rocco, Peppe, Ciro, Pasquale, Concetta, Onofrio, Cosimo | Google Gemini 3.8 Flash TTS | voci della libreria di AI Studio |
+| Imma, Rosaria, Tore, Vito | ElevenLabs Eleven v4 (Victoria, Valeria, Criss, Luigi) | **non distribuite**: generate sul piano gratuito, che non permette l'uso commerciale; nei pacchetti queste battute sono mute finché non si rifanno |
+
+Google non rivendica la proprietà dell'audio generato, che però non è esclusivo; ogni clip porta la filigrana SynthID,
+che non si sente. Chi è stato generato come, e quando, sta in `doppiaggio/voci-scelte.md`; il progetto del doppiaggio in
+[`pre-produzione/08-doppiaggio-tts.md`](pre-produzione/08-doppiaggio-tts.md).
 
 ### Componenti di terze parti
 
