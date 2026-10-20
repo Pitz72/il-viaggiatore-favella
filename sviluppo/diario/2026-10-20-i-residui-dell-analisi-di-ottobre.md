@@ -51,7 +51,7 @@ Dopo la 1.15.0 (pushata, non rilasciata) restavano le cose non bloccanti dell'an
 - Browser (server su 5201, perché la 5200 era occupata da un'altra sessione): ogni scena d'interno vista con lo screenshot, e la dissolvenza reale entrando nel bar giocando; guida e taccuino a 1280×720, a 960×540 e nel menu del trailer; scansione dei contrasti in tutti gli stati e in tutte le zone a zero; errori del timer, del gestore e della promessa nel registro senza schermo d'errore.
 
 ## Questioni aperte
-- La CI non è ancora stata vista sul commit finale: il pacchetto **Linux** con le fuse non è stato provato in locale (lo farà la CI al push).
+- Il pacchetto **Linux** con le fuse non si poteva provare in locale: l'ha provato la CI, sul commit `334f1d0` (collaudo con l'esploratore in giro corto e le prove nuove, pacchetti Windows e Linux costruiti e autoverificati: tutto verde).
 - Non ho provato il taccuino con un lettore di schermo vero: la struttura (un pulsante per scheda, nome da `aria-labelledby`, azioni a parte) è quella giusta, l'ascolto no.
 - Nel desktop un errore non preso della pagina finisce due volte nel registro: dal `console-message` di `main.cjs` e da `annota`. Non fa danno; si può togliere una delle due strade.
 - `app/vite.config.ts` scrive ancora la data della build con `toISOString()` (UTC): è un'altra cosa dalla data del CHANGELOG, non toccata.
