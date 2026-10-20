@@ -3,10 +3,11 @@
 Legge i sorgenti .fav (come mappa-narrativa.py: serve sapere in quale FILE, cioè in quale
 zona, è scritto ogni testo), li spezza nelle PARTI che hanno una voce sola e scrive:
 
-  doppiaggio/blocchi/<zona>-<voce>[-a|-b].txt   il testo da incollare nell'editor di AI Studio:
-                                                una parte per riga, `<long pause>` fra l'una e l'altra
-  doppiaggio/manifest/<zona>.json               per ogni parte: id, voce, testo, da dove viene;
-                                                per ogni testo del gioco: da quali parti si compone
+  doppiaggio/blocchi/<voce>[-a|-b].txt   il testo da incollare nell'editor di AI Studio:
+                                         una parte per riga, `<long pause>` fra l'una e l'altra
+  doppiaggio/manifest.json               per ogni parte: id, voce, testo, da dove viene;
+                                         per ogni testo del gioco: da quali parti si compone;
+                                         per ogni blocco: l'ordine delle parti
 
 Le VOCI sono tre tipi: il narratore (tutto ciò che sta fuori dalle virgolette e dalle
 parentesi, più le frasi scritte: il biglietto, le targhe), la voce di servizio (i suggerimenti
@@ -20,9 +21,14 @@ di voce + testo: se un testo del gioco cambia, cambia l'id e l'audio vecchio si 
 I testi con numeri dentro ([acqua], [cibo]) non si possono registrare interi: si spezzano nei
 pezzi «Hai sette d'acqua,» / «e tre di cibo.» (uno per ogni valore) e il gioco li ricompone.
 
-Uso:  python strumenti/doppiaggio.py stato                 (conti per zona e per voce)
-      python strumenti/doppiaggio.py blocchi z1            (scrive blocchi e manifest della zona)
-      python strumenti/doppiaggio.py blocchi z1 --max-minuti 5
+Si lavora una voce per volta e col minor numero di generazioni (ogni generazione cambia un
+poco la voce): un blocco per voce su TUTTO il gioco, diviso solo quando supera il tetto del
+servizio (circa 11 minuti di audio a richiesta), e dove cambia la zona.
+
+Uso:  python strumenti/doppiaggio.py stato                    (parti, parole e minuti per voce)
+      python strumenti/doppiaggio.py blocchi --voce servizio  (scrive blocchi/servizio.txt e manifest.json)
+      python strumenti/doppiaggio.py blocchi                  (tutte le voci; cancella i blocchi vecchi)
+      python strumenti/doppiaggio.py blocchi --max-minuti 8
 """
 import argparse
 import hashlib
@@ -57,7 +63,9 @@ PAUSA = "<long pause>"
 RITMO = {"narratore": 125, "servizio": 150}
 RITMO_PERSONAGGI = 90
 SECONDI_DI_PAUSA = 1.0  # presunti, per <long pause>: si misurano sul primo blocco vero
-MAX_MINUTI = 6.5  # il tetto del servizio è ~11 minuti a richiesta: si sta larghi, per non perdere righe
+# Il tetto del servizio è ~11 minuti a richiesta (16.384 token a 25 al secondo): si sta larghi, per
+# non perdere righe. La voce di servizio, che è poca, si vuole in una generazione sola (Simone).
+MAX_MINUTI = {"_": 9.0, "servizio": 10.0}
 
 # Le parole scritte in maiuscolo nei testi sono comandi e direzioni: la voce le leggerebbe
 # come enfasi, quindi si abbassano. I nomi dei personaggi tornano con l'iniziale maiuscola.
@@ -221,7 +229,7 @@ def riempi(pezzo):
 
 
 # ---------------------------------------------------------------------------------------
-# 3. Una zona → parti, blocchi, manifest
+# 3. Tutto il gioco → parti, blocchi per voce, manifest
 # ---------------------------------------------------------------------------------------
 
 def impronta(voce, testo):
@@ -246,7 +254,8 @@ def costruisci(zona):
 
     def aggiungi(voce, testo, fonte, extra=None):
         i = impronta(voce, testo)
-        u = unita.setdefault(i, {"voce": voce, "testo": testo, "parole": parole(testo), "fonti": []})
+        u = unita.setdefault(i, {"voce": voce, "zona": zona, "testo": testo,
+                                 "parole": parole(testo), "fonti": []})
         if extra:
             u.update(extra)
         if fonte not in u["fonti"]:
@@ -262,126 +271,187 @@ def costruisci(zona):
                 da_attribuire.append((chiave, t))
             if tipo == "opzione":
                 voce = "servizio"  # le scelte del giocatore le legge la voce di servizio
-            fonte = {"riga": riga, "tipo": tipo, "parte": k}
+            fonte = {"file": nome_file, "riga": riga, "tipo": tipo, "parte": k}
             if "[" in t:
-                pezzi = scomponi_dinamico(t)
                 sotto = []
-                for pz in pezzi:
+                for pz in scomponi_dinamico(t):
                     esito = riempi(pz)
                     if esito is None:
                         dinamici[pz] = chiave
                         sotto.append({"modello": pz, "valori": None})
                         continue
                     valori, nome = esito
-                    ids_v = {}
-                    for v, parlato in valori:
-                        ids_v[v] = aggiungi(voce, parlato, fonte, {"numero": nome})
+                    ids_v = {v: aggiungi(voce, parlato, fonte, {"numero": nome}) for v, parlato in valori}
                     sotto.append({"modello": pz, "segnaposto": nome, "id_per_valore": ids_v})
                 ids.append({"dinamico": sotto})
             else:
                 ids.append(aggiungi(voce, t, fonte))
-        stringhe.append({"riga": riga, "tipo": tipo, "parlante": parlante, "origine": testo, "parti": ids})
+        stringhe.append({"file": nome_file, "riga": riga, "tipo": tipo, "parlante": parlante,
+                         "origine": testo, "parti": ids})
     return {"zona": zona, "file": nome_file, "unita": unita, "stringhe": stringhe,
             "da_attribuire": da_attribuire, "dinamici": dinamici, "scartate": scartate}
 
 
-def dividi(lista, massimo):
-    """Divide una lista di (id, minuti) in blocchi di circa lo stesso peso, sotto il massimo."""
-    totale = sum(p for _, p in lista)
+def costruisci_tutto():
+    """Le nove zone insieme: una parte con lo stesso testo e la stessa voce è una sola, anche
+    se compare in zone diverse («Basta così.», «Torno a vedere cos'hai.»)."""
+    tutto = {"unita": OrderedDict(), "stringhe": [], "da_attribuire": [], "dinamici": OrderedDict()}
+    for zona in ZONE:
+        z = costruisci(zona)
+        for i, u in z["unita"].items():
+            if i in tutto["unita"]:
+                for f in u["fonti"]:
+                    if f not in tutto["unita"][i]["fonti"]:
+                        tutto["unita"][i]["fonti"].append(f)
+            else:
+                tutto["unita"][i] = u
+        tutto["stringhe"] += z["stringhe"]
+        tutto["da_attribuire"] += z["da_attribuire"]
+        tutto["dinamici"].update(z["dinamici"])
+    return tutto
+
+
+def minuti_dei(voce, lista):
+    return sum(minuti_di(voce, u["parole"]) for _, u in lista)
+
+
+def dividi_in_parti_uguali(lista, voce, massimo):
+    """Divide una lista di (id, parte) in blocchi di circa lo stesso peso, sotto il massimo."""
+    totale = minuti_dei(voce, lista)
     n = max(1, math.ceil(totale / massimo))
     bersaglio = totale / n
-    blocchi, corrente, peso = [], [], 0
-    for item in lista:
-        if corrente and peso + item[1] > bersaglio * 1.15 and len(blocchi) < n - 1:
+    blocchi, corrente, peso = [], [], 0.0
+    for i, u in lista:
+        m = minuti_di(voce, u["parole"])
+        if corrente and peso + m > bersaglio * 1.15 and len(blocchi) < n - 1:
             blocchi.append(corrente)
-            corrente, peso = [], 0
-        corrente.append(item)
-        peso += item[1]
+            corrente, peso = [], 0.0
+        corrente.append((i, u))
+        peso += m
     blocchi.append(corrente)
     return blocchi
 
 
-def gruppi_di_blocchi(z, massimo):
-    """{nome_blocco: [id,…]}: un blocco per voce; i numeri della voce di servizio a parte."""
-    per_voce = OrderedDict()
-    for i, u in z["unita"].items():
-        nome = u["voce"] + ("-numeri" if u.get("numero") else "")
-        per_voce.setdefault(nome, []).append((i, minuti_di(u["voce"], u["parole"])))
-    out = OrderedDict()
-    for nome, lista in per_voce.items():
-        parti = dividi(lista, massimo)
-        for k, p in enumerate(parti):
-            suff = "" if len(parti) == 1 else "-" + "abcdefghij"[k]
-            out["%s-%s%s" % (zona_di(z), slug(nome), suff)] = [i for i, _ in p]
-    return out
-
-
-def zona_di(z):
-    return z["zona"]
-
-
-def scrivi(z, massimo):
-    blocchi = gruppi_di_blocchi(z, massimo)
-    os.makedirs(os.path.join(CARTELLA, "blocchi"), exist_ok=True)
-    os.makedirs(os.path.join(CARTELLA, "manifest"), exist_ok=True)
-    for nome, ids in blocchi.items():
-        righe = [z["unita"][i]["testo"] for i in ids]
-        testo = "".join(r + ((" " + PAUSA + "\n") if k < len(righe) - 1 else "\n")
-                        for k, r in enumerate(righe))
-        with open(os.path.join(CARTELLA, "blocchi", nome + ".txt"), "w", encoding="utf-8", newline="\n") as f:
-            f.write(testo)
-    manifest = {
-        "zona": z["zona"], "file": z["file"],
-        "blocchi": {n: {"voce": z["unita"][ids[0]]["voce"], "parti": ids} for n, ids in blocchi.items()},
-        "unita": z["unita"], "stringhe": z["stringhe"],
-        "da_attribuire": z["da_attribuire"],
-        "dinamici_non_scomposti": z["dinamici"],
-    }
-    with open(os.path.join(CARTELLA, "manifest", z["zona"] + ".json"), "w", encoding="utf-8", newline="\n") as f:
-        json.dump(manifest, f, ensure_ascii=False, indent=1)
-        f.write("\n")
+def spezza_in_blocchi(lista, voce, massimo):
+    """Il minor numero di blocchi sotto il massimo, tagliati dove cambia la zona (un taglio
+    fra due generazioni si sente meno al confine di una zona); una zona più lunga del
+    massimo si taglia dentro, in parti uguali."""
+    if minuti_dei(voce, lista) <= massimo:
+        return [lista]
+    per_zona = OrderedDict()
+    for i, u in lista:
+        per_zona.setdefault(u["zona"], []).append((i, u))
+    blocchi, corrente = [], []
+    for g in per_zona.values():
+        m = minuti_dei(voce, g)
+        if m > massimo:
+            if corrente:
+                blocchi.append(corrente)
+                corrente = []
+            blocchi += dividi_in_parti_uguali(g, voce, massimo)
+        elif corrente and minuti_dei(voce, corrente) + m > massimo:
+            blocchi.append(corrente)
+            corrente = list(g)
+        else:
+            corrente += g
+    if corrente:
+        blocchi.append(corrente)
     return blocchi
 
 
-def riepilogo(z, blocchi):
-    per = defaultdict(lambda: [0, 0, 0.0])
-    for u in z["unita"].values():
-        nome = u["voce"] + (" (numeri)" if u.get("numero") else "")
-        per[nome][0] += 1
-        per[nome][1] += u["parole"]
-        per[nome][2] += minuti_di(u["voce"], u["parole"])
-    print("%-8s %-22s %6s %7s %8s" % ("zona", "voce", "parti", "parole", "minuti"))
-    for nome, (n, p, m) in per.items():
-        print("%-8s %-22s %6d %7d %8.1f" % (z["zona"], nome, n, p, m))
-    if blocchi:
-        print("blocchi:", ", ".join("%s(%d)" % (n, len(i)) for n, i in blocchi.items()))
-    if z["da_attribuire"]:
-        print("DA ATTRIBUIRE (frasi tra «» di cui non si sa chi parla):")
-        for k, t in z["da_attribuire"]:
-            print("   ", k, t[:70])
-    if z["dinamici"]:
-        print("dinamici non scomposti:", len(z["dinamici"]))
-        for t, k in list(z["dinamici"].items())[:6]:
+def blocchi_per_voce(unita, massimo=None):
+    """{nome_blocco: [id,…]}: una voce per volta, nell'ordine del gioco. I numeri della voce
+    di servizio vengono dopo i suoi testi fissi."""
+    voci = []
+    for u in unita.values():
+        if u["voce"] != "?" and u["voce"] not in voci:
+            voci.append(u["voce"])
+    voci = ([v for v in ("narratore", "servizio") if v in voci]
+            + [v for v in voci if v not in ("narratore", "servizio")])
+    out = OrderedDict()
+    for voce in voci:
+        lista = [(i, u) for i, u in unita.items() if u["voce"] == voce]
+        if voce == "servizio":
+            lista = ([x for x in lista if not x[1].get("numero")]
+                     + [x for x in lista if x[1].get("numero")])
+        tetto = massimo if massimo else MAX_MINUTI.get(voce, MAX_MINUTI["_"])
+        parti = spezza_in_blocchi(lista, voce, tetto)
+        for k, p in enumerate(parti):
+            suff = "" if len(parti) == 1 else "-" + "abcdefghij"[k]
+            out[slug(voce) + suff] = [i for i, _ in p]
+    return out
+
+
+def durata_blocco(unita, ids):
+    return minuti_dei(unita[ids[0]]["voce"], [(i, unita[i]) for i in ids])
+
+
+def scrivi(tutto, blocchi, solo_voce=None):
+    cartella = os.path.join(CARTELLA, "blocchi")
+    os.makedirs(cartella, exist_ok=True)
+    unita = tutto["unita"]
+    if solo_voce is None:
+        for vecchio in os.listdir(cartella):
+            if vecchio.endswith(".txt"):
+                os.remove(os.path.join(cartella, vecchio))
+    for nome, ids in blocchi.items():
+        if solo_voce and unita[ids[0]]["voce"] != solo_voce:
+            continue
+        righe = [unita[i]["testo"] for i in ids]
+        testo = "".join(r + ((" " + PAUSA + "\n") if k < len(righe) - 1 else "\n")
+                        for k, r in enumerate(righe))
+        with open(os.path.join(cartella, nome + ".txt"), "w", encoding="utf-8", newline="\n") as f:
+            f.write(testo)
+    manifest = {
+        "blocchi": {n: {"voce": unita[ids[0]]["voce"], "minuti_stimati": round(durata_blocco(unita, ids), 1),
+                        "parti": ids} for n, ids in blocchi.items()},
+        "unita": unita, "stringhe": tutto["stringhe"],
+        "da_attribuire": tutto["da_attribuire"],
+        "dinamici_non_scomposti": tutto["dinamici"],
+    }
+    with open(os.path.join(CARTELLA, "manifest.json"), "w", encoding="utf-8", newline="\n") as f:
+        json.dump(manifest, f, ensure_ascii=False, indent=1)
+        f.write("\n")
+
+
+def riepilogo(tutto, blocchi):
+    unita = tutto["unita"]
+    per = OrderedDict()
+    for u in unita.values():
+        r = per.setdefault(u["voce"], [0, 0])
+        r[0] += 1
+        r[1] += u["parole"]
+    print("%-12s %6s %7s %8s  blocchi (minuti stimati)" % ("voce", "parti", "parole", "minuti"))
+    for voce, (n, p) in per.items():
+        lista = [(i, u) for i, u in unita.items() if u["voce"] == voce]
+        mie = [(nome, durata_blocco(unita, ids)) for nome, ids in blocchi.items()
+               if unita[ids[0]]["voce"] == voce]
+        print("%-12s %6d %7d %8.1f  %s" % (voce, n, p, minuti_dei(voce, lista),
+              ", ".join("%s %.1f" % x for x in mie) or "(non si registra: da attribuire)"))
+    for nome, ids in blocchi.items():
+        m = durata_blocco(unita, ids)
+        if m > 9.5:
+            print("ATTENZIONE: %s dura circa %.1f minuti: il tetto del servizio è 10,9 e la stima è incerta" % (nome, m))
+    if tutto["da_attribuire"]:
+        print("DA ATTRIBUIRE: %d frasi tra «» di cui non si sa chi parla" % len(tutto["da_attribuire"]))
+    if tutto["dinamici"]:
+        print("dinamici non scomposti:", len(tutto["dinamici"]))
+        for t, k in list(tutto["dinamici"].items())[:6]:
             print("   ", k, t[:70])
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("comando", choices=["stato", "blocchi"])
-    ap.add_argument("zona", nargs="?", choices=list(ZONE))
-    ap.add_argument("--max-minuti", type=float, default=MAX_MINUTI)
+    ap.add_argument("--voce", help="scrive solo i blocchi di questa voce (servizio, narratore, Nunzio…)")
+    ap.add_argument("--max-minuti", type=float, help="tetto di un blocco, al posto di quello predefinito")
     a = ap.parse_args()
     sys.stdout.reconfigure(encoding="utf-8")
-    if a.comando == "stato":
-        for zona in ([a.zona] if a.zona else ZONE):
-            z = costruisci(zona)
-            riepilogo(z, gruppi_di_blocchi(z, a.max_minuti))
-    else:
-        if not a.zona:
-            ap.error("serve la zona (per esempio z1)")
-        z = costruisci(a.zona)
-        blocchi = scrivi(z, a.max_minuti)
-        riepilogo(z, blocchi)
+    tutto = costruisci_tutto()
+    blocchi = blocchi_per_voce(tutto["unita"], a.max_minuti)
+    if a.comando == "blocchi":
+        scrivi(tutto, blocchi, a.voce)
+    riepilogo(tutto, blocchi)
 
 
 if __name__ == "__main__":

@@ -9,7 +9,7 @@ Le descrizioni sono in inglese perché lo sono gli esempi del servizio («Low, g
 world-weary noir narration»); il parlato resta italiano. Il giocatore non ha voce: le sue
 scelte le legge la voce di servizio.
 
-## Il pilota: tre voci
+## Le prime tre voci (si comincia da Kira)
 
 Scelte provvisorie (prove del 20/10/2026, ore 12:18 e 12:20, nei `master/prove/`):
 
