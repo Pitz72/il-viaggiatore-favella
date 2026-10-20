@@ -6,22 +6,19 @@
 //  DENTRO il palco si renderizza una superficie a RISOLUZIONE FISSA
 //  (1280×720) scalata per riempirlo: così la UI di gioco è un layout
 //  desktop PIXEL-PERFECT a qualunque dimensione, come un emulatore — niente
-//  reflow, niente stack mobile. Tasto schermo intero: Fullscreen API nel
-//  browser, la finestra stessa nella versione desktop (lib/desktop.ts).
+//  reflow, niente stack mobile. Lo schermo intero si sceglie nelle opzioni
+//  o con F11 (il tasto che stava sul palco non c'è più: piano 09, D6).
 // ====================================================================
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import ViaggiatorePlayer from "./ViaggiatorePlayer";
-import { commutaSchermoIntero, statoSchermoIntero } from "../lib/desktop";
 import type { Salvataggio } from "../lib/salvataggi";
 
 const DESIGN_W = 1280;
 const DESIGN_H = 720;
 
 const GameShell = ({ onExit, carica = null }: { onExit: () => void; carica?: Salvataggio | null }) => {
-  const shellRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
-  const [fs, setFs] = useState(false);
 
   // Scala la superficie di design alla larghezza del palco 16:9.
   useLayoutEffect(() => {
@@ -33,21 +30,8 @@ const GameShell = ({ onExit, carica = null }: { onExit: () => void; carica?: Sal
     return () => ro.disconnect();
   }, []);
 
-  useEffect(() => {
-    const sync = () => { statoSchermoIntero().then(setFs); };
-    sync();
-    document.addEventListener("fullscreenchange", sync);
-    window.addEventListener("resize", sync);   // desktop: F11 cambia la finestra
-    return () => {
-      document.removeEventListener("fullscreenchange", sync);
-      window.removeEventListener("resize", sync);
-    };
-  }, []);
-
-  const toggleFs = () => { commutaSchermoIntero(shellRef.current).then(setFs); };
-
   return (
-    <div ref={shellRef} className="relative flex h-full w-full items-center justify-center bg-black">
+    <div className="relative flex h-full w-full items-center justify-center bg-black">
       {/* Palco 16:9: il box più grande che entra nel viewport mantenendo 16/9. */}
       <div
         ref={stageRef}
@@ -64,23 +48,6 @@ const GameShell = ({ onExit, carica = null }: { onExit: () => void; carica?: Sal
         >
           <ViaggiatorePlayer onExit={onExit} carica={carica} />
         </div>
-
-        {/* Controllo fullscreen, in sovrimpressione sul palco. */}
-        <button
-          onClick={toggleFs}
-          title={fs ? "Esci da schermo intero" : "Schermo intero"}
-          className="absolute right-3 top-3 z-30 grid h-9 w-9 place-items-center rounded-lg border border-white/15 bg-favella-void/60 text-favella-text-secondary backdrop-blur-sm transition-colors hover:border-favella-amber hover:text-favella-text-primary"
-        >
-          {fs ? (
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M9 9H5V5M15 9h4V5M9 15H5v4M15 15h4v4" />
-            </svg>
-          ) : (
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />
-            </svg>
-          )}
-        </button>
       </div>
     </div>
   );

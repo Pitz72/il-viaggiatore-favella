@@ -149,8 +149,11 @@ const TAV: Record<Clima, Tavolozza> = {
   },
 };
 
-export default function Panorama({ clima, luogo, camminaDa }: { clima: Clima; luogo: string | null; camminaDa: number }) {
+/** `fermo`: in pausa il disegno si ferma (l'ultimo fotogramma resta) e riprende da dove era. */
+export default function Panorama({ clima, luogo, camminaDa, fermo = false }: { clima: Clima; luogo: string | null; camminaDa: number; fermo?: boolean }) {
   const telaRef = useRef<HTMLCanvasElement>(null);
+  const fermoRef = useRef(fermo);
+  fermoRef.current = fermo;
   const stato = useRef({ fase: 0, off: 0, passo: 0, ultimo: performance.now(), clima, luogo, prec: clima, precLuogo: luogo, mix: 1, camminaDa });
   stato.current.camminaDa = camminaDa;
   // il luogo effettivo di questo momento (in sviluppo si può forzare dalla console: window.__panorama.imposta)
@@ -206,7 +209,11 @@ export default function Panorama({ clima, luogo, camminaDa }: { clima: Clima; lu
         }
       }
     };
-    const passo = (ora: number) => { disegna(ora); raf = requestAnimationFrame(passo); };
+    const passo = (ora: number) => {
+      if (fermoRef.current) stato.current.ultimo = ora;   // fermo: niente disegno, e alla ripresa nessun salto di tempo
+      else disegna(ora);
+      raf = requestAnimationFrame(passo);
+    };
     raf = requestAnimationFrame(passo);
 
     // solo in sviluppo: forzare clima e luogo per guardare ogni scena, e misurare quanto costa un fotogramma

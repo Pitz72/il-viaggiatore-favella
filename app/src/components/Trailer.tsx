@@ -29,6 +29,8 @@ import { piuRecente, type Salvataggio } from "../lib/salvataggi";
 import { etichettaVersione } from "../lib/versione";
 import ComeSiGioca from "../gioco/ComeSiGioca";
 import PannelloOpzioni from "../gioco/Opzioni";
+import VociMenu, { type VoceMenu } from "../gioco/VociMenu";
+import Domanda from "../gioco/Domanda";
 
 // --------------------------------------------------------------------
 //  Testi (cue): tempi, posizione, tipo d'animazione
@@ -244,6 +246,7 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
   const [ultimo, setUltimo] = useState<Salvataggio | null>(null);
   const [guida, setGuida] = useState(false);
   const [opzioniAperte, setOpzioniAperte] = useState(false);
+  const [domandaNuovo, setDomandaNuovo] = useState(false);
   const grana = useMemo(faiGrana, []);
   pixelVeri.current = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
   const ridotto = useMemo(() => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false, []);
@@ -532,12 +535,12 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
   // (tasto o clic) accende anche la musica: i browser non la lasciano partire da sola.
   useEffect(() => {
     const tasto = (e: KeyboardEvent) => {
-      if (taccuino || guida || opzioniAperte) return;   // il taccuino, la guida e le opzioni gestiscono Esc da sé
+      if (taccuino || guida || opzioniAperte || domandaNuovo) return;   // i pannelli gestiscono Esc da sé
       if (e.key === "Escape" && !finito) { e.preventDefault(); salta(); }
     };
     window.addEventListener("keydown", tasto);
     return () => window.removeEventListener("keydown", tasto);
-  }, [finito, salta, guida, taccuino, opzioniAperte]);
+  }, [finito, salta, guida, taccuino, opzioniAperte, domandaNuovo]);
 
   useEffect(() => {
     if (inDesktop()) return;
@@ -559,17 +562,16 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
     cursor: "pointer", border: "1px solid rgba(255,255,255,.2)", background: "rgba(255,255,255,.04)",
     color: "#c9d2de", fontFamily: FONT.mono, fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase", padding: "10px 16px", borderRadius: 999,
   };
-  const pulsantePrincipale: React.CSSProperties = {
-    cursor: "pointer", border: "none", display: "inline-flex", alignItems: "center", gap: 18, borderRadius: 999,
-    padding: "24px 60px", ...display(28, { fontWeight: 700, letterSpacing: "0.01em" }), color: "#140c06", background: "#f0b77e",
-    ["--gl" as string]: "rgba(240,183,126,.55)", animation: "kf-pulse 1.9s ease-in-out infinite",
-  } as React.CSSProperties;
-  const bottone: React.CSSProperties = {
-    // i pulsanti secondari della schermata d'avvio stanno sul prato e sulla strada: più corpo (18 px) e un fondo scuro, per leggersi a 4K
-    cursor: "pointer", border: "1px solid rgba(255,255,255,.36)", background: "rgba(10,8,18,.58)",
-    color: "#e4e9f0", ...mono(18, { letterSpacing: "0.2em" }), padding: "13px 26px", borderRadius: 999,
-    textShadow: "0 1px 2px rgba(0,0,0,.6)",
-  };
+  // le voci del menu d'avvio: «Continua» solo se c'è un viaggio salvato; «Nuovo viaggio» allora chiede conferma (D4)
+  const vociMenu: VoceMenu[] = [
+    ...(ultimo ? [{ id: "continua", etichetta: "Continua il viaggio", dettaglio: `${ultimo.riassunto.luogo} · turno ${ultimo.riassunto.turno}`, principale: true, azione: () => onLaunch(ultimo) }] : []),
+    { id: "nuovo", etichetta: ultimo ? "Nuovo viaggio" : "Inizia il viaggio", principale: !ultimo, azione: () => (ultimo ? setDomandaNuovo(true) : onLaunch(null)) },
+    { id: "carica", etichetta: "Carica un viaggio", azione: () => setTaccuino(true) },
+    { id: "opzioni", etichetta: "Opzioni", azione: () => setOpzioniAperte(true) },
+    { id: "guida", etichetta: "Come si gioca", azione: () => setGuida(true) },
+    { id: "rivedi", etichetta: "Rivedi il trailer", azione: rivedi },
+    ...(inDesktop() ? [{ id: "esci", etichetta: "Esci", azione: esciDalGioco }] : []),
+  ];
 
   return (
     <div style={{ position: "relative", height: "100%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "#000", overflow: "hidden" }}>
@@ -678,33 +680,20 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
           {/* letterbox */}
           <div ref={reg("bandaSu")} style={{ position: "absolute", left: 0, right: 0, top: 0, height: BANDA, background: "#000" }} />
           <div ref={reg("bandaGiu")} style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: BANDA, background: "#000" }} />
-          {/* schermata d'avvio */}
+          {/* il menu d'avvio (piano 09, §4): sull'ultimo fotogramma, sotto il titolo, una colonna di voci */}
           {finito && !compatto && (
-            <section style={{ position: "absolute", left: 0, right: 0, top: 500, textAlign: "center", pointerEvents: "auto", animation: "kf-launch 1.2s ease .3s both" }}>
-              <div style={{ position: "absolute", left: "50%", top: -190, width: 1760, height: 820, transform: "translateX(-50%)", background: "radial-gradient(50% 50% at 50% 50%, rgba(6,5,10,.86) 0%, rgba(6,5,10,.62) 52%, rgba(6,5,10,0) 100%)", pointerEvents: "none", zIndex: -1 }} />
-              <p style={{ margin: 0, ...serif(40, { color: "#f4ece0" }) }}>Si parte a piedi.</p>
-              <p style={{ margin: "22px auto 0", maxWidth: 1000, ...serif(27, { color: "rgba(240,232,218,.88)", lineHeight: 1.5, textShadow: "0 1px 3px rgba(10,6,14,.85), 0 0 16px rgba(10,6,14,.7)" }) }}>
-                Da qui in poi comandi tu: scrivi in italiano o scegli con i pulsanti. Bevi quando hai sete, parla con chi incontri, decidi cosa portare fino a casa.
-              </p>
-              <div style={{ marginTop: 46, display: "flex", justifyContent: "center", alignItems: "center", gap: 22 }}>
-                {ultimo && (
-                  <button onClick={() => onLaunch(ultimo)} style={{ ...pulsantePrincipale, flexDirection: "column", gap: 4, padding: "16px 54px" } as React.CSSProperties}>
-                    <span>Continua il viaggio →</span>
-                    <span style={serif(19, { color: "rgba(20,12,6,.72)", fontWeight: 500 })}>{ultimo.riassunto.luogo} · turno {ultimo.riassunto.turno}</span>
-                  </button>
-                )}
-                <button onClick={() => onLaunch(null)} style={ultimo ? { ...bottone, ...display(24, { fontWeight: 600, letterSpacing: "0.01em" }), textTransform: "none", padding: "22px 40px", color: "#f4ece0", borderColor: "rgba(240,183,126,.45)" } : pulsantePrincipale}>
-                  {ultimo ? "Nuovo viaggio" : <>Inizia il viaggio <span>→</span></>}
-                </button>
-              </div>
-              <div style={{ marginTop: 30, display: "flex", justifyContent: "center", gap: 20 }}>
-                <button onClick={() => setGuida(true)} style={{ ...bottone, color: "#f6c48e", borderColor: "rgba(240,183,126,.72)" }}>? come si gioca</button>
-                <button onClick={() => setTaccuino(true)} style={bottone}>carica</button>
-                <button onClick={rivedi} style={bottone}>↺ rivedi il trailer</button>
-                <button onClick={() => setOpzioniAperte(true)} style={bottone}>⚙ opzioni</button>
-                {inDesktop() && <button onClick={esciDalGioco} style={bottone}>✕ esci</button>}
+            <section style={{ position: "absolute", left: 0, right: 0, top: 492, textAlign: "center", pointerEvents: "auto", animation: "kf-launch 1.2s ease .3s both" }}>
+              <div style={{ position: "absolute", left: "50%", top: -190, width: 1760, height: 860, transform: "translateX(-50%)", background: "radial-gradient(50% 50% at 50% 50%, rgba(6,5,10,.86) 0%, rgba(6,5,10,.62) 52%, rgba(6,5,10,0) 100%)", pointerEvents: "none", zIndex: -1 }} />
+              <p style={{ margin: 0, ...serif(36, { color: "rgba(244,236,224,.94)", fontStyle: "italic", textShadow: "0 1px 3px rgba(10,6,14,.85), 0 0 16px rgba(10,6,14,.7)" }) }}>Si parte a piedi.</p>
+              <div style={{ marginTop: 30, fontSize: 19 }}>
+                <VociMenu voci={vociMenu} etichetta="Menu d'avvio" accento="#f0b77e" coperto={guida || taccuino || opzioniAperte || domandaNuovo} />
               </div>
             </section>
+          )}
+          {finito && !compatto && (
+            <div style={{ position: "absolute", left: 60, bottom: 46, ...mono(14, { color: "rgba(214,224,238,.34)", letterSpacing: "0.14em", textTransform: "none" }) }}>
+              ↑↓ scegli · Invio conferma
+            </div>
           )}
           {finito && !compatto && (
             <div style={{ position: "absolute", right: 60, bottom: 46, ...mono(14, { color: "rgba(214,224,238,.34)", letterSpacing: "0.14em", textTransform: "none" }) }}>
@@ -713,6 +702,12 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
           )}
           {guida && !compatto && <ComeSiGioca base={19} onChiudi={() => setGuida(false)} />}
           {opzioniAperte && !compatto && <PannelloOpzioni base={19} onChiudi={() => setOpzioniAperte(false)} />}
+          {domandaNuovo && !compatto && (
+            <Domanda base={19} domanda="Cominciare un viaggio nuovo?"
+              sotto="I salvataggi del taccuino restano. Il posto automatico si riscriverà al primo cambio di luogo."
+              si="sì, un viaggio nuovo" no="no"
+              onSi={() => { setDomandaNuovo(false); onLaunch(null); }} onNo={() => setDomandaNuovo(false)} />
+          )}
           {taccuino && !compatto && (
             <Taccuino base={19} modo="carica" puoSalvare={false} onCarica={(d) => { setTaccuino(false); onLaunch(d); }} onChiudi={() => setTaccuino(false)} />
           )}

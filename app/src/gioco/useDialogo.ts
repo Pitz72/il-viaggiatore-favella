@@ -6,15 +6,20 @@
 //  chiusura il fuoco torna dov'era (se quel controllo c'è ancora). Con `onEsc`
 //  il tasto Esc chiude il dialogo, dovunque stia il fuoco: l'evento si ferma qui
 //  e non arriva alla partita né al trailer.
+//  Con `sospeso` (vero quando un altro dialogo gli sta sopra, come le opzioni
+//  aperte dalla pausa) il dialogo lascia stare Esc e Tab: li gestisce quello
+//  di sopra, e al ritorno il fuoco è di nuovo qui.
 // ====================================================================
 import { useEffect, useRef } from "react";
 
 const FOCALIZZABILI = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-export function useDialogo<T extends HTMLElement>(onEsc?: () => void) {
+export function useDialogo<T extends HTMLElement>(onEsc?: () => void, sospeso?: () => boolean) {
   const ref = useRef<T>(null);
   const esc = useRef(onEsc);
   esc.current = onEsc;
+  const fermo = useRef(sospeso);
+  fermo.current = sospeso;
 
   useEffect(() => {
     const el = ref.current;
@@ -22,7 +27,7 @@ export function useDialogo<T extends HTMLElement>(onEsc?: () => void) {
     el?.focus({ preventScroll: true });
 
     const tasto = (e: KeyboardEvent) => {
-      if (!el) return;
+      if (!el || fermo.current?.()) return;
       if (e.key === "Escape" && esc.current) { e.preventDefault(); e.stopPropagation(); esc.current(); return; }
       if (e.key !== "Tab") return;
       const dentro = Array.from(el.querySelectorAll<HTMLElement>(FOCALIZZABILI)).filter((x) => x.getClientRects().length > 0);

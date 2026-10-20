@@ -1,0 +1,37 @@
+/* La colonna di voci del menu d'avvio e della pausa (VociMenu.tsx). La voce di adesso (il fuoco) ha il testo pieno e un
+   filo d'accento ai due lati; le altre restano più tenui. Niente riquadro del browser. */
+.mv-voci { display: flex; flex-direction: column; align-items: center; gap: .1em; }
+
+.mv-voce {
+  position: relative; cursor: pointer; background: none; border: none; outline: none;
+  padding: .2em 1.6em; font-family: 'Sora', 'Inter', sans-serif; font-weight: 500; font-size: 1.45em; letter-spacing: .01em;
+  color: rgba(240, 232, 218, .66); text-shadow: 0 1px 3px rgba(10, 6, 14, .85), 0 0 16px rgba(10, 6, 14, .7);
+  transition: color .15s;
+}
+.mv-voce::before,
+.mv-voce::after {
+  content: ""; position: absolute; top: .82em; width: .9em; height: 2px; border-radius: 1px; background: var(--mv-acc);
+  transform: scaleX(0); transition: transform .18s ease-out; box-shadow: 0 0 10px var(--mv-acc);
+}
+.mv-voce::before { left: 0; transform-origin: right; }
+.mv-voce::after { right: 0; transform-origin: left; }
+.mv-voce:focus { color: #fffaf2; }
+.mv-voce:focus::before,
+.mv-voce:focus::after { transform: scaleX(1); }
+
+.mv-principale { font-size: 1.75em; font-weight: 700; color: var(--mv-acc); }
+.mv-principale::before,
+.mv-principale::after { top: .78em; }
+.mv-principale:focus { color: #fff1dc; }
+
+.mv-voce:disabled { cursor: default; opacity: .32; }
+
+.mv-etichetta { display: inline-flex; align-items: baseline; }
+.mv-tasto {
+  margin-left: .8em; font-family: 'Source Code Pro', ui-monospace, monospace; font-weight: 500; font-size: .5em;
+  letter-spacing: .16em; text-transform: uppercase; color: rgba(214, 224, 238, .5);
+}
+.mv-dettaglio {
+  display: block; margin-top: .1em; font-family: 'Lora', Georgia, serif; font-style: italic; font-weight: 400; font-size: .52em;
+  letter-spacing: 0; color: rgba(240, 232, 218, .7);
+}

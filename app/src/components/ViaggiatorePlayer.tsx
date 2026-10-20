@@ -33,6 +33,7 @@ import { analizza, spezza, VOCI, GESTI, type Blocco } from "../gioco/testo";
 import { partiDelBlocco, partiDellaScelta, type Tabella } from "../gioco/parti";
 import { voce, PAUSA_FRASE, PAUSA_RIGA, type Parte } from "../gioco/voce";
 import PannelloOpzioni from "../gioco/Opzioni";
+import Pausa from "../gioco/Pausa";
 import { useOpzioni } from "../lib/useOpzioni";
 import "../gioco/gioco.css";
 
@@ -82,6 +83,9 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
   // motore, i titoli dei luoghi, le parti senza audio) va al lettore di schermo da un'area a parte.
   const [opz] = useOpzioni();
   const [pannelloOpzioni, setPannelloOpzioni] = useState(false);
+  const [pausa, setPausa] = useState(false);
+  // Esc mentre la voce parla la zittisce soltanto: non apre anche la pausa
+  const zittita = useRef(false);
   const [annuncio, setAnnuncio] = useState({ n: 0, testo: "" });
   const tabVoce = useRef<Tabella | null>(null);
   const daDire = useRef<Blocco[] | null>(null);   // il primo testo, se arriva prima dell'indice della voce
@@ -131,6 +135,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     const tasto = (e: KeyboardEvent) => {
       if (e.key === "F2") { e.preventDefault(); if (recitataRef.current) voce.riascolta(); return; }
       if (["Shift", "Control", "Alt", "AltGraph", "Meta", "CapsLock"].includes(e.key)) return;
+      zittita.current = e.key === "Escape" && voce.parla;
       voce.ferma();
     };
     window.addEventListener("keydown", tasto, true);
@@ -162,7 +167,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     return () => { vivo = false; };
   }, []);
 
-  useEffect(() => { if (fase === "gioca" && !finita && !guida && !taccuino && !richiesta && !pannelloOpzioni) inputRef.current?.focus(); }, [fase, finita, guida, taccuino, voci, richiesta, pannelloOpzioni]);
+  useEffect(() => { if (fase === "gioca" && !finita && !guida && !taccuino && !richiesta && !pannelloOpzioni && !pausa) inputRef.current?.focus(); }, [fase, finita, guida, taccuino, voci, richiesta, pannelloOpzioni, pausa]);
   // i verbi che qui e adesso hanno un effetto (attingi, curati, attacca…) cambiano a ogni turno
   useEffect(() => {
     if (fase === "gioca" && sessione.current && !finita) setAzioniCtx(sessione.current.azioni());
@@ -341,6 +346,22 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     return () => window.removeEventListener("keydown", tasto);
   }, [fase, guida, taccuino, finita, pannelloOpzioni]);
 
+  // Esc, nell'ordine: chiude il menu o il pannello aperto; se la voce parlava, la zittisce soltanto (lo fa il tasto qui
+  // sopra); con la riga vuota apre la pausa (piano 09, §5). I dialoghi aperti gestiscono Esc da sé, prima di qui.
+  useEffect(() => {
+    const tasto = (e: KeyboardEvent) => {
+      if (e.key !== "Escape" || e.defaultPrevented) return;
+      if (fase !== "gioca" || pausa || guida || taccuino || richiesta || pannelloOpzioni) return;
+      if (menu || pannello || usaDa) { chiudiPannelli(); return; }
+      if (zittita.current) { zittita.current = false; return; }
+      if (bozza.trim() && document.activeElement === inputRef.current) return;
+      e.preventDefault();
+      setPausa(true);
+    };
+    window.addEventListener("keydown", tasto);
+    return () => window.removeEventListener("keydown", tasto);
+  });
+
   // solo in sviluppo: pilotare la partita dalla console per collaudare l'interfaccia
   useEffect(() => {
     if (!import.meta.env.DEV) return;
@@ -362,7 +383,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
       let i = iStoria.current < 0 ? s.length : iStoria.current;
       i = e.key === "ArrowUp" ? Math.max(0, i - 1) : i + 1;
       if (i >= s.length) { iStoria.current = -1; setBozza(""); } else { iStoria.current = i; setBozza(s[i]); }
-    } else if (e.key === "Escape") chiudiPannelli();
+    }
   };
 
   // ── dati derivati ──────────────────────────────────────────────────
@@ -496,18 +517,15 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     <div className="vg" style={stile}>
       {/* PANORAMA */}
       <header className="vg-panorama">
-        <Panorama clima={clima} luogo={mondo.roomId} camminaDa={camminaDa} />
+        <Panorama clima={clima} luogo={mondo.roomId} camminaDa={camminaDa} fermo={pausa} />
         <div className="vg-panorama-sfuma" />
         <div className="vg-testata">
           <span className="vg-marchio"><b>Il Viaggiatore</b> · {finita ? "fine del viaggio" : `tappa ${Math.max(1, zi + 1)} di 7`}</span>
           <div style={{ display: "flex", gap: 8 }}>
             <button className="vg-bottone vg-piccolo" onClick={() => setTaccuino("salva")} disabled={finita} title="Salva la partita (F5)">salva</button>
             <button className="vg-bottone vg-piccolo" onClick={() => setTaccuino("carica")} title="Carica una partita (F9)">carica</button>
-            <button className="vg-bottone vg-piccolo" onClick={() => setPannelloOpzioni(true)}
-              title="Le opzioni: lo schermo, i volumi, la voce (F2 ridice l'ultimo testo)">⚙ opzioni</button>
-            <button className="vg-bottone vg-piccolo" onClick={() => setGuida(true)}>? come si gioca</button>
-            <button className="vg-bottone vg-piccolo" onClick={esci}>← intro</button>
-            {inDesktop() && <button className="vg-bottone vg-piccolo" onClick={chiudiGioco} title="Chiude il gioco (salva il posto automatico)">✕ esci</button>}
+            <button className="vg-bottone vg-piccolo" onClick={() => setPausa(true)}
+              title="La pausa: le opzioni, la guida, il menu d'avvio, l'uscita (Esc)">☰ pausa <span className="vg-tasto">Esc</span></button>
           </div>
         </div>
         <div className="vg-luogo">
@@ -731,17 +749,28 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
           <p key={annuncio.n}>{annuncio.testo}</p>
         </div>
       )}
+      {pausa && (
+        <Pausa accento={accento} coperta={pannelloOpzioni || guida || !!taccuino} puoSalvare={!finita}
+          onRiprendi={() => setPausa(false)}
+          onSalva={() => setTaccuino("salva")}
+          onCarica={() => setTaccuino("carica")}
+          onOpzioni={() => setPannelloOpzioni(true)}
+          onGuida={() => setGuida(true)}
+          onMenu={esci}
+          onEsci={inDesktop() ? chiudiGioco : undefined} />
+      )}
+      {/* aperti dalla pausa le stanno sopra; chiudendoli il fuoco torna dove era (alla pausa, o alla riga) */}
       {pannelloOpzioni && (
         <PannelloOpzioni base={13} accento={accento}
-          onRiascolta={() => { setPannelloOpzioni(false); voce.riascolta(); }}
-          onChiudi={() => { setPannelloOpzioni(false); inputRef.current?.focus(); }} />
+          onRiascolta={() => { setPannelloOpzioni(false); setPausa(false); voce.riascolta(); }}
+          onChiudi={() => { setPannelloOpzioni(false); if (!pausa) inputRef.current?.focus(); }} />
       )}
-      {guida && <ComeSiGioca base={13} accento={accento} onChiudi={() => { setGuida(false); inputRef.current?.focus(); }} />}
+      {guida && <ComeSiGioca base={13} accento={accento} onChiudi={() => { setGuida(false); if (!pausa) inputRef.current?.focus(); }} />}
       {taccuino && (
         <Taccuino base={13} modo={taccuino} accento={accento} puoSalvare={!finita} avvisaPerdita={nonSalvati > 0 && !finita}
           onSalva={salvaIn}
-          onCarica={(d) => { setTaccuino(null); riprendi(d); }}
-          onChiudi={() => { setTaccuino(null); inputRef.current?.focus(); }} />
+          onCarica={(d) => { setTaccuino(null); setPausa(false); riprendi(d); }}
+          onChiudi={() => { setTaccuino(null); if (!pausa) inputRef.current?.focus(); }} />
       )}
       {richiesta && (
         <Conferma conferma={richiesta.conferma} etichetta={richiesta.etichetta} puoAnnullare={richiesta.annullabile}

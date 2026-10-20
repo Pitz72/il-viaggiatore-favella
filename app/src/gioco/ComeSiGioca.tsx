@@ -30,7 +30,7 @@ const SCHEDE: Scheda[] = [
     testo: "Porti sette cose: la tanica e il biglietto di casa, più cinque a scelta. Quando è piena, lascia ciò che non serve. Alcune cose si usano su altre: tocca una cosa e scegli «usa su…», poi su che cosa. Il gioco non dice quali coppie funzionano: tocca a te provare. Scrivendo è lo stesso.",
     esempi: ["inventario", "lascia la batteria", "usa il coltello sulla mappa"] },
   { titolo: "Leggere il mondo", segno: "M3 12 C6 6 18 6 21 12 C18 18 6 18 3 12 Z M12 9 A3 3 0 1 0 12 15 A3 3 0 1 0 12 9",
-    testo: "Le parole in MAIUSCOLO sono cose con cui fare qualcosa; tra parentesi ci sono i suggerimenti. Se sbagli una mossa, ↶ annulla (o Ctrl+Z) ti riporta indietro. Il racconto ha una voce: un tasto la ferma, F2 la ridice, le «opzioni» la regolano. Sei finali: come arrivi decide quale.",
+    testo: "Le parole in MAIUSCOLO sono cose con cui fare qualcosa; tra parentesi ci sono i suggerimenti. Se sbagli una mossa, ↶ annulla (o Ctrl+Z) ti riporta indietro. Il racconto ha una voce: un tasto la ferma, F2 la ridice, le opzioni la regolano. Esc mette in pausa: da lì le opzioni, questa guida, il menu d'avvio. Sei finali: come arrivi decide quale.",
     esempi: ["annulla"] },
 ];
 
