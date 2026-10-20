@@ -441,7 +441,7 @@ def blocchi_generati(unita):
             continue
         nome = f[:-4]
         gruppo = re.sub(r"-[a-z]$", "", nome)
-        voce = voci.get(gruppo.removesuffix("-scelte"))
+        voce = voci.get(gruppo.removesuffix("-scelte").removesuffix("-trailer"))
         if voce is None:
             continue
         with open(os.path.join(GENERATI, f), encoding="utf-8") as fh:

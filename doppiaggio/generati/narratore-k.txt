@@ -1,0 +1,8 @@
+### ============================================================
+### DA FARE 1 di 2 — NARRATORE — SOLO 1 RIGA DA RIFARE
+### 1 riga, meno di un minuto. Le righe che cominciano con ### non si incollano.
+### USA LA STESSA voce di libreria e la STESSA descrizione del blocco già fatto (narratore-a, narratore-b, narratore-c, narratore-d, narratore-e, narratore-f, narratore-g, narratore-h, narratore-i, narratore-j, narratore-scelte).
+### Descrizione (campo accanto alla voce): A man in his early fifties narrating in Italian. Calm, low-pitched and dry, with a worn, slightly husky warmth. Unhurried pace, with short natural pauses at the end of sentences. Clean standard Italian diction, no regional accent. Sober and understated: he tells you what you are seeing without performing it, never theatrical, never sentimental. A quiet documentary voice walking beside you at dusk.
+### Se sotto ci sono gruppi «### tono — style: …»: un blocco di parlato per gruppo, e nel campo descrizione + « Delivery: <style>.» (il tono «calmo» è quello di base).
+### ============================================================
+L'ho letta.

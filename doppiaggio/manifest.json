@@ -654,6 +654,15 @@
    ],
    "fuori_uso": []
   },
+  "narratore-k": {
+   "voce": "narratore",
+   "generato": true,
+   "minuti_stimati": 0.0,
+   "parti": [
+    "3062fcfe"
+   ],
+   "fuori_uso": []
+  },
   "narratore-scelte": {
    "voce": "narratore",
    "generato": true,
@@ -740,6 +749,47 @@
     "f901dd6e",
     "b9bde258",
     "39d329b1"
+   ],
+   "fuori_uso": []
+  },
+  "narratore-trailer": {
+   "voce": "narratore",
+   "generato": true,
+   "minuti_stimati": 1.5,
+   "parti": [
+    "2dcdbb88",
+    "31012c6f",
+    "aa0ce382",
+    "6353f3dc",
+    "77c0eeab",
+    "74697de4",
+    "64b18afe",
+    "d0432231",
+    "f8179677",
+    "ab14658c",
+    "473d5257",
+    "025735d4",
+    "9d1957cf",
+    "9f872d40",
+    "1e946c1d",
+    "3b68b0bd",
+    "5fb68bd4",
+    "9bda4201",
+    "6ffe5077",
+    "2bdee786",
+    "b55abdc4",
+    "0c1af6b0",
+    "6a0c05f9",
+    "bfccf25c",
+    "07d3cacd",
+    "c9d75ea5",
+    "0b91c6f5",
+    "d94d827e",
+    "b220d308",
+    "25a9b12f",
+    "74fc3f66",
+    "84b4a744",
+    "e837b436"
    ],
    "fuori_uso": []
   },
@@ -1133,54 +1183,6 @@
     "c91edc9b"
    ],
    "fuori_uso": []
-  },
-  "narratore-k": {
-   "voce": "narratore",
-   "generato": false,
-   "minuti_stimati": 0.0,
-   "parti": [
-    "3062fcfe"
-   ]
-  },
-  "narratore-trailer": {
-   "voce": "narratore",
-   "generato": false,
-   "minuti_stimati": 1.5,
-   "parti": [
-    "2dcdbb88",
-    "31012c6f",
-    "aa0ce382",
-    "6353f3dc",
-    "77c0eeab",
-    "74697de4",
-    "64b18afe",
-    "d0432231",
-    "f8179677",
-    "ab14658c",
-    "473d5257",
-    "025735d4",
-    "9d1957cf",
-    "9f872d40",
-    "1e946c1d",
-    "3b68b0bd",
-    "5fb68bd4",
-    "9bda4201",
-    "6ffe5077",
-    "2bdee786",
-    "b55abdc4",
-    "0c1af6b0",
-    "6a0c05f9",
-    "bfccf25c",
-    "07d3cacd",
-    "c9d75ea5",
-    "0b91c6f5",
-    "d94d827e",
-    "b220d308",
-    "25a9b12f",
-    "74fc3f66",
-    "84b4a744",
-    "e837b436"
-   ]
   }
  },
  "unita": {

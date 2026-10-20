@@ -20,12 +20,12 @@
 
 | Voce | Motore | Voce scelta | Audio |
 |---|---|---|---|
-| Narratore + scelte del giocatore | Gemini 3.8 Flash TTS | Enzo | 11 blocchi, 531 parti |
+| Narratore + scelte del giocatore | Gemini 3.8 Flash TTS | Enzo | 12 blocchi, 532 parti |
 | Servizio (suggerimenti, numeri) | Gemini 3.8 Flash TTS | Kira | 1 blocco, 120 parti usate (201 generate) |
 | Nunzio, Saverio, Iole, Rocco, Peppe, Pasquale, Concetta, Onofrio, Cosimo | Gemini | voci di libreria non registrate | 1 blocco ciascuno |
 | Imma, Rosaria, Tore, Vito | ElevenLabs Eleven v4 | Victoria, Valeria, Criss, Luigi | 1 blocco ciascuno, interi |
 | Ciro | Gemini | voce di libreria non registrata | 1 blocco; la prima battuta sembrava spezzata: era un errore di TAGLIO (corretto), non dell'audio |
-| Trailer | Gemini, Enzo | Enzo, narrativo ed enfatico | da generare (33 parti, `doppiaggio/trailer.json`) |
+| Trailer | Gemini | Enzo, narrativo ed enfatico | 33 parti, 85 s (`doppiaggio/trailer.json`), generato e verificato il 20/10 |
 
 Il registro di chi ha detto che cosa è `doppiaggio/voci-scelte.md`. I WAV grezzi e le parti tagliate stanno in `doppiaggio/master/` (fuori da git); i blocchi com'erano quando sono stati letti in `doppiaggio/generati/`.
 
@@ -78,7 +78,7 @@ Il registro di chi ha detto che cosa è `doppiaggio/voci-scelte.md`. I WAV grezz
 6. **Licenza dell'audio di ElevenLabs** sul piano di Simone.
 
 ## 5. Ordine di lavoro
-1. Chiudere la produzione: «L'ho letta.» e il trailer (Gemini, Enzo).
+1. ~~Chiudere la produzione~~ **fatto il 20/10/2026** (28 blocchi su 28 generati, tagliati e verificati; resta da ascoltare «Bevi.» di Kira).
 2. Il banco dell'audio (3.1) e un collaudo che lo verifica.
 3. La riproduzione dei testi statici nel gioco e le impostazioni (3.2), con la voce che si ferma al tasto.
 4. I testi che si compongono (3.3).

@@ -11,7 +11,8 @@ Kira ed Enzo, «Delivery: …» per i personaggi.
 
 | Voce | Voce di libreria | Generato | Nota |
 |---|---|---|---|
-| Narratore (e le scelte del giocatore) | **Enzo** | 20/10, 13:04–13:44 | 11 blocchi; «L'ho letta.» ancora da fare |
+| Narratore (e le scelte del giocatore) | **Enzo** | 20/10, 13:04–13:44 | 11 blocchi; «L'ho letta.» fatta il 20/10 alle 17:11 |
+| Trailer (narrativo ed enfatico) | **Enzo** | 20/10, 17:10, 85 s | 33 parti su 33, tutte verificate; quattro blocchi di parlato per tono (solemn, emphatic, hushed, crisp) |
 | Servizio (suggerimenti e numeri) | **Kira** | 20/10, 12:42–12:45 | l'audio contiene anche 81 scelte di riserva |
 | Nunzio | Riko (dalle prove di mezzogiorno) | 20/10, 14:42 | da confermare |
 | Saverio, Iole, Rocco, Peppe, Ciro, Pasquale, Concetta, Onofrio | non registrata | 20/10, 14:44–15:10 | Simone non ricorda quale voce di libreria |

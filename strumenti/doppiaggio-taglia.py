@@ -69,8 +69,20 @@ def gettoni(testo):
     le cifre diventano parole."""
     out = []
     for g in re.findall(r"[a-zà-ÿ]+|\d+", testo.lower()):
-        out.append(NUMERI[int(g)] if g.isdigit() and int(g) < len(NUMERI) else g)
+        out.append(numero_in_parole(int(g)) if g.isdigit() and int(g) < 100 else g)
     return out
+
+
+def numero_in_parole(n):
+    """Da 0 a 99 in italiano («39» → «trentanove»): whisper scrive i numeri in cifre."""
+    if n < len(NUMERI):
+        return NUMERI[n]
+    decine = ["", "", "venti", "trenta", "quaranta", "cinquanta", "sessanta", "settanta", "ottanta", "novanta"]
+    d, u = divmod(n, 10)
+    base = decine[d]
+    if u in (1, 8):
+        base = base[:-1]  # ventuno, ventotto, trentuno, trentotto…
+    return base + ("" if u == 0 else ("tré" if u == 3 else NUMERI[u]))
 
 
 @lru_cache(maxsize=None)
