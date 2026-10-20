@@ -8,6 +8,19 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.22.0] - 2026-10-20
+
+### Aggiunto
+- **Il trailer con la voce di Enzo** (doppiaggio, fase 4 del piano 08): con la voce recitata il narratore legge i testi
+  del trailer, in modo narrativo ed enfatico, e la musica gli scende sotto (−8 dB) mentre parla. Il trailer è quello di
+  prima: 88,5 s, stessi testi, stessa musica, stesso ordine, Esc per saltarlo; «tuo FRATELLO.» cade sul colpo grave a
+  64,0 s e «Il Viaggiatore.» sul titolo a 82,3 s. Nel finale Enzo legge le cinque regole (un poco più svelte); i numeri e
+  «Un'avventura testuale…» restano solo scritti. La voce è una traccia sola (`public/voce/trailer.opus`, 400 KB) scritta da
+  `strumenti/doppiaggio-trailer.py`, che segue l'orologio della musica; il tasto «audio» la spegne con il resto, e col
+  lettore di schermo non c'è.
+- I video del trailer (`strumenti/esporta-trailer.cjs`) hanno ora la colonna vera, resa offline: musica, rumori e voce
+  (`strumenti/trailer-mix.cjs`, che usa anche `trailer-rumori.cjs`).
+
 ## [1.21.0] - 2026-10-20
 
 ### Aggiunto
