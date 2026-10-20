@@ -21,7 +21,8 @@ in cui è comparsa, in collaudo/esiti/):
   USCITA      un'uscita elencata che rifiuta il passaggio col messaggio generico
   DIALOGO     una conversazione senza nessuna risposta disponibile
   SILENZIO    un comando che non produce nessun testo
-  STALLO      molti turni vivi senza scoprire luoghi nuovi (possibile vicolo cieco)
+  STALLO      molti turni vivi senza scoprire luoghi nuovi (possibile vicolo cieco); da lì si
+              prova con le sole uscite dove si può ancora andare, e il rapporto lo dice
   SINONIMO    due verbi della stessa azione («prendi» / «raccogli») che portano a
               stati diversi (come `favella.py esplora`; è una segnalazione, non un fallimento)
 
@@ -134,7 +135,9 @@ class Esploratore:
             return cand
 
         stanza = m.posizione_giocatore
-        presenti, inv = p.presenti(), p.inventario()
+        # in ordine di nome: la bisaccia è un insieme, e l'ordine in cui lo si scorre cambia a ogni
+        # avvio di Python; senza questo lo stesso seme non darebbe le stesse partite
+        presenti, inv = sorted(p.presenti(), key=_nome), sorted(p.inventario(), key=_nome)
         for d in p.uscite():
             cand.append((d, 2.0))
         for o in presenti:
@@ -310,6 +313,43 @@ def punti_di_partenza():
     return punti
 
 
+def raggiungibili(p):
+    """Da dove si trova la partita, quali luoghi si raggiungono con le uscite? Si prova davvero: ogni
+    uscita è un comando eseguito su una COPIA della partita, con sete, fame e vita rimesse a posto, un
+    po' d'acqua e di cibo nella tanica (qui conta la struttura della mappa, non la sopravvivenza), e in
+    ogni luogo nuovo si prende ciò che si può prendere (un cancello può volere la mappa). Serve a capire
+    uno stallo: se da qui si va in tanti luoghi, il giocatore a caso gira a vuoto ma la strada c'è; se
+    non si va da nessuna parte, può essere un vicolo cieco da guardare a mano. Limiti: non si parla con
+    nessuno (ciò che si apre solo con un dialogo non si vede da qui) e ogni luogo si visita una sola volta
+    (un cancello che si apre con un oggetto raccolto dopo averlo provato non si riprova): il numero è una
+    stima per difetto."""
+    def raccogli(r):
+        for o in r.presenti():
+            if o.prendibile:
+                r.esegui(f"prendi {_nome(o)}")
+        return r
+
+    vista = {p.m.posizione_giocatore}
+    coda = [raccogli(copy.deepcopy(p))]
+    while coda:
+        q = coda.pop()
+        for uscita in q.uscite():
+            r = copy.deepcopy(q)
+            v = r.m.variabili
+            for k, valore in (("sete", 2), ("fame", 2), ("vita", 10)):
+                if isinstance(v.get(k), int):
+                    v[k] = valore
+            for k, minimo in (("acqua", 5), ("cibo", 3)):
+                if isinstance(v.get(k), int):
+                    v[k] = max(v[k], minimo)
+            r.esegui(uscita)
+            s = r.m.posizione_giocatore
+            if r.in_corso and not r.m.dialogo_attivo and s not in vista:
+                vista.add(s)
+                coda.append(raccogli(r))
+    return vista
+
+
 def gioca(partenza, carattere, seme, turni, provati, reg, cop, sinonimi):
     rng = random.Random(seme)
     p = copy.deepcopy(partenza)
@@ -343,7 +383,9 @@ def gioca(partenza, carattere, seme, turni, provati, reg, cop, sinonimi):
         cop["presi"].update(p.m.inventario)
         if (not stallo_segnalato and p.in_corso and not p.m.dialogo_attivo and n - ultimo_nuovo > 150):
             stallo_segnalato = True
-            cop["stalli"].append((carattere, seme, s, ZONE.get(s, "?")))
+            qui = raggiungibili(p)
+            stato = f"{carattere}, seme {seme}: acqua {p.v('acqua')}, cibo {p.v('cibo')}, bisaccia {', '.join(sorted(_nome(o) for o in p.inventario())) or 'vuota'}"
+            cop["stalli"].append((carattere, seme, s, ZONE.get(s, "?"), len(qui), len(qui - visitati_qui), stato))
     esito = p.m.stato_partita
     finale = riga_finale(p.trascrizione()) or (p.m.messaggio_esito or "")
     return p, esito, finale
@@ -417,10 +459,20 @@ def main():
     w("")
     w(f"## Stalli ({len(cop['stalli'])})")
     w("Partite rimaste vive per oltre 150 comandi senza scoprire luoghi nuovi: di solito un "
-      "giocatore che gira a vuoto, a volte un vicolo cieco. Vanno guardate a mano.")
-    per_luogo = collections.Counter((z, s) for _, _, s, z in cop["stalli"])
-    for (z, s), v in per_luogo.most_common(12):
-        w(f"- {v:3d} × {z} · {s}")
+      "giocatore che gira a vuoto, a volte un vicolo cieco. Per ognuna si prova, con le sole uscite, "
+      "dove si può ancora andare: se da lì si raggiungono luoghi mai visti in quella partita, la strada c'è.")
+    per_luogo = collections.defaultdict(list)
+    for _, _, s, z, tutti, nuovi, stato in cop["stalli"]:
+        per_luogo[(z, s)].append((tutti, nuovi, stato))
+    for (z, s), prove in sorted(per_luogo.items(), key=lambda kv: -len(kv[1]))[:12]:
+        nuovi_min = min(n for _, n, _ in prove)
+        esito = ("la strada c'è: da qui si raggiungono altri luoghi" if nuovi_min
+                 else "VICOLO CIECO POSSIBILE: nessun luogo nuovo raggiungibile con le sole uscite")
+        w(f"- {len(prove):3d} × {z} · {s} — {esito} "
+          f"({min(t for t, _, _ in prove)}–{max(t for t, _, _ in prove)} luoghi raggiungibili, "
+          f"{nuovi_min}–{max(n for _, n, _ in prove)} mai visti)")
+        for _, _, stato in prove[:3]:
+            w(f"    · {stato}")
     testo = "\n".join(righe) + "\n"
     os.makedirs(ESITI, exist_ok=True)
     with open(os.path.join(ESITI, "esploratore-rapporto.md"), "w", encoding="utf-8") as f:
