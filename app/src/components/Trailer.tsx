@@ -78,7 +78,7 @@ const CUES: Cue[] = [
   { id: "cinque", da: 49.3, a: 52.4, tipo: "maschera", sfalsa: 0.18, box: centro(420),
     righe: [{ testo: "Cinque modi di stare", stile: serif(78, { color: "#eef2f8" }) }, { testo: "in un mondo che muore.", stile: serif(78, { color: "#eef2f8", fontStyle: "italic" }) }] },
   { id: "guado1", da: 61.8, a: 67.5, tipo: "maschera", box: centro(214), righe: [{ testo: "E al guado, ad aspettarti,", stile: serif(76, { color: "#f6e6e2", textShadow: OMBRA_GUADO }) }] },
-  { id: "guado2", da: 63.7, a: 67.5, tipo: "maschera", box: centro(318), righe: [{ testo: "tuo fratello.", stile: serif(76, { color: "#ffa0a0", fontStyle: "italic", textShadow: OMBRA_GUADO }) }] },
+  { id: "guado2", da: 64.0, a: 67.5, tipo: "maschera", box: centro(318), righe: [{ testo: "tuo fratello.", stile: serif(76, { color: "#ffa0a0", fontStyle: "italic", textShadow: OMBRA_GUADO }) }] },
   ...REGOLE.map((r, i): Cue => ({
     id: "regola" + i, da: 67.8 + i * REGOLA_DUR + 0.06, a: 67.8 + (i + 1) * REGOLA_DUR - 0.04, entra: 0.35, esce: 0.12, tipo: "maschera",
     box: { left: 150, top: 390, width: 980 },
@@ -558,8 +558,10 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
     ["--gl" as string]: "rgba(240,183,126,.55)", animation: "kf-pulse 1.9s ease-in-out infinite",
   } as React.CSSProperties;
   const bottone: React.CSSProperties = {
-    cursor: "pointer", border: "1px solid rgba(255,255,255,.18)", background: "rgba(255,255,255,.03)",
-    color: "#c9d2de", ...mono(15, { letterSpacing: "0.22em" }), padding: "11px 20px", borderRadius: 999,
+    // i pulsanti secondari della schermata d'avvio stanno sul prato e sulla strada: più corpo (18 px) e un fondo scuro, per leggersi a 4K
+    cursor: "pointer", border: "1px solid rgba(255,255,255,.36)", background: "rgba(10,8,18,.58)",
+    color: "#e4e9f0", ...mono(18, { letterSpacing: "0.2em" }), padding: "13px 26px", borderRadius: 999,
+    textShadow: "0 1px 2px rgba(0,0,0,.6)",
   };
 
   return (
@@ -672,9 +674,9 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
           {/* schermata d'avvio */}
           {finito && !compatto && (
             <section style={{ position: "absolute", left: 0, right: 0, top: 500, textAlign: "center", pointerEvents: "auto", animation: "kf-launch 1.2s ease .3s both" }}>
-              <div style={{ position: "absolute", left: "50%", top: -140, width: 1500, height: 720, transform: "translateX(-50%)", background: "radial-gradient(50% 50% at 50% 50%, rgba(6,5,10,.78) 0%, rgba(6,5,10,.5) 50%, rgba(6,5,10,0) 100%)", pointerEvents: "none", zIndex: -1 }} />
+              <div style={{ position: "absolute", left: "50%", top: -190, width: 1760, height: 820, transform: "translateX(-50%)", background: "radial-gradient(50% 50% at 50% 50%, rgba(6,5,10,.86) 0%, rgba(6,5,10,.62) 52%, rgba(6,5,10,0) 100%)", pointerEvents: "none", zIndex: -1 }} />
               <p style={{ margin: 0, ...serif(40, { color: "#f4ece0" }) }}>Si parte a piedi.</p>
-              <p style={{ margin: "22px auto 0", maxWidth: 820, ...serif(27, { color: "rgba(230,222,208,.72)", lineHeight: 1.5 }) }}>
+              <p style={{ margin: "22px auto 0", maxWidth: 1000, ...serif(27, { color: "rgba(240,232,218,.88)", lineHeight: 1.5, textShadow: "0 1px 3px rgba(10,6,14,.85), 0 0 16px rgba(10,6,14,.7)" }) }}>
                 Da qui in poi comandi tu: scrivi in italiano o scegli con i pulsanti. Bevi quando hai sete, parla con chi incontri, decidi cosa portare fino a casa.
               </p>
               <div style={{ marginTop: 46, display: "flex", justifyContent: "center", alignItems: "center", gap: 22 }}>
@@ -688,8 +690,8 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
                   {ultimo ? "Nuovo viaggio" : <>Inizia il viaggio <span>→</span></>}
                 </button>
               </div>
-              <div style={{ marginTop: 30, display: "flex", justifyContent: "center", gap: 18 }}>
-                <button onClick={() => setGuida(true)} style={{ ...bottone, color: "#f0b77e", borderColor: "rgba(240,183,126,.5)" }}>? come si gioca</button>
+              <div style={{ marginTop: 30, display: "flex", justifyContent: "center", gap: 20 }}>
+                <button onClick={() => setGuida(true)} style={{ ...bottone, color: "#f6c48e", borderColor: "rgba(240,183,126,.72)" }}>? come si gioca</button>
                 <button onClick={() => setTaccuino(true)} style={bottone}>carica</button>
                 <button onClick={rivedi} style={bottone}>↺ rivedi il trailer</button>
                 <button onClick={commutaAudio} style={bottone} aria-pressed={audio}>{audio ? "♪ audio sì" : "♪ audio no"}</button>

@@ -208,11 +208,11 @@ export function disegnaGuado(ctx: C2D, t: number, c: Cache) {
   });
 
   // ── il viandante arriva da destra e si ferma
-  const ferma = easeInOut(seg(l, 3.8, 4.6));
+  const ferma = easeInOut(seg(l, 3.6, 4.4));                 // finisce di fermarsi a 64,0, sul colpo grave del brano
   const avanza = l < 4.6 ? l : 4.6;
   const cam = CAMMINATE[3];
   const vx = 1720 - avanza * velocitaSuolo(342, cam.cad, AMP) * 0.95 + ferma * 6;
-  const fase = cam ? faseDiPasso(Math.min(t, 64.2), cam) - 0.25 : 0;
+  const fase = cam ? faseDiPasso(Math.min(t, 64.0), cam) - 0.25 : 0;
   // da fermo il braccio si scosta un poco dal fianco: la tanica pende fuori dal cappotto e si legge anche in controluce
   const optV = { colore: "#08030a", tanica: true, fagotto: true, cappello: true, ampiezza: AMP, fermo: ferma, respiro, braccia: 0.27 } as const;
   ombraVerso(ctx, vx + 24, 900, 342, fase, { ...optV, verso: -1 }, 0.55, 0.32);

@@ -17,10 +17,10 @@ Realismo dolente, non epico. Un uomo torna a piedi in un sud senz'acqua. La musi
 | 9,6–17,6 | Il cammino | Il viandante va verso ovest all'alba. «Un uomo torna a casa. A piedi.» | Tempo lento, passo regolare (circa 63 bpm, il ritmo della camminata). |
 | 17,6 | stacco netto | Primo piano sulle gambe e la tanica | Accento secco sul taglio. |
 | 17,6–25,2 | La Secca | Terra crepata, polvere a ogni passo. Timbro «la secca» a 22,6 s. | Calore, secchezza; il passo diventa più presente. |
-| 25,2–33,4 | L'invaso | Piana di sale, dal giorno alla notte. La domanda: «A cosa stai tornando — e cosa resterà di te quando ci arrivi?» | Si apre, si raffredda. Primo momento di respiro. |
+| 25,2–33,4 | L'invaso | Entra sulla terra con un incrocio vero (24,8–25,6 s). Piana di sale, dal giorno alla notte. La domanda: «A cosa stai tornando — e cosa resterà di te quando ci arrivi?» | Si apre, si raffredda. Primo momento di respiro. |
 | 33,4–49,0 | La mappa | La rotta si disegna tappa dopo tappa, 7 tappe: 35,2 · 36,9 · 38,6 · 40,4 · 42,1 · 43,8 · 45,5 s; arrivo a casa 47,2 s. | Pulsazione ordinata, una nota o un rintocco per tappa. Crescita graduale. |
 | 49,0–59,6 | Chi è rimasto | «Cinque modi di stare in un mondo che muore.» Cinque segni: 52,3 · 52,7 · 53,1 · 53,6 · 54,0 s. | Sospensione, cinque tocchi leggeri. |
-| 59,6–67,8 | Il guado | Controluce cremisi, il viandante si ferma davanti al fratello. «tuo fratello» a 63,7 s. | Punto più alto. Il bordone si incrina (entra un intervallo minore); a 63,7 un colpo grave e poi quasi silenzio. |
+| 59,6–67,8 | Il guado | Controluce cremisi, il viandante si ferma davanti al fratello. «tuo fratello» a 64,0 s. | Punto più alto. Il bordone si incrina (entra un intervallo minore); a 64,0 (il colpo è a 63,99) un colpo grave e poi quasi silenzio. |
 | 67,8–77,0 | Le regole | Montaggio serrato, cinque stacchi: 67,8 · 69,6 · 71,5 · 73,3 · 75,2 s. | Più ritmico, asciutto; un accento per stacco. |
 | 77,0–81,8 | I numeri | 7 tappe · 39 luoghi · 14 personaggi · 6 finali. | Trattenuto, prepara il titolo. |
 | 81,4–88,4 | Il titolo | Di nuovo l'alba; IL VIAGGIATORE a 82,3 s; il letterbox si apre. | Risoluzione calma, non trionfale. Coda lunga, sfumata oltre la fine. |
