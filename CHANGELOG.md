@@ -8,6 +8,24 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.18.1] - 2026-10-20
+
+### Cambiato
+- **Il trailer, la nitidezza a 4K** (durata, ordine, tempi, testi e musica sono quelli di prima):
+  - le tele statiche si dipingono a due pixel per unità di progetto (prima uno, o meno): il tavolo di noce (da 960×540 a
+    1920×1080), i fogli, la busta, il biglietto, la macchia del bicchiere, l'erba, le sagome e la piana dell'alba, la piana
+    di sale dell'invaso, la città e il greto del guado; il costo per fotogramma non cambia (si copiano come prima) e la
+    preparazione passa da 5,2 a 6,3 s, dentro i 12,4 s dei loghi;
+  - su uno schermo 4K la tela del trailer non si ferma più a 2560 px: all'avvio il trailer prova 3840 e poi 3200 px sulle
+    cinque inquadrature più pesanti (le lettere, l'alba, la terra, il guado, il titolo) e tiene la prima larghezza che costa
+    meno di 14 ms a fotogramma (misura a freddo; in pratica 3200 su una RTX 2070); se nessuna regge resta a 2560 e la
+    risoluzione adattiva (1 → 0,75 → 0,5) scatta come sempre; sotto i 2560 px di larghezza non cambia niente;
+  - la luce di contorno del viandante in primo piano segue il risvolto dei pantaloni e la suola (prima faceva i gradini
+    intorno al risvolto).
+- **Per chi sviluppa:** `strumenti/trailer-calibra.cjs` prova la scelta della tela come la farebbe il giocatore;
+  `trailer-cattura.cjs` e `trailer-misura.cjs` hanno `--tetto 3840` per provare il 4K pieno; la piana di sale e la
+  carta usano `campoLento()` per i campi a variazione lenta.
+
 ## [1.18.0] - 2026-10-20
 
 ### Cambiato
