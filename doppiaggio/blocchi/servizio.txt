@@ -4,110 +4,29 @@ Mangia, se hai di che. <long pause>
 Esamina il biglietto per rileggerlo. <long pause>
 Quando il corpo lo chiede: bevi per la sete, mangia per la fame; stato per vederti addosso. <long pause>
 Parla con Nunzio per barattare. <long pause>
-Ti do l'orologio per dell'acqua. <long pause>
-Hai qualcosa da mangiare? <long pause>
-Posso lavorare, per un po' d'acqua? <long pause>
-Da che parte è Acquamorta? <long pause>
-Niente, per ora. <long pause>
-Torno a vedere cos'hai. <long pause>
-Basta così. <long pause>
-Grazie. <long pause>
-Altro. <long pause>
 Parla con Saverio; poi attingi per prendere acqua. <long pause>
 Se sei a secco, attingi: aspettando, il fondo dà ancora un poco. <long pause>
 Col cibo lo puoi distrarre: getta cibo. Oppure attacca il cane. <long pause>
-Ti lascio del cibo. Ne hai più bisogno tu di me. <long pause>
-Mi serve acqua dal pozzo. <long pause>
-Niente. <long pause>
-Capito. <long pause>
 Parla con Iole. <long pause>
 Attingi, se la tanica si svuota. <long pause>
 Volendo, bevi salmastra: Rocco lo fa. <long pause>
-Ti lascio dell'acqua, ne hai bisogno anche tu. <long pause>
-Ti lascio del cibo. <long pause>
-Come si fa a bere, in questo posto? <long pause>
-Perché se n'è andata l'acqua? <long pause>
-E torna? <long pause>
-Mi dispiace. <long pause>
-Quella pozza in fondo sembra più chiara: si beve? <long pause>
-Stai bevendo dalle pozze, vero? <long pause>
-Tieniti il sale. <long pause>
 Attingi. <long pause>
 Parla con Vito; oppure attacca Vito, se proprio. <long pause>
 Parla con Imma. <long pause>
 Con questa in mano, minaccia chi ti sbarra la strada. <long pause>
 Curati. <long pause>
-Ti do la stecca di sigarette. <long pause>
-Ti do la tanica di benzina. <long pause>
-Ti lascio tre d'acqua. <long pause>
-Cosa c'è, oltre il casello? <long pause>
-Torniamo a noi. <long pause>
-Tieni, mangia. <long pause>
-È l'ultimo che ho. Tieni. <long pause>
-Chi sei? <long pause>
-Com'è il paese? <long pause>
-Non posso. Mi dispiace. <long pause>
-Il vicolo di cui parlavi… <long pause>
-Ti lascio stare. <long pause>
-E il casello? <long pause>
 Parla con Peppe. <long pause>
 Parla con Rosaria. <long pause>
 Parla con Ciro per scambiare. <long pause>
 Con le medicine giuste lo si può curare: usa le medicine su Pasquale. Oppure si tira dritto. <long pause>
 Parla con Concetta. <long pause>
-Ti lascio dell'acqua, per l'ospitalità. <long pause>
-Cosa si dice di Acquamorta? <long pause>
-Mi serve salire alle colline. <long pause>
-Niente, grazie. <long pause>
-Chi è quest'uomo? <long pause>
-Scrivile, allora. <long pause>
-Capito. Tornerò. <long pause>
-Erano in due? <long pause>
-Il giocattolo, sul davanzale… <long pause>
-Ti lascio riposare. <long pause>
-Che disgrazia? <long pause>
-È vero. Non l'ho voluto. <long pause>
-Non è così. <long pause>
-Non devo dirti niente. <long pause>
-Vieni con me, allora. <long pause>
-È troppo dura, dove vado. Resta. <long pause>
-La tanica non ha posto: ti do l'orologio per del cibo. <long pause>
-Ti do i cristalli di sale per del cibo. <long pause>
-Vendo l'anello. <long pause>
-Ti do la batteria. <long pause>
-La tanica non ha posto: ti do la batteria per del cibo. <long pause>
-Ti do la borsa di tela. <long pause>
-Ti do le cartucce. <long pause>
-La tanica non ha posto: ti do le cartucce per del cibo. <long pause>
-Ti do il giubbotto. <long pause>
-La tanica non ha posto: ti do la stecca di sigarette per del cibo. <long pause>
-Ho la carta di Vito. <long pause>
-Ti do tre d'acqua per del cibo. <long pause>
-Va bene così. <long pause>
 Parla con Tore. <long pause>
 Parla con Onofrio. <long pause>
 Attingi per riempire la tanica. <long pause>
 Al guado: usa la lettera su Cosimo; col fucile, attacca Cosimo o lascia il fucile. <long pause>
 Al guado: usa la lettera su Cosimo. <long pause>
 Al guado: attacca Cosimo. Oppure posalo: lascia il fucile. <long pause>
-Cosa è successo, ad Acquamorta? <long pause>
-Ti mostro questo cavallo di legno. <long pause>
-Ti mostro questo santino. <long pause>
-Devo passare il guado. <long pause>
-Mi serve il tuo aiuto, per il guado. <long pause>
-Lasciami stare anche tu. <long pause>
-E il biglietto che diceva di non tornare? <long pause>
-Cosa mi dai? <long pause>
-Dammi la lettera. <long pause>
-Dammi il fucile. <long pause>
-Devo pensarci. <long pause>
-Ti do un po' d'acqua per del formaggio. <long pause>
-Chi c'è, al guado? <long pause>
-Il vecchio nella grotta? <long pause>
-Tiro avanti. <long pause>
 Parla con Cosimo. <long pause>
-Non sapevo. Te lo giuro. <long pause>
-Fammi passare, Cosimo. <long pause>
 Per riprenderlo: prendi il fucile. <long pause>
 Aspetta con lui, oppure riprendi il fucile. <long pause>
 Hai zero d'acqua, <long pause>

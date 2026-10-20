@@ -510,9 +510,96 @@
     "817b30b3"
    ]
   },
+  "narratore-scelte": {
+   "voce": "narratore",
+   "minuti_stimati": 4.3,
+   "parti": [
+    "00f4ae8f",
+    "e4730293",
+    "e0af3470",
+    "832e2f54",
+    "e56567e7",
+    "1fa98bf0",
+    "a7aa3a57",
+    "b9965ce7",
+    "bc7f58bf",
+    "566827ca",
+    "e0f05fae",
+    "0a026191",
+    "a1d940a2",
+    "5e92fa46",
+    "d8c134b6",
+    "947f8eb8",
+    "c832954a",
+    "47d32cc5",
+    "6fc13689",
+    "1344662f",
+    "5e4f7abb",
+    "2debd4d4",
+    "f8a0c578",
+    "4274e49b",
+    "71af9f73",
+    "f44331a6",
+    "e2694b4d",
+    "b9118915",
+    "0887d4f6",
+    "39460c75",
+    "a4dd8d6f",
+    "f8030f4d",
+    "9a0a6938",
+    "d14440dd",
+    "60303913",
+    "748a38fa",
+    "8864ac92",
+    "9d49a6e0",
+    "1f802115",
+    "082efb6f",
+    "db26d868",
+    "6b4ec5b3",
+    "fed597b1",
+    "8bd387c7",
+    "c9e3ea51",
+    "8e0abc44",
+    "d2377728",
+    "48076f3b",
+    "d028b32e",
+    "f81ea1e6",
+    "21637f3b",
+    "58a538c6",
+    "7f4eec52",
+    "27811459",
+    "47ea1511",
+    "13d47ba3",
+    "181b93d5",
+    "1c71376e",
+    "93110a32",
+    "bb8b865a",
+    "9bdb559e",
+    "41e89b30",
+    "269a21b5",
+    "b002184e",
+    "50b21271",
+    "f2b9acda",
+    "8e57e89d",
+    "9f09b05a",
+    "5ee74043",
+    "c65fb195",
+    "87af5b5d",
+    "abbe81fa",
+    "360da262",
+    "8e7a04a2",
+    "d1c413dc",
+    "2c0365c8",
+    "df423c40",
+    "8f6bc605",
+    "f901dd6e",
+    "b9bde258",
+    "39d329b1"
+   ]
+  },
   "servizio": {
    "voce": "servizio",
-   "minuti_stimati": 9.4,
+   "minuti_stimati": 5.6,
    "parti": [
     "4884b19c",
     "c2287262",
@@ -520,110 +607,29 @@
     "30d5ba4a",
     "09e2e44d",
     "5fa89eb4",
-    "9e97ab0b",
-    "04bdfc13",
-    "26bb4d42",
-    "7841d83f",
-    "3ea7bcee",
-    "2b4cf6e4",
-    "5538283c",
-    "aad814cc",
-    "efdd10db",
     "d4a65b70",
     "e2828a08",
     "0725357b",
-    "39818126",
-    "6d8ecbbf",
-    "eb00c46c",
-    "c8e2db92",
     "f44223b2",
     "a5bb1bf9",
     "fdfa20e4",
-    "38141d70",
-    "50ce15cd",
-    "0484eb94",
-    "6ac590e9",
-    "433ff485",
-    "af9055e6",
-    "692e926c",
-    "f5660eb1",
-    "9d5bae2b",
     "a3a51dd8",
     "d3dd07ea",
     "9c8da306",
     "a9c13ae6",
     "5cfe6c51",
-    "e7b06b6d",
-    "20a071de",
-    "0fa45c9a",
-    "d1956eac",
-    "a14fce0b",
-    "517c70ca",
-    "afc52890",
-    "321f3e9e",
-    "82416f65",
-    "5e9ea0f0",
-    "e1bf271a",
-    "141b9906",
-    "5d601e27",
     "a7915978",
     "d90c501e",
     "f1674c65",
     "b240613b",
     "f1eb51f2",
-    "f4d440b5",
-    "33bd2a1b",
-    "27c6b792",
-    "90365a4e",
-    "55b53565",
-    "84c7acb7",
-    "007588d3",
-    "b97f5984",
-    "7956ccb3",
-    "ff40804c",
-    "77c82b47",
-    "272b0454",
-    "69155783",
-    "76a8f2af",
-    "fcd163e7",
-    "5b2e47e3",
-    "cc6082e4",
-    "ea98d57e",
-    "e8e8b8a8",
-    "a34a44e2",
-    "bf454c0e",
-    "df0ac20d",
-    "0cc80135",
-    "478a68b0",
-    "4c9a96fa",
-    "b0889ca4",
-    "6042177f",
-    "9835300f",
-    "9169e7bc",
     "57726b8e",
     "fb091bb7",
     "4fbec00b",
     "07ca1662",
     "2b836af5",
     "f7ba7b46",
-    "a5e32139",
-    "b83b8913",
-    "24c383ee",
-    "9fbc6bc3",
-    "9826af1f",
-    "36985f67",
-    "78f4438c",
-    "5b3554c7",
-    "55fad71d",
-    "9402a638",
-    "a36e5f0c",
-    "5259928f",
-    "978576de",
-    "6cbdff5d",
-    "335a22f5",
     "9a89dfed",
-    "eaec0224",
-    "f0c85f91",
     "5b04534c",
     "4b812710",
     "aa96cadd",
@@ -973,7 +979,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ef85cc00": {
    "voce": "narratore",
@@ -987,7 +994,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "452a8ea3": {
    "voce": "narratore",
@@ -1001,7 +1009,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d2d0aa09": {
    "voce": "narratore",
@@ -1015,7 +1024,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "b2cdf2ba": {
    "voce": "narratore",
@@ -1029,7 +1039,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a2e6b204": {
    "voce": "narratore",
@@ -1043,7 +1054,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "6baa6b7e": {
    "voce": "narratore",
@@ -1057,7 +1069,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "9f1b9865": {
    "voce": "narratore",
@@ -1071,7 +1084,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "b247ce08": {
    "voce": "narratore",
@@ -1097,7 +1111,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "3b3a08fe": {
    "voce": "narratore",
@@ -1111,7 +1126,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "161a3140": {
    "voce": "narratore",
@@ -1137,7 +1153,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a53fb02d": {
    "voce": "narratore",
@@ -1151,7 +1168,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "cb08b2a3": {
    "voce": "narratore",
@@ -1165,7 +1183,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "02175924": {
    "voce": "narratore",
@@ -1179,7 +1198,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "70eb7ec0": {
    "voce": "narratore",
@@ -1193,7 +1213,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "570e9767": {
    "voce": "narratore",
@@ -1219,7 +1240,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "2bf6a7a0": {
    "voce": "narratore",
@@ -1233,7 +1255,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "695bc94f": {
    "voce": "narratore",
@@ -1259,7 +1282,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "1a23fd5b": {
    "voce": "narratore",
@@ -1273,7 +1297,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "2b57a88b": {
    "voce": "narratore",
@@ -1287,7 +1312,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "1cdbb7d9": {
    "voce": "narratore",
@@ -1301,7 +1327,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "de35dad2": {
    "voce": "narratore",
@@ -1315,7 +1342,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0cff2892": {
    "voce": "narratore",
@@ -1329,7 +1357,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "fcaa48aa": {
    "voce": "narratore",
@@ -1343,7 +1372,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "3e2670f7": {
    "voce": "narratore",
@@ -1357,7 +1387,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0fb25f91": {
    "voce": "narratore",
@@ -1371,7 +1402,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "4884b19c": {
    "voce": "servizio",
@@ -1385,7 +1417,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "6ce548c6": {
    "voce": "narratore",
@@ -1405,7 +1438,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "b69147a9": {
    "voce": "narratore",
@@ -1425,7 +1459,8 @@
      "tipo": "finale",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ce1b0ecb": {
    "voce": "narratore",
@@ -1439,7 +1474,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c2287262": {
    "voce": "servizio",
@@ -1459,7 +1495,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "20f5df7a": {
    "voce": "narratore",
@@ -1473,7 +1510,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ab6847ea": {
    "voce": "servizio",
@@ -1487,7 +1525,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "d7b7bd64": {
    "voce": "narratore",
@@ -1501,7 +1540,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "79ff0aeb": {
    "voce": "narratore",
@@ -1521,7 +1561,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "4d5fa2eb": {
    "voce": "narratore",
@@ -1541,7 +1582,8 @@
      "tipo": "finale",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "7f0386b9": {
    "voce": "narratore",
@@ -1555,7 +1597,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "af628e7c": {
    "voce": "narratore",
@@ -1569,7 +1612,8 @@
      "tipo": "finale",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "fe33404a": {
    "voce": "narratore",
@@ -1583,7 +1627,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "2be3f859": {
    "voce": "narratore",
@@ -1597,7 +1642,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "7d894896": {
    "voce": "narratore",
@@ -1611,7 +1657,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "8272fe57": {
    "voce": "narratore",
@@ -1625,7 +1672,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "30d5ba4a": {
    "voce": "servizio",
@@ -1639,7 +1687,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "1d131767": {
    "voce": "narratore",
@@ -1653,7 +1702,8 @@
      "tipo": "descrizione",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "09e2e44d": {
    "voce": "servizio",
@@ -1667,7 +1717,8 @@
      "tipo": "descrizione",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "e0980dee": {
    "voce": "narratore",
@@ -1681,7 +1732,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "4f703cc2": {
    "voce": "narratore",
@@ -1695,7 +1747,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "5fa89eb4": {
    "voce": "servizio",
@@ -1709,7 +1762,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "8e192fb7": {
    "voce": "narratore",
@@ -1729,7 +1783,8 @@
      "tipo": "descrizione",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e012d45b": {
    "voce": "narratore",
@@ -1743,7 +1798,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "1a350c2d": {
    "voce": "narratore",
@@ -1757,7 +1813,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "2a30dc35": {
    "voce": "narratore",
@@ -1771,7 +1828,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "464a9fb8": {
    "voce": "narratore",
@@ -1785,7 +1843,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "01cdc9b9": {
    "voce": "narratore",
@@ -1799,7 +1858,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "25de9045": {
    "voce": "narratore",
@@ -1813,7 +1873,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f83a355b": {
    "voce": "narratore",
@@ -1827,7 +1888,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "120355d4": {
    "voce": "narratore",
@@ -1841,7 +1903,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "be770d84": {
    "voce": "narratore",
@@ -1855,7 +1918,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f22e7137": {
    "voce": "narratore",
@@ -1869,7 +1933,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "feb88abe": {
    "voce": "narratore",
@@ -1883,7 +1948,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ad669051": {
    "voce": "narratore",
@@ -1897,7 +1963,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "7d539698": {
    "voce": "narratore",
@@ -1911,7 +1978,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d9116f72": {
    "voce": "narratore",
@@ -1925,7 +1993,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a82f9fef": {
    "voce": "narratore",
@@ -1939,7 +2008,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "af7219f5": {
    "voce": "Nunzio",
@@ -1953,7 +2023,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "aa96cadd": {
    "voce": "servizio",
@@ -1986,7 +2057,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "397d5168": {
    "voce": "servizio",
@@ -2019,7 +2091,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "88158ca5": {
    "voce": "servizio",
@@ -2052,7 +2125,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "44f5d7d8": {
    "voce": "servizio",
@@ -2085,7 +2159,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "427aafce": {
    "voce": "servizio",
@@ -2118,7 +2193,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "2a23a713": {
    "voce": "servizio",
@@ -2151,7 +2227,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "02f2090a": {
    "voce": "servizio",
@@ -2184,7 +2261,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "10f0a9b4": {
    "voce": "servizio",
@@ -2217,7 +2295,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "25e1e876": {
    "voce": "servizio",
@@ -2250,7 +2329,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "3d7656d1": {
    "voce": "servizio",
@@ -2283,7 +2363,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "9104cf3a": {
    "voce": "servizio",
@@ -2316,7 +2397,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "6eaf1410": {
    "voce": "servizio",
@@ -2349,7 +2431,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "eb6269d5": {
    "voce": "servizio",
@@ -2382,7 +2465,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "74932580": {
    "voce": "servizio",
@@ -2415,7 +2499,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "f8c41127": {
    "voce": "servizio",
@@ -2448,7 +2533,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "b1fe04ac": {
    "voce": "servizio",
@@ -2481,7 +2567,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "c10e8175": {
    "voce": "servizio",
@@ -2514,7 +2601,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "c06080ad": {
    "voce": "servizio",
@@ -2547,7 +2635,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "909649c3": {
    "voce": "servizio",
@@ -2580,7 +2669,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "ae2b62d8": {
    "voce": "servizio",
@@ -2613,7 +2703,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "ad9db3d0": {
    "voce": "servizio",
@@ -2646,7 +2737,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "46e753b4": {
    "voce": "servizio",
@@ -2691,7 +2783,8 @@
      "parte": 3
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "bab89a45": {
    "voce": "servizio",
@@ -2736,7 +2829,8 @@
      "parte": 3
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "4ff6d093": {
    "voce": "servizio",
@@ -2781,7 +2875,8 @@
      "parte": 3
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "f4fc3faf": {
    "voce": "servizio",
@@ -2826,7 +2921,8 @@
      "parte": 3
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "61152138": {
    "voce": "servizio",
@@ -2871,7 +2967,8 @@
      "parte": 3
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "84c5ada8": {
    "voce": "servizio",
@@ -2916,7 +3013,8 @@
      "parte": 3
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "d80abea7": {
    "voce": "servizio",
@@ -2961,7 +3059,8 @@
      "parte": 3
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "3ce8a179": {
    "voce": "servizio",
@@ -3006,7 +3105,8 @@
      "parte": 3
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "1dea88cd": {
    "voce": "servizio",
@@ -3051,7 +3151,8 @@
      "parte": 3
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "8045220d": {
    "voce": "servizio",
@@ -3096,7 +3197,8 @@
      "parte": 3
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "52585c9c": {
    "voce": "servizio",
@@ -3141,7 +3243,8 @@
      "parte": 3
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "76b6c13c": {
    "voce": "servizio",
@@ -3186,7 +3289,8 @@
      "parte": 3
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "4b39b23c": {
    "voce": "servizio",
@@ -3231,7 +3335,8 @@
      "parte": 3
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "369411dd": {
    "voce": "Nunzio",
@@ -3245,10 +3350,11 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "9e97ab0b": {
-   "voce": "servizio",
+  "00f4ae8f": {
+   "voce": "narratore",
    "zona": "z1",
    "testo": "Ti do l'orologio per dell'acqua.",
    "parole": 5,
@@ -3265,10 +3371,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "04bdfc13": {
-   "voce": "servizio",
+  "e4730293": {
+   "voce": "narratore",
    "zona": "z1",
    "testo": "Hai qualcosa da mangiare?",
    "parole": 4,
@@ -3279,10 +3386,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "26bb4d42": {
-   "voce": "servizio",
+  "e0af3470": {
+   "voce": "narratore",
    "zona": "z1",
    "testo": "Posso lavorare, per un po' d'acqua?",
    "parole": 6,
@@ -3293,10 +3401,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "7841d83f": {
-   "voce": "servizio",
+  "832e2f54": {
+   "voce": "narratore",
    "zona": "z1",
    "testo": "Da che parte è Acquamorta?",
    "parole": 5,
@@ -3307,10 +3416,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "3ea7bcee": {
-   "voce": "servizio",
+  "e56567e7": {
+   "voce": "narratore",
    "zona": "z1",
    "testo": "Niente, per ora.",
    "parole": 3,
@@ -3339,7 +3449,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "87b0b6d4": {
    "voce": "Nunzio",
@@ -3353,7 +3464,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e96050a5": {
    "voce": "narratore",
@@ -3367,7 +3479,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "11cad964": {
    "voce": "servizio",
@@ -3394,7 +3507,8 @@
      "parte": 1
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "090dbc95": {
    "voce": "servizio",
@@ -3421,7 +3535,8 @@
      "parte": 1
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "547eb7c9": {
    "voce": "servizio",
@@ -3448,7 +3563,8 @@
      "parte": 1
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "e69c8fe2": {
    "voce": "servizio",
@@ -3475,7 +3591,8 @@
      "parte": 1
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "f6c2ab72": {
    "voce": "servizio",
@@ -3502,7 +3619,8 @@
      "parte": 1
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "861a967a": {
    "voce": "servizio",
@@ -3529,7 +3647,8 @@
      "parte": 1
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "41f9c4c0": {
    "voce": "servizio",
@@ -3556,7 +3675,8 @@
      "parte": 1
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "89048c54": {
    "voce": "servizio",
@@ -3583,7 +3703,8 @@
      "parte": 1
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "78a7b647": {
    "voce": "servizio",
@@ -3610,7 +3731,8 @@
      "parte": 1
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "60467537": {
    "voce": "servizio",
@@ -3637,7 +3759,8 @@
      "parte": 1
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "845927d7": {
    "voce": "servizio",
@@ -3664,7 +3787,8 @@
      "parte": 1
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "cff37d9a": {
    "voce": "servizio",
@@ -3691,7 +3815,8 @@
      "parte": 1
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "e8ceaf5e": {
    "voce": "servizio",
@@ -3718,7 +3843,8 @@
      "parte": 1
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "4dac45d1": {
    "voce": "servizio",
@@ -3745,7 +3871,8 @@
      "parte": 1
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "c8229d5f": {
    "voce": "servizio",
@@ -3772,7 +3899,8 @@
      "parte": 1
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "18c29cd0": {
    "voce": "servizio",
@@ -3799,7 +3927,8 @@
      "parte": 1
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "2369f9c3": {
    "voce": "servizio",
@@ -3826,7 +3955,8 @@
      "parte": 1
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "81efc0ff": {
    "voce": "servizio",
@@ -3853,7 +3983,8 @@
      "parte": 1
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "1c05d87d": {
    "voce": "servizio",
@@ -3880,7 +4011,8 @@
      "parte": 1
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "8fd8d43a": {
    "voce": "servizio",
@@ -3907,7 +4039,8 @@
      "parte": 1
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "d19d81d8": {
    "voce": "servizio",
@@ -3934,10 +4067,11 @@
      "parte": 1
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
-  "2b4cf6e4": {
-   "voce": "servizio",
+  "1fa98bf0": {
+   "voce": "narratore",
    "zona": "z1",
    "testo": "Torno a vedere cos'hai.",
    "parole": 4,
@@ -3960,10 +4094,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "5538283c": {
-   "voce": "servizio",
+  "a7aa3a57": {
+   "voce": "narratore",
    "zona": "z1",
    "testo": "Basta così.",
    "parole": 2,
@@ -3998,7 +4133,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "96a4b7a7": {
    "voce": "Nunzio",
@@ -4012,7 +4148,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a674f589": {
    "voce": "servizio",
@@ -4027,7 +4164,8 @@
      "parte": 1
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "f1b8e77f": {
    "voce": "servizio",
@@ -4042,7 +4180,8 @@
      "parte": 1
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "b57aecd2": {
    "voce": "servizio",
@@ -4057,7 +4196,8 @@
      "parte": 1
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "8ffa4d4e": {
    "voce": "servizio",
@@ -4072,7 +4212,8 @@
      "parte": 1
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "a8dd401f": {
    "voce": "servizio",
@@ -4087,7 +4228,8 @@
      "parte": 1
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "c8ac63e0": {
    "voce": "servizio",
@@ -4102,7 +4244,8 @@
      "parte": 1
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "597c3183": {
    "voce": "servizio",
@@ -4117,7 +4260,8 @@
      "parte": 1
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "6dd29c5e": {
    "voce": "servizio",
@@ -4132,7 +4276,8 @@
      "parte": 1
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "854fa91a": {
    "voce": "servizio",
@@ -4147,7 +4292,8 @@
      "parte": 1
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "c7b2a6bd": {
    "voce": "servizio",
@@ -4162,7 +4308,8 @@
      "parte": 1
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "86e54f1c": {
    "voce": "servizio",
@@ -4177,7 +4324,8 @@
      "parte": 1
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "f2dcc00d": {
    "voce": "servizio",
@@ -4192,7 +4340,8 @@
      "parte": 1
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "2a8fee14": {
    "voce": "servizio",
@@ -4207,7 +4356,8 @@
      "parte": 1
     }
    ],
-   "numero": "cibo"
+   "numero": "cibo",
+   "categoria": "numeri"
   },
   "6f3440d8": {
    "voce": "Nunzio",
@@ -4221,7 +4371,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "85f9454f": {
    "voce": "narratore",
@@ -4235,7 +4386,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0e0ab5ba": {
    "voce": "Nunzio",
@@ -4249,7 +4401,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0a5a9e04": {
    "voce": "narratore",
@@ -4263,7 +4416,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "483588b6": {
    "voce": "Nunzio",
@@ -4277,10 +4431,11 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "aad814cc": {
-   "voce": "servizio",
+  "b9965ce7": {
+   "voce": "narratore",
    "zona": "z1",
    "testo": "Grazie.",
    "parole": 1,
@@ -4315,10 +4470,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "efdd10db": {
-   "voce": "servizio",
+  "bc7f58bf": {
+   "voce": "narratore",
    "zona": "z1",
    "testo": "Altro.",
    "parole": 1,
@@ -4341,7 +4497,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "4d977172": {
    "voce": "narratore",
@@ -4355,7 +4512,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c843a6f5": {
    "voce": "narratore",
@@ -4369,7 +4527,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "9cb9b2c5": {
    "voce": "narratore",
@@ -4383,7 +4542,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "911e8c9e": {
    "voce": "narratore",
@@ -4397,7 +4557,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "bff41b59": {
    "voce": "narratore",
@@ -4411,7 +4572,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d4a65b70": {
    "voce": "servizio",
@@ -4425,7 +4587,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "cb127ff5": {
    "voce": "narratore",
@@ -4445,7 +4608,8 @@
      "tipo": "descrizione",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f5d613c4": {
    "voce": "narratore",
@@ -4459,7 +4623,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e2828a08": {
    "voce": "servizio",
@@ -4473,7 +4638,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "21a7aca6": {
    "voce": "narratore",
@@ -4487,7 +4653,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0725357b": {
    "voce": "servizio",
@@ -4501,7 +4668,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "a5e29eec": {
    "voce": "narratore",
@@ -4515,7 +4683,8 @@
      "tipo": "descrizione",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "53e57b23": {
    "voce": "narratore",
@@ -4529,7 +4698,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e8572822": {
    "voce": "narratore",
@@ -4543,7 +4713,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "aa4aa688": {
    "voce": "narratore",
@@ -4557,7 +4728,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "02cbc2a5": {
    "voce": "narratore",
@@ -4571,7 +4743,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "9d277d49": {
    "voce": "narratore",
@@ -4585,7 +4758,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d3692b8d": {
    "voce": "Saverio",
@@ -4599,7 +4773,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "1f093e52": {
    "voce": "narratore",
@@ -4613,7 +4788,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "42d876e0": {
    "voce": "Saverio",
@@ -4627,10 +4803,11 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "39818126": {
-   "voce": "servizio",
+  "566827ca": {
+   "voce": "narratore",
    "zona": "z2",
    "testo": "Ti lascio del cibo. Ne hai più bisogno tu di me.",
    "parole": 11,
@@ -4641,10 +4818,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "6d8ecbbf": {
-   "voce": "servizio",
+  "e0f05fae": {
+   "voce": "narratore",
    "zona": "z2",
    "testo": "Mi serve acqua dal pozzo.",
    "parole": 5,
@@ -4655,10 +4833,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "eb00c46c": {
-   "voce": "servizio",
+  "0a026191": {
+   "voce": "narratore",
    "zona": "z2",
    "testo": "Niente.",
    "parole": 1,
@@ -4669,7 +4848,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "a0f23bdc": {
    "voce": "narratore",
@@ -4683,7 +4863,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "16deb83a": {
    "voce": "Saverio",
@@ -4697,7 +4878,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "26856ef7": {
    "voce": "Saverio",
@@ -4717,7 +4899,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a74b8079": {
    "voce": "narratore",
@@ -4731,7 +4914,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "9b81944a": {
    "voce": "Saverio",
@@ -4745,7 +4929,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "828b478e": {
    "voce": "narratore",
@@ -4759,7 +4944,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "27a7864e": {
    "voce": "Saverio",
@@ -4773,10 +4959,11 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "c8e2db92": {
-   "voce": "servizio",
+  "a1d940a2": {
+   "voce": "narratore",
    "zona": "z2",
    "testo": "Capito.",
    "parole": 1,
@@ -4793,7 +4980,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "1bfb6268": {
    "voce": "narratore",
@@ -4807,7 +4995,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "aca551c8": {
    "voce": "narratore",
@@ -4821,7 +5010,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "db0a6261": {
    "voce": "narratore",
@@ -4835,7 +5025,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "13ccb82f": {
    "voce": "?",
@@ -4849,7 +5040,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0e0492c7": {
    "voce": "narratore",
@@ -4863,7 +5055,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d710f1fb": {
    "voce": "?",
@@ -4877,7 +5070,8 @@
      "tipo": "messaggio",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "1d4b9f23": {
    "voce": "narratore",
@@ -4891,7 +5085,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "824a2268": {
    "voce": "narratore",
@@ -4905,7 +5100,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e501f667": {
    "voce": "narratore",
@@ -4919,7 +5115,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "1d6bf027": {
    "voce": "narratore",
@@ -4933,7 +5130,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d340d859": {
    "voce": "narratore",
@@ -4947,7 +5145,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "53f10fa2": {
    "voce": "narratore",
@@ -4961,7 +5160,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "93831ce6": {
    "voce": "narratore",
@@ -4975,7 +5175,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "3a5e28f3": {
    "voce": "narratore",
@@ -4989,7 +5190,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "b8928c4a": {
    "voce": "narratore",
@@ -5003,7 +5205,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "2eedda6d": {
    "voce": "narratore",
@@ -5017,7 +5220,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "566257c5": {
    "voce": "narratore",
@@ -5031,7 +5235,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "86d4aa55": {
    "voce": "narratore",
@@ -5045,7 +5250,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f985b8ef": {
    "voce": "narratore",
@@ -5059,7 +5265,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "11a46590": {
    "voce": "narratore",
@@ -5073,7 +5280,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "7756ca19": {
    "voce": "narratore",
@@ -5087,7 +5295,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "5c171fdf": {
    "voce": "narratore",
@@ -5101,7 +5310,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f44223b2": {
    "voce": "servizio",
@@ -5121,7 +5331,8 @@
      "tipo": "descrizione",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "b6ff7fdf": {
    "voce": "narratore",
@@ -5141,7 +5352,8 @@
      "tipo": "descrizione",
      "parte": 4
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "af227add": {
    "voce": "narratore",
@@ -5155,7 +5367,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a5bb1bf9": {
    "voce": "servizio",
@@ -5169,7 +5382,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "bca40e56": {
    "voce": "narratore",
@@ -5183,7 +5397,8 @@
      "tipo": "descrizione",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c68e7a74": {
    "voce": "narratore",
@@ -5197,7 +5412,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "b5fdae61": {
    "voce": "narratore",
@@ -5211,7 +5427,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "fdfa20e4": {
    "voce": "servizio",
@@ -5225,7 +5442,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "bb19002a": {
    "voce": "narratore",
@@ -5239,7 +5457,8 @@
      "tipo": "descrizione",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0e1f3fa5": {
    "voce": "narratore",
@@ -5253,7 +5472,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "5d20a340": {
    "voce": "narratore",
@@ -5267,7 +5487,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "680bc499": {
    "voce": "narratore",
@@ -5281,7 +5502,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f0630d1e": {
    "voce": "narratore",
@@ -5295,7 +5517,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "1e0fabad": {
    "voce": "narratore",
@@ -5309,7 +5532,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ae58117a": {
    "voce": "narratore",
@@ -5323,7 +5547,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "1c2498ee": {
    "voce": "narratore",
@@ -5337,7 +5562,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a9eb67c6": {
    "voce": "narratore",
@@ -5351,7 +5577,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a264e105": {
    "voce": "narratore",
@@ -5365,7 +5592,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "858fc531": {
    "voce": "narratore",
@@ -5379,7 +5607,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0d99cfcc": {
    "voce": "narratore",
@@ -5393,7 +5622,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "43c11ac4": {
    "voce": "narratore",
@@ -5407,7 +5637,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "fc1c52ed": {
    "voce": "narratore",
@@ -5421,7 +5652,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "dbcd4f16": {
    "voce": "narratore",
@@ -5435,7 +5667,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "23d8a53e": {
    "voce": "narratore",
@@ -5449,7 +5682,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ebe64b29": {
    "voce": "narratore",
@@ -5463,7 +5697,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f29cdbbc": {
    "voce": "narratore",
@@ -5477,7 +5712,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d031fa0c": {
    "voce": "narratore",
@@ -5491,7 +5727,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f92f98c4": {
    "voce": "narratore",
@@ -5505,7 +5742,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e018c214": {
    "voce": "narratore",
@@ -5519,7 +5757,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "b76aadc2": {
    "voce": "narratore",
@@ -5533,7 +5772,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "08857dd7": {
    "voce": "narratore",
@@ -5547,7 +5787,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f6f15ca5": {
    "voce": "Iole",
@@ -5561,7 +5802,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "2989be10": {
    "voce": "narratore",
@@ -5575,7 +5817,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "7f9bcecb": {
    "voce": "Iole",
@@ -5589,7 +5832,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "6dff4e38": {
    "voce": "Iole",
@@ -5603,7 +5847,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ea8ac988": {
    "voce": "narratore",
@@ -5617,7 +5862,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "826e9e51": {
    "voce": "Iole",
@@ -5631,10 +5877,11 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "38141d70": {
-   "voce": "servizio",
+  "5e92fa46": {
+   "voce": "narratore",
    "zona": "z3",
    "testo": "Ti lascio dell'acqua, ne hai bisogno anche tu.",
    "parole": 8,
@@ -5645,10 +5892,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "50ce15cd": {
-   "voce": "servizio",
+  "d8c134b6": {
+   "voce": "narratore",
    "zona": "z3",
    "testo": "Ti lascio del cibo.",
    "parole": 4,
@@ -5659,10 +5907,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "0484eb94": {
-   "voce": "servizio",
+  "947f8eb8": {
+   "voce": "narratore",
    "zona": "z3",
    "testo": "Come si fa a bere, in questo posto?",
    "parole": 8,
@@ -5673,10 +5922,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "6ac590e9": {
-   "voce": "servizio",
+  "c832954a": {
+   "voce": "narratore",
    "zona": "z3",
    "testo": "Perché se n'è andata l'acqua?",
    "parole": 5,
@@ -5687,7 +5937,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "3e0f1bca": {
    "voce": "narratore",
@@ -5707,7 +5958,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "071b80b7": {
    "voce": "Iole",
@@ -5721,7 +5973,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0e09ff23": {
    "voce": "Iole",
@@ -5735,7 +5988,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a232b87a": {
    "voce": "Iole",
@@ -5749,7 +6003,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "1b4f6625": {
    "voce": "Iole",
@@ -5763,7 +6018,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d9e86a49": {
    "voce": "narratore",
@@ -5777,7 +6033,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "23ea08c7": {
    "voce": "Iole",
@@ -5791,10 +6048,11 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "433ff485": {
-   "voce": "servizio",
+  "47d32cc5": {
+   "voce": "narratore",
    "zona": "z3",
    "testo": "E torna?",
    "parole": 2,
@@ -5805,10 +6063,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "af9055e6": {
-   "voce": "servizio",
+  "6fc13689": {
+   "voce": "narratore",
    "zona": "z3",
    "testo": "Mi dispiace.",
    "parole": 2,
@@ -5819,7 +6078,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "44b665d8": {
    "voce": "Iole",
@@ -5833,7 +6093,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "fb08d298": {
    "voce": "narratore",
@@ -5847,7 +6108,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "77465e37": {
    "voce": "Iole",
@@ -5861,7 +6123,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "34cab241": {
    "voce": "narratore",
@@ -5875,7 +6138,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "4c86df28": {
    "voce": "?",
@@ -5889,7 +6153,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "15fcebad": {
    "voce": "narratore",
@@ -5903,7 +6168,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "bbbf8112": {
    "voce": "narratore",
@@ -5917,7 +6183,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e1059781": {
    "voce": "narratore",
@@ -5931,7 +6198,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "45808edc": {
    "voce": "narratore",
@@ -5945,7 +6213,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "41864957": {
    "voce": "narratore",
@@ -5959,7 +6228,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "6922b178": {
    "voce": "narratore",
@@ -5973,7 +6243,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "df37b075": {
    "voce": "narratore",
@@ -5987,7 +6258,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "47e0eea0": {
    "voce": "narratore",
@@ -6001,7 +6273,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "85877725": {
    "voce": "Rocco",
@@ -6015,7 +6288,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "404bb177": {
    "voce": "narratore",
@@ -6029,7 +6303,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "faab0326": {
    "voce": "Rocco",
@@ -6043,10 +6318,11 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "692e926c": {
-   "voce": "servizio",
+  "1344662f": {
+   "voce": "narratore",
    "zona": "z3",
    "testo": "Quella pozza in fondo sembra più chiara: si beve?",
    "parole": 9,
@@ -6057,10 +6333,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "f5660eb1": {
-   "voce": "servizio",
+  "5e4f7abb": {
+   "voce": "narratore",
    "zona": "z3",
    "testo": "Stai bevendo dalle pozze, vero?",
    "parole": 5,
@@ -6071,10 +6348,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "9d5bae2b": {
-   "voce": "servizio",
+  "2debd4d4": {
+   "voce": "narratore",
    "zona": "z3",
    "testo": "Tieniti il sale.",
    "parole": 3,
@@ -6085,7 +6363,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "783b1e18": {
    "voce": "Rocco",
@@ -6099,7 +6378,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "8abbfb5a": {
    "voce": "narratore",
@@ -6113,7 +6393,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "1ad54bd2": {
    "voce": "Rocco",
@@ -6127,7 +6408,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "cd9d8bc7": {
    "voce": "narratore",
@@ -6141,7 +6423,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "3c3e2e61": {
    "voce": "Rocco",
@@ -6155,7 +6438,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d60594e6": {
    "voce": "narratore",
@@ -6169,7 +6453,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "7c228fa4": {
    "voce": "narratore",
@@ -6183,7 +6468,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "6ad023ff": {
    "voce": "narratore",
@@ -6197,7 +6483,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "7ac4324b": {
    "voce": "narratore",
@@ -6211,7 +6498,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e6fd25dc": {
    "voce": "narratore",
@@ -6225,7 +6513,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "603bea3c": {
    "voce": "narratore",
@@ -6239,7 +6528,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a3a51dd8": {
    "voce": "servizio",
@@ -6253,7 +6543,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "1c0f2483": {
    "voce": "narratore",
@@ -6267,7 +6558,8 @@
      "tipo": "messaggio",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "570de67b": {
    "voce": "narratore",
@@ -6281,7 +6573,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "4bc20ae1": {
    "voce": "narratore",
@@ -6295,7 +6588,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "809b832a": {
    "voce": "narratore",
@@ -6309,7 +6603,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d3dd07ea": {
    "voce": "servizio",
@@ -6323,7 +6618,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "1fdf78f1": {
    "voce": "narratore",
@@ -6337,7 +6633,8 @@
      "tipo": "descrizione",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a71813a0": {
    "voce": "narratore",
@@ -6351,7 +6648,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "1dfb3b82": {
    "voce": "narratore",
@@ -6365,7 +6663,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f193fed0": {
    "voce": "narratore",
@@ -6379,7 +6678,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "bfd7d6c5": {
    "voce": "narratore",
@@ -6393,7 +6693,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d7c8d11f": {
    "voce": "narratore",
@@ -6407,7 +6708,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "53950365": {
    "voce": "narratore",
@@ -6421,7 +6723,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "590871f1": {
    "voce": "narratore",
@@ -6435,7 +6738,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "9c8da306": {
    "voce": "servizio",
@@ -6449,7 +6753,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "5b96b2f9": {
    "voce": "narratore",
@@ -6463,7 +6768,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "3bedc689": {
    "voce": "narratore",
@@ -6477,7 +6783,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c2985a23": {
    "voce": "narratore",
@@ -6491,7 +6798,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f089cd6f": {
    "voce": "narratore",
@@ -6505,7 +6813,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a9c13ae6": {
    "voce": "servizio",
@@ -6519,7 +6828,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "5efbba6f": {
    "voce": "narratore",
@@ -6533,7 +6843,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "47c5eadc": {
    "voce": "narratore",
@@ -6547,7 +6858,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "9358b0ce": {
    "voce": "narratore",
@@ -6561,7 +6873,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "7f313371": {
    "voce": "narratore",
@@ -6575,7 +6888,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "940d65ed": {
    "voce": "narratore",
@@ -6589,7 +6903,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f98fc277": {
    "voce": "narratore",
@@ -6603,7 +6918,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "2616829f": {
    "voce": "narratore",
@@ -6617,7 +6933,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "eef73419": {
    "voce": "narratore",
@@ -6631,7 +6948,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "467931e0": {
    "voce": "narratore",
@@ -6645,7 +6963,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "daf5c2fb": {
    "voce": "narratore",
@@ -6659,7 +6978,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "5cfe6c51": {
    "voce": "servizio",
@@ -6673,7 +6993,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "2f385a49": {
    "voce": "narratore",
@@ -6687,7 +7008,8 @@
      "tipo": "descrizione",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "69319363": {
    "voce": "narratore",
@@ -6701,7 +7023,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "84f01c12": {
    "voce": "narratore",
@@ -6715,7 +7038,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c7e4c73f": {
    "voce": "narratore",
@@ -6729,7 +7053,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "9d7e6812": {
    "voce": "narratore",
@@ -6743,7 +7068,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "53edcc91": {
    "voce": "narratore",
@@ -6757,7 +7083,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "b413c9d2": {
    "voce": "Vito",
@@ -6771,7 +7098,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e6744640": {
    "voce": "narratore",
@@ -6791,7 +7119,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c7f39389": {
    "voce": "Vito",
@@ -6811,7 +7140,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "5de961c7": {
    "voce": "narratore",
@@ -6825,7 +7155,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "bff741b3": {
    "voce": "Vito",
@@ -6839,7 +7170,8 @@
      "tipo": "dialogo",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "cd115ce2": {
    "voce": "narratore",
@@ -6853,7 +7185,8 @@
      "tipo": "dialogo",
      "parte": 4
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "aff0ece4": {
    "voce": "Vito",
@@ -6867,7 +7200,8 @@
      "tipo": "dialogo",
      "parte": 5
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "6c4fec2c": {
    "voce": "narratore",
@@ -6899,7 +7233,8 @@
      "tipo": "messaggio",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ea796111": {
    "voce": "Vito",
@@ -6919,7 +7254,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d691950d": {
    "voce": "Vito",
@@ -6933,7 +7269,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "9b2e3323": {
    "voce": "narratore",
@@ -6947,7 +7284,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a536b9c8": {
    "voce": "Vito",
@@ -6961,7 +7299,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "89dd3162": {
    "voce": "Vito",
@@ -6975,7 +7314,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a704e8cf": {
    "voce": "narratore",
@@ -6989,7 +7329,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "135a15f3": {
    "voce": "Vito",
@@ -7003,7 +7344,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "53dd0bb3": {
    "voce": "Vito",
@@ -7017,10 +7359,11 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "e7b06b6d": {
-   "voce": "servizio",
+  "f8a0c578": {
+   "voce": "narratore",
    "zona": "z4",
    "testo": "Ti do la stecca di sigarette.",
    "parole": 6,
@@ -7037,10 +7380,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "20a071de": {
-   "voce": "servizio",
+  "4274e49b": {
+   "voce": "narratore",
    "zona": "z4",
    "testo": "Ti do la tanica di benzina.",
    "parole": 6,
@@ -7057,10 +7401,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "0fa45c9a": {
-   "voce": "servizio",
+  "71af9f73": {
+   "voce": "narratore",
    "zona": "z4",
    "testo": "Ti lascio tre d'acqua.",
    "parole": 4,
@@ -7071,10 +7416,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "d1956eac": {
-   "voce": "servizio",
+  "f44331a6": {
+   "voce": "narratore",
    "zona": "z4",
    "testo": "Cosa c'è, oltre il casello?",
    "parole": 5,
@@ -7085,7 +7431,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "f90ca7b3": {
    "voce": "narratore",
@@ -7099,7 +7446,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "2fa2de50": {
    "voce": "Vito",
@@ -7113,7 +7461,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d45650ed": {
    "voce": "narratore",
@@ -7127,7 +7476,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "233315bc": {
    "voce": "Vito",
@@ -7141,7 +7491,8 @@
      "tipo": "dialogo",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a7b468a1": {
    "voce": "Vito",
@@ -7155,7 +7506,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "6ca4c1ea": {
    "voce": "narratore",
@@ -7169,7 +7521,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "07b25122": {
    "voce": "Vito",
@@ -7183,7 +7536,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0c07766d": {
    "voce": "Vito",
@@ -7197,7 +7551,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f504080d": {
    "voce": "narratore",
@@ -7211,7 +7566,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "6ac8527f": {
    "voce": "Vito",
@@ -7225,10 +7581,11 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "a14fce0b": {
-   "voce": "servizio",
+  "e2694b4d": {
+   "voce": "narratore",
    "zona": "z4",
    "testo": "Torniamo a noi.",
    "parole": 3,
@@ -7239,7 +7596,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "c6860974": {
    "voce": "narratore",
@@ -7253,7 +7611,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "2041e1be": {
    "voce": "narratore",
@@ -7267,7 +7626,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "36bfcbff": {
    "voce": "narratore",
@@ -7281,7 +7641,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "06883813": {
    "voce": "narratore",
@@ -7295,7 +7656,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0e270ccd": {
    "voce": "narratore",
@@ -7309,7 +7671,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "94ff5082": {
    "voce": "narratore",
@@ -7323,7 +7686,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "47ad1019": {
    "voce": "narratore",
@@ -7337,7 +7701,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e8a11c2a": {
    "voce": "narratore",
@@ -7351,7 +7716,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "da7ee83a": {
    "voce": "narratore",
@@ -7365,7 +7731,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "dae75745": {
    "voce": "narratore",
@@ -7379,7 +7746,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "196164f1": {
    "voce": "?",
@@ -7393,7 +7761,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f33b00f5": {
    "voce": "narratore",
@@ -7407,7 +7776,8 @@
      "tipo": "messaggio",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ae4ffe11": {
    "voce": "narratore",
@@ -7421,7 +7791,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "19b91609": {
    "voce": "?",
@@ -7435,7 +7806,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "7d33a32f": {
    "voce": "narratore",
@@ -7449,7 +7821,8 @@
      "tipo": "messaggio",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d18566d0": {
    "voce": "narratore",
@@ -7463,7 +7836,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "59d1b9b2": {
    "voce": "narratore",
@@ -7477,7 +7851,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "346780c9": {
    "voce": "narratore",
@@ -7491,7 +7866,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "1536d0a6": {
    "voce": "?",
@@ -7505,7 +7881,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "cc6bed7d": {
    "voce": "narratore",
@@ -7519,7 +7896,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c5928019": {
    "voce": "narratore",
@@ -7533,7 +7911,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "2f66e3d5": {
    "voce": "narratore",
@@ -7547,7 +7926,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "9d4794b2": {
    "voce": "narratore",
@@ -7561,7 +7941,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "92963560": {
    "voce": "narratore",
@@ -7575,7 +7956,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "89e0664b": {
    "voce": "narratore",
@@ -7589,7 +7971,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "115e1b9c": {
    "voce": "Imma",
@@ -7603,7 +7986,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "13616540": {
    "voce": "Imma",
@@ -7617,7 +8001,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "160db4bb": {
    "voce": "narratore",
@@ -7631,7 +8016,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f9b9321f": {
    "voce": "narratore",
@@ -7645,7 +8031,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a00095aa": {
    "voce": "Imma",
@@ -7659,7 +8046,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "08bc928e": {
    "voce": "narratore",
@@ -7673,7 +8061,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "3d29bfab": {
    "voce": "narratore",
@@ -7693,7 +8082,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "77218536": {
    "voce": "Imma",
@@ -7713,7 +8103,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "6b494f9a": {
    "voce": "narratore",
@@ -7727,7 +8118,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ae5b5c3b": {
    "voce": "Imma",
@@ -7741,7 +8133,8 @@
      "tipo": "dialogo",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "6aecf376": {
    "voce": "narratore",
@@ -7755,7 +8148,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a798c283": {
    "voce": "Imma",
@@ -7769,10 +8163,11 @@
      "tipo": "dialogo",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "517c70ca": {
-   "voce": "servizio",
+  "b9118915": {
+   "voce": "narratore",
    "zona": "z4",
    "testo": "Tieni, mangia.",
    "parole": 2,
@@ -7783,10 +8178,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "afc52890": {
-   "voce": "servizio",
+  "0887d4f6": {
+   "voce": "narratore",
    "zona": "z4",
    "testo": "È l'ultimo che ho. Tieni.",
    "parole": 5,
@@ -7797,10 +8193,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "321f3e9e": {
-   "voce": "servizio",
+  "39460c75": {
+   "voce": "narratore",
    "zona": "z4",
    "testo": "Chi sei?",
    "parole": 2,
@@ -7811,10 +8208,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "82416f65": {
-   "voce": "servizio",
+  "a4dd8d6f": {
+   "voce": "narratore",
    "zona": "z4",
    "testo": "Com'è il paese?",
    "parole": 3,
@@ -7825,10 +8223,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "5e9ea0f0": {
-   "voce": "servizio",
+  "f8030f4d": {
+   "voce": "narratore",
    "zona": "z4",
    "testo": "Non posso. Mi dispiace.",
    "parole": 4,
@@ -7839,10 +8238,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "e1bf271a": {
-   "voce": "servizio",
+  "9a0a6938": {
+   "voce": "narratore",
    "zona": "z4",
    "testo": "Il vicolo di cui parlavi…",
    "parole": 5,
@@ -7853,10 +8253,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "141b9906": {
-   "voce": "servizio",
+  "d14440dd": {
+   "voce": "narratore",
    "zona": "z4",
    "testo": "Ti lascio stare.",
    "parole": 3,
@@ -7867,7 +8268,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "b6a35a53": {
    "voce": "narratore",
@@ -7881,7 +8283,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "8787b11e": {
    "voce": "Imma",
@@ -7901,7 +8304,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "6154f068": {
    "voce": "narratore",
@@ -7915,7 +8319,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ee71086c": {
    "voce": "Imma",
@@ -7929,7 +8334,8 @@
      "tipo": "dialogo",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "2bff8144": {
    "voce": "narratore",
@@ -7943,7 +8349,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "9631b60e": {
    "voce": "narratore",
@@ -7957,7 +8364,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "db708b79": {
    "voce": "Imma",
@@ -7971,7 +8379,8 @@
      "tipo": "dialogo",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "fe65f3db": {
    "voce": "Imma",
@@ -7985,7 +8394,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "cfe1b543": {
    "voce": "narratore",
@@ -7999,7 +8409,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "09d2fea0": {
    "voce": "Imma",
@@ -8013,7 +8424,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "08d61f2d": {
    "voce": "narratore",
@@ -8027,7 +8439,8 @@
      "tipo": "dialogo",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "7adaa04e": {
    "voce": "Imma",
@@ -8041,7 +8454,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "078d9674": {
    "voce": "narratore",
@@ -8055,7 +8469,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "01aa56ba": {
    "voce": "Imma",
@@ -8069,7 +8484,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ad331b11": {
    "voce": "narratore",
@@ -8083,7 +8499,8 @@
      "tipo": "dialogo",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "14a39599": {
    "voce": "Imma",
@@ -8097,10 +8514,11 @@
      "tipo": "dialogo",
      "parte": 4
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "5d601e27": {
-   "voce": "servizio",
+  "60303913": {
+   "voce": "narratore",
    "zona": "z4",
    "testo": "E il casello?",
    "parole": 3,
@@ -8111,7 +8529,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "ca64783f": {
    "voce": "Imma",
@@ -8125,7 +8544,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "6eb72382": {
    "voce": "narratore",
@@ -8139,7 +8559,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "7c2bc16c": {
    "voce": "Imma",
@@ -8153,7 +8574,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c0e792d2": {
    "voce": "Imma",
@@ -8167,7 +8589,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "bbfb084e": {
    "voce": "narratore",
@@ -8181,7 +8604,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "6fda15c2": {
    "voce": "Imma",
@@ -8195,7 +8619,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "05f32a56": {
    "voce": "Imma",
@@ -8209,7 +8634,8 @@
      "tipo": "dialogo",
      "parte": 4
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "96f2491b": {
    "voce": "Imma",
@@ -8223,7 +8649,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "be56215e": {
    "voce": "narratore",
@@ -8237,7 +8664,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c9db0fe8": {
    "voce": "Imma",
@@ -8251,7 +8679,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "8c4306b3": {
    "voce": "narratore",
@@ -8265,7 +8694,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ae3d82a2": {
    "voce": "narratore",
@@ -8279,7 +8709,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "5bf07d1b": {
    "voce": "narratore",
@@ -8293,7 +8724,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a7915978": {
    "voce": "servizio",
@@ -8307,7 +8739,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "21abf75e": {
    "voce": "narratore",
@@ -8321,7 +8754,8 @@
      "tipo": "descrizione",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "667d29f4": {
    "voce": "narratore",
@@ -8335,7 +8769,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d42a8dc1": {
    "voce": "narratore",
@@ -8349,7 +8784,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "859bc5f2": {
    "voce": "narratore",
@@ -8363,7 +8799,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d90c501e": {
    "voce": "servizio",
@@ -8383,7 +8820,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "ab5574b3": {
    "voce": "narratore",
@@ -8403,7 +8841,8 @@
      "tipo": "descrizione",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "407c6e8f": {
    "voce": "narratore",
@@ -8417,7 +8856,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "54c04442": {
    "voce": "narratore",
@@ -8431,7 +8871,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f1674c65": {
    "voce": "servizio",
@@ -8445,7 +8886,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "c252c77a": {
    "voce": "narratore",
@@ -8459,7 +8901,8 @@
      "tipo": "descrizione",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "71030c5f": {
    "voce": "narratore",
@@ -8473,7 +8916,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "b240613b": {
    "voce": "servizio",
@@ -8487,7 +8931,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "ad68c63b": {
    "voce": "narratore",
@@ -8501,7 +8946,8 @@
      "tipo": "descrizione",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "b43df4a3": {
    "voce": "narratore",
@@ -8515,7 +8961,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "663afdaa": {
    "voce": "narratore",
@@ -8529,7 +8976,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f1eb51f2": {
    "voce": "servizio",
@@ -8543,7 +8991,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "c38b9370": {
    "voce": "narratore",
@@ -8557,7 +9006,8 @@
      "tipo": "descrizione",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c9b00b81": {
    "voce": "narratore",
@@ -8571,7 +9021,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "8433b3d4": {
    "voce": "narratore",
@@ -8585,7 +9036,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "54d83097": {
    "voce": "narratore",
@@ -8599,7 +9051,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c649a178": {
    "voce": "narratore",
@@ -8613,7 +9066,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "3dc22401": {
    "voce": "narratore",
@@ -8627,7 +9081,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "8f12036a": {
    "voce": "narratore",
@@ -8641,7 +9096,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "44d6ea52": {
    "voce": "narratore",
@@ -8655,7 +9111,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "4cb12f51": {
    "voce": "narratore",
@@ -8669,7 +9126,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c3e4e174": {
    "voce": "Rosaria",
@@ -8683,7 +9141,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c1ea3eb3": {
    "voce": "narratore",
@@ -8697,7 +9156,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c0a4eb0a": {
    "voce": "Rosaria",
@@ -8717,7 +9177,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0c8639fe": {
    "voce": "narratore",
@@ -8731,7 +9192,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "86492b9e": {
    "voce": "Rosaria",
@@ -8745,7 +9207,8 @@
      "tipo": "dialogo",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "6b17ce00": {
    "voce": "narratore",
@@ -8759,7 +9222,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "46461b22": {
    "voce": "narratore",
@@ -8773,7 +9237,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "88377b4f": {
    "voce": "Rosaria",
@@ -8787,7 +9252,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "1861c935": {
    "voce": "Rosaria",
@@ -8801,7 +9267,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "822b3d01": {
    "voce": "narratore",
@@ -8815,10 +9282,11 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "f4d440b5": {
-   "voce": "servizio",
+  "748a38fa": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Ti lascio dell'acqua, per l'ospitalità.",
    "parole": 5,
@@ -8829,10 +9297,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "33bd2a1b": {
-   "voce": "servizio",
+  "8864ac92": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Cosa si dice di Acquamorta?",
    "parole": 5,
@@ -8843,10 +9312,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "27c6b792": {
-   "voce": "servizio",
+  "9d49a6e0": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Mi serve salire alle colline.",
    "parole": 5,
@@ -8857,10 +9327,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "90365a4e": {
-   "voce": "servizio",
+  "1f802115": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Niente, grazie.",
    "parole": 2,
@@ -8871,7 +9342,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "56d85161": {
    "voce": "narratore",
@@ -8885,7 +9357,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "3f7a1418": {
    "voce": "narratore",
@@ -8899,7 +9372,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "53aa3875": {
    "voce": "Rosaria",
@@ -8913,7 +9387,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0a5c3086": {
    "voce": "narratore",
@@ -8927,7 +9402,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "1c6fc8fe": {
    "voce": "Rosaria",
@@ -8941,10 +9417,11 @@
      "tipo": "dialogo",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "55b53565": {
-   "voce": "servizio",
+  "082efb6f": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Chi è quest'uomo?",
    "parole": 3,
@@ -8955,7 +9432,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "041a0963": {
    "voce": "Rosaria",
@@ -8969,7 +9447,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "7c15d9b0": {
    "voce": "narratore",
@@ -8983,7 +9462,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "5c07dd21": {
    "voce": "Rosaria",
@@ -8997,7 +9477,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a7dbd261": {
    "voce": "Rosaria",
@@ -9011,7 +9492,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "7a43f44f": {
    "voce": "Rosaria",
@@ -9025,10 +9507,11 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "84c7acb7": {
-   "voce": "servizio",
+  "db26d868": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Scrivile, allora.",
    "parole": 2,
@@ -9039,10 +9522,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "007588d3": {
-   "voce": "servizio",
+  "6b4ec5b3": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Capito. Tornerò.",
    "parole": 2,
@@ -9053,7 +9537,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "8516cee5": {
    "voce": "narratore",
@@ -9067,7 +9552,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "93bfa0d0": {
    "voce": "Rosaria",
@@ -9081,7 +9567,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "96940f8e": {
    "voce": "narratore",
@@ -9095,7 +9582,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "142244a7": {
    "voce": "Rosaria",
@@ -9109,7 +9597,8 @@
      "tipo": "dialogo",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f5ed5e7d": {
    "voce": "narratore",
@@ -9123,7 +9612,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "6477a3e1": {
    "voce": "?",
@@ -9137,7 +9627,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "6cfd6324": {
    "voce": "narratore",
@@ -9151,7 +9642,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ceb4d7f5": {
    "voce": "narratore",
@@ -9165,7 +9657,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f4dba8cc": {
    "voce": "narratore",
@@ -9179,7 +9672,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "8f8ac852": {
    "voce": "?",
@@ -9193,7 +9687,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "80c258ce": {
    "voce": "narratore",
@@ -9207,7 +9702,8 @@
      "tipo": "messaggio",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "880cee94": {
    "voce": "narratore",
@@ -9221,7 +9717,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e6102f2a": {
    "voce": "?",
@@ -9235,7 +9732,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "2ae27d8e": {
    "voce": "narratore",
@@ -9249,7 +9747,8 @@
      "tipo": "messaggio",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "7fabc135": {
    "voce": "narratore",
@@ -9263,7 +9762,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a4750d58": {
    "voce": "narratore",
@@ -9277,7 +9777,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "66397ec5": {
    "voce": "narratore",
@@ -9291,7 +9792,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "8229108e": {
    "voce": "Concetta",
@@ -9305,7 +9807,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d6fe5c2b": {
    "voce": "narratore",
@@ -9319,7 +9822,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "44c56127": {
    "voce": "Concetta",
@@ -9333,10 +9837,11 @@
      "tipo": "dialogo",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "b97f5984": {
-   "voce": "servizio",
+  "fed597b1": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Erano in due?",
    "parole": 3,
@@ -9347,10 +9852,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "7956ccb3": {
-   "voce": "servizio",
+  "8bd387c7": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Il giocattolo, sul davanzale…",
    "parole": 4,
@@ -9361,10 +9867,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "ff40804c": {
-   "voce": "servizio",
+  "c9e3ea51": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Ti lascio riposare.",
    "parole": 3,
@@ -9375,7 +9882,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "02259fa6": {
    "voce": "Concetta",
@@ -9389,7 +9897,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e9413837": {
    "voce": "narratore",
@@ -9403,7 +9912,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "3e5c2e65": {
    "voce": "Concetta",
@@ -9417,10 +9927,11 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "77c82b47": {
-   "voce": "servizio",
+  "8e0abc44": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Che disgrazia?",
    "parole": 2,
@@ -9431,7 +9942,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "b49da965": {
    "voce": "narratore",
@@ -9445,7 +9957,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "87001611": {
    "voce": "Concetta",
@@ -9459,7 +9972,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "3980e870": {
    "voce": "narratore",
@@ -9473,7 +9987,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f53de897": {
    "voce": "Concetta",
@@ -9487,7 +10002,8 @@
      "tipo": "dialogo",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "cc0ea5ff": {
    "voce": "Concetta",
@@ -9501,7 +10017,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "39ec03fe": {
    "voce": "narratore",
@@ -9515,7 +10032,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ab069e93": {
    "voce": "Concetta",
@@ -9529,7 +10047,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c85dc2e7": {
    "voce": "narratore",
@@ -9543,7 +10062,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d3a230c5": {
    "voce": "narratore",
@@ -9557,7 +10077,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e602b094": {
    "voce": "Pasquale",
@@ -9571,7 +10092,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "7ae04ed2": {
    "voce": "narratore",
@@ -9585,7 +10107,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e0a78c87": {
    "voce": "Pasquale",
@@ -9599,7 +10122,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "34803803": {
    "voce": "Pasquale",
@@ -9613,7 +10137,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ba04bcee": {
    "voce": "narratore",
@@ -9627,7 +10152,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "4fbd3660": {
    "voce": "Pasquale",
@@ -9641,7 +10167,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "96c3d203": {
    "voce": "narratore",
@@ -9655,7 +10182,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "146bbd9a": {
    "voce": "narratore",
@@ -9669,7 +10197,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a2c06d3d": {
    "voce": "narratore",
@@ -9683,7 +10212,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "8461166f": {
    "voce": "narratore",
@@ -9697,7 +10227,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "2d378623": {
    "voce": "narratore",
@@ -9711,7 +10242,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f88bc4ce": {
    "voce": "Peppe",
@@ -9725,7 +10257,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "9daf0ea7": {
    "voce": "narratore",
@@ -9739,7 +10272,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "8ed1c71a": {
    "voce": "Peppe",
@@ -9753,7 +10287,8 @@
      "tipo": "dialogo",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "7bb49317": {
    "voce": "Peppe",
@@ -9767,7 +10302,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "b7edbffc": {
    "voce": "narratore",
@@ -9781,7 +10317,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "6ae4d014": {
    "voce": "Peppe",
@@ -9795,7 +10332,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "bc016b42": {
    "voce": "Peppe",
@@ -9809,7 +10347,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "4b1372c6": {
    "voce": "narratore",
@@ -9823,7 +10362,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "24768861": {
    "voce": "narratore",
@@ -9837,7 +10377,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d41b19ee": {
    "voce": "Peppe",
@@ -9851,10 +10392,11 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "272b0454": {
-   "voce": "servizio",
+  "d2377728": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "È vero. Non l'ho voluto.",
    "parole": 5,
@@ -9865,10 +10407,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "69155783": {
-   "voce": "servizio",
+  "48076f3b": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Non è così.",
    "parole": 3,
@@ -9879,10 +10422,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "76a8f2af": {
-   "voce": "servizio",
+  "d028b32e": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Non devo dirti niente.",
    "parole": 4,
@@ -9893,10 +10437,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "fcd163e7": {
-   "voce": "servizio",
+  "f81ea1e6": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Vieni con me, allora.",
    "parole": 4,
@@ -9907,10 +10452,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "5b2e47e3": {
-   "voce": "servizio",
+  "21637f3b": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "È troppo dura, dove vado. Resta.",
    "parole": 6,
@@ -9921,7 +10467,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "a9b5d44d": {
    "voce": "narratore",
@@ -9935,7 +10482,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "3c783442": {
    "voce": "Peppe",
@@ -9949,7 +10497,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "29af2cfe": {
    "voce": "narratore",
@@ -9963,7 +10512,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "5336eebf": {
    "voce": "Peppe",
@@ -9977,7 +10527,8 @@
      "tipo": "dialogo",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "792aa5ff": {
    "voce": "Peppe",
@@ -9991,7 +10542,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "974f6957": {
    "voce": "narratore",
@@ -10005,7 +10557,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "3a796f0a": {
    "voce": "Peppe",
@@ -10019,7 +10572,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "242ecef1": {
    "voce": "narratore",
@@ -10033,7 +10587,8 @@
      "tipo": "dialogo",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "de123c68": {
    "voce": "narratore",
@@ -10047,7 +10602,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "3c8ba63f": {
    "voce": "Peppe",
@@ -10061,7 +10617,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ca0249ff": {
    "voce": "narratore",
@@ -10075,7 +10632,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ebe191ab": {
    "voce": "narratore",
@@ -10089,7 +10647,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a0a7f7d9": {
    "voce": "Peppe",
@@ -10103,7 +10662,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "7c60434f": {
    "voce": "narratore",
@@ -10117,7 +10677,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "64d5d182": {
    "voce": "Peppe",
@@ -10131,7 +10692,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d833ebd8": {
    "voce": "narratore",
@@ -10145,7 +10707,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d4281a86": {
    "voce": "narratore",
@@ -10159,7 +10722,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "027fca8c": {
    "voce": "narratore",
@@ -10173,7 +10737,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "21953438": {
    "voce": "narratore",
@@ -10187,7 +10752,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "dd0fa491": {
    "voce": "narratore",
@@ -10201,7 +10767,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "85cbe0f0": {
    "voce": "narratore",
@@ -10215,7 +10782,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "b8bee090": {
    "voce": "Ciro",
@@ -10229,7 +10797,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "01609c64": {
    "voce": "Ciro",
@@ -10243,7 +10812,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c0a685cc": {
    "voce": "narratore",
@@ -10257,7 +10827,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f6af42cb": {
    "voce": "Ciro",
@@ -10271,10 +10842,11 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "cc6082e4": {
-   "voce": "servizio",
+  "58a538c6": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "La tanica non ha posto: ti do l'orologio per del cibo.",
    "parole": 11,
@@ -10285,10 +10857,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "ea98d57e": {
-   "voce": "servizio",
+  "7f4eec52": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Ti do i cristalli di sale per del cibo.",
    "parole": 9,
@@ -10299,10 +10872,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "e8e8b8a8": {
-   "voce": "servizio",
+  "27811459": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Vendo l'anello.",
    "parole": 2,
@@ -10313,10 +10887,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "a34a44e2": {
-   "voce": "servizio",
+  "47ea1511": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Ti do la batteria.",
    "parole": 4,
@@ -10327,10 +10902,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "bf454c0e": {
-   "voce": "servizio",
+  "13d47ba3": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "La tanica non ha posto: ti do la batteria per del cibo.",
    "parole": 12,
@@ -10341,10 +10917,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "df0ac20d": {
-   "voce": "servizio",
+  "181b93d5": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Ti do la borsa di tela.",
    "parole": 6,
@@ -10355,10 +10932,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "0cc80135": {
-   "voce": "servizio",
+  "1c71376e": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Ti do le cartucce.",
    "parole": 4,
@@ -10369,10 +10947,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "478a68b0": {
-   "voce": "servizio",
+  "93110a32": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "La tanica non ha posto: ti do le cartucce per del cibo.",
    "parole": 12,
@@ -10383,10 +10962,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "4c9a96fa": {
-   "voce": "servizio",
+  "bb8b865a": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Ti do il giubbotto.",
    "parole": 4,
@@ -10397,10 +10977,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "b0889ca4": {
-   "voce": "servizio",
+  "9bdb559e": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "La tanica non ha posto: ti do la stecca di sigarette per del cibo.",
    "parole": 14,
@@ -10411,10 +10992,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "6042177f": {
-   "voce": "servizio",
+  "41e89b30": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Ho la carta di Vito.",
    "parole": 5,
@@ -10425,10 +11007,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "9835300f": {
-   "voce": "servizio",
+  "269a21b5": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Ti do tre d'acqua per del cibo.",
    "parole": 7,
@@ -10439,7 +11022,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "7ad2b6bd": {
    "voce": "Ciro",
@@ -10453,7 +11037,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "99326404": {
    "voce": "narratore",
@@ -10467,7 +11052,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c1135ec9": {
    "voce": "servizio",
@@ -10488,7 +11074,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "cda05c36": {
    "voce": "servizio",
@@ -10509,7 +11096,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "92a079e8": {
    "voce": "servizio",
@@ -10530,7 +11118,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "6863a8b2": {
    "voce": "servizio",
@@ -10551,7 +11140,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "0a76e709": {
    "voce": "servizio",
@@ -10572,7 +11162,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "eb72848f": {
    "voce": "servizio",
@@ -10593,7 +11184,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "20ca3b01": {
    "voce": "servizio",
@@ -10614,7 +11206,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "6d07eef0": {
    "voce": "servizio",
@@ -10635,7 +11228,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "c9a1d26b": {
    "voce": "servizio",
@@ -10656,7 +11250,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "eb68d89b": {
    "voce": "servizio",
@@ -10677,7 +11272,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "7b7d0269": {
    "voce": "servizio",
@@ -10698,7 +11294,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "c3e24102": {
    "voce": "servizio",
@@ -10719,7 +11316,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "c8a57d16": {
    "voce": "servizio",
@@ -10740,7 +11338,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "179d163a": {
    "voce": "servizio",
@@ -10761,7 +11360,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "72d568d8": {
    "voce": "servizio",
@@ -10782,7 +11382,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "7eccaab9": {
    "voce": "servizio",
@@ -10803,7 +11404,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "9fc441c5": {
    "voce": "servizio",
@@ -10824,7 +11426,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "b8487f25": {
    "voce": "servizio",
@@ -10845,7 +11448,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "41511a15": {
    "voce": "servizio",
@@ -10866,7 +11470,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "b45519bf": {
    "voce": "servizio",
@@ -10887,7 +11492,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "05187a55": {
    "voce": "servizio",
@@ -10908,7 +11514,8 @@
      "parte": 3
     }
    ],
-   "numero": "acqua"
+   "numero": "acqua",
+   "categoria": "numeri"
   },
   "30d2dc87": {
    "voce": "narratore",
@@ -10922,10 +11529,11 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "9169e7bc": {
-   "voce": "servizio",
+  "b002184e": {
+   "voce": "narratore",
    "zona": "z5",
    "testo": "Va bene così.",
    "parole": 3,
@@ -10936,7 +11544,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "4f559a95": {
    "voce": "Ciro",
@@ -10950,7 +11559,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d1d97a17": {
    "voce": "narratore",
@@ -10964,7 +11574,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c910b9c2": {
    "voce": "Ciro",
@@ -10978,7 +11589,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a4d2db21": {
    "voce": "narratore",
@@ -10992,7 +11604,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0755db4e": {
    "voce": "?",
@@ -11006,7 +11619,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f76ca29c": {
    "voce": "narratore",
@@ -11020,7 +11634,8 @@
      "tipo": "messaggio",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "9270078b": {
    "voce": "?",
@@ -11034,7 +11649,8 @@
      "tipo": "messaggio",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "5866e388": {
    "voce": "narratore",
@@ -11048,7 +11664,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d4ea767b": {
    "voce": "?",
@@ -11062,7 +11679,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "06d9c72b": {
    "voce": "narratore",
@@ -11076,7 +11694,8 @@
      "tipo": "messaggio",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "aa99b147": {
    "voce": "?",
@@ -11090,7 +11709,8 @@
      "tipo": "messaggio",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "67ae110a": {
    "voce": "narratore",
@@ -11104,7 +11724,8 @@
      "tipo": "messaggio",
      "parte": 4
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "6db13ed4": {
    "voce": "?",
@@ -11118,7 +11739,8 @@
      "tipo": "messaggio",
      "parte": 5
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "58dca477": {
    "voce": "narratore",
@@ -11132,7 +11754,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "5d581a83": {
    "voce": "narratore",
@@ -11146,7 +11769,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a95b7cba": {
    "voce": "narratore",
@@ -11160,7 +11784,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "57726b8e": {
    "voce": "servizio",
@@ -11174,7 +11799,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "59de1702": {
    "voce": "narratore",
@@ -11188,7 +11814,8 @@
      "tipo": "descrizione",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "fd988420": {
    "voce": "narratore",
@@ -11202,7 +11829,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "fb091bb7": {
    "voce": "servizio",
@@ -11216,7 +11844,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "b28041c5": {
    "voce": "narratore",
@@ -11230,7 +11859,8 @@
      "tipo": "descrizione",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0ce9d3e7": {
    "voce": "narratore",
@@ -11244,7 +11874,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "4fbec00b": {
    "voce": "servizio",
@@ -11258,7 +11889,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "c6ea3f07": {
    "voce": "narratore",
@@ -11272,7 +11904,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f32e63ba": {
    "voce": "narratore",
@@ -11286,7 +11919,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "07ca1662": {
    "voce": "servizio",
@@ -11300,7 +11934,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "000cc46c": {
    "voce": "narratore",
@@ -11314,7 +11949,8 @@
      "tipo": "descrizione",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e296a8d1": {
    "voce": "narratore",
@@ -11328,7 +11964,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e02300b6": {
    "voce": "narratore",
@@ -11342,7 +11979,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d1354ae0": {
    "voce": "narratore",
@@ -11356,7 +11994,8 @@
      "tipo": "posto",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "bcf68570": {
    "voce": "narratore",
@@ -11370,7 +12009,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "389bdc36": {
    "voce": "narratore",
@@ -11384,7 +12024,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "2b836af5": {
    "voce": "servizio",
@@ -11398,7 +12039,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "9763db76": {
    "voce": "narratore",
@@ -11412,7 +12054,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f7ba7b46": {
    "voce": "servizio",
@@ -11426,7 +12069,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "0e84dcca": {
    "voce": "narratore",
@@ -11440,7 +12084,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "8dfad650": {
    "voce": "narratore",
@@ -11454,7 +12099,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "535dce07": {
    "voce": "Onofrio",
@@ -11468,7 +12114,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "619da0fb": {
    "voce": "Onofrio",
@@ -11482,7 +12129,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "2bbdd65b": {
    "voce": "narratore",
@@ -11496,7 +12144,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0f8a2b97": {
    "voce": "Onofrio",
@@ -11510,10 +12159,11 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "a5e32139": {
-   "voce": "servizio",
+  "50b21271": {
+   "voce": "narratore",
    "zona": "z6",
    "testo": "Cosa è successo, ad Acquamorta?",
    "parole": 5,
@@ -11524,10 +12174,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "b83b8913": {
-   "voce": "servizio",
+  "f2b9acda": {
+   "voce": "narratore",
    "zona": "z6",
    "testo": "Ti mostro questo cavallo di legno.",
    "parole": 6,
@@ -11538,10 +12189,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "24c383ee": {
-   "voce": "servizio",
+  "8e57e89d": {
+   "voce": "narratore",
    "zona": "z6",
    "testo": "Ti mostro questo santino.",
    "parole": 4,
@@ -11552,10 +12204,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "9fbc6bc3": {
-   "voce": "servizio",
+  "9f09b05a": {
+   "voce": "narratore",
    "zona": "z6",
    "testo": "Devo passare il guado.",
    "parole": 4,
@@ -11566,10 +12219,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "9826af1f": {
-   "voce": "servizio",
+  "5ee74043": {
+   "voce": "narratore",
    "zona": "z6",
    "testo": "Mi serve il tuo aiuto, per il guado.",
    "parole": 8,
@@ -11580,10 +12234,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "36985f67": {
-   "voce": "servizio",
+  "c65fb195": {
+   "voce": "narratore",
    "zona": "z6",
    "testo": "Lasciami stare anche tu.",
    "parole": 4,
@@ -11594,7 +12249,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "79e3c0f5": {
    "voce": "Onofrio",
@@ -11614,7 +12270,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "1fd627d7": {
    "voce": "narratore",
@@ -11634,7 +12291,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "2e37e5ce": {
    "voce": "Onofrio",
@@ -11654,7 +12312,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f1b3bbbc": {
    "voce": "narratore",
@@ -11674,7 +12333,8 @@
      "tipo": "dialogo",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c704b5b4": {
    "voce": "Onofrio",
@@ -11688,7 +12348,8 @@
      "tipo": "dialogo",
      "parte": 4
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c961fa2c": {
    "voce": "narratore",
@@ -11702,7 +12363,8 @@
      "tipo": "dialogo",
      "parte": 5
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "4196b26c": {
    "voce": "Onofrio",
@@ -11716,10 +12378,11 @@
      "tipo": "dialogo",
      "parte": 6
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "78f4438c": {
-   "voce": "servizio",
+  "87af5b5d": {
+   "voce": "narratore",
    "zona": "z6",
    "testo": "E il biglietto che diceva di non tornare?",
    "parole": 8,
@@ -11730,7 +12393,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "6ce63943": {
    "voce": "Onofrio",
@@ -11744,7 +12408,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "b79d83e8": {
    "voce": "narratore",
@@ -11758,7 +12423,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "03e9d1c8": {
    "voce": "Onofrio",
@@ -11772,7 +12438,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d73a05cb": {
    "voce": "narratore",
@@ -11786,7 +12453,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "cbfbda7e": {
    "voce": "Onofrio",
@@ -11800,7 +12468,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a042760a": {
    "voce": "narratore",
@@ -11820,7 +12489,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "cbe79769": {
    "voce": "Onofrio",
@@ -11840,10 +12510,11 @@
      "tipo": "dialogo",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "5b3554c7": {
-   "voce": "servizio",
+  "abbe81fa": {
+   "voce": "narratore",
    "zona": "z6",
    "testo": "Cosa mi dai?",
    "parole": 3,
@@ -11860,7 +12531,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "a2da7dcb": {
    "voce": "narratore",
@@ -11874,7 +12546,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "9df13399": {
    "voce": "Onofrio",
@@ -11888,7 +12561,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "00c6adc1": {
    "voce": "Onofrio",
@@ -11902,7 +12576,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "9fdd37bc": {
    "voce": "narratore",
@@ -11916,7 +12591,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "2c74c560": {
    "voce": "Onofrio",
@@ -11930,7 +12606,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f59f4fbd": {
    "voce": "Onofrio",
@@ -11944,7 +12621,8 @@
      "tipo": "dialogo",
      "parte": 4
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0d1a59d2": {
    "voce": "Onofrio",
@@ -11958,7 +12636,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "cffeea63": {
    "voce": "narratore",
@@ -11972,7 +12651,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "994bc332": {
    "voce": "Onofrio",
@@ -11986,7 +12666,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f563170e": {
    "voce": "Onofrio",
@@ -12000,10 +12681,11 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "55fad71d": {
-   "voce": "servizio",
+  "360da262": {
+   "voce": "narratore",
    "zona": "z6",
    "testo": "Dammi la lettera.",
    "parole": 3,
@@ -12014,10 +12696,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "9402a638": {
-   "voce": "servizio",
+  "8e7a04a2": {
+   "voce": "narratore",
    "zona": "z6",
    "testo": "Dammi il fucile.",
    "parole": 3,
@@ -12028,10 +12711,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "a36e5f0c": {
-   "voce": "servizio",
+  "d1c413dc": {
+   "voce": "narratore",
    "zona": "z6",
    "testo": "Devo pensarci.",
    "parole": 2,
@@ -12042,7 +12726,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "41bfc3e9": {
    "voce": "narratore",
@@ -12056,7 +12741,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "9ac16dd7": {
    "voce": "Onofrio",
@@ -12070,7 +12756,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "52f02b53": {
    "voce": "narratore",
@@ -12090,7 +12777,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "2596d613": {
    "voce": "Onofrio",
@@ -12110,7 +12798,8 @@
      "tipo": "dialogo",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "185fda96": {
    "voce": "narratore",
@@ -12124,7 +12813,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "28514652": {
    "voce": "Onofrio",
@@ -12138,7 +12828,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a07a6c76": {
    "voce": "narratore",
@@ -12152,7 +12843,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "dd6fcb42": {
    "voce": "narratore",
@@ -12166,7 +12858,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "138255b0": {
    "voce": "Tore",
@@ -12180,7 +12873,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a690219d": {
    "voce": "Tore",
@@ -12200,7 +12894,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "b0b50ea6": {
    "voce": "narratore",
@@ -12214,7 +12909,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "2a21e690": {
    "voce": "Tore",
@@ -12228,7 +12924,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "9d5e5483": {
    "voce": "narratore",
@@ -12260,7 +12957,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "7e4b4a5a": {
    "voce": "Tore",
@@ -12280,7 +12978,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "4c574126": {
    "voce": "narratore",
@@ -12294,7 +12993,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ccf6423e": {
    "voce": "Tore",
@@ -12308,7 +13008,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "5226cd05": {
    "voce": "Tore",
@@ -12322,7 +13023,8 @@
      "tipo": "dialogo",
      "parte": 4
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "febb9a69": {
    "voce": "Tore",
@@ -12336,7 +13038,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e11a4130": {
    "voce": "Tore",
@@ -12350,7 +13053,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c7bd5b4a": {
    "voce": "Tore",
@@ -12364,10 +13068,11 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "5259928f": {
-   "voce": "servizio",
+  "2c0365c8": {
+   "voce": "narratore",
    "zona": "z6",
    "testo": "Ti do un po' d'acqua per del formaggio.",
    "parole": 8,
@@ -12378,10 +13083,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "978576de": {
-   "voce": "servizio",
+  "df423c40": {
+   "voce": "narratore",
    "zona": "z6",
    "testo": "Chi c'è, al guado?",
    "parole": 4,
@@ -12392,10 +13098,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "6cbdff5d": {
-   "voce": "servizio",
+  "8f6bc605": {
+   "voce": "narratore",
    "zona": "z6",
    "testo": "Il vecchio nella grotta?",
    "parole": 4,
@@ -12406,10 +13113,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "335a22f5": {
-   "voce": "servizio",
+  "f901dd6e": {
+   "voce": "narratore",
    "zona": "z6",
    "testo": "Tiro avanti.",
    "parole": 2,
@@ -12420,7 +13128,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "4fd42553": {
    "voce": "narratore",
@@ -12434,7 +13143,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "5db163f7": {
    "voce": "Tore",
@@ -12448,7 +13158,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "8e21d1b9": {
    "voce": "Tore",
@@ -12462,7 +13173,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "02963d2a": {
    "voce": "narratore",
@@ -12476,7 +13188,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d5e57403": {
    "voce": "Tore",
@@ -12490,7 +13203,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "5240c0b1": {
    "voce": "Tore",
@@ -12504,7 +13218,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0ead5265": {
    "voce": "narratore",
@@ -12518,7 +13233,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ae09e8b1": {
    "voce": "narratore",
@@ -12532,7 +13248,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "65cb7d1f": {
    "voce": "narratore",
@@ -12558,7 +13275,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "51eb1b7b": {
    "voce": "?",
@@ -12584,7 +13302,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "61734168": {
    "voce": "narratore",
@@ -12598,7 +13317,8 @@
      "tipo": "messaggio",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "29da9a2f": {
    "voce": "narratore",
@@ -12612,7 +13332,8 @@
      "tipo": "messaggio",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ed4678b4": {
    "voce": "?",
@@ -12626,7 +13347,8 @@
      "tipo": "messaggio",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "8c0c8172": {
    "voce": "narratore",
@@ -12640,7 +13362,8 @@
      "tipo": "messaggio",
      "parte": 4
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d7cac723": {
    "voce": "?",
@@ -12654,7 +13377,8 @@
      "tipo": "messaggio",
      "parte": 5
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "b8d25a60": {
    "voce": "narratore",
@@ -12668,7 +13392,8 @@
      "tipo": "messaggio",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0846da36": {
    "voce": "?",
@@ -12682,7 +13407,8 @@
      "tipo": "messaggio",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "864fb2cd": {
    "voce": "narratore",
@@ -12696,7 +13422,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "26a25f96": {
    "voce": "narratore",
@@ -12710,7 +13437,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "9a89dfed": {
    "voce": "servizio",
@@ -12724,7 +13452,8 @@
      "tipo": "descrizione",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "e4695a97": {
    "voce": "narratore",
@@ -12738,7 +13467,8 @@
      "tipo": "descrizione",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "9dc22217": {
    "voce": "narratore",
@@ -12752,7 +13482,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c236addf": {
    "voce": "narratore",
@@ -12766,7 +13497,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f7df58e2": {
    "voce": "narratore",
@@ -12780,7 +13512,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "cebfb7bb": {
    "voce": "narratore",
@@ -12794,7 +13527,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "95824228": {
    "voce": "narratore",
@@ -12808,7 +13542,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a3a0ffb0": {
    "voce": "narratore",
@@ -12822,7 +13557,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "3d8320ad": {
    "voce": "narratore",
@@ -12836,7 +13572,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e31f1c5b": {
    "voce": "narratore",
@@ -12850,7 +13587,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c4ebccd0": {
    "voce": "narratore",
@@ -12864,7 +13602,8 @@
      "tipo": "descrizione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "25990cc3": {
    "voce": "narratore",
@@ -12878,7 +13617,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "8dff9ef8": {
    "voce": "Cosimo",
@@ -12892,7 +13632,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "bc45994b": {
    "voce": "narratore",
@@ -12906,7 +13647,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "5cfc0f22": {
    "voce": "Cosimo",
@@ -12920,7 +13662,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "828906ee": {
    "voce": "narratore",
@@ -12934,7 +13677,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "7074a217": {
    "voce": "Cosimo",
@@ -12948,7 +13692,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0168462f": {
    "voce": "Cosimo",
@@ -12980,7 +13725,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a70d7537": {
    "voce": "narratore",
@@ -12994,7 +13740,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "c99ae148": {
    "voce": "Cosimo",
@@ -13008,7 +13755,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ffa1f4fa": {
    "voce": "narratore",
@@ -13034,7 +13782,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "273d33ed": {
    "voce": "Cosimo",
@@ -13048,7 +13797,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "edbe2361": {
    "voce": "Cosimo",
@@ -13062,7 +13812,8 @@
      "tipo": "dialogo",
      "parte": 4
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f2f27119": {
    "voce": "Cosimo",
@@ -13076,7 +13827,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0128ec57": {
    "voce": "narratore",
@@ -13090,7 +13842,8 @@
      "tipo": "dialogo",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "45f1fc97": {
    "voce": "Cosimo",
@@ -13110,10 +13863,11 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
-  "eaec0224": {
-   "voce": "servizio",
+  "b9bde258": {
+   "voce": "narratore",
    "zona": "z7",
    "testo": "Non sapevo. Te lo giuro.",
    "parole": 5,
@@ -13124,10 +13878,11 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
-  "f0c85f91": {
-   "voce": "servizio",
+  "39d329b1": {
+   "voce": "narratore",
    "zona": "z7",
    "testo": "Fammi passare, Cosimo.",
    "parole": 3,
@@ -13138,7 +13893,8 @@
      "tipo": "opzione",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "scelta"
   },
   "871a69ba": {
    "voce": "Cosimo",
@@ -13152,7 +13908,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0dccd598": {
    "voce": "narratore",
@@ -13166,7 +13923,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "bb2a0ebf": {
    "voce": "Cosimo",
@@ -13180,7 +13938,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "8d88e26a": {
    "voce": "narratore",
@@ -13194,7 +13953,8 @@
      "tipo": "dialogo",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "966838c7": {
    "voce": "Cosimo",
@@ -13208,7 +13968,8 @@
      "tipo": "dialogo",
      "parte": 4
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "67612a68": {
    "voce": "Cosimo",
@@ -13222,7 +13983,8 @@
      "tipo": "dialogo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d3a741ce": {
    "voce": "narratore",
@@ -13236,7 +13998,8 @@
      "tipo": "dialogo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "aa359148": {
    "voce": "Cosimo",
@@ -13250,7 +14013,8 @@
      "tipo": "dialogo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e948ef94": {
    "voce": "narratore",
@@ -13264,7 +14028,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "b5b95ed2": {
    "voce": "?",
@@ -13278,7 +14043,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "78ae0ccd": {
    "voce": "?",
@@ -13292,7 +14058,8 @@
      "tipo": "messaggio",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "88c0be4f": {
    "voce": "narratore",
@@ -13306,7 +14073,8 @@
      "tipo": "messaggio",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "403ff689": {
    "voce": "narratore",
@@ -13320,7 +14088,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "2546f7f5": {
    "voce": "narratore",
@@ -13334,7 +14103,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "87441f7e": {
    "voce": "narratore",
@@ -13348,7 +14118,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "b4199100": {
    "voce": "?",
@@ -13362,7 +14133,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "7ca23145": {
    "voce": "narratore",
@@ -13376,7 +14148,8 @@
      "tipo": "messaggio",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d7c04d84": {
    "voce": "narratore",
@@ -13390,7 +14163,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0fea60a0": {
    "voce": "narratore",
@@ -13416,7 +14190,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "597ac6df": {
    "voce": "?",
@@ -13442,7 +14217,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "430284c2": {
    "voce": "narratore",
@@ -13468,7 +14244,8 @@
      "tipo": "messaggio",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "8c340193": {
    "voce": "narratore",
@@ -13482,7 +14259,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "96ba9959": {
    "voce": "narratore",
@@ -13502,7 +14280,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "62b5d13d": {
    "voce": "narratore",
@@ -13516,7 +14295,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "5d2b805b": {
    "voce": "narratore",
@@ -13530,7 +14310,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "5b04534c": {
    "voce": "servizio",
@@ -13544,7 +14325,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "c1d69597": {
    "voce": "narratore",
@@ -13558,7 +14340,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "1bc4b723": {
    "voce": "narratore",
@@ -13572,7 +14355,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "cd164e47": {
    "voce": "?",
@@ -13586,7 +14370,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "acd2507b": {
    "voce": "narratore",
@@ -13600,7 +14385,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e66d1f5a": {
    "voce": "?",
@@ -13614,7 +14400,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "fd04e056": {
    "voce": "narratore",
@@ -13628,7 +14415,8 @@
      "tipo": "messaggio",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "5f8de4c0": {
    "voce": "?",
@@ -13642,7 +14430,8 @@
      "tipo": "messaggio",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "582bccee": {
    "voce": "narratore",
@@ -13656,7 +14445,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "b3db638a": {
    "voce": "?",
@@ -13670,7 +14460,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "97c97eb2": {
    "voce": "narratore",
@@ -13684,7 +14475,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ed5b549b": {
    "voce": "?",
@@ -13698,7 +14490,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "4461b0cb": {
    "voce": "narratore",
@@ -13712,7 +14505,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "8509bc8f": {
    "voce": "narratore",
@@ -13726,7 +14520,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "5858a03e": {
    "voce": "narratore",
@@ -13740,7 +14535,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "cd1ba97a": {
    "voce": "?",
@@ -13754,7 +14550,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "328f0941": {
    "voce": "narratore",
@@ -13768,7 +14565,8 @@
      "tipo": "messaggio",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e89bdd3c": {
    "voce": "narratore",
@@ -13782,7 +14580,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "66dff421": {
    "voce": "?",
@@ -13796,7 +14595,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "75c0a6b3": {
    "voce": "narratore",
@@ -13810,7 +14610,8 @@
      "tipo": "messaggio",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "4b812710": {
    "voce": "servizio",
@@ -13830,7 +14631,8 @@
      "tipo": "messaggio",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "suggerimento"
   },
   "113eb896": {
    "voce": "narratore",
@@ -13844,7 +14646,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "4ea9f99c": {
    "voce": "?",
@@ -13858,7 +14661,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "42c557f6": {
    "voce": "narratore",
@@ -13872,7 +14676,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "63b684d4": {
    "voce": "narratore",
@@ -13886,7 +14691,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "da6afb75": {
    "voce": "?",
@@ -13900,7 +14706,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "541e1848": {
    "voce": "narratore",
@@ -13914,7 +14721,8 @@
      "tipo": "messaggio",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "eb57dafb": {
    "voce": "?",
@@ -13928,7 +14736,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "3ad0ee97": {
    "voce": "narratore",
@@ -13942,7 +14751,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e700674f": {
    "voce": "narratore",
@@ -13956,7 +14766,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "bd2e8f73": {
    "voce": "narratore",
@@ -13970,7 +14781,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ebf9370b": {
    "voce": "?",
@@ -13984,7 +14796,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e2f36fa1": {
    "voce": "narratore",
@@ -13998,7 +14811,8 @@
      "tipo": "messaggio",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "32d0534f": {
    "voce": "narratore",
@@ -14012,7 +14826,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e5319c27": {
    "voce": "narratore",
@@ -14026,7 +14841,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "6ca229c9": {
    "voce": "narratore",
@@ -14040,7 +14856,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "89ee1cc0": {
    "voce": "narratore",
@@ -14054,7 +14871,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "b5efedcc": {
    "voce": "narratore",
@@ -14068,7 +14886,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "de37412d": {
    "voce": "narratore",
@@ -14082,7 +14901,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "85130c71": {
    "voce": "narratore",
@@ -14096,7 +14916,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d7ef20a4": {
    "voce": "narratore",
@@ -14110,7 +14931,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "1921e11e": {
    "voce": "narratore",
@@ -14124,7 +14946,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "4c1db4db": {
    "voce": "?",
@@ -14138,7 +14961,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "fecb797b": {
    "voce": "narratore",
@@ -14152,7 +14976,8 @@
      "tipo": "messaggio",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ba8da1ac": {
    "voce": "narratore",
@@ -14166,7 +14991,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "edfb0d11": {
    "voce": "?",
@@ -14180,7 +15006,8 @@
      "tipo": "messaggio",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "5d6fe32c": {
    "voce": "?",
@@ -14194,7 +15021,8 @@
      "tipo": "messaggio",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d27749b6": {
    "voce": "narratore",
@@ -14208,7 +15036,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "7ee0a37f": {
    "voce": "narratore",
@@ -14222,7 +15051,8 @@
      "tipo": "testo",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "caa2be51": {
    "voce": "narratore",
@@ -14236,7 +15066,8 @@
      "tipo": "testo",
      "parte": 1
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "7ca293dd": {
    "voce": "narratore",
@@ -14250,7 +15081,8 @@
      "tipo": "testo",
      "parte": 2
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "d57f8c46": {
    "voce": "narratore",
@@ -14264,7 +15096,8 @@
      "tipo": "testo",
      "parte": 3
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "86cf9796": {
    "voce": "narratore",
@@ -14278,7 +15111,8 @@
      "tipo": "testo",
      "parte": 4
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "4569dd4b": {
    "voce": "narratore",
@@ -14292,7 +15126,8 @@
      "tipo": "testo",
      "parte": 5
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "64265cd7": {
    "voce": "narratore",
@@ -14306,7 +15141,8 @@
      "tipo": "testo",
      "parte": 6
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "87432318": {
    "voce": "narratore",
@@ -14320,7 +15156,8 @@
      "tipo": "testo",
      "parte": 7
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "ee169ab6": {
    "voce": "narratore",
@@ -14334,7 +15171,8 @@
      "tipo": "testo",
      "parte": 8
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "cfe7ef88": {
    "voce": "narratore",
@@ -14348,7 +15186,8 @@
      "tipo": "testo",
      "parte": 9
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e2074d5e": {
    "voce": "narratore",
@@ -14362,7 +15201,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "6adf2651": {
    "voce": "narratore",
@@ -14376,7 +15216,8 @@
      "tipo": "finale",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "f68334b3": {
    "voce": "narratore",
@@ -14390,7 +15231,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "49dde48a": {
    "voce": "narratore",
@@ -14404,7 +15246,8 @@
      "tipo": "finale",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "8d5a29fe": {
    "voce": "narratore",
@@ -14418,7 +15261,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "248b61ad": {
    "voce": "narratore",
@@ -14432,7 +15276,8 @@
      "tipo": "finale",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "a5cc5239": {
    "voce": "narratore",
@@ -14446,7 +15291,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "0b0236fa": {
    "voce": "narratore",
@@ -14460,7 +15306,8 @@
      "tipo": "finale",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "29d15af9": {
    "voce": "narratore",
@@ -14474,7 +15321,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "14643a93": {
    "voce": "narratore",
@@ -14488,7 +15336,8 @@
      "tipo": "finale",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "e64cd26b": {
    "voce": "narratore",
@@ -14502,7 +15351,8 @@
      "tipo": "messaggio",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   },
   "817b30b3": {
    "voce": "narratore",
@@ -14516,7 +15366,8 @@
      "tipo": "finale",
      "parte": 0
     }
-   ]
+   ],
+   "categoria": "testo"
   }
  },
  "stringhe": [
@@ -15344,7 +16195,7 @@
    "parlante": null,
    "origine": "Ti do l'orologio per dell'acqua.",
    "parti": [
-    "9e97ab0b"
+    "00f4ae8f"
    ]
   },
   {
@@ -15354,7 +16205,7 @@
    "parlante": null,
    "origine": "Hai qualcosa da mangiare?",
    "parti": [
-    "04bdfc13"
+    "e4730293"
    ]
   },
   {
@@ -15364,7 +16215,7 @@
    "parlante": null,
    "origine": "Posso lavorare, per un po' d'acqua?",
    "parti": [
-    "26bb4d42"
+    "e0af3470"
    ]
   },
   {
@@ -15374,7 +16225,7 @@
    "parlante": null,
    "origine": "Da che parte è Acquamorta?",
    "parti": [
-    "7841d83f"
+    "832e2f54"
    ]
   },
   {
@@ -15384,7 +16235,7 @@
    "parlante": null,
    "origine": "Niente, per ora.",
    "parti": [
-    "3ea7bcee"
+    "e56567e7"
    ]
   },
   {
@@ -15436,7 +16287,7 @@
    "parlante": null,
    "origine": "Torno a vedere cos'hai.",
    "parti": [
-    "2b4cf6e4"
+    "1fa98bf0"
    ]
   },
   {
@@ -15446,7 +16297,7 @@
    "parlante": null,
    "origine": "Basta così.",
    "parti": [
-    "5538283c"
+    "a7aa3a57"
    ]
   },
   {
@@ -15489,7 +16340,7 @@
    "parlante": null,
    "origine": "Torno a vedere cos'hai.",
    "parti": [
-    "2b4cf6e4"
+    "1fa98bf0"
    ]
   },
   {
@@ -15499,7 +16350,7 @@
    "parlante": null,
    "origine": "Basta così.",
    "parti": [
-    "5538283c"
+    "a7aa3a57"
    ]
   },
   {
@@ -15551,7 +16402,7 @@
    "parlante": null,
    "origine": "Torno a vedere cos'hai.",
    "parti": [
-    "2b4cf6e4"
+    "1fa98bf0"
    ]
   },
   {
@@ -15561,7 +16412,7 @@
    "parlante": null,
    "origine": "Basta così.",
    "parti": [
-    "5538283c"
+    "a7aa3a57"
    ]
   },
   {
@@ -15583,7 +16434,7 @@
    "parlante": null,
    "origine": "Grazie.",
    "parti": [
-    "aad814cc"
+    "b9965ce7"
    ]
   },
   {
@@ -15593,7 +16444,7 @@
    "parlante": null,
    "origine": "Altro.",
    "parti": [
-    "efdd10db"
+    "bc7f58bf"
    ]
   },
   {
@@ -15750,7 +16601,7 @@
    "parlante": null,
    "origine": "Ti lascio del cibo. Ne hai più bisogno tu di me.",
    "parti": [
-    "39818126"
+    "566827ca"
    ]
   },
   {
@@ -15760,7 +16611,7 @@
    "parlante": null,
    "origine": "Mi serve acqua dal pozzo.",
    "parti": [
-    "6d8ecbbf"
+    "e0f05fae"
    ]
   },
   {
@@ -15770,7 +16621,7 @@
    "parlante": null,
    "origine": "Niente.",
    "parti": [
-    "eb00c46c"
+    "0a026191"
    ]
   },
   {
@@ -15791,7 +16642,7 @@
    "parlante": null,
    "origine": "Grazie.",
    "parti": [
-    "aad814cc"
+    "b9965ce7"
    ]
   },
   {
@@ -15825,7 +16676,7 @@
    "parlante": null,
    "origine": "Capito.",
    "parti": [
-    "c8e2db92"
+    "a1d940a2"
    ]
   },
   {
@@ -16319,7 +17170,7 @@
    "parlante": null,
    "origine": "Ti lascio dell'acqua, ne hai bisogno anche tu.",
    "parti": [
-    "38141d70"
+    "5e92fa46"
    ]
   },
   {
@@ -16329,7 +17180,7 @@
    "parlante": null,
    "origine": "Ti lascio del cibo.",
    "parti": [
-    "50ce15cd"
+    "d8c134b6"
    ]
   },
   {
@@ -16339,7 +17190,7 @@
    "parlante": null,
    "origine": "Come si fa a bere, in questo posto?",
    "parti": [
-    "0484eb94"
+    "947f8eb8"
    ]
   },
   {
@@ -16349,7 +17200,7 @@
    "parlante": null,
    "origine": "Perché se n'è andata l'acqua?",
    "parti": [
-    "6ac590e9"
+    "c832954a"
    ]
   },
   {
@@ -16359,7 +17210,7 @@
    "parlante": null,
    "origine": "Niente, per ora.",
    "parti": [
-    "3ea7bcee"
+    "e56567e7"
    ]
   },
   {
@@ -16391,7 +17242,7 @@
    "parlante": null,
    "origine": "Grazie.",
    "parti": [
-    "aad814cc"
+    "b9965ce7"
    ]
   },
   {
@@ -16411,7 +17262,7 @@
    "parlante": null,
    "origine": "Capito.",
    "parti": [
-    "c8e2db92"
+    "a1d940a2"
    ]
   },
   {
@@ -16433,7 +17284,7 @@
    "parlante": null,
    "origine": "E torna?",
    "parti": [
-    "433ff485"
+    "47d32cc5"
    ]
   },
   {
@@ -16443,7 +17294,7 @@
    "parlante": null,
    "origine": "Mi dispiace.",
    "parti": [
-    "af9055e6"
+    "6fc13689"
    ]
   },
   {
@@ -16576,7 +17427,7 @@
    "parlante": null,
    "origine": "Quella pozza in fondo sembra più chiara: si beve?",
    "parti": [
-    "692e926c"
+    "1344662f"
    ]
   },
   {
@@ -16586,7 +17437,7 @@
    "parlante": null,
    "origine": "Stai bevendo dalle pozze, vero?",
    "parti": [
-    "f5660eb1"
+    "5e4f7abb"
    ]
   },
   {
@@ -16596,7 +17447,7 @@
    "parlante": null,
    "origine": "Tieniti il sale.",
    "parti": [
-    "9d5bae2b"
+    "2debd4d4"
    ]
   },
   {
@@ -17058,7 +17909,7 @@
    "parlante": null,
    "origine": "Ti do la stecca di sigarette.",
    "parti": [
-    "e7b06b6d"
+    "f8a0c578"
    ]
   },
   {
@@ -17068,7 +17919,7 @@
    "parlante": null,
    "origine": "Ti do la tanica di benzina.",
    "parti": [
-    "20a071de"
+    "4274e49b"
    ]
   },
   {
@@ -17078,7 +17929,7 @@
    "parlante": null,
    "origine": "Ti lascio tre d'acqua.",
    "parti": [
-    "0fa45c9a"
+    "71af9f73"
    ]
   },
   {
@@ -17088,7 +17939,7 @@
    "parlante": null,
    "origine": "Cosa c'è, oltre il casello?",
    "parti": [
-    "d1956eac"
+    "f44331a6"
    ]
   },
   {
@@ -17098,7 +17949,7 @@
    "parlante": null,
    "origine": "Niente, per ora.",
    "parti": [
-    "3ea7bcee"
+    "e56567e7"
    ]
   },
   {
@@ -17121,7 +17972,7 @@
    "parlante": null,
    "origine": "Grazie.",
    "parti": [
-    "aad814cc"
+    "b9965ce7"
    ]
   },
   {
@@ -17155,7 +18006,7 @@
    "parlante": null,
    "origine": "Torniamo a noi.",
    "parti": [
-    "a14fce0b"
+    "e2694b4d"
    ]
   },
   {
@@ -17420,7 +18271,7 @@
    "parlante": null,
    "origine": "Tieni, mangia.",
    "parti": [
-    "517c70ca"
+    "b9118915"
    ]
   },
   {
@@ -17430,7 +18281,7 @@
    "parlante": null,
    "origine": "È l'ultimo che ho. Tieni.",
    "parti": [
-    "afc52890"
+    "0887d4f6"
    ]
   },
   {
@@ -17440,7 +18291,7 @@
    "parlante": null,
    "origine": "Chi sei?",
    "parti": [
-    "321f3e9e"
+    "39460c75"
    ]
   },
   {
@@ -17450,7 +18301,7 @@
    "parlante": null,
    "origine": "Com'è il paese?",
    "parti": [
-    "82416f65"
+    "a4dd8d6f"
    ]
   },
   {
@@ -17460,7 +18311,7 @@
    "parlante": null,
    "origine": "Non posso. Mi dispiace.",
    "parti": [
-    "5e9ea0f0"
+    "f8030f4d"
    ]
   },
   {
@@ -17470,7 +18321,7 @@
    "parlante": null,
    "origine": "Il vicolo di cui parlavi…",
    "parti": [
-    "e1bf271a"
+    "9a0a6938"
    ]
   },
   {
@@ -17480,7 +18331,7 @@
    "parlante": null,
    "origine": "Ti lascio stare.",
    "parti": [
-    "141b9906"
+    "d14440dd"
    ]
   },
   {
@@ -17567,7 +18418,7 @@
    "parlante": null,
    "origine": "E il casello?",
    "parti": [
-    "5d601e27"
+    "60303913"
    ]
   },
   {
@@ -17905,7 +18756,7 @@
    "parlante": null,
    "origine": "Ti lascio dell'acqua, per l'ospitalità.",
    "parti": [
-    "f4d440b5"
+    "748a38fa"
    ]
   },
   {
@@ -17915,7 +18766,7 @@
    "parlante": null,
    "origine": "Cosa si dice di Acquamorta?",
    "parti": [
-    "33bd2a1b"
+    "8864ac92"
    ]
   },
   {
@@ -17925,7 +18776,7 @@
    "parlante": null,
    "origine": "Mi serve salire alle colline.",
    "parti": [
-    "27c6b792"
+    "9d49a6e0"
    ]
   },
   {
@@ -17935,7 +18786,7 @@
    "parlante": null,
    "origine": "Niente, grazie.",
    "parti": [
-    "90365a4e"
+    "1f802115"
    ]
   },
   {
@@ -17976,7 +18827,7 @@
    "parlante": null,
    "origine": "Chi è quest'uomo?",
    "parti": [
-    "55b53565"
+    "082efb6f"
    ]
   },
   {
@@ -18034,7 +18885,7 @@
    "parlante": null,
    "origine": "Scrivile, allora.",
    "parti": [
-    "84c7acb7"
+    "db26d868"
    ]
   },
   {
@@ -18044,7 +18895,7 @@
    "parlante": null,
    "origine": "Capito. Tornerò.",
    "parti": [
-    "007588d3"
+    "6b4ec5b3"
    ]
   },
   {
@@ -18067,7 +18918,7 @@
    "parlante": null,
    "origine": "Grazie.",
    "parti": [
-    "aad814cc"
+    "b9965ce7"
    ]
   },
   {
@@ -18165,7 +19016,7 @@
    "parlante": null,
    "origine": "Erano in due?",
    "parti": [
-    "b97f5984"
+    "fed597b1"
    ]
   },
   {
@@ -18175,7 +19026,7 @@
    "parlante": null,
    "origine": "Il giocattolo, sul davanzale…",
    "parti": [
-    "7956ccb3"
+    "8bd387c7"
    ]
   },
   {
@@ -18185,7 +19036,7 @@
    "parlante": null,
    "origine": "Ti lascio riposare.",
    "parti": [
-    "ff40804c"
+    "c9e3ea51"
    ]
   },
   {
@@ -18207,7 +19058,7 @@
    "parlante": null,
    "origine": "Che disgrazia?",
    "parti": [
-    "77c82b47"
+    "8e0abc44"
    ]
   },
   {
@@ -18405,7 +19256,7 @@
    "parlante": null,
    "origine": "È vero. Non l'ho voluto.",
    "parti": [
-    "272b0454"
+    "d2377728"
    ]
   },
   {
@@ -18415,7 +19266,7 @@
    "parlante": null,
    "origine": "Non è così.",
    "parti": [
-    "69155783"
+    "48076f3b"
    ]
   },
   {
@@ -18425,7 +19276,7 @@
    "parlante": null,
    "origine": "Non devo dirti niente.",
    "parti": [
-    "76a8f2af"
+    "d028b32e"
    ]
   },
   {
@@ -18435,7 +19286,7 @@
    "parlante": null,
    "origine": "Vieni con me, allora.",
    "parti": [
-    "fcd163e7"
+    "f81ea1e6"
    ]
   },
   {
@@ -18445,7 +19296,7 @@
    "parlante": null,
    "origine": "È troppo dura, dove vado. Resta.",
    "parti": [
-    "5b2e47e3"
+    "21637f3b"
    ]
   },
   {
@@ -18736,7 +19587,7 @@
    "parlante": null,
    "origine": "Ti do l'orologio per dell'acqua.",
    "parti": [
-    "9e97ab0b"
+    "00f4ae8f"
    ]
   },
   {
@@ -18746,7 +19597,7 @@
    "parlante": null,
    "origine": "La tanica non ha posto: ti do l'orologio per del cibo.",
    "parti": [
-    "cc6082e4"
+    "58a538c6"
    ]
   },
   {
@@ -18756,7 +19607,7 @@
    "parlante": null,
    "origine": "Ti do i cristalli di sale per del cibo.",
    "parti": [
-    "ea98d57e"
+    "7f4eec52"
    ]
   },
   {
@@ -18766,7 +19617,7 @@
    "parlante": null,
    "origine": "Vendo l'anello.",
    "parti": [
-    "e8e8b8a8"
+    "27811459"
    ]
   },
   {
@@ -18776,7 +19627,7 @@
    "parlante": null,
    "origine": "Ti do la batteria.",
    "parti": [
-    "a34a44e2"
+    "47ea1511"
    ]
   },
   {
@@ -18786,7 +19637,7 @@
    "parlante": null,
    "origine": "La tanica non ha posto: ti do la batteria per del cibo.",
    "parti": [
-    "bf454c0e"
+    "13d47ba3"
    ]
   },
   {
@@ -18796,7 +19647,7 @@
    "parlante": null,
    "origine": "Ti do la borsa di tela.",
    "parti": [
-    "df0ac20d"
+    "181b93d5"
    ]
   },
   {
@@ -18806,7 +19657,7 @@
    "parlante": null,
    "origine": "Ti do le cartucce.",
    "parti": [
-    "0cc80135"
+    "1c71376e"
    ]
   },
   {
@@ -18816,7 +19667,7 @@
    "parlante": null,
    "origine": "La tanica non ha posto: ti do le cartucce per del cibo.",
    "parti": [
-    "478a68b0"
+    "93110a32"
    ]
   },
   {
@@ -18826,7 +19677,7 @@
    "parlante": null,
    "origine": "Ti do il giubbotto.",
    "parti": [
-    "4c9a96fa"
+    "bb8b865a"
    ]
   },
   {
@@ -18836,7 +19687,7 @@
    "parlante": null,
    "origine": "Ti do la stecca di sigarette.",
    "parti": [
-    "e7b06b6d"
+    "f8a0c578"
    ]
   },
   {
@@ -18846,7 +19697,7 @@
    "parlante": null,
    "origine": "La tanica non ha posto: ti do la stecca di sigarette per del cibo.",
    "parti": [
-    "b0889ca4"
+    "9bdb559e"
    ]
   },
   {
@@ -18856,7 +19707,7 @@
    "parlante": null,
    "origine": "Ti do la tanica di benzina.",
    "parti": [
-    "20a071de"
+    "4274e49b"
    ]
   },
   {
@@ -18866,7 +19717,7 @@
    "parlante": null,
    "origine": "Ho la carta di Vito.",
    "parti": [
-    "6042177f"
+    "41e89b30"
    ]
   },
   {
@@ -18876,7 +19727,7 @@
    "parlante": null,
    "origine": "Ti do tre d'acqua per del cibo.",
    "parti": [
-    "9835300f"
+    "269a21b5"
    ]
   },
   {
@@ -18886,7 +19737,7 @@
    "parlante": null,
    "origine": "Niente, per ora.",
    "parti": [
-    "3ea7bcee"
+    "e56567e7"
    ]
   },
   {
@@ -18957,7 +19808,7 @@
    "parlante": null,
    "origine": "Altro.",
    "parti": [
-    "efdd10db"
+    "bc7f58bf"
    ]
   },
   {
@@ -18967,7 +19818,7 @@
    "parlante": null,
    "origine": "Basta così.",
    "parti": [
-    "5538283c"
+    "a7aa3a57"
    ]
   },
   {
@@ -19018,7 +19869,7 @@
    "parlante": null,
    "origine": "Va bene così.",
    "parti": [
-    "9169e7bc"
+    "b002184e"
    ]
   },
   {
@@ -19090,7 +19941,7 @@
    "parlante": null,
    "origine": "Altro.",
    "parti": [
-    "efdd10db"
+    "bc7f58bf"
    ]
   },
   {
@@ -19100,7 +19951,7 @@
    "parlante": null,
    "origine": "Basta così.",
    "parti": [
-    "5538283c"
+    "a7aa3a57"
    ]
   },
   {
@@ -19311,7 +20162,7 @@
    "parlante": null,
    "origine": "Cosa è successo, ad Acquamorta?",
    "parti": [
-    "a5e32139"
+    "50b21271"
    ]
   },
   {
@@ -19321,7 +20172,7 @@
    "parlante": null,
    "origine": "Ti mostro questo cavallo di legno.",
    "parti": [
-    "b83b8913"
+    "f2b9acda"
    ]
   },
   {
@@ -19331,7 +20182,7 @@
    "parlante": null,
    "origine": "Ti mostro questo santino.",
    "parti": [
-    "24c383ee"
+    "8e57e89d"
    ]
   },
   {
@@ -19341,7 +20192,7 @@
    "parlante": null,
    "origine": "Devo passare il guado.",
    "parti": [
-    "9fbc6bc3"
+    "9f09b05a"
    ]
   },
   {
@@ -19351,7 +20202,7 @@
    "parlante": null,
    "origine": "Mi serve il tuo aiuto, per il guado.",
    "parti": [
-    "9826af1f"
+    "5ee74043"
    ]
   },
   {
@@ -19361,7 +20212,7 @@
    "parlante": null,
    "origine": "Lasciami stare anche tu.",
    "parti": [
-    "36985f67"
+    "c65fb195"
    ]
   },
   {
@@ -19399,7 +20250,7 @@
    "parlante": null,
    "origine": "E il biglietto che diceva di non tornare?",
    "parti": [
-    "78f4438c"
+    "87af5b5d"
    ]
   },
   {
@@ -19450,7 +20301,7 @@
    "parlante": null,
    "origine": "Cosa mi dai?",
    "parti": [
-    "5b3554c7"
+    "abbe81fa"
    ]
   },
   {
@@ -19473,7 +20324,7 @@
    "parlante": null,
    "origine": "Cosa mi dai?",
    "parti": [
-    "5b3554c7"
+    "abbe81fa"
    ]
   },
   {
@@ -19527,7 +20378,7 @@
    "parlante": null,
    "origine": "Dammi la lettera.",
    "parti": [
-    "55fad71d"
+    "360da262"
    ]
   },
   {
@@ -19537,7 +20388,7 @@
    "parlante": null,
    "origine": "Dammi il fucile.",
    "parti": [
-    "9402a638"
+    "8e7a04a2"
    ]
   },
   {
@@ -19547,7 +20398,7 @@
    "parlante": null,
    "origine": "Devo pensarci.",
    "parti": [
-    "a36e5f0c"
+    "d1c413dc"
    ]
   },
   {
@@ -19664,7 +20515,7 @@
    "parlante": null,
    "origine": "Ti do un po' d'acqua per del formaggio.",
    "parti": [
-    "5259928f"
+    "2c0365c8"
    ]
   },
   {
@@ -19674,7 +20525,7 @@
    "parlante": null,
    "origine": "Chi c'è, al guado?",
    "parti": [
-    "978576de"
+    "df423c40"
    ]
   },
   {
@@ -19684,7 +20535,7 @@
    "parlante": null,
    "origine": "Il vecchio nella grotta?",
    "parti": [
-    "6cbdff5d"
+    "8f6bc605"
    ]
   },
   {
@@ -19694,7 +20545,7 @@
    "parlante": null,
    "origine": "Tiro avanti.",
    "parti": [
-    "335a22f5"
+    "f901dd6e"
    ]
   },
   {
@@ -20018,7 +20869,7 @@
    "parlante": null,
    "origine": "Non sapevo. Te lo giuro.",
    "parti": [
-    "eaec0224"
+    "b9bde258"
    ]
   },
   {
@@ -20028,7 +20879,7 @@
    "parlante": null,
    "origine": "Fammi passare, Cosimo.",
    "parti": [
-    "f0c85f91"
+    "39d329b1"
    ]
   },
   {

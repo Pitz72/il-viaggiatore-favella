@@ -22,7 +22,7 @@ Scelte provvisorie (prove del 20/10/2026, ore 12:18 e 12:20, nei `master/prove/`
 I nomi di libreria sono un punto di partenza: se all'ascolto una voce non convince, si
 cambia la voce di libreria e si tiene la descrizione (o si ritocca quella).
 
-### Narratore
+### Narratore (e le scelte del giocatore, in prima persona)
 > A man in his early fifties narrating in Italian. Calm, low-pitched and dry, with a worn,
 > slightly husky warmth. Unhurried pace, with short natural pauses at the end of sentences.
 > Clean standard Italian diction, no regional accent. Sober and understated: he tells you
@@ -32,7 +32,7 @@ cambia la voce di libreria e si tiene la descrizione (o si ritocca quella).
 *Frase di prova:* «La stazione di Acquaviva. I binari finiscono qui, mangiati dalla gramigna;
 un cartello arrugginito promette treni che non passano da anni.»
 
-### Servizio (suggerimenti, scelte del giocatore, numeri)
+### Servizio (suggerimenti e numeri)
 > A woman in her thirties speaking Italian. Neutral, clear and light, mid-pitch, brisk and
 > even pacing. Friendly but flat, like a well-made audio guide or a game menu voice. Crisp
 > consonants, no drama, no emotion, standard Italian.

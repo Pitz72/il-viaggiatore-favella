@@ -10,9 +10,10 @@ zona, è scritto ogni testo), li spezza nelle PARTI che hanno una voce sola e sc
                                          per ogni blocco: l'ordine delle parti
 
 Le VOCI sono tre tipi: il narratore (tutto ciò che sta fuori dalle virgolette e dalle
-parentesi, più le frasi scritte: il biglietto, le targhe), la voce di servizio (i suggerimenti
-tra parentesi e le opzioni di dialogo che il giocatore sceglie) e i personaggi (le battute
-tra «caporali» di un dialogo). Il giocatore non ha voce.
+parentesi, più le frasi scritte: il biglietto, le targhe, e le scelte di dialogo del giocatore,
+che sono in prima persona e le legge lui, in un blocco a parte: «narratore-scelte»), la voce di
+servizio (i suggerimenti tra parentesi e i numeri) e i personaggi (le battute tra «caporali» di
+un dialogo). Il giocatore non ha una voce sua.
 
 Il testo per la voce NON cambia il gioco: è derivato. Le parole in MAIUSCOLO (NORD, PARLA CON…)
 si abbassano, perché la voce le leggerebbe come enfasi. L'id di una parte è l'impronta (SHA-1)
@@ -270,7 +271,7 @@ def costruisci(zona):
             if voce == "?":
                 da_attribuire.append((chiave, t))
             if tipo == "opzione":
-                voce = "servizio"  # le scelte del giocatore le legge la voce di servizio
+                voce = "narratore"  # le scelte del giocatore (in prima persona) le legge il narratore
             fonte = {"file": nome_file, "riga": riga, "tipo": tipo, "parte": k}
             if "[" in t:
                 sotto = []
@@ -308,7 +309,23 @@ def costruisci_tutto():
         tutto["stringhe"] += z["stringhe"]
         tutto["da_attribuire"] += z["da_attribuire"]
         tutto["dinamici"].update(z["dinamici"])
+    for u in tutto["unita"].values():
+        u["categoria"] = categoria_di(u)
     return tutto
+
+
+def categoria_di(u):
+    """Che cosa è una parte, a prescindere da chi la dice: serve a decidere come il gioco la usa.
+    «scelta» = una frase che il giocatore può dire (un'opzione di dialogo), in prima persona;
+    «suggerimento» = ciò che il gioco gli dice tra parentesi; «numeri» = un pezzo con un numero."""
+    if u.get("numero"):
+        return "numeri"
+    tipi = {f["tipo"] for f in u["fonti"]}
+    if tipi == {"opzione"}:
+        return "scelta"
+    if u["voce"] == "servizio":
+        return "suggerimento"
+    return "testo"
 
 
 def minuti_dei(voce, lista):
@@ -362,23 +379,29 @@ def spezza_in_blocchi(lista, voce, massimo):
 def blocchi_per_voce(unita, massimo=None):
     """{nome_blocco: [id,…]}: una voce per volta, nell'ordine del gioco. I numeri della voce
     di servizio vengono dopo i suoi testi fissi."""
-    voci = []
+    # le scelte del giocatore, anche se le dice il narratore, sono un blocco a parte: parlano in
+    # prima persona e si possono provare e rifare senza toccare la narrazione
+    def gruppo(u):
+        return u["voce"] + ("-scelte" if u["categoria"] == "scelta" else "")
+
+    gruppi = []
     for u in unita.values():
-        if u["voce"] != "?" and u["voce"] not in voci:
-            voci.append(u["voce"])
-    voci = ([v for v in ("narratore", "servizio") if v in voci]
-            + [v for v in voci if v not in ("narratore", "servizio")])
+        if u["voce"] != "?" and gruppo(u) not in gruppi:
+            gruppi.append(gruppo(u))
+    prime = [g for g in ("narratore", "narratore-scelte", "servizio") if g in gruppi]
+    gruppi = prime + [g for g in gruppi if g not in prime]
     out = OrderedDict()
-    for voce in voci:
-        lista = [(i, u) for i, u in unita.items() if u["voce"] == voce]
+    for g in gruppi:
+        lista = [(i, u) for i, u in unita.items() if u["voce"] != "?" and gruppo(u) == g]
+        voce = lista[0][1]["voce"]
         if voce == "servizio":
             lista = ([x for x in lista if not x[1].get("numero")]
                      + [x for x in lista if x[1].get("numero")])
-        tetto = massimo if massimo else MAX_MINUTI.get(voce, MAX_MINUTI["_"])
+        tetto = massimo if massimo else MAX_MINUTI.get(g, MAX_MINUTI.get(voce, MAX_MINUTI["_"]))
         parti = spezza_in_blocchi(lista, voce, tetto)
         for k, p in enumerate(parti):
             suff = "" if len(parti) == 1 else "-" + "abcdefghij"[k]
-            out[slug(voce) + suff] = [i for i, _ in p]
+            out[slug(g) + suff] = [i for i, _ in p]
     return out
 
 
@@ -395,7 +418,7 @@ def scrivi(tutto, blocchi, solo_voce=None):
             if vecchio.endswith(".txt"):
                 os.remove(os.path.join(cartella, vecchio))
     for nome, ids in blocchi.items():
-        if solo_voce and unita[ids[0]]["voce"] != solo_voce:
+        if solo_voce and not (nome == slug(solo_voce) or nome.startswith(slug(solo_voce) + "-")):
             continue
         righe = [unita[i]["testo"] for i in ids]
         testo = "".join(r + ((" " + PAUSA + "\n") if k < len(righe) - 1 else "\n")
@@ -443,7 +466,8 @@ def riepilogo(tutto, blocchi):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("comando", choices=["stato", "blocchi"])
-    ap.add_argument("--voce", help="scrive solo i blocchi di questa voce (servizio, narratore, Nunzio…)")
+    ap.add_argument("--voce", help="scrive solo i blocchi di questa voce o di questo blocco "
+                                   "(servizio, narratore, narratore-scelte, Nunzio…)")
     ap.add_argument("--max-minuti", type=float, help="tetto di un blocco, al posto di quello predefinito")
     a = ap.parse_args()
     sys.stdout.reconfigure(encoding="utf-8")
