@@ -9,12 +9,12 @@
   "opus": "32k mono, VBR"
  },
  "totale": {
-  "parti": 809,
-  "parti_solo_locali": 69,
-  "minuti": 61.2,
-  "minuti_solo_locali": 4.5,
-  "mb": 13.65,
-  "mb_solo_locali": 1.07
+  "parti": 878,
+  "parti_a_parte": 69,
+  "minuti": 65.7,
+  "minuti_a_parte": 4.5,
+  "mb": 15.11,
+  "mb_a_parte": 1.07
  },
  "blocchi": {
   "ciro": {
@@ -61,7 +61,7 @@
    "parti_alzate_di_meno": 0,
    "al_massimo_db_in_meno": 0.0,
    "secondi": 77.6,
-   "solo_locale": "ElevenLabs sul piano gratuito: si rifà prima del rilascio (piano 08, decisione 6)",
+   "cartella": "elevenlabs",
    "lufs_dopo": -23.7,
    "picco_vero_dbtp": -3.8,
    "kb": 311
@@ -304,7 +304,7 @@
    "parti_alzate_di_meno": 0,
    "al_massimo_db_in_meno": 0.0,
    "secondi": 70.5,
-   "solo_locale": "ElevenLabs sul piano gratuito: si rifà prima del rilascio (piano 08, decisione 6)",
+   "cartella": "elevenlabs",
    "lufs_dopo": -23.0,
    "picco_vero_dbtp": -4.4,
    "kb": 278
@@ -341,7 +341,7 @@
    "parti_alzate_di_meno": 0,
    "al_massimo_db_in_meno": 0.0,
    "secondi": 66.8,
-   "solo_locale": "ElevenLabs sul piano gratuito: si rifà prima del rilascio (piano 08, decisione 6)",
+   "cartella": "elevenlabs",
    "lufs_dopo": -23.3,
    "picco_vero_dbtp": -6.6,
    "kb": 273
@@ -354,7 +354,7 @@
    "parti_alzate_di_meno": 0,
    "al_massimo_db_in_meno": 0.0,
    "secondi": 58.1,
-   "solo_locale": "ElevenLabs sul piano gratuito: si rifà prima del rilascio (piano 08, decisione 6)",
+   "cartella": "elevenlabs",
    "lufs_dopo": -23.0,
    "picco_vero_dbtp": -1.6,
    "kb": 232

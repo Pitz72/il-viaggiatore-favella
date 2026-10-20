@@ -18,31 +18,39 @@ async function provaLaVoce(testoAvvio: string, nota: (r: string) => void): Promi
   const base = `${import.meta.env.BASE_URL}voce/`;
   const r = await fetch(`${base}indice.json`);
   if (!r.ok) { nota(`KO voce: indice HTTP ${r.status}`); return false; }
-  const indice = await r.json() as { estensione: string; parti: Record<string, number>; muti?: Record<string, string[]>; testi: Testi };
-  const muti = Object.values(indice.muti ?? {}).reduce((n, ids) => n + ids.length, 0);
+  type Indice = { estensione: string; parti: Record<string, number>; cartelle?: string[]; testi: Testi };
+  const indice = await r.json() as Indice;
   let ok = true;
+  // dove sta ogni parte: la cartella principale e quelle che l'indice nomina (le voci fuori dalla licenza libera)
+  const dove = new Map<string, { url: string; ms: number }>();
+  for (const [id, ms] of Object.entries(indice.parti)) dove.set(id, { url: `${base}${id}${indice.estensione}`, ms });
+  for (const c of indice.cartelle ?? []) {
+    const rc = await fetch(`${base}${c}/indice.json`);
+    if (!rc.ok) { ok = false; nota(`KO voce: manca ${c}/indice.json (HTTP ${rc.status})`); continue; }
+    const altro = await rc.json() as Indice;
+    for (const [id, ms] of Object.entries(altro.parti)) dove.set(id, { url: `${base}${c}/${id}${altro.estensione}`, ms });
+  }
   // una parte per voce, decodificata davvero: la durata deve essere quella dell'indice
   const perVoce = new Map<string, string>();
-  for (const id of Object.keys(indice.parti)) {
+  for (const id of dove.keys()) {
     const v = indice.testi[id]?.[0];
     if (v && !perVoce.has(v)) perVoce.set(v, id);
   }
   const ctx = new OfflineAudioContext(1, 1, 48000);
   for (const [v, id] of perVoce) {
+    const d = dove.get(id)!;
     try {
-      const dati = await (await fetch(`${base}${id}${indice.estensione}`)).arrayBuffer();
-      const b = await ctx.decodeAudioData(dati);
-      if (Math.abs(b.duration * 1000 - indice.parti[id]) > 60) { ok = false; nota(`KO voce ${v}: ${id} dura ${Math.round(b.duration * 1000)} ms, l'indice ${indice.parti[id]}`); }
+      const b = await ctx.decodeAudioData(await (await fetch(d.url)).arrayBuffer());
+      if (Math.abs(b.duration * 1000 - d.ms) > 60) { ok = false; nota(`KO voce ${v}: ${id} dura ${Math.round(b.duration * 1000)} ms, l'indice ${d.ms}`); }
     } catch (e) {
       ok = false; nota(`KO voce ${v}: ${id} non si decodifica (${e instanceof Error ? e.message : e})`);
     }
   }
-  if (ok) nota(`ok voce: ${Object.keys(indice.parti).length} parti, ${perVoce.size} voci, una per voce decodificata${muti ? ` (${muti} parti mute)` : ""}`);
-  // il testo d'avvio: ogni sua parte si ritrova ed esiste (o è dichiarata muta)
+  if (ok) nota(`ok voce: ${dove.size} parti, ${perVoce.size} voci, una per voce decodificata`);
+  // il testo d'avvio: ogni sua parte si ritrova ed esiste
   const tab = tabella(indice.testi);
   const blocchi = analizza(testoAvvio).map((b) => partiDelBlocco(b, tab));
-  const senza = blocchi.flatMap((x) => x.mancano.map((m) => m.testo)).concat(
-    blocchi.flatMap((x) => x.ids).filter((id) => !(id in indice.parti) && !Object.values(indice.muti ?? {}).some((l) => l.includes(id))));
+  const senza = blocchi.flatMap((x) => x.mancano.map((m) => m.testo)).concat(blocchi.flatMap((x) => x.ids).filter((id) => !dove.has(id)));
   const trovate = blocchi.reduce((n, x) => n + x.ids.length, 0);
   if (senza.length || !trovate) { ok = false; nota(`KO voce: il testo d'avvio non ritrova le parti: ${JSON.stringify(senza).slice(0, 200)}`); }
   else nota(`ok voce: il testo d'avvio ritrova le sue ${trovate} parti`);

@@ -6,8 +6,8 @@
 //  ciascuna. Le parti di un turno suonano in fila, con una pausa breve fra le
 //  frasi della stessa riga e una più lunga fra una riga e l'altra; al primo
 //  tasto la fila si svuota (come in un talkie: il testo resta sullo schermo).
-//  Le voci che non vanno nel repository (public/voce/locale/, ignorata da git)
-//  si aggiungono se ci sono.
+//  Le cartelle che l'indice nomina («cartelle»: public/voce/elevenlabs/, le voci
+//  escluse dalla licenza libera) hanno un indice loro e si aggiungono.
 //
 //  Due modi, mai insieme: «recitata» (la voce del doppiaggio; il diario non
 //  annuncia) o «lettore» (nessuna voce: il lettore di schermo legge il diario).
@@ -43,7 +43,7 @@ export function scriviImpostazioni(i: Impostazioni) {
   try { localStorage.setItem(CHIAVE, JSON.stringify(i)); } catch { /* il browser non salva: pazienza */ }
 }
 
-interface Indice { estensione: string; parti: Record<string, number>; testi?: Testi }
+interface Indice { estensione: string; parti: Record<string, number>; testi?: Testi; cartelle?: string[] }
 
 /** Una parte da dire, con la pausa che la precede. */
 export interface Parte { id: string; pausa: number }
@@ -70,8 +70,10 @@ class Voce {
           const principale = await this.leggiIndice(`${BASE}indice.json`);
           if (!principale) return null;
           for (const id of Object.keys(principale.parti)) this.dove.set(id, `${BASE}${id}${principale.estensione}`);
-          const locale = await this.leggiIndice(`${BASE}locale/indice.json`);
-          for (const id of Object.keys(locale?.parti ?? {})) this.dove.set(id, `${BASE}locale/${id}${locale!.estensione}`);
+          for (const c of principale.cartelle ?? []) {
+            const altro = await this.leggiIndice(`${BASE}${c}/indice.json`);
+            for (const id of Object.keys(altro?.parti ?? {})) this.dove.set(id, `${BASE}${c}/${id}${altro!.estensione}`);
+          }
           this.testi = principale.testi ?? {};
           return tabella(this.testi);
         } catch {
