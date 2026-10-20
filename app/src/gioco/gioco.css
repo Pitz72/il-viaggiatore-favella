@@ -207,3 +207,5 @@ button.vg-chiave-tasto:hover, button.vg-chiave-tasto:focus-visible { border-bott
 .vg-conf-azioni .vg-bottone { display: inline-flex; align-items: center; gap: 10px; padding: 10px 18px; }
 .vg-conf-azioni kbd { font-family: 'Source Code Pro', monospace; font-size: 11px; padding: 1px 6px; border-radius: 5px; border: 1px solid currentColor; opacity: .88; }
 .vg-conf-nota { margin: 14px 0 0; text-align: right; font-style: italic; font-size: 12.5px; color: rgba(230,223,210,.66); }
+/* il cartiglio (Cartiglio.tsx): entra dall'alto, resta, svanisce */
+@keyframes vg-cartiglio { 0% { opacity: 0; transform: translate(-50%, -6px); } 8%, 82% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, 0); } }

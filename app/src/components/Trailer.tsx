@@ -25,7 +25,7 @@ import { ColonnaSonora } from "../trailer/audio";
 import branoIntro from "../assets/intro.mp3";
 import { inDesktop, esciDalGioco } from "../lib/desktop";
 import Taccuino from "../gioco/Taccuino";
-import { piuRecente, type Salvataggio } from "../lib/salvataggi";
+import { durataLeggibile, nomeVisibile, piuRecente, type Salvataggio } from "../lib/salvataggi";
 import { etichettaVersione } from "../lib/versione";
 import ComeSiGioca from "../gioco/ComeSiGioca";
 import PannelloOpzioni from "../gioco/Opzioni";
@@ -562,9 +562,15 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
     cursor: "pointer", border: "1px solid rgba(255,255,255,.2)", background: "rgba(255,255,255,.04)",
     color: "#c9d2de", fontFamily: FONT.mono, fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase", padding: "10px 16px", borderRadius: 999,
   };
+  // dove riprende «Continua»: il nome (se non è quello del luogo), il luogo, il tempo di gioco (o il turno, per i salvataggi di prima)
+  const dettaglioContinua = (u: Salvataggio) => {
+    const nome = nomeVisibile({ posto: u.posto, dati: u });
+    return [nome !== u.riassunto.luogo ? nome : null, u.riassunto.luogo, u.tempoMs !== undefined ? durataLeggibile(u.tempoMs) : `turno ${u.riassunto.turno}`]
+      .filter(Boolean).join(" · ");
+  };
   // le voci del menu d'avvio: «Continua» solo se c'è un viaggio salvato; «Nuovo viaggio» allora chiede conferma (D4)
   const vociMenu: VoceMenu[] = [
-    ...(ultimo ? [{ id: "continua", etichetta: "Continua il viaggio", dettaglio: `${ultimo.riassunto.luogo} · turno ${ultimo.riassunto.turno}`, principale: true, azione: () => onLaunch(ultimo) }] : []),
+    ...(ultimo ? [{ id: "continua", etichetta: "Continua il viaggio", dettaglio: dettaglioContinua(ultimo), principale: true, azione: () => onLaunch(ultimo) }] : []),
     { id: "nuovo", etichetta: ultimo ? "Nuovo viaggio" : "Inizia il viaggio", principale: !ultimo, azione: () => (ultimo ? setDomandaNuovo(true) : onLaunch(null)) },
     { id: "carica", etichetta: "Carica un viaggio", azione: () => setTaccuino(true) },
     { id: "opzioni", etichetta: "Opzioni", azione: () => setOpzioniAperte(true) },

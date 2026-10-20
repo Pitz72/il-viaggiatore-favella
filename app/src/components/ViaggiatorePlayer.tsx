@@ -14,8 +14,11 @@
 //  si potrebbe anche scrivere. Le scelte che costano (un baratto, un dono, una
 //  violenza) chiedono conferma PRIMA di partire, con un'anteprima del motore.
 //  La logica è il motore FAVELLA reale (Pyodide), via favellaRuntime.
-//  Il TACCUINO salva e carica (F5 / F9); il posto automatico si scrive a
-//  ogni cambio di luogo e quando si torna all'intro.
+//  Il TACCUINO salva e carica (salvataggi con nome, dalla testata o dalla
+//  pausa); F5 salva al volo nel posto rapido e F9 lo ricarica; i tre posti
+//  automatici si scrivono a rotazione a ogni cambio di luogo e quando si lascia
+//  la partita. Ogni salvataggio porta la miniatura del paesaggio e il tempo di
+//  gioco (piano 09, §6).
 // ====================================================================
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { avviaGioco } from "../lib/favellaRuntime";
@@ -27,7 +30,9 @@ import Taccuino from "../gioco/Taccuino";
 import Conferma from "../gioco/Conferma";
 import PannelloScorta from "../gioco/PannelloScorta";
 import { bersagliDelUso, chipDiContesto, senzaArticolo, serveAnteprima, valutaConferma, vociDelMenu, type Conferma as DatiConferma, type Cosa } from "../gioco/azioni";
-import { componi, dataLeggibile, nomePosto, scrivi, type Posto, type Riassunto, type Salvataggio } from "../lib/salvataggi";
+import { componi, dataLeggibile, genere, leggi, nomeVisibile, postoAutomatico, RAPIDO, scrivi, type Posto, type Riassunto, type Salvataggio } from "../lib/salvataggi";
+import Cartiglio, { type DatiCartiglio } from "../gioco/Cartiglio";
+import Domanda from "../gioco/Domanda";
 import { annota, inDesktop, esciDalGioco } from "../lib/desktop";
 import { analizza, spezza, VOCI, GESTI, type Blocco } from "../gioco/testo";
 import { partiDelBlocco, partiDellaScelta, type Tabella } from "../gioco/parti";
@@ -86,6 +91,34 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
   const [pausa, setPausa] = useState(false);
   // Esc mentre la voce parla la zittisce soltanto: non apre anche la pausa
   const zittita = useRef(false);
+  // il cartiglio in alto («Salvato · rapido»); il salvataggio rapido in attesa di conferma (F9 con strada non salvata)
+  const [cartiglio, setCartiglio] = useState<DatiCartiglio | null>(null);
+  const avvisa = (testo: string, grave = false) => setCartiglio((c) => ({ n: (c?.n ?? 0) + 1, testo, grave }));
+  const [rapidoDaCaricare, setRapidoDaCaricare] = useState<Salvataggio | null>(null);
+  // il tempo di gioco: corre solo con la partita in corso, la pausa chiusa e la finestra in primo piano
+  const tempo = useRef(0);
+  const conta = useRef(false);
+  conta.current = fase === "gioca" && !finita && !pausa;
+  useEffect(() => {
+    const t = setInterval(() => { if (conta.current && !document.hidden && document.hasFocus()) tempo.current += 1000; }, 1000);
+    return () => clearInterval(t);
+  }, []);
+  // la miniatura del salvataggio: dal paesaggio di adesso, un ritaglio 2,4:1 attorno al viandante (Panorama, VX = 610 su 1280)
+  const panoramaRef = useRef<HTMLElement>(null);
+  const miniatura = (): string | undefined => {
+    const tela = panoramaRef.current?.querySelector("canvas");
+    if (!tela || !tela.width || !tela.height) return undefined;
+    try {
+      const largo = Math.min(tela.width, Math.round(tela.height * 2.4));
+      const x = Math.max(0, Math.min(tela.width - largo, Math.round((610 / 1280) * tela.width - largo / 2)));
+      const c = document.createElement("canvas");
+      c.width = 432; c.height = 180;
+      c.getContext("2d")!.drawImage(tela, x, 0, largo, tela.height, 0, 0, c.width, c.height);
+      return c.toDataURL("image/jpeg", 0.78);
+    } catch {
+      return undefined;
+    }
+  };
   const [annuncio, setAnnuncio] = useState({ n: 0, testo: "" });
   const tabVoce = useRef<Tabella | null>(null);
   const daDire = useRef<Blocco[] | null>(null);   // il primo testo, se arriva prima dell'indice della voce
@@ -167,7 +200,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     return () => { vivo = false; };
   }, []);
 
-  useEffect(() => { if (fase === "gioca" && !finita && !guida && !taccuino && !richiesta && !pannelloOpzioni && !pausa) inputRef.current?.focus(); }, [fase, finita, guida, taccuino, voci, richiesta, pannelloOpzioni, pausa]);
+  useEffect(() => { if (fase === "gioca" && !finita && !guida && !taccuino && !richiesta && !pannelloOpzioni && !pausa && !rapidoDaCaricare) inputRef.current?.focus(); }, [fase, finita, guida, taccuino, voci, richiesta, pannelloOpzioni, pausa, rapidoDaCaricare]);
   // i verbi che qui e adesso hanno un effetto (attingi, curati, attacca…) cambiano a ogni turno
   useEffect(() => {
     if (fase === "gioca" && sessione.current && !finita) setAzioniCtx(sessione.current.azioni());
@@ -253,6 +286,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     setPannello(null); setRichiesta(null);
     setCamminaDa(performance.now());
     setNonSalvati(0);
+    tempo.current = 0;
   };
 
   // ── salvare e caricare ─────────────────────────────────────────────
@@ -265,16 +299,18 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     };
   };
 
-  const salvaIn = async (posto: Posto) => {
+  /** Scrive la partita in un posto; `nome` per i salvataggi con nome (un automatico o il rapido non ne hanno). */
+  const salvaIn = async (posto: Posto, nome?: string) => {
     const s = sessione.current;
     if (!s) throw new Error("La partita non è ancora pronta.");
     const partita = s.salva();
     const dati = componi(posto, partita, riassunto(s.stato()), {
       voci: voci.map(({ cmd, blocchi }) => ({ cmd, blocchi })), incontrati, storia: storia.current,
-    });
+    }, { nome, miniatura: miniatura(), tempoMs: tempo.current });
     await scrivi(posto, dati);
-    if (posto !== "auto") setNonSalvati(0);
+    if (genere(posto) !== "automatico") setNonSalvati(0);
   };
+  const salvaAutomatico = () => postoAutomatico().then((p) => salvaIn(p));
 
   // il posto automatico: a ogni cambio di luogo, fuori dai dialoghi
   const autoLuogo = useRef<string | null>(null);
@@ -283,14 +319,14 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     if (autoLuogo.current === null) { autoLuogo.current = mondo.roomId; return; }
     if (autoLuogo.current === mondo.roomId) return;
     autoLuogo.current = mondo.roomId;
-    salvaIn("auto").catch((e) => annota("warn", `salvataggio automatico non riuscito: ${e?.message ?? e}`));
+    salvaAutomatico().catch((e) => annota("warn", `salvataggio automatico non riuscito: ${e?.message ?? e}`));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mondo.roomId, mondo.dialog, fase, finita]);
 
   // lasciare la partita (verso l'intro o fuori dal gioco): se c'è strada non salvata, prima il posto automatico
   const lascia = (dove: () => void) => {
     if (fase === "gioca" && !finita && !mondo.dialog && nonSalvati > 0) {
-      salvaIn("auto").catch(() => {}).finally(dove);
+      salvaAutomatico().catch(() => {}).finally(dove);
     } else dove();
   };
   const esci = () => lascia(onExit);
@@ -303,20 +339,20 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     const t0 = performance.now();
     const esito = s.carica(dati.partita);
     if (!esito.ok) {
-      annota("error", `caricamento fallito (${nomePosto(dati.posto)}): ${esito.errore}`);
+      annota("error", `caricamento fallito (${dati.posto}): ${esito.errore}`);
       setVoci((v) => [...v, { id: contatore.current++, blocchi: [{ tipo: "sistema", testo: `Il salvataggio non si è potuto caricare: ${esito.errore}` }] }]);
       return;
     }
     const nuovoMondo = s.stato();
     const stessaAvventura = s.salva().avventura === dati.partita.avventura;
-    const note: Blocco[] = [{ tipo: "sistema", testo: `— Ripreso dal ${nomePosto(dati.posto).toLowerCase()}, salvato il ${dataLeggibile(dati.creato)} —` }];
+    const note: Blocco[] = [{ tipo: "sistema", testo: `— Ripreso da «${nomeVisibile({ posto: dati.posto, dati })}», salvato il ${dataLeggibile(dati.creato)} —` }];
     if (!esito.identica) {
       note.push({ tipo: "sistema", testo: stessaAvventura
         ? "Attenzione: la partita ricostruita non coincide del tutto con quella salvata."
         : `Salvato con la versione ${dati.gioco}: la partita è stata ricostruita su questa versione del gioco.` });
       annota("warn", `caricamento con impronta diversa (salvato ${dati.gioco}, stessa avventura: ${stessaAvventura})`);
     }
-    annota("info", `partita caricata: ${nomePosto(dati.posto)}, ${esito.comandi} comandi in ${Math.round(performance.now() - t0)} ms`);
+    annota("info", `partita caricata: ${dati.posto}, ${esito.comandi} comandi in ${Math.round(performance.now() - t0)} ms`);
     const ripresa = [...note, ...analizza(esito.text)];
     setVoci([
       ...dati.diario.voci.map((v) => ({ id: contatore.current++, cmd: v.cmd, blocchi: v.blocchi })),
@@ -333,25 +369,38 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     setFinita(fine); setEsito(esito.stato); setFinale("");
     setCamminaDa(performance.now());
     setNonSalvati(0);
+    tempo.current = dati.tempoMs ?? 0;
+    setPausa(false);
   }
 
-  // F5 salva, F9 carica
+  // F5 salva al volo nel posto rapido, F9 lo ricarica (con una domanda, se c'è strada non salvata)
+  const salvaRapido = () => {
+    if (finita) { avvisa("A viaggio finito non si salva"); return; }
+    salvaIn(RAPIDO).then(() => avvisa("Salvato · rapido")).catch((e) => avvisa(`Non salvato: ${e?.message ?? e}`, true));
+  };
+  const caricaRapido = () => {
+    leggi(RAPIDO).then((v) => {
+      if (!v?.dati) { avvisa(v ? "Il salvataggio rapido non si legge" : "Nessun salvataggio rapido", !!v); return; }
+      if (nonSalvati > 0 && !finita) setRapidoDaCaricare(v.dati);
+      else riprendi(v.dati);
+    }).catch((e) => avvisa(`Non caricato: ${e?.message ?? e}`, true));
+  };
   useEffect(() => {
     const tasto = (e: KeyboardEvent) => {
-      if (fase !== "gioca" || guida || taccuino || pannelloOpzioni) return;
-      if (e.key === "F5") { e.preventDefault(); if (!finita) setTaccuino("salva"); }
-      else if (e.key === "F9") { e.preventDefault(); setTaccuino("carica"); }
+      if (fase !== "gioca" || guida || taccuino || pannelloOpzioni || richiesta || rapidoDaCaricare) return;
+      if (e.key === "F5") { e.preventDefault(); salvaRapido(); }
+      else if (e.key === "F9") { e.preventDefault(); caricaRapido(); }
     };
     window.addEventListener("keydown", tasto);
     return () => window.removeEventListener("keydown", tasto);
-  }, [fase, guida, taccuino, finita, pannelloOpzioni]);
+  });
 
   // Esc, nell'ordine: chiude il menu o il pannello aperto; se la voce parlava, la zittisce soltanto (lo fa il tasto qui
   // sopra); con la riga vuota apre la pausa (piano 09, §5). I dialoghi aperti gestiscono Esc da sé, prima di qui.
   useEffect(() => {
     const tasto = (e: KeyboardEvent) => {
       if (e.key !== "Escape" || e.defaultPrevented) return;
-      if (fase !== "gioca" || pausa || guida || taccuino || richiesta || pannelloOpzioni) return;
+      if (fase !== "gioca" || pausa || guida || taccuino || richiesta || pannelloOpzioni || rapidoDaCaricare) return;
       if (menu || pannello || usaDa) { chiudiPannelli(); return; }
       if (zittita.current) { zittita.current = false; return; }
       if (bozza.trim() && document.activeElement === inputRef.current) return;
@@ -497,7 +546,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
               <h2>Si prepara il viaggio…</h2>
               <p className="vg-carica-msg">{messaggio}</p>
               <div className="vg-carica-barra"><div /></div>
-              <p className="vg-carica-nota">{carica ? `Si riprende il viaggio dal ${nomePosto(carica.posto).toLowerCase()}…` : "Qualche secondo: si avvia l'interprete Python."}</p>
+              <p className="vg-carica-nota">{carica ? `Si riprende il viaggio da «${nomeVisibile({ posto: carica.posto, dati: carica })}»…` : "Qualche secondo: si avvia l'interprete Python."}</p>
             </>
           ) : (
             <>
@@ -516,14 +565,14 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
   return (
     <div className="vg" style={stile}>
       {/* PANORAMA */}
-      <header className="vg-panorama">
+      <header className="vg-panorama" ref={panoramaRef}>
         <Panorama clima={clima} luogo={mondo.roomId} camminaDa={camminaDa} fermo={pausa} />
         <div className="vg-panorama-sfuma" />
         <div className="vg-testata">
           <span className="vg-marchio"><b>Il Viaggiatore</b> · {finita ? "fine del viaggio" : `tappa ${Math.max(1, zi + 1)} di 7`}</span>
           <div style={{ display: "flex", gap: 8 }}>
-            <button className="vg-bottone vg-piccolo" onClick={() => setTaccuino("salva")} disabled={finita} title="Salva la partita (F5)">salva</button>
-            <button className="vg-bottone vg-piccolo" onClick={() => setTaccuino("carica")} title="Carica una partita (F9)">carica</button>
+            <button className="vg-bottone vg-piccolo" onClick={() => setTaccuino("salva")} disabled={finita} title="Salva la partita nel taccuino (F5: salvataggio rapido)">salva</button>
+            <button className="vg-bottone vg-piccolo" onClick={() => setTaccuino("carica")} title="Carica una partita dal taccuino (F9: il salvataggio rapido)">carica</button>
             <button className="vg-bottone vg-piccolo" onClick={() => setPausa(true)}
               title="La pausa: le opzioni, la guida, il menu d'avvio, l'uscita (Esc)">☰ pausa <span className="vg-tasto">Esc</span></button>
           </div>
@@ -768,10 +817,19 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
       {guida && <ComeSiGioca base={13} accento={accento} onChiudi={() => { setGuida(false); if (!pausa) inputRef.current?.focus(); }} />}
       {taccuino && (
         <Taccuino base={13} modo={taccuino} accento={accento} puoSalvare={!finita} avvisaPerdita={nonSalvati > 0 && !finita}
+          istantanea={() => ({ riassunto: riassunto(mondo), miniatura: miniatura(), tempoMs: tempo.current })}
           onSalva={salvaIn}
           onCarica={(d) => { setTaccuino(null); setPausa(false); riprendi(d); }}
           onChiudi={() => { setTaccuino(null); if (!pausa) inputRef.current?.focus(); }} />
       )}
+      {rapidoDaCaricare && (
+        <Domanda base={13} accento={accento} domanda="Caricare il salvataggio rapido?"
+          sotto={`${rapidoDaCaricare.riassunto.luogo}, salvato il ${dataLeggibile(rapidoDaCaricare.creato)}. Quello che hai fatto dopo l'ultimo salvataggio andrà perso.`}
+          si="sì, carica" no="no"
+          onSi={() => { const d = rapidoDaCaricare; setRapidoDaCaricare(null); riprendi(d); }}
+          onNo={() => setRapidoDaCaricare(null)} />
+      )}
+      <Cartiglio dati={cartiglio} accento={accento} />
       {richiesta && (
         <Conferma conferma={richiesta.conferma} etichetta={richiesta.etichetta} puoAnnullare={richiesta.annullabile}
           onSi={confermaSi} onNo={confermaNo} />

@@ -12,6 +12,7 @@ contextBridge.exposeInMainWorld("viaggiatoreDesktop", {
 
   salvataggi: {
     elenco: () => ipcRenderer.invoke("salvataggi:elenco"),
+    leggi: (posto) => ipcRenderer.invoke("salvataggi:leggi", String(posto)),
     scrivi: (posto, testo) => ipcRenderer.invoke("salvataggi:scrivi", String(posto), String(testo)),
     elimina: (posto) => ipcRenderer.invoke("salvataggi:elimina", String(posto)),
     esporta: (posto, nome) => ipcRenderer.invoke("salvataggi:esporta", String(posto), String(nome)),

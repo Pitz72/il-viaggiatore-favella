@@ -1,29 +1,37 @@
 // ====================================================================
-//  Il taccuino: salvare e caricare la partita.
-// --------------------------------------------------------------------
-//  Due schede. SALVA: sei posti; uno vuoto si scrive subito, uno pieno chiede
-//  conferma. CARICA: il posto automatico (scritto a ogni cambio di luogo) e
-//  i sei manuali; se c'è una partita in corso non salvata, chiede conferma.
-//  Ogni posto si può esportare in un file o eliminare; un file si importa.
-//  Misure in em (prop `base`), come la guida: vale per la superficie 1280 del
-//  gioco e per quella 1920 del menu del trailer; nessun testo scende sotto .85em
-//  (11 px a base 13). Ogni scheda è un contenitore: un solo pulsante (l'area
-//  intera), con esporta ed elimina come pulsanti fratelli.
+//  Il taccuino (piano 09, §6): salvare e caricare come in un gioco per
+//  computer. Due schede, Salva e Carica. A sinistra l'elenco dei salvataggi,
+//  dal più recente (in Salva, in cima, «+ Nuovo salvataggio»: solo quelli con
+//  nome si possono riscrivere; in Carica anche il rapido e gli automatici).
+//  A destra il salvataggio scelto: la miniatura del paesaggio, il nome, dove,
+//  quando, quanto si è giocato, il corpo e le scorte, e le azioni: carica o
+//  sovrascrivi, rinomina, esporta, elimina. Le conferme sono domande a parte
+//  (S / N). In fondo, «apri un file…» e «apri la cartella».
+//  Tastiera: ↑ ↓ Inizio Fine PagSu PagGiù nell'elenco, Invio fa l'azione
+//  principale, Canc elimina, ← → fra le schede; Esc chiude (o, se si sta
+//  scrivendo un nome, torna all'elenco). Il mouse: un clic sceglie, due
+//  caricano. Misure in em (prop `base`): 13 nella partita, 19 nel menu.
 // ====================================================================
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  type Posto, type Salvataggio, type VoceTaccuino,
-  archivioSuDisco, apriCartella, cartella, dataLeggibile, elenco, elimina, esporta, importa, nomePosto,
+  type Posto, type Riassunto, type Salvataggio, type VoceTaccuino,
+  archivioSuDisco, apriCartella, cartella, dataLeggibile, durataLeggibile, elenco, elimina, esporta, genere, importa,
+  LUNGHEZZA_NOME, nomeVisibile, nuovoPosto, rinomina,
 } from "../lib/salvataggi";
 import { ZONE_THEME, type ZoneKey } from "../data/viaggiatore";
 import { VERSIONE } from "../lib/versione";
 import { useDialogo } from "./useDialogo";
+import Domanda from "./Domanda";
+import "./opzioni.css";
+import "./taccuino.css";
 
 const SERIF = "'Lora', Georgia, serif";
 const MONO = "'Source Code Pro', ui-monospace, monospace";
 
 type Modo = "salva" | "carica";
-type Conferma = { tipo: "sovrascrivi" | "carica" | "elimina"; posto: Posto; dati?: Salvataggio } | null;
+type Scelto = Posto | "nuovo";
+type Richiesta = { tipo: "sovrascrivi" | "carica" | "elimina" | "file"; voce?: VoceTaccuino; dati?: Salvataggio } | null;
+export interface Istantanea { riassunto: Riassunto; miniatura?: string; tempoMs: number }
 
 interface Props {
   base: number;
@@ -33,213 +41,328 @@ interface Props {
   puoSalvare: boolean;
   /** true se caricando si perderebbe qualcosa: chiede conferma */
   avvisaPerdita?: boolean;
-  onSalva?: (posto: Posto) => Promise<void>;
+  /** la partita di adesso, per «nuovo salvataggio» (si legge all'apertura) */
+  istantanea?: () => Istantanea;
+  onSalva?: (posto: Posto, nome?: string) => Promise<void>;
   onCarica: (s: Salvataggio) => void;
   onChiudi: () => void;
 }
 
-const piccolo = (colore: string): React.CSSProperties => ({
-  fontFamily: MONO, fontSize: ".85em", letterSpacing: ".2em", textTransform: "uppercase", color: colore,
-});
+const TAG: Record<string, string> = { rapido: "rapido", automatico: "automatico" };
 
-export default function Taccuino({ base, modo: modoIniziale, accento = "#f0b77e", puoSalvare, avvisaPerdita = false, onSalva, onCarica, onChiudi }: Props) {
+export default function Taccuino({ base, modo: modoIniziale, accento = "#f0b77e", puoSalvare, avvisaPerdita = false, istantanea, onSalva, onCarica, onChiudi }: Props) {
   const [modo, setModo] = useState<Modo>(puoSalvare ? modoIniziale : "carica");
   const [voci, setVoci] = useState<VoceTaccuino[] | null>(null);
-  const [conferma, setConferma] = useState<Conferma>(null);
+  const [scelto, setScelto] = useState<Scelto | null>(null);
+  const foto = useMemo(() => istantanea?.() ?? null, []);   // eslint-disable-line react-hooks/exhaustive-deps
+  const [nomeNuovo, setNomeNuovo] = useState(() => foto?.riassunto.luogo ?? "");
+  const [nomeInCorso, setNomeInCorso] = useState<string | null>(null);   // la rinomina del salvataggio scelto
+  const [richiesta, setRichiesta] = useState<Richiesta>(null);
   const [nota, setNota] = useState<{ testo: string; errore?: boolean } | null>(null);
   const [occupato, setOccupato] = useState(false);
   const [dove, setDove] = useState<string | null>(null);
-  const [daFile, setDaFile] = useState<Salvataggio | null>(null);
-  const dialogo = useDialogo<HTMLDivElement>();   // il fuoco entra, Tab resta dentro, alla chiusura torna; Esc è qui sotto
+  const elencoRef = useRef<HTMLDivElement>(null);
+  const nuovoRef = useRef<HTMLInputElement>(null);
+  const schedeRef = useRef<HTMLDivElement>(null);
+  // mentre c'è una domanda, o si scrive un nome, Esc e Tab sono loro
+  const stato = useRef({ richiesta, nomeInCorso });
+  stato.current = { richiesta, nomeInCorso };
+  const dialogo = useDialogo<HTMLDivElement>(onChiudi,
+    () => !!stato.current.richiesta || stato.current.nomeInCorso !== null || document.activeElement instanceof HTMLInputElement);
 
-  const ricarica = useCallback(() => {
-    elenco().then(setVoci).catch((e) => { setVoci([]); setNota({ testo: String(e?.message ?? e), errore: true }); });
+  const ricarica = useCallback(async (seleziona?: Scelto) => {
+    try {
+      const v = await elenco();
+      setVoci(v);
+      if (seleziona) setScelto(seleziona);
+    } catch (e) {
+      setVoci([]);
+      setNota({ testo: String(e instanceof Error ? e.message : e), errore: true });
+    }
   }, []);
   useEffect(() => { ricarica(); cartella().then(setDove).catch(() => {}); }, [ricarica]);
+
+  // che cosa c'è nell'elenco: in Salva solo i salvataggi con nome (gli altri non si riscrivono a mano)
+  const righe: Scelto[] = useMemo(() => {
+    const v = (voci ?? []).filter((x) => modo === "carica" || genere(x.posto) === "manuale");
+    return [...(modo === "salva" ? ["nuovo" as const] : []), ...v.map((x) => x.posto)];
+  }, [voci, modo]);
+  const voceDi = (p: Scelto | null) => (p && p !== "nuovo" ? voci?.find((x) => x.posto === p) ?? null : null);
+
+  // la scelta di partenza: in Salva il nuovo, in Carica il più recente che si legge
   useEffect(() => {
-    const tasto = (e: KeyboardEvent) => {
-      if (e.key === "Escape") { e.stopPropagation(); if (conferma || daFile) { setConferma(null); setDaFile(null); } else onChiudi(); }
-    };
-    window.addEventListener("keydown", tasto, true);
-    return () => window.removeEventListener("keydown", tasto, true);
-  }, [conferma, daFile, onChiudi]);
+    if (!voci) return;
+    setScelto((s) => (s && righe.includes(s) ? s : modo === "salva" ? "nuovo" : righe.find((p) => voceDi(p)?.dati) ?? righe[0] ?? null));
+  }, [voci, modo, righe]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // il fuoco segue la scelta (dopo il dialogo, che lo prende all'apertura)
+  const metti = useCallback((p: Scelto | null) => {
+    requestAnimationFrame(() => elencoRef.current?.querySelector<HTMLElement>(`[data-posto="${p}"]`)?.focus({ preventScroll: false }));
+  }, []);
+  const primaVolta = useRef(true);
+  useEffect(() => {
+    if (!voci || !scelto || !primaVolta.current) return;
+    primaVolta.current = false;
+    metti(scelto);
+  }, [voci, scelto, metti]);
 
   const esegui = async (azione: () => Promise<void>) => {
     setOccupato(true);
     try { await azione(); } catch (e) { setNota({ testo: e instanceof Error ? e.message : String(e), errore: true }); }
-    finally { setOccupato(false); setConferma(null); ricarica(); }
+    finally { setOccupato(false); }
   };
 
-  const salvaIn = (posto: Posto) => esegui(async () => {
-    await onSalva?.(posto);
-    setNota({ testo: `Partita salvata nel ${nomePosto(posto).toLowerCase()}.` });
+  // ── le azioni ─────────────────────────────────────────────────────
+  const salvaNuovo = () => esegui(async () => {
+    const nome = nomeNuovo.trim() || foto?.riassunto.luogo || "Salvataggio";
+    const posto = nuovoPosto();
+    await onSalva?.(posto, nome);
+    setNota({ testo: `Salvato: «${nome}».` });
+    await ricarica(posto);
+    metti(posto);
   });
-  const caricaDa = (s: Salvataggio) => { setConferma(null); onCarica(s); };
-
-  const scegli = (v: VoceTaccuino) => {
-    if (occupato) return;
-    if (modo === "salva") {
-      if (v.dati) setConferma({ tipo: "sovrascrivi", posto: v.posto, dati: v.dati });
-      else salvaIn(v.posto);
-    } else if (v.dati) {
-      if (avvisaPerdita) setConferma({ tipo: "carica", posto: v.posto, dati: v.dati });
-      else caricaDa(v.dati);
-    }
+  const sovrascrivi = (v: VoceTaccuino) => esegui(async () => {
+    await onSalva?.(v.posto, v.dati?.nome);
+    setNota({ testo: `Salvato sopra «${nomeVisibile(v)}».` });
+    await ricarica(v.posto);
+    metti(v.posto);
+  });
+  const carica = (d: Salvataggio) => { setRichiesta(null); onCarica(d); };
+  const chiediCarica = (v: VoceTaccuino) => {
+    if (!v.dati) return;
+    if (avvisaPerdita) setRichiesta({ tipo: "carica", voce: v, dati: v.dati });
+    else carica(v.dati);
   };
-
-  const daImportare = async () => {
+  const confermaRinomina = (v: VoceTaccuino) => {
+    const nome = (nomeInCorso ?? "").trim();
+    setNomeInCorso(null);
+    if (!v.dati || !nome || nome === v.dati.nome) { metti(v.posto); return; }
+    esegui(async () => {
+      await rinomina(v.posto, v.dati!, nome);
+      setNota({ testo: `Rinominato: «${nome}».` });
+      await ricarica(v.posto);
+      metti(v.posto);
+    });
+  };
+  const eliminaDavvero = (v: VoceTaccuino) => esegui(async () => {
+    const i = righe.indexOf(v.posto);
+    await elimina(v.posto);
+    setNota({ testo: `Eliminato: «${nomeVisibile(v)}».` });
+    const resto = righe.filter((p) => p !== v.posto);
+    const dopo = resto[Math.min(i, resto.length - 1)] ?? null;
+    await ricarica(dopo ?? undefined);
+    if (dopo) metti(dopo);
+  });
+  const daFile = async () => {
     try {
       const s = await importa();
       if (!s) return;
-      if (avvisaPerdita) { setConferma(null); setDaFile(s); }
-      else caricaDa(s);
+      if (avvisaPerdita) setRichiesta({ tipo: "file", dati: s });
+      else carica(s);
     } catch (e) { setNota({ testo: e instanceof Error ? e.message : String(e), errore: true }); }
   };
 
-  const mostrati = (voci ?? []).filter((v) => modo === "carica" || v.posto !== "auto");
+  /** L'azione principale della riga scelta: Invio, o due clic. */
+  const principale = (p: Scelto | null) => {
+    if (occupato || !p) return;
+    if (p === "nuovo") { nuovoRef.current?.focus(); nuovoRef.current?.select(); return; }
+    const v = voceDi(p);
+    if (!v?.dati) return;
+    if (modo === "salva") setRichiesta({ tipo: "sovrascrivi", voce: v });
+    else chiediCarica(v);
+  };
+  const puoiEliminare = (v: VoceTaccuino | null) => !!v;
+  const puoiRinominare = (v: VoceTaccuino | null) => !!v?.dati && genere(v.posto) === "manuale";
 
-  const scheda = (v: VoceTaccuino) => {
-    const d = v.dati;
-    const r = d?.riassunto;
-    const tema = r ? ZONE_THEME[r.zona as ZoneKey] : undefined;
-    const colore = tema?.accent ?? "rgba(255,255,255,.18)";
-    const attivo = modo === "salva" || !!d;
-    const inConferma = conferma?.posto === v.posto;
-    const id = `tac-${v.posto}`;
-    // la scheda è un contenitore; il suo unico pulsante è quello che copre tutta l'area e prende il nome dai testi;
-    // esporta ed elimina sono pulsanti fratelli, sopra di lui: niente interattivi dentro un altro interattivo
-    const nomi = [`${id}-posto`, d ? `${id}-data` : "", d && r ? `${id}-luogo ${id}-zona ${id}-corpo` : `${id}-vuoto`].filter(Boolean).join(" ");
+  // ── la tastiera nell'elenco ───────────────────────────────────────
+  const tastiElenco = (e: React.KeyboardEvent) => {
+    if (!righe.length) return;
+    const i = Math.max(0, righe.indexOf(scelto ?? righe[0]));
+    const j = e.key === "ArrowDown" ? Math.min(righe.length - 1, i + 1) : e.key === "ArrowUp" ? Math.max(0, i - 1)
+      : e.key === "Home" ? 0 : e.key === "End" ? righe.length - 1
+      : e.key === "PageDown" ? Math.min(righe.length - 1, i + 5) : e.key === "PageUp" ? Math.max(0, i - 5) : -1;
+    if (j >= 0) { e.preventDefault(); setScelto(righe[j]); metti(righe[j]); return; }
+    if (e.key === "Enter") { e.preventDefault(); principale(scelto); return; }
+    if (e.key === "Delete") { const v = voceDi(scelto); if (puoiEliminare(v)) { e.preventDefault(); setRichiesta({ tipo: "elimina", voce: v! }); } }
+  };
+  const frecceSchede = (e: React.KeyboardEvent) => {
+    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    if (!puoSalvare) return;
+    e.preventDefault();
+    const altro: Modo = modo === "salva" ? "carica" : "salva";
+    cambiaModo(altro);
+    requestAnimationFrame(() => schedeRef.current?.querySelector<HTMLElement>(`[data-scheda="${altro}"]`)?.focus());
+  };
+  const cambiaModo = (m: Modo) => { setModo(m); setNota(null); setNomeInCorso(null); setScelto(null); };
+
+  // ── la resa ───────────────────────────────────────────────────────
+  const tema = (r?: Riassunto) => (r ? ZONE_THEME[r.zona as ZoneKey] : undefined);
+  const miniatura = (src: string | undefined, r: Riassunto | undefined, classe: string) => {
+    const t = tema(r);
+    return src
+      ? <img className={classe} src={src} alt="" draggable={false} />
+      : <span className={classe + " tc-senza"} style={{ background: `linear-gradient(180deg, ${(t?.accent ?? "#888") + "40"}, rgba(10,10,14,.9))` }}>{t?.nome ?? ""}</span>;
+  };
+
+  const riga = (p: Scelto) => {
+    const scelta = p === scelto;
+    if (p === "nuovo") {
+      return (
+        <button key="nuovo" type="button" className="tc-riga" data-posto="nuovo" aria-current={scelta || undefined}
+          onClick={() => setScelto("nuovo")} onDoubleClick={() => principale("nuovo")}>
+          <span className="tc-mini tc-piu" aria-hidden="true">+</span>
+          <span className="tc-testi"><span className="tc-nome">Nuovo salvataggio</span><span className="tc-sotto">{foto?.riassunto.luogo ?? ""} · adesso</span></span>
+        </button>
+      );
+    }
+    const v = voceDi(p)!;
+    const g = genere(p);
     return (
-      <div key={v.posto}
-        style={{ position: "relative", gridColumn: v.posto === "auto" ? "1 / -1" : undefined,
-          minHeight: "5.4em", padding: ".75em 1.2em .7em 1.5em", borderRadius: ".8em", overflow: "hidden",
-          background: d ? "rgba(255,255,255,.035)" : "transparent",
-          border: d ? "1px solid rgba(255,255,255,.08)" : "1px dashed rgba(255,255,255,.14)", transition: "border-color .2s, background .2s" }}
-        onMouseEnter={(e) => { if (attivo) e.currentTarget.style.borderColor = accento; }}
-        onMouseLeave={(e) => { e.currentTarget.style.borderColor = d ? "rgba(255,255,255,.08)" : "rgba(255,255,255,.14)"; }}>
-        <span aria-hidden="true" style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: ".3em", background: colore }} />
-        <div style={{ display: "flex", justifyContent: "space-between", gap: "1em" }}>
-          <span id={`${id}-posto`} style={piccolo(v.posto === "auto" ? accento : "rgba(230,222,208,.62)")}>{nomePosto(v.posto)}</span>
-          {d && <span id={`${id}-data`} style={{ ...piccolo("rgba(230,222,208,.6)"), letterSpacing: ".08em", textTransform: "none" }}>{dataLeggibile(d.creato)}</span>}
+      <button key={p} type="button" className="tc-riga" data-posto={p} aria-current={scelta || undefined}
+        onClick={() => setScelto(p)} onDoubleClick={() => principale(p)}>
+        {miniatura(v.dati?.miniatura, v.dati?.riassunto, "tc-mini")}
+        <span className="tc-testi">
+          <span className="tc-nome">{nomeVisibile(v)}{TAG[g] && <span className="tc-tag">{TAG[g]}</span>}</span>
+          <span className="tc-sotto">{v.dati ? `${v.dati.riassunto.luogo} · ${dataLeggibile(v.dati.creato)}` : "non si legge"}</span>
+        </span>
+      </button>
+    );
+  };
+
+  const bottone = (primario = false): React.CSSProperties => ({
+    cursor: "pointer", flexShrink: 0, border: `1px solid ${primario ? accento : "rgba(255,255,255,.18)"}`, borderRadius: 999,
+    background: primario ? accento : "transparent", color: primario ? "#140c06" : "#c9d2de",
+    fontFamily: MONO, fontSize: ".82em", letterSpacing: ".12em", textTransform: "uppercase", padding: ".6em 1.05em",
+  });
+
+  const dettaglio = () => {
+    if (!scelto) return <p className="tc-vuoto">{voci === null ? "Si legge il taccuino…" : modo === "carica" ? "Il taccuino è vuoto: nessun salvataggio da caricare." : ""}</p>;
+    const nuovo = scelto === "nuovo";
+    const v = voceDi(scelto);
+    const d = nuovo ? null : v?.dati ?? null;
+    if (!nuovo && !d) {
+      return (
+        <div className="tc-dettaglio">
+          <p className="tc-errore">Questo salvataggio non si legge: {v?.errore ?? "file guasto"}.</p>
+          <div className="tc-azioni"><button type="button" className="opz-bottone" style={bottone()} onClick={() => v && setRichiesta({ tipo: "elimina", voce: v })}>elimina <b>Canc</b></button></div>
         </div>
-        {d && r ? (
-          <>
-            <div style={{ margin: ".15em 0 0", display: "flex", alignItems: "center", justifyContent: "space-between", gap: ".8em" }}>
-              <p id={`${id}-luogo`} style={{ margin: 0, fontFamily: SERIF, fontSize: "1.3em", color: "#f4ece0" }}>{r.luogo}</p>
-              {!inConferma && (
-                <span style={{ position: "relative", zIndex: 1, display: "flex", gap: ".4em", flexShrink: 0 }}>
-                  <button title="Esporta in un file" aria-label={`Esporta il ${nomePosto(v.posto).toLowerCase()} in un file`}
-                    onClick={() => esegui(async () => { if (await esporta(v.posto, d)) setNota({ testo: "Salvataggio esportato." }); })}
-                    style={bottoncino}>esporta</button>
-                  {v.posto !== "auto" && (
-                    <button title="Elimina" aria-label={`Elimina il ${nomePosto(v.posto).toLowerCase()}`}
-                      onClick={() => setConferma({ tipo: "elimina", posto: v.posto, dati: d })}
-                      style={bottoncino}>elimina</button>
-                  )}
-                </span>
-              )}
-            </div>
-            <p id={`${id}-zona`} style={{ margin: ".15em 0 0", fontFamily: SERIF, fontStyle: "italic", fontSize: ".9em", color: "rgba(226,220,208,.72)" }}>
-              {r.nomeZona} · tappa {r.tappa} di 7 · turno {r.turno}
-            </p>
-            <p id={`${id}-corpo`} style={{ margin: ".45em 0 0", ...piccolo("rgba(230,222,208,.68)"), letterSpacing: ".1em" }}>
-              vita {r.vita} · acqua {r.acqua} · cibo {r.cibo}
-              {d.gioco !== VERSIONE.gioco && <span style={{ color: accento }}> · salvato con la {d.gioco}</span>}
-            </p>
-          </>
+      );
+    }
+    const r = nuovo ? foto?.riassunto : d!.riassunto;
+    const tempo = nuovo ? foto?.tempoMs : d!.tempoMs;
+    const g = nuovo ? "manuale" : genere(scelto);
+    return (
+      <div className="tc-dettaglio">
+        {miniatura(nuovo ? foto?.miniatura : d!.miniatura, r, "tc-foto")}
+        <p className="tc-quando">{TAG[g] ? `${TAG[g]} · ` : ""}{nuovo ? "la partita di adesso" : dataLeggibile(d!.creato)}</p>
+        {nuovo ? (
+          <label className="tc-campo">
+            <span className="tc-etichetta">nome</span>
+            <input ref={nuovoRef} value={nomeNuovo} maxLength={LUNGHEZZA_NOME} spellCheck={false}
+              onChange={(e) => setNomeNuovo(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") { e.preventDefault(); salvaNuovo(); }
+                else if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); metti("nuovo"); }
+              }} />
+          </label>
+        ) : nomeInCorso !== null ? (
+          <label className="tc-campo">
+            <span className="tc-etichetta">nuovo nome</span>
+            <input autoFocus value={nomeInCorso} maxLength={LUNGHEZZA_NOME} spellCheck={false}
+              onFocus={(e) => e.currentTarget.select()}
+              onChange={(e) => setNomeInCorso(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") { e.preventDefault(); confermaRinomina(v!); }
+                else if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); setNomeInCorso(null); metti(scelto); }
+              }} />
+          </label>
         ) : (
-          <p id={`${id}-vuoto`} style={{ margin: ".55em 0 0", fontFamily: SERIF, fontStyle: "italic", fontSize: ".95em", color: "rgba(226,220,208,.66)" }}>
-            {v.errore ? `illeggibile: ${v.errore}` : v.posto === "auto" ? "si scrive da sé a ogni cambio di luogo" : modo === "salva" ? "posto libero · salva qui" : "vuoto"}
-          </p>
+          <h3 className="tc-titolo">{nomeVisibile(v!)}</h3>
         )}
-        <button type="button" disabled={!attivo || inConferma} aria-labelledby={nomi} onClick={() => scegli(v)}
-          onFocus={(e) => { const c = e.currentTarget.parentElement!; c.style.borderColor = accento; c.style.boxShadow = `0 0 0 2px ${accento}`; }}
-          onBlur={(e) => { const c = e.currentTarget.parentElement!; c.style.borderColor = d ? "rgba(255,255,255,.08)" : "rgba(255,255,255,.14)"; c.style.boxShadow = "none"; }}
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", padding: 0, margin: 0, border: "none", background: "transparent",
-            outline: "none", cursor: attivo ? "pointer" : "default" }} />
-        {inConferma && conferma && (
-          <div style={{ position: "absolute", inset: 0, zIndex: 2, display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1em",
-              padding: "0 1.2em 0 1.5em", background: "rgba(12,11,15,.94)", backdropFilter: "blur(2px)" }}>
-            <span style={{ fontFamily: SERIF, fontSize: ".98em", color: "#f4ece0" }}>
-              {conferma.tipo === "sovrascrivi" && `Sovrascrivere il ${nomePosto(v.posto).toLowerCase()}?`}
-              {conferma.tipo === "elimina" && `Eliminare il ${nomePosto(v.posto).toLowerCase()}?`}
-              {conferma.tipo === "carica" && "Caricare? Quello che non hai salvato andrà perso."}
-            </span>
-            <span style={{ display: "flex", gap: ".5em", flexShrink: 0 }}>
-              <button autoFocus style={{ ...bottone, background: accento, color: "#140c06", borderColor: accento }} onClick={() => {
-                if (conferma.tipo === "sovrascrivi") salvaIn(v.posto);
-                else if (conferma.tipo === "elimina") esegui(async () => { await elimina(v.posto); setNota({ testo: "Salvataggio eliminato." }); });
-                else if (conferma.dati) caricaDa(conferma.dati);
-              }}>{conferma.tipo === "sovrascrivi" ? "sovrascrivi" : conferma.tipo === "elimina" ? "elimina" : "carica"}</button>
-              <button style={bottone} onClick={() => setConferma(null)}>annulla</button>
-            </span>
-          </div>
-        )}
+        {r && <p className="tc-luogo">{r.luogo} · {r.nomeZona} · tappa {r.tappa} di 7 · turno {r.turno}</p>}
+        <p className="tc-dati">tempo di gioco <b>{durataLeggibile(tempo)}</b></p>
+        {r && <p className="tc-dati">vita <b>{r.vita}</b> · sete <b>{r.sete}</b> · fame <b>{r.fame}</b> · acqua <b>{r.acqua}</b> · cibo <b>{r.cibo}</b></p>}
+        {d && d.gioco !== VERSIONE.gioco && <p className="tc-dati" style={{ color: accento }}>salvato con la {d.gioco}</p>}
+        <div className="tc-azioni">
+          {nuovo && <button type="button" className="opz-bottone" style={bottone(true)} disabled={occupato} onClick={salvaNuovo}>salva <b>↵</b></button>}
+          {!nuovo && modo === "salva" && <button type="button" className="opz-bottone" style={bottone(true)} disabled={occupato} onClick={() => setRichiesta({ tipo: "sovrascrivi", voce: v! })}>sovrascrivi <b>↵</b></button>}
+          {!nuovo && modo === "carica" && <button type="button" className="opz-bottone" style={bottone(true)} disabled={occupato} onClick={() => chiediCarica(v!)}>carica <b>↵</b></button>}
+          {!nuovo && nomeInCorso === null && puoiRinominare(v) && <button type="button" className="opz-bottone" style={bottone()} disabled={occupato} onClick={() => setNomeInCorso(d!.nome ?? nomeVisibile(v!))}>rinomina</button>}
+          {!nuovo && <button type="button" className="opz-bottone" style={bottone()} disabled={occupato} onClick={() => esegui(async () => { if (await esporta(v!.posto, d!)) setNota({ testo: "Esportato in un file." }); })}>esporta…</button>}
+          {!nuovo && puoiEliminare(v) && <button type="button" className="opz-bottone" style={bottone()} disabled={occupato} onClick={() => setRichiesta({ tipo: "elimina", voce: v! })}>elimina <b>Canc</b></button>}
+        </div>
       </div>
     );
   };
 
+  const vr = richiesta?.voce;
   return (
     <div ref={dialogo} tabIndex={-1} role="dialog" aria-modal="true" aria-label="Il taccuino: salva e carica"
-      style={{ outline: "none", fontSize: base, position: "absolute", inset: 0, zIndex: 70, display: "flex", alignItems: "center", justifyContent: "center",
+      style={{ ["--opz-acc" as string]: accento, ["--tc-acc" as string]: accento, outline: "none", fontSize: base, position: "absolute", inset: 0, zIndex: 70,
+        display: "flex", alignItems: "center", justifyContent: "center",
         background: "rgba(4,4,8,.74)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", animation: "kf-launch .3s ease both", pointerEvents: "auto" }}
       onClick={onChiudi}>
-      <div onClick={(e) => e.stopPropagation()} className="gv-scroll"
-        style={{ width: "min(60em, 94%)", maxHeight: "94%", overflowY: "auto", boxSizing: "border-box", padding: "2.1em 2.3em 1.8em", borderRadius: "1.2em",
+      <div onClick={(e) => e.stopPropagation()}
+        style={{ width: "74em", maxWidth: "94%", height: "40em", maxHeight: "92%", display: "flex", flexDirection: "column", boxSizing: "border-box",
+          padding: "1.7em 2.4em 1.3em", borderRadius: "1.2em",
           background: "linear-gradient(180deg, rgba(20,18,24,.97), rgba(10,10,14,.98))", border: "1px solid rgba(255,255,255,.08)", boxShadow: "0 2em 6em rgba(0,0,0,.6)" }}>
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: "1em" }}>
           <div>
-            <p style={{ margin: 0, ...piccolo(accento), letterSpacing: ".3em" }}>il taccuino</p>
-            <div style={{ display: "flex", gap: "1.2em", marginTop: ".3em" }}>
+            <p style={{ margin: 0, fontFamily: MONO, fontSize: ".85em", letterSpacing: ".3em", textTransform: "uppercase", color: accento }}>il taccuino</p>
+            <div role="tablist" aria-label="Salva o carica" ref={schedeRef} onKeyDown={frecceSchede} style={{ display: "flex", gap: "1.2em", marginTop: ".3em" }}>
               {(["salva", "carica"] as Modo[]).map((m) => (
-                <button key={m} disabled={m === "salva" && !puoSalvare} onClick={() => { setModo(m); setConferma(null); setNota(null); }}
+                <button key={m} type="button" role="tab" className="opz-scheda" data-scheda={m} aria-selected={modo === m} tabIndex={modo === m ? 0 : -1}
+                  disabled={m === "salva" && !puoSalvare} onClick={() => cambiaModo(m)}
                   style={{ cursor: m === "salva" && !puoSalvare ? "default" : "pointer", background: "none", border: "none", padding: "0 0 .15em",
                     fontFamily: SERIF, fontWeight: 500, fontSize: "2em", letterSpacing: "-.01em",
-                    color: modo === m ? "#f4ece0" : "rgba(226,220,208,.62)", borderBottom: `2px solid ${modo === m ? accento : "transparent"}` }}>
+                    color: modo === m ? "#f4ece0" : m === "salva" && !puoSalvare ? "rgba(226,220,208,.28)" : "rgba(226,220,208,.6)",
+                    borderBottom: `2px solid ${modo === m ? accento : "transparent"}` }}>
                   {m === "salva" ? "Salva" : "Carica"}
                 </button>
               ))}
             </div>
           </div>
-          <button onClick={onChiudi} aria-label="Chiudi il taccuino" style={bottone}>chiudi ✕</button>
+          <button type="button" className="opz-bottone" onClick={onChiudi} aria-label="Chiudi il taccuino" style={bottone()}>chiudi <b>Esc</b></button>
         </div>
 
-        <p style={{ margin: "1em 0 0", minHeight: "1.4em", fontFamily: SERIF, fontStyle: "italic", fontSize: ".92em",
-          color: nota?.errore ? "#f28b6b" : nota ? accento : "rgba(226,220,208,.66)" }}>
-          {nota?.testo ?? (modo === "salva" ? "Scegli dove scrivere la partita." : "Scegli da dove riprendere il viaggio.")}
+        <p role="status" style={{ margin: ".8em 0 0", minHeight: "1.4em", fontFamily: SERIF, fontStyle: "italic", fontSize: ".92em",
+          color: nota?.errore ? "#f28b6b" : nota ? accento : "rgba(226,220,208,.6)" }}>
+          {nota?.testo ?? (modo === "salva" ? "Scegli un nome per un salvataggio nuovo, o un salvataggio da riscrivere." : "Scegli da dove riprendere il viaggio.")}
         </p>
 
-        {daFile && (
-          <div style={{ margin: ".6em 0 0", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1em", padding: ".9em 1.2em",
-            borderRadius: ".8em", border: `1px solid ${accento}` }}>
-            <span style={{ fontFamily: SERIF, color: "#f4ece0" }}>Caricare «{daFile.riassunto.luogo}», turno {daFile.riassunto.turno}? Quello che non hai salvato andrà perso.</span>
-            <span style={{ display: "flex", gap: ".5em" }}>
-              <button style={{ ...bottone, background: accento, color: "#140c06", borderColor: accento }} onClick={() => { const s = daFile; setDaFile(null); caricaDa(s); }}>carica</button>
-              <button style={bottone} onClick={() => setDaFile(null)}>annulla</button>
-            </span>
+        <div style={{ marginTop: ".8em", flex: 1, minHeight: 0, display: "grid", gridTemplateColumns: "27em 1fr", columnGap: "2.2em" }}>
+          <div ref={elencoRef} className="tc-elenco gv-scroll" role="list" aria-label={modo === "salva" ? "Dove salvare" : "Che cosa caricare"} onKeyDown={tastiElenco}>
+            {righe.map(riga)}
+            {voci !== null && !righe.length && <p className="tc-vuoto">Nessun salvataggio.</p>}
           </div>
-        )}
-
-        <div style={{ marginTop: "1em", display: "grid", gridTemplateColumns: "1fr 1fr", gap: ".8em" }}>
-          {voci === null ? <p style={{ fontFamily: SERIF, color: "rgba(226,220,208,.66)" }}>Si legge il taccuino…</p> : mostrati.map(scheda)}
+          <div style={{ minWidth: 0, minHeight: 0, overflow: "hidden" }}>{dettaglio()}</div>
         </div>
 
-        <div style={{ marginTop: "1.4em", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1em", flexWrap: "wrap" }}>
+        <div style={{ marginTop: "1em", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1em", flexShrink: 0 }}>
           <div style={{ display: "flex", gap: ".5em" }}>
-            {modo === "carica" && <button style={bottone} onClick={daImportare}>apri un file…</button>}
-            {archivioSuDisco() && <button style={bottone} onClick={() => apriCartella()}>apri la cartella</button>}
+            {modo === "carica" && <button type="button" className="opz-bottone" style={bottone()} onClick={daFile}>apri un file…</button>}
+            {archivioSuDisco() && <button type="button" className="opz-bottone" style={bottone()} onClick={() => apriCartella()}>apri la cartella</button>}
           </div>
-          <span style={{ ...piccolo("rgba(230,222,208,.62)"), letterSpacing: ".06em", textTransform: "none" }}>
-            {dove ? `${dove} · ` : "nel browser · "}Il Viaggiatore {VERSIONE.gioco} · formato {VERSIONE.formatoSalvataggi}
+          <span style={{ fontFamily: MONO, fontSize: ".78em", letterSpacing: ".06em", color: "rgba(230,222,208,.5)", textAlign: "right" }}>
+            ↑↓ scegli · Invio {modo === "salva" ? "salva" : "carica"} · Canc elimina<br />
+            {dove ? `${dove} · ` : "nel browser · "}Il Viaggiatore {VERSIONE.gioco}
           </span>
         </div>
       </div>
+
+      {richiesta?.tipo === "sovrascrivi" && vr && (
+        <Domanda base={base} accento={accento} domanda={`Sovrascrivere «${nomeVisibile(vr)}»?`} sotto="Il salvataggio di prima si perde: al suo posto, la partita di adesso."
+          si="sì, sovrascrivi" no="no" onSi={() => { setRichiesta(null); sovrascrivi(vr); }} onNo={() => { setRichiesta(null); metti(vr.posto); }} />
+      )}
+      {richiesta?.tipo === "elimina" && vr && (
+        <Domanda base={base} accento={accento} domanda={`Eliminare «${nomeVisibile(vr)}»?`} sotto={archivioSuDisco() ? "Il file si cancella dalla cartella dei salvataggi." : "Il salvataggio si cancella dal browser."}
+          si="sì, elimina" no="no" onSi={() => { setRichiesta(null); eliminaDavvero(vr); }} onNo={() => { setRichiesta(null); metti(vr.posto); }} />
+      )}
+      {(richiesta?.tipo === "carica" || richiesta?.tipo === "file") && richiesta.dati && (
+        <Domanda base={base} accento={accento} domanda={`Caricare «${richiesta.voce ? nomeVisibile(richiesta.voce) : richiesta.dati.nome || richiesta.dati.riassunto.luogo}»?`}
+          sotto="Quello che hai fatto dopo l'ultimo salvataggio andrà perso."
+          si="sì, carica" no="no" onSi={() => carica(richiesta.dati!)} onNo={() => { const p = richiesta.voce?.posto; setRichiesta(null); if (p) metti(p); }} />
+      )}
     </div>
   );
 }
-
-const bottone: React.CSSProperties = {
-  cursor: "pointer", flexShrink: 0, border: "1px solid rgba(255,255,255,.16)", background: "transparent", color: "#c9d2de", borderRadius: 999,
-  fontFamily: MONO, fontSize: ".85em", letterSpacing: ".12em", textTransform: "uppercase", padding: ".6em 1em",
-};
-const bottoncino: React.CSSProperties = { ...bottone, fontSize: ".85em", letterSpacing: ".1em", padding: ".35em .7em", color: "rgba(201,210,222,.82)" };

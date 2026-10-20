@@ -1,8 +1,12 @@
 // ====================================================================
 //  Salvataggi su disco (versione desktop).
 // --------------------------------------------------------------------
-//  Un file per posto in Documenti/Il Viaggiatore/Salvataggi:
-//    automatico.viaggiatore, posto-1.viaggiatore … posto-6.viaggiatore
+//  Un file per salvataggio in Documenti/Il Viaggiatore/Salvataggi (piano 09, §6):
+//    s-AAAAMMGG-HHMMSS-xxxx.viaggiatore   i salvataggi con nome, quanti se ne vuole
+//    rapido.viaggiatore                   il rapido (F5 / F9)
+//    automatico-1/2/3.viaggiatore         i tre automatici, a rotazione
+//  e, letti come gli altri, quelli fino alla 1.25 (automatico, posto-1 … posto-6).
+//  Il nome del file è il «posto»; il nome che vede chi gioca sta dentro il file.
 //  JSON leggibile (formato in app/src/lib/salvataggi.ts). Scrittura atomica:
 //  si scrive un .tmp e lo si rinomina, e la versione precedente resta come
 //  .bak: un'interruzione a metà non distrugge mai un salvataggio buono.
@@ -16,17 +20,25 @@ const path = require("node:path");
 const registro = require("./registro.cjs");
 const { gestisci } = require("./ipc.cjs");
 
-const POSTI = ["auto", "1", "2", "3", "4", "5", "6"];
 const ESTENSIONE = ".viaggiatore";
 const LIMITE_IMPORT = 8 * 1024 * 1024;
+// i nomi di file che il gioco scrive o ha scritto: la pagina non può chiederne altri (lo stesso elenco in app/src/lib/posti.ts)
+const POSTO = /^(?:rapido|automatico(?:-[123])?|posto-[1-6]|s-\d{8}-\d{6}-[0-9a-z]{4})$/;
 
 // VIAGGIATORE_SALVATAGGI sposta la cartella (collaudi, CI): mai nei Documenti di chi prova
 const cartella = () => process.env.VIAGGIATORE_SALVATAGGI || path.join(app.getPath("documents"), "Il Viaggiatore", "Salvataggi");
-const nomeFile = (posto) => (posto === "auto" ? "automatico" : `posto-${posto}`) + ESTENSIONE;
+const nomeFile = (posto) => posto + ESTENSIONE;
 
 function controllaPosto(posto) {
-  if (!POSTI.includes(posto)) throw new Error(`Posto di salvataggio sconosciuto: ${posto}`);
+  if (typeof posto !== "string" || !POSTO.test(posto)) throw new Error(`Posto di salvataggio sconosciuto: ${posto}`);
   return path.join(cartella(), nomeFile(posto));
+}
+
+/** I posti che ci sono nella cartella (i file .viaggiatore col nome di un posto; niente .bak, .tmp o altro). */
+async function postiPresenti() {
+  let nomi;
+  try { nomi = await fs.promises.readdir(cartella()); } catch (e) { if (e.code === "ENOENT") return []; throw e; }
+  return nomi.filter((n) => n.endsWith(ESTENSIONE)).map((n) => n.slice(0, -ESTENSIONE.length)).filter((p) => POSTO.test(p)).sort();
 }
 
 let progressivo = 0;
@@ -80,11 +92,13 @@ async function leggiPosto(file) {
 function registra(finestra) {
   gestisci("salvataggi:elenco", async () => {
     const out = [];
-    for (const posto of POSTI) {
+    for (const posto of await postiPresenti()) {
       out.push({ posto, ...(await leggiPosto(path.join(cartella(), nomeFile(posto)))) });
     }
     return out;
   });
+
+  gestisci("salvataggi:leggi", async (_e, posto) => leggiPosto(controllaPosto(posto)));
 
   gestisci("salvataggi:scrivi", async (_e, posto, testo) => {
     const file = controllaPosto(posto);
@@ -133,4 +147,4 @@ function registra(finestra) {
   });
 }
 
-module.exports = { registra, cartella };
+module.exports = { registra, cartella, POSTO };
