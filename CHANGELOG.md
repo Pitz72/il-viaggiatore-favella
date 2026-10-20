@@ -8,6 +8,26 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.16.1] - 2026-10-20
+
+### Corretto
+- **Un errore della pagina finisce una sola volta nel registro tecnico del desktop.** Un errore non preso, una
+  promessa rifiutata o un errore di disegno comparivano due volte: dalla console e dal canale del registro. Ora
+  il confine d'errori li scrive lui, con la sua limitazione (uno ogni 5 s, 200 righe), e il browser non li ripete
+  in console. Provato in un Electron vero: un errore, una riga; un `console.error` diretto resta nel registro.
+- **La data della build è il giorno di chi costruisce**, non quello UTC (`app/vite.config.ts`), come già nelle
+  versioni.
+
+### Cambiato
+- **Per chi sviluppa:** l'esploratore è riproducibile (lo stesso seme dà le stesse partite: scorreva la bisaccia,
+  un insieme, in un ordine che cambiava a ogni avvio di Python) e, per ogni stallo, prova con le uscite dove si
+  può ancora andare e lo scrive nel rapporto, con lo stato in cui la partita è rimasta.
+- **Per chi sviluppa:** il banco di confronto del trailer (`strumenti/trailer-cattura.cjs`, `trailer-confronta.mjs`,
+  `trailer-misura.cjs`): catture deterministiche a istanti scelti, confronto «prima e dopo» con il PSNR e costo di
+  un fotogramma, in un Electron fuori schermo. Prima di ogni ritocco all'aspetto del trailer.
+- Il foglio dei tempi del trailer dice 14 personaggi, come il trailer, il README e le schede (il 13 era di prima
+  di Imma).
+
 ## [1.16.0] - 2026-10-20
 
 ### Aggiunto
