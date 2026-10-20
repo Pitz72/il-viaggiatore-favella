@@ -1,0 +1,2388 @@
+{
+ "zona": "z1",
+ "file": "z1-acquaviva.fav",
+ "blocchi": {
+  "z1-narratore": {
+   "voce": "narratore",
+   "parti": [
+    "8272fe57",
+    "1d131767",
+    "e0980dee",
+    "4f703cc2",
+    "8e192fb7",
+    "e012d45b",
+    "1a350c2d",
+    "2a30dc35",
+    "464a9fb8",
+    "01cdc9b9",
+    "25de9045",
+    "f83a355b",
+    "120355d4",
+    "be770d84",
+    "f22e7137",
+    "feb88abe",
+    "ad669051",
+    "7d539698",
+    "d9116f72",
+    "a82f9fef",
+    "e96050a5",
+    "85f9454f",
+    "0a5a9e04",
+    "4d977172",
+    "c843a6f5"
+   ]
+  },
+  "z1-servizio": {
+   "voce": "servizio",
+   "parti": [
+    "30d5ba4a",
+    "09e2e44d",
+    "5fa89eb4",
+    "9e97ab0b",
+    "04bdfc13",
+    "26bb4d42",
+    "7841d83f",
+    "3ea7bcee",
+    "2b4cf6e4",
+    "5538283c",
+    "aad814cc",
+    "efdd10db"
+   ]
+  },
+  "z1-nunzio": {
+   "voce": "Nunzio",
+   "parti": [
+    "af7219f5",
+    "369411dd",
+    "87b0b6d4",
+    "96a4b7a7",
+    "6f3440d8",
+    "0e0ab5ba",
+    "483588b6"
+   ]
+  },
+  "z1-servizio-numeri": {
+   "voce": "servizio",
+   "parti": [
+    "aa96cadd",
+    "397d5168",
+    "88158ca5",
+    "44f5d7d8",
+    "427aafce",
+    "2a23a713",
+    "02f2090a",
+    "10f0a9b4",
+    "25e1e876",
+    "3d7656d1",
+    "9104cf3a",
+    "6eaf1410",
+    "eb6269d5",
+    "74932580",
+    "f8c41127",
+    "b1fe04ac",
+    "c10e8175",
+    "c06080ad",
+    "909649c3",
+    "ae2b62d8",
+    "ad9db3d0",
+    "46e753b4",
+    "bab89a45",
+    "4ff6d093",
+    "f4fc3faf",
+    "61152138",
+    "84c5ada8",
+    "d80abea7",
+    "3ce8a179",
+    "1dea88cd",
+    "8045220d",
+    "52585c9c",
+    "76b6c13c",
+    "4b39b23c",
+    "11cad964",
+    "090dbc95",
+    "547eb7c9",
+    "e69c8fe2",
+    "f6c2ab72",
+    "861a967a",
+    "41f9c4c0",
+    "89048c54",
+    "78a7b647",
+    "60467537",
+    "845927d7",
+    "cff37d9a",
+    "e8ceaf5e",
+    "4dac45d1",
+    "c8229d5f",
+    "18c29cd0",
+    "2369f9c3",
+    "81efc0ff",
+    "1c05d87d",
+    "8fd8d43a",
+    "d19d81d8",
+    "a674f589",
+    "f1b8e77f",
+    "b57aecd2",
+    "8ffa4d4e",
+    "a8dd401f",
+    "c8ac63e0",
+    "597c3183",
+    "6dd29c5e",
+    "854fa91a",
+    "c7b2a6bd",
+    "86e54f1c",
+    "f2dcc00d",
+    "2a8fee14"
+   ]
+  }
+ },
+ "unita": {
+  "8272fe57": {
+   "voce": "narratore",
+   "testo": "La stazione di Acquaviva. I binari finiscono qui, mangiati dalla gramigna; un cartello arrugginito promette treni che non passano da anni. È da qui che parti, a piedi. In tasca hai l'ultimo biglietto arrivato da casa. Le lettere di prima le scriveva tua moglie, fitte, con le notizie del bambino in fondo; questo è in stampatello, senza firma, e dice una cosa sola: Non è il caso di tornare. Sei tornato lo stesso.",
+   "parole": 73,
+   "fonti": [
+    {
+     "riga": 8,
+     "tipo": "descrizione",
+     "parte": 0
+    }
+   ]
+  },
+  "30d5ba4a": {
+   "voce": "servizio",
+   "testo": "Esamina il biglietto per rileggerlo.",
+   "parole": 5,
+   "fonti": [
+    {
+     "riga": 8,
+     "tipo": "descrizione",
+     "parte": 1
+    }
+   ]
+  },
+  "1d131767": {
+   "voce": "narratore",
+   "testo": "A nord la piazza.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 8,
+     "tipo": "descrizione",
+     "parte": 2
+    }
+   ]
+  },
+  "09e2e44d": {
+   "voce": "servizio",
+   "testo": "Quando il corpo lo chiede: bevi per la sete, mangia per la fame; stato per vederti addosso.",
+   "parole": 17,
+   "fonti": [
+    {
+     "riga": 8,
+     "tipo": "descrizione",
+     "parte": 3
+    }
+   ]
+  },
+  "e0980dee": {
+   "voce": "narratore",
+   "testo": "La piazza del paese attorno a un pozzo asciutto. Persiane sbarrate, una fontana muta. Solo il bar, a est, tiene una luce accesa. A nord una casa aperta, a ovest il margine del paese e la strada. A sud la stazione.",
+   "parole": 41,
+   "fonti": [
+    {
+     "riga": 11,
+     "tipo": "descrizione",
+     "parte": 0
+    }
+   ]
+  },
+  "4f703cc2": {
+   "voce": "narratore",
+   "testo": "Un bar fermo agli ultimi avventori. Dietro il banco, Nunzio tiene in fila bottiglie vuote, le etichette in avanti.",
+   "parole": 19,
+   "fonti": [
+    {
+     "riga": 14,
+     "tipo": "descrizione",
+     "parte": 0
+    }
+   ]
+  },
+  "5fa89eb4": {
+   "voce": "servizio",
+   "testo": "Parla con Nunzio per barattare.",
+   "parole": 5,
+   "fonti": [
+    {
+     "riga": 14,
+     "tipo": "descrizione",
+     "parte": 1
+    }
+   ]
+  },
+  "8e192fb7": {
+   "voce": "narratore",
+   "testo": "Si torna a ovest.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 14,
+     "tipo": "descrizione",
+     "parte": 2
+    }
+   ]
+  },
+  "e012d45b": {
+   "voce": "narratore",
+   "testo": "Una casa lasciata in fretta: cassetti aperti, una foto storta alla parete. Marito, moglie, un bambino in braccio: gente di qui, che non conosci. Ti viene da raddrizzarla. Si torna a sud.",
+   "parole": 32,
+   "fonti": [
+    {
+     "riga": 17,
+     "tipo": "descrizione",
+     "parte": 0
+    }
+   ]
+  },
+  "1a350c2d": {
+   "voce": "narratore",
+   "testo": "Una casa lasciata in fretta: cassetti aperti, una foto alla parete, adesso dritta. Marito, moglie, un bambino in braccio: gente di qui, che non conosci. Si torna a sud.",
+   "parole": 29,
+   "fonti": [
+    {
+     "riga": 18,
+     "tipo": "descrizione",
+     "parte": 0
+    }
+   ]
+  },
+  "2a30dc35": {
+   "voce": "narratore",
+   "testo": "Dove finiscono le case comincia il bianco. La strada esce a ovest, nella piana che frigge sotto il sole. Si torna a est, in piazza.",
+   "parole": 25,
+   "fonti": [
+    {
+     "riga": 21,
+     "tipo": "descrizione",
+     "parte": 0
+    }
+   ]
+  },
+  "464a9fb8": {
+   "voce": "narratore",
+   "testo": "Su un mobile, una mappa piegata della provincia.",
+   "parole": 8,
+   "fonti": [
+    {
+     "riga": 32,
+     "tipo": "posto",
+     "parte": 0
+    }
+   ]
+  },
+  "01cdc9b9": {
+   "voce": "narratore",
+   "testo": "Una mappa della provincia, le strade segnate a penna. Acquamorta è all'altro capo, oltre le colline.",
+   "parole": 16,
+   "fonti": [
+    {
+     "riga": 33,
+     "tipo": "descrizione",
+     "parte": 0
+    }
+   ]
+  },
+  "25de9045": {
+   "voce": "narratore",
+   "testo": "In un cassetto rimasto aperto, un vecchio orologio da polso.",
+   "parole": 10,
+   "fonti": [
+    {
+     "riga": 38,
+     "tipo": "posto",
+     "parte": 0
+    }
+   ]
+  },
+  "f83a355b": {
+   "voce": "narratore",
+   "testo": "Un orologio da polso fermo, ma d'oro vero. Qualcuno te lo cambierebbe con qualcosa di più utile.",
+   "parole": 17,
+   "fonti": [
+    {
+     "riga": 39,
+     "tipo": "descrizione",
+     "parte": 0
+    }
+   ]
+  },
+  "120355d4": {
+   "voce": "narratore",
+   "testo": "Sul lavello, un coltello da cucina.",
+   "parole": 6,
+   "fonti": [
+    {
+     "riga": 44,
+     "tipo": "posto",
+     "parte": 0
+    }
+   ]
+  },
+  "be770d84": {
+   "voce": "narratore",
+   "testo": "Un coltello da cucina, la lama ancora buona. Meglio di niente, contro i denti.",
+   "parole": 14,
+   "fonti": [
+    {
+     "riga": 45,
+     "tipo": "descrizione",
+     "parte": 0
+    }
+   ]
+  },
+  "f22e7137": {
+   "voce": "narratore",
+   "testo": "Marito, moglie e un bambino in braccio, in posa davanti alla fontana della piazza, quando buttava ancora acqua. Una crepa attraversa il vetro in un angolo.",
+   "parole": 26,
+   "fonti": [
+    {
+     "riga": 51,
+     "tipo": "descrizione",
+     "parte": 0
+    }
+   ]
+  },
+  "feb88abe": {
+   "voce": "narratore",
+   "testo": "La raddrizzi con due dita. Il chiodo tiene. Per un momento la casa sembra soltanto chiusa, non lasciata.",
+   "parole": 18,
+   "fonti": [
+    {
+     "riga": 55,
+     "tipo": "messaggio",
+     "parte": 0
+    }
+   ]
+  },
+  "ad669051": {
+   "voce": "narratore",
+   "testo": "È dritta. Di più non puoi fare, per gente che non conosci.",
+   "parole": 12,
+   "fonti": [
+    {
+     "riga": 56,
+     "tipo": "messaggio",
+     "parte": 0
+    }
+   ]
+  },
+  "7d539698": {
+   "voce": "narratore",
+   "testo": "La lasci al suo chiodo. Non è roba tua, e non è roba da portare in viaggio.",
+   "parole": 17,
+   "fonti": [
+    {
+     "riga": 57,
+     "tipo": "messaggio",
+     "parte": 0
+    }
+   ]
+  },
+  "d9116f72": {
+   "voce": "narratore",
+   "testo": "Magro, la camicia stirata anche adesso che non viene più nessuno. Tiene aperto per testardaggine.",
+   "parole": 15,
+   "fonti": [
+    {
+     "riga": 62,
+     "tipo": "descrizione",
+     "parte": 0
+    }
+   ]
+  },
+  "a82f9fef": {
+   "voce": "narratore",
+   "testo": "Rimette il bicchiere al suo posto.",
+   "parole": 6,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 0
+    }
+   ]
+  },
+  "af7219f5": {
+   "voce": "Nunzio",
+   "testo": "Altro?",
+   "parole": 1,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ]
+  },
+  "aa96cadd": {
+   "voce": "servizio",
+   "testo": "Hai zero d'acqua,",
+   "parole": 3,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "acqua"
+  },
+  "397d5168": {
+   "voce": "servizio",
+   "testo": "Hai uno d'acqua,",
+   "parole": 3,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "acqua"
+  },
+  "88158ca5": {
+   "voce": "servizio",
+   "testo": "Hai due d'acqua,",
+   "parole": 3,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "acqua"
+  },
+  "44f5d7d8": {
+   "voce": "servizio",
+   "testo": "Hai tre d'acqua,",
+   "parole": 3,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "acqua"
+  },
+  "427aafce": {
+   "voce": "servizio",
+   "testo": "Hai quattro d'acqua,",
+   "parole": 3,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "acqua"
+  },
+  "2a23a713": {
+   "voce": "servizio",
+   "testo": "Hai cinque d'acqua,",
+   "parole": 3,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "acqua"
+  },
+  "02f2090a": {
+   "voce": "servizio",
+   "testo": "Hai sei d'acqua,",
+   "parole": 3,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "acqua"
+  },
+  "10f0a9b4": {
+   "voce": "servizio",
+   "testo": "Hai sette d'acqua,",
+   "parole": 3,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "acqua"
+  },
+  "25e1e876": {
+   "voce": "servizio",
+   "testo": "Hai otto d'acqua,",
+   "parole": 3,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "acqua"
+  },
+  "3d7656d1": {
+   "voce": "servizio",
+   "testo": "Hai nove d'acqua,",
+   "parole": 3,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "acqua"
+  },
+  "9104cf3a": {
+   "voce": "servizio",
+   "testo": "Hai dieci d'acqua,",
+   "parole": 3,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "acqua"
+  },
+  "6eaf1410": {
+   "voce": "servizio",
+   "testo": "Hai undici d'acqua,",
+   "parole": 3,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "acqua"
+  },
+  "eb6269d5": {
+   "voce": "servizio",
+   "testo": "Hai dodici d'acqua,",
+   "parole": 3,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "acqua"
+  },
+  "74932580": {
+   "voce": "servizio",
+   "testo": "Hai tredici d'acqua,",
+   "parole": 3,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "acqua"
+  },
+  "f8c41127": {
+   "voce": "servizio",
+   "testo": "Hai quattordici d'acqua,",
+   "parole": 3,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "acqua"
+  },
+  "b1fe04ac": {
+   "voce": "servizio",
+   "testo": "Hai quindici d'acqua,",
+   "parole": 3,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "acqua"
+  },
+  "c10e8175": {
+   "voce": "servizio",
+   "testo": "Hai sedici d'acqua,",
+   "parole": 3,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "acqua"
+  },
+  "c06080ad": {
+   "voce": "servizio",
+   "testo": "Hai diciassette d'acqua,",
+   "parole": 3,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "acqua"
+  },
+  "909649c3": {
+   "voce": "servizio",
+   "testo": "Hai diciotto d'acqua,",
+   "parole": 3,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "acqua"
+  },
+  "ae2b62d8": {
+   "voce": "servizio",
+   "testo": "Hai diciannove d'acqua,",
+   "parole": 3,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "acqua"
+  },
+  "ad9db3d0": {
+   "voce": "servizio",
+   "testo": "Hai venti d'acqua,",
+   "parole": 3,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "acqua"
+  },
+  "46e753b4": {
+   "voce": "servizio",
+   "testo": "e zero di cibo.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "bab89a45": {
+   "voce": "servizio",
+   "testo": "e uno di cibo.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "4ff6d093": {
+   "voce": "servizio",
+   "testo": "e due di cibo.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "f4fc3faf": {
+   "voce": "servizio",
+   "testo": "e tre di cibo.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "61152138": {
+   "voce": "servizio",
+   "testo": "e quattro di cibo.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "84c5ada8": {
+   "voce": "servizio",
+   "testo": "e cinque di cibo.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "d80abea7": {
+   "voce": "servizio",
+   "testo": "e sei di cibo.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "3ce8a179": {
+   "voce": "servizio",
+   "testo": "e sette di cibo.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "1dea88cd": {
+   "voce": "servizio",
+   "testo": "e otto di cibo.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "8045220d": {
+   "voce": "servizio",
+   "testo": "e nove di cibo.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "52585c9c": {
+   "voce": "servizio",
+   "testo": "e dieci di cibo.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "76b6c13c": {
+   "voce": "servizio",
+   "testo": "e undici di cibo.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "4b39b23c": {
+   "voce": "servizio",
+   "testo": "e dodici di cibo.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 67,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "369411dd": {
+   "voce": "Nunzio",
+   "testo": "Acqua non ne ho da regalare, di questi tempi. Ma qualcosa per la strada lo trovo, se hai da scambiare.",
+   "parole": 20,
+   "fonti": [
+    {
+     "riga": 68,
+     "tipo": "dialogo",
+     "parte": 0
+    }
+   ]
+  },
+  "9e97ab0b": {
+   "voce": "servizio",
+   "testo": "Ti do l'orologio per dell'acqua.",
+   "parole": 5,
+   "fonti": [
+    {
+     "riga": 70,
+     "tipo": "opzione",
+     "parte": 0
+    }
+   ]
+  },
+  "04bdfc13": {
+   "voce": "servizio",
+   "testo": "Hai qualcosa da mangiare?",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 71,
+     "tipo": "opzione",
+     "parte": 0
+    }
+   ]
+  },
+  "26bb4d42": {
+   "voce": "servizio",
+   "testo": "Posso lavorare, per un po' d'acqua?",
+   "parole": 6,
+   "fonti": [
+    {
+     "riga": 72,
+     "tipo": "opzione",
+     "parte": 0
+    }
+   ]
+  },
+  "7841d83f": {
+   "voce": "servizio",
+   "testo": "Da che parte è Acquamorta?",
+   "parole": 5,
+   "fonti": [
+    {
+     "riga": 73,
+     "tipo": "opzione",
+     "parte": 0
+    }
+   ]
+  },
+  "3ea7bcee": {
+   "voce": "servizio",
+   "testo": "Niente, per ora.",
+   "parole": 3,
+   "fonti": [
+    {
+     "riga": 74,
+     "tipo": "opzione",
+     "parte": 0
+    }
+   ]
+  },
+  "87b0b6d4": {
+   "voce": "Nunzio",
+   "testo": "Oro per acqua. Ai miei tempi avrei riso. Tieni.",
+   "parole": 9,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 0
+    }
+   ]
+  },
+  "e96050a5": {
+   "voce": "narratore",
+   "testo": "Versa nella tua tanica.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ]
+  },
+  "11cad964": {
+   "voce": "servizio",
+   "testo": "Ora hai zero d'acqua.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 2
+    }
+   ],
+   "numero": "acqua"
+  },
+  "090dbc95": {
+   "voce": "servizio",
+   "testo": "Ora hai uno d'acqua.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 2
+    }
+   ],
+   "numero": "acqua"
+  },
+  "547eb7c9": {
+   "voce": "servizio",
+   "testo": "Ora hai due d'acqua.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 2
+    }
+   ],
+   "numero": "acqua"
+  },
+  "e69c8fe2": {
+   "voce": "servizio",
+   "testo": "Ora hai tre d'acqua.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 2
+    }
+   ],
+   "numero": "acqua"
+  },
+  "f6c2ab72": {
+   "voce": "servizio",
+   "testo": "Ora hai quattro d'acqua.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 2
+    }
+   ],
+   "numero": "acqua"
+  },
+  "861a967a": {
+   "voce": "servizio",
+   "testo": "Ora hai cinque d'acqua.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 2
+    }
+   ],
+   "numero": "acqua"
+  },
+  "41f9c4c0": {
+   "voce": "servizio",
+   "testo": "Ora hai sei d'acqua.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 2
+    }
+   ],
+   "numero": "acqua"
+  },
+  "89048c54": {
+   "voce": "servizio",
+   "testo": "Ora hai sette d'acqua.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 2
+    }
+   ],
+   "numero": "acqua"
+  },
+  "78a7b647": {
+   "voce": "servizio",
+   "testo": "Ora hai otto d'acqua.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 2
+    }
+   ],
+   "numero": "acqua"
+  },
+  "60467537": {
+   "voce": "servizio",
+   "testo": "Ora hai nove d'acqua.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 2
+    }
+   ],
+   "numero": "acqua"
+  },
+  "845927d7": {
+   "voce": "servizio",
+   "testo": "Ora hai dieci d'acqua.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 2
+    }
+   ],
+   "numero": "acqua"
+  },
+  "cff37d9a": {
+   "voce": "servizio",
+   "testo": "Ora hai undici d'acqua.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 2
+    }
+   ],
+   "numero": "acqua"
+  },
+  "e8ceaf5e": {
+   "voce": "servizio",
+   "testo": "Ora hai dodici d'acqua.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 2
+    }
+   ],
+   "numero": "acqua"
+  },
+  "4dac45d1": {
+   "voce": "servizio",
+   "testo": "Ora hai tredici d'acqua.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 2
+    }
+   ],
+   "numero": "acqua"
+  },
+  "c8229d5f": {
+   "voce": "servizio",
+   "testo": "Ora hai quattordici d'acqua.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 2
+    }
+   ],
+   "numero": "acqua"
+  },
+  "18c29cd0": {
+   "voce": "servizio",
+   "testo": "Ora hai quindici d'acqua.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 2
+    }
+   ],
+   "numero": "acqua"
+  },
+  "2369f9c3": {
+   "voce": "servizio",
+   "testo": "Ora hai sedici d'acqua.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 2
+    }
+   ],
+   "numero": "acqua"
+  },
+  "81efc0ff": {
+   "voce": "servizio",
+   "testo": "Ora hai diciassette d'acqua.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 2
+    }
+   ],
+   "numero": "acqua"
+  },
+  "1c05d87d": {
+   "voce": "servizio",
+   "testo": "Ora hai diciotto d'acqua.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 2
+    }
+   ],
+   "numero": "acqua"
+  },
+  "8fd8d43a": {
+   "voce": "servizio",
+   "testo": "Ora hai diciannove d'acqua.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 2
+    }
+   ],
+   "numero": "acqua"
+  },
+  "d19d81d8": {
+   "voce": "servizio",
+   "testo": "Ora hai venti d'acqua.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 76,
+     "tipo": "dialogo",
+     "parte": 2
+    },
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 2
+    }
+   ],
+   "numero": "acqua"
+  },
+  "2b4cf6e4": {
+   "voce": "servizio",
+   "testo": "Torno a vedere cos'hai.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 77,
+     "tipo": "opzione",
+     "parte": 0
+    },
+    {
+     "riga": 81,
+     "tipo": "opzione",
+     "parte": 0
+    },
+    {
+     "riga": 84,
+     "tipo": "opzione",
+     "parte": 0
+    }
+   ]
+  },
+  "5538283c": {
+   "voce": "servizio",
+   "testo": "Basta così.",
+   "parole": 2,
+   "fonti": [
+    {
+     "riga": 78,
+     "tipo": "opzione",
+     "parte": 0
+    },
+    {
+     "riga": 82,
+     "tipo": "opzione",
+     "parte": 0
+    },
+    {
+     "riga": 85,
+     "tipo": "opzione",
+     "parte": 0
+    }
+   ]
+  },
+  "96a4b7a7": {
+   "voce": "Nunzio",
+   "testo": "Un po' di scorta secca. Ti costa un sorso, ma cammini meglio.",
+   "parole": 12,
+   "fonti": [
+    {
+     "riga": 80,
+     "tipo": "dialogo",
+     "parte": 0
+    }
+   ]
+  },
+  "a674f589": {
+   "voce": "servizio",
+   "testo": "Ora hai zero di cibo.",
+   "parole": 5,
+   "fonti": [
+    {
+     "riga": 80,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "f1b8e77f": {
+   "voce": "servizio",
+   "testo": "Ora hai uno di cibo.",
+   "parole": 5,
+   "fonti": [
+    {
+     "riga": 80,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "b57aecd2": {
+   "voce": "servizio",
+   "testo": "Ora hai due di cibo.",
+   "parole": 5,
+   "fonti": [
+    {
+     "riga": 80,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "8ffa4d4e": {
+   "voce": "servizio",
+   "testo": "Ora hai tre di cibo.",
+   "parole": 5,
+   "fonti": [
+    {
+     "riga": 80,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "a8dd401f": {
+   "voce": "servizio",
+   "testo": "Ora hai quattro di cibo.",
+   "parole": 5,
+   "fonti": [
+    {
+     "riga": 80,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "c8ac63e0": {
+   "voce": "servizio",
+   "testo": "Ora hai cinque di cibo.",
+   "parole": 5,
+   "fonti": [
+    {
+     "riga": 80,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "597c3183": {
+   "voce": "servizio",
+   "testo": "Ora hai sei di cibo.",
+   "parole": 5,
+   "fonti": [
+    {
+     "riga": 80,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "6dd29c5e": {
+   "voce": "servizio",
+   "testo": "Ora hai sette di cibo.",
+   "parole": 5,
+   "fonti": [
+    {
+     "riga": 80,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "854fa91a": {
+   "voce": "servizio",
+   "testo": "Ora hai otto di cibo.",
+   "parole": 5,
+   "fonti": [
+    {
+     "riga": 80,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "c7b2a6bd": {
+   "voce": "servizio",
+   "testo": "Ora hai nove di cibo.",
+   "parole": 5,
+   "fonti": [
+    {
+     "riga": 80,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "86e54f1c": {
+   "voce": "servizio",
+   "testo": "Ora hai dieci di cibo.",
+   "parole": 5,
+   "fonti": [
+    {
+     "riga": 80,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "f2dcc00d": {
+   "voce": "servizio",
+   "testo": "Ora hai undici di cibo.",
+   "parole": 5,
+   "fonti": [
+    {
+     "riga": 80,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "2a8fee14": {
+   "voce": "servizio",
+   "testo": "Ora hai dodici di cibo.",
+   "parole": 5,
+   "fonti": [
+    {
+     "riga": 80,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ],
+   "numero": "cibo"
+  },
+  "6f3440d8": {
+   "voce": "Nunzio",
+   "testo": "Le casse vuote, nel retro. Portale giù in cantina e un bicchiere te lo verso.",
+   "parole": 15,
+   "fonti": [
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 0
+    }
+   ]
+  },
+  "85f9454f": {
+   "voce": "narratore",
+   "testo": "Quando risali hai la schiena rotta e un fondo d'acqua in più nella tanica.",
+   "parole": 14,
+   "fonti": [
+    {
+     "riga": 83,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ]
+  },
+  "0e0ab5ba": {
+   "voce": "Nunzio",
+   "testo": "A ovest, oltre la piana, c'è l'invaso secco. Poi la statale, e un paese che resiste. Poi le colline: Acquamorta è dietro.",
+   "parole": 22,
+   "fonti": [
+    {
+     "riga": 87,
+     "tipo": "dialogo",
+     "parte": 0
+    }
+   ]
+  },
+  "0a5a9e04": {
+   "voce": "narratore",
+   "testo": "Guarda la tua tanica.",
+   "parole": 4,
+   "fonti": [
+    {
+     "riga": 87,
+     "tipo": "dialogo",
+     "parte": 1
+    }
+   ]
+  },
+  "483588b6": {
+   "voce": "Nunzio",
+   "testo": "Ma serve una mappa, e acqua. Senza, non ci arrivi.",
+   "parole": 10,
+   "fonti": [
+    {
+     "riga": 87,
+     "tipo": "dialogo",
+     "parte": 2
+    }
+   ]
+  },
+  "aad814cc": {
+   "voce": "servizio",
+   "testo": "Grazie.",
+   "parole": 1,
+   "fonti": [
+    {
+     "riga": 88,
+     "tipo": "opzione",
+     "parte": 0
+    }
+   ]
+  },
+  "efdd10db": {
+   "voce": "servizio",
+   "testo": "Altro.",
+   "parole": 1,
+   "fonti": [
+    {
+     "riga": 89,
+     "tipo": "opzione",
+     "parte": 0
+    }
+   ]
+  },
+  "4d977172": {
+   "voce": "narratore",
+   "testo": "Senza una mappa, là fuori è solo perdersi. Cerca in giro prima di partire.",
+   "parole": 14,
+   "fonti": [
+    {
+     "riga": 93,
+     "tipo": "messaggio",
+     "parte": 0
+    }
+   ]
+  },
+  "c843a6f5": {
+   "voce": "narratore",
+   "testo": "Guardi la distesa bianca. Con quest'acqua non arrivi dall'altra parte. Fa' scorta, prima: al bar si baratta, e chi non ha niente da dare può sempre faticare.",
+   "parole": 27,
+   "fonti": [
+    {
+     "riga": 94,
+     "tipo": "messaggio",
+     "parte": 0
+    }
+   ]
+  }
+ },
+ "stringhe": [
+  {
+   "riga": 8,
+   "tipo": "descrizione",
+   "parlante": null,
+   "origine": "La stazione di Acquaviva. I binari finiscono qui, mangiati dalla gramigna; un cartello arrugginito promette treni che non passano da anni. È da qui che parti, a piedi. In tasca hai l'ultimo biglietto arrivato da casa. Le lettere di prima le scriveva tua moglie, fitte, con le notizie del bambino in fondo; questo è in stampatello, senza firma, e dice una cosa sola: «Non è il caso di tornare.» Sei tornato lo stesso. (ESAMINA IL BIGLIETTO per rileggerlo.) A NORD la piazza. (Quando il corpo lo chiede: BEVI per la sete, MANGIA per la fame; STATO per vederti addosso.)",
+   "parti": [
+    "8272fe57",
+    "30d5ba4a",
+    "1d131767",
+    "09e2e44d"
+   ]
+  },
+  {
+   "riga": 11,
+   "tipo": "descrizione",
+   "parlante": null,
+   "origine": "La piazza del paese attorno a un pozzo asciutto. Persiane sbarrate, una fontana muta. Solo il BAR, a EST, tiene una luce accesa. A NORD una casa aperta, a OVEST il margine del paese e la strada. A SUD la stazione.",
+   "parti": [
+    "e0980dee"
+   ]
+  },
+  {
+   "riga": 14,
+   "tipo": "descrizione",
+   "parlante": null,
+   "origine": "Un bar fermo agli ultimi avventori. Dietro il banco, NUNZIO tiene in fila bottiglie vuote, le etichette in avanti. (PARLA CON Nunzio per barattare.) Si torna a OVEST.",
+   "parti": [
+    "4f703cc2",
+    "5fa89eb4",
+    "8e192fb7"
+   ]
+  },
+  {
+   "riga": 17,
+   "tipo": "descrizione",
+   "parlante": null,
+   "origine": "Una casa lasciata in fretta: cassetti aperti, una FOTO storta alla parete. Marito, moglie, un bambino in braccio: gente di qui, che non conosci. Ti viene da raddrizzarla. Si torna a SUD.",
+   "parti": [
+    "e012d45b"
+   ]
+  },
+  {
+   "riga": 18,
+   "tipo": "descrizione",
+   "parlante": null,
+   "origine": "Una casa lasciata in fretta: cassetti aperti, una FOTO alla parete, adesso dritta. Marito, moglie, un bambino in braccio: gente di qui, che non conosci. Si torna a SUD.",
+   "parti": [
+    "1a350c2d"
+   ]
+  },
+  {
+   "riga": 21,
+   "tipo": "descrizione",
+   "parlante": null,
+   "origine": "Dove finiscono le case comincia il bianco. La strada esce a OVEST, nella piana che frigge sotto il sole. Si torna a EST, in piazza.",
+   "parti": [
+    "2a30dc35"
+   ]
+  },
+  {
+   "riga": 32,
+   "tipo": "posto",
+   "parlante": null,
+   "origine": "Su un mobile, una MAPPA piegata della provincia.",
+   "parti": [
+    "464a9fb8"
+   ]
+  },
+  {
+   "riga": 33,
+   "tipo": "descrizione",
+   "parlante": null,
+   "origine": "Una mappa della provincia, le strade segnate a penna. Acquamorta è all'altro capo, oltre le colline.",
+   "parti": [
+    "01cdc9b9"
+   ]
+  },
+  {
+   "riga": 38,
+   "tipo": "posto",
+   "parlante": null,
+   "origine": "In un cassetto rimasto aperto, un vecchio OROLOGIO da polso.",
+   "parti": [
+    "25de9045"
+   ]
+  },
+  {
+   "riga": 39,
+   "tipo": "descrizione",
+   "parlante": null,
+   "origine": "Un orologio da polso fermo, ma d'oro vero. Qualcuno te lo cambierebbe con qualcosa di più utile.",
+   "parti": [
+    "f83a355b"
+   ]
+  },
+  {
+   "riga": 44,
+   "tipo": "posto",
+   "parlante": null,
+   "origine": "Sul lavello, un COLTELLO da cucina.",
+   "parti": [
+    "120355d4"
+   ]
+  },
+  {
+   "riga": 45,
+   "tipo": "descrizione",
+   "parlante": null,
+   "origine": "Un coltello da cucina, la lama ancora buona. Meglio di niente, contro i denti.",
+   "parti": [
+    "be770d84"
+   ]
+  },
+  {
+   "riga": 51,
+   "tipo": "descrizione",
+   "parlante": null,
+   "origine": "Marito, moglie e un bambino in braccio, in posa davanti alla fontana della piazza, quando buttava ancora acqua. Una crepa attraversa il vetro in un angolo.",
+   "parti": [
+    "f22e7137"
+   ]
+  },
+  {
+   "riga": 55,
+   "tipo": "messaggio",
+   "parlante": null,
+   "origine": "La raddrizzi con due dita. Il chiodo tiene. Per un momento la casa sembra soltanto chiusa, non lasciata.",
+   "parti": [
+    "feb88abe"
+   ]
+  },
+  {
+   "riga": 56,
+   "tipo": "messaggio",
+   "parlante": null,
+   "origine": "È dritta. Di più non puoi fare, per gente che non conosci.",
+   "parti": [
+    "ad669051"
+   ]
+  },
+  {
+   "riga": 57,
+   "tipo": "messaggio",
+   "parlante": null,
+   "origine": "La lasci al suo chiodo. Non è roba tua, e non è roba da portare in viaggio.",
+   "parti": [
+    "7d539698"
+   ]
+  },
+  {
+   "riga": 62,
+   "tipo": "descrizione",
+   "parlante": null,
+   "origine": "Magro, la camicia stirata anche adesso che non viene più nessuno. Tiene aperto per testardaggine.",
+   "parti": [
+    "d9116f72"
+   ]
+  },
+  {
+   "riga": 67,
+   "tipo": "dialogo",
+   "parlante": "Nunzio",
+   "origine": "Rimette il bicchiere al suo posto. «Altro?» (Hai [acqua] d'acqua e [cibo] di cibo.)",
+   "parti": [
+    "a82f9fef",
+    "af7219f5",
+    {
+     "dinamico": [
+      {
+       "modello": "Hai [acqua] d'acqua,",
+       "segnaposto": "acqua",
+       "id_per_valore": {
+        "0": "aa96cadd",
+        "1": "397d5168",
+        "2": "88158ca5",
+        "3": "44f5d7d8",
+        "4": "427aafce",
+        "5": "2a23a713",
+        "6": "02f2090a",
+        "7": "10f0a9b4",
+        "8": "25e1e876",
+        "9": "3d7656d1",
+        "10": "9104cf3a",
+        "11": "6eaf1410",
+        "12": "eb6269d5",
+        "13": "74932580",
+        "14": "f8c41127",
+        "15": "b1fe04ac",
+        "16": "c10e8175",
+        "17": "c06080ad",
+        "18": "909649c3",
+        "19": "ae2b62d8",
+        "20": "ad9db3d0"
+       }
+      },
+      {
+       "modello": "e [cibo] di cibo.",
+       "segnaposto": "cibo",
+       "id_per_valore": {
+        "0": "46e753b4",
+        "1": "bab89a45",
+        "2": "4ff6d093",
+        "3": "f4fc3faf",
+        "4": "61152138",
+        "5": "84c5ada8",
+        "6": "d80abea7",
+        "7": "3ce8a179",
+        "8": "1dea88cd",
+        "9": "8045220d",
+        "10": "52585c9c",
+        "11": "76b6c13c",
+        "12": "4b39b23c"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "riga": 68,
+   "tipo": "dialogo",
+   "parlante": "Nunzio",
+   "origine": "«Acqua non ne ho da regalare, di questi tempi. Ma qualcosa per la strada lo trovo, se hai da scambiare.» (Hai [acqua] d'acqua e [cibo] di cibo.)",
+   "parti": [
+    "369411dd",
+    {
+     "dinamico": [
+      {
+       "modello": "Hai [acqua] d'acqua,",
+       "segnaposto": "acqua",
+       "id_per_valore": {
+        "0": "aa96cadd",
+        "1": "397d5168",
+        "2": "88158ca5",
+        "3": "44f5d7d8",
+        "4": "427aafce",
+        "5": "2a23a713",
+        "6": "02f2090a",
+        "7": "10f0a9b4",
+        "8": "25e1e876",
+        "9": "3d7656d1",
+        "10": "9104cf3a",
+        "11": "6eaf1410",
+        "12": "eb6269d5",
+        "13": "74932580",
+        "14": "f8c41127",
+        "15": "b1fe04ac",
+        "16": "c10e8175",
+        "17": "c06080ad",
+        "18": "909649c3",
+        "19": "ae2b62d8",
+        "20": "ad9db3d0"
+       }
+      },
+      {
+       "modello": "e [cibo] di cibo.",
+       "segnaposto": "cibo",
+       "id_per_valore": {
+        "0": "46e753b4",
+        "1": "bab89a45",
+        "2": "4ff6d093",
+        "3": "f4fc3faf",
+        "4": "61152138",
+        "5": "84c5ada8",
+        "6": "d80abea7",
+        "7": "3ce8a179",
+        "8": "1dea88cd",
+        "9": "8045220d",
+        "10": "52585c9c",
+        "11": "76b6c13c",
+        "12": "4b39b23c"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "riga": 70,
+   "tipo": "opzione",
+   "parlante": null,
+   "origine": "Ti do l'orologio per dell'acqua.",
+   "parti": [
+    "9e97ab0b"
+   ]
+  },
+  {
+   "riga": 71,
+   "tipo": "opzione",
+   "parlante": null,
+   "origine": "Hai qualcosa da mangiare?",
+   "parti": [
+    "04bdfc13"
+   ]
+  },
+  {
+   "riga": 72,
+   "tipo": "opzione",
+   "parlante": null,
+   "origine": "Posso lavorare, per un po' d'acqua?",
+   "parti": [
+    "26bb4d42"
+   ]
+  },
+  {
+   "riga": 73,
+   "tipo": "opzione",
+   "parlante": null,
+   "origine": "Da che parte è Acquamorta?",
+   "parti": [
+    "7841d83f"
+   ]
+  },
+  {
+   "riga": 74,
+   "tipo": "opzione",
+   "parlante": null,
+   "origine": "Niente, per ora.",
+   "parti": [
+    "3ea7bcee"
+   ]
+  },
+  {
+   "riga": 76,
+   "tipo": "dialogo",
+   "parlante": "Nunzio",
+   "origine": "«Oro per acqua. Ai miei tempi avrei riso. Tieni.» Versa nella tua tanica. (Ora hai [acqua] d'acqua.)",
+   "parti": [
+    "87b0b6d4",
+    "e96050a5",
+    {
+     "dinamico": [
+      {
+       "modello": "Ora hai [acqua] d'acqua.",
+       "segnaposto": "acqua",
+       "id_per_valore": {
+        "0": "11cad964",
+        "1": "090dbc95",
+        "2": "547eb7c9",
+        "3": "e69c8fe2",
+        "4": "f6c2ab72",
+        "5": "861a967a",
+        "6": "41f9c4c0",
+        "7": "89048c54",
+        "8": "78a7b647",
+        "9": "60467537",
+        "10": "845927d7",
+        "11": "cff37d9a",
+        "12": "e8ceaf5e",
+        "13": "4dac45d1",
+        "14": "c8229d5f",
+        "15": "18c29cd0",
+        "16": "2369f9c3",
+        "17": "81efc0ff",
+        "18": "1c05d87d",
+        "19": "8fd8d43a",
+        "20": "d19d81d8"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "riga": 77,
+   "tipo": "opzione",
+   "parlante": null,
+   "origine": "Torno a vedere cos'hai.",
+   "parti": [
+    "2b4cf6e4"
+   ]
+  },
+  {
+   "riga": 78,
+   "tipo": "opzione",
+   "parlante": null,
+   "origine": "Basta così.",
+   "parti": [
+    "5538283c"
+   ]
+  },
+  {
+   "riga": 80,
+   "tipo": "dialogo",
+   "parlante": "Nunzio",
+   "origine": "«Un po' di scorta secca. Ti costa un sorso, ma cammini meglio.» (Ora hai [cibo] di cibo.)",
+   "parti": [
+    "96a4b7a7",
+    {
+     "dinamico": [
+      {
+       "modello": "Ora hai [cibo] di cibo.",
+       "segnaposto": "cibo",
+       "id_per_valore": {
+        "0": "a674f589",
+        "1": "f1b8e77f",
+        "2": "b57aecd2",
+        "3": "8ffa4d4e",
+        "4": "a8dd401f",
+        "5": "c8ac63e0",
+        "6": "597c3183",
+        "7": "6dd29c5e",
+        "8": "854fa91a",
+        "9": "c7b2a6bd",
+        "10": "86e54f1c",
+        "11": "f2dcc00d",
+        "12": "2a8fee14"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "riga": 81,
+   "tipo": "opzione",
+   "parlante": null,
+   "origine": "Torno a vedere cos'hai.",
+   "parti": [
+    "2b4cf6e4"
+   ]
+  },
+  {
+   "riga": 82,
+   "tipo": "opzione",
+   "parlante": null,
+   "origine": "Basta così.",
+   "parti": [
+    "5538283c"
+   ]
+  },
+  {
+   "riga": 83,
+   "tipo": "dialogo",
+   "parlante": "Nunzio",
+   "origine": "«Le casse vuote, nel retro. Portale giù in cantina e un bicchiere te lo verso.» Quando risali hai la schiena rotta e un fondo d'acqua in più nella tanica. (Ora hai [acqua] d'acqua.)",
+   "parti": [
+    "6f3440d8",
+    "85f9454f",
+    {
+     "dinamico": [
+      {
+       "modello": "Ora hai [acqua] d'acqua.",
+       "segnaposto": "acqua",
+       "id_per_valore": {
+        "0": "11cad964",
+        "1": "090dbc95",
+        "2": "547eb7c9",
+        "3": "e69c8fe2",
+        "4": "f6c2ab72",
+        "5": "861a967a",
+        "6": "41f9c4c0",
+        "7": "89048c54",
+        "8": "78a7b647",
+        "9": "60467537",
+        "10": "845927d7",
+        "11": "cff37d9a",
+        "12": "e8ceaf5e",
+        "13": "4dac45d1",
+        "14": "c8229d5f",
+        "15": "18c29cd0",
+        "16": "2369f9c3",
+        "17": "81efc0ff",
+        "18": "1c05d87d",
+        "19": "8fd8d43a",
+        "20": "d19d81d8"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "riga": 84,
+   "tipo": "opzione",
+   "parlante": null,
+   "origine": "Torno a vedere cos'hai.",
+   "parti": [
+    "2b4cf6e4"
+   ]
+  },
+  {
+   "riga": 85,
+   "tipo": "opzione",
+   "parlante": null,
+   "origine": "Basta così.",
+   "parti": [
+    "5538283c"
+   ]
+  },
+  {
+   "riga": 87,
+   "tipo": "dialogo",
+   "parlante": "Nunzio",
+   "origine": "«A ovest, oltre la piana, c'è l'invaso secco. Poi la statale, e un paese che resiste. Poi le colline: Acquamorta è dietro.» Guarda la tua tanica. «Ma serve una mappa, e acqua. Senza, non ci arrivi.»",
+   "parti": [
+    "0e0ab5ba",
+    "0a5a9e04",
+    "483588b6"
+   ]
+  },
+  {
+   "riga": 88,
+   "tipo": "opzione",
+   "parlante": null,
+   "origine": "Grazie.",
+   "parti": [
+    "aad814cc"
+   ]
+  },
+  {
+   "riga": 89,
+   "tipo": "opzione",
+   "parlante": null,
+   "origine": "Altro.",
+   "parti": [
+    "efdd10db"
+   ]
+  },
+  {
+   "riga": 93,
+   "tipo": "messaggio",
+   "parlante": null,
+   "origine": "Senza una mappa, là fuori è solo perdersi. Cerca in giro prima di partire.",
+   "parti": [
+    "4d977172"
+   ]
+  },
+  {
+   "riga": 94,
+   "tipo": "messaggio",
+   "parlante": null,
+   "origine": "Guardi la distesa bianca. Con quest'acqua non arrivi dall'altra parte. Fa' scorta, prima: al bar si baratta, e chi non ha niente da dare può sempre faticare.",
+   "parti": [
+    "c843a6f5"
+   ]
+  }
+ ],
+ "da_attribuire": [],
+ "dinamici_non_scomposti": {}
+}
