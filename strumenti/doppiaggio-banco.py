@@ -1,0 +1,276 @@
+"""Il banco della voce: dalle parti tagliate ai file che il gioco suona.
+
+Prende le parti tagliate da doppiaggio-taglia.py (doppiaggio/master/clip/<blocco>/<id>.wav, fuori
+da git) e scrive in app/public/voce/ un file Opus per parte, con un indice. Per ogni blocco del
+manifest (una generazione: una voce, un tono di fondo, un livello):
+
+  1. prende SOLO le parti del blocco: non le cartelle archiviate (tore-gemini, vito-gemini, la
+     vecchia servizio-kira) né le parti «fuori_uso» (le 81 scelte di riserva nell'audio di Kira);
+  2. toglie il silenzio in testa e in coda (lascia TESTA e CODA secondi attorno al parlato);
+  3. pareggia il volume: misura la loudness integrata del blocco (EBU R128, con ffmpeg) e porta
+     tutte le sue parti a BERSAGLIO LUFS con lo stesso guadagno, così dentro un blocco un sussurro
+     resta più piano di un grido; una parte che col guadagno supererebbe PICCO_MAX dBFS si alza
+     di meno (non si comprime niente);
+  4. codifica in Opus mono BITRATE (Ogg, deterministico: lo stesso ingresso dà gli stessi byte);
+     una parte che decodificata supera PICCO_DOPO dBFS si ricodifica un poco più piano;
+  5. scrive l'indice id → durata in millisecondi e misura di nuovo i file codificati.
+
+I blocchi di SOLO_LOCALE (ElevenLabs sul piano gratuito: piano 08, decisione 6) vanno in
+app/public/voce/locale/, che git ignora: suonano sul PC di Simone ma non entrano nel repository né
+nei pacchetti; nell'indice principale sono «muti» (motivo → elenco di id).
+
+Uso:  python strumenti/doppiaggio-banco.py            (tutto: scrive app/public/voce/ e doppiaggio/banco.json)
+      python strumenti/doppiaggio-banco.py --misura   (solo la loudness di ogni blocco, non scrive niente)
+
+Serve ffmpeg con libopus. Non scarica niente.
+"""
+import argparse
+import concurrent.futures
+import json
+import os
+import re
+import subprocess
+import sys
+import tempfile
+import wave
+
+import numpy as np
+
+RADICE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DOPPIAGGIO = os.path.join(RADICE, "doppiaggio")
+CLIP = os.path.join(DOPPIAGGIO, "master", "clip")
+USCITA = os.path.join(RADICE, "app", "public", "voce")
+LOCALE = os.path.join(USCITA, "locale")
+RESOCONTO = os.path.join(DOPPIAGGIO, "banco.json")
+
+# LUFS integrati per blocco: EBU R128. Le voci escono con picchi alti rispetto alla loudness (il
+# narratore ha i picchi a -1 dBFS e sta a -23 LUFS): a -18 quasi ogni sua parte avrebbe toccato il
+# tetto dei picchi (594 su 878), a -23 sono 30, quasi tutte di meno di 1 dB (misurato il 20/10/2026).
+BERSAGLIO = -23.0
+PICCO_MAX = -1.5       # dBFS di picco dopo il guadagno, prima della codifica
+PICCO_DOPO = -0.5      # dBFS di picco del file codificato, come lo suona il gioco
+SILENZIO = -45.0       # dBFS (RMS su 10 ms): sotto è silenzio (il fondo delle clip sta fra -70 e -82)
+TESTA = 0.04           # secondi lasciati prima del parlato
+CODA = 0.08            # secondi lasciati dopo: le code delle vocali si spengono piano
+DISSOLVENZA = 0.005    # secondi di dissolvenza ai bordi, contro i «clic»
+BITRATE = "32k"
+ESTENSIONE = ".opus"
+SOLO_LOCALE = {
+    b: "ElevenLabs sul piano gratuito: si rifà prima del rilascio (piano 08, decisione 6)"
+    for b in ("imma", "rosaria", "tore", "vito")
+}
+
+
+def leggi_wav(percorso):
+    with wave.open(percorso) as w:
+        if w.getnchannels() != 1 or w.getsampwidth() != 2:
+            raise SystemExit("%s: atteso mono a 16 bit" % percorso)
+        x = np.frombuffer(w.readframes(w.getnframes()), dtype="<i2").astype(np.float64) / 32768.0
+        return x, w.getframerate()
+
+
+def rifila(x, sr):
+    """La parte senza il silenzio in testa e in coda (più TESTA e CODA), con le dissolvenze."""
+    f = int(0.01 * sr)
+    n = len(x) // f
+    if n == 0:
+        return x
+    rms = np.sqrt((x[:n * f].reshape(n, f) ** 2).mean(axis=1) + 1e-12)
+    sopra = np.where(20 * np.log10(rms) > SILENZIO)[0]
+    if len(sopra) == 0:
+        raise ValueError("nessun parlato sopra %.0f dBFS" % SILENZIO)
+    a = max(0, sopra[0] * f - int(TESTA * sr))
+    b = min(len(x), (sopra[-1] + 1) * f + int(CODA * sr))
+    y = x[a:b].copy()
+    d = min(int(DISSOLVENZA * sr), len(y) // 2)
+    rampa = np.linspace(0.0, 1.0, d, endpoint=False)
+    y[:d] *= rampa
+    y[len(y) - d:] *= rampa[::-1]
+    return y
+
+
+def pcm(x):
+    return (np.clip(x, -1.0, 32767 / 32768) * 32768).round().astype("<i2").tobytes()
+
+
+def ebur128(argomenti, ingresso=None):
+    """(loudness integrata, picco vero) di ciò che ffmpeg legge con questi argomenti."""
+    p = subprocess.run(["ffmpeg", "-hide_banner", "-nostats"] + argomenti +
+                       ["-af", "ebur128=peak=true:framelog=quiet", "-f", "null", "-"],
+                       input=ingresso, capture_output=True)
+    err = p.stderr.decode("utf-8", "replace")
+    i = re.findall(r"I:\s+(-?[\d.]+|-inf) LUFS", err)
+    tp = re.findall(r"Peak:\s+(-?[\d.]+|-inf) dBFS", err)
+    if p.returncode or not i:
+        raise SystemExit("ffmpeg non ha misurato la loudness:\n" + err[-800:])
+    return float(i[-1]), float(tp[-1]) if tp else None
+
+
+def loudness_pcm(campioni, sr):
+    return ebur128(["-f", "s16le", "-ar", str(sr), "-ac", "1", "-i", "pipe:"], pcm(campioni))
+
+
+def loudness_file(percorsi):
+    """Loudness dei file codificati messi in fila (il demuxer concat di ffmpeg)."""
+    with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8") as t:
+        for p in percorsi:
+            t.write("file '%s'\n" % p.replace("\\", "/").replace("'", r"'\''"))
+    try:
+        return ebur128(["-f", "concat", "-safe", "0", "-i", t.name])
+    finally:
+        os.unlink(t.name)
+
+
+def picco_decodificato(percorso):
+    """Il picco (dBFS) del file Opus come lo suonerà il gioco."""
+    p = subprocess.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-i", percorso,
+                        "-f", "f32le", "-ac", "1", "-"], capture_output=True)
+    x = np.frombuffer(p.stdout, dtype="<f4")
+    return 20 * np.log10(max(float(np.abs(x).max()), 1e-9)) if len(x) else -200.0
+
+
+def codifica(campioni, sr, destinazione):
+    """Codifica in Opus; se il file decodificato supera PICCO_DOPO (Opus, sui transitori secchi, può
+    sforare il picco d'ingresso di un paio di dB) si ricodifica la parte un poco più piano.
+    Restituisce i dB tolti."""
+    tolti = 0.0
+    for _ in range(4):
+        p = subprocess.run(
+            ["ffmpeg", "-hide_banner", "-loglevel", "error", "-y",
+             "-f", "s16le", "-ar", str(sr), "-ac", "1", "-i", "pipe:",
+             "-c:a", "libopus", "-b:a", BITRATE, "-vbr", "on", "-compression_level", "10",
+             "-application", "audio", "-map_metadata", "-1",
+             "-fflags", "+bitexact", "-flags:a", "+bitexact", destinazione],
+            input=pcm(campioni * 10 ** (-tolti / 20)), capture_output=True)
+        if p.returncode:
+            raise SystemExit("ffmpeg non ha codificato %s:\n%s" % (destinazione, p.stderr.decode("utf-8", "replace")))
+        sfora = picco_decodificato(destinazione) - PICCO_DOPO
+        if sfora <= 0:
+            return tolti
+        tolti = round(tolti + sfora + 0.1, 2)
+    raise SystemExit("%s: il picco resta sopra %.1f dBFS" % (destinazione, PICCO_DOPO))
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--misura", action="store_true", help="misura soltanto, non scrive niente")
+    ap.add_argument("--bersaglio", type=float, default=BERSAGLIO, help="LUFS per blocco (predefinito %(default)s)")
+    a = ap.parse_args()
+    sys.stdout.reconfigure(encoding="utf-8")
+
+    with open(os.path.join(DOPPIAGGIO, "manifest.json"), encoding="utf-8") as f:
+        man = json.load(f)
+
+    # 1-2. le parti di ogni blocco, rifilate
+    blocchi = {}
+    for nome, b in man["blocchi"].items():
+        if not b.get("generato"):
+            raise SystemExit("blocco %s: non ancora generato" % nome)
+        parti = []
+        for i in b["parti"]:
+            p = os.path.join(CLIP, nome, i + ".wav")
+            if not os.path.exists(p):
+                raise SystemExit("manca la parte tagliata %s" % os.path.relpath(p, RADICE))
+            x, sr = leggi_wav(p)
+            try:
+                y = rifila(x, sr)
+            except ValueError as e:
+                raise SystemExit("%s: %s" % (os.path.relpath(p, RADICE), e))
+            parti.append((i, y, sr))
+        blocchi[nome] = parti
+
+    # 3. il guadagno di ogni blocco
+    resoconto = {}
+    for nome, parti in blocchi.items():
+        sr = parti[0][2]
+        pausa = np.zeros(int(0.3 * sr))
+        tutto = np.concatenate([z for _, y, _ in parti for z in (y, pausa)])
+        lufs, _ = loudness_pcm(tutto, sr)
+        guadagno = a.bersaglio - lufs
+        limitate = []
+        for k, (i, y, sr) in enumerate(parti):
+            picco = 20 * np.log10(max(np.abs(y).max(), 1e-9))
+            g = min(guadagno, PICCO_MAX - picco)
+            if g < guadagno - 0.05:
+                limitate.append(round(guadagno - g, 1))
+            parti[k] = (i, y * 10 ** (g / 20), sr)
+        resoconto[nome] = {"voce": man["blocchi"][nome]["voce"], "parti": len(parti),
+                           "lufs_prima": round(lufs, 1), "guadagno_db": round(guadagno, 1),
+                           "parti_alzate_di_meno": len(limitate),
+                           "al_massimo_db_in_meno": max(limitate) if limitate else 0.0,
+                           "secondi": round(sum(len(y) / sr for _, y, sr in parti), 1)}
+        if nome in SOLO_LOCALE:
+            resoconto[nome]["solo_locale"] = SOLO_LOCALE[nome]
+        print("%-18s %3d parti  %6.1f LUFS  %+5.1f dB  %2d alzate di meno (fino a %.1f dB)" % (
+            nome, len(parti), lufs, guadagno, len(limitate), max(limitate) if limitate else 0.0))
+    if a.misura:
+        return
+
+    # 4. la codifica (in parallelo: un ffmpeg per parte)
+    os.makedirs(LOCALE, exist_ok=True)
+    lavori, indice, indice_locale, muti, blocco_di = [], {}, {}, {}, {}
+    for nome, parti in blocchi.items():
+        cartella = LOCALE if nome in SOLO_LOCALE else USCITA
+        for i, y, sr in parti:
+            ms = round(1000 * len(y) / sr)
+            if nome in SOLO_LOCALE:
+                indice_locale[i] = ms
+                muti.setdefault(SOLO_LOCALE[nome], []).append(i)
+            else:
+                indice[i] = ms
+            lavori.append((y, sr, os.path.join(cartella, i + ESTENSIONE)))
+            blocco_di[i] = nome
+    with concurrent.futures.ThreadPoolExecutor(max_workers=os.cpu_count() or 4) as ex:
+        tolti = list(ex.map(lambda t: codifica(*t), lavori))
+    for (_, _, dest), t in zip(lavori, tolti):
+        if t:
+            r = resoconto[blocco_di[os.path.basename(dest)[:-len(ESTENSIONE)]]]
+            r["ricodificate_piu_piano"] = r.get("ricodificate_piu_piano", 0) + 1
+            print("ricodificata più piano di %.1f dB: %s" % (t, os.path.relpath(dest, RADICE)))
+
+    # i file che non sono più di nessuna parte se ne vanno: la cartella è l'indice
+    for cartella, ids in ((USCITA, indice), (LOCALE, indice_locale)):
+        for f in os.listdir(cartella):
+            if f.endswith(ESTENSIONE) and f[:-len(ESTENSIONE)] not in ids:
+                os.remove(os.path.join(cartella, f))
+
+    def scrivi(percorso, dati):
+        with open(percorso, "w", encoding="utf-8", newline="\n") as f:
+            json.dump(dati, f, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+            f.write("\n")
+
+    for v in muti.values():
+        v.sort()
+    scrivi(os.path.join(USCITA, "indice.json"),
+           {"formato": 1, "estensione": ESTENSIONE, "parti": indice, "muti": muti})
+    scrivi(os.path.join(LOCALE, "indice.json"), {"formato": 1, "estensione": ESTENSIONE, "parti": indice_locale})
+
+    # 5. di nuovo la loudness, sui file codificati
+    for nome, parti in blocchi.items():
+        cartella = LOCALE if nome in SOLO_LOCALE else USCITA
+        file = [os.path.join(cartella, i + ESTENSIONE) for i, _, _ in parti]
+        lufs, picco = loudness_file(file)
+        resoconto[nome].update({"lufs_dopo": round(lufs, 1), "picco_vero_dbtp": picco,
+                                "kb": round(sum(os.path.getsize(p) for p in file) / 1024)})
+    peso = lambda c: sum(os.path.getsize(os.path.join(c, f)) for f in os.listdir(c) if f.endswith(ESTENSIONE))
+    totale = {"parti": len(indice), "parti_solo_locali": len(indice_locale),
+              "minuti": round(sum(indice.values()) / 60000, 1),
+              "minuti_solo_locali": round(sum(indice_locale.values()) / 60000, 1),
+              "mb": round(peso(USCITA) / 1048576, 2), "mb_solo_locali": round(peso(LOCALE) / 1048576, 2)}
+    with open(RESOCONTO, "w", encoding="utf-8", newline="\n") as f:
+        json.dump({"parametri": {"bersaglio_lufs": a.bersaglio, "picco_max_dbfs": PICCO_MAX,
+                                 "picco_dopo_dbfs": PICCO_DOPO, "silenzio_dbfs": SILENZIO, "testa_s": TESTA, "coda_s": CODA,
+                                 "opus": BITRATE + " mono, VBR"},
+                   "totale": totale, "blocchi": resoconto}, f, ensure_ascii=False, indent=1)
+        f.write("\n")
+    print()
+    for nome, r in resoconto.items():
+        print("%-18s dopo: %6.1f LUFS, picco vero %5.1f dBTP, %5d KB%s" % (
+            nome, r["lufs_dopo"], r["picco_vero_dbtp"], r["kb"], "  (solo locale)" if nome in SOLO_LOCALE else ""))
+    print("\nnel repository: %d parti, %.1f minuti, %.2f MB; solo in locale: %d parti, %.1f minuti, %.2f MB" % (
+        totale["parti"], totale["minuti"], totale["mb"], totale["parti_solo_locali"],
+        totale["minuti_solo_locali"], totale["mb_solo_locali"]))
+
+
+if __name__ == "__main__":
+    main()

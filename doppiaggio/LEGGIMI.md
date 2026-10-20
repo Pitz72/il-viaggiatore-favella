@@ -11,6 +11,8 @@ mano: se un testo cambia, si rigenera il blocco.
 | `generati/` | i blocchi **com'erano quando sono stati incollati** in AI Studio: servono a tagliare l'audio anche se poi il piano cambia (`servizio.txt`: 201 parti, comprese 81 scelte del giocatore che poi sono passate al narratore) | sì |
 | `master/` | i WAV scaricati da AI Studio, come escono (circa 48 KB al secondo), e le parti tagliate | **no** (`.gitignore`) |
 | `voci.md` | le descrizioni delle voci da incollare in AI Studio | sì |
+| `banco.json` | il resoconto del banco della voce: per ogni blocco la loudness prima e dopo, il guadagno, il picco, il peso | sì |
+| `../app/public/voce/` | ciò che il gioco suona: un file Opus per parte (`<id>.opus`) e `indice.json` (id → durata in ms, e le parti mute col motivo); `locale/` (ignorata da git) ha le voci che non vanno nel repository | sì (tranne `locale/`) |
 
 ## Una voce per volta
 
@@ -104,7 +106,21 @@ python strumenti/doppiaggio.py blocchi                    # scrive blocchi/ (da 
 python strumenti/doppiaggio.py blocchi --voce cosimo      # solo i blocchi di una voce
 python strumenti/doppiaggio-riconosci.py a.wav b.wav …    # quale blocco è ogni WAV (hanno il nome dell'ora)
 python strumenti/doppiaggio-taglia.py narratore-a 104.wav --controlla   # taglia e controlla (usa generati/narratore-a.txt)
+python strumenti/doppiaggio-banco.py                # dalle parti tagliate ai file Opus del gioco (app/public/voce/)
+python strumenti/doppiaggio-banco.py --misura       # solo la loudness di ogni blocco
 ```
+
+## Dal taglio al gioco: il banco della voce
+
+`strumenti/doppiaggio-banco.py` prende le parti tagliate di ogni blocco del manifest (`master/clip/<blocco>/`,
+mai le cartelle archiviate né le parti `fuori_uso` di Kira), toglie il silenzio in testa e in coda (ne lascia
+0,04 s prima e 0,08 s dopo), porta ogni blocco a **−23 LUFS** (EBU R128) con un guadagno solo, così dentro un
+blocco un sussurro resta più piano di un grido (una parte il cui picco supererebbe −1,5 dBFS si alza di meno;
+niente compressione), codifica in **Opus mono a 32 kbit/s** e scrive `app/public/voce/` e `banco.json`. Una
+parte che dopo la codifica supera −0,5 dBFS si ricodifica un poco più piano. Lo stesso ingresso dà gli stessi
+byte: rifarlo non sporca git. I blocchi fatti sul piano gratuito di ElevenLabs (Imma, Rosaria, Tore, Vito)
+vanno in `voce/locale/`, che git ignora: nell'indice principale sono «muti» col motivo, finché non si rifanno.
+Il collaudo è `collaudo/doppiaggio.py`.
 
 Quando un blocco è generato: si copia da `blocchi/` in `generati/` (com'è stato incollato, con le
 intestazioni dei toni) e si taglia. Restano da fare: i testi con numeri che il gioco ricompone
