@@ -1,7 +1,7 @@
-# Brief per la sessione su FAVELLA1: risincronizzare il sito con Il Viaggiatore VERSIONE_RILASCIATA
+# Brief per la sessione su FAVELLA1: risincronizzare il sito con Il Viaggiatore 1.18.2
 
 > Da avviare in una sessione **separata**, con il preset «FAVELLA1» (repository
-> `C:\Users\Utente\Documents\GitHub\FAVELLA1`), **solo dopo** che la release VERSIONE_RILASCIATA del Viaggiatore è
+> `C:\Users\Utente\Documents\GitHub\FAVELLA1`), **solo dopo** che la release 1.18.2 del Viaggiatore è
 > pubblica (il sito rimanda a `releases/latest`) e **solo se Simone lo dice**. Scritto il 20/10/2026 dalla verifica
 > in sola lettura della sessione di chiusura (diario `2026-10-20-favella-1-il-motore-non-cambia-il-sito-va-risincronizzato.md`).
 
@@ -26,7 +26,7 @@
 
 ## Da fare
 
-1. **La storia.** Copiare da `prototipo/` del Viaggiatore (release VERSIONE_RILASCIATA) in
+1. **La storia.** Copiare da `prototipo/` del Viaggiatore (release 1.18.2) in
    `landingpage/public/favella-engine/galleria/il-viaggiatore/` i file cambiati dalla 1.14.0: `sistemi.fav`,
    `z2-piana.fav`, `z7-guado.fav` (gli altri sei sono uguali; controllare comunque con un confronto di hash, e se la
    release ha toccato altri `.fav`, copiare anche quelli). Serve il motore 1.5.0 (testo con un nome): c'è.
@@ -35,8 +35,9 @@
    Tutto ciò che è cambiato in `app/src` dalla 1.14.0 vale anche per il web (lo `ricade` dove serve il desktop):
    `App.tsx`, `main.tsx`, `components/{Trailer,ViaggiatorePlayer,ConfineErrori}.tsx`, `gioco/{ComeSiGioca,Panorama,Taccuino}.tsx`,
    `gioco/gioco.css`, `gioco/useDialogo.ts`, `lib/{ponte.py,salvataggi.ts}` e quanto altro la release ha toccato
-   (per l'elenco esatto: `git diff 496bb8e..vVERSIONE_RILASCIATA -- app/src` nel Viaggiatore). Aggiornare
-   `esperimento/versione.json` (`gioco`: VERSIONE_RILASCIATA) e, se si vuole, `PYODIDE_VERSION` a `v0.27.8`.
+   (per l'elenco esatto: `git diff 496bb8e..v1.18.2 -- app/src` nel Viaggiatore). Aggiornare
+   `esperimento/versione.json` (`gioco`: 1.18.2) e, se si vuole, `PYODIDE_VERSION` a `v0.27.8`.
+   **Anche i caratteri:** la 1.18.0 ha aggiunto un font (Covered By Your Grace, OFL: `app/public/fonts/QGYwz-AZahWOJJI9kykWW9mD6opopoqXSOSEEQgs.woff2`, la sua voce in `app/public/fonts/fonts.css` e in `OFL.txt`): se l'esperimento ha la sua cartella `fonts/`, va aggiornata, altrimenti il biglietto del trailer cade sul carattere di ripiego. Il trailer è molto cambiato (cartella `app/src/trailer/`, `components/Trailer.tsx`): dalla 1.18.1 su uno schermo 4K sceglie da sé la larghezza della tela (3840/3200/2560) con una prova di costo all'avvio, e sul web vale lo stesso.
    **Non** copiare: `desktop/`, le fuse, l'IPC, gli aggiornamenti, `strumenti/`, `collaudo/`, `.github/`.
 3. **Versioni, testi e notizie.** `landingpage/src/constants.tsx`: `SITE_VERSION` 2.9.3 → 2.9.4 (e la riga di storico), il
    commento sulla release («oggi la 1.14.0 … la storia è quella della 1.12.0»), la notizia «Il Viaggiatore 1.14.0…»
