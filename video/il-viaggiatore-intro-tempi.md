@@ -4,6 +4,11 @@ File video, rigirati il 20 ottobre 2026 con la grafica attuale del trailer (vers
 - `il-viaggiatore-intro.mp4` · 1920×1080 · 30 fps · 88,4 s · circa 74 MB (la grana di pellicola nuova si comprime meglio)
 - `il-viaggiatore-intro-720p.mp4` · 1280×720 · 30 fps · 88,4 s · circa 7 MB, per i servizi con limiti di caricamento
 
+Dalla versione 1.22.0 (20 ottobre 2026, sera) i due file hanno il suono vero del trailer, reso offline come nell'app: la
+musica, i rumori e la voce del narratore (Enzo), con la musica che scende di 8 dB mentre lui parla (circa 74 e 13 MB). I
+tempi della voce, frase per frase, stanno in `app/public/voce/trailer.json`: «tuo FRATELLO.» comincia a 64,0 s sul colpo
+grave e «Il Viaggiatore.» a 82,3 s sul titolo; nel finale la voce legge le cinque regole, non i numeri né la frase finale.
+
 ## Carattere generale
 
 Realismo dolente, non epico. Un uomo torna a piedi in un sud senz'acqua. La musica deve accompagnare il cammino senza commentarlo: poca melodia, molto spazio, un bordone grave che cresce piano. Niente percussioni da trailer d'azione, niente cori. Il punto più alto emotivo è il guado (59,6–67,8 s), non il titolo.

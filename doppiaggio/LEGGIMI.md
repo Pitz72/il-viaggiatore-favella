@@ -108,6 +108,7 @@ python strumenti/doppiaggio-riconosci.py a.wav b.wav …    # quale blocco è og
 python strumenti/doppiaggio-taglia.py narratore-a 104.wav --controlla   # taglia e controlla (usa generati/narratore-a.txt)
 python strumenti/doppiaggio-banco.py                # dalle parti tagliate ai file Opus del gioco (app/public/voce/)
 python strumenti/doppiaggio-banco.py --misura       # solo la loudness di ogni blocco
+python strumenti/doppiaggio-trailer.py              # la traccia della voce del trailer (--prova: solo la scaletta)
 ```
 
 ## Dal taglio al gioco: il banco della voce
@@ -121,6 +122,20 @@ parte che dopo la codifica supera −0,5 dBFS si ricodifica un poco più piano. 
 byte: rifarlo non sporca git. I blocchi fatti sul piano gratuito di ElevenLabs (Imma, Rosaria, Tore, Vito)
 vanno in `voce/locale/`, che git ignora: nell'indice principale sono «muti» col motivo, finché non si rifanno.
 Il collaudo è `collaudo/doppiaggio.py`.
+
+## Nel gioco
+
+L'app suona le parti da sola, senza toccare il motore: il motore stampa il testo già composto e
+`app/src/gioco/parti.ts` ne ritrova le parti con lo stesso spezzamento e le stesse maiuscole di
+`doppiaggio.py` (i numeri delle scorte si ricompongono dai pezzi di Kira; i fili del viaggio frase per
+frase), poi `app/src/gioco/voce.ts` le mette in fila e le ferma al primo tasto. Il trailer non usa le
+parti una per una: `strumenti/doppiaggio-trailer.py` ne fa una traccia sola sul tempo del trailer
+(`app/public/voce/trailer.opus`), che `app/src/trailer/audio.ts` suona sull'orologio della musica. Il
+progetto e le decisioni di Simone stanno in `pre-produzione/08-doppiaggio-tts.md`.
+
+**Se un testo del gioco cambia**, cambia l'id della sua parte: `collaudo/doppiaggio.py` lo dice (una
+parte senza audio, una scaduta). Si rigenera quel testo, si taglia, e si rifanno il banco (e la traccia
+del trailer, se il testo è del trailer).
 
 Quando un blocco è generato: si copia da `blocchi/` in `generati/` (com'è stato incollato, con le
 intestazioni dei toni) e si taglia. Restano da fare: i testi con numeri che il gioco ricompone
