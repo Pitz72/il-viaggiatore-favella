@@ -8,6 +8,20 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.21.0] - 2026-10-20
+
+### Aggiunto
+- **La voce dei numeri e dei fili** (doppiaggio, fase 3 del piano 08): le scorte dette nelle battute si sentono
+  («Hai 6 d'acqua e 2 di cibo.» diventa «Hai sei d'acqua,» + «e due di cibo.», i pezzi che la voce di servizio ha
+  registrato a lettere: acqua da 0 a 20, cibo da 0 a 12; un valore più alto, raro, va al lettore di schermo). Il
+  paragrafo dei fili del viaggio, nei finali, si ritrova frase per frase. Il collaudo della voce prova ogni combinazione
+  dei numeri e i fili uno per uno e tutti insieme: ogni parte del gioco si ritrova da un testo stampato.
+
+### Corretto
+- La voce si ferma anche a ogni comando dato col mouse (una risposta, un'uscita, un pulsante): prima, scegliendo uno
+  scambio, la battuta di prima continuava sopra la finestra di conferma e i suoi numeri («hai tre d'acqua») si
+  confondevano con quelli dello scambio («dai 1 d'acqua»).
+
 ## [1.20.0] - 2026-10-20
 
 ### Aggiunto
