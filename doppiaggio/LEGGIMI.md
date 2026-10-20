@@ -76,6 +76,14 @@ cambierebbe a metà) più un `DA-FARE-0-LEGGIMI-PRIMA.txt` con le impostazioni (
 Similarity 75), come scegliere e salvare la voce e che voce cercare. Il taglio legge anche questi
 blocchi: toglie i tag di tono prima di confrontare.
 
+Provato su Imma (20/10, voce Victoria, 22 righe, 83,7 s): i tag di tono **non** vengono pronunciati;
+tutte le parti ci sono e il controllo di ognuna dà 22 su 22; le pause fra le battute sono brevi
+(0,36 s di mediana, da 0 a 0,65: con Gemini erano 1–3 s), ma bastano per tagliare; il nome del file
+scaricato può riportare la voce selezionata all'apertura della pagina e non quella usata. Alcune voci
+della Voice Library sono riservate ai piani a pagamento (il proprietario le ha limitate, o hanno un
+moltiplicatore di crediti): sul piano gratuito compare «not available for free users».
+**Chi ha detto che cosa** si annota in `voci-scelte.md`.
+
 ## Dopo la generazione: il taglio
 
 `strumenti/doppiaggio-taglia.py` prende i WAV di un blocco, li trascrive con faster-whisper

@@ -74,6 +74,36 @@
    ],
    "fuori_uso": []
   },
+  "imma": {
+   "voce": "Imma",
+   "generato": true,
+   "minuti_stimati": 2.7,
+   "parti": [
+    "115e1b9c",
+    "13616540",
+    "a00095aa",
+    "77218536",
+    "ae5b5c3b",
+    "a798c283",
+    "8787b11e",
+    "ee71086c",
+    "db708b79",
+    "fe65f3db",
+    "09d2fea0",
+    "7adaa04e",
+    "01aa56ba",
+    "14a39599",
+    "ca64783f",
+    "7c2bc16c",
+    "c0e792d2",
+    "6fda15c2",
+    "05f32a56",
+    "96f2491b",
+    "c9db0fe8",
+    "73d8e821"
+   ],
+   "fuori_uso": []
+  },
   "iole": {
    "voce": "Iole",
    "generato": true,
@@ -1085,35 +1115,6 @@
    "minuti_stimati": 0.0,
    "parti": [
     "3062fcfe"
-   ]
-  },
-  "imma": {
-   "voce": "Imma",
-   "generato": false,
-   "minuti_stimati": 2.7,
-   "parti": [
-    "115e1b9c",
-    "a00095aa",
-    "ae5b5c3b",
-    "fe65f3db",
-    "c0e792d2",
-    "96f2491b",
-    "13616540",
-    "77218536",
-    "7adaa04e",
-    "01aa56ba",
-    "14a39599",
-    "ca64783f",
-    "6fda15c2",
-    "05f32a56",
-    "a798c283",
-    "8787b11e",
-    "ee71086c",
-    "db708b79",
-    "09d2fea0",
-    "7c2bc16c",
-    "c9db0fe8",
-    "73d8e821"
    ]
   },
   "rosaria": {

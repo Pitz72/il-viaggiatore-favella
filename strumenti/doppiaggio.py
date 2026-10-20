@@ -633,14 +633,14 @@ def scrivi_da_fare(tutto, blocchi, generati, eleven=()):
         for v in eleven:
             titolo, descr = voci.get(slug(v), (v, ""))
             righe += ["", " - %s" % titolo.upper(), "   %s" % descr]
-        with open(os.path.join(cartella, "DA-FARE-0-LEGGIMI-PRIMA.txt"), "w", encoding="utf-8", newline="\n") as f:
+        with open(os.path.join(cartella, "DA-FARE-LEGGIMI-PRIMA.txt"), "w", encoding="utf-8", newline="\n") as f:
             f.write("\n".join(righe) + "\n")
-        print("DA-FARE/DA-FARE-0-LEGGIMI-PRIMA.txt")
+        print("DA-FARE/DA-FARE-LEGGIMI-PRIMA.txt")
     for n, (voce, blocco) in enumerate(da_fare, 1):
         if blocco is None:  # un personaggio intero, in formato ElevenLabs
             ids = [i for i, u in unita.items() if u["voce"] == voce]
             titolo, descr = voci.get(slug(voce), (voce, ""))
-            nome_file = "DA-FARE-%d-%s-ELEVENLABS.txt" % (n, slug(voce).upper())
+            nome_file = "DA-FARE-%s-ELEVENLABS.txt" % slug(voce).upper()  # niente numero: il nome non cambia mai
             with open(os.path.join(cartella, nome_file), "w", encoding="utf-8", newline="\n") as f:
                 f.write(testo_elevenlabs(unita, ids, tutto.get("stili", {})))
             print("DA-FARE/%s  (%d righe, %d caratteri)" % (nome_file, len(ids), sum(len(unita[i]["testo"]) for i in ids)))
@@ -670,7 +670,7 @@ def scrivi_da_fare(tutto, blocchi, generati, eleven=()):
             "descrizione + « Delivery: <style>.» (il tono «calmo» è quello di base)." % INTESTAZIONE,
             "%s ============================================================" % INTESTAZIONE, ""]
         corpo = testo_del_blocco(unita, ids, tutto.get("stili", {}))
-        nome_file = "DA-FARE-%d-%s%s-GEMINI.txt" % (n, slug(voce).upper(), "-RITOCCO" if ritocco else "")
+        nome_file = "DA-FARE-%s%s-GEMINI.txt" % (slug(voce).upper(), "-RITOCCO" if ritocco else "")
         with open(os.path.join(cartella, nome_file), "w", encoding="utf-8", newline="\n") as f:
             f.write("\n".join(testo) + corpo)
         print("DA-FARE/%s" % nome_file)
