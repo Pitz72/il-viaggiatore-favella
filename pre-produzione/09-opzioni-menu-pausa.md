@@ -417,8 +417,27 @@ commit e push. Il rilascio pubblico, solo su ordine.
 | 7 | **Trofei**: deposito, regole, cartiglio col suono, pagina, schermata finale, sfide nei salvataggi | 1.30.0 |
 | 8 | Verifiche finali, partite intere nei tre modi, README, guide, pacchetti | 1.30.x |
 
-## 11. Che cosa resta da decidere
+## 11. Che cosa resta (stato al 21/10/2026, fine sessione: `main` = 1.28.0, non rilasciata)
 
-- **I nomi e gli accenni dei trenta trofei** (§7.3): sono una prima stesura; si rivedono con Simone prima
-  della fase 7.
-- **Lo scaricamento** di Atkinson Hyperlegible (fase 6): lo chiedo con file, fonte e peso.
+Fatte: fasi 1, 2, 3, 4 e 6 (1.24.0 – 1.28.0), ciascuna provata nel browser e nel desktop. Ultima release pubblica:
+v1.23.0. Il rilascio delle novità, solo su ordine di Simone.
+
+**Da fare, nell'ordine:**
+
+1. **Fase 5 — i tre modi dei comandi** (1.29.0): pulsanti e parole (com'è oggi), solo pulsanti, solo parole (§3.3);
+   la scheda Generale compare anche nel browser; la guida e il segnaposto della riga si adattano al modo; «opzioni»,
+   «pausa» (e poi «trofei») scritti aprono i pannelli, da verificare che il motore non li usi.
+2. **Fase 7 — i trofei** (1.30.0): **prima** rivedere con Simone nomi e accenni dei trenta trofei (§7.3); poi il
+   deposito (`trofei.json` accanto ai salvataggi), le regole pure (`gioco/trofei.ts`, il ponte espone gli `stati`), il
+   cartiglio col suono flautato lievissimo, la pagina, la voce «Trofei» nel menu d'avvio e nella pausa, il riquadro
+   sulla schermata finale, le sfide nei salvataggi (campo `sfide`), `collaudo/trofei.py`.
+3. **Fase 8 — verifiche finali e documenti** (1.30.x): partite intere nei tre modi dei comandi, lette come un giocatore;
+   l'alta accessibilità a tutto schermo a 1080p e 4K; README, guide, pacchetti.
+
+**Piccole cose rimaste aperte:**
+
+- La guida «Come si gioca» col contrasto alto prende solo il fondo pieno: i suoi colori sono nel componente.
+- Nel registro tecnico, già dal 20/10 (prima di questa serie di fasi): «Oscillator.frequency.setValueAtTime value
+  26432.8 outside nominal range» — un suono sintetico (i loghi?) chiede una frequenza oltre il limite e il browser la
+  taglia. Innocuo, da trovare e correggere.
+- `video/ecosystem-schermate-1.23.0.jpg` è nella cartella e fuori da git: non è di queste fasi; decide Simone.
