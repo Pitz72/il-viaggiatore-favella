@@ -10,10 +10,11 @@
 //  posto è illeggibile, si prova la copia di riserva (.bak).
 //  La pagina non tocca il disco: chiede tutto qui, per nome di posto.
 // ====================================================================
-const { app, ipcMain, dialog, shell } = require("electron");
+const { app, dialog, shell } = require("electron");
 const fs = require("node:fs");
 const path = require("node:path");
 const registro = require("./registro.cjs");
+const { gestisci } = require("./ipc.cjs");
 
 const POSTI = ["auto", "1", "2", "3", "4", "5", "6"];
 const ESTENSIONE = ".viaggiatore";
@@ -77,7 +78,7 @@ async function leggiPosto(file) {
 }
 
 function registra(finestra) {
-  ipcMain.handle("salvataggi:elenco", async () => {
+  gestisci("salvataggi:elenco", async () => {
     const out = [];
     for (const posto of POSTI) {
       out.push({ posto, ...(await leggiPosto(path.join(cartella(), nomeFile(posto)))) });
@@ -85,20 +86,20 @@ function registra(finestra) {
     return out;
   });
 
-  ipcMain.handle("salvataggi:scrivi", async (_e, posto, testo) => {
+  gestisci("salvataggi:scrivi", async (_e, posto, testo) => {
     const file = controllaPosto(posto);
     if (typeof testo !== "string" || testo.length > LIMITE_IMPORT) throw new Error("Salvataggio non valido.");
     await scriviAtomico(file, testo);
     registro.info(`salvataggio scritto: ${path.basename(file)} (${testo.length} byte)`);
   });
 
-  ipcMain.handle("salvataggi:elimina", async (_e, posto) => {
+  gestisci("salvataggi:elimina", async (_e, posto) => {
     const file = controllaPosto(posto);
     await fs.promises.rm(file, { force: true });
     registro.info(`salvataggio eliminato: ${path.basename(file)}`);
   });
 
-  ipcMain.handle("salvataggi:esporta", async (_e, posto, suggerito) => {
+  gestisci("salvataggi:esporta", async (_e, posto, suggerito) => {
     const file = controllaPosto(posto);
     const scelta = await dialog.showSaveDialog(finestra(), {
       title: "Esporta il salvataggio",
@@ -111,7 +112,7 @@ function registra(finestra) {
     return true;
   });
 
-  ipcMain.handle("salvataggi:importa", async () => {
+  gestisci("salvataggi:importa", async () => {
     const scelta = await dialog.showOpenDialog(finestra(), {
       title: "Apri un salvataggio",
       defaultPath: app.getPath("documents"),
@@ -125,8 +126,8 @@ function registra(finestra) {
     return fs.promises.readFile(scelta.filePaths[0], "utf8");
   });
 
-  ipcMain.handle("salvataggi:cartella", () => cartella());
-  ipcMain.handle("salvataggi:apri-cartella", async () => {
+  gestisci("salvataggi:cartella", () => cartella());
+  gestisci("salvataggi:apri-cartella", async () => {
     await fs.promises.mkdir(cartella(), { recursive: true });
     await shell.openPath(cartella());
   });

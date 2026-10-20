@@ -12,29 +12,20 @@
 //  (qualcosa non va). La usa la CI su ogni pacchetto costruito.
 //
 //  Moduli: registro.cjs (registro tecnico), salvataggi.cjs (file su disco),
-//  aggiornamenti.cjs (aggiornamento automatico dalle release di GitHub).
+//  aggiornamenti.cjs (aggiornamento automatico dalle release di GitHub),
+//  ipc.cjs (i canali con la pagina, e il controllo di chi li chiama).
 // ====================================================================
-const { app, BrowserWindow, protocol, ipcMain, Menu, shell } = require("electron");
+const { app, BrowserWindow, protocol, Menu, shell } = require("electron");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 const registro = require("./registro.cjs");
 const salvataggi = require("./salvataggi.cjs");
 const aggiornamenti = require("./aggiornamenti.cjs");
+const { SCHEMA, ORIGINE, dellApp, su, gestisci } = require("./ipc.cjs");
 
 const WEB = path.join(__dirname, "web");
 const AUTOVERIFICA = process.argv.includes("--autoverifica");
-const SCHEMA = "app";
-const HOST = "gioco";
-const ORIGINE = `${SCHEMA}://${HOST}`;
-
-// L'indirizzo è dell'app? Si confrontano protocollo e host, non `URL.origin`: per uno schema
-// proprio come app:// l'origine di Node è «null». Un host come gioco.altro.it, o un indirizzo con
-// utente o porta, non passano.
-const dellApp = (indirizzo) => {
-  try { const u = new URL(indirizzo); return u.protocol === `${SCHEMA}:` && u.host === HOST; }
-  catch { return false; }
-};
 
 protocol.registerSchemesAsPrivileged([
   { scheme: SCHEMA, privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true, codeCache: true } },
@@ -147,20 +138,20 @@ function creaFinestra() {
   finestra.loadURL(`${ORIGINE}/index.html${AUTOVERIFICA ? "?autoverifica" : ""}`);
 }
 
-ipcMain.on("versione", (e) => { e.returnValue = app.getVersion(); });
-ipcMain.on("registro", (_e, livello, testo) => {
+su("versione", (e) => { e.returnValue = app.getVersion(); });
+su("registro", (_e, livello, testo) => {
   const scrivi = { info: registro.info, warn: registro.warn, error: registro.error }[livello] ?? registro.info;
   scrivi(`[pagina] ${String(testo).slice(0, 2000)}`);
 });
-ipcMain.handle("registro:percorso", () => registro.percorso());
-ipcMain.on("esci", () => app.quit());
-ipcMain.handle("schermo", () => !!finestra?.isFullScreen());
-ipcMain.handle("commuta-schermo", () => {
+gestisci("registro:percorso", () => registro.percorso());
+su("esci", () => app.quit());
+gestisci("schermo", () => !!finestra?.isFullScreen());
+gestisci("commuta-schermo", () => {
   if (!finestra) return false;
   finestra.setFullScreen(!finestra.isFullScreen());
   return finestra.isFullScreen();
 });
-ipcMain.on("autoverifica", (_e, ok, dettagli) => {
+su("autoverifica", (_e, ok, dettagli) => {
   if (!AUTOVERIFICA) return;
   registro.info(`autoverifica ${ok ? "superata" : "FALLITA"}`);
   process.stdout.write(`[autoverifica] ${ok ? "OK" : "FALLITA"}\n${dettagli}\n`);

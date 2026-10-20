@@ -12,8 +12,9 @@
 //  scarica la nuova release a mano (il .deb lo aggiorna il sistema).
 //  Le pre-release (alpha, beta, rc) le riceve solo chi ne sta già usando una.
 // ====================================================================
-const { app, ipcMain } = require("electron");
+const { app } = require("electron");
 const registro = require("./registro.cjs");
+const { su, gestisci } = require("./ipc.cjs");
 
 function supportato() {
   if (!app.isPackaged) return "versione di sviluppo";
@@ -30,12 +31,12 @@ function avvia(finestra) {
     const w = finestra();
     if (w && !w.isDestroyed()) w.webContents.send("aggiornamento", s);
   };
-  ipcMain.handle("aggiornamento:stato", () => stato);
+  gestisci("aggiornamento:stato", () => stato);
 
   const motivo = supportato();
   if (motivo) {
     registro.info(`aggiornamento automatico non attivo: ${motivo}`);
-    ipcMain.on("aggiornamento:installa", () => {});
+    su("aggiornamento:installa", () => {});
     return;
   }
 
@@ -51,7 +52,7 @@ function avvia(finestra) {
   autoUpdater.on("update-not-available", () => registro.info("nessun aggiornamento"));
   autoUpdater.on("error", (e) => { registro.warn("aggiornamento non riuscito:", e?.message ?? String(e)); invia({ stato: "fermo" }); });
 
-  ipcMain.on("aggiornamento:installa", () => {
+  su("aggiornamento:installa", () => {
     registro.info("installazione dell'aggiornamento su richiesta");
     autoUpdater.quitAndInstall(false, true);
   });
