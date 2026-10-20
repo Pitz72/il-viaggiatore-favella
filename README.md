@@ -222,7 +222,7 @@ salva e ricarica. Non pubblica niente.
 | [React](https://react.dev) | MIT | dipendenza npm |
 | [Electron](https://www.electronjs.org) | MIT | dipendenza npm della versione desktop |
 | [electron-updater](https://github.com/electron-userland/electron-builder) | MIT | dipendenza npm della versione desktop |
-| Font Inter, Lora, Sora, Source Code Pro | SIL Open Font License 1.1 | `app/public/fonts/` (`OFL.txt`) |
+| Font Inter, Lora, Sora, Source Code Pro, Covered By Your Grace | SIL Open Font License 1.1 | `app/public/fonts/` (`OFL.txt`) |
 
 I loghi di **Runtime Multimedia** e di **FAVELLA 1** mostrati all'avvio sono marchi dei
 rispettivi titolari, esclusi da entrambe le licenze (vedi `LICENSE-CONTENUTI.md`); il codice

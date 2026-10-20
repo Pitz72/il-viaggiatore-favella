@@ -614,6 +614,7 @@ terra e busta).
 | 3 | «tuo fratello» (T2) | **«decidi tu»** | Si allinea al colpo misurato: testo da 63,7 a 64,0 s, arresto a 64,0, passi in `CAMMINATE`. Si fa nella fase 6 e Simone lo approva a occhio e all'orecchio sul risultato; se non lo sente, si torna indietro. |
 | 4 | Il biglietto (T3) | **B: si scrive più in fretta** | `BIGLIETTO.perCarattere` 0,042 → 0,034 s; cambiano di conseguenza i tempi dei tasti in `EVENTI` (e i loro suoni) |
 | 5 | Calligrafia (18) | **A: procedurale** | nessun file nuovo, nessun download |
+| 5 bis | Il biglietto, a fase 4 avviata (20/10) | **un carattere a mano, maiuscolo, con licenza libera** | il biglietto «NON È IL CASO DI TORNARE.» sembrava «tipografico»: Simone chiede un font con parvenza di scritto a mano; fra quattro candidati OFL (Covered By Your Grace, Architects Daughter, Patrick Hand, Gochi Hand) sceglie **Covered By Your Grace** (Kimberly Geswein, OFL 1.1). È l'eccezione di §8 (18-B), limitata al biglietto: il corsivo delle lettere e della busta resta procedurale |
 | 6 | Sale e crepe (16, 17) | **Ridipingere, con prove A/B** | per ognuna prima/dopo su tre fotogrammi; sceglie Simone |
 | 7 | 4K (19) | **(a) poi (b) dove c'è margine** | tele statiche raddoppiate; poi la tela mobile oltre 2560 solo se la misura lo permette |
 | 8 | Grana (11) | **Sì: grano fine, 24 fotogrammi al secondo** | deterministica dal tempo; conserva la funzione di *dithering* |
@@ -632,8 +633,8 @@ solo se all'ascolto il difetto si sentisse).
 - **Nessuna musica nuova o ricomposta**, né voci o doppiaggio. `intro.mp3` resta com'è.
 - **Nessun cambio di durata** (88,5 s), di ordine o di tagli nominali; testi uguali parola per parola
   (cambiano solo i segni tipografici, voce 7). Loghi e avviso non si toccano, né le forme dei marchi.
-- **Niente immagini incorporate né video**: il trailer resta tutto procedurale (l'unica eccezione, se
-  Simone la approva, è un file di carattere a mano libera, voce 18-B).
+- **Niente immagini incorporate né video**: il trailer resta tutto procedurale (l'unica eccezione, approvata da
+  Simone il 20/10, è un file di carattere a mano libera per il biglietto, voce 18-B: Covered By Your Grace).
 - **Niente riscrittura del disegno in WebGL**: risolverebbe il 4K, ma è un altro progetto. Valutato e
   scartato.
 - **Non si tocca il meglio**: il viandante (passo e appoggi), la mappa, le icone dei cinque modi, il

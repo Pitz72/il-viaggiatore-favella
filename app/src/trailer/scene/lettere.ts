@@ -25,8 +25,9 @@ export const POSIZIONI_LETTERE = [
 
 const FW = 520, FH = 350, RES = 1.5;
 const BW = 430, BH = 190;
+const LARGO_MANO = 300;                              // quanto è larga la prima riga del biglietto (px): il corpo si ricava da qui
 
-interface StatoLettere { tavolo: Tela; fogli: Tela[]; inchiostri: Tela[]; biglietto: Tela; busta: Tela; penna: Tela; macchia: Tela }
+interface StatoLettere { tavolo: Tela; fogli: Tela[]; inchiostri: Tela[]; biglietto: Tela; busta: Tela; penna: Tela; macchia: Tela; maschera: Tela }
 
 // --------------------------------------------------------------------
 //  Il tavolo: assi di noce, venature, nodi, graffi, l'anello di un bicchiere
@@ -96,7 +97,7 @@ async function bustaTela(): Promise<Tela> {
   g.fillStyle = om; g.beginPath(); g.moveTo(0, 0); g.lineTo(w / 2, h * 0.56); g.lineTo(w, 0); g.closePath(); g.fill();
   // l'indirizzo, in corsivo blu
   const r = rng(12);
-  for (let i = 0; i < 3; i++) scriviRiga(g, r, { x: 96, y: 150 + i * 34, larghezza: 230 - i * 40, altezzaX: 8, inchiostro: "rgba(28,40,84,.85)", spessore: 1.9 });
+  for (let i = 0; i < 3; i++) scriviRiga(g, r, { x: 96, y: 150 + i * 34, larghezza: 230 - i * 40, altezzaX: 8, inchiostro: "rgb(28,40,84)", opacita: 0.85, spessore: 1.9 });
   // il francobollo: bordo dentellato, cornice, un profilo e il valore
   const sx = w - 108, sy = 26, sw = 66, sh = 82;
   g.fillStyle = "#f1e8d2"; g.fillRect(sx - 4, sy - 4, sw + 8, sh + 8);
@@ -173,11 +174,11 @@ export async function preparaLettere(c: Cache) {
   const toni = [["#efe6d1", "#d8ccb0"], ["#ece3cd", "#d3c5a8"], ["#f0e7d3", "#dccfb3"], ["#e9dfc8", "#d0c2a3"]];
   for (let i = 0; i < 4; i++) {
     fogli.push(await carta({ w: FW * RES, h: FH * RES, seme: 200 + i, chiara: toni[i][0], scura: toni[i][1], invecchiata: 0.6, piegheOrizzontali: 2, piegaVerticale: i % 2 === 0 }));
-    inchiostri.push(scriviLettera(FW * RES, FH * RES, 300 + i, "rgba(30,44,86,.86)"));
+    inchiostri.push(scriviLettera(FW * RES, FH * RES, 300 + i, "rgb(30,44,86)", 0.86));
   }
   // le lettere sono scritte a risoluzione piena: la geometria delle righe va scalata
   c.lettere = {
-    tavolo: await tavoloTela(), fogli, inchiostri, biglietto: await bigliettoTela(), busta: await bustaTela(), penna: pennaTela(), macchia: macchiaTela(),
+    tavolo: await tavoloTela(), fogli, inchiostri, biglietto: await bigliettoTela(), busta: await bustaTela(), penna: pennaTela(), macchia: macchiaTela(), maschera: creaTela(FW * RES, 30 * RES),
   } satisfies StatoLettere;
 }
 
@@ -253,7 +254,15 @@ export function disegnaLettere(ctx: C2D, t: number, c: Cache) {
       if (kj <= 0) continue;
       const top = 96 + j * 27 - 20, alt = 30;
       const sw = Math.min(FW, 40 + kj * 440);
-      ctx.drawImage(ink, 0, top * RES, sw * RES, alt * RES, 0, top, sw, alt);
+      if (kj >= 1) { ctx.drawImage(ink, 0, top * RES, sw * RES, alt * RES, 0, top, sw, alt); continue; }
+      // la riga che si sta scrivendo: l'inchiostro arriva fin dove è arrivata la penna, con il bordo bagnato che sfuma
+      const m = a.maschera, mg = m.getContext("2d")!;
+      mg.globalCompositeOperation = "source-over"; mg.clearRect(0, 0, m.width, m.height);
+      mg.drawImage(ink, 0, top * RES, sw * RES, alt * RES, 0, 0, sw * RES, alt * RES);
+      const sfuma = mg.createLinearGradient((sw - 16) * RES, 0, sw * RES, 0);
+      sfuma.addColorStop(0, "rgba(0,0,0,1)"); sfuma.addColorStop(1, "rgba(0,0,0,0)");
+      mg.globalCompositeOperation = "destination-in"; mg.fillStyle = sfuma; mg.fillRect(0, 0, m.width, m.height);
+      ctx.drawImage(m, 0, 0, sw * RES, alt * RES, 0, top, sw, alt);
     }
     ctx.globalAlpha = clamp(scr * 3);
     ctx.fillStyle = "rgba(30,44,86,.88)";
@@ -272,27 +281,35 @@ export function disegnaLettere(ctx: C2D, t: number, c: Cache) {
     ctx.save();
     ctx.translate(bx, by); ctx.rotate(br);
     ctx.fillStyle = "#15171c";
-    ctx.font = `800 35px ${FONT.display}`;
+    // il corpo si ricava dalla larghezza della prima riga: anche col carattere di ripiego il biglietto resta della stessa mole
+    ctx.font = `400 100px ${FONT.mano}`;
+    const corpo = Math.min(64, LARGO_MANO * 100 / Math.max(1, ctx.measureText(BIGLIETTO.testo[0]).width));
+    ctx.font = `400 ${corpo.toFixed(1)}px ${FONT.mano}`;
+    ctx.lineWidth = corpo * 0.024; ctx.lineJoin = "round"; ctx.strokeStyle = "#15171c";   // il pennarello: il tratto pieno, un filo più grosso del carattere
     ctx.textBaseline = "middle";
     let n = 0;
     BIGLIETTO.testo.forEach((riga, ri) => {
       const r = rng(40 + ri);
-      let x = -ctx.measureText(riga).width / 2 - riga.length * 0.8;
+      const SP = 1.2;                                                 // il respiro fra una lettera e l'altra
+      let x = -(ctx.measureText(riga).width + riga.length * SP) / 2;
       for (const ch of riga) {
         const tc = BIGLIETTO.scrive + n * BIGLIETTO.perCarattere;
         const w = ctx.measureText(ch).width;
+        const dy = (r() - 0.5) * 3.2, rot = (r() - 0.5) * 0.07, forza = 0.86 + r() * 0.14;
         if (t >= tc) {
-          const kk = easeOut(seg(t, tc, tc + 0.12));
+          // il tratto si scrive da sinistra a destra, con la penna: la lettera si svela dietro un bordo che avanza
+          const kk = easeOut(seg(t, tc, tc + 0.14));
           ctx.save();
-          ctx.translate(x + w / 2, (ri === 0 ? -24 : 26) + (r() - 0.5) * 4);
-          ctx.rotate((r() - 0.5) * 0.10);
-          ctx.globalAlpha = kk * (0.80 + r() * 0.2);
-          ctx.scale(1 + (1 - kk) * 0.4, 1 + (1 - kk) * 0.4);
-          ctx.shadowColor = "rgba(20,22,30,.6)"; ctx.shadowBlur = 1.4;
+          ctx.translate(x + w / 2, (ri === 0 ? -0.56 : 0.56) * corpo * 1.0 + dy);
+          ctx.rotate(rot);
+          ctx.globalAlpha = forza;
+          ctx.beginPath(); ctx.rect(-w / 2 - 4, -60, (w + 8) * kk, 120); ctx.clip();
+          ctx.shadowColor = "rgba(20,22,30,.5)"; ctx.shadowBlur = 1.2;
           ctx.fillText(ch, -w / 2, 0);
+          ctx.strokeText(ch, -w / 2, 0);
           ctx.restore();
-        } else { r(); r(); }
-        x += w + 1.6;
+        }
+        x += w + SP;
         n++;
       }
       n += 4;

@@ -94,6 +94,24 @@ export function fbmPeriodico(seme: number, periodo: number, ottave = 4, periodoY
   };
 }
 
+/**
+ * Un campo lento (toni a zone, umidità, larghezza delle fessure): `f` si calcola solo ogni `passo` pixel
+ * e il resto si interpola, con ritorno periodico in x e y (la tessera si salda). Costa una frazione del
+ * rumore calcolato su ogni pixel. `w` e `h` devono essere multipli di `passo`.
+ */
+export function campoLento(f: (x: number, y: number) => number, w: number, h: number, passo: number) {
+  const nx = Math.round(w / passo), ny = Math.round(h / passo);
+  const v = new Float32Array(nx * ny);
+  for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) v[j * nx + i] = f(i * passo, j * passo);
+  return (x: number, y: number): number => {
+    const gx = x / passo, gy = y / passo;
+    const i0 = Math.floor(gx), j0 = Math.floor(gy), fx = gx - i0, fy = gy - j0;
+    const a = ((i0 % nx) + nx) % nx, b = (a + 1) % nx, c = ((j0 % ny) + ny) % ny, d = (c + 1) % ny;
+    const top = v[c * nx + a] * (1 - fx) + v[c * nx + b] * fx, bot = v[d * nx + a] * (1 - fx) + v[d * nx + b] * fx;
+    return top * (1 - fy) + bot * fy;
+  };
+}
+
 export const smooth = (a: number, b: number, x: number) => {
   const t = clamp((x - a) / (b - a));
   return t * t * (3 - 2 * t);

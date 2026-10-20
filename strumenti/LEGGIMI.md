@@ -13,6 +13,7 @@
 | `trailer-misura.cjs` | **il banco del trailer, 3/3**: il costo di un fotogramma (mediana e p95, in ms) a 17 istanti, via `__trailer.prova` e sincronia WebGL: `desktop/node_modules/.bin/electron strumenti/trailer-misura.cjs --densita 1` |
 | `trailer-clip.cjs` | un breve video del trailer con la sua musica, per i confronti prima/dopo in movimento: `desktop/node_modules/.bin/electron strumenti/trailer-clip.cjs --da 26 --a 36 --uscita video/clip.mp4` (server di sviluppo su 5200) |
 | `trailer-rumori.cjs` | i rumori del trailer (passi, carta, tasti, soffi, timbro) con la musica sotto, resi offline in un WAV per ascoltare un «prima» e un «dopo»: `desktop/node_modules/.bin/electron strumenti/trailer-rumori.cjs --da 17.6 --a 25.2 --uscita video/rumori.wav` |
+| `trailer-preparazione.cjs` | quanto ci mette a prepararsi ogni scena del trailer (le tele dipinte una volta sola, «a freddo», con i loghi sopra): `desktop/node_modules/.bin/electron strumenti/trailer-preparazione.cjs --giri 3` (server di sviluppo su 5200; stampa le mediane per scena) |
 | `gioca.py` | **il banco di gioco**: giocare a mano, e misurare l'equilibrio (qui sotto) |
 
 ## Il banco di gioco (`gioca.py`)
