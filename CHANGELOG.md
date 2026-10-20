@@ -8,6 +8,24 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.27.0] - 2026-10-21
+
+### Aggiunto
+- **Schermo intero o finestra, ricordati.** Il gioco parte a schermo intero la prima volta; chi sceglie la finestra (dalle
+  opzioni o con F11) la ritrova al lancio dopo, con la sua dimensione, la sua posizione e l'ingrandimento. Se lo schermo
+  dov'era la finestra non c'è più, si apre al centro di quello principale.
+- **La dimensione della finestra** nelle opzioni (scheda Video): 1280 × 720, 1600 × 900, 1920 × 1080, 2560 × 1440,
+  3840 × 2160, in pixel veri dello schermo, solo quelle che ci entrano. Sceglierne una esce dallo schermo intero e
+  centra la finestra; una presa a mano col bordo si riconosce.
+- **La qualità della grafica** (scheda Video): automatica (com'è sempre stato: il trailer scende da solo se il computer
+  arranca), alta (i paesaggi della partita alla risoluzione piena dello schermo e il trailer fino al 4K), media, bassa.
+  Vale subito, anche sul trailer del menu.
+- **Gli aggiornamenti si possono spegnere** (scheda Generale, sul desktop): «cercali all'avvio» o «no». Con «no» il
+  gioco non si collega a GitHub; vale dall'avvio dopo. Le versioni che non si aggiornano da sole (la portatile) lo dicono.
+
+### Cambiato
+- «Ripristina le opzioni di base» rimette anche lo schermo intero e gli aggiornamenti all'avvio.
+
 ## [1.26.0] - 2026-10-21
 
 ### Aggiunto
