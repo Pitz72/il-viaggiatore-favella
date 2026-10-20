@@ -11,37 +11,17 @@
 //
 //  Due modi, mai insieme: «recitata» (la voce del doppiaggio; il diario non
 //  annuncia) o «lettore» (nessuna voce: il lettore di schermo legge il diario).
-//  Le impostazioni stanno nel browser (localStorage), come i salvataggi del web.
+//  Il modo e il volume sono opzioni (lib/opzioni.ts); il volume lo applica il
+//  bus sonoro (lib/suono.ts, canale «voce»).
 // ====================================================================
 import { tabella, type Tabella, type Testi } from "./parti";
+import { canale } from "../lib/suono";
 
-export type Modo = "recitata" | "lettore";
-export interface Impostazioni { modo: Modo; volume: number }
-
-const CHIAVE = "viaggiatore.voce";
-const PREDEFINITE: Impostazioni = { modo: "recitata", volume: 0.9 };
 const BASE = `${import.meta.env.BASE_URL}voce/`;
 /** secondi di silenzio fra due frasi della stessa riga, e fra due righe */
 export const PAUSA_FRASE = 0.3;
 export const PAUSA_RIGA = 0.55;
 const MEMORIA = 120;   // parti decodificate tenute in memoria
-
-export function leggiImpostazioni(): Impostazioni {
-  try {
-    const d = JSON.parse(localStorage.getItem(CHIAVE) ?? "null") as Partial<Impostazioni> | null;
-    if (!d) return { ...PREDEFINITE };
-    return {
-      modo: d.modo === "lettore" ? "lettore" : "recitata",
-      volume: typeof d.volume === "number" && d.volume >= 0 && d.volume <= 1 ? d.volume : PREDEFINITE.volume,
-    };
-  } catch {
-    return { ...PREDEFINITE };
-  }
-}
-
-export function scriviImpostazioni(i: Impostazioni) {
-  try { localStorage.setItem(CHIAVE, JSON.stringify(i)); } catch { /* il browser non salva: pazienza */ }
-}
 
 interface Indice { estensione: string; parti: Record<string, number>; testi?: Testi; cartelle?: string[] }
 
@@ -57,7 +37,6 @@ class Voce {
   private suonano: AudioBufferSourceNode[] = [];
   private giro = 0;                                    // cresce a ogni fila nuova: le vecchie si fermano
   private ultima: Parte[] = [];
-  private volume = PREDEFINITE.volume;
   private pronta: Promise<Tabella | null> | null = null;
   private quandoParla = new Set<(parla: boolean) => void>();
   parla = false;
@@ -101,11 +80,6 @@ class Voce {
   /** Il testo di una parte, per chi la legge invece della voce. */
   testoDi(id: string) { return this.testi[id]?.[1] ?? ""; }
 
-  impostaVolume(v: number) {
-    this.volume = v;
-    if (this.uscita && this.ctx) this.uscita.gain.setTargetAtTime(v, this.ctx.currentTime, 0.02);
-  }
-
   ascolta(f: (parla: boolean) => void) { this.quandoParla.add(f); return () => { this.quandoParla.delete(f); }; }
 
   private segna(parla: boolean) {
@@ -117,9 +91,7 @@ class Voce {
   private contesto(): AudioContext {
     if (!this.ctx) {
       this.ctx = new AudioContext();
-      this.uscita = this.ctx.createGain();
-      this.uscita.gain.value = this.volume;
-      this.uscita.connect(this.ctx.destination);
+      this.uscita = canale(this.ctx, "voce");
     }
     if (this.ctx.state === "suspended") this.ctx.resume().catch(() => {});
     return this.ctx;

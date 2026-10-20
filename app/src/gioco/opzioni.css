@@ -1,0 +1,18 @@
+/* Le opzioni: il fuoco della tastiera senza il riquadro del browser (Simone: «non con il riquadro, che è
+   brutto da vedere»). Ogni cosa che ha il fuoco si riconosce lo stesso, in un modo che le somiglia:
+   la scheda scelta ha già la sua sottolineatura e col fuoco il nome si accende; un cursore accende il
+   nome della sua riga; un pulsante a pillola ha un anello sottile che ne segue la forma.
+   L'accento arriva dal pannello (--opz-acc). */
+.opz-scheda,
+.opz-cursore,
+.opz-valore,
+.opz-bottone { outline: none; }
+
+.opz-scheda:focus-visible { color: #fffaf2 !important; text-shadow: 0 0 .8em var(--opz-acc); }
+
+.opz-nome { transition: color .15s; }
+.opz-riga:has(.opz-cursore:focus-visible) .opz-nome,
+.opz-riga:has(.opz-valore:focus-visible) .opz-nome { color: var(--opz-acc); }
+
+.opz-valore:focus-visible,
+.opz-bottone:focus-visible { box-shadow: 0 0 0 .14em rgba(10, 10, 14, 1), 0 0 0 .26em var(--opz-acc); }

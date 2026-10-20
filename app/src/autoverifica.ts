@@ -1,7 +1,8 @@
 // ====================================================================
 //  Autoverifica: avvia il gioco vero (Pyodide + motore + avventura),
 //  gioca qualche comando e controlla le risposte; prova anche la voce del
-//  doppiaggio (indice, una parte per voce, il trailer). Si apre con
+//  doppiaggio (indice, una parte per voce, il trailer) e il bus sonoro (i
+//  canali nascono coi volumi delle opzioni, senza cambiarle). Si apre con
 //  ?autoverifica; nella versione desktop la lancia `--autoverifica`, e la
 //  CI la esegue sul pacchetto appena costruito prima di pubblicarlo.
 // ====================================================================
@@ -11,6 +12,25 @@ import { riferisciAutoverifica } from "./lib/desktop";
 import branoIntro from "./assets/intro.mp3";
 import { analizza } from "./gioco/testo";
 import { tabella, partiDelBlocco, type Testi } from "./gioco/parti";
+import { canale, uscita, TARATURA, type Canale } from "./lib/suono";
+import { opzioni } from "./lib/opzioni";
+
+/** Il bus sonoro: ogni canale nasce al volume delle opzioni di chi gioca (lette, mai cambiate), e il contesto ha
+ *  la sua uscita (volume generale e fusore). */
+async function provaIlSuono(nota: (r: string) => void): Promise<boolean> {
+  const o = opzioni();
+  const ac = new AudioContext();
+  try {
+    const voluti: Record<Canale, number> = { musica: o.volumeMusica, voce: o.volumeVoce, effetti: o.volumeEffetti };
+    const storti = (Object.keys(voluti) as Canale[]).filter((c) => Math.abs(canale(ac, c).gain.value - voluti[c] * TARATURA[c]) > 1e-6);
+    const u = uscita(ac) as GainNode;
+    if (storti.length || Math.abs(u.gain.value - o.volume) > 1e-6) { nota(`KO bus sonoro: canali fuori misura ${JSON.stringify(storti)}, generale ${u.gain.value}`); return false; }
+    nota(`ok bus sonoro: musica, voce ed effetti ai volumi delle opzioni (generale ${Math.round(o.volume * 100)}%${o.mono ? ", mono" : ""})`);
+    return true;
+  } finally {
+    await ac.close().catch(() => {});
+  }
+}
 
 /** La voce del doppiaggio: l'indice, una parte decodificata per ogni voce che il pacchetto contiene, la
  *  traccia del trailer, e le parti del testo d'avvio ritrovate dal testo stampato. */
@@ -97,6 +117,7 @@ export async function autoverifica(scrivi: (riga: string) => void) {
       ok = false; nota(`KO avvio: ${avvio.text.slice(0, 300)}`);
     } else nota(`ok avvio del motore (${((performance.now() - t0) / 1000).toFixed(1)} s)`);
     if (!(await provaLaVoce(avvio.text, nota))) ok = false;
+    if (!(await provaIlSuono(nota))) ok = false;
 
     for (const p of PROVE) {
       const r = s.step(p.cmd);

@@ -31,8 +31,9 @@ import { componi, dataLeggibile, nomePosto, scrivi, type Posto, type Riassunto, 
 import { annota, inDesktop, esciDalGioco } from "../lib/desktop";
 import { analizza, spezza, VOCI, GESTI, type Blocco } from "../gioco/testo";
 import { partiDelBlocco, partiDellaScelta, type Tabella } from "../gioco/parti";
-import { voce, leggiImpostazioni, scriviImpostazioni, PAUSA_FRASE, PAUSA_RIGA, type Impostazioni, type Parte } from "../gioco/voce";
-import ImpostazioniVoce from "../gioco/ImpostazioniVoce";
+import { voce, PAUSA_FRASE, PAUSA_RIGA, type Parte } from "../gioco/voce";
+import PannelloOpzioni from "../gioco/Opzioni";
+import { useOpzioni } from "../lib/useOpzioni";
 import "../gioco/gioco.css";
 
 const VUOTO: StatoMondo = { inventory: [], counters: {}, room: null, roomId: null };
@@ -79,12 +80,12 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
   // ── la voce (il doppiaggio) ────────────────────────────────────────
   // In voce recitata il diario non si annuncia: ciò che la voce non dice (le risposte del
   // motore, i titoli dei luoghi, le parti senza audio) va al lettore di schermo da un'area a parte.
-  const [impVoce, setImpVoce] = useState<Impostazioni>(leggiImpostazioni);
-  const [pannelloVoce, setPannelloVoce] = useState(false);
+  const [opz] = useOpzioni();
+  const [pannelloOpzioni, setPannelloOpzioni] = useState(false);
   const [annuncio, setAnnuncio] = useState({ n: 0, testo: "" });
   const tabVoce = useRef<Tabella | null>(null);
   const daDire = useRef<Blocco[] | null>(null);   // il primo testo, se arriva prima dell'indice della voce
-  const recitata = impVoce.modo === "recitata";
+  const recitata = opz.voce === "recitata";
   const recitataRef = useRef(recitata);
   recitataRef.current = recitata;
 
@@ -135,11 +136,8 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     window.addEventListener("keydown", tasto, true);
     return () => { vivo = false; window.removeEventListener("keydown", tasto, true); voce.ferma(); };
   }, []);
-  useEffect(() => {
-    voce.impostaVolume(impVoce.volume);
-    scriviImpostazioni(impVoce);
-    if (impVoce.modo !== "recitata") voce.ferma();
-  }, [impVoce]);
+  // il volume lo segue il bus sonoro (lib/suono.ts); passando al lettore di schermo la voce tace subito
+  useEffect(() => { if (!recitata) voce.ferma(); }, [recitata]);
 
   // ── avvio del motore ────────────────────────────────────────────────
   useEffect(() => {
@@ -164,7 +162,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     return () => { vivo = false; };
   }, []);
 
-  useEffect(() => { if (fase === "gioca" && !finita && !guida && !taccuino && !richiesta && !pannelloVoce) inputRef.current?.focus(); }, [fase, finita, guida, taccuino, voci, richiesta, pannelloVoce]);
+  useEffect(() => { if (fase === "gioca" && !finita && !guida && !taccuino && !richiesta && !pannelloOpzioni) inputRef.current?.focus(); }, [fase, finita, guida, taccuino, voci, richiesta, pannelloOpzioni]);
   // i verbi che qui e adesso hanno un effetto (attingi, curati, attacca…) cambiano a ogni turno
   useEffect(() => {
     if (fase === "gioca" && sessione.current && !finita) setAzioniCtx(sessione.current.azioni());
@@ -335,13 +333,13 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
   // F5 salva, F9 carica
   useEffect(() => {
     const tasto = (e: KeyboardEvent) => {
-      if (fase !== "gioca" || guida || taccuino || pannelloVoce) return;
+      if (fase !== "gioca" || guida || taccuino || pannelloOpzioni) return;
       if (e.key === "F5") { e.preventDefault(); if (!finita) setTaccuino("salva"); }
       else if (e.key === "F9") { e.preventDefault(); setTaccuino("carica"); }
     };
     window.addEventListener("keydown", tasto);
     return () => window.removeEventListener("keydown", tasto);
-  }, [fase, guida, taccuino, finita, pannelloVoce]);
+  }, [fase, guida, taccuino, finita, pannelloOpzioni]);
 
   // solo in sviluppo: pilotare la partita dalla console per collaudare l'interfaccia
   useEffect(() => {
@@ -505,8 +503,8 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
           <div style={{ display: "flex", gap: 8 }}>
             <button className="vg-bottone vg-piccolo" onClick={() => setTaccuino("salva")} disabled={finita} title="Salva la partita (F5)">salva</button>
             <button className="vg-bottone vg-piccolo" onClick={() => setTaccuino("carica")} title="Carica una partita (F9)">carica</button>
-            <button className="vg-bottone vg-piccolo" onClick={() => setPannelloVoce(true)} aria-pressed={recitata}
-              title="La voce: recitata o lettore di schermo, e il volume (F2 ridice l'ultimo testo)">{recitata ? "♪ voce" : "voce no"}</button>
+            <button className="vg-bottone vg-piccolo" onClick={() => setPannelloOpzioni(true)}
+              title="Le opzioni: lo schermo, i volumi, la voce (F2 ridice l'ultimo testo)">⚙ opzioni</button>
             <button className="vg-bottone vg-piccolo" onClick={() => setGuida(true)}>? come si gioca</button>
             <button className="vg-bottone vg-piccolo" onClick={esci}>← intro</button>
             {inDesktop() && <button className="vg-bottone vg-piccolo" onClick={chiudiGioco} title="Chiude il gioco (salva il posto automatico)">✕ esci</button>}
@@ -733,10 +731,10 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
           <p key={annuncio.n}>{annuncio.testo}</p>
         </div>
       )}
-      {pannelloVoce && (
-        <ImpostazioniVoce base={13} accento={accento} imp={impVoce} onCambia={setImpVoce}
-          onRiascolta={() => { setPannelloVoce(false); voce.riascolta(); }}
-          onChiudi={() => { setPannelloVoce(false); inputRef.current?.focus(); }} />
+      {pannelloOpzioni && (
+        <PannelloOpzioni base={13} accento={accento}
+          onRiascolta={() => { setPannelloOpzioni(false); voce.riascolta(); }}
+          onChiudi={() => { setPannelloOpzioni(false); inputRef.current?.focus(); }} />
       )}
       {guida && <ComeSiGioca base={13} accento={accento} onChiudi={() => { setGuida(false); inputRef.current?.focus(); }} />}
       {taccuino && (

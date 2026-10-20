@@ -13,11 +13,19 @@
 //  una traccia sola lunga quanto il trailer (public/voce/trailer.opus, scritta da
 //  strumenti/doppiaggio-trailer.py) che segue lo stesso orologio; mentre parla la
 //  musica si abbassa (VOCE_SOTTO) e torna su appena tace. Passa dal master: il
-//  tasto audio spegne anche lei.
+//  tasto audio spegne anche lei. Parla solo con la voce recitata (lib/opzioni.ts):
+//  il modo si legge dal vivo, così cambiarlo nelle opzioni del menu vale già per
+//  «rivedi il trailer».
+//  I volumi delle opzioni li applica il bus sonoro (lib/suono.ts): il brano e il
+//  bordone sul canale «musica», i rumori e il vento sugli «effetti», Enzo sulla
+//  «voce». Su un contesto offline (gli strumenti che esportano) i nodi dei canali
+//  restano a guadagno 1 e la resa è quella di sempre.
 //  Parte spenta: i browser lo permettono solo dopo un gesto (il tasto audio).
 // ====================================================================
 import { EVENTI, type Evento, type TipoSuono } from "./scaletta";
 import { rng } from "./tempo";
+import { canale, offline, uscita } from "../lib/suono";
+import { opzioni } from "../lib/opzioni";
 
 const INTONATI: TipoSuono[] = ["rintocco", "tonfo"];
 const LIV_RUMORI_CON_BRANO = 0.55;
@@ -29,8 +37,8 @@ const ANTICIPO = 0.15, RILASCIO = 0.35;
 const SCENDE = 0.08, SALE = 0.3;   // costanti di tempo (s) di setTargetAtTime
 const SCARTO_VOCE = 0.06;          // oltre questo scarto dall'orologio la voce si riposiziona
 
-/** Dove trovare la voce del trailer e a che volume. */
-export interface VoceDelTrailer { traccia: string; scaletta: string; volume: number }
+/** Dove trovare la voce del trailer. `volume` serve solo agli strumenti offline: dal vivo lo decide il bus sonoro. */
+export interface VoceDelTrailer { traccia: string; scaletta: string; volume?: number }
 interface Frase { id: string; da: number; a: number }
 
 export class ColonnaSonora {
@@ -134,9 +142,14 @@ export class ColonnaSonora {
     }
   }
 
+  /** Enzo parla? Con la voce recitata, oppure sempre per gli strumenti offline. */
+  private get voceAttiva() {
+    return !!this.ac && (offline(this.ac) || opzioni().voce === "recitata");
+  }
+
   /** Il livello della musica all'istante t: sotto mentre Enzo parla. */
   private livelloMusica(t: number): number {
-    if (!this.voce) return 1;
+    if (!this.voce || !this.voceAttiva) return 1;
     return this.frasi.some((f) => t >= f.da - ANTICIPO && t < f.a + RILASCIO) ? VOCE_SOTTO : 1;
   }
 
@@ -151,6 +164,7 @@ export class ColonnaSonora {
   private guidaVoce(t: number, inPausa: boolean) {
     const ac = this.ac, buf = this.voce;
     if (!ac || !buf || !this.gVoce) return;
+    if (!this.voceAttiva) { this.fermaVoce(); return; }
     const voluta = t + (this.conBrano ? this.latenza() : 0);   // come il brano: ciò che parte ora si sente fra «latenza»
     if (inPausa || voluta < 0 || voluta >= buf.duration - 0.05) { this.fermaVoce(); return; }
     if (this.sorgVoce && Math.abs(this.voceOffset + (ac.currentTime - this.voceDa) - voluta) < SCARTO_VOCE) return;
@@ -185,16 +199,19 @@ export class ColonnaSonora {
     this.ac = ac;
     this.master = ac.createGain(); this.master.gain.value = 0;
     const comp = ac.createDynamicsCompressor();
-    this.master.connect(comp).connect(ac.destination);
+    this.master.connect(comp).connect(uscita(ac));
+    // i canali del bus sonoro, tutti dentro il master (il tasto audio spegne tutto insieme)
+    const effetti = canale(ac, "effetti", this.master);
+    const musica = canale(ac, "musica", this.master);
 
     // i rumori sintetici passano da una «stanza» brevissima (0,22 s di coda che decade, solo un filo di mandata)
     this.rumori = ac.createGain();
-    this.rumori.connect(this.master);
+    this.rumori.connect(effetti);
     const lungIr = Math.floor(ac.sampleRate * 0.22), ir = ac.createBuffer(2, lungIr, ac.sampleRate), ri = rng(41);
     for (let c = 0; c < 2; c++) { const d = ir.getChannelData(c); for (let i = 0; i < lungIr; i++) d[i] = (ri() * 2 - 1) * Math.pow(1 - i / lungIr, 3.2); }
     const stanza = ac.createConvolver(); stanza.buffer = ir;
     const mandata = ac.createGain(); mandata.gain.value = 0.16;
-    this.rumori.connect(mandata).connect(stanza).connect(this.master);
+    this.rumori.connect(mandata).connect(stanza).connect(effetti);
 
     // rumore bianco riutilizzabile (2 s)
     const len = ac.sampleRate * 2;
@@ -206,7 +223,7 @@ export class ColonnaSonora {
     const src = ac.createBufferSource(); src.buffer = this.rumore; src.loop = true;
     this.filtroVento = ac.createBiquadFilter(); this.filtroVento.type = "bandpass"; this.filtroVento.Q.value = 0.8; this.filtroVento.frequency.value = 500;
     this.vento = ac.createGain(); this.vento.gain.value = 0.12;
-    src.connect(this.filtroVento).connect(this.vento).connect(this.master);
+    src.connect(this.filtroVento).connect(this.vento).connect(effetti);
     src.start();
     const lfo = ac.createOscillator(); lfo.frequency.value = 0.09;
     const lfoG = ac.createGain(); lfoG.gain.value = 260;
@@ -215,7 +232,7 @@ export class ColonnaSonora {
     // bordone: La grave + quinta; la terza minore entra al guado
     this.bordone = ac.createGain(); this.bordone.gain.value = 0;
     const lp = ac.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 420;
-    this.bordone.connect(lp).connect(this.master);
+    this.bordone.connect(lp).connect(musica);
     [55, 82.41, 110.3].forEach((f, i) => {
       const o = ac.createOscillator(); o.type = i === 2 ? "triangle" : "sine"; o.frequency.value = f;
       const g = ac.createGain(); g.gain.value = i === 2 ? 0.25 : 0.5;
@@ -227,13 +244,13 @@ export class ColonnaSonora {
 
     // il brano entra nello stesso master (il tasto audio spegne tutto insieme)
     this.gBrano = ac.createGain(); this.gBrano.gain.value = 1;
-    this.gBrano.connect(this.master);
+    this.gBrano.connect(musica);
     if (this.brano) ac.createMediaElementSource(this.brano).connect(this.gBrano);
 
     // la voce del trailer, anche lei nel master
     if (this.datiVoce) {
-      this.gVoce = ac.createGain(); this.gVoce.gain.value = this.datiVoce.volume;
-      this.gVoce.connect(this.master);
+      this.gVoce = ac.createGain(); this.gVoce.gain.value = offline(ac) ? this.datiVoce.volume ?? 1 : 1;
+      this.gVoce.connect(canale(ac, "voce", this.master));
       this.voceCaricata = this.caricaVoce(ac, this.datiVoce);
     }
   }

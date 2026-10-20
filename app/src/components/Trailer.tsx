@@ -28,7 +28,7 @@ import Taccuino from "../gioco/Taccuino";
 import { piuRecente, type Salvataggio } from "../lib/salvataggi";
 import { etichettaVersione } from "../lib/versione";
 import ComeSiGioca from "../gioco/ComeSiGioca";
-import { leggiImpostazioni } from "../gioco/voce";
+import PannelloOpzioni from "../gioco/Opzioni";
 
 // --------------------------------------------------------------------
 //  Testi (cue): tempi, posizione, tipo d'animazione
@@ -243,6 +243,7 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
   const [taccuino, setTaccuino] = useState(false);
   const [ultimo, setUltimo] = useState<Salvataggio | null>(null);
   const [guida, setGuida] = useState(false);
+  const [opzioniAperte, setOpzioniAperte] = useState(false);
   const grana = useMemo(faiGrana, []);
   pixelVeri.current = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
   const ridotto = useMemo(() => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false, []);
@@ -277,13 +278,12 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
     return () => { vivo = false; smetti(); };
   }, []);
 
-  // la colonna si crea subito, così il brano si precarica prima del tasto audio; con la voce recitata
-  // (le impostazioni della voce del gioco) Enzo legge il trailer sopra la musica
+  // la colonna si crea subito, così il brano si precarica prima del tasto audio. La voce di Enzo si carica sempre:
+  // legge il trailer sopra la musica solo con la voce recitata (lib/opzioni.ts), e il modo si guarda dal vivo,
+  // così cambiarlo nelle opzioni del menu vale già per «rivedi il trailer»; i volumi li applica il bus sonoro
   useEffect(() => {
-    const imp = leggiImpostazioni();
     const base = `${import.meta.env.BASE_URL}voce/`;
-    suono.current = new ColonnaSonora(branoIntro, imp.modo === "recitata"
-      ? { traccia: `${base}trailer.opus`, scaletta: `${base}trailer.json`, volume: imp.volume } : undefined);
+    suono.current = new ColonnaSonora(branoIntro, { traccia: `${base}trailer.opus`, scaletta: `${base}trailer.json` });
     // Sul desktop l'audio parte da solo (Electron permette l'autoplay): il
     // trailer è il primo schermo del gioco, non una pagina web.
     // Nel browser il gesto che ha chiuso l'avviso (clic o Invio) è passato PRIMA che il trailer
@@ -532,12 +532,12 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
   // (tasto o clic) accende anche la musica: i browser non la lasciano partire da sola.
   useEffect(() => {
     const tasto = (e: KeyboardEvent) => {
-      if (taccuino || guida) return;   // il taccuino e la guida gestiscono Esc da sé
+      if (taccuino || guida || opzioniAperte) return;   // il taccuino, la guida e le opzioni gestiscono Esc da sé
       if (e.key === "Escape" && !finito) { e.preventDefault(); salta(); }
     };
     window.addEventListener("keydown", tasto);
     return () => window.removeEventListener("keydown", tasto);
-  }, [finito, salta, guida, taccuino]);
+  }, [finito, salta, guida, taccuino, opzioniAperte]);
 
   useEffect(() => {
     if (inDesktop()) return;
@@ -701,7 +701,7 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
                 <button onClick={() => setGuida(true)} style={{ ...bottone, color: "#f6c48e", borderColor: "rgba(240,183,126,.72)" }}>? come si gioca</button>
                 <button onClick={() => setTaccuino(true)} style={bottone}>carica</button>
                 <button onClick={rivedi} style={bottone}>↺ rivedi il trailer</button>
-                <button onClick={commutaAudio} style={bottone} aria-pressed={audio}>{audio ? "♪ audio sì" : "♪ audio no"}</button>
+                <button onClick={() => setOpzioniAperte(true)} style={bottone}>⚙ opzioni</button>
                 {inDesktop() && <button onClick={esciDalGioco} style={bottone}>✕ esci</button>}
               </div>
             </section>
@@ -712,6 +712,7 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
             </div>
           )}
           {guida && !compatto && <ComeSiGioca base={19} onChiudi={() => setGuida(false)} />}
+          {opzioniAperte && !compatto && <PannelloOpzioni base={19} onChiudi={() => setOpzioniAperte(false)} />}
           {taccuino && !compatto && (
             <Taccuino base={19} modo="carica" puoSalvare={false} onCarica={(d) => { setTaccuino(false); onLaunch(d); }} onChiudi={() => setTaccuino(false)} />
           )}

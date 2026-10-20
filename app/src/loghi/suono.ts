@@ -21,6 +21,7 @@ import { REGIA_RUNTIME as R, PASSA_RUNTIME, PASSA_MULTIMEDIA, ORDINE_PIXEL, DURA
 import { REGIA_FAVELLA as F, BATTUTE, MOTTO } from "./LogoFavella";
 import { RUNTIME_RIQUADRI, MULTIMEDIA_RIQUADRI, PIXEL } from "./forme";
 import { inDesktop } from "../lib/desktop";
+import { canale } from "../lib/suono";
 
 const LIVELLO = 0.8;            // volume generale (la colonna del trailer resta più forte)
 const ZERO = 0.0001;
@@ -316,7 +317,8 @@ export class SuonoLoghi {
       if (ac.state !== "running") ac.resume().catch(() => {});
       const anticipo = 0.12;                                   // il tempo di programmare tutto
       const t0 = ac.currentTime + anticipo;
-      const b = scriviPartitura(ac, ac.destination, { runtime: t0, favella: t0 + DURATA_RUNTIME });
+      // dal vivo passa dal bus sonoro (lib/suono.ts): il volume degli effetti e quello generale, il mono
+      const b = scriviPartitura(ac, canale(ac, "effetti"), { runtime: t0, favella: t0 + DURATA_RUNTIME });
       const ritardo = (ac.outputLatency || ac.baseLatency || 0);
       return new SuonoLoghi(ac, b, anticipo + ritardo);
     } catch {
