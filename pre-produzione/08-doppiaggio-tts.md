@@ -1,8 +1,10 @@
 # IL VIAGGIATORE — Il doppiaggio
 
-> Pre-produzione · Strato 8 · **bozza del 20/10/2026**, scritta a produzione audio quasi finita.
-> Dice che cosa è stato deciso e prodotto, e **che cosa resta da fare nel software** (l'app).
-> Le decisioni aperte sono in fondo: si chiudono con Simone prima di scrivere codice.
+> Pre-produzione · Strato 8 · scritto il 20/10/2026 a produzione audio quasi finita, **eseguito la sera
+> stesso** (versioni 1.19.0 – 1.22.1), una fase per volta con il via libera di Simone.
+> Dice che cosa è stato deciso e prodotto e che cosa si è fatto nel software (l'app); le decisioni di
+> Simone sono nella sezione 4, le fasi nella 5. Resta da fare prima del rilascio: rifare Imma, Rosaria,
+> Tore e Vito (decisione 6).
 > Il lavoro di produzione (testi, blocchi, voci, tagli) sta in `doppiaggio/` e in `strumenti/doppiaggio*.py`.
 
 ---
@@ -86,4 +88,5 @@ Si fa una fase per volta; a fine fase si mostra il risultato e si aspetta il via
 3. ~~**I testi che si compongono** (3.3)~~ **fatto il 20/10/2026 (1.21.0):** in `parti.ts` un testo di servizio con cifre si porta a lettere e si cerca intero o nei due pezzi «…,» + «e …» (come `scomponi_dinamico`); i fili del viaggio li ritrova già la fila di parti ai confini di frase. Il collaudo prova 1.976 combinazioni di numeri e i 10 fili (uno per uno e tutti insieme): le 845 parti del gioco si ritrovano tutte da un testo stampato. Limite: oltre i valori registrati (cibo oltre 12, possibile solo barattando molto al mercato) il pezzo non ha voce e va al lettore di schermo.
 4. ~~**Il trailer con la voce di Enzo** (3.4)~~ **fatto il 20/10/2026 (1.22.0), approvato da Simone all'ascolto («capolavoro»):** una traccia sola di 88,5 s (`strumenti/doppiaggio-trailer.py` → `app/public/voce/trailer.opus` e `trailer.json`): pause interne accorciate a 0,25 s, al massimo +10% di velocità senza cambiare l'altezza (le cinque regole tutte al 10%), «tuo FRATELLO.» a 64,0 e il titolo a 82,3 esatti, voce a −18 LUFS; nel trailer (`audio.ts`) la traccia segue l'orologio della musica e la musica scende a −8 dB mentre Enzo parla. **Decisione di Simone:** nel finale Enzo legge le cinque regole; i quattro numeri e «Un'avventura testuale…» restano solo scritti (non c'era tempo per tutto: 21 s di voce in 14). Costo: decodifica 144 ms fuori dal filo principale, 16 MB; il disegno non cambia. L'esportatore dei video ha la colonna vera (`strumenti/trailer-mix.cjs`).
 5. ~~**Le verifiche** (3.5)~~ **fatto il 20/10/2026 (1.22.1):** l'autoverifica del pacchetto prova la voce (indice, una parte per ognuna delle 12 voci del pacchetto, il testo d'avvio, la traccia del trailer) e passa; tutti i collaudi e la CI verdi a ogni fase; installatore Windows 128,5 MB (114 nella 1.18.2: +14,5 MB); una partita intera (percorso A, 151 turni) ha circa 30 minuti di voce, 11,7 s a turno in mediana, il più lungo 61 s (l'arrivo, con i fili del viaggio). L'ascolto l'ha fatto Simone nel gioco desktop.
-6. **I documenti** (3.6): CHANGELOG, README (voci e diritti), diario. Il rilascio solo su ordine di Simone, e non prima di aver rifatto i quattro personaggi ElevenLabs.
+6. ~~**I documenti** (3.6)~~ **fatto il 20/10/2026:** README (la voce, i tasti, le voci e i loro diritti, i dodici collaudi), `LICENSE-CONTENUTI.md` (le voci del doppiaggio sono contenuti CC BY-SA come i testi che leggono), le guide di `doppiaggio/`, `strumenti/` e `collaudo/`, il foglio dei tempi del trailer, il CHANGELOG e il diario a ogni fase.
+7. **Il rilascio:** solo su ordine di Simone, e non prima di aver rifatto i quattro personaggi ElevenLabs (decisione 6): con Gemini, o con ElevenLabs su un piano a pagamento; poi riconoscere, tagliare (`doppiaggio-taglia.py --controlla`), togliere i blocchi da `SOLO_LOCALE` in `strumenti/doppiaggio-banco.py` e rifare il banco.
