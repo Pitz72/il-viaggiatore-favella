@@ -42,6 +42,7 @@ const TIPI = {
   ".whl": "application/zip",
   ".fav": "text/plain; charset=utf-8",
   ".mp3": "audio/mpeg",
+  ".opus": "audio/ogg",
   ".woff2": "font/woff2",
   ".png": "image/png",
   ".ico": "image/x-icon",

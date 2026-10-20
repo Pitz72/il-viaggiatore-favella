@@ -13,7 +13,8 @@ manifest (una generazione: una voce, un tono di fondo, un livello):
      di meno (non si comprime niente);
   4. codifica in Opus mono BITRATE (Ogg, deterministico: lo stesso ingresso dà gli stessi byte);
      una parte che decodificata supera PICCO_DOPO dBFS si ricodifica un poco più piano;
-  5. scrive l'indice id → durata in millisecondi e misura di nuovo i file codificati.
+  5. scrive l'indice (id → durata in millisecondi; il testo e la voce di ogni parte, per ritrovarla
+     dal testo stampato) e misura di nuovo i file codificati.
 
 I blocchi di SOLO_LOCALE (ElevenLabs sul piano gratuito: piano 08, decisione 6) vanno in
 app/public/voce/locale/, che git ignora: suonano sul PC di Simone ma non entrano nel repository né
@@ -241,8 +242,11 @@ def main():
 
     for v in muti.values():
         v.sort()
+    # il testo di ogni parte (anche delle mute e di quelle del trailer): l'app ritrova le parti dal testo
+    # che il motore stampa, spezzato e normalizzato come in doppiaggio.py (app/src/gioco/parti.ts)
+    testi = {i: [man["unita"][i]["voce"], man["unita"][i]["testo"]] for i in list(indice) + list(indice_locale)}
     scrivi(os.path.join(USCITA, "indice.json"),
-           {"formato": 1, "estensione": ESTENSIONE, "parti": indice, "muti": muti})
+           {"formato": 1, "estensione": ESTENSIONE, "parti": indice, "muti": muti, "testi": testi})
     scrivi(os.path.join(LOCALE, "indice.json"), {"formato": 1, "estensione": ESTENSIONE, "parti": indice_locale})
 
     # 5. di nuovo la loudness, sui file codificati
