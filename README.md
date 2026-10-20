@@ -63,7 +63,7 @@ Il gioco parte a schermo intero e funziona senza connessione. **Esc** salta i
 loghi e il trailer (e chiude il cartello dei crediti e l'avviso, come Invio). Il **menu d'avvio** è una colonna di voci
 (continua, nuovo viaggio, carica, opzioni, come si gioca, rivedi il trailer, esci) che si sceglie con le frecce e Invio o
 col mouse. In partita **Esc** apre la **pausa** (riprendi, salva, carica, opzioni, come si gioca, menu d'avvio, esci),
-**F11** commuta lo schermo intero, **F5** salva, **F9** carica; Alt+F4 chiude. Gli eseguibili non sono firmati:
+**F11** commuta lo schermo intero, **F5** salva al volo e **F9** ricarica quel salvataggio rapido; Alt+F4 chiude. Gli eseguibili non sono firmati:
 Windows SmartScreen può chiedere una conferma.
 
 **La voce.** Con la *voce recitata* (com'è all'inizio) il gioco legge ogni testo con le voci del doppiaggio: un tasto
@@ -76,10 +76,12 @@ tuo lettore). Con la voce recitata anche il trailer ha la voce del narratore, e 
 mono; il silenzio quando il gioco non è in primo piano. Valgono subito e restano; «ripristina le opzioni di base» torna
 alle scelte del primo avvio.
 
-**Salvataggi.** Sei posti più uno automatico, che si scrive a ogni cambio di
-luogo; dal menu, «Continua il viaggio» riprende il più recente. Sono file
-`.viaggiatore` in *Documenti/Il Viaggiatore/Salvataggi*, JSON leggibile: si
-esportano, si importano, si copiano su un altro computer. Un salvataggio non
+**Salvataggi.** Il taccuino (dalla testata, dalla pausa o dal menu) tiene quanti salvataggi si vuole, ciascuno col suo
+nome, una miniatura del paesaggio, il luogo, il tempo di gioco, il corpo e le scorte; si caricano, si riscrivono, si
+rinominano, si esportano, si eliminano, anche solo da tastiera. **F5** salva al volo in un posto rapido, **F9** lo
+ricarica; tre salvataggi automatici si scrivono a turno a ogni cambio di luogo e quando si lascia la partita. Dal menu,
+«Continua il viaggio» riprende il più recente. Sono file `.viaggiatore` in *Documenti/Il Viaggiatore/Salvataggi*, JSON
+leggibile: si esportano, si importano, si copiano su un altro computer; quelli delle versioni di prima si aprono. Un salvataggio non
 fotografa il mondo: registra la sequenza effettiva dei comandi e un'impronta
 SHA-256 dello stato, e al caricamento il motore la rigioca e verifica che lo
 stato sia **identico**. Così anche ANNULLA funziona dopo un caricamento, e un
