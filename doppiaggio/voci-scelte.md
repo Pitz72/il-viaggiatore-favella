@@ -21,12 +21,12 @@ Kira ed Enzo, «Delivery: …» per i personaggi.
 
 ## ElevenLabs (Eleven v4, `eleven_v4`)
 
-Impostazioni di Simone: Stability 50, Similarity 75, velocità 100; lingua italiana; tono a inizio
+Impostazioni di partenza di Simone: Stability 50, Similarity 75, velocità 100 (le impostazioni di ogni generazione sono nel nome del file scaricato: «s» = Stability, «sb» = Similarity, «sp» = velocità); lingua italiana; tono a inizio
 riga come tag fra parentesi quadre.
 
 | Personaggio | Voce | Generato | Nota |
 |---|---|---|---|
 | Imma | **Victoria** | 20/10 (16:12), 83,7 s | 22 parti su 22, tutte verificate; il nome del file dice «Roger», ma la voce è Victoria (l'ha riconosciuta Simone a orecchio; la mia misura dell'altezza dice voce femminile, circa 185 Hz) |
-| Rosaria | | da fare | |
+| Rosaria | **Valeria** («Warm, Expressive, Authentic», clone professionale) | 20/10 (16:31), 74,6 s | 15 parti su 15, tutte verificate; impostazioni diverse da Imma: Stability 75, velocità 0,96, Similarity 75 |
 | Tore | | da fare | sostituisce intero l'audio Gemini |
 | Vito | | da fare | sostituisce intero l'audio Gemini (solo se all'ascolto la parte 6 è sbagliata) |

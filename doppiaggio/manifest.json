@@ -837,6 +837,29 @@
    ],
    "fuori_uso": []
   },
+  "rosaria": {
+   "voce": "Rosaria",
+   "generato": true,
+   "minuti_stimati": 2.3,
+   "parti": [
+    "c3e4e174",
+    "c0a4eb0a",
+    "86492b9e",
+    "88377b4f",
+    "1861c935",
+    "53aa3875",
+    "1c6fc8fe",
+    "041a0963",
+    "5c07dd21",
+    "a7dbd261",
+    "7a43f44f",
+    "93bfa0d0",
+    "142244a7",
+    "cf6e0303",
+    "abea8989"
+   ],
+   "fuori_uso": []
+  },
   "saverio": {
    "voce": "Saverio",
    "generato": true,
@@ -1115,28 +1138,6 @@
    "minuti_stimati": 0.0,
    "parti": [
     "3062fcfe"
-   ]
-  },
-  "rosaria": {
-   "voce": "Rosaria",
-   "generato": false,
-   "minuti_stimati": 2.3,
-   "parti": [
-    "c3e4e174",
-    "7a43f44f",
-    "142244a7",
-    "c0a4eb0a",
-    "a7dbd261",
-    "93bfa0d0",
-    "cf6e0303",
-    "86492b9e",
-    "88377b4f",
-    "1861c935",
-    "5c07dd21",
-    "abea8989",
-    "53aa3875",
-    "1c6fc8fe",
-    "041a0963"
    ]
   },
   "tore-b": {
