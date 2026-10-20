@@ -1,7 +1,7 @@
 # IL VIAGGIATORE — Opzioni, menu d'avvio, pausa, salvataggi, trofei
 
-> Pre-produzione · Strato 9 · **v0.2, 20/10/2026: le domande hanno avuto risposta (§1). Fasi 1–4 eseguite
-> (1.24.0 – 1.27.0); le altre da fare.** Si esegue una fase alla volta (§10) con il via libera di Simone alla fine di ciascuna.
+> Pre-produzione · Strato 9 · **v0.2, 20/10/2026: le domande hanno avuto risposta (§1). Fasi 1–4 e 6 eseguite
+> (1.24.0 – 1.28.0); restano la 5, la 7 e la 8.** Si esegue una fase alla volta (§10) con il via libera di Simone alla fine di ciascuna.
 > Obiettivo: confezionare il gioco come un prodotto commerciale per desktop, sul modello di **Il Relitto**
 > per l'impostazione (non per la tecnologia: lì Tauri, qui Electron). Ogni voce cita i file da toccare.
 
@@ -412,8 +412,8 @@ commit e push. Il rilascio pubblico, solo su ordine.
 | 2 | **Menu d'avvio** riorganizzato, **pausa** con Esc, testata «salva · carica · ☰ pausa», via il tastino dello schermo — ✅ eseguita; la voce «Trofei» del menu e della pausa arriva con la fase 7 | 1.25.0 |
 | 3 | **Taccuino da desktop**: salvataggi liberi con nome, rapidi F5/F9, tre automatici, miniatura, tempo di gioco — ✅ eseguita; l'elenco è tutto per data (non rapido e automatici prima), in Salva solo i salvataggi con nome | 1.26.0 |
 | 4 | **Video**: schermo e finestra ricordati, dimensione, qualità grafica; `impostazioni.cjs`; aggiornamenti sì/no — ✅ eseguita; le dimensioni in pixel veri dello schermo, «alta» mai sotto «automatica», Generale per ora solo sul desktop | 1.27.0 |
-| 5 | **Comandi**: i tre modi; guida e testi adattati | 1.28.0 |
-| 6 | **Alta accessibilità**: contrasto, testo, carattere (scaricamento da confermare), movimento (loghi e trailer restano), fuoco | 1.29.0 |
+| 5 | **Comandi**: i tre modi; guida e testi adattati | 1.29.0 |
+| 6 | **Alta accessibilità**: contrasto, testo, carattere (scaricamento da confermare), movimento (loghi e trailer restano), fuoco — ✅ eseguita prima della 5, su richiesta di Simone, come 1.28.0; il carattere copiato dal Relitto (nessuno scaricamento) | 1.28.0 |
 | 7 | **Trofei**: deposito, regole, cartiglio col suono, pagina, schermata finale, sfide nei salvataggi | 1.30.0 |
 | 8 | Verifiche finali, partite intere nei tre modi, README, guide, pacchetti | 1.30.x |
 

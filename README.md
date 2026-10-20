@@ -77,6 +77,10 @@ della grafica (automatica, alta, media, bassa); i volumi (generale, musica, voce
 o mono; il silenzio quando il gioco non è in primo piano; sul desktop, se cercare gli aggiornamenti all'avvio. Valgono
 subito e restano; «ripristina le opzioni di base» torna alle scelte del primo avvio.
 
+**L'accessibilità.** Un interruttore, *alta accessibilità*, accende insieme contrasto alto, testo grande, il carattere
+Atkinson Hyperlegible, il movimento ridotto e il fuoco della tastiera marcato; poi si regolano una per una. Il movimento
+ridotto ferma la partita e i menu, non loghi e trailer (Esc li salta).
+
 **Salvataggi.** Il taccuino (dalla testata, dalla pausa o dal menu) tiene quanti salvataggi si vuole, ciascuno col suo
 nome, una miniatura del paesaggio, il luogo, il tempo di gioco, il corpo e le scorte; si caricano, si riscrivono, si
 rinominano, si esportano, si eliminano, anche solo da tastiera. **F5** salva al volo in un posto rapido, **F9** lo
@@ -267,7 +271,7 @@ Chi è stato generato come, e quando, sta in `doppiaggio/voci-scelte.md`; il pro
 | [React](https://react.dev) | MIT | dipendenza npm |
 | [Electron](https://www.electronjs.org) | MIT | dipendenza npm della versione desktop |
 | [electron-updater](https://github.com/electron-userland/electron-builder) | MIT | dipendenza npm della versione desktop |
-| Font Inter, Lora, Sora, Source Code Pro, Covered By Your Grace | SIL Open Font License 1.1 | `app/public/fonts/` (`OFL.txt`) |
+| Font Inter, Lora, Sora, Source Code Pro, Covered By Your Grace, Atkinson Hyperlegible Next | SIL Open Font License 1.1 | `app/public/fonts/` (`OFL.txt`) |
 
 I loghi di **Runtime Multimedia** e di **FAVELLA 1** mostrati all'avvio sono marchi dei
 rispettivi titolari, esclusi da entrambe le licenze (vedi `LICENSE-CONTENUTI.md`); il codice
