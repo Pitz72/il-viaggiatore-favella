@@ -9,7 +9,9 @@
 //  narratore; le parole in MAIUSCOLO si abbassano (i nomi dei personaggi
 //  tornano con l'iniziale maiuscola). Una frase che non si trova intera si
 //  cerca come fila di parti note, ai confini di frase: il motore a volte mette
-//  due testi sulla stessa riga.
+//  due testi sulla stessa riga, e i fili del viaggio sono dieci frasi registrate
+//  una per una che il motore incolla insieme. I numeri delle scorte si
+//  ricompongono dai pezzi che la voce di servizio ha detto a lettere.
 //  Niente import di runtime (solo tipi): collaudo/doppiaggio.py lo prova in
 //  Node sui testi veri dei percorsi (app/scripts/parti-node.mjs).
 // ====================================================================
@@ -98,11 +100,46 @@ function inFila(tab: Tabella, voce: string, testo: string): string[] | null {
   return meglio[n];
 }
 
+// I numeri delle scorte («Hai 6 d'acqua e 2 di cibo.»): la voce di servizio li ha detti a lettere, in
+// pezzi con un numero solo, come li spezza scomponi_dinamico in strumenti/doppiaggio.py: «Hai sei
+// d'acqua,» + «e due di cibo.». Fuori dai valori registrati (acqua 0–20, cibo 0–12) il pezzo non c'è.
+const NUMERI = ["zero", "uno", "due", "tre", "quattro", "cinque", "sei", "sette", "otto", "nove", "dieci",
+  "undici", "dodici", "tredici", "quattordici", "quindici", "sedici", "diciassette", "diciotto", "diciannove", "venti"];
+const CIFRE = /(?<![\p{L}\p{N}])\d+(?![\p{L}\p{N}])/gu;
+const E_NUMERO = new RegExp(` e (?=(?:${NUMERI.join("|")}) )`, "g");
+
+/** Il testo coi numeri a lettere, o null se non ha cifre (o ne ha una che la voce non ha detto). */
+function aLettere(t: string): string | null {
+  let fuori = false;
+  const r = t.replace(CIFRE, (d) => {
+    const n = Number(d);
+    if (n >= NUMERI.length) { fuori = true; return d; }
+    return NUMERI[n];
+  });
+  return fuori || r === t ? null : r;
+}
+
+/** Un testo di servizio coi numeri: intero, o nei due pezzi «…,» + «e …». */
+function conNumeri(tab: Tabella, t: string): string[] | null {
+  const lettere = aLettere(t);
+  if (!lettere) return null;
+  const intero = cerca(tab, "servizio", lettere);
+  if (intero) return [intero];
+  for (const m of lettere.matchAll(E_NUMERO)) {
+    const a = cerca(tab, "servizio", lettere.slice(0, m.index) + ",");
+    const b = cerca(tab, "servizio", "e " + lettere.slice(m.index! + 3));
+    if (a && b) return [a, b];
+  }
+  return null;
+}
+
 function ritrova(tab: Tabella, segs: Segmento[], chi?: string): Ritrovate {
   const r: Ritrovate = { ids: [], mancano: [] };
   for (const s of segs) {
     const id = cerca(tab, s.voce, s.testo, chi);
     if (id) { r.ids.push(id); continue; }
+    const numeri = s.voce === "servizio" ? conNumeri(tab, s.testo) : null;
+    if (numeri) { r.ids.push(...numeri); continue; }
     const fila = s.voce === "servizio" ? null : inFila(tab, s.voce === "citazione" ? (chi ?? "narratore") : "narratore", s.testo);
     if (fila) r.ids.push(...fila);
     else r.mancano.push({ voce: s.voce === "citazione" ? (chi ?? "?") : s.voce, testo: s.testo });
