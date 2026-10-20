@@ -10,11 +10,16 @@
 
 .vg-panorama { position: absolute; left: 0; right: 0; top: 0; height: 200px; overflow: hidden; }
 .vg-panorama-sfuma { position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(to bottom, rgba(0,0,0,.42) 0%, transparent 28%, transparent 52%, rgba(11,10,14,.85) 88%, #0b0a0e 100%); }
+  /* due ombre d'angolo sotto la testata e sotto il nome del luogo: anche sul cielo bianco del sale i testi piccoli restano a 4,5:1 */
+  background:
+    radial-gradient(ellipse 720px 84px at 0 0, rgba(6,7,10,.86) 0%, rgba(6,7,10,.8) 50%, transparent 100%),
+    radial-gradient(ellipse 560px 140px at 0 100%, rgba(6,7,10,.9) 0%, rgba(6,7,10,.84) 50%, transparent 100%),
+    linear-gradient(to bottom, rgba(0,0,0,.42) 0%, transparent 28%, transparent 52%, rgba(11,10,14,.85) 88%, #0b0a0e 100%); }
 .vg-testata { position: absolute; top: 14px; left: 26px; right: 64px; display: flex; align-items: center; justify-content: space-between; }
-.vg-marchio { font-family: 'Source Code Pro', ui-monospace, monospace; font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: rgba(255,255,255,.72); text-shadow: 0 1px 8px rgba(0,0,0,.6); }
+.vg-marchio { font-family: 'Source Code Pro', ui-monospace, monospace; font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: rgba(255,255,255,.9); text-shadow: 0 1px 8px rgba(0,0,0,.6); }
 .vg-marchio b { font-family: 'Sora', sans-serif; font-weight: 600; letter-spacing: .12em; color: #fff; }
 .vg-luogo { position: absolute; left: 36px; bottom: 12px; text-shadow: 0 1px 10px rgba(0,0,0,.9); }
+.vg-luogo .vg-sopratitolo { color: color-mix(in srgb, var(--acc) 25%, #fff); }
 .vg-luogo h1 { margin: 4px 0 0; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 30px; letter-spacing: -.01em; color: #f7f1e7; text-shadow: 0 2px 18px rgba(0,0,0,.7); }
 
 .vg-pagina { position: absolute; left: 0; right: 0; top: 200px; bottom: 0; display: grid; grid-template-columns: 1fr 292px; }
@@ -22,12 +27,17 @@
 .vg-diario { flex: 1; min-height: 0; overflow-y: auto; padding: 4px 0 18px;
   -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 22px); mask-image: linear-gradient(to bottom, transparent 0, #000 22px); }
 .vg-colonna { max-width: 720px; margin: 0 auto; padding: 0 38px; }
-.vg-voce { margin-top: 16px; transition: opacity .6s ease; }
+.vg-voce { margin-top: 16px; }
+.vg-voce .vg-prosa, .vg-voce .vg-sensazione, .vg-voce .vg-sistema { transition: color .6s ease; }
 .vg-voce:not(.vg-passata) { animation: vg-entra .45s ease both; }
-.vg-passata { opacity: .64; }
-.vg-passata:hover { opacity: .85; }
+.vg-passata .vg-prosa { color: rgba(231,224,211,.72); }
+.vg-passata .vg-sensazione { color: rgba(240,187,142,.78); }
+.vg-passata .vg-sistema { color: rgba(200,208,220,.62); }
+.vg-passata:hover .vg-prosa { color: #e7e0d3; }
+.vg-passata:hover .vg-sensazione { color: #f0bb8e; }
+.vg-passata:hover .vg-sistema { color: rgba(200,208,220,.72); }
 .vg-comando { margin: 0 0 6px; font-family: 'Source Code Pro', monospace; font-size: 13px; color: var(--acc); }
-.vg-comando span { opacity: .6; margin-right: 4px; }
+.vg-comando span { opacity: .9; margin-right: 4px; }
 .vg-stanza { display: flex; align-items: center; gap: 12px; margin: 4px 0 8px; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 11.5px; letter-spacing: .24em; text-transform: uppercase; color: rgba(255,255,255,.55); }
 .vg-stanza::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(255,255,255,.14), transparent); }
 .vg-prosa { margin: 0 0 8px; font-size: 17px; line-height: 1.66; color: #e7e0d3; text-wrap: pretty; }
@@ -55,7 +65,7 @@
   border: 1px solid rgba(255,255,255,.1); background: rgba(0,0,0,.35); transition: border-color .2s, box-shadow .2s; }
 .vg-input:focus-within { border-color: var(--acc); box-shadow: 0 0 0 3px color-mix(in srgb, var(--acc) 16%, transparent); }
 .vg-input input { flex: 1; min-width: 0; background: transparent; border: none; outline: none; color: #f3ede2; font-family: 'Lora', serif; font-size: 16.5px; caret-color: var(--acc); }
-.vg-input input::placeholder { color: rgba(230,223,210,.34); font-style: italic; }
+.vg-input input::placeholder { color: rgba(230,223,210,.6); font-style: italic; }
 .vg-prompt { font-family: 'Sora', sans-serif; font-size: 20px; line-height: 1; color: var(--acc); }
 .vg-invia { cursor: pointer; font-family: 'Source Code Pro', monospace; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--acc);
   border: 1px solid color-mix(in srgb, var(--acc) 45%, transparent); background: transparent; border-radius: 8px; padding: 6px 10px; }
@@ -66,7 +76,7 @@
 .vg-chip { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; font-family: 'Source Code Pro', monospace; font-size: 12px; color: #d8dfe8;
   background: rgba(255,255,255,.035); border: 1px solid rgba(255,255,255,.1); border-radius: 999px; padding: 5px 11px; transition: border-color .2s, color .2s, background .2s; }
 .vg-chip:hover, .vg-chip:focus-visible { border-color: var(--acc); color: #fff; outline: none; }
-.vg-chip em { font-style: italic; font-family: 'Lora', serif; font-size: 12.5px; color: rgba(216,223,232,.5); margin-left: 2px; }
+.vg-chip em { font-style: italic; font-family: 'Lora', serif; font-size: 12.5px; color: rgba(216,223,232,.62); margin-left: 2px; }
 .vg-freccia { color: var(--acc); }
 .vg-persona { border-color: color-mix(in srgb, var(--acc) 40%, transparent); }
 .vg-attivo, .vg-pieno { background: var(--acc) !important; color: #0b0a0e !important; border-color: var(--acc) !important; }
@@ -77,7 +87,7 @@
 .vg-lato { min-height: 0; overflow-y: auto; padding: 14px 22px 20px; border-left: 1px solid rgba(255,255,255,.06); background: rgba(0,0,0,.2); }
 .vg-sezione { display: flex; justify-content: space-between; margin: 15px 0 9px; font-family: 'Source Code Pro', monospace; font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: var(--acc); }
 .vg-sezione:first-child { margin-top: 4px; }
-.vg-sezione span { color: rgba(230,223,210,.5); letter-spacing: .1em; }
+.vg-sezione span { color: rgba(230,223,210,.64); letter-spacing: .1em; }
 .vg-metro { margin-bottom: 10px; }
 .vg-metro-riga { display: flex; align-items: baseline; gap: 8px; }
 .vg-metro-nome { font-family: 'Sora', sans-serif; font-weight: 600; font-size: 13px; color: #efe8dc; }
@@ -90,9 +100,9 @@
 .vg-scorta { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 10px; border-radius: 10px; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07);
   font: inherit; color: inherit; text-align: left; cursor: pointer; transition: border-color .2s, background .2s; }
 .vg-scorta:hover:not(:disabled), .vg-scorta:focus-visible { border-color: var(--acc); background: rgba(255,255,255,.055); outline: none; }
-.vg-scorta:disabled { cursor: default; opacity: .7; }
+.vg-scorta:disabled { cursor: default; opacity: .85; }
 .vg-scorta-attiva { border-color: var(--acc); background: color-mix(in srgb, var(--acc) 13%, transparent); }
-.vg-scorta-azione { flex: 0 0 100%; text-align: right; margin: -6px 0 -2px; line-height: 1; font-style: normal; font-family: 'Source Code Pro', monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--acc); opacity: .75; }
+.vg-scorta-azione { flex: 0 0 100%; text-align: right; margin: -6px 0 -2px; line-height: 1; font-style: normal; font-family: 'Source Code Pro', monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--acc); opacity: .92; }
 .vg-scorta div { line-height: 1.2; }
 .vg-scorta svg { width: 22px; height: 22px; flex-shrink: 0; fill: none; stroke: var(--acc); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .vg-scorta b { display: block; font-family: 'Sora', sans-serif; font-size: 20px; line-height: 1; color: #f3ede2; font-variant-numeric: tabular-nums; }
@@ -102,7 +112,7 @@
 .vg-oggetto { width: 100%; height: 28px; padding: 0 9px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: left; cursor: pointer; border-radius: 8px; border: 1px solid rgba(255,255,255,.08);
   background: rgba(255,255,255,.035); color: #e3dccf; font-family: 'Lora', serif; font-size: 12.5px; transition: border-color .2s, background .2s; }
 .vg-oggetto:hover:not(:disabled) { border-color: var(--acc); }
-.vg-oggetto:disabled { cursor: default; opacity: .7; }
+.vg-oggetto:disabled { cursor: default; opacity: .85; }
 .vg-fiducie { list-style: none; margin: 0; padding: 0; }
 .vg-fiducie li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; margin: 5px 0; font-size: 14px; color: #e3dccf; }
 .vg-gesti { flex: 0 0 100%; margin-top: 1px; font-style: italic; font-size: 12px; line-height: 1.35; color: rgba(230,223,210,.6); }
@@ -189,10 +199,10 @@ button.vg-chiave-tasto:hover, button.vg-chiave-tasto:focus-visible { border-bott
 .vg-conf-meno .vg-conf-titolo { color: #ef8b9a; }
 .vg-conf-piu { border-color: color-mix(in srgb, var(--acc) 38%, transparent); background: color-mix(in srgb, var(--acc) 8%, transparent); }
 .vg-conf-piu .vg-conf-titolo { color: var(--acc); }
-.vg-conf-freccia { align-self: center; font-family: 'Sora', sans-serif; font-size: 20px; color: rgba(230,223,210,.45); }
+.vg-conf-freccia { align-self: center; font-family: 'Sora', sans-serif; font-size: 20px; color: rgba(230,223,210,.7); }
 .vg-conf-pesa { margin: 12px 0 0; font-family: 'Source Code Pro', monospace; font-size: 12px; color: #f2ad45; }
 .vg-conf-dopo { margin: 10px 0 0; font-family: 'Source Code Pro', monospace; font-size: 11.5px; letter-spacing: .04em; color: rgba(230,223,210,.55); }
 .vg-conf-azioni { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
 .vg-conf-azioni .vg-bottone { display: inline-flex; align-items: center; gap: 10px; padding: 10px 18px; }
-.vg-conf-azioni kbd { font-family: 'Source Code Pro', monospace; font-size: 11px; padding: 1px 6px; border-radius: 5px; border: 1px solid currentColor; opacity: .55; }
+.vg-conf-azioni kbd { font-family: 'Source Code Pro', monospace; font-size: 11px; padding: 1px 6px; border-radius: 5px; border: 1px solid currentColor; opacity: .88; }
 .vg-conf-nota { margin: 14px 0 0; text-align: right; font-style: italic; font-size: 12.5px; color: rgba(230,223,210,.66); }
