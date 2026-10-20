@@ -451,9 +451,10 @@ testi, non la durata complessiva né i tagli nominali.
   dei tasti in `EVENTI`).
 
 **T4. Gli stacchi delle cinque regole e il basso del brano.**
-- *Che cosa.* Gli stacchi sono ogni 1,84 s (67,8 · 69,64 · 71,48 · 73,32 · 75,16). I colpi gravi del
-  brano, misurati: 67,82 (a posto), 69,79 (0,15 s dopo), nessuno vicino a 71,48, 73,35 (a posto), nessuno
-  vicino a 75,16; più il grande colpo a 76,97 s (a posto: i numeri partono a 77,0).
+- *Che cosa.* Gli stacchi sono ogni 1,84 s (67,8 · 69,64 · 71,48 · 73,32 · 75,16). Fra i colpi
+  gravi più forti del brano (misura d'inviluppo, sotto i 120 Hz): 67,82 (a posto), 69,79 (0,15 s dopo),
+  nessuno vicino a 71,48, 73,35 (a posto), nessuno vicino a 75,16; più il grande colpo a 76,97 s (a
+  posto: i numeri partono a 77,0).
 - *Come.* Se all'ascolto il difetto si sente, stacchi non regolari (tocca `REGOLA_DUR`: la struttura);
   altrimenti si lascia com'è. Probabile che il brano sia composto a fasi e non a colpi: priorità bassa.
 
