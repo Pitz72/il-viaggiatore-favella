@@ -207,15 +207,22 @@ function foglio(ctx: C2D, tela: Tela, w: number, h: number, x: number, y: number
 // --------------------------------------------------------------------
 export function disegnaLettere(ctx: C2D, t: number, c: Cache) {
   const a = c.lettere as StatoLettere;
-  // il legno, illuminato dal basso a sinistra come da una lampada fuori campo
+  // la macchina avanza: 1,0 → 1,1 in 9,6 s, e con lei si muove anche il legno (le giunture delle assi
+  // scorrono quanto la busta e le lettere: lo sguardo «entra» nel tavolo). A 1,0 la tela copre
+  // esattamente il quadro e poi può solo ingrandire: i bordi restano coperti.
+  const avanza = lerp(1.0, 1.1, easeInOut(seg(t, 0, 9.6)));
+  // il legno, illuminato dal basso a sinistra come da una lampada fuori campo (la luce è ferma: la lampada sta fuori campo)
+  ctx.save();
+  camera(ctx, avanza, W / 2, H * 0.58);
   ctx.drawImage(a.tavolo, 0, 0, W, H);
+  ctx.restore();
   const lampada = 0.96 + 0.04 * Math.sin(t * 7.1) * Math.sin(t * 2.3);
   const gl = ctx.createRadialGradient(W * 0.50, H * 0.46, 40, W * 0.5, H * 0.5, W * 0.72);
   gl.addColorStop(0, `rgba(255,214,150,${0.34 * lampada})`); gl.addColorStop(0.5, "rgba(255,180,100,.06)"); gl.addColorStop(1, "rgba(0,0,0,.72)");
   ctx.fillStyle = gl; ctx.fillRect(0, 0, W, H);
 
   ctx.save();
-  camera(ctx, lerp(1.0, 1.1, easeInOut(seg(t, 0, 9.6))), W / 2, H * 0.58);
+  camera(ctx, avanza, W / 2, H * 0.58);
 
   // sul tavolo, già da prima: l'anello di un bicchiere, la busta, la penna
   ctx.drawImage(a.macchia, 1320, 190, 300, 300);

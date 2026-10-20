@@ -37,22 +37,36 @@ interface Cue {
   box: React.CSSProperties; righe: Riga[]; sfalsa?: number;
 }
 
+/** Un velo scuro e morbido dietro più righe: sta sotto TUTTI i testi (un velo per riga coprirebbe la riga vicina) e fuori
+ *  dalla maschera che taglia le righe (un'ombra larga verrebbe tagliata con un bordo duro). `cy` è il centro, in px di progetto. */
+interface Velo { id: string; da: number; a: number; entra: number; esce: number; cy: number; w: number; h: number; colore: string; alfa: number }
+
 const serif = (px: number, extra: React.CSSProperties = {}): React.CSSProperties =>
   ({ fontFamily: FONT.serif, fontWeight: 500, fontSize: px, lineHeight: 1.16, letterSpacing: "-0.005em", ...extra });
 const display = (px: number, extra: React.CSSProperties = {}): React.CSSProperties =>
-  ({ fontFamily: FONT.display, fontWeight: 600, fontSize: px, lineHeight: 1.08, letterSpacing: "-0.02em", ...extra });
+  ({ fontFamily: FONT.display, fontWeight: 600, fontSize: px, lineHeight: 1.08, letterSpacing: "-0.01em", ...extra });
 const mono = (px: number, extra: React.CSSProperties = {}): React.CSSProperties =>
   ({ fontFamily: FONT.mono, fontWeight: 500, fontSize: px, letterSpacing: "0.32em", textTransform: "uppercase", ...extra });
 
 const centro = (y: number): React.CSSProperties => ({ left: 0, right: 0, top: y, textAlign: "center" });
 
+// Dietro le parole che devono leggersi sul cielo acceso dell'alba (viola) e sulle nuvole color pesca del guado (rosso
+// cupo): un'ombra stretta, che sta dentro la maschera della riga, e un velo morbido del colore della scena, che sta
+// fuori (la maschera taglierebbe un'ombra larga con un bordo duro). Il colore della parola non cambia.
+const OMBRA_ALBA = "0 0 8px rgba(30,12,38,.8), 0 2px 3px rgba(22,8,28,.7)";
+const OMBRA_GUADO = "0 2px 8px rgba(20,4,10,.8), 0 0 2px rgba(20,4,10,.6)";
+const VELI: Velo[] = [
+  { id: "veloAlba", da: 10.6, a: 16.9, entra: 0.9, esce: 0.5, cy: 360, w: 1300, h: 470, colore: "30,12,38", alfa: 0.68 },
+  { id: "veloGuado", da: 61.8, a: 67.5, entra: 0.9, esce: 0.5, cy: 312, w: 1340, h: 440, colore: "34,6,14", alfa: 0.66 },
+];
+
 const regolaScura = { width: 120, height: 2, background: "#3b2415", display: "inline-block" } as const;
 
 const CUES: Cue[] = [
-  { id: "alba1", da: 10.6, a: 16.9, tipo: "maschera", box: centro(250), righe: [{ testo: "Un uomo torna a casa.", stile: serif(88, { color: "#f4ece0" }) }] },
-  { id: "alba2", da: 12.3, a: 16.9, tipo: "maschera", box: centro(360), righe: [{ testo: "A piedi.", stile: serif(88, { color: "#f6b77c", fontStyle: "italic" }) }] },
+  { id: "alba1", da: 10.6, a: 16.9, tipo: "maschera", box: centro(250), righe: [{ testo: "Un uomo torna a casa.", stile: serif(88, { color: "#f4ece0", textShadow: OMBRA_ALBA }) }] },
+  { id: "alba2", da: 12.3, a: 16.9, tipo: "maschera", box: centro(360), righe: [{ testo: "A piedi.", stile: serif(88, { color: "#f6b77c", fontStyle: "italic", textShadow: OMBRA_ALBA }) }] },
   { id: "terra", da: 18.3, a: 22.4, tipo: "maschera", sfalsa: 0.16, box: { left: 170, top: 196 },
-    righe: [{ testo: "Attraverso una terra", stile: serif(70, { color: "#2c1a0e" }) }, { testo: "che l'acqua ha svuotato.", stile: serif(70, { color: "#2c1a0e" }) }] },
+    righe: [{ testo: "Attraverso una terra", stile: serif(70, { color: "#2c1a0e" }) }, { testo: "che l’acqua ha svuotato.", stile: serif(70, { color: "#2c1a0e" }) }] },
   { id: "secca", da: 22.6, a: 25.1, entra: 0.3, tipo: "timbro", box: { left: 170, top: 400 },
     righe: [
       { testo: <span style={{ display: "inline-flex", alignItems: "center", gap: 30 }}>la secca<i style={regolaScura} /></span>, stile: mono(34, { color: "#3b2415", letterSpacing: "0.62em", fontWeight: 600 }) },
@@ -63,8 +77,8 @@ const CUES: Cue[] = [
   { id: "mappa", da: 33.6, a: 36.1, tipo: "dissolvi", box: centro(190), righe: [{ testo: "Sette tappe fino a casa.", stile: serif(64, { color: "#e8eef6" }) }] },
   { id: "cinque", da: 49.3, a: 52.4, tipo: "maschera", sfalsa: 0.18, box: centro(420),
     righe: [{ testo: "Cinque modi di stare", stile: serif(78, { color: "#eef2f8" }) }, { testo: "in un mondo che muore.", stile: serif(78, { color: "#eef2f8", fontStyle: "italic" }) }] },
-  { id: "guado1", da: 61.8, a: 67.5, tipo: "maschera", box: centro(214), righe: [{ testo: "E al guado, ad aspettarti,", stile: serif(76, { color: "#f6e6e2", textShadow: "0 2px 26px rgba(20,4,10,.75), 0 0 2px rgba(20,4,10,.5)" }) }] },
-  { id: "guado2", da: 63.7, a: 67.5, tipo: "maschera", box: centro(318), righe: [{ testo: "tuo fratello.", stile: serif(76, { color: "#ffa0a0", fontStyle: "italic", textShadow: "0 2px 26px rgba(20,4,10,.8), 0 0 2px rgba(20,4,10,.5)" }) }] },
+  { id: "guado1", da: 61.8, a: 67.5, tipo: "maschera", box: centro(214), righe: [{ testo: "E al guado, ad aspettarti,", stile: serif(76, { color: "#f6e6e2", textShadow: OMBRA_GUADO }) }] },
+  { id: "guado2", da: 63.7, a: 67.5, tipo: "maschera", box: centro(318), righe: [{ testo: "tuo fratello.", stile: serif(76, { color: "#ffa0a0", fontStyle: "italic", textShadow: OMBRA_GUADO }) }] },
   ...REGOLE.map((r, i): Cue => ({
     id: "regola" + i, da: 67.8 + i * REGOLA_DUR + 0.06, a: 67.8 + (i + 1) * REGOLA_DUR - 0.04, entra: 0.35, esce: 0.12, tipo: "maschera",
     box: { left: 150, top: 390, width: 980 },
@@ -74,7 +88,7 @@ const CUES: Cue[] = [
     ],
   })),
   { id: "numeritag", da: 78.9, a: 81.7, tipo: "dissolvi", box: centro(760),
-    righe: [{ testo: "Un'avventura testuale in italiano, scritta e giocata col motore vero.", stile: serif(34, { color: "#b9c4d4", fontStyle: "italic" }) }] },
+    righe: [{ testo: "Un’avventura testuale in italiano, scritta e giocata col motore vero.", stile: serif(34, { color: "#b9c4d4", fontStyle: "italic" }) }] },
 ];
 
 const STATS = [{ n: 7, l: "tappe" }, { n: 39, l: "luoghi" }, { n: 14, l: "personaggi" }, { n: 6, l: "finali" }];
@@ -100,7 +114,7 @@ const CINQUE = [
         "M100 36 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0", "M44 66 L36 76", "M27 78 a5 5 0 1 0 10 0 a5 5 0 1 0 -10 0"],
     riempi: ["M20 106 V58 H44 V106 Z", "M26 70 H38 V84 H26 Z"] },
   // Rosaria resta: un bicchiere d'acqua sul tavolo, con il suo menisco
-  { nome: "Rosaria", luogo: "l'osteria", verbo: "restare", a: "#ec7d54",
+  { nome: "Rosaria", luogo: "l’osteria", verbo: "restare", a: "#ec7d54",
     d: ["M38 34 L44 102 H76 L82 34", "M38 34 Q60 42 82 34 Q60 26 38 34", "M41 58 Q60 66 79 58", "M46 44 L50 92",
         "M30 106 H90", "M96 84 Q92 92 96 96 Q100 92 96 84 Z"],
     riempi: ["M41 58 Q60 66 79 58 L76 102 H44 Z"] },
@@ -232,6 +246,12 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
       }
     }
 
+    // i veli dietro le parole chiave
+    for (const v of VELI) {
+      const el = extraRef.current[v.id];
+      if (el) el.style.opacity = String(inviluppo(t, v.da, v.a, v.entra, v.esce) * v.alfa);
+    }
+
     // testi
     for (const c of CUES) {
       const el = cueRef.current[c.id];
@@ -302,7 +322,7 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
     if (velo) velo.style.opacity = String(clamp(seg(t, 82.2, 84.0)));
     if (tit && sub) {
       const e = expoOut(seg(t, 82.3, 84.6));
-      tit.style.opacity = String(clamp(seg(t, 82.3, 83.2)));
+      tit.style.opacity = String(clamp(seg(t, 82.3, 82.65)));   // sul colpo grave del brano (82,21 · 82,61); poi spaziatura e sfocatura si assestano
       tit.style.letterSpacing = `${0.5 - e * 0.36}em`;
       tit.style.filter = e < 1 ? `blur(${(1 - e) * 14}px)` : "none";
       tit.style.backgroundPosition = `${100 - seg(t, 83.4, 85.8) * 100}% 0`;
@@ -471,6 +491,14 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
             </div>
           )}
 
+          {/* i veli dietro le parole chiave */}
+          {VELI.map((v) => (
+            <div key={v.id} ref={reg(v.id)} aria-hidden="true" style={{
+              position: "absolute", left: "50%", top: v.cy, width: v.w, height: v.h, transform: "translate(-50%, -50%)", pointerEvents: "none", opacity: 0,
+              background: `radial-gradient(closest-side, rgba(${v.colore},1) 0%, rgba(${v.colore},.62) 45%, rgba(${v.colore},0) 100%)`,
+            }} />
+          ))}
+
           {/* testi */}
           {CUES.map((c) => (
             <div key={c.id} ref={(el) => { cueRef.current[c.id] = el; }} style={{ position: "absolute", visibility: "hidden", ...c.box }}>
@@ -493,15 +521,15 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
           <div ref={reg("tappe")} style={{ position: "absolute", left: 150, top: BANDA + 44, opacity: 0, ...mono(18, { color: "rgba(214,224,238,.6)" }) }} />
 
           {/* F · cinque colonne */}
-          <div style={{ position: "absolute", left: 0, right: 0, top: 318, display: "flex", justifyContent: "center", gap: 26 }}>
+          <div style={{ position: "absolute", left: 0, right: 0, top: 318, display: "flex", justifyContent: "center", gap: 12 }}>
             {CINQUE.map((c, i) => (
-              <div key={c.nome} ref={reg("col" + i)} style={{ width: 300, textAlign: "center", opacity: 0, borderLeft: i ? "1px solid rgba(255,255,255,.07)" : "none" }}>
+              <div key={c.nome} ref={reg("col" + i)} style={{ width: 330, textAlign: "center", opacity: 0, borderLeft: i ? "1px solid rgba(255,255,255,.07)" : "none" }}>
                 <svg viewBox="0 0 120 120" width={196} height={196} style={{ display: "block", margin: "-14px auto -18px", overflow: "visible", filter: `drop-shadow(0 0 14px ${c.a}66)` }}>
                   {c.riempi.map((d, j) => <path key={"f" + j} d={d} fill={c.a} stroke="none" data-riempi="1" style={{ opacity: 0 }} />)}
                   {c.d.map((d, j) => <path key={j} d={d} pathLength={1} fill="none" stroke={c.a} strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round" style={{ strokeDasharray: 1, strokeDashoffset: 1 }} />)}
                 </svg>
                 <div style={mono(17, { color: c.a, marginTop: 34 })}>{c.nome}</div>
-                <div style={serif(62, { color: "#f1f3f7", fontStyle: "italic", marginTop: 16 })}>{c.verbo}</div>
+                <div style={serif(56, { color: "#f1f3f7", fontStyle: "italic", marginTop: 20 })}>{c.verbo}</div>
                 <div style={serif(26, { color: "rgba(214,224,238,.55)", marginTop: 14 })}>{c.luogo}</div>
               </div>
             ))}
@@ -510,8 +538,10 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
           {/* I · i numeri */}
           <div ref={reg("numeri")} style={{ position: "absolute", left: 0, right: 0, top: 360, display: "flex", justifyContent: "center", opacity: 0 }}>
             {STATS.map((s, i) => (
-              <div key={s.l} style={{ width: 330, textAlign: "center", borderLeft: i ? "1px solid rgba(255,255,255,.1)" : "none" }}>
-                <div ref={reg("n" + i)} style={display(170, { fontWeight: 700, color: "#f4f1ea", fontVariantNumeric: "tabular-nums", letterSpacing: "-0.04em" })}>0</div>
+              // a misura del contenuto: le cifre (tabulari: ognuna è 1ch) hanno la larghezza del numero finale, così lo
+              // spazio fra una cifra e il filetto è lo stesso in tutte le colonne e non si muove mentre si conta
+              <div key={s.l} style={{ padding: "0 78px", textAlign: "center", borderLeft: i ? "1px solid rgba(255,255,255,.1)" : "none" }}>
+                <div ref={reg("n" + i)} style={display(170, { fontWeight: 700, color: "#f4f1ea", fontVariantNumeric: "tabular-nums", letterSpacing: "-0.04em", minWidth: `${String(s.n).length}ch` })}>0</div>
                 <div style={mono(20, { color: "rgba(214,224,238,.6)", marginTop: 18 })}>{s.l}</div>
               </div>
             ))}

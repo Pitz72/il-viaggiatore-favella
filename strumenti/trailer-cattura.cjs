@@ -17,6 +17,8 @@
 //    --densita 1|2         1 = 1920×1080, 2 = 3840×2160 (finestra e zoom raddoppiati)
 //    --prefisso t          prefisso dei file (default «t»): <prefisso>-<istante>.png, il punto diventa «_»
 //    --libero              NON deterministico: lascia la grana e il caso com'erano (per giudicare la grana)
+//    --nascondi <selettore>  nasconde gli elementi del DOM che corrispondono (per esempio «[data-riga]»: i testi): la
+//                          cattura «senza testi» serve a misurare il contrasto di una parola sul suo fondo
 //
 //  Deterministico (default): con il preload strumenti/trailer-preload-determinista.js due catture dello
 //  stesso istante sono uguali al bit (PSNR infinito: lo prova strumenti/trailer-confronta.mjs). Confronto
@@ -77,6 +79,7 @@ app.whenReady().then(async () => {
   // le tele si dipingono a pezzi: finché c'è la scritta «PREPARO IL VIAGGIO» si aspetta
   for (let i = 0; i < 600 && (await js(`document.body.innerText.includes("PREPARO IL VIAGGIO")`)); i++) await dormi(500);
   await dormi(800);
+  if (opz("--nascondi")) await js(`(() => { const s = document.createElement("style"); s.textContent = ${JSON.stringify(opz("--nascondi") + "{visibility:hidden !important}")}; document.head.appendChild(s); })()`);
   const larghezzaTela = () => js(`document.querySelector("canvas").width`);
   const tela0 = await larghezzaTela();
   for (const t of TEMPI) {

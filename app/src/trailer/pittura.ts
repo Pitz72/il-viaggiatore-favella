@@ -78,11 +78,22 @@ export async function nuvole(o: OpzioniNuvole): Promise<Tela> {
   const chiaro = hexRgb(o.chiaro), scuro = hexRgb(o.scuro);
   const [sx, sy] = o.sole;
   const passo = 9;
+  // La torsione legge il rumore a u·0,7, che non ha il periodo della tela: a destra e a sinistra valeva due
+  // cose diverse e la tessera, ripetendosi, si saldava con un gradino (la densità saltava di un fattore 10).
+  // Nell'ultimo 30 % della larghezza la si porta, con una curva dolce, al valore che ha all'inizio: la tessera
+  // si salda, il resto del cielo resta com'era.
+  const torsioneBase = (u: number, v: number) => n(u * 0.7, v * 0.7 + 3.1) * 0.35;
+  const fascia = per * 0.3;
+  const torsione = (u: number, v: number) => {
+    const a = torsioneBase(u, v);
+    if (u <= per - fascia) return a;
+    return a + (torsioneBase(u - per, v) - a) * smooth(per - fascia, per, u);
+  };
   const dens = (x: number, y: number) => {
     const u = (x / o.w) * per;
     const v = (y * per * o.scalaX) / o.w * o.scalaY;
     // un poco di torsione: le nuvole vere non sono righe parallele
-    const t = n(u * 0.7, v * 0.7 + 3.1) * 0.35;
+    const t = torsione(u, v);
     return smooth(1 - o.copertura - o.morbidezza, 1 - o.copertura + o.morbidezza, n(u + t * 0.3, v + t) * 0.5 + 0.5);
   };
   return await riempi(o.w, o.h, (x, y, px) => {
