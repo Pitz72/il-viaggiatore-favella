@@ -4,6 +4,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { execSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
+// il giorno di chi costruisce, non quello UTC (lo stesso di strumenti/versione.mjs)
+import { dataLocale } from '../strumenti/data-locale.mjs'
 
 // ====================================================================
 //  «Il Viaggiatore» — progetto autonomo.
@@ -37,7 +39,7 @@ const VERSIONE = {
   motore,
   formatoSalvataggi: versioni.formatoSalvataggi as number,
   commit,
-  data: new Date().toISOString().slice(0, 10),
+  data: dataLocale(),
 }
 
 export default defineConfig({
