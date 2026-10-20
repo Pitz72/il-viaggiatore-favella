@@ -7,14 +7,17 @@
 //  Apre una finestra Electron fuori schermo 1920×1080 sul server di sviluppo,
 //  porta il trailer a ogni istante con window.__trailer.vai(t) (solo DEV) e
 //  passa i pixel a ffmpeg. Scrive video/il-viaggiatore-intro.mp4 (1920×1080,
-//  30 fps) e video/il-viaggiatore-intro-720p.mp4. La traccia audio è muta,
-//  come nei file di prima: la musica è intro.mp3 e si monta a parte.
+//  30 fps) e video/il-viaggiatore-intro-720p.mp4. La traccia audio è la colonna
+//  del trailer resa offline da strumenti/trailer-mix.cjs: intro.mp3, i rumori e
+//  la voce di Enzo, con la musica che scende sotto la voce (con --senza-voce,
+//  musica e rumori soli).
 //  Con un numero come argomento esporta solo i primi N fotogrammi (prova).
 // ====================================================================
 const { app, BrowserWindow } = require("electron");
 const { spawn, spawnSync } = require("node:child_process");
 const fs = require("node:fs");
 const path = require("node:path");
+const { mixOffline, wav } = require("./trailer-mix.cjs");
 
 const RADICE = path.resolve(__dirname, "..");
 const URL_DEV = "http://localhost:5200/";
@@ -23,6 +26,8 @@ const totale = Number(process.argv.find((a) => /^\d+$/.test(a))) || Math.round(D
 const FILE = path.join(RADICE, "video", "il-viaggiatore-intro.mp4");
 const FILE_720 = path.join(RADICE, "video", "il-viaggiatore-intro-720p.mp4");
 const TEMP = path.join(RADICE, "video", totale < DURATA * FPS ? "prova.mp4" : "_nuovo.mp4");
+const IMMAGINI = path.join(RADICE, "video", "_immagini.mp4"), SUONO = path.join(RADICE, "video", "_suono.wav");
+const VOCE = !process.argv.includes("--senza-voce");
 
 const dormi = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -53,9 +58,7 @@ app.whenReady().then(async () => {
 
   const ff = spawn("ffmpeg", [
     "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "bgra", "-s", `${L}x${A}`, "-r", String(FPS), "-i", "pipe:0",
-    "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo", "-shortest",
-    "-c:v", "libx264", "-preset", "slow", "-crf", "20", "-maxrate", "12M", "-bufsize", "24M", "-pix_fmt", "yuv420p", "-profile:v", "high", "-movflags", "+faststart",
-    "-c:a", "aac", "-b:a", "64k", TEMP,
+    "-c:v", "libx264", "-preset", "slow", "-crf", "20", "-maxrate", "12M", "-bufsize", "24M", "-pix_fmt", "yuv420p", "-profile:v", "high", IMMAGINI,
   ], { stdio: ["pipe", "inherit", "inherit"] });
   const fine = new Promise((r) => ff.on("close", r));
 
@@ -71,6 +74,15 @@ app.whenReady().then(async () => {
   }
   ff.stdin.end();
   await fine;
+
+  // il suono: la colonna vera del trailer, resa offline sullo stesso tratto, poi immagini e suono insieme
+  const mix = await mixOffline(win, 0, totale / FPS, { voce: VOCE });
+  fs.writeFileSync(SUONO, wav(mix.pcm, mix.sr));
+  console.log(`suono: ${mix.eventi} rumori, ${mix.frasi} frasi di voce`);
+  const unisci = spawnSync("ffmpeg", ["-y", "-loglevel", "error", "-i", IMMAGINI, "-i", SUONO, "-map", "0:v:0", "-map", "1:a:0",
+    "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", TEMP], { stdio: "inherit" });
+  if (unisci.status !== 0) throw new Error("ffmpeg non ha unito immagini e suono");
+  fs.rmSync(IMMAGINI, { force: true }); fs.rmSync(SUONO, { force: true });
   if (totale >= DURATA * FPS) {
     fs.renameSync(TEMP, FILE);
     spawnSync("ffmpeg", ["-y", "-loglevel", "error", "-i", FILE, "-vf", "scale=1280:720:flags=lanczos", "-c:v", "libx264", "-preset", "slow", "-crf", "23",
