@@ -35,12 +35,17 @@ export function registraErroriGlobali(): () => void {
     visti.set(chiave, { quando: ora, ripetuti: 0 });
     annota(livello, testo.slice(0, 2000) + (v?.ripetuti ? `\n(ripetuto altre ${v.ripetuti} volte)` : ""));
   };
+  // preventDefault: il browser non ripete l'errore in console («Uncaught …»). Nel desktop la console
+  // finisce già nel registro tecnico (main.cjs): senza, lo stesso errore vi comparirebbe due volte. Nel
+  // browser lo stesso testo esce da `annota` in console, una volta sola.
   const suErrore = (ev: ErrorEvent) => {
+    ev.preventDefault();
     const benigno = /^ResizeObserver loop/.test(ev.message);
     const dove = ev.filename ? ` (${ev.filename}:${ev.lineno}:${ev.colno})` : "";
     scrivi(benigno ? "warn" : "error", `errore non preso${benigno ? " (innocuo)" : ""}: ${ev.message}${dove}\n${ev.error instanceof Error ? ev.error.stack ?? "" : ""}`);
   };
   const suRifiuto = (ev: PromiseRejectionEvent) => {
+    ev.preventDefault();
     const r = ev.reason;
     const benigno = r instanceof Error && INNOCUI.has(r.name);
     const testo = r instanceof Error ? `${r.name}: ${r.message}\n${r.stack ?? ""}` : String(r);
