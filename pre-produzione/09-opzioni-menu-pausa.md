@@ -292,9 +292,15 @@ sottile; sotto, le famiglie in gruppi, ognuna con i suoi medaglioni (un segno di
 icone di «Come si gioca», nell'accento della zona). Un trofeo vinto mostra nome, frase e data; uno non vinto
 è più spento, col nome coperto e il suo **accenno** (T2). Si percorre con le frecce; Esc chiude.
 
-### 7.3 La collezione — prima stesura, da rivedere con Simone
+### 7.3 La collezione — rivista con Simone il 21/10/2026
 
-Nomi presi dalle parole della storia. L'accenno è ciò che si legge prima di vincerlo.
+Nomi presi dalle parole della storia. L'accenno è ciò che si legge prima di vincerlo. Nel questionario del
+21/10 Simone ha tenuto gli accenni «dove guardare, non che cosa fare», i nomi dei finali, delle fini e
+delle sfide, i due della collezione; per gesti e modi di arrivare ha scelto la via di mezzo: sette nomi
+nuovi presi dalle battute della scena. Nessuna aggiunta: restano 30. Tre nomi valgono anche per le varianti
+della scena: «Qualcosa di quella casa» (la richiesta di Onofrio) per il cavallo e per il santino; «Chi arrivava
+di là» per la veglia con e senza sangue (col sangue Cosimo dice un'altra riga); «Quello che lasciava l'acqua»
+per la voce della generosità, che nasce dal cibo dato a Imma: è la fama come la riassume Cosimo.
 
 **I finali** (sei; si riconoscono dalla riga «FINALE —» del motore)
 
@@ -321,13 +327,13 @@ Nomi presi dalle parole della storia. L'accenno è ciò che si legge prima di vi
 |---|---|---|
 | Senza un grazie | Saverio ha avuto da mangiare | Qualcuno al pozzo |
 | Qualcosa del tuo | hai lasciato qualcosa a Iole | Qualcuno alla diga |
-| L'acqua della diga | il filtro legato alla pompa | Qualcosa alla diga |
-| Il pedaggio | hai pagato il passaggio a Vito | Qualcuno al casello |
+| Si beve, non si ama | il filtro legato alla pompa | Qualcosa alla diga |
+| Affare fatto | hai pagato il passaggio a Vito | Qualcuno al casello |
 | La pistola scarica | il bluff a Vito | Qualcuno al casello |
 | Contro la sbarra | Vito lasciato a terra | Qualcuno al casello |
-| La brocca piena | l'acqua lasciata a Rosaria | Qualcuno in osteria |
-| Un ricordo | hai mostrato a Onofrio qualcosa di tuo | Qualcuno sulle colline |
-| Sulla discesa | Imma ha avuto da mangiare | Qualcuno sulla discesa |
+| Per chi passerà dopo | l'acqua lasciata a Rosaria | Qualcuno in osteria |
+| Qualcosa di quella casa | hai mostrato a Onofrio il cavallo di legno o il santino | Qualcuno sulle colline |
+| La scarpa allacciata | Imma ha avuto da mangiare | Qualcuno sulla discesa |
 | La febbre rotta | Pasquale curato con le tue medicine | Qualcuno nel vicolo |
 
 **I modi di arrivare** (sei)
@@ -337,8 +343,8 @@ Nomi presi dalle parole della storia. L'accenno è ciò che si legge prima di vi
 | Mani pulite | un finale della storia senza sangue (nessuna voce del sangue) | Arrivare in un certo modo |
 | La lettera | Cosimo riconosciuto con la lettera | Al guado, una via |
 | Il fucile posato | Cosimo riconosciuto dopo aver posato il fucile | Al guado, un'altra via |
-| La veglia | Cosimo riconosciuto con la veglia | Al guado, la via più lunga |
-| La voce che ti precede | la voce della generosità ti ha preceduto | Quello che si dice di te |
+| Chi arrivava di là | Cosimo riconosciuto con la veglia | Al guado, la via più lunga |
+| Quello che lasciava l'acqua | la voce della generosità ti ha preceduto | Quello che si dice di te |
 | Detto il vero | a Peppe che chiede del sangue, la verità | Una domanda di Peppe |
 
 **Le sfide** (tre; ciascuna su un finale della storia)
@@ -427,7 +433,7 @@ v1.23.0. Il rilascio delle novità, solo su ordine di Simone.
 1. **Fase 5 — i tre modi dei comandi** (1.29.0): pulsanti e parole (com'è oggi), solo pulsanti, solo parole (§3.3);
    la scheda Generale compare anche nel browser; la guida e il segnaposto della riga si adattano al modo; «opzioni»,
    «pausa» (e poi «trofei») scritti aprono i pannelli, da verificare che il motore non li usi.
-2. **Fase 7 — i trofei** (1.30.0): **prima** rivedere con Simone nomi e accenni dei trenta trofei (§7.3); poi il
+2. **Fase 7 — i trofei** (1.30.0): nomi e accenni dei trenta trofei rivisti con Simone il 21/10 (§7.3); poi il
    deposito (`trofei.json` accanto ai salvataggi), le regole pure (`gioco/trofei.ts`, il ponte espone gli `stati`), il
    cartiglio col suono flautato lievissimo, la pagina, la voce «Trofei» nel menu d'avvio e nella pausa, il riquadro
    sulla schermata finale, le sfide nei salvataggi (campo `sfide`), `collaudo/trofei.py`.
