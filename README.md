@@ -68,11 +68,18 @@ Windows SmartScreen può chiedere una conferma.
 
 **La voce.** Con la *voce recitata* (com'è all'inizio) il gioco legge ogni testo con le voci del doppiaggio: un tasto
 qualunque la ferma (il testo resta), **F2** ridice l'ultimo testo, e le risposte di un dialogo le legge il narratore
-quando ci passi sopra col mouse o le raggiungi con la tastiera. Nelle **opzioni** («⚙ opzioni», nel menu d'avvio e in
-alto nella partita) si sceglie fra voce recitata e *lettore di schermo* (nessuna voce del gioco: il diario si annuncia al
+quando ci passi sopra col mouse o le raggiungi con la tastiera. Nelle **opzioni** (dal menu d'avvio e dalla pausa) si
+sceglie fra voce recitata e *lettore di schermo* (nessuna voce del gioco: il diario si annuncia al
 tuo lettore). Con la voce recitata anche il trailer ha la voce del narratore, e la musica gli scende sotto.
 
-**Le opzioni.** Schermo intero o finestra, ricordati da un lancio all'altro, e la dimensione della finestra; la qualità
+**I comandi.** Tre modi, a scelta nelle opzioni (scheda Generale). *Pulsanti e parole*, com'è all'inizio: si scrive in
+italiano nella riga, oppure si toccano uscite, cose, persone e azioni, e le due vie dicono le stesse parole. *Solo
+pulsanti*: la riga sparisce, e da tastiera Tab passa da un pulsante all'altro. *Solo parole*: l'avventura testuale pura,
+ogni comando si scrive (anche il numero di una risposta), e scorte e bisaccia si leggono soltanto. In tutti e tre restano
+la conferma delle scelte che costano, Ctrl+Z per tornare indietro di una mossa e i tasti del gioco. Scritte nella riga, «opzioni», «pausa»,
+«salva» e «carica» aprono i loro pannelli; la guida «Come si gioca» parla del modo scelto.
+
+**Le opzioni.** Il modo dei comandi; schermo intero o finestra, ricordati da un lancio all'altro, e la dimensione della finestra; la qualità
 della grafica (automatica, alta, media, bassa); i volumi (generale, musica, voce, effetti), che cambiano dal vivo; stereo
 o mono; il silenzio quando il gioco non è in primo piano; sul desktop, se cercare gli aggiornamenti all'avvio. Valgono
 subito e restano; «ripristina le opzioni di base» torna alle scelte del primo avvio.
