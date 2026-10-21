@@ -8,6 +8,8 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.35.0] - 2026-10-21
+
 ### Aggiunto
 - **Le immagini promozionali** in `grafica/branding/`: una key art nuova, dipinta col pennello del trailer (il guado di
   Acquamorta al tramonto, il sole tagliato dal campanile, i due fratelli di controluce), col titolo, l'autore, la frase
