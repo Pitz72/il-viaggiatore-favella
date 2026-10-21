@@ -70,7 +70,7 @@ Windows SmartScreen può chiedere una conferma.
 **La fine.** Dopo uno dei sei finali della storia, quando il narratore ha finito di leggere, parte la **sequenza
 finale**: Acquamorta al tramonto dalla riva del guado, la frase del finale, la notte, i **titoli di coda** (le licenze
 e i crediti, che prima stavano in un cartello all'avvio) e i loghi di Runtime Multimedia e di FAVELLA 1, su una canzone
-sua; poi il menu d'avvio. Dopo una morte si torna subito al menu. Il gioco non riparte da solo; Esc salta la sequenza.
+sua, «La mano sa ancora la forma» di The Runtimers; poi il menu d'avvio. Dopo una morte si torna subito al menu. Il gioco non riparte da solo; Esc salta la sequenza.
 
 **La voce.** Con la *voce recitata* (com'è all'inizio) il gioco legge ogni testo con le voci del doppiaggio: un tasto
 qualunque la ferma (il testo resta), **F2** ridice l'ultimo testo, e le risposte di un dialogo le legge il narratore
@@ -99,8 +99,8 @@ dall'inizio la prima volta e poi gira in tondo senza cuciture (il punto di ripet
 giuntura è incisa nel file); cambiando zona i brani si danno il cambio in dissolvenza, e tornando indietro una zona
 riprende il suo da dove era rimasto. Negli interni (il bar, l'osteria, la grotta…) si sente da dentro, più bassa e
 senza acuti; quando il narratore parla si abbassa. A viaggio finito tace. Il volume è la riga «Musica» delle opzioni.
-Nel menu, **Extra → Scarica la colonna sonora ufficiale** dà l'album «Il Viaggiatore Official Soundtrack»: sette MP3
-con la copertina e un LEGGIMI, copiati in una cartella a scelta sul desktop, o in uno ZIP nella versione web.
+Nel menu, **Extra → Scarica la colonna sonora ufficiale** dà l'album «Il Viaggiatore Official Soundtrack»: otto MP3
+(le sette zone e la canzone dei titoli di coda) con la copertina e un LEGGIMI, copiati in una cartella a scelta sul desktop, o in uno ZIP nella versione web.
 
 **I trofei.** Trenta, in sei famiglie: i sei finali, le tre fini lungo la strada, i dieci gesti verso chi incontri, sei
 modi di arrivare, tre sfide (arrivare a un finale senza mai tornare indietro, scrivendo ogni comando, coi soli pulsanti) e
@@ -218,6 +218,7 @@ python strumenti/doppiaggio-trailer.py        # la traccia della voce del traile
 # la colonna sonora (serve ffmpeg; gli MP3 originali di Lyria stanno fuori da git)
 python strumenti/colonna-sonora.py album <cartella>   # titoli, numeri, album, autore, copertina
 python strumenti/colonna-sonora.py anelli             # le versioni per il gioco, coi punti di ripetizione
+python strumenti/colonna-sonora.py finale             # la canzone dei titoli di coda per la sequenza finale
 ```
 
 `npm run dev` e `npm run build` copiano motore, avventura e Pyodide dentro

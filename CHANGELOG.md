@@ -8,6 +8,19 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+### Aggiunto
+- **La canzone dei titoli di coda**, «La mano sa ancora la forma» (The Runtimers, musica e testo generati con Lyria
+  3.5): suona sotto la sequenza finale al posto del tema dell'intro, che così dura 2:38; la voce entra dopo la frase del
+  finale e i loghi cadono sulla coda strumentale. Lyria ha riscritto il testo del prompt, e il titolo viene dal verso
+  che chiude la canzone. Fra i titoli di coda c'è la sua riga.
+- La canzone è l'**ottavo brano** dell'album «Il Viaggiatore Official Soundtrack» (Extra → Scarica la colonna sonora
+  ufficiale); i sette delle zone sono rinumerati su otto, con l'audio identico.
+
+### Cambiato
+- `strumenti/colonna-sonora.py` ha il comando `finale` (la canzone per la sequenza: senza silenzi alle estremità, a −14
+  LUFS come il tema dell'intro); `album` rietichetta i brani già nell'album. `collaudo/musica.py` e l'autoverifica dei
+  pacchetti controllano anche la canzone.
+
 ## [1.33.0] - 2026-10-21
 
 ### Aggiunto

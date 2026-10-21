@@ -1,6 +1,6 @@
 # IL VIAGGIATORE — La sequenza finale e i titoli di coda
 
-> Pre-produzione · **v0.2 del 21/10/2026: fatto** (1.33.0), **manca la canzone** (§3: la genera Simone).
+> Pre-produzione · **v0.3 del 21/10/2026: fatto** (1.33.0); **la canzone c'è** (1.34.0, §3: «La mano sa ancora la forma»).
 > Che cosa: una chiusura di almeno un minuto e venti dopo i sei finali della storia, con una canzone, i titoli di coda
 > e i loghi di Runtime Multimedia e di FAVELLA 1; poi il menu d'avvio.
 > Che cosa non tocca: la storia e i testi detti (nessuna parola nuova per il doppiaggio), le morti (restano asciutte),
@@ -127,6 +127,45 @@ se c'è la scelta, file non compressi (WAV), 44,1 o 48 kHz. Da controllare all'a
 `app/public/musica/finale.opus` (lo prepara `strumenti/colonna-sonora.py`). **Finché la canzone non c'è**, sotto la
 sequenza suona il tema dell'intro (`intro.mp3`) e la durata è la sua.
 
+### La canzone arrivata (21/10/2026, 1.34.0)
+
+Simone l'ha generata con Lyria 3.5: un MP3 di 2:38 (44,1 kHz, 192 kbit/s) che Lyria aveva chiamato «Il ferro freddo».
+**Lyria ha riscritto il testo**: tiene la strada del prompt (le lettere, il foglio a matita, i binari, il catrame,
+l'invaso col sale, il bicchiere tenuto da parte, le colline, il foglio piegato) ma il ritornello è un altro, e «La mano
+ci torna da sola» non si canta più. Il titolo nuovo viene dal verso che chiude la canzone: **«La mano sa ancora la
+forma»**. Ottavo brano dell'album, dopo le sette zone.
+
+Il testo come lo sente whisper (large-v3; trascrizione automatica, qualche parola può essere storta):
+
+```
+[22 s]  Lettere storte sul legno del tavolo / Poi più nessuna notizia di noi /
+        Solo due righe tracciate a matita / Dove i binari finiscono al sole /
+        L'erba bruciata ti sfiora i ginocchi / L'ultima insegna che trema nel vento /
+        Finisce la strada, si torna a piedi
+[50 s]  Ma il ferro freddo lo senti nel palmo / La mano sa ancora la forma che ha /
+        Cosa sei sceso a cercare nel bianco / Cosa ti resta da chiudere qua
+[65 s]  L'acqua contata nel fondo dei vetri / Sopra il catrame che fuma e che cede /
+        Dentro l'invaso è rimasto il silenzio / Ossa di barche, una crosta di sale /
+        Qualcuno all'ombra di calce persiane / Ti ho custodito un bicchiere da bere /
+        Sulle colline non cade più niente
+[94 s]  C'era già scritto sul foglio piegato / Che non serviva tornare qua giù /
+        Ma i passi conoscono solo una via
+[109 s] Ma il ferro freddo lo senti nel palmo / La mano sa ancora la forma che ha /
+        Cosa sei sceso a cercare nel bianco / Cosa ti resta da chiudere qua
+[124 s] La mano sa ancora la forma che ha
+        (strumentale da 127,5 s alla fine)
+```
+
+I tempi tornano con la sequenza: la voce entra a **22 s**, dopo la frase del finale (6–20 s); l'ultima parola è a
+127,5 s, e la coda strumentale (fino a 156,3 s) porta il nero e i due loghi (143–157 s).
+
+**Il trattamento** (`strumenti/colonna-sonora.py`): nell'album l'audio si copia com'è, con titolo, numero 8/8, album,
+autore e copertina; gli altri sette brani passano a 1/8 … 7/8 (l'audio resta identico, provato con l'impronta MD5 del
+flusso). Per il gioco (`finale`): via il silenzio in testa (0,46 s) e in coda (2,12 s), **−14 LUFS** come il tema
+dell'intro (il file di Lyria era a −11,4 LUFS con il picco a +0,4 dBTP), Opus 96 kbit/s, 2,0 MB. La sequenza dura ora
+**157,8 s**; i titoli salgono per 106 s, a circa 20 px/s sulla superficie di 1080 (con il tema dell'intro erano 39 s,
+a circa 55 px/s).
+
 ---
 
 ## 4. I titoli di coda
@@ -158,6 +197,9 @@ Il cartello all'avvio sparisce: l'ordine diventa loghi → avviso → trailer.
 - «Invio · continua» sotto il finale; «Grazie per aver giocato.» in coda ai titoli.
 - **Extra → Titoli di coda**, perché l'attribuzione delle voci resti raggiungibile.
 - I trofei dell'ultimo turno annunciati sul menu.
+- (1.34.0) Il titolo «La mano sa ancora la forma», dal verso che chiude la canzone; nei titoli di coda «musica e testo
+  generati con Lyria 3.5», perché il testo cantato è quello di Lyria e non più il mio.
+- (1.34.0) La canzone a −14 LUFS come il tema dell'intro, non a −23 come le zone; i silenzi alle estremità tolti.
 
 ---
 
@@ -168,3 +210,5 @@ Il cartello all'avvio sparisce: l'ordine diventa loghi → avviso → trailer.
 - Le foto della sequenza a 1920×1080 (tramonto, frase, notte, titoli, loghi), in Electron fuori schermo.
 - Un finale e una morte giocati nel gioco vero: dal finale alla sequenza al menu; dalla morte al menu.
 - `collaudo/doppiaggio.py`: nessun testo detto cambia.
+- (1.34.0) `collaudo/musica.py`: l'album a otto brani, la canzone nell'indice col titolo dell'album e nei crediti con
+  lo stesso titolo, −14 LUFS, niente silenzi lunghi alle estremità; l'autoverifica dei pacchetti decodifica la canzone.
