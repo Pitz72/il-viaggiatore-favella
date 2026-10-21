@@ -421,19 +421,17 @@ commit e push. Il rilascio pubblico, solo su ordine.
 | 5 | **Comandi**: i tre modi; guida e testi adattati — ✅ eseguita; in «solo pulsanti» ↶ annulla va fra i comandi di servizio e il fuoco segue il gioco; in «solo parole» sparisce anche ↶ annulla (resta Ctrl+Z); anche «salva» e «carica» scritti aprono il taccuino | 1.29.0 |
 | 6 | **Alta accessibilità**: contrasto, testo, carattere (scaricamento da confermare), movimento (loghi e trailer restano), fuoco — ✅ eseguita prima della 5, su richiesta di Simone, come 1.28.0; il carattere copiato dal Relitto (nessuno scaricamento) | 1.28.0 |
 | 7 | **Trofei**: deposito, regole, cartiglio col suono, pagina, schermata finale, sfide nei salvataggi — ✅ eseguita; le frasi dei trofei vinti approvate da Simone; sul finale i trofei sono compatti (nome e medaglione) perché il testo del finale resti in vista | 1.30.0 |
-| 8 | Verifiche finali, partite intere nei tre modi, README, guide, pacchetti | 1.30.x |
+| 8 | Verifiche finali, partite intere nei tre modi, README, guide, pacchetti — ✅ eseguita: tre partite intere (solo parole, solo pulsanti con 218 clic veri, mista fino alla morte), l'alta accessibilità a 1080p e 4K, il giro da tastiera, l'autoverifica in Electron; via l'invito ad ANNULLA dopo la fine (Simone: «Sei morto, stop») | 1.30.1 |
 
-## 11. Che cosa resta (stato al 21/10/2026: `main` = 1.30.0, non rilasciata)
+## 11. Il piano è compiuto (stato al 21/10/2026: `main` = 1.30.1, non rilasciata)
 
-Fatte: fasi 1, 2, 3, 4, 6, 5 e 7 (1.24.0 – 1.30.0), ciascuna provata nel browser (le prime quattro anche nel desktop). Ultima release pubblica:
-v1.23.0. Il rilascio delle novità, solo su ordine di Simone.
+Fatte tutte le otto fasi (1.24.0 – 1.30.1): opzioni, menu, pausa, taccuino, video, accessibilità, comandi, trofei,
+verifiche. Ultima release pubblica: v1.23.0. Il rilascio delle novità, solo su ordine di Simone.
 
-**Da fare, nell'ordine:**
+**Restano, fuori da questo piano:**
 
-1. **Fase 8 — verifiche finali e documenti** (1.30.x): partite intere nei tre modi dei comandi, lette come un giocatore;
-   l'alta accessibilità a tutto schermo a 1080p e 4K; README, guide, pacchetti.
-
-**Piccole cose rimaste aperte:**
-
-- Da sentire nel desktop vero, con Simone: il suono flautato dei trofei (volume e timbro) e la fila degli avvisi.
+- Da sentire e guardare nel desktop vero, con Simone: i volumi a orecchio, il mono, il silenzio in secondo piano, il
+  suono flautato dei trofei e la fila degli avvisi; finestra e schermo intero attraverso i riavvii; i salvataggi e
+  `trofei.json` in Esplora risorse.
+- **Una sequenza finale** da creare in una prossima sessione (detto da Simone il 21/10/2026).
 - `video/ecosystem-schermate-1.23.0.jpg` è nella cartella e fuori da git: non è di queste fasi; decide Simone.
