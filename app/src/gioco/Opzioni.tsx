@@ -302,7 +302,7 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
               <section aria-label="Volumi">
               <h3 className="opz-sezione" style={stileSezione}>Volumi</h3>
               {cursore("Volume generale", "volume", "Alza o abbassa tutto insieme.")}
-              {cursore("Musica", "volumeMusica", "Il brano del trailer e del menu d'avvio.")}
+              {cursore("Musica", "volumeMusica", "Il brano del trailer e del menu d'avvio, e in partita la musica di ogni zona.")}
               {cursore("Voce", "volumeVoce", "Il racconto doppiato e la voce del trailer.")}
               {cursore("Effetti", "volumeEffetti", "I suoni dei loghi e i rumori del trailer.")}
               </section>

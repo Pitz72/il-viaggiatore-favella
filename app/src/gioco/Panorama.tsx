@@ -301,6 +301,8 @@ const INTERNI = new Map<string, Interno>([
   ["sottopasso", { tipo: "galleria", pozza: true }],
   ["torre di presa", { tipo: "torre" }],
 ]);
+/** Il tipo di luogo chiuso (stanza, grotta, galleria…), o undefined all'aperto: lo usa anche la musica (gioco/musica.ts). */
+export const tipoInterno = (luogo: string | null): string | undefined => (luogo ? INTERNI.get(luogo)?.tipo : undefined);
 // nelle schermate di fine (vinta, persa) il panorama torna all'aperto, ovunque sia finito il viaggio
 const internoDi = (clima: Clima, luogo: string | null) => (luogo && clima !== "vinta" && clima !== "persa" ? INTERNI.get(luogo) : undefined);
 

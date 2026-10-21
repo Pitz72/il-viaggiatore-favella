@@ -1,0 +1,62 @@
+{
+ "formato": 1,
+ "nota": "Musiche delle zone: il brano una volta dall'inizio, poi in tondo [inizio, fine] (secondi). Scritto da strumenti/colonna-sonora.py.",
+ "zone": {
+  "z1": {
+   "file": "z1.opus",
+   "titolo": "Dove finiscono i binari",
+   "luogo": "Acquaviva, il capolinea",
+   "inizio": 35.605333,
+   "fine": 147.605292,
+   "durata": 148.112
+  },
+  "z2": {
+   "file": "z2.opus",
+   "titolo": "Il catrame che ondeggia",
+   "luogo": "La piana, il sole",
+   "inizio": 34.922667,
+   "fine": 146.942375,
+   "durata": 147.449
+  },
+  "z3": {
+   "file": "z3.opus",
+   "titolo": "Acqua ovunque, niente da bere",
+   "luogo": "L'invaso morto, il sale",
+   "inizio": 26.56,
+   "fine": 152.576,
+   "durata": 153.083
+  },
+  "z4": {
+   "file": "z4.opus",
+   "titolo": "Il silenzio delle cose costruite",
+   "luogo": "La statale, il casello",
+   "inizio": 5.909333,
+   "fine": 125.924479,
+   "durata": 126.431
+  },
+  "z5": {
+   "file": "z5.opus",
+   "titolo": "Il bicchiere tenuto da parte",
+   "luogo": "Il paese, i vivi",
+   "inizio": 28.778667,
+   "fine": 145.712187,
+   "durata": 146.219
+  },
+  "z6": {
+   "file": "z6.opus",
+   "titolo": "Il vento che non smette",
+   "luogo": "Le colline, la pietra",
+   "inizio": 12.053333,
+   "fine": 164.596729,
+   "durata": 165.103
+  },
+  "z7": {
+   "file": "z7.opus",
+   "titolo": "Cosa sei tornato a trovare",
+   "luogo": "Il guado, il fratello",
+   "inizio": 10.688,
+   "fine": 163.094396,
+   "durata": 163.601
+  }
+ }
+}

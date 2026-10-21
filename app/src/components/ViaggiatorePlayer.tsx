@@ -30,12 +30,15 @@
 //  (lib/trofei.ts) e compare in alto col suono flautato, mai sopra il finale:
 //  quelli dell'ultimo turno li mostra la schermata finale. Le sfide della
 //  partita (scritto, toccato, tornato indietro) viaggiano nei salvataggi.
+//  La MUSICA delle zone (gioco/musica.ts) segue il luogo: un brano per zona, che
+//  negli interni si sente da dentro; alla fine del viaggio si spegne.
 // ====================================================================
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { avviaGioco } from "../lib/favellaRuntime";
 import type { AzioniContesto, SessioneGioco, StatoMondo, TurnoEsito } from "../lib/favellaRuntime";
 import { VIAGGIATORE_GAME, ZONE_THEME, type ZoneKey, zoneOf } from "../data/viaggiatore";
-import Panorama, { type Clima } from "../gioco/Panorama";
+import Panorama, { tipoInterno, type Clima } from "../gioco/Panorama";
+import { musica } from "../gioco/musica";
 import ComeSiGioca from "../gioco/ComeSiGioca";
 import Taccuino from "../gioco/Taccuino";
 import Conferma from "../gioco/Conferma";
@@ -209,6 +212,16 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
   }, []);
   // il volume lo segue il bus sonoro (lib/suono.ts); passando al lettore di schermo la voce tace subito
   useEffect(() => { if (!recitata) voce.ferma(); }, [recitata]);
+
+  // ── la musica delle zone ───────────────────────────────────────────
+  // segue il luogo (zona e interno); a viaggio finito si spegne (mai sopra il finale); lasciando la partita si chiude
+  useEffect(() => {
+    if (fase !== "gioca") return;
+    if (finita) { musica.ferma(); return; }
+    const z = zoneOf(mondo.roomId);
+    musica.vai(z === "z0" ? null : z, tipoInterno(mondo.roomId));
+  }, [fase, finita, mondo.roomId]);
+  useEffect(() => () => musica.chiudi(), []);
 
   // ── avvio del motore ────────────────────────────────────────────────
   useEffect(() => {
@@ -393,6 +406,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     tempo.current = 0;
     sfide.current = sfideNuove(nuovoViaggio());
     setTrofeiViaggio([]); setCodaTrofei([]);
+    musica.chiudi();   // un viaggio nuovo: ogni zona ricomincia il suo brano dall'inizio
   };
 
   // ── salvare e caricare ─────────────────────────────────────────────
@@ -531,7 +545,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
   useEffect(() => {
     if (!import.meta.env.DEV) return;
     const w = window as unknown as { __gioco?: object };
-    w.__gioco = { manda, sessione: () => sessione.current, mondo: () => mondo, richiesta: () => richiesta };
+    w.__gioco = { manda, sessione: () => sessione.current, mondo: () => mondo, richiesta: () => richiesta, musica: () => musica.diagnosi() };
     return () => { delete w.__gioco; };
   });
 
