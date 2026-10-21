@@ -28,11 +28,11 @@ function schede(modo: ModoComandi): Scheda[] {
   return [
     modo === "entrambi"
       ? { titolo: "Scrivi o tocca", segno: "M4 18 L16 6 M13 5 L17 9 M4 18 L3 21 L6 20",
-          testo: "Si gioca a parole, in italiano: scrivi un comando e premi Invio. Ma ogni cosa che puoi fare è anche un pulsante (uscite, cose, persone, azioni) e manda lo stesso comando. Le parole in maiuscolo del testo si toccano. Nelle opzioni puoi giocare solo coi pulsanti, o solo a parole.",
+          testo: "Si gioca a parole, in italiano: scrivi un comando e premi Invio. Ma ogni cosa che puoi fare è anche un pulsante (le uscite a rosa dei venti, le cose, le persone, le azioni) e manda lo stesso comando. Le parole in maiuscolo del testo si toccano. Nelle opzioni puoi giocare solo coi pulsanti, o solo a parole.",
           esempi: ["guarda", "nord", "esamina la mappa", "prendi il coltello", "parla con Nunzio"] }
       : modo === "pulsanti"
       ? { titolo: "Tocca", segno: "M9 11 V5 A1.5 1.5 0 0 1 12 5 V11 M12 10 A1.5 1.5 0 0 1 15 10 V12 M15 11 A1.5 1.5 0 0 1 18 11 V15 C18 18 16 21 12 21 C9 21 7 19 6 16 L4.5 12.5 A1.5 1.5 0 0 1 7 11 L9 14",
-          testo: "Si gioca coi pulsanti: le uscite, le cose e le persone del luogo, le azioni. Ogni pulsante manda un comando del gioco, come se lo scrivessi. Le parole in maiuscolo del testo si toccano. Con la tastiera, Tab passa da un pulsante all'altro e Invio sceglie." }
+          testo: "Si gioca coi pulsanti in basso: le uscite a rosa dei venti (nord in alto), le persone e le cose del luogo, le azioni. Tocca una cosa, anche nella bisaccia: accanto si apre ciò che puoi farci. Le parole in maiuscolo del testo si toccano. Tab passa da un pulsante all'altro, Invio sceglie." }
       : { titolo: "Scrivi", segno: "M4 18 L16 6 M13 5 L17 9 M4 18 L3 21 L6 20",
           testo: "Si gioca a parole, in italiano, come nelle avventure testuali: scrivi un comando e premi Invio. Le uscite, le cose e le persone sono nel testo. Le frecce ↑ e ↓ ripescano i comandi già dati.",
           esempi: ["guarda", "nord", "esamina la mappa", "prendi il coltello", "parla con Nunzio"] },
@@ -51,7 +51,7 @@ function schede(modo: ModoComandi): Scheda[] {
       esempi: es(["1", "2"]) },
     { titolo: "La bisaccia", segno: "M6 8 H18 L19 20 H5 Z M9 8 A3 3 0 0 1 15 8",
       testo: "Porti sette cose: la tanica e il biglietto di casa, più cinque a scelta. Quando è piena, lascia ciò che non serve. " + (tocca
-        ? "Alcune cose si usano su altre: tocca una cosa e scegli «usa su…», poi su che cosa. Il gioco non dice quali coppie funzionano: tocca a te provare." + (scrive ? " Scrivendo è lo stesso." : "")
+        ? "Alcune cose si usano su altre: tocca una cosa e scegli «usa…», poi su che cosa. Il gioco non dice quali coppie funzionano: tocca a te provare." + (scrive ? " Scrivendo è lo stesso." : "")
         : "Alcune cose si usano su altre: USA una cosa SU un'altra. Il gioco non dice quali coppie funzionano: tocca a te provare."),
       esempi: es(["inventario", "lascia la batteria", "usa il coltello sulla mappa"]) },
     { titolo: "Leggere il mondo", segno: "M3 12 C6 6 18 6 21 12 C18 18 6 18 3 12 Z M12 9 A3 3 0 1 0 12 15 A3 3 0 1 0 12 9",

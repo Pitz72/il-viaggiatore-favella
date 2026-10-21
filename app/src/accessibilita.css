@@ -52,6 +52,7 @@
 [data-testo="grande"] .vg-chip em { font-size: 14px; }
 [data-testo="grande"] .vg-etichetta { font-size: 12.5px; }
 [data-testo="grande"] .vg-dose { font-size: 16.5px; }
+[data-testo="grande"] .vg-tendina-voce { font-size: 17.5px; }
 [data-testo="grande"] .vg-pannello-nota { font-size: 16px; }
 [data-testo="grande"] .vg-conf h2 { font-size: 26px; }
 [data-testo="grande"] .vg-conf-col li { font-size: 18px; }
@@ -84,10 +85,17 @@
 [data-contrasto="alto"] .vg-comandi { background: #08080b; border-top-color: rgba(255, 255, 255, .35); }
 [data-contrasto="alto"] .vg-lato { background: #000; border-left-color: rgba(255, 255, 255, .35); }
 [data-contrasto="alto"] .vg-diario { -webkit-mask-image: none; mask-image: none; }
-[data-contrasto="alto"] :is(.vg-chip, .vg-risposta, .vg-oggetto, .vg-scorta, .vg-dose, .vg-annulla, .vg-input, .vg-azioni, .vg-pannello) {
+[data-contrasto="alto"] :is(.vg-chip, .vg-risposta, .vg-oggetto, .vg-scorta, .vg-dose, .vg-input, .vg-azioni, .vg-pannello) {
   background: #000; border-color: rgba(255, 255, 255, .5); color: #fff;
 }
 [data-contrasto="alto"] .vg-chip em, [data-contrasto="alto"] .vg-tenue { color: #ece6db; }
+/* la tendina: piena, col bordo netto; dentro, il pannello del bere resta senza riquadro */
+[data-contrasto="alto"] .vg-tendina { background: #050507; border-color: rgba(255, 255, 255, .6); }
+[data-contrasto="alto"] .vg-tendina .vg-pannello { background: none; border: 0; }
+[data-contrasto="alto"] .vg-tendina-voce { color: #fff; }
+[data-contrasto="alto"] .vg-tendina-tasto { border-color: rgba(255, 255, 255, .55); color: #fff; }
+[data-contrasto="alto"] .vg-zona { border-left-color: rgba(255, 255, 255, .3); }
+[data-contrasto="alto"] .vg-rosa .vg-chip { background: #000; }
 [data-contrasto="alto"] .vg-vuoto { border-color: rgba(255, 255, 255, .4); }
 [data-contrasto="alto"] .vg-bottone { background: #000; border-color: rgba(255, 255, 255, .6); color: #fff; backdrop-filter: none; -webkit-backdrop-filter: none; }
 [data-contrasto="alto"] .vg-panorama-sfuma { background: linear-gradient(to bottom, rgba(0, 0, 0, .7) 0%, rgba(0, 0, 0, .25) 30%, rgba(0, 0, 0, .25) 55%, rgba(0, 0, 0, .9) 90%, #050507 100%); }

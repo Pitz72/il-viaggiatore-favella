@@ -48,7 +48,9 @@ import ComeSiGioca from "../gioco/ComeSiGioca";
 import Taccuino from "../gioco/Taccuino";
 import Conferma from "../gioco/Conferma";
 import PannelloScorta from "../gioco/PannelloScorta";
-import { bersagliDelUso, chipDiContesto, senzaArticolo, serveAnteprima, valutaConferma, vociDelMenu, type Conferma as DatiConferma, type Cosa } from "../gioco/azioni";
+import Plancia from "../gioco/Plancia";
+import Tendina from "../gioco/Tendina";
+import { bersagliDelUso, conArticolo, conSu, senzaArticolo, serveAnteprima, valutaConferma, vociDelMenu, type Conferma as DatiConferma, type Cosa } from "../gioco/azioni";
 import { componi, dataLeggibile, genere, leggi, nomeVisibile, postoAutomatico, RAPIDO, scrivi, type Posto, type Riassunto, type Salvataggio } from "../lib/salvataggi";
 import Cartiglio, { type DatiCartiglio } from "../gioco/Cartiglio";
 import Domanda from "../gioco/Domanda";
@@ -70,7 +72,6 @@ import "../gioco/gioco.css";
 const VUOTO: StatoMondo = { inventory: [], counters: {}, room: null, roomId: null };
 const ZORDER: ZoneKey[] = ["z1", "z2", "z3", "z4", "z5", "z6", "z7"];
 const MAGGIORI = ["Saverio", "Iole", "Vito", "Rosaria", "Onofrio"];
-const DIREZIONI: Record<string, string> = { nord: "↑", sud: "↓", est: "→", ovest: "←", su: "⤒", giu: "⤓", "giù": "⤓" };
 
 interface Voce { id: number; cmd?: string; blocchi: Blocco[] }
 type Menu = Cosa | null;
@@ -97,6 +98,8 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
   const [menu, setMenu] = useState<Menu>(null);
   // «usa X su…»: la cosa di cui si sta scegliendo la compagna
   const [usaDa, setUsaDa] = useState<Cosa | null>(null);
+  // ciò che si è toccato per aprire la tendina (il menu di una cosa, «usa su…», le dosi): la tendina gli sta accanto
+  const [ancora, setAncora] = useState<HTMLElement | null>(null);
   const [incontrati, setIncontrati] = useState<string[]>([]);
   const [camminaDa, setCamminaDa] = useState(-1e9);
   const [taccuino, setTaccuino] = useState<null | "salva" | "carica">(null);
@@ -194,11 +197,41 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
   const daiVoceRef = useRef(daiVoce);
   daiVoceRef.current = daiVoce;
 
-  /** Una risposta di dialogo: la legge il narratore quando ci si passa sopra o la si raggiunge da tastiera. */
-  const diciScelta = (opzione: string) => {
-    if (!recitata || !tabVoce.current) return;
-    voce.dici(partiDellaScelta(opzione, tabVoce.current).ids.map((id) => ({ id, pausa: 0 })));
+  /** Una risposta di dialogo: la legge il narratore quando ci si ferma sopra o la si raggiunge da tastiera,
+   *  ma mai sopra il turno che parla (prima il personaggio: voce.anteprima). */
+  const diciScelta = (opzione: string): boolean => {
+    if (!recitata || !tabVoce.current) return false;
+    return voce.anteprima(partiDellaScelta(opzione, tabVoce.current).ids.map((id) => ({ id, pausa: 0 })));
   };
+  // Col mouse la risposta si legge dopo una sosta (un terzo di secondo: scorrendo veloce non partono pezzi di frasi)
+  // e solo se il mouse si è mosso davvero dopo l'ultimo turno: quando la lista cambia sotto un mouse fermo, il
+  // browser dice «ci sei entrato», ma nessuno ha chiesto niente. Detta una volta, la stessa risposta non si ridice
+  // finché il mouse non esce (se il personaggio parlava e non è stata detta, una mossa sopra la fa dire).
+  const SOSTA = 330;
+  const sosta = useRef(0);
+  const turnoDa = useRef(0);
+  const mossoDa = useRef(0);
+  const detta = useRef<string | null>(null);
+  useEffect(() => {
+    let x = -1, y = -1;
+    const muovi = (e: MouseEvent) => {
+      if (e.clientX === x && e.clientY === y) return;
+      x = e.clientX; y = e.clientY;
+      mossoDa.current = performance.now();
+    };
+    window.addEventListener("mousemove", muovi, true);
+    return () => { window.removeEventListener("mousemove", muovi, true); window.clearTimeout(sosta.current); };
+  }, []);
+  const sopraScelta = (opzione: string) => {
+    window.clearTimeout(sosta.current);
+    if (detta.current === opzione) return;
+    sosta.current = window.setTimeout(() => {
+      if (mossoDa.current > turnoDa.current && diciScelta(opzione)) detta.current = opzione;
+    }, SOSTA);
+  };
+  const viaDallaScelta = () => { window.clearTimeout(sosta.current); detta.current = null; };
+  /** Un turno nuovo (o una partita ripresa): le risposte sotto il mouse sono altre. */
+  const nuovoTurno = () => { turnoDa.current = performance.now(); viaDallaScelta(); };
 
   useEffect(() => {
     let vivo = true;
@@ -281,6 +314,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
 
   // ── un turno ───────────────────────────────────────────────────────
   const applica = (etichetta: string, e: TurnoEsito) => {
+    nuovoTurno();
     const blocchi = analizza(e.text);
     setVoci((v) => [...v, { id: contatore.current++, cmd: etichetta, blocchi }]);
     daiVoce(blocchi);
@@ -327,7 +361,21 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
   }, [codaTrofei[0], finita]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── un comando: dalla tastiera o da un pulsante, è lo stesso ─────────
-  const chiudiPannelli = () => { setMenu(null); setPannello(null); setUsaDa(null); };
+  const chiudiPannelli = () => { setMenu(null); setPannello(null); setUsaDa(null); setAncora(null); };
+  /** Chiude la tendina senza un turno: in «solo pulsanti» il fuoco torna a ciò che l'aveva aperta. */
+  const chiudiTendina = () => {
+    const a = ancora;
+    chiudiPannelli();
+    if (!conRiga) { if (a?.isConnected) a.focus(); else rimettiFuoco(); }
+  };
+  /** «usa la tanica su…» (una cosa della bisaccia), «usa sulla mappa…» (una cosa del luogo) */
+  const titoloUsa = (c: Cosa) => (c.tipo === "zaino" ? `usa ${conArticolo(c.nome)} su…` : `usa ${conSu(conArticolo(c.nome))}…`);
+  /** Tocca una cosa (del luogo, della bisaccia, una parola del diario): accanto si apre il suo menu; toccata di nuovo, si chiude. */
+  const apriCosa = (cosa: Cosa, el: HTMLElement) => {
+    const giaAperta = [menu, usaDa].some((c) => c?.tipo === cosa.tipo && c.id === cosa.id);
+    chiudiPannelli();
+    if (!giaAperta) { setMenu(cosa); setAncora(el); }
+  };
 
   /** in dialogo un numero mostra il testo della risposta scelta */
   const etichettaDi = (cmd: string, etichetta?: string) => {
@@ -388,19 +436,13 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
   };
 
   useEffect(() => { chiudiPannelli(); }, [opz.comandi]);
-  // in «solo pulsanti» il menu di una cosa che si apre prende il fuoco; quando si chiude senza un turno, il fuoco torna al gioco
-  const menuRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (conRiga || fase !== "gioca") return;
-    if (menu || usaDa) menuRef.current?.querySelector<HTMLElement>("button")?.focus();
-    else if (!pannello && (document.activeElement === document.body || document.activeElement === null)) rimettiFuoco();
-  }, [menu, usaDa, pannello]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const anteprima = useCallback((cmd: string) => sessione.current!.anteprima(cmd), []);
-  const apriPannello = (tipo: "bere" | "mangiare") => {
-    const chiudere = pannello === tipo;
+  /** «Vuoi bere?» «Vuoi mangiare?» accanto a ciò che l'ha aperto (Bevi, una scorta, la tanica); toccato di nuovo, si chiude. */
+  const apriPannello = (tipo: "bere" | "mangiare", el: HTMLElement) => {
+    const chiudere = pannello === tipo && ancora === el;
     chiudiPannelli();
-    if (!chiudere) setPannello(tipo);
+    if (!chiudere) { setPannello(tipo); setAncora(el); }
   };
 
   // ── la fine del viaggio ────────────────────────────────────────────
@@ -513,6 +555,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
       annota("warn", `caricamento con impronta diversa (salvato ${dati.gioco}, stessa avventura: ${stessaAvventura})`);
     }
     annota("info", `partita caricata: ${dati.posto}, ${esito.comandi} comandi in ${Math.round(performance.now() - t0)} ms`);
+    nuovoTurno();
     const ripresa = [...note, ...analizza(esito.text)];
     setVoci([
       ...dati.diario.voci.map((v) => ({ id: contatore.current++, cmd: v.cmd, blocchi: v.blocchi })),
@@ -567,7 +610,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
     const tasto = (e: KeyboardEvent) => {
       if (e.key !== "Escape" || e.defaultPrevented || finita) return;   // a viaggio finito Esc va avanti (la fine, qui sopra)
       if (fase !== "gioca" || pausa || guida || taccuino || richiesta || pannelloOpzioni || rapidoDaCaricare || paginaTrofei) return;
-      if (menu || pannello || usaDa) { chiudiPannelli(); return; }
+      if (menu || pannello || usaDa) { chiudiTendina(); return; }
       if (zittita.current) { zittita.current = false; return; }
       if (bozza.trim() && document.activeElement === inputRef.current) return;
       e.preventDefault();
@@ -627,20 +670,20 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
   // Le parole in maiuscolo del testo sono le stesse dei pulsanti: se indicano una
   // uscita o una cosa che c'è adesso, si toccano (un'uscita ci porta là, una cosa
   // apre il suo menu). Nelle voci passate, ciò che non c'è più resta solo evidenziato.
-  const chiaveViva = (k: string) => {
+  const chiaveViva = (k: string): ((el: HTMLElement) => void) | null => {
     const uscita = (mondo.exits ?? []).find((u) => u.dir === k || senzaArticolo(u.verso) === k);
-    if (uscita) return { titolo: `Vai a ${uscita.dir}`, vai: () => manda(uscita.dir) };
+    if (uscita) return () => manda(uscita.dir);
     const qui = (mondo.present ?? []).find((p) => p.id === k || senzaArticolo(p.nome) === k);
-    if (qui) return { titolo: "Cosa puoi farci", vai: () => { chiudiPannelli(); setMenu({ tipo: "qui", id: qui.id, nome: qui.nome, persona: qui.persona, prendibile: qui.prendibile }); } };
+    if (qui) return (el) => apriCosa({ tipo: "qui", id: qui.id, nome: qui.nome, persona: qui.persona, prendibile: qui.prendibile }, el);
     const con = mondo.inventory.find((n) => senzaArticolo(n) === k);
-    if (con) return { titolo: "Cosa puoi farci", vai: () => { chiudiPannelli(); setMenu({ tipo: "zaino", id: k, nome: con }); } };
+    if (con) return (el) => apriCosa({ tipo: "zaino", id: k, nome: con }, el);
     return null;
   };
   const chiave = (grezza: string, i: number, attiva: boolean) => {
     const k = grezza.toLowerCase();
-    const viva = finita || !attiva || !conPulsanti ? null : chiaveViva(k);
-    if (!viva) return <span key={i} className="vg-chiave">{k}</span>;
-    return <button key={i} type="button" className="vg-chiave vg-chiave-tasto" title={viva.titolo} onClick={viva.vai}>{k}</button>;
+    const vai = finita || !attiva || !conPulsanti ? null : chiaveViva(k);
+    if (!vai) return <span key={i} className="vg-chiave">{k}</span>;
+    return <button key={i} type="button" className="vg-chiave vg-chiave-tasto" onClick={(e) => vai(e.currentTarget)}>{k}</button>;
   };
 
   const prosa = (testo: string, chiaveBlocco: string, attiva: boolean) => {
@@ -696,15 +739,15 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
     );
   };
   /** Una scorta: coi pulsanti si tocca e apre «Vuoi bere?» / «Vuoi mangiare?»; in «solo parole» si legge e basta. */
-  const scorta = (tipo: "bere" | "mangiare", detto: string, titolo: string, azione: string, segno: React.ReactNode, valore: number, sotto: string) => {
+  const scorta = (tipo: "bere" | "mangiare", detto: string, azione: string, segno: React.ReactNode, valore: number, sotto: string) => {
     const dentro = (<>
       <svg viewBox="0 0 24 24" aria-hidden="true">{segno}</svg>
       <div><b>{valore}</b><span>{sotto}</span></div>
     </>);
     if (!conPulsanti) return <div className="vg-scorta vg-informa" role="group" aria-label={`${detto}.`}>{dentro}</div>;
     return (
-      <button className={"vg-scorta" + (pannello === tipo ? " vg-scorta-attiva" : "")} disabled={finita}
-        onClick={() => apriPannello(tipo)} title={titolo} aria-label={`${detto}. ${azione[0].toUpperCase()}${azione.slice(1)}.`}>
+      <button className={"vg-scorta" + (pannello === tipo ? " vg-scorta-attiva" : "")} disabled={finita} aria-expanded={pannello === tipo}
+        onClick={(e) => apriPannello(tipo, e.currentTarget)} aria-label={`${detto}. ${azione[0].toUpperCase()}${azione.slice(1)}.`}>
         {dentro}
         <i className="vg-scorta-azione" aria-hidden="true">{azione}</i>
       </button>
@@ -723,7 +766,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
         <div className="vg-carica">
           {fase === "carica" ? (
             <>
-              <p className="vg-sopratitolo">il motore favella gira nel browser</p>
+              <p className="vg-sopratitolo">{inDesktop() ? "il motore favella 1" : "il motore favella gira nel browser"}</p>
               <h2>Si prepara il viaggio…</h2>
               <p className="vg-carica-msg">{messaggio}</p>
               <div className="vg-carica-barra"><div /></div>
@@ -752,10 +795,13 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
         <div className="vg-testata">
           <span className="vg-marchio"><b>Il Viaggiatore</b> · {finita ? "fine del viaggio" : `tappa ${Math.max(1, zi + 1)} di 7`}</span>
           <div style={{ display: "flex", gap: 8 }}>
-            <button className="vg-bottone vg-piccolo" onClick={() => setTaccuino("salva")} disabled={finita} title="Salva la partita nel taccuino (F5: salvataggio rapido)">salva</button>
-            <button className="vg-bottone vg-piccolo" onClick={() => setTaccuino("carica")} title="Carica una partita dal taccuino (F9: il salvataggio rapido)">carica</button>
+            {/* il tasto scritto accanto: F5 salva al volo (posto rapido), F9 lo ricarica */}
+            <button className="vg-bottone vg-piccolo" onClick={() => setTaccuino("salva")} disabled={finita}
+              aria-label="Salva la partita nel taccuino (F5: salvataggio rapido)">salva <span className="vg-tasto" aria-hidden="true">F5</span></button>
+            <button className="vg-bottone vg-piccolo" onClick={() => setTaccuino("carica")}
+              aria-label="Carica una partita dal taccuino (F9: il salvataggio rapido)">carica <span className="vg-tasto" aria-hidden="true">F9</span></button>
             <button className="vg-bottone vg-piccolo" onClick={() => setPausa(true)}
-              title="La pausa: le opzioni, la guida, il menu d'avvio, l'uscita (Esc)">☰ pausa <span className="vg-tasto">Esc</span></button>
+              aria-label="Pausa: le opzioni, la guida, il menu d'avvio, l'uscita (Esc)">☰ pausa <span className="vg-tasto" aria-hidden="true">Esc</span></button>
           </div>
         </div>
         <div className="vg-luogo">
@@ -789,12 +835,14 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
           {!finita && (
             <div className="vg-comandi" ref={comandiRef}>
               {mondo.dialog && mondo.dialog.opzioni.length > 0 && (
-                <div className="vg-risposte">
+                <div className={"vg-risposte" + (conPulsanti ? " vg-risposte-plancia" : "")}>
                   <p className="vg-sopratitolo">rispondi a {mondo.dialog.chi}</p>
                   <div className="vg-risposte-lista">
                     {mondo.dialog.opzioni.map((o, i) => conPulsanti ? (
+                      // il narratore la legge quando ci si ferma sopra o la si raggiunge da tastiera, mai sopra chi sta parlando
                       <button key={i} className="vg-risposta" data-fuoco={i === 0 ? "" : undefined} onClick={() => manda(String(i + 1), o)}
-                        onMouseEnter={() => diciScelta(o)} onFocus={() => { if (!fuocoDaCodice.current) diciScelta(o); }}>
+                        onMouseEnter={() => sopraScelta(o)} onMouseMove={() => sopraScelta(o)} onMouseLeave={viaDallaScelta}
+                        onFocus={() => { if (!fuocoDaCodice.current) diciScelta(o); }}>
                         <span className="vg-num">{i + 1}</span><span>{o}</span>
                       </button>
                     ) : (
@@ -822,88 +870,15 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
                     placeholder={mondo.dialog
                       ? (conPulsanti ? "scegli una risposta (1, 2…) o scrivi" : "scrivi il numero della risposta (1, 2…)")
                       : (conPulsanti ? "Cosa fai? Scrivi un comando, o tocca qui sotto…" : "Cosa fai? Scrivi un comando e premi Invio…")} />
-                  {conPulsanti && <button className="vg-annulla" onClick={annulla} disabled={!puoAnnullare} title="Annulla l'ultima mossa (Ctrl+Z)" aria-label="Annulla l'ultima mossa">↶ annulla</button>}
                   <button className="vg-invia" onClick={() => scritto(bozza)} disabled={!bozza.trim()} aria-label="Invia">invio ↵</button>
                 </div>
               )}
 
+              {/* la plancia: andare (rosa dei venti), qui, fare, e la riga di servizio; nei dialoghi la sostituiscono le risposte */}
               {conPulsanti && !mondo.dialog && (
-                <div className="vg-contesto">
-                  <div className="vg-gruppo">
-                    <span className="vg-etichetta">uscite</span>
-                    {(mondo.exits ?? []).map((u, i) => (
-                      <button key={u.dir} className="vg-chip vg-uscita" data-fuoco={i === 0 ? "" : undefined} onClick={() => manda(u.dir)} title={`${u.dir}: ${u.verso}`}>
-                        <span className="vg-freccia">{DIREZIONI[u.dir] ?? "·"}</span>{u.dir}<em>{u.verso}</em>
-                      </button>
-                    ))}
-                    <span className="vg-servizio">
-                      <button className="vg-chip vg-tenue" onClick={() => manda("guarda")} title="guarda">guarda</button>
-                      <button className="vg-chip vg-tenue" onClick={() => manda("inventario")} title="inventario: che cosa porti, a parole">inventario</button>
-                      <button className="vg-chip vg-tenue" onClick={() => manda("stato")} title="stato: vita, sete, fame, acqua e cibo, a parole">stato</button>
-                      <button className="vg-chip vg-tenue" onClick={() => manda("aspetta")} title="aspetta: lascia passare un po' di tempo">aspetta</button>
-                      {/* senza la riga, ↶ annulla sta qui */}
-                      {!conRiga && <button className="vg-chip vg-tenue" onClick={annulla} disabled={!puoAnnullare} title="Annulla l'ultima mossa (Ctrl+Z)" aria-label="Annulla l'ultima mossa">↶ annulla</button>}
-                    </span>
-                  </div>
-                  {(mondo.present ?? []).length > 0 && (
-                    <div className="vg-gruppo">
-                      <span className="vg-etichetta">qui</span>
-                      {(mondo.present ?? []).map((p) => {
-                        const attivo = menu?.tipo === "qui" && menu.id === p.id;
-                        return (
-                          <button key={p.id} className={"vg-chip" + (p.persona ? " vg-persona" : "") + (attivo ? " vg-attivo" : "")}
-                            onClick={() => { const chiudere = attivo; chiudiPannelli(); if (!chiudere) setMenu({ tipo: "qui", id: p.id, nome: p.nome, persona: p.persona, prendibile: p.prendibile }); }}>
-                            {p.persona && <span className="vg-freccia">◉</span>}{p.nome}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
-                  <div className="vg-gruppo">
-                    <span className="vg-etichetta">azioni</span>
-                    <button className={"vg-chip vg-verbo" + (pannello === "bere" ? " vg-attivo" : "")} onClick={() => apriPannello("bere")}
-                      title="Bevi: scegli quanti sorsi"><span className="vg-freccia">▸</span>Bevi</button>
-                    <button className={"vg-chip vg-verbo" + (pannello === "mangiare" ? " vg-attivo" : "")} onClick={() => apriPannello("mangiare")}
-                      title="Mangia: scegli quante porzioni"><span className="vg-freccia">▸</span>Mangia</button>
-                    {chipDiContesto(azioniCtx).map((ch) => (
-                      <button key={ch.chiave} className="vg-chip vg-verbo" onClick={() => manda(ch.cmd)} title={ch.cmd}>
-                        <span className="vg-freccia">▸</span>{ch.etichetta}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {conPulsanti && pannello && (
-                <PannelloScorta tipo={pannello} mondo={mondo} anteprima={anteprima} onScegli={(cmd) => manda(cmd)} onChiudi={chiudiPannelli} />
-              )}
-
-              {conPulsanti && menu && (
-                <div className="vg-azioni" ref={menuRef}>
-                  <span className="vg-etichetta">{menu.nome}</span>
-                  {vociDelMenu(menu, mondo, azioniCtx).map((v) => (
-                    <button key={v.etichetta} className={"vg-chip" + (v.pieno ? " vg-pieno" : "")} title={v.cmd}
-                      onClick={() => {
-                        if (v.pannello === "usa") { setUsaDa(menu); setMenu(null); }
-                        else if (v.pannello) { chiudiPannelli(); setPannello(v.pannello); }
-                        else if (v.cmd) manda(v.cmd);
-                      }}>
-                      {v.etichetta}
-                    </button>
-                  ))}
-                  <button className="vg-chip vg-chiudi" onClick={() => setMenu(null)} aria-label="Chiudi">✕</button>
-                </div>
-              )}
-
-              {conPulsanti && usaDa && (
-                <div className="vg-azioni" ref={menuRef}>
-                  <span className="vg-etichetta">{usaDa.tipo === "zaino" ? `usa ${usaDa.nome.toLowerCase()} su…` : `usa su ${usaDa.nome.toLowerCase()}…`}</span>
-                  {bersagliDelUso(usaDa, mondo).map((b) => (
-                    <button key={b.cmd} className="vg-chip" title={b.cmd} onClick={() => manda(b.cmd)}>{b.etichetta}</button>
-                  ))}
-                  <button className="vg-chip vg-chiudi" onClick={() => { const da = usaDa; setUsaDa(null); setMenu(da); }} aria-label="Indietro">‹</button>
-                  <button className="vg-chip vg-chiudi" onClick={() => setUsaDa(null)} aria-label="Chiudi">✕</button>
-                </div>
+                <Plancia mondo={mondo} azioni={azioniCtx} aperta={menu?.tipo === "qui" ? menu.id : usaDa?.tipo === "qui" ? usaDa.id : null}
+                  pannello={pannello} puoAnnullare={puoAnnullare} onManda={(cmd) => manda(cmd)} onCosa={apriCosa}
+                  onPannello={apriPannello} onAnnulla={annulla} />
               )}
             </div>
           )}
@@ -918,9 +893,9 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
 
           <p className="vg-sezione">scorte</p>
           <div className="vg-scorte">
-            {scorta("bere", `Acqua: ${num("acqua")} su ${capienzaAcqua}`, "Bevi: scegli quanti sorsi", "bevi",
+            {scorta("bere", `Acqua: ${num("acqua")} su ${capienzaAcqua}`, "bevi",
               <path d="M12 3 C8 9 6 12 6 15 A6 6 0 0 0 18 15 C18 12 16 9 12 3 Z" />, num("acqua"), `acqua /${capienzaAcqua}`)}
-            {scorta("mangiare", `Cibo: ${num("cibo")}`, "Mangia: scegli quante porzioni", "mangia",
+            {scorta("mangiare", `Cibo: ${num("cibo")}`, "mangia",
               <path d="M4 13 C4 8 8 6 12 6 C16 6 20 8 20 13 V17 H4 Z M8 9 L9 12 M12 8 V12 M16 9 L15 12" />, num("cibo"), "cibo")}
           </div>
 
@@ -930,12 +905,12 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
               const o = mondo.inventory[i];
               if (!o) return <li key={i} className="vg-vuoto" aria-hidden="true" />;
               const id = senzaArticolo(o);
-              const attivo = menu?.tipo === "zaino" && menu.id === id;
+              const attivo = (menu?.tipo === "zaino" && menu.id === id) || (usaDa?.tipo === "zaino" && usaDa.id === id);
               return (
                 <li key={i}>
                   {conPulsanti ? (
-                    <button className={"vg-oggetto" + (attivo ? " vg-attivo" : "")} disabled={finita}
-                      onClick={() => setMenu(attivo ? null : { tipo: "zaino", id, nome: o })}>{o}</button>
+                    <button className={"vg-oggetto" + (attivo ? " vg-attivo" : "")} disabled={finita} aria-expanded={attivo}
+                      onClick={(e) => apriCosa({ tipo: "zaino", id, nome: o }, e.currentTarget)}>{o}</button>
                   ) : <span className="vg-oggetto vg-informa">{o}</span>}
                 </li>
               );
@@ -965,12 +940,51 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
           <p className="vg-sezione">il cammino</p>
           <div className="vg-cammino">
             {ZORDER.map((zk, i) => (
-              <span key={zk} title={ZONE_THEME[zk].nome} className={i < zi ? "fatto" : i === zi ? "ora" : ""} style={{ ["--z" as string]: ZONE_THEME[zk].accent } as React.CSSProperties} />
+              <span key={zk} className={i < zi ? "fatto" : i === zi ? "ora" : ""} style={{ ["--z" as string]: ZONE_THEME[zk].accent } as React.CSSProperties} />
             ))}
           </div>
           <p className="vg-cammino-nome">{zi >= 0 ? ZONE_THEME[zona].nome : "—"}</p>
         </aside>
       </div>
+
+      {/* LA TENDINA: accanto a ciò che si è toccato, il suo menu, «usa su…» o le dosi */}
+      {conPulsanti && !finita && (menu || usaDa || pannello) && (
+        <Tendina ancora={ancora} fuoco={!conRiga} onChiudi={chiudiTendina}
+          chiave={pannello ? `p:${pannello}` : usaDa ? `u:${usaDa.tipo}:${usaDa.id}` : `m:${menu!.tipo}:${menu!.id}`}
+          etichetta={pannello ? (pannello === "bere" ? "Vuoi bere?" : "Vuoi mangiare?") : usaDa ? titoloUsa(usaDa) : menu!.nome}>
+          {pannello ? (
+            <PannelloScorta tipo={pannello} mondo={mondo} anteprima={anteprima} onScegli={(cmd) => manda(cmd)} onChiudi={chiudiTendina} />
+          ) : usaDa ? (<>
+            <div className="vg-tendina-testa">
+              <button className="vg-tendina-tasto" onClick={() => { const da = usaDa; setUsaDa(null); setMenu(da); }} aria-label="Indietro">‹</button>
+              <span>{titoloUsa(usaDa)}</span>
+              <button className="vg-tendina-tasto" onClick={chiudiTendina} aria-label="Chiudi">✕</button>
+            </div>
+            <div className="vg-tendina-voci">
+              {bersagliDelUso(usaDa, mondo).map((b) => (
+                <button key={b.cmd} className="vg-tendina-voce" onClick={() => manda(b.cmd)}>{b.etichetta}</button>
+              ))}
+            </div>
+          </>) : menu ? (<>
+            <div className="vg-tendina-testa">
+              <span>{menu.nome}</span>
+              <button className="vg-tendina-tasto" onClick={chiudiTendina} aria-label="Chiudi">✕</button>
+            </div>
+            <div className="vg-tendina-voci">
+              {vociDelMenu(menu, mondo, azioniCtx).map((v) => (
+                <button key={v.etichetta} className={"vg-tendina-voce" + (v.pieno ? " vg-tendina-prima" : "")}
+                  onClick={() => {
+                    if (v.pannello === "usa") { setUsaDa(menu); setMenu(null); }
+                    else if (v.pannello) { setMenu(null); setPannello(v.pannello); }   // la tanica: le dosi, accanto alla tanica
+                    else if (v.cmd) manda(v.cmd);
+                  }}>
+                  {v.etichetta}
+                </button>
+              ))}
+            </div>
+          </>) : null}
+        </Tendina>
+      )}
 
       {recitata && (
         <div className="sr-only" aria-live="polite" aria-atomic="true">

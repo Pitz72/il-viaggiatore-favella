@@ -56,7 +56,7 @@
   font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: rgba(244,236,224,.5); animation: vg-entra .8s ease 1.2s both; }
 .vg-finale-avanti:hover, .vg-finale-avanti:focus-visible { color: rgba(244,236,224,.85); }
 
-.vg-comandi { flex-shrink: 0; display: flex; flex-direction: column; gap: 9px; padding: 10px 38px 14px;
+.vg-comandi { flex-shrink: 0; display: flex; flex-direction: column; gap: 7px; padding: 8px 38px 10px;
   border-top: 1px solid rgba(255,255,255,.06); background: linear-gradient(to top, rgba(8,8,11,.96), rgba(8,8,11,.72)); }
 .vg-risposte-lista { display: flex; flex-direction: column; gap: 5px; margin-top: 6px; max-height: 176px; overflow-y: auto; }
 .vg-risposta { display: flex; align-items: baseline; gap: 12px; text-align: left; cursor: pointer; padding: 8px 14px; border-radius: 10px;
@@ -65,7 +65,7 @@
 .vg-num { font-family: 'Source Code Pro', monospace; font-size: 12px; color: var(--acc); min-width: 10px; }
 /* «solo parole»: la risposta si legge e si sceglie scrivendo il suo numero */
 .vg-risposta-scritta, .vg-risposta-scritta:hover { margin: 0; cursor: default; padding: 3px 14px; border-color: transparent; background: transparent; }
-.vg-input { display: flex; align-items: center; gap: 12px; padding: 10px 12px 10px 16px; border-radius: 12px;
+.vg-input { display: flex; align-items: center; gap: 12px; padding: 7px 10px 7px 16px; border-radius: 12px;
   border: 1px solid rgba(255,255,255,.1); background: rgba(0,0,0,.35); transition: border-color .2s, box-shadow .2s; }
 .vg-input:focus-within { border-color: var(--acc); box-shadow: 0 0 0 3px color-mix(in srgb, var(--acc) 16%, transparent); }
 .vg-input input { flex: 1; min-width: 0; background: transparent; border: none; outline: none; color: #f3ede2; font-family: 'Lora', serif; font-size: 16.5px; caret-color: var(--acc); }
@@ -74,8 +74,59 @@
 .vg-invia { cursor: pointer; font-family: 'Source Code Pro', monospace; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--acc);
   border: 1px solid color-mix(in srgb, var(--acc) 45%, transparent); background: transparent; border-radius: 8px; padding: 6px 10px; }
 .vg-invia:disabled { opacity: .3; cursor: default; }
-.vg-contesto { display: flex; flex-wrap: wrap; gap: 8px 20px; }
-.vg-gruppo { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+/* la plancia (Plancia.tsx): tre zone fisse, la stessa altezza in ogni luogo, e la riga di servizio */
+.vg-plancia { --riga: 26px; display: grid; grid-template-columns: 400px minmax(0, 1.25fr) minmax(0, 1fr); }
+.vg-zona { min-width: 0; display: flex; flex-direction: column; gap: 4px; padding: 0 22px; border-left: 1px solid rgba(255,255,255,.07); }
+.vg-zona:first-child { padding-left: 0; border-left: 0; }
+.vg-zona:last-child { padding-right: 0; }
+.vg-zona-corpo { height: calc(var(--riga) * 3 + 6px); display: flex; flex-direction: column; flex-wrap: wrap; align-content: flex-start; align-items: flex-start; gap: 3px 8px; }
+.vg-zona-corpo .vg-chip, .vg-rosa .vg-chip { height: var(--riga); box-sizing: border-box; max-width: 100%; }
+.vg-chip-testo { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vg-nessuno { line-height: var(--riga); color: rgba(230,223,210,.3); }
+.vg-zona > .vg-etichetta { line-height: 13px; }
+/* la rosa dei venti: nord in alto, sud in basso, ovest a sinistra, est a destra, «guarda» al centro */
+.vg-rosa { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); grid-template-rows: repeat(3, var(--riga)); gap: 3px 8px;
+  grid-template-areas: "no n ne" "o c e" "so s se"; justify-items: center; }
+/* i due assi, appena accennati, dietro i pulsanti */
+.vg-rosa::before, .vg-rosa::after { content: ""; position: absolute; pointer-events: none; background: color-mix(in srgb, var(--acc) 22%, transparent); }
+.vg-rosa::before { left: 50%; top: 4px; bottom: 4px; width: 1px; }
+.vg-rosa::after { top: 50%; left: 18%; right: 18%; height: 1px; }
+.vg-rosa .vg-chip { position: relative; z-index: 1; background: rgba(16,15,20,.96); }
+.vg-rosa .vg-verso-o, .vg-rosa .vg-verso-no, .vg-rosa .vg-verso-so { justify-self: end; }
+.vg-rosa .vg-verso-e, .vg-rosa .vg-verso-ne, .vg-rosa .vg-verso-se { justify-self: start; }
+.vg-uscita em { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-left: 0; color: #e8e1d5; }
+.vg-guarda { border-radius: 999px; border-color: color-mix(in srgb, var(--acc) 45%, transparent); color: #efe8dc; }
+.vg-servizio { display: flex; align-items: center; gap: 6px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,.05); }
+.vg-servizio .vg-chip { height: 24px; box-sizing: border-box; padding-top: 0; padding-bottom: 0; }
+.vg-servizio .vg-annulla-chip { margin-left: auto; }
+.vg-annulla-chip .vg-tasto { margin-left: 2px; }
+/* nei dialoghi le risposte prendono il posto della plancia, alte almeno quanto lei: entrare e uscire da un dialogo non sposta il diario */
+.vg-risposte-plancia { min-height: 132px; }
+
+/* la tendina (Tendina.tsx): accanto a ciò che si è toccato */
+.vg-tendina { position: absolute; z-index: 40; min-width: 236px; max-width: 340px; padding: 8px; border-radius: 13px;
+  background: linear-gradient(180deg, rgba(24,22,28,.985), rgba(12,11,15,.99)); border: 1px solid color-mix(in srgb, var(--acc) 40%, transparent);
+  box-shadow: 0 16px 44px rgba(0,0,0,.62); animation: vg-entra .16s ease both; }
+.vg-tendina-testa { display: flex; align-items: center; gap: 8px; padding: 2px 2px 7px 8px; margin-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,.07);
+  font-family: 'Source Code Pro', monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--acc); }
+.vg-tendina-testa span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vg-tendina-tasto { cursor: pointer; flex-shrink: 0; width: 26px; height: 24px; border-radius: 7px; border: 1px solid rgba(255,255,255,.12); background: transparent;
+  color: rgba(230,223,210,.75); font-size: 12px; transition: border-color .15s, color .15s; }
+.vg-tendina-tasto:hover, .vg-tendina-tasto:focus-visible { border-color: var(--acc); color: #fff; outline: none; }
+.vg-tendina-voci { display: flex; flex-direction: column; gap: 2px; max-height: 300px; overflow-y: auto; }
+.vg-tendina-voce { display: block; width: 100%; text-align: left; cursor: pointer; padding: 6px 10px; border-radius: 8px; border: 1px solid transparent; background: transparent;
+  color: #ece5d9; font-family: 'Lora', serif; font-size: 15px; line-height: 1.3; transition: background .15s, border-color .15s; }
+.vg-tendina-voce:hover, .vg-tendina-voce:focus-visible { background: rgba(255,255,255,.06); border-color: var(--acc); outline: none; }
+.vg-tendina-prima { color: var(--acc); }
+.vg-tendina-prima::before { content: "▸ "; font-size: 10px; vertical-align: 2px; }
+/* nella tendina il pannello del bere e del mangiare sta in colonna */
+.vg-tendina .vg-pannello { position: relative; flex-direction: column; gap: 10px; padding: 2px; border: 0; background: none; animation: none; }
+.vg-tendina .vg-pannello-testa { padding-right: 34px; }
+.vg-tendina .vg-pannello > .vg-chiudi { position: absolute; top: 2px; right: 2px; }
+.vg-tendina .vg-dosi { flex-direction: column; flex-wrap: nowrap; }
+.vg-tendina .vg-dose { width: 100%; }
+.vg-tendina .vg-pannello-nota { max-width: 280px; }
+
 .vg-etichetta { font-family: 'Source Code Pro', monospace; font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: rgba(230,223,210,.64); margin-right: 2px; }
 .vg-chip { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; font-family: 'Source Code Pro', monospace; font-size: 12px; color: #d8dfe8;
   background: rgba(255,255,255,.035); border: 1px solid rgba(255,255,255,.1); border-radius: 999px; padding: 5px 11px; transition: border-color .2s, color .2s, background .2s; }
@@ -161,12 +212,7 @@ button.vg-chiave-tasto { cursor: pointer; background: none; border: 0; border-bo
   font: inherit; font-variant: small-caps; font-weight: 600; letter-spacing: .03em; color: var(--acc); transition: border-color .15s, color .15s; }
 button.vg-chiave-tasto:hover, button.vg-chiave-tasto:focus-visible { border-bottom-style: solid; border-bottom-color: var(--acc); color: #fff; outline: none; }
 
-.vg-annulla { cursor: pointer; font-family: 'Source Code Pro', monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(230,223,210,.7);
-  border: 1px solid rgba(255,255,255,.14); background: transparent; border-radius: 8px; padding: 6px 10px; transition: border-color .2s, color .2s; }
-.vg-annulla:hover:not(:disabled), .vg-annulla:focus-visible { border-color: var(--acc); color: #fff; outline: none; }
-.vg-annulla:disabled { opacity: .3; cursor: default; }
 
-.vg-servizio { margin-left: auto; display: inline-flex; gap: 6px; }
 .vg-tenue { color: rgba(216,223,232,.62); border-style: dashed; }
 .vg-verbo { border-color: color-mix(in srgb, var(--acc) 42%, transparent); }
 .vg-verbo .vg-freccia { font-size: 9px; }

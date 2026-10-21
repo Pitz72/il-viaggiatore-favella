@@ -101,6 +101,15 @@ function dicoLoSpreco(a: Anteprima): string {
 export const conArticolo = (nome: string) =>
   nome.replace(/^(Il|Lo|La|L'|I|Gli|Le|Un|Uno|Una)(?=\b|')/, (a) => a.toLowerCase());
 
+/** «su» con l'articolo del nome: «La mappa» → «sulla mappa», «L'orologio» → «sull'orologio», «Nunzio» → «su Nunzio». */
+export const conSu = (nome: string) => {
+  // l'articolo è una parola a sé (o l' attaccato): «Iole» non comincia con «i»
+  const m = nome.match(/^(il|lo|la|i|gli|le)\s+(.+)$/i) ?? nome.match(/^(l')(.+)$/i);
+  if (!m) return `su ${nome}`;
+  const art: Record<string, string> = { il: "sul ", lo: "sullo ", la: "sulla ", i: "sui ", gli: "sugli ", le: "sulle ", "l'": "sull'" };
+  return `${art[m[1].toLowerCase()]}${m[2]}`;
+};
+
 /** Il comando è una scelta da confermare? Dice di sì con una Conferma già scritta. */
 export function valutaConferma(cmd: string, a: Anteprima, mondo: StatoMondo): Conferma | null {
   if (!a.ok || !a.capito) return null;
@@ -271,7 +280,8 @@ export function vociDelMenu(cosa: Cosa, mondo: StatoMondo, az: AzioniContesto): 
     }
     voci.push({ etichetta: "esamina", cmd: `esamina ${cosa.id}` });
     if (cosa.prendibile) voci.push({ etichetta: "prendi", cmd: `prendi ${cosa.id}` });
-    if (bersagliDelUso(cosa, mondo).length > 0) voci.push({ etichetta: "usa su questo…", pannello: "usa" });
+    // «usa sulla mappa…», «usa su Nunzio…»: il titolo del passo dopo, già nella voce
+    if (bersagliDelUso(cosa, mondo).length > 0) voci.push({ etichetta: `usa ${conSu(conArticolo(cosa.nome))}…`, pannello: "usa" });
   } else {
     if (cosa.id === "tanica") voci.push({ etichetta: "bevi…", pannello: "bere", pieno: true });
     voci.push({ etichetta: "esamina", cmd: `esamina ${cosa.id}` });

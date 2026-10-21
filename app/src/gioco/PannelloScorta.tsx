@@ -1,8 +1,8 @@
 // ====================================================================
 //  «Vuoi bere?» «Vuoi mangiare?» — il pannello delle scorte.
 // --------------------------------------------------------------------
-//  Si apre toccando l'acqua o il cibo fra le scorte, o la tanica nella
-//  bisaccia. Ogni dose è un comando del gioco («bevi due sorsi», «mangia tre
+//  Si apre toccando l'acqua o il cibo fra le scorte, Bevi o Mangia nella
+//  plancia, o la tanica nella bisaccia, nella tendina accanto. Ogni dose è un comando del gioco («bevi due sorsi», «mangia tre
 //  porzioni»): quello che c'è scritto sul pulsante lo si potrebbe anche
 //  digitare. Cosa fa ciascuna lo dice il motore stesso, con un'anteprima:
 //  qui non c'è nessun numero scritto a mano (quanta sete toglie un sorso
@@ -43,8 +43,7 @@ export default function PannelloScorta({ tipo, mondo, anteprima, onScegli, onChi
       {dosi.length > 0 ? (
         <div className="vg-dosi">
           {dosi.map(({ dose, buona, quanto, motivo: perche }) => (
-            <button key={dose.cmd} className="vg-dose" disabled={!buona} title={buona ? dose.cmd : perche}
-              onClick={() => onScegli(dose.cmd)}>
+            <button key={dose.cmd} className="vg-dose" disabled={!buona} onClick={() => onScegli(dose.cmd)}>
               <span>{dose.etichetta}</span>
               <small>{buona ? quanto : perche}</small>
             </button>

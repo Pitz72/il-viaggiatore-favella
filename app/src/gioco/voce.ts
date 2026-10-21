@@ -9,6 +9,11 @@
 //  Le cartelle che l'indice nomina («cartelle»: public/voce/elevenlabs/, le voci
 //  escluse dalla licenza libera) hanno un indice loro e si aggiungono.
 //
+//  Le risposte di dialogo si leggono in ANTEPRIMA (quando ci si ferma sopra):
+//  un'anteprima non interrompe mai il turno che parla (il personaggio che
+//  risponde, il narratore), ne prende il posto solo un'altra anteprima, e F2
+//  ridice il turno, non l'anteprima.
+//
 //  Due modi, mai insieme: «recitata» (la voce del doppiaggio; il diario non
 //  annuncia) o «lettore» (nessuna voce: il lettore di schermo legge il diario).
 //  Il modo e il volume sono opzioni (lib/opzioni.ts); il volume lo applica il
@@ -39,6 +44,7 @@ class Voce {
   private ultima: Parte[] = [];
   private pronta: Promise<Tabella | null> | null = null;
   private quandoParla = new Set<(parla: boolean) => void>();
+  private inAnteprima = false;                         // ciò che suona è un'anteprima, non un turno
   parla = false;
 
   /** Carica gli indici (una volta sola); null se la voce non c'è. */
@@ -83,6 +89,7 @@ class Voce {
   ascolta(f: (parla: boolean) => void) { this.quandoParla.add(f); return () => { this.quandoParla.delete(f); }; }
 
   private segna(parla: boolean) {
+    if (!parla) this.inAnteprima = false;
     if (this.parla === parla) return;
     this.parla = parla;
     for (const f of this.quandoParla) f(parla);
@@ -112,12 +119,22 @@ class Voce {
     return p;
   }
 
-  /** Dice le parti in fila, dopo aver zittito ciò che suonava. */
-  dici(parti: Parte[]) {
+  /** Dice le parti di un turno in fila, dopo aver zittito ciò che suonava. */
+  dici(parti: Parte[]) { this.suona(parti, false); }
+
+  /** Una risposta di dialogo letta prima di sceglierla: se un turno sta parlando non si dice (false). */
+  anteprima(parti: Parte[]): boolean {
+    if (this.parla && !this.inAnteprima) return false;
+    this.suona(parti, true);
+    return true;
+  }
+
+  private suona(parti: Parte[], anteprima: boolean) {
     this.ferma();
     const fila = parti.filter((p) => this.dove.has(p.id));
     if (!fila.length) return;
-    this.ultima = fila;
+    if (!anteprima) this.ultima = fila;
+    this.inAnteprima = anteprima;
     const giro = ++this.giro;
     const ctx = this.contesto();
     for (const p of fila) this.carica(p.id);   // tutte insieme: sono piccole
