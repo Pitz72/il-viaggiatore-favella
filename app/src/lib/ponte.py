@@ -495,6 +495,13 @@ _GESTI = (
 )
 
 
+def _maiuscola(nome):
+    """Il nome di un luogo come titolo: «il tratto» → «Il tratto». Le stanze d'ingresso delle zone 2–7 sono
+    nominate per la prima volta in un collegamento della zona prima («Il margine collega ovest a il tratto.»),
+    e il motore tiene quel nome, in minuscolo. Solo per lo schermo: i nomi del motore non cambiano."""
+    return nome[:1].upper() + nome[1:] if nome else nome
+
+
 def fav_stato():
     # Istantanea del mondo per le schede laterali della UI: inventario (nomi
     # visualizzati), contatori (le variabili a valore INTERO), stanza corrente,
@@ -515,12 +522,12 @@ def fav_stato():
         if isinstance(v, int):
             counters[k] = v
     stanza = _mondo.trova_stanza(_mondo.posizione_giocatore)
-    room = stanza.nome_visualizzato if stanza is not None else None
+    room = _maiuscola(stanza.nome_visualizzato) if stanza is not None else None
     uscite, presenti = [], []
     if stanza is not None:
         for d, sid in stanza.uscite.items():
             s2 = _mondo.trova_stanza(sid)
-            uscite.append({"dir": d, "verso": s2.nome_visualizzato if s2 is not None else sid})
+            uscite.append({"dir": d, "verso": _maiuscola(s2.nome_visualizzato) if s2 is not None else sid})
         if _mondo.c_e_luce():
             for og in stanza.oggetti.values():
                 presenti.append({"nome": og.nome_visualizzato, "id": og.nome,
