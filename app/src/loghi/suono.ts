@@ -78,6 +78,9 @@ function inviluppo(g: AudioParam, t: number, picco: number, attacco: number, dur
 
 interface OpzTono { f: number; f1?: number; dur: number; g: number; tipo?: OscillatorType; att?: number; pan?: number; riv?: number; lp?: number; lp1?: number; det?: number }
 function tono(b: Banco, t: number, o: OpzTono) {
+  // una parziale oltre metà della frequenza di campionamento non si sente e il browser la taglia (con un avviso nel
+  // registro): le campane più acute, ×8,93 su una nota di 2960 Hz, chiedevano 26 kHz
+  if (Math.max(o.f, o.f1 ?? 0) >= b.ac.sampleRate / 2) return;
   const ac = b.ac, osc = ac.createOscillator();
   osc.type = o.tipo ?? "sine";
   osc.frequency.setValueAtTime(o.f, t);
