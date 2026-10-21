@@ -80,13 +80,17 @@ sua, «La mano sa ancora la forma» di The Runtimers; poi il menu d'avvio. Dopo 
 
 **La voce.** Con la *voce recitata* (com'è all'inizio) il gioco legge ogni testo con le voci del doppiaggio: un tasto
 qualunque la ferma (il testo resta), **F2** ridice l'ultimo testo, e le risposte di un dialogo le legge il narratore
-quando ci passi sopra col mouse o le raggiungi con la tastiera. Nelle **opzioni** (dal menu d'avvio e dalla pausa) si
+quando ti fermi sopra col mouse o le raggiungi con la tastiera, ma mai sopra chi sta parlando: la risposta del
+personaggio non si interrompe. Nelle **opzioni** (dal menu d'avvio e dalla pausa) si
 sceglie fra voce recitata e *lettore di schermo* (nessuna voce del gioco: il diario si annuncia al
 tuo lettore). Con la voce recitata anche il trailer ha la voce del narratore, e la musica gli scende sotto.
 
 **I comandi.** Tre modi, a scelta nelle opzioni (scheda Generale). *Pulsanti e parole*, com'è all'inizio: si scrive in
-italiano nella riga, oppure si toccano uscite, cose, persone e azioni, e le due vie dicono le stesse parole. *Solo
-pulsanti*: la riga sparisce, e da tastiera Tab passa da un pulsante all'altro. *Solo parole*: l'avventura testuale pura,
+italiano nella riga, oppure si toccano i pulsanti della plancia, e le due vie dicono le stesse parole. La plancia ha
+tre zone che non si spostano: *andare*, con le uscite a rosa dei venti (nord in alto, sud in basso) e «guarda» al
+centro; *qui*, le persone e le cose del luogo; *fare*, bere, mangiare e i gesti che il luogo permette; sotto, inventario,
+stato, aspetta e ↶ annulla. Toccando una cosa (anche nella bisaccia, o una parola del testo) accanto si apre ciò che puoi
+farci. *Solo pulsanti*: la riga sparisce, e da tastiera Tab passa da un pulsante all'altro. *Solo parole*: l'avventura testuale pura,
 ogni comando si scrive (anche il numero di una risposta), e scorte e bisaccia si leggono soltanto. In tutti e tre restano
 la conferma delle scelte che costano, Ctrl+Z per tornare indietro di una mossa e i tasti del gioco. Scritte nella riga, «opzioni», «pausa»,
 «salva», «carica» e «trofei» aprono i loro pannelli; la guida «Come si gioca» parla del modo scelto.

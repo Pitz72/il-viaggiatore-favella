@@ -8,6 +8,42 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.36.0] - 2026-10-21
+
+### Aggiunto
+- **La plancia dei pulsanti**: tre zone che non si spostano più da un luogo all'altro. *Andare* ha le uscite a rosa dei
+  venti (nord in alto, sud in basso, ovest a sinistra, est a destra), ciascuna con la sua meta, e «guarda» al centro;
+  una direzione che non c'è lascia vuoto il suo posto. *Qui* ha le persone e le cose del luogo, *fare* Bevi, Mangia e
+  i gesti che il luogo permette adesso; sotto, la riga di servizio con inventario, stato, aspetta e ↶ annulla (Ctrl+Z).
+  L'altezza è la stessa in ogni luogo, e nei dialoghi le risposte prendono il suo posto senza accorciarla: il diario non
+  salta più. Vale in «solo pulsanti» e in «pulsanti e parole» (lì la riga per scrivere sta sopra).
+- **La tendina**: toccando una cosa o una persona del luogo, un oggetto della bisaccia, una parola del testo, Bevi o una
+  scorta, ciò che puoi farci si apre lì accanto (sopra, o a sinistra per la colonna di destra), non più in fondo allo
+  schermo. Un clic fuori o Esc la chiudono, le frecce ↑ ↓ passano da una voce all'altra, e in «solo pulsanti» il fuoco
+  va alla prima voce e, chiudendo, torna a ciò che l'aveva aperta.
+
+### Cambiato
+- **Le risposte di un dialogo lette dal narratore non interrompono più chi sta parlando.** Prima, scelta una risposta,
+  bastava che il mouse finisse su un'altra (o la tastiera ci passasse col Tab) perché il narratore la leggesse e
+  zittisse il personaggio che rispondeva. Ora la risposta del personaggio arriva sempre in fondo; finita, una risposta si
+  legge quando il mouse ci si ferma un attimo (un terzo di secondo: scorrendo veloce non partono pezzi di frase) e solo
+  se il mouse si è mosso davvero (non quando la lista cambia sotto un mouse fermo). F2 ridice il turno, non la risposta
+  letta in anteprima.
+- **Niente più fumetti di Windows sui pulsanti** (i `title`: diciassette, quasi tutti doppioni della scritta). In
+  Electron un fumetto aperto su un pulsante che spariva a fine turno poteva restare incollato allo schermo. I tasti
+  rapidi sono scritti sui pulsanti della testata (salva F5, carica F9, pausa Esc) e su ↶ annulla (Ctrl+Z); i nomi
+  completi restano per il lettore di schermo.
+- «usa su questo…» nel menu di una cosa del luogo dice di che cosa si tratta («usa sulla mappa…», «usa su Nunzio…»).
+- La guida «Come si gioca» e il README descrivono la plancia.
+
+### Corretto
+- **I luoghi d'ingresso delle zone 2–7** («il tratto», «la rampa», «la porta», «il sentiero», «il guado») avevano il
+  nome in minuscolo nel titolo del luogo, nelle uscite e nelle schede dei salvataggi: il motore tiene il nome della prima
+  volta che il luogo è nominato, in un collegamento della zona prima. Il ponte dell'app lo scrive con la maiuscola (solo
+  sullo schermo: storia, salvataggi e voce non cambiano).
+- Il titolo della scelta della seconda cosa diceva «usa su la mappa…»: ora «usa sulla mappa…», «usa sull'orologio…».
+- La schermata di carico del gioco desktop diceva «il motore favella gira nel browser»: ora «il motore favella 1».
+
 ## [1.35.0] - 2026-10-21
 
 ### Aggiunto
