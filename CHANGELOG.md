@@ -8,6 +8,8 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.33.0] - 2026-10-21
+
 ### Aggiunto
 - **La sequenza finale.** Dopo uno dei sei finali della storia, quando il narratore ha finito di leggere, una chiusura
   di almeno un minuto e mezzo: Acquamorta al tramonto dalla riva del guado, senza figure, con le bande nere che si
