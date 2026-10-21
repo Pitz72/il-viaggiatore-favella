@@ -8,6 +8,19 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.30.1] - 2026-10-21
+
+### Cambiato
+- **Dopo una fine il diario non invita più a scrivere ANNULLA** (né RICOMINCIA, CARICA, FINE): a partita finita la riga
+  non c'è, e dopo una morte non si torna indietro (scelta di Simone). Parlano i pulsanti della schermata finale.
+- Col **contrasto alto** la pagina dei trofei ha testi chiari (oltre 8:1 sul fondo) e i trofei vinti sono dischi pieni,
+  quelli da vincere tratteggiati: si distinguono qualunque sia il colore della schermata (anche il grigio di una fine).
+
+### Corretto
+- Col **testo grande** la guida «Come si gioca» scorreva: ora gli spazi si stringono un poco (il testo no) e sta tutta in
+  vista, anche a 1080p e 4K.
+- Cambiando la dimensione del testo a schermata finale aperta, il finale poteva restare in parte fuori vista.
+
 ## [1.30.0] - 2026-10-21
 
 ### Aggiunto
