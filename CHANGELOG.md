@@ -8,6 +8,26 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+### Aggiunto
+- **La sequenza finale.** Dopo uno dei sei finali della storia, quando il narratore ha finito di leggere, una chiusura
+  di almeno un minuto e mezzo: Acquamorta al tramonto dalla riva del guado, senza figure, con le bande nere che si
+  richiudono; la frase del finale, grande, nel cielo; la notte che scende; i **titoli di coda**; poi, nel nero, i loghi
+  di **Runtime Multimedia** e di **FAVELLA 1** che si ricompongono come all'avvio. Esc la salta.
+- **La canzone dei titoli di coda**, «La mano ci torna da sola» (The Runtimers): il prompt e il testo per Lyria 3.5 sono
+  in `pre-produzione/11-sequenza-finale.md`. Finché il file non c'è, sotto la sequenza suona il tema dell'intro; la
+  sequenza si adatta alla durata della canzone.
+- **Extra → Titoli di coda**: la stessa sequenza senza la frase del finale, per vedere i crediti senza arrivare in fondo.
+
+### Cambiato
+- **I crediti non sono più all'avvio**: il cartello delle licenze e dei crediti dopo i loghi è diventato i titoli di
+  coda (le stesse righe, con «elevenlabs.io»). L'apertura è loghi → avviso → trailer.
+- **A gioco finito si torna al menu d'avvio**, e il gioco non riparte da solo: il riquadro del finale tiene solo la frase
+  e «Invio · continua» (Invio, Spazio o Esc vanno avanti subito); dopo un finale si passa per la sequenza, dopo una morte
+  si va dritti al menu. Spariscono «riparti dalla stazione», «carica una partita», «trofei», «← intro» ed «esci» dal
+  riquadro.
+- I trofei vinti nell'ultimo turno, che stavano nel riquadro del finale, si annunciano sul menu d'avvio, col loro
+  cartiglio e il suono flautato.
+
 ## [1.32.0] - 2026-10-21
 
 ### Aggiunto

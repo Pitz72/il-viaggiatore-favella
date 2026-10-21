@@ -60,12 +60,17 @@ Dalla pagina [Releases](https://github.com/Pitz72/il-viaggiatore-favella/release
 | Linux, Debian/Ubuntu/Mint | `Il-Viaggiatore-<versione>-linux-amd64.deb` |
 
 Il gioco parte a schermo intero e funziona senza connessione. **Esc** salta i
-loghi e il trailer (e chiude il cartello dei crediti e l'avviso, come Invio). Il **menu d'avvio** è una colonna di voci
+loghi e il trailer (e chiude l'avviso, come Invio). Il **menu d'avvio** è una colonna di voci
 (continua, nuovo viaggio, carica, trofei, opzioni, come si gioca, extra, esci) che si sceglie con le frecce e Invio o
-col mouse; **Extra** raccoglie la colonna sonora da scaricare, il trailer da rivedere e i siti favella.eu ed
+col mouse; **Extra** raccoglie la colonna sonora da scaricare, il trailer da rivedere, i titoli di coda e i siti favella.eu ed
 ecosystem.runtimeradio.com. In partita **Esc** apre la **pausa** (riprendi, salva, carica, trofei, opzioni, come si gioca, menu d'avvio, esci),
 **F11** commuta lo schermo intero, **F5** salva al volo e **F9** ricarica quel salvataggio rapido; Alt+F4 chiude. Gli eseguibili non sono firmati:
 Windows SmartScreen può chiedere una conferma.
+
+**La fine.** Dopo uno dei sei finali della storia, quando il narratore ha finito di leggere, parte la **sequenza
+finale**: Acquamorta al tramonto dalla riva del guado, la frase del finale, la notte, i **titoli di coda** (le licenze
+e i crediti, che prima stavano in un cartello all'avvio) e i loghi di Runtime Multimedia e di FAVELLA 1, su una canzone
+sua; poi il menu d'avvio. Dopo una morte si torna subito al menu. Il gioco non riparte da solo; Esc salta la sequenza.
 
 **La voce.** Con la *voce recitata* (com'è all'inizio) il gioco legge ogni testo con le voci del doppiaggio: un tasto
 qualunque la ferma (il testo resta), **F2** ridice l'ultimo testo, e le risposte di un dialogo le legge il narratore
@@ -165,7 +170,7 @@ di GitHub per i pacchetti.
 |---|---|
 | `prototipo/` | **l'avventura**: `il-viaggiatore.fav` (radice) + `sistemi.fav` + le sette zone `z1…z7` |
 | `motore/` | il motore FAVELLA 1.5.0 (Python), vedi `motore/LEGGIMI.md` |
-| `app/` | l'app React: loghi animati, licenze e crediti, avviso, trailer (canvas procedurale + colonna sonora + voce), gioco, guida «come si gioca»; in `app/public/voce/` la voce del doppiaggio, un file Opus per parte |
+| `app/` | l'app React: loghi animati, avviso, trailer (canvas procedurale + colonna sonora + voce), gioco, guida «come si gioca», sequenza finale e titoli di coda (`src/finale/`); in `app/public/voce/` la voce del doppiaggio, un file Opus per parte |
 | `doppiaggio/` | il doppiaggio: i testi per le voci ricavati dai `.fav`, il manifest delle parti, le voci scelte, il resoconto del banco; vedi `doppiaggio/LEGGIMI.md` |
 | `desktop/` | il guscio Electron per Windows e Linux |
 | `collaudo/` | i quattordici collaudi automatici: i nove finali, le prove mirate, i salvataggi, le scorte, il ponte dell'interfaccia, i fili del viaggio, le giocate, il testo, le conferme, i pulsanti, la voce del doppiaggio, i trofei, la musica, l'esploratore |
