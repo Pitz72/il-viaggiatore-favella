@@ -51,6 +51,13 @@
    "zona": "z7",
    "luogo": "Il guado, il fratello",
    "file": "07 - Cosa sei tornato a trovare.mp3"
+  },
+  {
+   "numero": 8,
+   "titolo": "La mano sa ancora la forma",
+   "zona": "finale",
+   "luogo": "I titoli di coda",
+   "file": "08 - La mano sa ancora la forma.mp3"
   }
  ],
  "file": [
@@ -61,6 +68,7 @@
   "05 - Il bicchiere tenuto da parte.mp3",
   "06 - Il vento che non smette.mp3",
   "07 - Cosa sei tornato a trovare.mp3",
+  "08 - La mano sa ancora la forma.mp3",
   "copertina.jpg",
   "LEGGIMI.txt"
  ]

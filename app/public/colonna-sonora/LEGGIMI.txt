@@ -2,7 +2,7 @@ Il Viaggiatore Official Soundtrack
 The Runtimers · 2026
 
 La colonna sonora di «Il Viaggiatore», un gioco di Simone Pizzi: un brano per ciascuna delle sette
-zone del viaggio, da Acquaviva ad Acquamorta.
+zone del viaggio, da Acquaviva ad Acquamorta, e la canzone dei titoli di coda.
 
   1. Dove finiscono i binari (Acquaviva, il capolinea)
   2. Il catrame che ondeggia (La piana, il sole)
@@ -11,8 +11,9 @@ zone del viaggio, da Acquaviva ad Acquamorta.
   5. Il bicchiere tenuto da parte (Il paese, i vivi)
   6. Il vento che non smette (Le colline, la pietra)
   7. Cosa sei tornato a trovare (Il guado, il fratello)
+  8. La mano sa ancora la forma (i titoli di coda)
 
-Musica: The Runtimers, generata con Lyria 3.5 (Google).
+Musica (e il testo della canzone): The Runtimers, generati con Lyria 3.5 (Google).
 Copertina: il logo del gioco (CC BY-SA 4.0).
 
 I brani non sono coperti dalla licenza CC BY-SA 4.0 del gioco: per il loro uso valgono i termini di

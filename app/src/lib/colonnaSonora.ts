@@ -1,7 +1,7 @@
 // ====================================================================
 //  «Scarica la colonna sonora ufficiale» (menu d'avvio → Extra).
 // --------------------------------------------------------------------
-//  I sette brani di The Runtimers viaggiano col gioco (public/colonna-sonora,
+//  Gli otto brani di The Runtimers viaggiano col gioco (public/colonna-sonora,
 //  l'elenco in album.json: gli MP3, la copertina, il LEGGIMI). Sul desktop il
 //  processo principale chiede la cartella e ci copia l'album
 //  (desktop/colonna-sonora.cjs); nel browser i file si impacchettano qui in uno

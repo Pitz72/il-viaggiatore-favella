@@ -23,10 +23,11 @@ export const CREDITI: [string, string][] = [
   ["Marchi", "i loghi di Runtime Multimedia e di FAVELLA 1 sono dei rispettivi titolari"],
 ];
 
-/** La canzone dei titoli di coda: compare fra i crediti solo quando il file c'è (public/musica/finale.opus). */
+/** La canzone dei titoli di coda: compare fra i crediti solo quando il file c'è (public/musica/finale.opus).
+ *  Il titolo è quello dell'album (strumenti/colonna-sonora.py, CANZONE): collaudo/musica.py li confronta. */
 export const CANZONE: [string, string] = [
   "La canzone dei titoli di coda",
-  "«La mano ci torna da sola» · The Runtimers · generata con Lyria 3.5 (Google) · fuori dalla licenza libera",
+  "«La mano sa ancora la forma» · The Runtimers · musica e testo generati con Lyria 3.5 (Google) · fuori dalla licenza libera",
 ];
 
 export const LICENZE = "I testi delle licenze: github.com/Pitz72/il-viaggiatore-favella";

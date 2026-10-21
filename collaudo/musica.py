@@ -1,18 +1,22 @@
-"""La musica delle zone e la colonna sonora da scaricare (pre-produzione/10-musiche.md).
+"""La musica delle zone, la canzone dei titoli di coda e la colonna sonora da scaricare
+(pre-produzione/10-musiche.md, 11-sequenza-finale.md).
 
 Che cosa si pretende:
   · ogni zona del gioco (quelle di app/src/data/viaggiatore.ts, ROOM_ZONE) ha il suo brano nell'indice
     (app/public/musica/indice.json), col titolo del brano dell'album;
   · il giro di ogni brano sta dentro il file: 0 < inizio < fine < durata, lungo almeno un minuto, con la coda
     di mezzo secondo dopo la fine (strumenti/colonna-sonora.py);
-  · l'album (app/public/colonna-sonora/album.json) elenca i sette brani nell'ordine delle zone, la copertina e
-    il LEGGIMI; ogni file c'è e ha un nome semplice (il desktop li copia per nome);
+  · l'album (app/public/colonna-sonora/album.json) elenca i sette brani nell'ordine delle zone, poi la canzone
+    dei titoli di coda, la copertina e il LEGGIMI; ogni file c'è e ha un nome semplice (il desktop li copia per nome);
+  · la canzone per la sequenza finale (app/public/musica/finale.opus) è nell'indice col titolo dell'album, e i
+    titoli di coda (app/src/finale/crediti.ts) la chiamano con quel titolo;
   · lo ZIP che la versione web compone (app/src/lib/zip.ts, in Node con app/scripts/zip-node.mjs) si apre
     con zipfile, coi nomi in UTF-8 e i contenuti identici;
   · con ffmpeg: gli MP3 hanno titolo, numero, album «Il Viaggiatore Official Soundtrack», autore The Runtimers
     e la copertina; ogni versione per il gioco dura quanto dice l'indice; alla giuntura (da «fine» a «inizio»)
     gli ultimi istanti prima del salto ricalcano quelli prima dell'inizio, e il cambio di timbro al salto non
-    supera quello normale del brano; il giro sta a −23 LUFS (±1), come le voci.
+    supera quello normale del brano; il giro sta a −23 LUFS (±1), come le voci; la canzone sta a −14 LUFS (±1),
+    come il tema dell'intro, comincia e finisce senza silenzi lunghi ed è il brano dell'album.
 
 Uso:  python musica.py      (esce con 1 se qualcosa non va; ffmpeg è facoltativo, serve `npm ci` in app/)
 """
@@ -58,16 +62,23 @@ def main():
     prova(f"ogni zona del gioco ({len(zone)}) ha il suo brano, e nessun brano è di una zona che non c'è",
           sorted(indice["zone"]) == zone, f"zone {zone}, indice {sorted(indice['zone'])}")
     brani = {b["zona"]: b for b in album["brani"]}
-    prova("l'album ha sette brani, nell'ordine delle zone, numerati da 1",
-          [b["zona"] for b in album["brani"]] == zone and [b["numero"] for b in album["brani"]] == list(range(1, 8)))
+    prova("l'album ha otto brani: le sette zone in ordine, poi la canzone dei titoli; numerati da 1",
+          [b["zona"] for b in album["brani"]] == zone + ["finale"] and [b["numero"] for b in album["brani"]] == list(range(1, 9)))
     prova("il titolo di ogni brano nel gioco è quello dell'album",
-          all(indice["zone"][z]["titolo"] == brani[z]["titolo"] for z in zone if z in brani))
+          all(indice["zone"][z]["titolo"] == brani[z]["titolo"] for z in zone if z in brani)
+          and "finale" in indice and "finale" in brani and indice["finale"]["titolo"] == brani["finale"]["titolo"])
+    crediti = open(os.path.join(RADICE, "app", "src", "finale", "crediti.ts"), encoding="utf-8").read()
+    canzone = crediti[crediti.index("export const CANZONE"):]
+    canzone = canzone[:canzone.index("];")]
+    prova("i titoli di coda chiamano la canzone col titolo dell'album",
+          "finale" in brani and f"«{brani['finale']['titolo']}»" in canzone, canzone.strip()[-160:])
     storti = [z for z, v in indice["zone"].items()
               if not (0 < v["inizio"] < v["fine"] < v["durata"]) or v["fine"] - v["inizio"] < 60 or not (0.45 <= v["durata"] - v["fine"] <= 0.6)]
     prova("ogni giro sta dentro il suo file, dura almeno un minuto e ha la coda di mezzo secondo", not storti, str(storti))
-    prova("i file delle zone ci sono", all(os.path.exists(os.path.join(MUSICA, v["file"])) for v in indice["zone"].values()))
+    prova("i file delle zone e della canzone ci sono",
+          all(os.path.exists(os.path.join(MUSICA, v["file"])) for v in [*indice["zone"].values(), indice.get("finale", {"file": "?"})]))
     nome_buono = re.compile(r'^[^\\/:*?"<>|]+\.(mp3|jpg|txt)$')
-    prova("l'album elenca i sette MP3, la copertina e il LEGGIMI, con nomi semplici, e ci sono tutti",
+    prova("l'album elenca gli otto MP3, la copertina e il LEGGIMI, con nomi semplici, e ci sono tutti",
           album["file"] == [b["file"] for b in album["brani"]] + ["copertina.jpg", "LEGGIMI.txt"]
           and all(nome_buono.match(f) and os.path.exists(os.path.join(ALBUM, f)) for f in album["file"]))
     leggimi = open(os.path.join(ALBUM, "LEGGIMI.txt"), encoding="utf-8").read()
@@ -105,7 +116,7 @@ def main():
         t = {k.lower(): v for k, v in info.get("format", {}).get("tags", {}).items()}
         copertina = [s for s in info.get("streams", []) if s.get("codec_name") == "mjpeg"]
         attese = {"title": b["titolo"], "artist": "The Runtimers", "album_artist": "The Runtimers",
-                  "album": "Il Viaggiatore Official Soundtrack", "track": f"{b['numero']}/7"}
+                  "album": "Il Viaggiatore Official Soundtrack", "track": f"{b['numero']}/{len(album['brani'])}"}
         diversi = {k: t.get(k) for k, v in attese.items() if t.get(k) != v}
         if diversi or not copertina or copertina[0].get("width") != 1400:
             sbagliati.append((b["file"], diversi, copertina[:1]))
@@ -145,6 +156,27 @@ def main():
               f"giuntura {somiglia:.3f}, timbro al salto {al_salto:.0f} (normale fino a {normale:.0f}), {lufs:.1f} LUFS",
               abs(durata - v["durata"]) < 0.06 and somiglia > 0.98 and al_salto <= normale and abs(lufs + 23) <= 1,
               f"durata file {durata}, indice {v['durata']}")
+
+    # ── la canzone dei titoli di coda ──────────────────────────────────────
+    v = indice["finale"]
+    p = os.path.join(MUSICA, v["file"])
+    durata = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", p],
+                                  capture_output=True, text=True).stdout)
+    pcm = subprocess.run(["ffmpeg", "-v", "error", "-i", p, "-f", "f32le", "-ac", "2", "-ar", str(SR), "-"], capture_output=True).stdout
+    y = np.frombuffer(pcm, dtype=np.float32).reshape(-1, 2)
+    w = SR // 100
+    picchi = np.abs(y).max(axis=1)[: len(y) // w * w].reshape(-1, w).max(axis=1)
+    sopra = np.where(20 * np.log10(picchi + 1e-12) > -50)[0]
+    testa, coda = sopra[0] * w / SR, (len(y) - (sopra[-1] + 1) * w) / SR
+    e = subprocess.run(["ffmpeg", "-hide_banner", "-i", p, "-af", "ebur128", "-f", "null", "-"], capture_output=True).stderr.decode("utf-8", "replace")
+    lufs = float(e[e.rfind("Summary:"):].split("I:")[1].split("LUFS")[0])
+    album_mp3 = os.path.join(ALBUM, brani["finale"]["file"])
+    lunga = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", album_mp3],
+                                 capture_output=True, text=True).stdout)
+    prova(f"la canzone «{v['titolo']}»: durata {durata:.2f} s (nell'album {lunga:.2f} s), silenzio {testa:.2f} s in testa e "
+          f"{coda:.2f} s in coda, {lufs:.1f} LUFS",
+          abs(durata - v["durata"]) < 0.06 and lunga - 5 < durata <= lunga and testa < 0.5 and coda < 0.5 and abs(lufs + 14) <= 1,
+          f"durata file {durata}, indice {v['durata']}")
     return finisci()
 
 

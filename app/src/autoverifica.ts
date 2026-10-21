@@ -87,23 +87,29 @@ async function provaLaVoce(testoAvvio: string, nota: (r: string) => void): Promi
   return ok;
 }
 
-/** La musica delle zone e l'album (pre-produzione/10-musiche.md): l'indice con le sette zone, un brano
- *  decodificato col giro dentro il file, l'elenco dell'album con i suoi nove file. */
+/** La musica delle zone, la canzone dei titoli e l'album (pre-produzione/10-musiche.md, 11-sequenza-finale.md):
+ *  l'indice con le sette zone, un brano decodificato col giro dentro il file, la canzone decodificata, l'elenco
+ *  dell'album con i suoi dieci file. */
 async function provaLaMusica(nota: (r: string) => void): Promise<boolean> {
   const base = import.meta.env.BASE_URL;
   const ac = new OfflineAudioContext(2, 48000, 48000);
   try {
-    const indice = await (await fetch(`${base}musica/indice.json`)).json() as { zone: Record<string, { file: string; titolo: string; inizio: number; fine: number }> };
+    const indice = await (await fetch(`${base}musica/indice.json`)).json() as {
+      zone: Record<string, { file: string; titolo: string; inizio: number; fine: number }>; finale?: { file: string; titolo: string; durata: number } };
     const zone = Object.keys(indice.zone);
     const z = indice.zone.z4 ?? indice.zone[zone[0]];
     const buf = await ac.decodeAudioData(await (await fetch(`${base}musica/${z.file}`)).arrayBuffer());
+    const canzone = indice.finale ? await ac.decodeAudioData(await (await fetch(`${base}musica/${indice.finale.file}`)).arrayBuffer()) : null;
     const album = await (await fetch(`${base}colonna-sonora/album.json`)).json() as { file: string[] };
     const copertina = await fetch(`${base}colonna-sonora/copertina.jpg`);
-    if (zone.length !== 7 || !(z.inizio > 0 && z.fine > z.inizio && buf.duration >= z.fine) || album.file.length !== 9 || !copertina.ok) {
-      nota(`KO musica: ${zone.length} zone, «${z.titolo}» ${buf.duration.toFixed(2)} s con giro ${z.inizio}–${z.fine}, album di ${album.file.length} file`);
+    if (zone.length !== 7 || !(z.inizio > 0 && z.fine > z.inizio && buf.duration >= z.fine) || !canzone
+        || Math.abs(canzone.duration - indice.finale!.durata) > 0.1 || album.file.length !== 10 || !copertina.ok) {
+      nota(`KO musica: ${zone.length} zone, «${z.titolo}» ${buf.duration.toFixed(2)} s con giro ${z.inizio}–${z.fine}, `
+        + `canzone ${canzone ? canzone.duration.toFixed(2) + " s" : "assente"}, album di ${album.file.length} file`);
       return false;
     }
-    nota(`ok musica: 7 zone, «${z.titolo}» decodificato (${buf.duration.toFixed(1)} s, giro ${z.inizio.toFixed(1)}–${z.fine.toFixed(1)}), album di ${album.file.length} file`);
+    nota(`ok musica: 7 zone, «${z.titolo}» decodificato (${buf.duration.toFixed(1)} s, giro ${z.inizio.toFixed(1)}–${z.fine.toFixed(1)}), `
+      + `canzone «${indice.finale!.titolo}» (${canzone.duration.toFixed(1)} s), album di ${album.file.length} file`);
     return true;
   } catch (e) {
     nota(`KO musica: ${e instanceof Error ? e.message : e}`);

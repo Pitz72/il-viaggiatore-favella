@@ -1,17 +1,23 @@
-"""La colonna sonora: l'album da scaricare e le musiche delle zone nel gioco.
+"""La colonna sonora: l'album da scaricare, le musiche delle zone e la canzone dei titoli di coda.
 
-Sette brani di The Runtimers (generati con Lyria 3.5), uno per zona, in `app/public/colonna-sonora/`:
-MP3 con titolo, numero, album «Il Viaggiatore Official Soundtrack», autore e copertina (il logo del gioco),
-più `copertina.jpg`, `LEGGIMI.txt` e `album.json` (l'elenco dei file, che il menu Extra copia o impacchetta).
-Da quelli, per il gioco, `app/public/musica/z1.opus … z7.opus` e `indice.json` coi punti di ripetizione.
+Otto brani di The Runtimers (generati con Lyria 3.5) in `app/public/colonna-sonora/`: uno per zona, più la
+canzone della sequenza finale. MP3 con titolo, numero, album «Il Viaggiatore Official Soundtrack», autore e
+copertina (il logo del gioco), più `copertina.jpg`, `LEGGIMI.txt` e `album.json` (l'elenco dei file, che il
+menu Extra copia o impacchetta). Da quelli, per il gioco, `app/public/musica/z1.opus … z7.opus`, `finale.opus`
+e `indice.json` coi punti di ripetizione.
 
 Uso:
   python strumenti/colonna-sonora.py album <cartella con gli MP3 di Lyria>
-        rinomina ed etichetta i sette brani (l'audio si copia così com'è) e ci mette la copertina
-        (grafica/copertina-album.jpg)
+        rinomina ed etichetta gli otto brani (l'audio si copia così com'è) e ci mette la copertina
+        (grafica/copertina-album.jpg); un brano che nella cartella non c'è si rietichetta dal file
+        dell'album che c'è già (l'audio resta lo stesso)
   python strumenti/colonna-sonora.py anelli [--prova]
         sceglie in ogni brano il tratto da ripetere e scrive le versioni per il gioco; --prova stampa
         soltanto le scelte
+  python strumenti/colonna-sonora.py finale
+        la canzone dei titoli di coda per la sequenza finale (components/SequenzaFinale.tsx): senza i silenzi
+        in testa e in coda, a −14 LUFS come il tema dell'intro (che la sequenza suonava prima della canzone e
+        che il menu suona subito dopo), non a −23 come le zone: qui non c'è una voce da lasciar passare
 
 IL TRATTO DA RIPETERE. Il gioco suona il brano una volta dall'inizio e poi ripete in tondo [A, B]:
   1. il corpo del brano: dove il volume (media su 3 s) sta entro 7 dB dal suo valore tipico; la dissolvenza
@@ -56,6 +62,10 @@ BRANI = [
     ("z6", "Ancient Moor", "Il vento che non smette", "Le colline, la pietra"),
     ("z7", "Deep Stillness", "Cosa sei tornato a trovare", "Il guado, il fratello"),
 ]
+# La canzone dei titoli di coda (pre-produzione/11-sequenza-finale.md). Lyria ne ha riscritto il testo: il titolo
+# viene dal verso che la chiude, «La mano sa ancora la forma che ha».
+CANZONE = ("finale", "Il_ferro_freddo", "La mano sa ancora la forma", "I titoli di coda")
+TUTTI = BRANI + [CANZONE]
 
 SR = 48000
 PASSO = 1024                # campioni fra due misure (21 ms)
@@ -63,6 +73,9 @@ FINESTRA = 4096
 SFUMA = 4.0                 # secondi della sfumatura incisa prima di B
 CODA = 0.5                  # secondi dopo B, mai suonati
 BERSAGLIO_LUFS = -23.0
+LUFS_FINALE = -14.0         # la canzone dei titoli: quanto il tema dell'intro (src/assets/intro.mp3, −14,1)
+SOGLIA_SILENZIO = -50.0     # dB: sotto, in testa e in coda alla canzone, è silenzio
+MARGINE_SILENZIO = 0.1      # s di silenzio che restano prima del primo suono e dopo l'ultimo
 PICCO_MAX = -1.0            # dBTP
 BITRATE = "96k"
 
@@ -76,34 +89,43 @@ def album(cartella):
     if not os.path.exists(COPERTINA):
         sys.exit(f"Manca la copertina: {COPERTINA}")
     os.makedirs(ALBUM, exist_ok=True)
-    for i, (zona, originale, titolo, luogo) in enumerate(BRANI):
-        sorgente = os.path.join(cartella, originale + ".mp3")
-        if not os.path.exists(sorgente):
-            sys.exit(f"Manca {sorgente}")
+    for i, (zona, originale, titolo, luogo) in enumerate(TUTTI):
         uscita = os.path.join(ALBUM, nome_file(i, titolo))
+        sorgente = os.path.join(cartella, originale + ".mp3")
+        rietichetta = not os.path.exists(sorgente)
+        if rietichetta:
+            # già nell'album: si rietichetta (l'audio si copia, identico) passando da un file a parte
+            if not os.path.exists(uscita):
+                sys.exit(f"Manca {sorgente}")
+            sorgente = uscita + ".prima.mp3"
+            os.replace(uscita, sorgente)
+        commento = f"Il Viaggiatore, zona {i + 1}: {luogo}" if zona != "finale" else "Il Viaggiatore, la canzone dei titoli di coda"
         subprocess.run([
             "ffmpeg", "-v", "error", "-y", "-i", sorgente, "-i", COPERTINA,
             "-map", "0:a", "-map", "1:v", "-c", "copy", "-map_metadata", "-1",
             "-id3v2_version", "3", "-write_id3v1", "1",
             "-metadata", f"title={titolo}", "-metadata", f"artist={AUTORE}", "-metadata", f"album_artist={AUTORE}",
-            "-metadata", f"album={TITOLO_ALBUM}", "-metadata", f"track={i + 1}/{len(BRANI)}",
+            "-metadata", f"album={TITOLO_ALBUM}", "-metadata", f"track={i + 1}/{len(TUTTI)}",
             "-metadata", f"date={ANNO}", "-metadata", "genre=Soundtrack",
-            "-metadata", f"comment=Il Viaggiatore, zona {i + 1}: {luogo}",
+            "-metadata", f"comment={commento}",
             "-metadata:s:v", "title=Album cover", "-metadata:s:v", "comment=Cover (front)", "-disposition:v", "attached_pic",
             uscita,
         ], check=True)
-        print(f"album: {nome_file(i, titolo)}  ← {originale}")
+        if rietichetta:
+            os.remove(sorgente)
+        print(f"album: {nome_file(i, titolo)}  ← {'(rietichettato)' if rietichetta else originale}")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", COPERTINA, "-c", "copy", os.path.join(ALBUM, "copertina.jpg")], check=True)
-    scaletta = "\n".join(f"  {i + 1}. {titolo} ({luogo})" for i, (_, _, titolo, luogo) in enumerate(BRANI))
+    scaletta = "\n".join(f"  {i + 1}. {titolo} ({luogo[0].lower() + luogo[1:] if zona == 'finale' else luogo})"
+                         for i, (zona, _, titolo, luogo) in enumerate(TUTTI))
     leggimi = f"""{TITOLO_ALBUM}
 {AUTORE} · {ANNO}
 
 La colonna sonora di «Il Viaggiatore», un gioco di Simone Pizzi: un brano per ciascuna delle sette
-zone del viaggio, da Acquaviva ad Acquamorta.
+zone del viaggio, da Acquaviva ad Acquamorta, e la canzone dei titoli di coda.
 
 {scaletta}
 
-Musica: {AUTORE}, generata con Lyria 3.5 (Google).
+Musica (e il testo della canzone): {AUTORE}, generati con Lyria 3.5 (Google).
 Copertina: il logo del gioco (CC BY-SA 4.0).
 
 I brani non sono coperti dalla licenza CC BY-SA 4.0 del gioco: per il loro uso valgono i termini di
@@ -115,8 +137,8 @@ Il gioco: https://github.com/Pitz72/il-viaggiatore-favella
     with open(os.path.join(ALBUM, "LEGGIMI.txt"), "w", encoding="utf-8", newline="\r\n") as fh:
         fh.write(leggimi)
     elenco = {"titolo": TITOLO_ALBUM, "autore": AUTORE, "anno": ANNO,
-              "brani": [{"numero": i + 1, "titolo": t, "zona": z, "luogo": l, "file": nome_file(i, t)} for i, (z, _, t, l) in enumerate(BRANI)],
-              "file": [nome_file(i, t) for i, (_, _, t, _) in enumerate(BRANI)] + ["copertina.jpg", "LEGGIMI.txt"]}
+              "brani": [{"numero": i + 1, "titolo": t, "zona": z, "luogo": l, "file": nome_file(i, t)} for i, (z, _, t, l) in enumerate(TUTTI)],
+              "file": [nome_file(i, t) for i, (_, _, t, _) in enumerate(TUTTI)] + ["copertina.jpg", "LEGGIMI.txt"]}
     with open(os.path.join(ALBUM, "album.json"), "w", encoding="utf-8", newline="\n") as fh:
         json.dump(elenco, fh, ensure_ascii=False, indent=1)
         fh.write("\n")
@@ -239,10 +261,27 @@ def durata_file(percorso):
     return float(r.stdout.strip())
 
 
+def leggi_indice():
+    nota = ("Musiche delle zone: il brano una volta dall'inizio, poi in tondo [inizio, fine] (secondi). "
+            "La canzone dei titoli di coda: una volta sola. Scritto da strumenti/colonna-sonora.py.")
+    percorso = os.path.join(MUSICA, "indice.json")
+    indice = json.load(open(percorso, encoding="utf-8")) if os.path.exists(percorso) else {"formato": 1, "zone": {}}
+    indice["nota"] = nota
+    return indice
+
+
+def scrivi_indice(indice):
+    ordinato = {k: indice[k] for k in ("formato", "nota", "zone", "finale") if k in indice}
+    with open(os.path.join(MUSICA, "indice.json"), "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(ordinato, fh, ensure_ascii=False, indent=1)
+        fh.write("\n")
+    print("indice:", os.path.join(MUSICA, "indice.json"))
+
+
 def anelli(prova=False):
     os.makedirs(MUSICA, exist_ok=True)
-    indice = {"formato": 1, "nota": "Musiche delle zone: il brano una volta dall'inizio, poi in tondo [inizio, fine] (secondi). "
-              "Scritto da strumenti/colonna-sonora.py.", "zone": {}}
+    indice = leggi_indice()
+    indice["zone"] = {}
     for i, (zona, originale, titolo, luogo) in enumerate(BRANI):
         sorgente = os.path.join(ALBUM, nome_file(i, titolo))
         x = leggi(sorgente)
@@ -264,10 +303,33 @@ def anelli(prova=False):
             "inizio": round(a / SR, 6), "fine": round(b / SR, 6), "durata": round(durata_file(uscita), 3),
         }
     if not prova:
-        with open(os.path.join(MUSICA, "indice.json"), "w", encoding="utf-8", newline="\n") as fh:
-            json.dump(indice, fh, ensure_ascii=False, indent=1)
-            fh.write("\n")
-        print("indice:", os.path.join(MUSICA, "indice.json"))
+        scrivi_indice(indice)
+
+
+# ── la canzone dei titoli di coda ────────────────────────────────────────────
+def finale():
+    """La canzone per la sequenza finale: senza i silenzi alle due estremità, a LUFS_FINALE, in Opus."""
+    i = TUTTI.index(CANZONE)
+    _, _, titolo, _ = CANZONE
+    x = leggi(os.path.join(ALBUM, nome_file(i, titolo)))
+    # il primo e l'ultimo istante sopra la soglia (picco su 10 ms), con un margine
+    w = SR // 100
+    picchi = np.abs(x).max(axis=1)[: len(x) // w * w].reshape(-1, w).max(axis=1)
+    sopra = np.where(20 * np.log10(picchi + 1e-12) > SOGLIA_SILENZIO)[0]
+    da = max(0, sopra[0] * w - int(MARGINE_SILENZIO * SR))
+    a = min(len(x), (sopra[-1] + 1) * w + int(MARGINE_SILENZIO * SR))
+    y = x[da:a]
+    lufs, picco = misura_lufs(y, 0, len(y))
+    guadagno = min(LUFS_FINALE - lufs, PICCO_MAX - picco)
+    y = y * np.float32(10 ** (guadagno / 20))
+    uscita = os.path.join(MUSICA, "finale.opus")
+    scrivi_opus(y, uscita)
+    durata = durata_file(uscita)
+    print(f"finale «{titolo}»: {len(x)/SR:.2f} s → tagliati {da/SR:.2f} s in testa e {(len(x)-a)/SR:.2f} s in coda = {durata:.2f} s; "
+          f"{lufs:.1f} LUFS, picco {picco:.1f} → guadagno {guadagno:+.1f} dB")
+    indice = leggi_indice()
+    indice["finale"] = {"file": "finale.opus", "titolo": titolo, "durata": round(durata, 3)}
+    scrivi_indice(indice)
 
 
 if __name__ == "__main__":
@@ -275,6 +337,8 @@ if __name__ == "__main__":
         album(sys.argv[2])
     elif len(sys.argv) >= 2 and sys.argv[1] == "anelli":
         anelli(prova="--prova" in sys.argv)
+    elif len(sys.argv) >= 2 and sys.argv[1] == "finale":
+        finale()
     else:
         print(__doc__)
         sys.exit(2)

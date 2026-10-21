@@ -1,7 +1,7 @@
 // ====================================================================
 //  La colonna sonora da scaricare (menu d'avvio → Extra).
 // --------------------------------------------------------------------
-//  I sette brani di The Runtimers viaggiano col gioco (desktop/web/colonna-sonora,
+//  Gli otto brani di The Runtimers viaggiano col gioco (desktop/web/colonna-sonora,
 //  scritti da strumenti/colonna-sonora.py, l'elenco in album.json). «Scarica la
 //  colonna sonora ufficiale» chiede dove metterla, ci crea la cartella
 //  «Il Viaggiatore - Official Soundtrack» con gli MP3, la copertina e il

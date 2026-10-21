@@ -1,6 +1,6 @@
 {
  "formato": 1,
- "nota": "Musiche delle zone: il brano una volta dall'inizio, poi in tondo [inizio, fine] (secondi). Scritto da strumenti/colonna-sonora.py.",
+ "nota": "Musiche delle zone: il brano una volta dall'inizio, poi in tondo [inizio, fine] (secondi). La canzone dei titoli di coda: una volta sola. Scritto da strumenti/colonna-sonora.py.",
  "zone": {
   "z1": {
    "file": "z1.opus",
@@ -58,5 +58,10 @@
    "fine": 163.094396,
    "durata": 163.601
   }
+ },
+ "finale": {
+  "file": "finale.opus",
+  "titolo": "La mano sa ancora la forma",
+  "durata": 156.267
  }
 }
