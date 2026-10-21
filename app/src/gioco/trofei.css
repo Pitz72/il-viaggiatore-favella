@@ -1,0 +1,49 @@
+/* La pagina dei trofei (gioco/PaginaTrofei.tsx). Misure in em: la base arriva da fuori, come per il taccuino.
+   I medaglioni: vinti nell'accento, gli altri spenti col bordo tratteggiato; quello scelto ha un anello
+   (il fuoco della tastiera non disegna il riquadro del browser). L'accento: --tr-acc. */
+.tr-barra { position: relative; height: 3px; margin-top: .45em; border-radius: 3px; background: rgba(255, 255, 255, .1); overflow: hidden; }
+.tr-barra div { height: 100%; background: var(--tr-acc); border-radius: 3px; transition: width .4s ease; }
+.tr-chiudi {
+  cursor: pointer; flex-shrink: 0; border: 1px solid rgba(255, 255, 255, .18); background: transparent; color: #c9d2de; border-radius: 999px;
+  font-family: 'Source Code Pro', ui-monospace, monospace; font-size: .85em; letter-spacing: .12em; text-transform: uppercase; padding: .6em 1.1em;
+}
+.tr-chiudi:hover, .tr-chiudi:focus-visible { border-color: var(--tr-acc); color: #fff; outline: none; }
+
+.tr-griglia { display: flex; flex-direction: column; gap: 1.05em; min-height: 0; }
+.tr-riga { display: flex; gap: 2.4em; }
+.tr-famiglia { min-width: 0; }
+.tr-titolo {
+  margin: 0 0 .5em; font-family: 'Source Code Pro', ui-monospace, monospace; font-size: .76em; letter-spacing: .24em; text-transform: uppercase;
+  color: rgba(226, 220, 208, .6);
+}
+.tr-medaglie { display: flex; flex-wrap: wrap; gap: .55em; }
+.tr-medaglia {
+  display: inline-flex; align-items: center; justify-content: center; width: 3em; height: 3em; padding: 0; border-radius: 50%; cursor: pointer;
+  background: transparent; border: 1px dashed rgba(255, 255, 255, .2); transition: border-color .2s, background .2s, box-shadow .2s;
+}
+.tr-medaglia.tr-vinto { border: 1px solid color-mix(in srgb, var(--tr-acc) 70%, transparent); background: color-mix(in srgb, var(--tr-acc) 12%, transparent); }
+.tr-medaglia:hover { border-color: rgba(255, 255, 255, .45); }
+.tr-medaglia.tr-vinto:hover { border-color: var(--tr-acc); }
+.tr-medaglia:focus-visible { outline: none; }
+.tr-medaglia[aria-current="true"] { box-shadow: 0 0 0 2px #0b0a0e, 0 0 0 3.5px var(--tr-acc); }
+
+.tr-dettaglio {
+  display: flex; flex-direction: column; align-items: center; text-align: center; min-height: 0; padding: 1.2em 1.4em;
+  border-radius: 1em; background: rgba(255, 255, 255, .025); border: 1px solid rgba(255, 255, 255, .06);
+}
+.tr-famiglia-nome {
+  margin: .9em 0 0; font-family: 'Source Code Pro', ui-monospace, monospace; font-size: .76em; letter-spacing: .26em; text-transform: uppercase; color: var(--tr-acc);
+}
+.tr-nome { margin: .35em 0 0; font-family: 'Lora', Georgia, serif; font-weight: 500; font-size: 1.7em; line-height: 1.2; color: #f4ece0; }
+.tr-coperto { font-style: italic; color: rgba(226, 220, 208, .5); }
+.tr-frase { margin: .7em 0 0; font-family: 'Lora', Georgia, serif; font-size: 1em; line-height: 1.5; color: rgba(236, 229, 218, .86); }
+.tr-accenno { font-style: italic; color: rgba(226, 220, 208, .7); }
+.tr-quando { margin: auto 0 0; font-family: 'Source Code Pro', ui-monospace, monospace; font-size: .78em; letter-spacing: .08em; color: rgba(226, 220, 208, .55); }
+.tr-nota { font-family: 'Source Code Pro', ui-monospace, monospace; font-size: .78em; letter-spacing: .06em; color: rgba(230, 222, 208, .5); }
+
+/* la schermata finale: i trofei di questo viaggio */
+.vg-finale-trofei { margin: 22px auto 0; max-width: 560px; padding: 14px 18px; border-radius: 12px; border: 1px solid color-mix(in srgb, var(--acc) 35%, transparent);
+  background: color-mix(in srgb, var(--acc) 7%, transparent); text-align: left; }
+.vg-finale-trofei ul { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.vg-finale-trofei li { display: inline-flex; align-items: center; gap: 6px; font-family: 'Lora', serif; font-size: 14px; color: #f4ece0; cursor: default; }
+.vg-finale-trofei li svg { width: 18px; height: 18px; }

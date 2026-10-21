@@ -1,8 +1,8 @@
 // ====================================================================
 //  La pausa (pre-produzione/09-opzioni-menu-pausa.md, §5): Esc a riga vuota,
 //  o «☰ pausa» in testata. Sopra la partita velata, la stessa colonna di voci
-//  del menu d'avvio: riprendi, salva, carica, opzioni, come si gioca, torna
-//  al menu, esci. Esc riprende. Ciò che si apre da qui (le opzioni, il
+//  del menu d'avvio: riprendi, salva, carica, trofei, opzioni, come si gioca,
+//  torna al menu, esci. Esc riprende. Ciò che si apre da qui (le opzioni, il
 //  taccuino, la guida) le sta sopra; chiudendolo si torna alla pausa.
 // ====================================================================
 import { scalaTesto } from "../lib/accessibilita";
@@ -23,6 +23,7 @@ interface Props {
   onRiprendi: () => void;
   onSalva: () => void;
   onCarica: () => void;
+  onTrofei: () => void;
   onOpzioni: () => void;
   onGuida: () => void;
   onMenu: () => void;
@@ -30,7 +31,7 @@ interface Props {
   onEsci?: () => void;
 }
 
-export default function Pausa({ accento, coperta, puoSalvare, onRiprendi, onSalva, onCarica, onOpzioni, onGuida, onMenu, onEsci }: Props) {
+export default function Pausa({ accento, coperta, puoSalvare, onRiprendi, onSalva, onCarica, onTrofei, onOpzioni, onGuida, onMenu, onEsci }: Props) {
   const [opz] = useOpzioni();
   const copertaRef = useRef(coperta);
   copertaRef.current = coperta;
@@ -40,6 +41,7 @@ export default function Pausa({ accento, coperta, puoSalvare, onRiprendi, onSalv
     { id: "riprendi", etichetta: "Riprendi", tasto: "Esc", principale: true, azione: onRiprendi },
     { id: "salva", etichetta: "Salva", disabilitata: !puoSalvare, azione: onSalva },
     { id: "carica", etichetta: "Carica", azione: onCarica },
+    { id: "trofei", etichetta: "Trofei", azione: onTrofei },
     { id: "opzioni", etichetta: "Opzioni", azione: onOpzioni },
     { id: "guida", etichetta: "Come si gioca", azione: onGuida },
     { id: "menu", etichetta: "Torna al menu d'avvio", azione: onMenu },

@@ -13,6 +13,10 @@
 //  Più scritture sullo stesso file si mettono in fila (ognuna col suo .tmp). Se il file di un
 //  posto è illeggibile, si prova la copia di riserva (.bak).
 //  La pagina non tocca il disco: chiede tutto qui, per nome di posto.
+//  Qui stanno anche i TROFEI (piano 09, §7): un file solo, trofei.json, nella
+//  cartella Il Viaggiatore accanto ai salvataggi, con la stessa scrittura
+//  atomica e la stessa riserva (un trofeo non si perde). Che cosa c'è dentro
+//  lo decide la pagina (app/src/lib/trofei.ts): qui si legge e si scrive.
 // ====================================================================
 const { app, dialog, shell } = require("electron");
 const fs = require("node:fs");
@@ -22,12 +26,17 @@ const { gestisci } = require("./ipc.cjs");
 
 const ESTENSIONE = ".viaggiatore";
 const LIMITE_IMPORT = 8 * 1024 * 1024;
+const LIMITE_TROFEI = 256 * 1024;
 // i nomi di file che il gioco scrive o ha scritto: la pagina non può chiederne altri (lo stesso elenco in app/src/lib/posti.ts)
 const POSTO = /^(?:rapido|automatico(?:-[123])?|posto-[1-6]|s-\d{8}-\d{6}-[0-9a-z]{4})$/;
 
 // VIAGGIATORE_SALVATAGGI sposta la cartella (collaudi, CI): mai nei Documenti di chi prova
 const cartella = () => process.env.VIAGGIATORE_SALVATAGGI || path.join(app.getPath("documents"), "Il Viaggiatore", "Salvataggi");
 const nomeFile = (posto) => posto + ESTENSIONE;
+// i trofei accanto alla cartella dei salvataggi; nei collaudi, dentro quella di prova
+const fileTrofei = () => (process.env.VIAGGIATORE_SALVATAGGI
+  ? path.join(process.env.VIAGGIATORE_SALVATAGGI, "trofei.json")
+  : path.join(app.getPath("documents"), "Il Viaggiatore", "trofei.json"));
 
 function controllaPosto(posto) {
   if (typeof posto !== "string" || !POSTO.test(posto)) throw new Error(`Posto di salvataggio sconosciuto: ${posto}`);
@@ -138,6 +147,12 @@ function registra(finestra) {
     if (stat.size > LIMITE_IMPORT) throw new Error("Il file è troppo grande per essere un salvataggio.");
     registro.info(`salvataggio importato: ${scelta.filePaths[0]}`);
     return fs.promises.readFile(scelta.filePaths[0], "utf8");
+  });
+
+  gestisci("trofei:leggi", async () => leggiPosto(fileTrofei()));
+  gestisci("trofei:scrivi", async (_e, testo) => {
+    if (typeof testo !== "string" || testo.length > LIMITE_TROFEI) throw new Error("Trofei non validi.");
+    await scriviAtomico(fileTrofei(), testo);
   });
 
   gestisci("salvataggi:cartella", () => cartella());

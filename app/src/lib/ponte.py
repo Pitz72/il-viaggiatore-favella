@@ -552,7 +552,10 @@ def fav_stato():
                 gesti.setdefault(chi, []).append(gesto)
         except Exception:
             pass
-    return json.dumps({"inventory": inv, "counters": counters, "voci": voci, "gesti": gesti,
+    # Gli stati della storia («stato di cosimo» → «riconosciuto»…): le regole dei trofei li leggono
+    # (app/src/gioco/trofei.ts). Solo quelli che hanno già un valore.
+    stati = {k: v for k, v in _mondo.variabili.items() if k.startswith("stato ") and isinstance(v, str)}
+    return json.dumps({"inventory": inv, "counters": counters, "voci": voci, "gesti": gesti, "stati": stati,
                        "room": room, "roomId": _mondo.posizione_giocatore,
                        "exits": uscite, "present": presenti, "dialog": dialogo,
                        "capacity": capienza, "turn": getattr(_mondo, "turno_corrente", 0),

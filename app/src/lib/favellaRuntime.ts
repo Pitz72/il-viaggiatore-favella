@@ -133,6 +133,8 @@ export interface StatoMondo {
   voci?: string[];
   /** che cosa hai fatto a chi: {persona: [gesto, …]}, solo per chi ha un gesto da mostrare */
   gesti?: Record<string, string[]>;
+  /** gli stati della storia che hanno un valore («stato di cosimo» → «riconosciuto»…): li leggono i trofei */
+  stati?: Record<string, string>;
 }
 
 /** Che cosa farebbe un comando, senza farlo (vedi fav_anteprima in ponte.py). */

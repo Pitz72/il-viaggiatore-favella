@@ -4,7 +4,8 @@
 //  subito (lib/opzioni.ts, il bus sonoro in lib/suono.ts): niente «applica».
 //  Le schede seguono le regole ARIA dei tab (← → da una all'altra, Tab
 //  dentro); Esc chiude, il fuoco entra e torna (useDialogo). In fondo,
-//  «ripristina le opzioni di base», con una conferma (S / N).
+//  «ripristina le opzioni di base», con una conferma (S / N); con la stessa
+//  conferma, nella scheda Generale, «azzera i trofei» (i salvataggi restano).
 //  Misure in em (prop `base`), come la guida e il taccuino: 19 sulla
 //  superficie 1920 del menu, 13 su quella 1280 della partita.
 //  Generale: il modo dei comandi (piano 09, fase 5) e, solo sul desktop, gli
@@ -16,6 +17,8 @@ import { scalaTesto } from "../lib/accessibilita";
 import { useEffect, useRef, useState } from "react";
 import { useDialogo } from "./useDialogo";
 import { useOpzioni } from "../lib/useOpzioni";
+import { ascoltaTrofei, azzeraTrofei, deposito } from "../lib/trofei";
+import { TROFEI } from "./trofei";
 import { ACCESSIBILE, altaAccessibilita, NON_ACCESSIBILE, ripristinaOpzioni, type ModoComandi, type Opzioni, type Qualita } from "../lib/opzioni";
 import { cercaAggiornamenti, dimensioneFinestra, impostaSchermoIntero, seguiFinestra, statoFinestra, statoSchermoIntero, type StatoFinestra } from "../lib/desktop";
 import "./opzioni.css";
@@ -58,11 +61,21 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
   const [o, cambia] = useOpzioni();
   const acc = altaAccessibilita(o);
   const [scheda, setScheda] = useState<Scheda>(ultimaScheda);
-  const [ripristino, setRipristino] = useState(false);
-  const ripristinoRef = useRef(false);
-  ripristinoRef.current = ripristino;
-  // Esc: prima chiude la domanda del ripristino, poi il pannello
-  const dialogo = useDialogo<HTMLDivElement>(() => { if (ripristinoRef.current) setRipristino(false); else onChiudi(); });
+  // la domanda in fondo: ripristinare le opzioni, o azzerare i trofei
+  const [domanda, setDomanda] = useState<null | "ripristino" | "trofei">(null);
+  const domandaRef = useRef(domanda);
+  domandaRef.current = domanda;
+  // Esc: prima chiude la domanda, poi il pannello
+  const dialogo = useDialogo<HTMLDivElement>(() => { if (domandaRef.current) setDomanda(null); else onChiudi(); });
+  // quanti trofei ci sono, per la riga che li azzera
+  const [trofeiVinti, setTrofeiVinti] = useState<number | null>(null);
+  useEffect(() => {
+    let vivo = true;
+    const conta = (v: Record<string, string>) => vivo && setTrofeiVinti(TROFEI.filter((t) => v[t.id]).length);
+    deposito().then((d) => conta(d.vinti)).catch(() => {});
+    const smetti = ascoltaTrofei((d) => conta(d.vinti));
+    return () => { vivo = false; smetti(); };
+  }, []);
   const schedeRef = useRef<HTMLDivElement>(null);
   const [intero, setIntero] = useState<boolean | null>(null);
   // la finestra del desktop (null nel browser): dimensione, scala, area utile, aggiornamenti
@@ -99,20 +112,21 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
   const ripristina = () => {
     ripristinaOpzioni();
     if (finestra) { impostaSchermoIntero(true).catch(() => {}); cercaAggiornamenti(true).then(() => statoFinestra().then(setFinestra)).catch(() => {}); }
-    setRipristino(false);
+    setDomanda(null);
   };
+  const azzera = () => { azzeraTrofei().catch(() => {}); setDomanda(null); };
 
-  // la domanda del ripristino: S sì, N no
+  // la domanda in fondo: S sì, N no
   useEffect(() => {
-    if (!ripristino) return;
+    if (!domanda) return;
     const tasto = (e: KeyboardEvent) => {
       const k = e.key.toLowerCase();
-      if (k === "s") { e.preventDefault(); e.stopPropagation(); ripristina(); }
-      else if (k === "n") { e.preventDefault(); e.stopPropagation(); setRipristino(false); }
+      if (k === "s") { e.preventDefault(); e.stopPropagation(); if (domanda === "ripristino") ripristina(); else azzera(); }
+      else if (k === "n") { e.preventDefault(); e.stopPropagation(); setDomanda(null); }
     };
     window.addEventListener("keydown", tasto, true);
     return () => window.removeEventListener("keydown", tasto, true);
-  }, [ripristino]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [domanda]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const frecce = (e: React.KeyboardEvent) => {
     const i = SCHEDE.findIndex(([id]) => id === scheda), n = SCHEDE.length;
@@ -196,6 +210,18 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
               <section aria-label="Il gioco">
                 <h3 className="opz-sezione" style={stileSezione}>Il gioco</h3>
                 {riga("Comandi", "comandi", [["entrambi", "pulsanti e parole"], ["pulsanti", "solo pulsanti"], ["parole", "solo parole"]], SPIEGA_COMANDI[o.comandi])}
+                <div role="group" aria-label="Trofei" className="opz-riga" style={stileRiga}>
+                  <span className="opz-nome" style={stileNome}>Trofei</span>
+                  <span style={{ display: "flex", flexWrap: "wrap", gap: ".5em" }}>
+                    <button type="button" className="opz-bottone" disabled={!trofeiVinti} onClick={() => setDomanda("trofei")}
+                      style={{ ...stileBottone, padding: ".45em .9em", opacity: trofeiVinti ? 1 : 0.4, cursor: trofeiVinti ? "pointer" : "default" }}>azzera i trofei</button>
+                  </span>
+                  <span className="opz-spiega" style={stileSpiega}>
+                    {trofeiVinti === null ? "" : trofeiVinti
+                      ? `Ne hai vinti ${trofeiVinti} di ${TROFEI.length}. Azzerarli li rimette tutti da vincere; i salvataggi restano.`
+                      : "Nessun trofeo vinto, per ora."}
+                  </span>
+                </div>
               </section>
               {finestra && <section aria-label="All'avvio">
                 <h3 className="opz-sezione" style={stileSezione}>All'avvio</h3>
@@ -297,14 +323,17 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
         </div>
 
         <div style={{ marginTop: "1em", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1em", minHeight: "2.6em", flexShrink: 0 }}>
-          {ripristino ? (
+          {domanda ? (
             <span style={{ display: "flex", alignItems: "center", gap: ".8em", flexWrap: "wrap" }}>
-              <span style={{ fontFamily: SERIF, fontSize: ".98em", color: "#f4ece0" }}>Tutte le opzioni tornano come al primo avvio?</span>
-              <button type="button" className="opz-bottone" autoFocus style={{ ...stileBottone, background: accento, color: "#140c06", borderColor: accento }} onClick={ripristina}>sì <b>S</b></button>
-              <button type="button" className="opz-bottone" style={stileBottone} onClick={() => setRipristino(false)}>no <b>N</b></button>
+              <span style={{ fontFamily: SERIF, fontSize: ".98em", color: "#f4ece0" }}>
+                {domanda === "ripristino" ? "Tutte le opzioni tornano come al primo avvio?" : "Tutti i trofei tornano da vincere? I salvataggi restano."}
+              </span>
+              <button type="button" className="opz-bottone" autoFocus style={{ ...stileBottone, background: accento, color: "#140c06", borderColor: accento }}
+                onClick={domanda === "ripristino" ? ripristina : azzera}>sì <b>S</b></button>
+              <button type="button" className="opz-bottone" style={stileBottone} onClick={() => setDomanda(null)}>no <b>N</b></button>
             </span>
           ) : (
-            <button type="button" className="opz-bottone" style={stileBottone} onClick={() => setRipristino(true)}>ripristina le opzioni di base</button>
+            <button type="button" className="opz-bottone" style={stileBottone} onClick={() => setDomanda("ripristino")}>ripristina le opzioni di base</button>
           )}
           <button type="button" className="opz-bottone" style={stileBottone} onClick={onChiudi}>chiudi <b>Esc</b></button>
         </div>

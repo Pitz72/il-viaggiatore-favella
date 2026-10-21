@@ -14,6 +14,7 @@ import { analizza } from "./gioco/testo";
 import { tabella, partiDelBlocco, type Testi } from "./gioco/parti";
 import { canale, uscita, TARATURA, type Canale } from "./lib/suono";
 import { opzioni } from "./lib/opzioni";
+import { sfideNuove, trofeiDelTurno } from "./gioco/trofei";
 
 /** Il bus sonoro: ogni canale nasce al volume delle opzioni di chi gioca (lette, mai cambiate), e il contesto ha
  *  la sua uscita (volume generale e fusore). */
@@ -149,6 +150,17 @@ export async function autoverifica(scrivi: (riga: string) => void) {
     else nota("ok «mangia» solo mangia una porzione");
     if (!Array.isArray(s.azioni().soli)) { ok = false; nota("KO le azioni di contesto"); }
     if ((s.stato().undo ?? 0) < 1) { ok = false; nota("KO lo stato non dice quanti turni si possono annullare"); }
+
+    // i trofei (piano 09, §7): il ponte espone gli stati della storia, e le regole vere ci riconoscono un finale.
+    // Il deposito non si tocca: l'autoverifica non scrive niente.
+    const sm = s.stato();
+    if (sm.stati?.["stato di cosimo"] !== "fermo") { ok = false; nota(`KO il ponte non espone gli stati della storia: ${JSON.stringify(sm.stati ?? null).slice(0, 120)}`); }
+    else {
+      const t = trofeiDelTurno({ testo: "FINALE — Sei arrivato a casa con le mani vuote, e la casa se n'è accorta.", esito: "terminata",
+        counters: sm.counters, voci: sm.voci, gesti: sm.gesti, stati: { ...sm.stati, "stato di cosimo": "riconosciuto" }, sfide: sfideNuove("v-autoverifica") }, new Set());
+      if (!t.includes("le-mani-vuote") || !t.includes("mani-pulite")) { ok = false; nota(`KO le regole dei trofei: ${t.join(", ")}`); }
+      else nota(`ok trofei: ${Object.keys(sm.stati!).length} stati della storia esposti, un finale riconosciuto (${t.length} trofei)`);
+    }
 
     // salvataggio e ricaricamento: la partita ricostruita dev'essere identica
     s.step("annulla");   // disfa l'ultimo turno («mangia»)…

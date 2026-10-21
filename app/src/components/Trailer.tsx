@@ -29,6 +29,7 @@ import { durataLeggibile, nomeVisibile, piuRecente, type Salvataggio } from "../
 import { etichettaVersione } from "../lib/versione";
 import ComeSiGioca from "../gioco/ComeSiGioca";
 import PannelloOpzioni from "../gioco/Opzioni";
+import PaginaTrofei from "../gioco/PaginaTrofei";
 import { ascoltaOpzioni, opzioni, type Qualita } from "../lib/opzioni";
 import { useOpzioni } from "../lib/useOpzioni";
 import { scalaTesto } from "../lib/accessibilita";
@@ -255,6 +256,7 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
   const [ultimo, setUltimo] = useState<Salvataggio | null>(null);
   const [guida, setGuida] = useState(false);
   const [opzioniAperte, setOpzioniAperte] = useState(false);
+  const [trofeiAperti, setTrofeiAperti] = useState(false);
   const [domandaNuovo, setDomandaNuovo] = useState(false);
   const [opz] = useOpzioni();   // il testo grande fa crescere la colonna del menu e i pannelli
   const grana = useMemo(faiGrana, []);
@@ -552,12 +554,12 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
   // (tasto o clic) accende anche la musica: i browser non la lasciano partire da sola.
   useEffect(() => {
     const tasto = (e: KeyboardEvent) => {
-      if (taccuino || guida || opzioniAperte || domandaNuovo) return;   // i pannelli gestiscono Esc da sé
+      if (taccuino || guida || opzioniAperte || trofeiAperti || domandaNuovo) return;   // i pannelli gestiscono Esc da sé
       if (e.key === "Escape" && !finito) { e.preventDefault(); salta(); }
     };
     window.addEventListener("keydown", tasto);
     return () => window.removeEventListener("keydown", tasto);
-  }, [finito, salta, guida, taccuino, opzioniAperte, domandaNuovo]);
+  }, [finito, salta, guida, taccuino, opzioniAperte, trofeiAperti, domandaNuovo]);
 
   useEffect(() => {
     if (inDesktop()) return;
@@ -590,6 +592,7 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
     ...(ultimo ? [{ id: "continua", etichetta: "Continua il viaggio", dettaglio: dettaglioContinua(ultimo), principale: true, azione: () => onLaunch(ultimo) }] : []),
     { id: "nuovo", etichetta: ultimo ? "Nuovo viaggio" : "Inizia il viaggio", principale: !ultimo, azione: () => (ultimo ? setDomandaNuovo(true) : onLaunch(null)) },
     { id: "carica", etichetta: "Carica un viaggio", azione: () => setTaccuino(true) },
+    { id: "trofei", etichetta: "Trofei", azione: () => setTrofeiAperti(true) },
     { id: "opzioni", etichetta: "Opzioni", azione: () => setOpzioniAperte(true) },
     { id: "guida", etichetta: "Come si gioca", azione: () => setGuida(true) },
     { id: "rivedi", etichetta: "Rivedi il trailer", azione: rivedi },
@@ -709,7 +712,7 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
               <div style={{ position: "absolute", left: "50%", top: -190, width: 1760, height: 860, transform: "translateX(-50%)", background: "radial-gradient(50% 50% at 50% 50%, rgba(6,5,10,.86) 0%, rgba(6,5,10,.62) 52%, rgba(6,5,10,0) 100%)", pointerEvents: "none", zIndex: -1 }} />
               <p style={{ margin: 0, ...serif(36, { color: "rgba(244,236,224,.94)", fontStyle: "italic", textShadow: "0 1px 3px rgba(10,6,14,.85), 0 0 16px rgba(10,6,14,.7)" }) }}>Si parte a piedi.</p>
               <div style={{ marginTop: 30, fontSize: 19 * scalaTesto(opz) }}>
-                <VociMenu voci={vociMenu} etichetta="Menu d'avvio" accento="#f0b77e" coperto={guida || taccuino || opzioniAperte || domandaNuovo} />
+                <VociMenu voci={vociMenu} etichetta="Menu d'avvio" accento="#f0b77e" coperto={guida || taccuino || opzioniAperte || trofeiAperti || domandaNuovo} />
               </div>
             </section>
           )}
@@ -725,6 +728,7 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
           )}
           {guida && !compatto && <ComeSiGioca base={19} onChiudi={() => setGuida(false)} />}
           {opzioniAperte && !compatto && <PannelloOpzioni base={19} onChiudi={() => setOpzioniAperte(false)} />}
+          {trofeiAperti && !compatto && <PaginaTrofei base={19} onChiudi={() => setTrofeiAperti(false)} />}
           {domandaNuovo && !compatto && (
             <Domanda base={19} domanda="Cominciare un viaggio nuovo?"
               sotto="I salvataggi del taccuino restano. Il posto automatico si riscriverà al primo cambio di luogo."

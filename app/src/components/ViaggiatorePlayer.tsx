@@ -25,6 +25,11 @@
 //  file di pulsanti, menu delle cose e dosi; risposte, scorte e bisaccia si
 //  leggono soltanto). «opzioni», «pausa», «salva» e «carica» scritti nella riga
 //  aprono i pannelli dell'app: non arrivano al motore.
+//  I TROFEI (piano 09, §7): dopo ogni turno le regole (gioco/trofei.ts) guardano
+//  il testo e lo stato del mondo; un trofeo nuovo si scrive nel deposito
+//  (lib/trofei.ts) e compare in alto col suono flautato, mai sopra il finale:
+//  quelli dell'ultimo turno li mostra la schermata finale. Le sfide della
+//  partita (scritto, toccato, tornato indietro) viaggiano nei salvataggi.
 // ====================================================================
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { avviaGioco } from "../lib/favellaRuntime";
@@ -47,6 +52,11 @@ import PannelloOpzioni from "../gioco/Opzioni";
 import Pausa from "../gioco/Pausa";
 import { useOpzioni } from "../lib/useOpzioni";
 import { movimentoRidotto } from "../lib/accessibilita";
+import PaginaTrofei, { Medaglione } from "../gioco/PaginaTrofei";
+import { PER_ID, sfideCaricate, sfideNuove, trofeiDelTurno, type Sfide } from "../gioco/trofei";
+import { ascoltaTrofei, deposito, nuovoViaggio, piuLontano, segnaLontano, vinci } from "../lib/trofei";
+import { suonaTrofeo } from "../gioco/suonoTrofeo";
+import { DURATA_TROFEO } from "../gioco/Cartiglio";
 import "../gioco/gioco.css";
 
 const VUOTO: StatoMondo = { inventory: [], counters: {}, room: null, roomId: null };
@@ -56,8 +66,9 @@ const DIREZIONI: Record<string, string> = { nord: "↑", sud: "↓", est: "→",
 
 interface Voce { id: number; cmd?: string; blocchi: Blocco[] }
 type Menu = Cosa | null;
-/** `annullabile`: dopo la mossa il pulsante ↶ annulla potrà disfarla (non se il dialogo continua o la partita finisce) */
-type Richiesta = { cmd: string; etichetta: string; conferma: DatiConferma; annullabile: boolean } | null;
+/** `annullabile`: dopo la mossa il pulsante ↶ annulla potrà disfarla (non se il dialogo continua o la partita finisce);
+ *  `daRiga`: il comando è stato scritto, non toccato (per le sfide dei trofei) */
+type Richiesta = { cmd: string; etichetta: string; conferma: DatiConferma; annullabile: boolean; daRiga: boolean } | null;
 const SENZA_AZIONI: AzioniContesto = { soli: [], bersagli: [] };
 
 const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; carica?: Salvataggio | null }) => {
@@ -105,6 +116,17 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
   const [cartiglio, setCartiglio] = useState<DatiCartiglio | null>(null);
   const avvisa = (testo: string, grave = false) => setCartiglio((c) => ({ n: (c?.n ?? 0) + 1, testo, grave }));
   const [rapidoDaCaricare, setRapidoDaCaricare] = useState<Salvataggio | null>(null);
+  // i trofei: quelli già vinti (dal deposito), le sfide di questa partita, quelli vinti in questo viaggio
+  // (per la schermata finale), la fila degli avvisi, la pagina
+  const vinti = useRef<Set<string>>(new Set());
+  useEffect(() => {
+    deposito().then((d) => { vinti.current = new Set(Object.keys(d.vinti)); });
+    return ascoltaTrofei((d) => { vinti.current = new Set(Object.keys(d.vinti)); });
+  }, []);
+  const sfide = useRef<Sfide>(sfideNuove(nuovoViaggio()));
+  const [trofeiViaggio, setTrofeiViaggio] = useState<string[]>([]);
+  const [codaTrofei, setCodaTrofei] = useState<string[]>([]);
+  const [paginaTrofei, setPaginaTrofei] = useState(false);
   // il tempo di gioco: corre solo con la partita in corso, la pausa chiusa e la finestra in primo piano
   const tempo = useRef(0);
   const conta = useRef(false);
@@ -224,7 +246,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     el.focus();
     fuocoDaCodice.current = false;
   };
-  useEffect(() => { if (fase === "gioca" && !finita && !guida && !taccuino && !richiesta && !pannelloOpzioni && !pausa && !rapidoDaCaricare) rimettiFuoco(); }, [fase, finita, guida, taccuino, voci, richiesta, pannelloOpzioni, pausa, rapidoDaCaricare, opz.comandi]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (fase === "gioca" && !finita && !guida && !taccuino && !richiesta && !pannelloOpzioni && !pausa && !rapidoDaCaricare && !paginaTrofei) rimettiFuoco(); }, [fase, finita, guida, taccuino, voci, richiesta, pannelloOpzioni, pausa, rapidoDaCaricare, paginaTrofei, opz.comandi]); // eslint-disable-line react-hooks/exhaustive-deps
   // i verbi che qui e adesso hanno un effetto (attingi, curati, attacca…) cambiano a ogni turno
   useEffect(() => {
     if (fase === "gioca" && sessione.current && !finita) setAzioniCtx(sessione.current.azioni());
@@ -232,7 +254,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
   useEffect(() => {
     const el = diarioRef.current;
     if (el) requestAnimationFrame(() => el.scrollTo({ top: el.scrollHeight, behavior: movimentoRidotto() ? "auto" : "smooth" }));
-  }, [voci, finita]);
+  }, [voci, finita, trofeiViaggio.length]);
 
   // ── un turno ───────────────────────────────────────────────────────
   const applica = (etichetta: string, e: TurnoEsito) => {
@@ -243,14 +265,42 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     if (nuovi.length) setIncontrati((p) => Array.from(new Set([...p, ...nuovi])));
     const fin = blocchi.find((b) => b.tipo === "finale");
     if (fin && fin.tipo === "finale") setFinale(fin.testo);
+    const fine = !e.continua || e.stato !== "in_corso";
     if (sessione.current) {
       const dopo = sessione.current.stato();
       if (dopo.roomId !== mondo.roomId) setCamminaDa(performance.now());
       setMondo(dopo);
+      controllaTrofei(e, dopo, fine);
     }
     if (!e.continua && e.stato === "in_corso") { esci(); return; }   // «esci», «sì»: si torna all'intro
-    if (!e.continua || e.stato !== "in_corso") { setFinita(true); setEsito(e.stato); }
+    if (fine) { setFinita(true); setEsito(e.stato); }
   };
+
+  /** Le regole dei trofei dopo un turno. I nuovi si scrivono nel deposito; l'avviso compare solo se la partita
+   *  continua (mai sopra il finale), e la schermata finale li elenca tutti. */
+  const controllaTrofei = (e: TurnoEsito, dopo: StatoMondo, fine: boolean) => {
+    const nuovi = trofeiDelTurno({ testo: e.text, esito: e.stato, counters: dopo.counters, voci: dopo.voci, gesti: dopo.gesti,
+      stati: dopo.stati, sfide: sfide.current }, vinti.current);
+    if (!nuovi.length) return;
+    for (const id of nuovi) vinti.current.add(id);
+    vinci(nuovi).then((davvero) => {
+      if (!davvero.length) return;
+      annota("info", `trofei: ${davvero.join(", ")}`);
+      setTrofeiViaggio((v) => [...v, ...davvero]);
+      if (!fine) setCodaTrofei((c) => [...c, ...davvero]);
+    }).catch((err) => annota("warn", `trofei non scritti: ${err?.message ?? err}`));
+  };
+
+  // gli avvisi dei trofei, uno alla volta, ciascuno col suo suono; a viaggio finito la fila si svuota
+  useEffect(() => {
+    const id = codaTrofei[0];
+    if (!id) return;
+    if (finita) { setCodaTrofei([]); return; }
+    setCartiglio((c) => ({ n: (c?.n ?? 0) + 1, testo: PER_ID.get(id)?.nome ?? id, trofeo: true }));
+    suonaTrofeo();
+    const t = setTimeout(() => setCodaTrofei((c) => c.slice(1)), DURATA_TROFEO + 300);
+    return () => clearTimeout(t);
+  }, [codaTrofei[0], finita]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── un comando: dalla tastiera o da un pulsante, è lo stesso ─────────
   const chiudiPannelli = () => { setMenu(null); setPannello(null); setUsaDa(null); };
@@ -262,8 +312,12 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     return cmd;
   };
 
-  const esegui = (cmd: string, etichetta?: string) => {
+  const esegui = (cmd: string, etichetta?: string, daRiga = false) => {
     if (finita || !sessione.current) return;
+    // le sfide: ANNULLA (che disfa davvero qualcosa) è tornare indietro; ogni altro comando è scritto o toccato
+    const annullo = !mondo.dialog && /^(annulla|disfa)$/i.test(cmd) && (mondo.undo ?? 0) > 0;
+    sfide.current = annullo ? { ...sfide.current, indietro: true }
+      : daRiga ? { ...sfide.current, scritto: true } : { ...sfide.current, toccato: true };
     setBozza(""); chiudiPannelli();
     setNonSalvati((n) => n + 1);
     storia.current = [...storia.current.filter((x) => x !== cmd), cmd].slice(-60);
@@ -273,7 +327,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
 
   /** Prima di una scelta che costa il motore dice cosa farebbe (senza farlo): se si
    *  perde qualcosa, si chiede conferma. Tutto il resto parte subito. */
-  const manda = (grezzo: string, etichetta?: string) => {
+  const manda = (grezzo: string, etichetta?: string, daRiga = false) => {
     const cmd = grezzo.trim();
     if (!cmd || finita || !sessione.current || richiesta) return;
     voce.ferma();   // anche un comando dato col mouse zittisce la voce: non parli sopra una scelta nuova
@@ -283,25 +337,26 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
       if (c) {
         setBozza(""); chiudiPannelli();
         // ANNULLA disfa un turno intero: dentro un dialogo che continua, o a partita chiusa, il pulsante non c'è
-        setRichiesta({ cmd, etichetta: etichettaDi(cmd, etichetta), conferma: c, annullabile: !antep.dialogo && antep.esito === "in_corso" });
+        setRichiesta({ cmd, etichetta: etichettaDi(cmd, etichetta), conferma: c, annullabile: !antep.dialogo && antep.esito === "in_corso", daRiga });
         return;
       }
     }
-    esegui(cmd, etichetta);
+    esegui(cmd, etichetta, daRiga);
   };
-  const confermaSi = () => { const r = richiesta; setRichiesta(null); if (r) esegui(r.cmd, r.etichetta); };
+  const confermaSi = () => { const r = richiesta; setRichiesta(null); if (r) esegui(r.cmd, r.etichetta, r.daRiga); };
   const confermaNo = () => { setRichiesta(null); rimettiFuoco(); };
 
-  /** Ciò che si scrive nella riga. Quattro parole sono dell'app, non del motore (che non le usa): aprono i
-   *  pannelli e non diventano un turno. Il resto è un comando. */
+  /** Ciò che si scrive nella riga. Cinque parole sono dell'app, non del motore (che non le usa): aprono i
+   *  pannelli e non diventano un turno. Il resto è un comando, scritto (per le sfide dei trofei). */
   const scritto = (grezzo: string) => {
     const parola = grezzo.trim().toLowerCase();
     const apri = parola === "opzioni" ? () => setPannelloOpzioni(true)
       : parola === "pausa" ? () => setPausa(true)
       : parola === "salva" ? () => setTaccuino("salva")
       : parola === "carica" ? () => setTaccuino("carica")
+      : parola === "trofei" ? () => setPaginaTrofei(true)
       : null;
-    if (!apri) { manda(grezzo); return; }
+    if (!apri) { manda(grezzo, undefined, true); return; }
     voce.ferma();
     setBozza(""); chiudiPannelli();
     iStoria.current = -1;
@@ -336,6 +391,8 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     setCamminaDa(performance.now());
     setNonSalvati(0);
     tempo.current = 0;
+    sfide.current = sfideNuove(nuovoViaggio());
+    setTrofeiViaggio([]); setCodaTrofei([]);
   };
 
   // ── salvare e caricare ─────────────────────────────────────────────
@@ -355,8 +412,9 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     const partita = s.salva();
     const dati = componi(posto, partita, riassunto(s.stato()), {
       voci: voci.map(({ cmd, blocchi }) => ({ cmd, blocchi })), incontrati, storia: storia.current,
-    }, { nome, miniatura: miniatura(), tempoMs: tempo.current });
+    }, { nome, miniatura: miniatura(), tempoMs: tempo.current, sfide: sfide.current });
     await scrivi(posto, dati);
+    segnaLontano(sfide.current.id, partita.comandi.length).catch(() => {});
     if (genere(posto) !== "automatico") setNonSalvati(0);
   };
   const salvaAutomatico = () => postoAutomatico().then((p) => salvaIn(p));
@@ -386,6 +444,10 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     const s = sessione.current;
     if (!s) return;
     const t0 = performance.now();
+    // dov'era arrivato il viaggio di adesso, prima di lasciarlo: se si ricarica un suo punto più indietro, è tornare indietro
+    const qui = s.salva().comandi.length;
+    const viaggioDiPrima = sfide.current.id;
+    if (qui > 0) segnaLontano(viaggioDiPrima, qui).catch(() => {});
     const esito = s.carica(dati.partita);
     if (!esito.ok) {
       annota("error", `caricamento fallito (${dati.posto}): ${esito.errore}`);
@@ -419,6 +481,9 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     setCamminaDa(performance.now());
     setNonSalvati(0);
     tempo.current = dati.tempoMs ?? 0;
+    sfide.current = sfideCaricate(dati.sfide, dati.partita.comandi.length,
+      (v) => Math.max(piuLontano(v), v === viaggioDiPrima ? qui : 0), nuovoViaggio());
+    setTrofeiViaggio([]); setCodaTrofei([]);
     setPausa(false);
   }
 
@@ -436,7 +501,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
   };
   useEffect(() => {
     const tasto = (e: KeyboardEvent) => {
-      if (fase !== "gioca" || guida || taccuino || pannelloOpzioni || richiesta || rapidoDaCaricare) return;
+      if (fase !== "gioca" || guida || taccuino || pannelloOpzioni || richiesta || rapidoDaCaricare || paginaTrofei) return;
       if (e.key === "F5") { e.preventDefault(); salvaRapido(); }
       else if (e.key === "F9") { e.preventDefault(); caricaRapido(); }
       // Ctrl+Z fuori da un campo di testo (nella riga lo prende la riga stessa, solo se è vuota)
@@ -451,7 +516,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
   useEffect(() => {
     const tasto = (e: KeyboardEvent) => {
       if (e.key !== "Escape" || e.defaultPrevented) return;
-      if (fase !== "gioca" || pausa || guida || taccuino || richiesta || pannelloOpzioni || rapidoDaCaricare) return;
+      if (fase !== "gioca" || pausa || guida || taccuino || richiesta || pannelloOpzioni || rapidoDaCaricare || paginaTrofei) return;
       if (menu || pannello || usaDa) { chiudiPannelli(); return; }
       if (zittita.current) { zittita.current = false; return; }
       if (bozza.trim() && document.activeElement === inputRef.current) return;
@@ -664,9 +729,22 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
                 <section className="vg-finale">
                   <p className="vg-sopratitolo">{esito === "vinta" ? "finale" : "fine"}</p>
                   <p className="vg-finale-testo">{finale || (esito === "vinta" ? "Sei arrivato." : "Il viaggio finisce qui.")}</p>
+                  {trofeiViaggio.length > 0 && (
+                    <div className="vg-finale-trofei" role="group" aria-label="I trofei di questo viaggio">
+                      <p className="vg-sopratitolo">i trofei di questo viaggio</p>
+                      <ul>
+                        {trofeiViaggio.map((id) => {
+                          const t = PER_ID.get(id);
+                          // compatti, perché il testo del finale resti in vista: la frase al passaggio del mouse e nella pagina
+                          return t ? <li key={id} title={t.frase} aria-label={`${t.nome}: ${t.frase}`}><Medaglione famiglia={t.famiglia} vinto accento={accento} />{t.nome}</li> : null;
+                        })}
+                      </ul>
+                    </div>
+                  )}
                   <div className="vg-finale-azioni">
                     <button className="vg-bottone vg-pieno" onClick={ricomincia}>↺ riparti dalla stazione</button>
                     <button className="vg-bottone" onClick={() => setTaccuino("carica")}>carica una partita</button>
+                    <button className="vg-bottone" onClick={() => setPaginaTrofei(true)}>trofei</button>
                     <button className="vg-bottone" onClick={onExit}>← intro</button>
                     {inDesktop() && <button className="vg-bottone" onClick={esciDalGioco}>✕ esci</button>}
                   </div>
@@ -867,7 +945,8 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
         </div>
       )}
       {pausa && (
-        <Pausa accento={accento} coperta={pannelloOpzioni || guida || !!taccuino} puoSalvare={!finita}
+        <Pausa accento={accento} coperta={pannelloOpzioni || guida || !!taccuino || paginaTrofei} puoSalvare={!finita}
+          onTrofei={() => setPaginaTrofei(true)}
           onRiprendi={() => setPausa(false)}
           onSalva={() => setTaccuino("salva")}
           onCarica={() => setTaccuino("carica")}
@@ -897,7 +976,9 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
           onSi={() => { const d = rapidoDaCaricare; setRapidoDaCaricare(null); riprendi(d); }}
           onNo={() => setRapidoDaCaricare(null)} />
       )}
-      <Cartiglio dati={cartiglio} accento={accento} />
+      {paginaTrofei && <PaginaTrofei base={13} accento={accento} onChiudi={() => { setPaginaTrofei(false); if (!pausa && !finita) rimettiFuoco(); }} />}
+      {/* a viaggio finito un trofeo non sta sopra il finale */}
+      <Cartiglio dati={finita && cartiglio?.trofeo ? null : cartiglio} accento={accento} />
       {richiesta && (
         <Conferma conferma={richiesta.conferma} etichetta={richiesta.etichetta} puoAnnullare={richiesta.annullabile}
           onSi={confermaSi} onNo={confermaNo} />

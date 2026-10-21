@@ -11,6 +11,8 @@
 //      MINIATURA del paesaggio (JPEG) e il TEMPO di gioco. Un file di prima si
 //      apre senza; una versione di prima apre un file nuovo e li ignora: il
 //      formato resta 1.
+//    - dalla 1.30, facoltative: le SFIDE della partita (gioco/trofei.ts, Sfide):
+//      da dove sono venuti i comandi e se si è tornati indietro.
 //
 //  I posti (lib/posti.ts): salvataggi con nome quanti se ne vuole, il rapido,
 //  tre automatici a rotazione, e quelli fino alla 1.25 letti come gli altri.
@@ -20,6 +22,7 @@
 // ====================================================================
 import type { Blocco } from "../gioco/testo";
 import type { PartitaSalvata } from "./favellaRuntime";
+import type { Sfide } from "../gioco/trofei";
 import { VERSIONE } from "./versione";
 import { AUTOMATICI, nomeDi, postoValido, prossimoAutomatico, pulisciNome, type Posto } from "./posti";
 
@@ -52,6 +55,8 @@ export interface Salvataggio {
   miniatura?: string;
   /** il tempo di gioco della partita, in millisecondi */
   tempoMs?: number;
+  /** le sfide della partita (dalla 1.30); chi lo legge le ripulisce con pulisciSfide */
+  sfide?: Sfide;
   riassunto: Riassunto;
   partita: PartitaSalvata;
   diario: { voci: VoceSalvata[]; incontrati: string[]; storia: string[] };
@@ -116,9 +121,11 @@ export function valida(grezzo: unknown): Salvataggio {
   const nome = pulisciNome(s.nome);
   const miniatura = typeof s.miniatura === "string" && s.miniatura.startsWith("data:image/jpeg;base64,") && s.miniatura.length < LIMITE_MINIATURA ? s.miniatura : undefined;
   const tempoMs = typeof s.tempoMs === "number" && Number.isFinite(s.tempoMs) && s.tempoMs >= 0 ? Math.round(s.tempoMs) : undefined;
-  const { nome: _n, miniatura: _m, tempoMs: _t, ...resto } = s;
+  const { nome: _n, miniatura: _m, tempoMs: _t, sfide: _s, ...resto } = s;
+  const sfide = s.sfide && typeof s.sfide === "object" ? s.sfide : undefined;
   return {
     ...resto,
+    ...(sfide ? { sfide } : {}),
     ...(nome ? { nome } : {}),
     ...(miniatura ? { miniatura } : {}),
     ...(tempoMs !== undefined ? { tempoMs } : {}),
@@ -279,7 +286,7 @@ export async function postoAutomatico(): Promise<Posto> {
 
 // ── composizione di un salvataggio ──────────────────────────────────────────
 export function componi(posto: Posto, partita: PartitaSalvata, riassunto: Riassunto,
-  diario: Salvataggio["diario"], extra: { nome?: string; miniatura?: string; tempoMs?: number } = {}): Salvataggio {
+  diario: Salvataggio["diario"], extra: { nome?: string; miniatura?: string; tempoMs?: number; sfide?: Sfide } = {}): Salvataggio {
   const nome = pulisciNome(extra.nome);
   return {
     formato: FORMATO,
@@ -292,6 +299,7 @@ export function componi(posto: Posto, partita: PartitaSalvata, riassunto: Riassu
     ...(nome ? { nome } : {}),
     ...(extra.miniatura ? { miniatura: extra.miniatura } : {}),
     ...(extra.tempoMs !== undefined ? { tempoMs: Math.round(extra.tempoMs) } : {}),
+    ...(extra.sfide ? { sfide: { ...extra.sfide } } : {}),
     riassunto,
     partita,
     diario: { ...diario, voci: diario.voci.slice(-VOCI_NEL_FILE) },
