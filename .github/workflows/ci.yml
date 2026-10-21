@@ -68,7 +68,7 @@ jobs:
       - name: Le partite giocate a mano
         working-directory: collaudo
         run: python giocate.py
-      - name: Le scelte che chiedono conferma, il testo del motore, le opzioni
+      - name: Le scelte che chiedono conferma, il testo del motore, le opzioni, la sequenza finale
         run: |
           npm ci --prefix app
           python collaudo/conferme.py
@@ -76,6 +76,7 @@ jobs:
           node app/scripts/opzioni-node.mjs
           node app/scripts/posti-node.mjs
           node app/scripts/trofei-prove.mjs
+          node app/scripts/finale-node.mjs
       - name: I finali giocati solo con i pulsanti
         run: python collaudo/pulsanti.py
       - name: I trofei (le partite di collaudo e le regole vere)
