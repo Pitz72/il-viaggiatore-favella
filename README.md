@@ -285,11 +285,17 @@ salva e ricarica, e prova la voce (una parte per ogni voce, la traccia del trail
 
 - **Codice** (app, desktop, collaudo, script): [MIT](LICENSE).
 - **Motore FAVELLA 1** (`motore/`): MIT, © Simone (Pitz72), [motore/LICENSE](motore/LICENSE).
-- **Storia, testi, colonna sonora, voci del doppiaggio, icona e grafica**: [CC BY-SA 4.0](LICENSE-CONTENUTI.md), tranne
-  le voci di Imma, Rosaria, Tore e Vito (qui sotto).
+- **Storia, testi, musica dell'intro, voci del doppiaggio, icona e grafica** (comprese le immagini promozionali di
+  `grafica/branding/`): [CC BY-SA 4.0](LICENSE-CONTENUTI.md), tranne le musiche di The Runtimers e le voci di Imma, Rosaria,
+  Tore e Vito (qui sotto).
+- **Le musiche delle zone e la canzone dei titoli di coda** (`app/public/musica/`, `app/public/colonna-sonora/`): di
+  The Runtimers, generate con Lyria 3.5 di Google, **escluse dalla licenza libera**; per il loro uso valgono i termini di
+  Google per i contenuti generati con Lyria. Si ridistribuiscono come parte del gioco.
 - **Le voci di Imma, Rosaria, Tore e Vito** (`app/public/voce/elevenlabs/`): fatte con [ElevenLabs](https://elevenlabs.io)
   sul piano gratuito, **escluse dalla licenza libera** e **solo per uso non commerciale**; chi fa un'opera derivata o un
   uso commerciale del gioco deve toglierle o sostituirle.
+- **I marchi** di Runtime Multimedia e di FAVELLA 1 (i loghi d'apertura, le immagini promozionali) restano dei
+  rispettivi titolari.
 
 ### Le voci
 
@@ -303,7 +309,7 @@ Il doppiaggio è fatto con la sintesi vocale, a partire dai testi del gioco:
 | Imma, Rosaria, Tore, Vito | ElevenLabs Eleven v4 · elevenlabs.io | Victoria, Valeria, Criss, Luigi: generate sul piano gratuito, distribuite **fuori dalla licenza libera, solo per uso non commerciale** (scelta dell'autore, che ne accetta il rischio) |
 
 Google non rivendica la proprietà dell'audio generato, che però non è esclusivo; ogni clip porta la filigrana SynthID,
-che non si sente. Le stesse indicazioni sono nel gioco, nel cartello delle licenze e dei crediti che segue i loghi.
+che non si sente. Le stesse indicazioni sono nel gioco, nei titoli di coda (anche da Extra → Titoli di coda).
 Chi è stato generato come, e quando, sta in `doppiaggio/voci-scelte.md`; il progetto del doppiaggio in
 [`pre-produzione/08-doppiaggio-tts.md`](pre-produzione/08-doppiaggio-tts.md).
 
