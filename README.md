@@ -11,7 +11,7 @@
 <p align="center">
   <a href="https://pitz72.github.io/il-viaggiatore-favella/"><b>▶ GIOCA ORA NEL BROWSER</b></a>
   &nbsp;·&nbsp;
-  <a href="https://github.com/Pitz72/il-viaggiatore-favella/releases/latest">scarica per Windows e Linux</a>
+  <a href="https://github.com/Pitz72/il-viaggiatore-favella/releases/latest">scarica la versione desktop per Windows e Linux</a>
 </p>
 
 <p align="center">
@@ -27,7 +27,7 @@ senza firma, dice soltanto: «Non è il caso di tornare.» Torni lo stesso.
 **7 zone · 39 luoghi · 14 personaggi · 6 finali.** Si gioca scrivendo in italiano
 (`bevi`, `parla con Rosaria`, `usa la lettera su Cosimo`), o toccando le uscite, le
 cose e le risposte. La sete è la spina dorsale, l'acqua è la moneta, le scelte pesano.
-Il gioco si apre con i loghi animati (e sonori) di Runtime Multimedia e di FAVELLA 1, il cartello delle licenze e dei crediti, un avviso e un trailer di 88 secondi con la sua colonna sonora originale.
+Il gioco si apre con i loghi animati (e sonori) di Runtime Multimedia e di FAVELLA 1, un avviso e un trailer di 88 secondi con la sua colonna sonora originale.
 **Il racconto ha una voce:** è doppiato per intero con la sintesi vocale (il narratore, i personaggi, i suggerimenti e il
 trailer, circa un'ora di parlato); si ascolta con la *voce recitata*, oppure si lascia leggere al proprio lettore di schermo.
 
@@ -46,6 +46,12 @@ trailer, circa un'ora di parlato); si ascolta con la *voce recitata*, oppure si 
 > automatico continuano a funzionare finché le release restano su GitHub.
 
 ## Scaricare e giocare
+
+**La versione web è definitiva così com'è** (la 1.23.0, nel browser qui sotto e su [favella.eu](https://favella.eu)): la
+storia intera, doppiata, col suo trailer. **La versione desktop, per Windows e Linux, è la più completa** e ha dei plus
+suoi: le opzioni a schede (volumi, accessibilità, finestra e qualità della grafica), la pausa, i salvataggi con nome e
+quelli rapidi (F5/F9), i trenta trofei, la musica di ogni zona e la colonna sonora da scaricare, la sequenza finale con i
+titoli di coda e la sua canzone.
 
 **Subito, senza scaricare niente:** [gioca nel browser](https://pitz72.github.io/il-viaggiatore-favella/)
 (Chrome, Edge, Firefox; le partite salvate restano nel tuo browser). Oppure scarica la versione desktop.
@@ -175,7 +181,7 @@ di GitHub per i pacchetti.
 | `desktop/` | il guscio Electron per Windows e Linux |
 | `collaudo/` | i quattordici collaudi automatici: i nove finali, le prove mirate, i salvataggi, le scorte, il ponte dell'interfaccia, i fili del viaggio, le giocate, il testo, le conferme, i pulsanti, la voce del doppiaggio, i trofei, la musica, l'esploratore |
 | `pre-produzione/` | i documenti di progetto: visione, sistemi, mappa, oggetti, personaggi, ramificazione |
-| `grafica/` | l'icona (SVG), il banner del README e gli script che rasterizzano l'icona |
+| `grafica/` | l'icona (SVG), il banner del README e gli script che rasterizzano l'icona; in `grafica/branding/` le immagini promozionali (16:9, 21:9, 4:3, quadrata, locandina, anteprima di GitHub), vedi il suo `LEGGIMI.md` |
 | `sviluppo/` | le regole delle versioni e il diario di sviluppo |
 | `strumenti/` | gli strumenti delle versioni, del diario, della mappa narrativa, del trailer e del doppiaggio ([elenco](strumenti/LEGGIMI.md)) |
 
@@ -219,6 +225,9 @@ python strumenti/doppiaggio-trailer.py        # la traccia della voce del traile
 python strumenti/colonna-sonora.py album <cartella>   # titoli, numeri, album, autore, copertina
 python strumenti/colonna-sonora.py anelli             # le versioni per il gioco, coi punti di ripetizione
 python strumenti/colonna-sonora.py finale             # la canzone dei titoli di coda per la sequenza finale
+
+# le immagini promozionali (col server di sviluppo acceso: npm run dev --prefix app)
+desktop/node_modules/.bin/electron strumenti/locandine.cjs   # tutti i formati in grafica/branding/
 ```
 
 `npm run dev` e `npm run build` copiano motore, avventura e Pyodide dentro

@@ -9,6 +9,7 @@ Questo indice si rigenera da sé (`node strumenti/diario.mjs indice`).
 
 | Data | Tipo | Versione | Voce |
 |---|---|---|---|
+| 2026-10-21 | sessione | 1.34.0 | [Le immagini promozionali](diario/2026-10-21-le-immagini-promozionali.md) — Una key art nuova, dipinta col pennello del trailer e impaginata per sei formati (16:9, 21:9, 4:3, quadrata, locandina |
 | 2026-10-21 | sessione | 1.33.0 | [La canzone dei titoli di coda](diario/2026-10-21-la-canzone-dei-titoli-di-coda.md) — La canzone della sequenza finale è arrivata: si chiama «La mano sa ancora la forma», è l'ottavo brano dell'album e |
 | 2026-10-21 | sessione | 1.32.0 | [La sequenza finale, i titoli di coda e la canzone](diario/2026-10-21-la-sequenza-finale-i-titoli-di-coda-e-la-canzone.md) — Dopo i sei finali della storia il gioco ha una chiusura di un minuto e mezzo (tramonto su Acquamorta, la frase, la |
 | 2026-10-21 | decisione | 1.31.0 | [Il menu d'avvio più corto: Extra raccoglie trailer, colonna sonora e siti](diario/2026-10-21-il-menu-d-avvio-piu-corto-extra-raccoglie-trailer-colonna-so.md) — Con la voce «Extra» il menu d'avvio era arrivato a nove voci e «Esci» toccava il bordo dello schermo: «Rivedi il |

@@ -8,6 +8,20 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+### Aggiunto
+- **Le immagini promozionali** in `grafica/branding/`: una key art nuova, dipinta col pennello del trailer (il guado di
+  Acquamorta al tramonto, il sole tagliato dal campanile, i due fratelli di controluce), col titolo, l'autore, la frase
+  del biglietto scritta a mano e i marchi di Runtime Multimedia e di FAVELLA 1, in sei formati: 16:9 (3840 × 2160),
+  21:9 (5040 × 2160), 4:3 (2880 × 2160), quadrata (2160 × 2160), locandina 27 × 40 (2700 × 4000) e l'anteprima social
+  di GitHub (1280 × 640). Si rifanno con `strumenti/locandine.cjs`.
+
+### Cambiato
+- **La copertina del README** è la key art nuova (dal 21:9).
+- **Il README dice che la versione web è definitiva** (la 1.23.0, nel browser e su favella.eu) e che **la versione
+  desktop è la più completa**, con i suoi plus (opzioni, pausa, salvataggi da app, trofei, musiche e colonna sonora,
+  sequenza finale); tolto il «cartello delle licenze e dei crediti» dall'elenco dell'apertura (è nei titoli di coda
+  dalla 1.33.0).
+
 ## [1.34.0] - 2026-10-21
 
 ### Aggiunto
