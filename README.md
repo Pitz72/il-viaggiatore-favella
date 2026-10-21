@@ -61,8 +61,8 @@ Dalla pagina [Releases](https://github.com/Pitz72/il-viaggiatore-favella/release
 
 Il gioco parte a schermo intero e funziona senza connessione. **Esc** salta i
 loghi e il trailer (e chiude il cartello dei crediti e l'avviso, come Invio). Il **menu d'avvio** è una colonna di voci
-(continua, nuovo viaggio, carica, opzioni, come si gioca, rivedi il trailer, esci) che si sceglie con le frecce e Invio o
-col mouse. In partita **Esc** apre la **pausa** (riprendi, salva, carica, opzioni, come si gioca, menu d'avvio, esci),
+(continua, nuovo viaggio, carica, trofei, opzioni, come si gioca, rivedi il trailer, esci) che si sceglie con le frecce e Invio o
+col mouse. In partita **Esc** apre la **pausa** (riprendi, salva, carica, trofei, opzioni, come si gioca, menu d'avvio, esci),
 **F11** commuta lo schermo intero, **F5** salva al volo e **F9** ricarica quel salvataggio rapido; Alt+F4 chiude. Gli eseguibili non sono firmati:
 Windows SmartScreen può chiedere una conferma.
 
@@ -77,7 +77,7 @@ italiano nella riga, oppure si toccano uscite, cose, persone e azioni, e le due 
 pulsanti*: la riga sparisce, e da tastiera Tab passa da un pulsante all'altro. *Solo parole*: l'avventura testuale pura,
 ogni comando si scrive (anche il numero di una risposta), e scorte e bisaccia si leggono soltanto. In tutti e tre restano
 la conferma delle scelte che costano, Ctrl+Z per tornare indietro di una mossa e i tasti del gioco. Scritte nella riga, «opzioni», «pausa»,
-«salva» e «carica» aprono i loro pannelli; la guida «Come si gioca» parla del modo scelto.
+«salva», «carica» e «trofei» aprono i loro pannelli; la guida «Come si gioca» parla del modo scelto.
 
 **Le opzioni.** Il modo dei comandi; schermo intero o finestra, ricordati da un lancio all'altro, e la dimensione della finestra; la qualità
 della grafica (automatica, alta, media, bassa); i volumi (generale, musica, voce, effetti), che cambiano dal vivo; stereo
@@ -87,6 +87,14 @@ subito e restano; «ripristina le opzioni di base» torna alle scelte del primo 
 **L'accessibilità.** Un interruttore, *alta accessibilità*, accende insieme contrasto alto, testo grande, il carattere
 Atkinson Hyperlegible, il movimento ridotto e il fuoco della tastiera marcato; poi si regolano una per una. Il movimento
 ridotto ferma la partita e i menu, non loghi e trailer (Esc li salta).
+
+**I trofei.** Trenta, in sei famiglie: i sei finali, le tre fini lungo la strada, i dieci gesti verso chi incontri, sei
+modi di arrivare, tre sfide (arrivare a un finale senza mai tornare indietro, scrivendo ogni comando, coi soli pulsanti) e
+la collezione. Finché non lo vinci, un trofeo ha il nome coperto e un accenno che dice dove guardare, non che cosa fare.
+Quando lo vinci compare in alto, per quattro secondi, con un suono lievissimo (sul volume degli effetti); mai sopra il
+finale: quelli dell'ultimo turno li elenca la schermata finale. Si vincono una volta sola e restano anche ricominciando;
+la pagina dei trofei (dal menu, dalla pausa, dal finale) li mostra con la data, e nelle opzioni si possono azzerare
+senza toccare i salvataggi. Stanno in *Documenti/Il Viaggiatore/trofei.json*, accanto ai salvataggi.
 
 **Salvataggi.** Il taccuino (dalla testata, dalla pausa o dal menu) tiene quanti salvataggi si vuole, ciascuno col suo
 nome, una miniatura del paesaggio, il luogo, il tempo di gioco, il corpo e le scorte; si caricano, si riscrivono, si
@@ -151,7 +159,7 @@ di GitHub per i pacchetti.
 | `app/` | l'app React: loghi animati, licenze e crediti, avviso, trailer (canvas procedurale + colonna sonora + voce), gioco, guida «come si gioca»; in `app/public/voce/` la voce del doppiaggio, un file Opus per parte |
 | `doppiaggio/` | il doppiaggio: i testi per le voci ricavati dai `.fav`, il manifest delle parti, le voci scelte, il resoconto del banco; vedi `doppiaggio/LEGGIMI.md` |
 | `desktop/` | il guscio Electron per Windows e Linux |
-| `collaudo/` | i dodici collaudi automatici: i nove finali, le prove mirate, i salvataggi, le scorte, il ponte dell'interfaccia, i fili del viaggio, le giocate, il testo, le conferme, i pulsanti, la voce del doppiaggio, l'esploratore |
+| `collaudo/` | i tredici collaudi automatici: i nove finali, le prove mirate, i salvataggi, le scorte, il ponte dell'interfaccia, i fili del viaggio, le giocate, il testo, le conferme, i pulsanti, la voce del doppiaggio, i trofei, l'esploratore |
 | `pre-produzione/` | i documenti di progetto: visione, sistemi, mappa, oggetti, personaggi, ramificazione |
 | `grafica/` | l'icona (SVG), il banner del README e gli script che rasterizzano l'icona |
 | `sviluppo/` | le regole delle versioni e il diario di sviluppo |
@@ -212,11 +220,12 @@ python testo.py         # il testo del motore e della storia come lo distingue l
 python conferme.py      # quali scelte chiedono conferma
 python pulsanti.py      # i sei finali giocati senza tastiera, coi soli pulsanti
 python doppiaggio.py    # ogni testo che il gioco dice ha la sua voce, e il trailer la sua traccia
+python trofei.py        # ogni partita vince i suoi trofei, al momento giusto; tutti e trenta si possono vincere
 python esploratore.py   # 100 partite a caso che cercano i punti in cui il gioco si rompe
 ```
 
-Sono dodici ([che cosa fa ciascuno](collaudo/LEGGIMI.md)); `testo.py`, `conferme.py`, `pulsanti.py` e
-`doppiaggio.py` servono `npm ci --prefix app`. La CI li esegue tutti: l'esploratore in un giro corto (`-n 5 -t 150`) che non
+Sono tredici ([che cosa fa ciascuno](collaudo/LEGGIMI.md)); `testo.py`, `conferme.py`, `pulsanti.py`,
+`doppiaggio.py` e `trofei.py` servono `npm ci --prefix app`. La CI li esegue tutti: l'esploratore in un giro corto (`-n 5 -t 150`) che non
 blocca, il giro intero (qualche minuto) si lancia a mano. Del processo principale desktop e della data delle
 versioni, che non hanno bisogno di Electron, si occupano `node desktop/prove.cjs` e `node strumenti/prova-data.mjs`.
 

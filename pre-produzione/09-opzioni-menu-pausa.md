@@ -340,7 +340,7 @@ per la voce della generosità, che nasce dal cibo dato a Imma: è la fama come l
 
 | Trofeo | Quando | Accenno |
 |---|---|---|
-| Mani pulite | un finale della storia senza sangue (nessuna voce del sangue) | Arrivare in un certo modo |
+| Mani pulite | un finale della storia senza sangue e senza aver sparato a Cosimo (abbatterlo non aumenta il contatore del sangue: senza questa condizione il trofeo andrebbe a chi spara al fratello) | Arrivare in un certo modo |
 | La lettera | Cosimo riconosciuto con la lettera | Al guado, una via |
 | Il fucile posato | Cosimo riconosciuto dopo aver posato il fucile | Al guado, un'altra via |
 | Chi arrivava di là | Cosimo riconosciuto con la veglia | Al guado, la via più lunga |
@@ -420,28 +420,20 @@ commit e push. Il rilascio pubblico, solo su ordine.
 | 4 | **Video**: schermo e finestra ricordati, dimensione, qualità grafica; `impostazioni.cjs`; aggiornamenti sì/no — ✅ eseguita; le dimensioni in pixel veri dello schermo, «alta» mai sotto «automatica», Generale per ora solo sul desktop | 1.27.0 |
 | 5 | **Comandi**: i tre modi; guida e testi adattati — ✅ eseguita; in «solo pulsanti» ↶ annulla va fra i comandi di servizio e il fuoco segue il gioco; in «solo parole» sparisce anche ↶ annulla (resta Ctrl+Z); anche «salva» e «carica» scritti aprono il taccuino | 1.29.0 |
 | 6 | **Alta accessibilità**: contrasto, testo, carattere (scaricamento da confermare), movimento (loghi e trailer restano), fuoco — ✅ eseguita prima della 5, su richiesta di Simone, come 1.28.0; il carattere copiato dal Relitto (nessuno scaricamento) | 1.28.0 |
-| 7 | **Trofei**: deposito, regole, cartiglio col suono, pagina, schermata finale, sfide nei salvataggi | 1.30.0 |
+| 7 | **Trofei**: deposito, regole, cartiglio col suono, pagina, schermata finale, sfide nei salvataggi — ✅ eseguita; le frasi dei trofei vinti approvate da Simone; sul finale i trofei sono compatti (nome e medaglione) perché il testo del finale resti in vista | 1.30.0 |
 | 8 | Verifiche finali, partite intere nei tre modi, README, guide, pacchetti | 1.30.x |
 
-## 11. Che cosa resta (stato al 21/10/2026: `main` = 1.29.0, non rilasciata)
+## 11. Che cosa resta (stato al 21/10/2026: `main` = 1.30.0, non rilasciata)
 
-Fatte: fasi 1, 2, 3, 4, 6 e 5 (1.24.0 – 1.29.0), ciascuna provata nel browser (le prime quattro anche nel desktop). Ultima release pubblica:
+Fatte: fasi 1, 2, 3, 4, 6, 5 e 7 (1.24.0 – 1.30.0), ciascuna provata nel browser (le prime quattro anche nel desktop). Ultima release pubblica:
 v1.23.0. Il rilascio delle novità, solo su ordine di Simone.
 
 **Da fare, nell'ordine:**
 
-1. **Fase 7 — i trofei** (1.30.0): nomi e accenni dei trenta trofei rivisti con Simone il 21/10 (§7.3); poi il
-   deposito (`trofei.json` accanto ai salvataggi), le regole pure (`gioco/trofei.ts`, il ponte espone gli `stati`), il
-   cartiglio col suono flautato lievissimo, la pagina, la voce «Trofei» nel menu d'avvio e nella pausa, il riquadro
-   sulla schermata finale, le sfide nei salvataggi (campo `sfide`), `collaudo/trofei.py`. «trofei» scritto nella riga
-   apre la pagina come «opzioni» e «pausa» (`scritto` in `ViaggiatorePlayer.tsx`); per «Tutto a parole» e «Tutto a
-   pulsanti» la fonte di ogni comando si distingue lì: `scritto` per la riga, `manda` diretto per i pulsanti.
-2. **Fase 8 — verifiche finali e documenti** (1.30.x): partite intere nei tre modi dei comandi, lette come un giocatore;
+1. **Fase 8 — verifiche finali e documenti** (1.30.x): partite intere nei tre modi dei comandi, lette come un giocatore;
    l'alta accessibilità a tutto schermo a 1080p e 4K; README, guide, pacchetti.
 
 **Piccole cose rimaste aperte:**
 
-- Nel registro tecnico, già dal 20/10 (prima di questa serie di fasi): «Oscillator.frequency.setValueAtTime value
-  26432.8 outside nominal range» — un suono sintetico (i loghi?) chiede una frequenza oltre il limite e il browser la
-  taglia. Innocuo, da trovare e correggere.
+- Da sentire nel desktop vero, con Simone: il suono flautato dei trofei (volume e timbro) e la fila degli avvisi.
 - `video/ecosystem-schermate-1.23.0.jpg` è nella cartella e fuori da git: non è di queste fasi; decide Simone.
