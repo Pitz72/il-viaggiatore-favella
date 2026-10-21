@@ -8,6 +8,31 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.31.0] - 2026-10-21
+
+### Aggiunto
+- **La musica delle zone.** Ogni zona ha il suo brano, dalla colonna sonora di The Runtimers (generata con Lyria 3.5):
+  - suona dall'inizio la prima volta e poi gira in tondo **senza cuciture**: il punto di ripetizione è calcolato sul
+    brano (dove la musica si somiglia di più, con le note e le onde allineate) e la giuntura è incisa nel file;
+  - cambiando zona i due brani si danno il cambio **in dissolvenza**; tornando in una zona, il suo brano riprende da
+    dove era rimasto;
+  - **negli interni** (bar, casa, osteria, casotto, grotta, gallerie, serra, torre) la musica si sente da dentro: più
+    bassa e senza acuti;
+  - quando il narratore parla la musica **si abbassa**, e risale con calma quando tace;
+  - **a viaggio finito tace** (mai sopra un finale, mai dopo una morte); ripartendo dalla stazione ogni zona ricomincia
+    il suo brano da capo;
+  - il volume è la riga «Musica» delle opzioni, che ora lo dice.
+- **Il menu Extra**, nel menu d'avvio: **«Scarica la colonna sonora ufficiale»**, l'album «Il Viaggiatore Official
+  Soundtrack» di The Runtimers: sette MP3 col titolo di ogni zona, la copertina (il logo del gioco) e un LEGGIMI. Sul
+  desktop si sceglie la cartella (ci nasce «Il Viaggiatore - Official Soundtrack», che poi si apre); nella versione web
+  si scarica uno ZIP.
+- `strumenti/colonna-sonora.py` (l'album e le versioni per il gioco), `collaudo/musica.py` (indice, album, ZIP, etichette,
+  giunture, volume); l'autoverifica del pacchetto decodifica un brano e controlla l'album.
+
+### Cambiato
+- Il cartello dei crediti e `LICENSE-CONTENUTI.md`: la musica dell'intro resta CC BY-SA; le musiche delle zone sono di
+  The Runtimers, generate con Lyria 3.5, **fuori dalla licenza libera** (come le voci ElevenLabs).
+
 ## [1.30.1] - 2026-10-21
 
 ### Cambiato
