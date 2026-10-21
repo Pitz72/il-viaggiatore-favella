@@ -29,6 +29,9 @@ rispettivi titolari e **non** sono coperte né da questa licenza né dalla licen
 - il simbolo e la scritta di **FAVELLA 1** (il simbolo è il marchio ufficiale
   ridisegnato in vettoriale).
 
+Lo stesso vale per i due marchi nelle immagini promozionali di `grafica/branding/` e per il file ufficiale
+`grafica/branding/marchi/RuntimeMultimedia_Bianco.svg`: le immagini sono sotto questa licenza, i marchi no.
+
 Tutti i diritti riservati. Si possono ridistribuire solo come parte di questo
 gioco, senza modifiche; un'opera derivata deve toglierli o sostituirli. Il codice
 che li anima (`app/src/loghi/LogoRuntime.tsx`, `LogoFavella.tsx`) è sotto licenza
