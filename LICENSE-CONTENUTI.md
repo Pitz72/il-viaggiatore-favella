@@ -34,6 +34,15 @@ gioco, senza modifiche; un'opera derivata deve toglierli o sostituirli. Il codic
 che li anima (`app/src/loghi/LogoRuntime.tsx`, `LogoFavella.tsx`) è sotto licenza
 MIT come il resto.
 
+## Cosa NON copre: le musiche delle zone
+
+Le sette musiche delle zone e dell'album **«Il Viaggiatore Official Soundtrack»** (`app/public/musica/`,
+`app/public/colonna-sonora/`) sono di **The Runtimers**, generate con **Lyria 3.5** di Google. **Non**
+sono coperte da questa licenza: per il loro uso valgono i termini di Google per i contenuti generati con
+Lyria. Si ridistribuiscono come parte di questo gioco; un'opera derivata che non ne abbia i diritti deve
+toglierle (il gioco funziona anche senza: le zone restano in silenzio). La copertina dell'album è il logo
+del gioco, sotto questa licenza.
+
 ## Cosa NON copre: le voci di ElevenLabs
 
 Le voci di **Imma, Rosaria, Tore e Vito** (`app/public/voce/elevenlabs/`) sono state generate con

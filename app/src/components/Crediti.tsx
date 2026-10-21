@@ -2,7 +2,8 @@
 //  Il cartello delle licenze e dei crediti: dopo i loghi, prima dell'avviso.
 // --------------------------------------------------------------------
 //  Chi ha fatto il gioco, con che cosa, e sotto quali licenze: la storia e i
-//  testi, la musica, le voci del doppiaggio (Google Gemini TTS; ElevenLabs per
+//  testi, la musica (l'intro di Simone; le musiche delle zone di The Runtimers,
+//  generate con Lyria 3.5, fuori dalla licenza libera), le voci del doppiaggio (Google Gemini TTS; ElevenLabs per
 //  quattro personaggi, fuori dalla licenza libera e solo per uso non
 //  commerciale: qui sta l'attribuzione «elevenlabs.io»), il motore, i
 //  componenti, i marchi. Voluto da Simone il 20/10/2026. Si comporta come
@@ -19,7 +20,8 @@ const MONO = "'Source Code Pro', ui-monospace, monospace";
 /** Le righe del cartello: [che cosa, chi o che licenza]. collaudo/testo.py non le controlla: sono dell'app. */
 export const CREDITI: [string, string][] = [
   ["Il Viaggiatore", "un gioco di Simone Pizzi (Pitz72), 2026"],
-  ["Storia, testi, musica, grafica", "CC BY-SA 4.0"],
+  ["Storia, testi, musica dell'intro, grafica", "CC BY-SA 4.0"],
+  ["Musiche delle zone", "The Runtimers · generate con Lyria 3.5 (Google) · fuori dalla licenza libera"],
   ["Voci", "doppiaggio con sintesi vocale Google Gemini TTS (CC BY-SA 4.0)"],
   ["Imma, Rosaria, Tore e Vito", "voci ElevenLabs · elevenlabs.io · solo uso non commerciale, fuori dalla licenza libera"],
   ["Codice", "MIT"],

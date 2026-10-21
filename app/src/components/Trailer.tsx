@@ -30,6 +30,7 @@ import { etichettaVersione } from "../lib/versione";
 import ComeSiGioca from "../gioco/ComeSiGioca";
 import PannelloOpzioni from "../gioco/Opzioni";
 import PaginaTrofei from "../gioco/PaginaTrofei";
+import { scaricaColonnaSonora } from "../lib/colonnaSonora";
 import { ascoltaOpzioni, opzioni, type Qualita } from "../lib/opzioni";
 import { useOpzioni } from "../lib/useOpzioni";
 import { scalaTesto } from "../lib/accessibilita";
@@ -257,6 +258,9 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
   const [guida, setGuida] = useState(false);
   const [opzioniAperte, setOpzioniAperte] = useState(false);
   const [trofeiAperti, setTrofeiAperti] = useState(false);
+  // il menu Extra: una seconda colonna al posto della prima; sotto, com'è andato lo scaricamento
+  const [extra, setExtra] = useState(false);
+  const [notaExtra, setNotaExtra] = useState<string | null>(null);
   const [domandaNuovo, setDomandaNuovo] = useState(false);
   const [opz] = useOpzioni();   // il testo grande fa crescere la colonna del menu e i pannelli
   const grana = useMemo(faiGrana, []);
@@ -555,11 +559,12 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
   useEffect(() => {
     const tasto = (e: KeyboardEvent) => {
       if (taccuino || guida || opzioniAperte || trofeiAperti || domandaNuovo) return;   // i pannelli gestiscono Esc da sé
+      if (e.key === "Escape" && finito && extra) { e.preventDefault(); setExtra(false); return; }   // da Extra si torna al menu
       if (e.key === "Escape" && !finito) { e.preventDefault(); salta(); }
     };
     window.addEventListener("keydown", tasto);
     return () => window.removeEventListener("keydown", tasto);
-  }, [finito, salta, guida, taccuino, opzioniAperte, trofeiAperti, domandaNuovo]);
+  }, [finito, salta, guida, taccuino, opzioniAperte, trofeiAperti, domandaNuovo, extra]);
 
   useEffect(() => {
     if (inDesktop()) return;
@@ -596,7 +601,19 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
     { id: "opzioni", etichetta: "Opzioni", azione: () => setOpzioniAperte(true) },
     { id: "guida", etichetta: "Come si gioca", azione: () => setGuida(true) },
     { id: "rivedi", etichetta: "Rivedi il trailer", azione: rivedi },
+    { id: "extra", etichetta: "Extra", azione: () => { setNotaExtra(null); setExtra(true); } },
     ...(inDesktop() ? [{ id: "esci", etichetta: "Esci", azione: esciDalGioco }] : []),
+  ];
+  // Extra: la colonna sonora ufficiale (sul desktop si sceglie la cartella, nel browser si scarica uno ZIP); poi, forse, altro
+  const scaricaColonna = () => {
+    setNotaExtra("Un momento…");
+    scaricaColonnaSonora()
+      .then((e) => setNotaExtra(e.tipo === "cartella" ? `Salvata in ${e.dove}` : e.tipo === "zip" ? `Scaricata: ${e.nome}` : null))
+      .catch((err) => setNotaExtra(`Non è stato possibile: ${err instanceof Error ? err.message : String(err)}`));
+  };
+  const vociExtra: VoceMenu[] = [
+    { id: "colonna", etichetta: "Scarica la colonna sonora ufficiale", dettaglio: "Il Viaggiatore Official Soundtrack · The Runtimers · sette brani", principale: true, azione: scaricaColonna },
+    { id: "indietro", etichetta: "Indietro", tasto: "Esc", azione: () => setExtra(false) },
   ];
 
   return (
@@ -712,7 +729,12 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
               <div style={{ position: "absolute", left: "50%", top: -190, width: 1760, height: 860, transform: "translateX(-50%)", background: "radial-gradient(50% 50% at 50% 50%, rgba(6,5,10,.86) 0%, rgba(6,5,10,.62) 52%, rgba(6,5,10,0) 100%)", pointerEvents: "none", zIndex: -1 }} />
               <p style={{ margin: 0, ...serif(36, { color: "rgba(244,236,224,.94)", fontStyle: "italic", textShadow: "0 1px 3px rgba(10,6,14,.85), 0 0 16px rgba(10,6,14,.7)" }) }}>Si parte a piedi.</p>
               <div style={{ marginTop: 30, fontSize: 19 * scalaTesto(opz) }}>
-                <VociMenu voci={vociMenu} etichetta="Menu d'avvio" accento="#f0b77e" coperto={guida || taccuino || opzioniAperte || trofeiAperti || domandaNuovo} />
+                {extra && <p style={{ margin: "0 0 .9em", ...mono(15, { color: "#f0b77e", letterSpacing: "0.34em", textShadow: "0 1px 3px rgba(10,6,14,.85)" }) }}>extra</p>}
+                <VociMenu key={extra ? "extra" : "menu"} voci={extra ? vociExtra : vociMenu} etichetta={extra ? "Extra" : "Menu d'avvio"} accento="#f0b77e"
+                  coperto={guida || taccuino || opzioniAperte || trofeiAperti || domandaNuovo} />
+                {extra && notaExtra && (
+                  <p className="mv-nota" role="status" style={{ margin: "1.1em auto 0", maxWidth: "46em", ...serif(17, { color: "rgba(244,236,224,.8)", fontStyle: "italic", textShadow: "0 1px 3px rgba(10,6,14,.85)" }) }}>{notaExtra}</p>
+                )}
               </div>
             </section>
           )}

@@ -1,0 +1,67 @@
+{
+ "titolo": "Il Viaggiatore Official Soundtrack",
+ "autore": "The Runtimers",
+ "anno": "2026",
+ "brani": [
+  {
+   "numero": 1,
+   "titolo": "Dove finiscono i binari",
+   "zona": "z1",
+   "luogo": "Acquaviva, il capolinea",
+   "file": "01 - Dove finiscono i binari.mp3"
+  },
+  {
+   "numero": 2,
+   "titolo": "Il catrame che ondeggia",
+   "zona": "z2",
+   "luogo": "La piana, il sole",
+   "file": "02 - Il catrame che ondeggia.mp3"
+  },
+  {
+   "numero": 3,
+   "titolo": "Acqua ovunque, niente da bere",
+   "zona": "z3",
+   "luogo": "L'invaso morto, il sale",
+   "file": "03 - Acqua ovunque, niente da bere.mp3"
+  },
+  {
+   "numero": 4,
+   "titolo": "Il silenzio delle cose costruite",
+   "zona": "z4",
+   "luogo": "La statale, il casello",
+   "file": "04 - Il silenzio delle cose costruite.mp3"
+  },
+  {
+   "numero": 5,
+   "titolo": "Il bicchiere tenuto da parte",
+   "zona": "z5",
+   "luogo": "Il paese, i vivi",
+   "file": "05 - Il bicchiere tenuto da parte.mp3"
+  },
+  {
+   "numero": 6,
+   "titolo": "Il vento che non smette",
+   "zona": "z6",
+   "luogo": "Le colline, la pietra",
+   "file": "06 - Il vento che non smette.mp3"
+  },
+  {
+   "numero": 7,
+   "titolo": "Cosa sei tornato a trovare",
+   "zona": "z7",
+   "luogo": "Il guado, il fratello",
+   "file": "07 - Cosa sei tornato a trovare.mp3"
+  }
+ ],
+ "file": [
+  "01 - Dove finiscono i binari.mp3",
+  "02 - Il catrame che ondeggia.mp3",
+  "03 - Acqua ovunque, niente da bere.mp3",
+  "04 - Il silenzio delle cose costruite.mp3",
+  "05 - Il bicchiere tenuto da parte.mp3",
+  "06 - Il vento che non smette.mp3",
+  "07 - Cosa sei tornato a trovare.mp3",
+  "copertina.jpg",
+  "LEGGIMI.txt"
+ ]
+}

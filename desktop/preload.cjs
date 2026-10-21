@@ -32,6 +32,10 @@ contextBridge.exposeInMainWorld("viaggiatoreDesktop", {
     apriCartella: () => ipcRenderer.invoke("salvataggi:apri-cartella"),
   },
 
+  colonnaSonora: {
+    salva: () => ipcRenderer.invoke("colonna:salva"),
+  },
+
   trofei: {
     leggi: () => ipcRenderer.invoke("trofei:leggi"),
     scrivi: (testo) => ipcRenderer.invoke("trofei:scrivi", String(testo)),

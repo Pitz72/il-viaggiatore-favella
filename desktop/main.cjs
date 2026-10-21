@@ -16,6 +16,7 @@
 //  (qualcosa non va). La usa la CI su ogni pacchetto costruito.
 //
 //  Moduli: registro.cjs (registro tecnico), salvataggi.cjs (file su disco),
+//  colonna-sonora.cjs (la colonna sonora da scaricare, menu Extra),
 //  aggiornamenti.cjs (aggiornamento automatico dalle release di GitHub),
 //  ipc.cjs (i canali con la pagina, e il controllo di chi li chiama),
 //  impostazioni.cjs (la finestra e gli aggiornamenti, prima della pagina).
@@ -26,6 +27,7 @@ const os = require("node:os");
 const path = require("node:path");
 const registro = require("./registro.cjs");
 const salvataggi = require("./salvataggi.cjs");
+const colonnaSonora = require("./colonna-sonora.cjs");
 const aggiornamenti = require("./aggiornamenti.cjs");
 const impostazioni = require("./impostazioni.cjs");
 const { SCHEMA, ORIGINE, dellApp, su, gestisci } = require("./ipc.cjs");
@@ -246,6 +248,7 @@ if (!AUTOVERIFICA && !app.requestSingleInstanceLock()) {
     Menu.setApplicationMenu(null);
     protocol.handle(SCHEMA, servi);
     salvataggi.registra(() => finestra);
+    colonnaSonora.registra(WEB, () => finestra);
     creaFinestra();
     if (!AUTOVERIFICA) aggiornamenti.avvia(() => finestra, imp.cercaAggiornamenti);
     if (AUTOVERIFICA) {
