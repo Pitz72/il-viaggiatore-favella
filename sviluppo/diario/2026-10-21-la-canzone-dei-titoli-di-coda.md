@@ -53,5 +53,6 @@ metterla nella sequenza.
   a 127,5 s); la riga della canzone c'è fra i titoli.
 
 ## Questioni aperte
-- I titoli ora salgono per 106 s, a circa 20 px/s sulla superficie di 1080 (col tema dell'intro erano 39 s, circa 55
-  px/s): da giudicare con Simone guardando la sequenza.
+- Nessuna. I titoli ora salgono per 106 s, a circa 20 px/s sulla superficie di 1080 (col tema dell'intro erano 39 s,
+  circa 55 px/s). Simone ha visto la sequenza a schermo intero con l'audio e ha detto: «capolavoro. Non toccare
+  nulla.»; il titolo «La mano sa ancora la forma» l'ha approvato.
