@@ -254,7 +254,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
   useEffect(() => {
     const el = diarioRef.current;
     if (el) requestAnimationFrame(() => el.scrollTo({ top: el.scrollHeight, behavior: movimentoRidotto() ? "auto" : "smooth" }));
-  }, [voci, finita, trofeiViaggio.length]);
+  }, [voci, finita, trofeiViaggio.length, opz.testo]);   // anche col testo che cambia: il fondo resta in vista
 
   // ── un turno ───────────────────────────────────────────────────────
   const applica = (etichetta: string, e: TurnoEsito) => {

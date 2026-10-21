@@ -63,6 +63,9 @@ export function analizza(testo: string): Blocco[] {
     let m: RegExpMatchArray | null;
     if ((m = t.match(/^--- (.+) ---$/))) { out.push({ tipo: "stanza", titolo: m[1] }); continue; }
     if (/^Puoi vedere qui:/.test(t) || /^Uscite:/.test(t)) continue;
+    // a partita finita il motore invita a scrivere ANNULLA, RICOMINCIA, CARICA o FINE: qui la riga non c'è più, e
+    // dopo una morte non si torna indietro (Simone, 21/10/2026: «Sei morto, stop»). Parlano i pulsanti del finale.
+    if (/^\(La partita è finita\. Scrivi ANNULLA/.test(t)) continue;
     if (/^\d+\. /.test(t) && /^\s+\d+\./.test(r)) continue;     // opzioni di dialogo: diventano pulsanti
     if (/^FINALE/.test(t)) { out.push({ tipo: "finale", testo: t.replace(/^FINALE\s*—\s*/, "") }); continue; }
     if ((m = t.match(/^([A-ZÀ-Ý][a-zà-ÿ]+): (.+)$/)) && PERSONAGGI.includes(m[1])) {

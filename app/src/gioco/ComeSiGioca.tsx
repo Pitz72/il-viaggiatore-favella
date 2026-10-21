@@ -88,7 +88,7 @@ export default function ComeSiGioca({ base, accento = "#f0b77e", onChiudi, compa
             style={{ cursor: "pointer", flexShrink: 0, border: "1px solid rgba(255,255,255,.16)", background: "transparent", color: "#c9d2de", borderRadius: 999,
               fontFamily: MONO, fontSize: ".85em", letterSpacing: ".14em", textTransform: "uppercase", padding: ".6em 1.1em" }}>chiudi ✕</button>
         </div>
-        <div style={{ marginTop: "1.4em", display: "grid", gridTemplateColumns: compatto ? "1fr" : "1fr 1fr 1fr", gap: "1em" }}>
+        <div className="csg-griglia" style={{ marginTop: "1.4em", display: "grid", gridTemplateColumns: compatto ? "1fr" : "1fr 1fr 1fr", gap: "1em" }}>
           {SCHEDE.map((s) => (
             <section key={s.titolo} className="csg-scheda" style={{ padding: "1em 1.1em 1.1em", borderRadius: ".8em", background: "rgba(255,255,255,.025)", border: "1px solid rgba(255,255,255,.06)" }}>
               <svg viewBox="0 0 24 24" width="1.7em" height="1.7em" fill="none" stroke={accento} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -97,7 +97,7 @@ export default function ComeSiGioca({ base, accento = "#f0b77e", onChiudi, compa
               <h3 style={{ margin: ".55em 0 0", fontFamily: DISPLAY, fontWeight: 600, fontSize: "1.05em", color: "#f1f3f7" }}>{s.titolo}</h3>
               <p className="csg-testo" style={{ margin: ".5em 0 0", fontFamily: SERIF, fontSize: ".92em", lineHeight: 1.45, color: "rgba(226,220,208,.78)" }}>{s.testo}</p>
               {s.esempi && (
-                <div style={{ marginTop: ".7em", display: "flex", flexWrap: "wrap", gap: ".4em" }}>
+                <div className="csg-esempi" style={{ marginTop: ".7em", display: "flex", flexWrap: "wrap", gap: ".4em" }}>
                   {s.esempi.map((e) => (
                     <code key={e} className="csg-esempio" style={{ fontFamily: MONO, fontSize: ".85em", color: accento, background: "rgba(255,255,255,.04)", border: "1px solid rgba(255,255,255,.08)", borderRadius: ".45em", padding: ".3em .6em" }}>{e}</code>
                   ))}

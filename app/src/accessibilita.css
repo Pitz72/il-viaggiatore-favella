@@ -120,3 +120,23 @@
 [data-contrasto="alto"] .csg-chiudi { border-color: rgba(255, 255, 255, .55) !important; color: #fff !important; }
 /* «solo parole»: le risposte da scrivere restano testo, non riquadri da toccare */
 [data-contrasto="alto"] .vg-risposta-scritta { background: transparent; border-color: transparent; }
+
+/* la guida col testo grande: spazi un po' più stretti (il testo no), perché resti in vista senza scorrere */
+[data-testo="grande"] .csg-griglia { margin-top: .75em !important; gap: .6em !important; }
+[data-testo="grande"] .csg-scheda { padding: .7em .95em .8em !important; }
+[data-testo="grande"] .csg-scheda > svg { width: 1.3em; height: 1.3em; }
+[data-testo="grande"] .csg-scheda h3 { margin-top: .3em !important; }
+[data-testo="grande"] .csg-testo { line-height: 1.33 !important; margin-top: .3em !important; }
+[data-testo="grande"] .csg-esempi { margin-top: .45em !important; }
+[data-testo="grande"] .csg-piede { margin-top: .6em !important; }
+[data-testo="grande"] [role="dialog"][aria-label="Come si gioca"] > div { padding-top: 1.25em !important; padding-bottom: 1.05em !important; }
+
+/* la pagina dei trofei: i testi tenui diventano chiari; i medaglioni non vinti restano tratteggiati ma si vedono */
+[data-contrasto="alto"] :is(.tr-titolo, .tr-quando, .tr-nota, .tr-coperto, .tr-accenno) { color: #ece6db !important; }
+[data-contrasto="alto"] .tr-medaglia:not(.tr-vinto) { border-color: rgba(255, 255, 255, .55); }
+[data-contrasto="alto"] svg[stroke="rgba(226,220,208,.32)"] { stroke: #cfc9bd; }
+[data-contrasto="alto"] .tr-barra { background: rgba(255, 255, 255, .35); }
+[data-contrasto="alto"] .tr-dettaglio { background: #000; border-color: rgba(255, 255, 255, .45); }
+/* vinti pieni, da vincere tratteggiati: la differenza si vede qualunque sia l'accento (anche il grigio di una fine) */
+[data-contrasto="alto"] .tr-medaglia.tr-vinto { background: var(--tr-acc); border: 1px solid var(--tr-acc); }
+[data-contrasto="alto"] .tr-medaglia.tr-vinto svg { stroke: #000; }
