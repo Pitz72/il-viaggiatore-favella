@@ -170,6 +170,22 @@ prova("i salvataggi: con la cartella che non c'è, l'elenco è vuoto e non si ro
   finally { process.env.VIAGGIATORE_SALVATAGGI = prima; }
 });
 
+prova("i trofei: trofei.json si scrive e si rilegge, accanto ai salvataggi e non nell'elenco", async () => {
+  assert.equal((await chiama("trofei:leggi")).testo, null, "prima volta: nessun file");
+  await chiama("trofei:scrivi", JSON.stringify({ formato: "il-viaggiatore/trofei", vinti: { "le-mani-vuote": "2026-10-21T03:00:00.000Z" } }));
+  assert.equal(JSON.parse((await chiama("trofei:leggi")).testo).vinti["le-mani-vuote"], "2026-10-21T03:00:00.000Z");
+  assert.ok(fs.existsSync(path.join(cartellaSalvataggi, "trofei.json")));
+  assert.ok(!(await chiama("salvataggi:elenco")).some((v) => v.posto.includes("trofei")), "i trofei non sono un salvataggio");
+  await assert.rejects(() => zitto(() => chiama("trofei:scrivi", "x".repeat(300 * 1024))), /Trofei non validi/);
+});
+
+prova("i trofei: un file guasto si riprende dalla copia di riserva", async () => {
+  await chiama("trofei:scrivi", JSON.stringify({ n: "primo" }));
+  await chiama("trofei:scrivi", JSON.stringify({ n: "secondo" }));           // la riserva ora è «primo»
+  fs.writeFileSync(path.join(cartellaSalvataggi, "trofei.json"), "{ guasto");
+  assert.equal(JSON.parse((await zitto(() => chiama("trofei:leggi"))).testo).n, "primo");
+});
+
 // ---- le impostazioni della finestra ---------------------------------------
 const impostazioni = require("./impostazioni.cjs");
 

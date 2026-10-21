@@ -82,6 +82,10 @@ jobs:
           python collaudo/testo.py
       - name: I finali giocati solo con i pulsanti
         run: python collaudo/pulsanti.py
+      - name: I trofei
+        run: |
+          python collaudo/trofei.py
+          node app/scripts/trofei-prove.mjs
 
   pacchetti:
     name: Pacchetti ${{ matrix.nome }}
