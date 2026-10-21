@@ -8,6 +8,17 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+### Aggiunto
+- In **Extra** i link ai due siti, **favella.eu** ed **ecosystem.runtimeradio.com**: sul desktop si aprono nel browser
+  di sistema; sotto il menu una riga dice quale si è aperto.
+
+### Cambiato
+- **Il menu d'avvio è più corto**: «Rivedi il trailer» passa in **Extra**, che ora raccoglie le cose di contorno (la
+  colonna sonora ufficiale, il trailer, i due siti). Finito il trailer rivisto si torna al menu d'avvio, non a Extra.
+- **Sul menu d'avvio titolo e menu salgono di 40 px**: con nove voci «Esci» arrivava al bordo dello schermo (e col
+  testo grande ne usciva). Ora, misurato a 1920×1080 con «Continua il viaggio» in cima, l'ultima voce resta a ~85 px
+  dal bordo; col **testo grande** le voci si avvicinano (il testo no) e resta a ~75 px. Il trailer non cambia.
+
 ## [1.31.0] - 2026-10-21
 
 ### Aggiunto

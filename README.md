@@ -61,8 +61,9 @@ Dalla pagina [Releases](https://github.com/Pitz72/il-viaggiatore-favella/release
 
 Il gioco parte a schermo intero e funziona senza connessione. **Esc** salta i
 loghi e il trailer (e chiude il cartello dei crediti e l'avviso, come Invio). Il **menu d'avvio** è una colonna di voci
-(continua, nuovo viaggio, carica, trofei, opzioni, come si gioca, rivedi il trailer, extra, esci) che si sceglie con le frecce e Invio o
-col mouse. In partita **Esc** apre la **pausa** (riprendi, salva, carica, trofei, opzioni, come si gioca, menu d'avvio, esci),
+(continua, nuovo viaggio, carica, trofei, opzioni, come si gioca, extra, esci) che si sceglie con le frecce e Invio o
+col mouse; **Extra** raccoglie la colonna sonora da scaricare, il trailer da rivedere e i siti favella.eu ed
+ecosystem.runtimeradio.com. In partita **Esc** apre la **pausa** (riprendi, salva, carica, trofei, opzioni, come si gioca, menu d'avvio, esci),
 **F11** commuta lo schermo intero, **F5** salva al volo e **F9** ricarica quel salvataggio rapido; Alt+F4 chiude. Gli eseguibili non sono firmati:
 Windows SmartScreen può chiedere una conferma.
 
