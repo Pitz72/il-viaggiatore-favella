@@ -8,6 +8,33 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.29.0] - 2026-10-21
+
+### Aggiunto
+- **I tre modi dei comandi** (opzioni, scheda Generale, ora anche nella versione web):
+  - **Pulsanti e parole**, com'è sempre stato e com'è all'inizio.
+  - **Solo pulsanti**: la riga per scrivere sparisce; ↶ annulla passa accanto a guarda, inventario, stato e aspetta;
+    dopo ogni mossa il fuoco va al primo pulsante utile (la prima risposta di un dialogo, il «no» di una domanda, la
+    prima uscita), e il menu di una cosa che si apre prende il fuoco: si gioca anche solo con Tab e Invio.
+  - **Solo parole**: l'avventura testuale pura. Spariscono le file di pulsanti (uscite, cose, azioni), i menu delle cose
+    e il pannello delle dosi; le parole in maiuscolo restano evidenziate ma non si toccano; le risposte di un dialogo
+    restano scritte e numerate, e si sceglie scrivendo il numero; scorte e bisaccia si leggono soltanto.
+  - In tutti e tre restano la conferma delle scelte che costano, Ctrl+Z e i tasti del gioco (Esc, F2, F5, F9).
+- **Le parole dell'app nella riga:** «opzioni», «pausa», «salva» e «carica» scritte aprono le opzioni, la pausa e il
+  taccuino. Non arrivano al motore e non sono un turno.
+
+### Cambiato
+- **La guida «Come si gioca» parla del modo scelto**: con «solo pulsanti» non dice di scrivere e non mostra comandi da
+  scrivere; con «solo parole» non dice di toccare. Col contrasto alto le sue schede sono piene e i testi chiari (prima
+  prendeva solo il fondo).
+- **Ctrl+Z vale anche fuori dalla riga** (nella riga, come prima, solo quando è vuota).
+- **Tab non zittisce più la voce:** passare da un pulsante all'altro non è parlarle sopra. Gli altri tasti la fermano
+  come sempre.
+- Il segnaposto della riga dice che cosa fare in «solo parole» («scrivi il numero della risposta»).
+
+### Corretto
+- La guida «Come si gioca» aperta dalla pausa finiva sotto la pausa invece di coprirla.
+
 ## [1.28.0] - 2026-10-21
 
 ### Aggiunto
