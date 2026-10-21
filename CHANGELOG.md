@@ -8,6 +8,42 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.30.0] - 2026-10-21
+
+### Aggiunto
+- **I trofei: trenta**, in sei famiglie: i sei finali della storia, le tre fini lungo la strada, i dieci gesti (gli
+  stessi «che cosa hai fatto a chi» della barra laterale), sei modi di arrivare, tre sfide e la collezione. Nomi e accenni
+  scelti con Simone, presi dalle parole della storia.
+  - **Nascosti con un accenno**: finché non lo vinci, il nome è coperto e l'accenno dice dove guardare, non che cosa fare
+    («Un finale: qualcosa da posare», «Qualcuno al casello»).
+  - **L'avviso**: in alto, «Trofeo · Il cavallo di legno», per quattro secondi, con un lievissimo suono flautato
+    (sintetizzato, sul volume degli effetti). Più trofei insieme arrivano uno dopo l'altro. **Mai sopra il finale**:
+    quelli vinti con l'ultimo turno, e tutti quelli del viaggio, li elenca la schermata finale.
+  - **La pagina dei trofei**, dal menu d'avvio, dalla pausa e dalla schermata finale: il conto («12 di 30»), le famiglie
+    coi loro medaglioni, e accanto il trofeo scelto, col nome, una frase e la data in cui l'hai vinto. Si percorre con le
+    frecce.
+  - **Le sfide** (arrivare a un finale senza mai tornare indietro; scrivendo ogni comando; coi soli pulsanti) viaggiano
+    nei salvataggi: continuare un viaggio non le rompe; un ANNULLA o il caricamento di un punto prima del più lontano
+    raggiunto rompono «Senza voltarti». I salvataggi di prima della 1.30 le hanno già rotte: di quelle partite non si sa
+    com'è andata.
+  - Un trofeo si vince una volta sola e resta, anche ricominciando o caricando; contano da questa versione in poi.
+  - **Dove stanno**: sul desktop in *Documenti/Il Viaggiatore/trofei.json*, accanto ai salvataggi, con la stessa
+    scrittura sicura e la copia di riserva; nella versione web, nella memoria del browser.
+  - **Azzerarli**: nelle opzioni, scheda Generale, «azzera i trofei», con una conferma. I salvataggi non si toccano.
+  - «trofei» scritto nella riga apre la pagina.
+- `collaudo/trofei.py`: gioca col ponte vero i dodici percorsi, le tre morti e due partite al casello, e fa decidere i
+  trofei alle regole vere del gioco; pretende per ogni partita esattamente i trofei previsti, ciascuno al suo momento, e
+  che tutti e trenta si possano vincere. `app/scripts/trofei-prove.mjs` prova i casi che le partite non toccano.
+
+### Cambiato
+- Il ponte dell'interfaccia espone anche gli stati della storia («stato di Cosimo», «stato del riconoscimento»…): li
+  leggono i trofei.
+- L'autoverifica del pacchetto prova anche le regole dei trofei sullo stato vero (senza scrivere niente).
+
+### Corretto
+- Nel registro tecnico non compare più l'avviso «Oscillator.frequency … outside nominal range»: le campane più acute dei
+  loghi chiedevano una parziale a 26 kHz, che non si sente e il browser tagliava. Il suono dei loghi non cambia.
+
 ## [1.29.0] - 2026-10-21
 
 ### Aggiunto
