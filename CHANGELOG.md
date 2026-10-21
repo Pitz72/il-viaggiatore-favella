@@ -8,6 +8,8 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.34.0] - 2026-10-21
+
 ### Aggiunto
 - **La canzone dei titoli di coda**, «La mano sa ancora la forma» (The Runtimers, musica e testo generati con Lyria
   3.5): suona sotto la sequenza finale al posto del tema dell'intro, che così dura 2:38; la voce entra dopo la frase del
