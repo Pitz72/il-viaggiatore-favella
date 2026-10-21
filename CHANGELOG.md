@@ -8,6 +8,8 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.32.0] - 2026-10-21
+
 ### Aggiunto
 - In **Extra** i link ai due siti, **favella.eu** ed **ecosystem.runtimeradio.com**: sul desktop si aprono nel browser
   di sistema; sotto il menu una riga dice quale si è aperto.
