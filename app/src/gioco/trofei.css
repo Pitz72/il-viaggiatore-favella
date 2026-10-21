@@ -41,9 +41,3 @@
 .tr-quando { margin: auto 0 0; font-family: 'Source Code Pro', ui-monospace, monospace; font-size: .78em; letter-spacing: .08em; color: rgba(226, 220, 208, .55); }
 .tr-nota { font-family: 'Source Code Pro', ui-monospace, monospace; font-size: .78em; letter-spacing: .06em; color: rgba(230, 222, 208, .5); }
 
-/* la schermata finale: i trofei di questo viaggio */
-.vg-finale-trofei { margin: 22px auto 0; max-width: 560px; padding: 14px 18px; border-radius: 12px; border: 1px solid color-mix(in srgb, var(--acc) 35%, transparent);
-  background: color-mix(in srgb, var(--acc) 7%, transparent); text-align: left; }
-.vg-finale-trofei ul { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 16px; }
-.vg-finale-trofei li { display: inline-flex; align-items: center; gap: 6px; font-family: 'Lora', serif; font-size: 14px; color: #f4ece0; cursor: default; }
-.vg-finale-trofei li svg { width: 18px; height: 18px; }

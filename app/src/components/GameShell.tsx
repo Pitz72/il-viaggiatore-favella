@@ -10,13 +10,13 @@
 //  o con F11 (il tasto che stava sul palco non c'è più: piano 09, D6).
 // ====================================================================
 import { useLayoutEffect, useRef, useState } from "react";
-import ViaggiatorePlayer from "./ViaggiatorePlayer";
+import ViaggiatorePlayer, { type FinePartita } from "./ViaggiatorePlayer";
 import type { Salvataggio } from "../lib/salvataggi";
 
 const DESIGN_W = 1280;
 const DESIGN_H = 720;
 
-const GameShell = ({ onExit, carica = null }: { onExit: () => void; carica?: Salvataggio | null }) => {
+const GameShell = ({ onExit, onFine, carica = null }: { onExit: () => void; onFine: (f: FinePartita) => void; carica?: Salvataggio | null }) => {
   const stageRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
 
@@ -46,7 +46,7 @@ const GameShell = ({ onExit, carica = null }: { onExit: () => void; carica?: Sal
           className="absolute left-0 top-0 origin-top-left"
           style={{ width: DESIGN_W, height: DESIGN_H, transform: `scale(${scale})` }}
         >
-          <ViaggiatorePlayer onExit={onExit} carica={carica} />
+          <ViaggiatorePlayer onExit={onExit} onFine={onFine} carica={carica} />
         </div>
       </div>
     </div>

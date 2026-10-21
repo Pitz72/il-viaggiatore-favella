@@ -52,7 +52,9 @@
 .vg-sistema { margin: 4px 0; font-family: 'Source Code Pro', monospace; font-size: 12.5px; color: rgba(200,208,220,.72); }
 .vg-finale { margin: 26px 0 12px; padding: 28px 30px; text-align: center; border-radius: 14px; border: 1px solid rgba(255,255,255,.09); background: rgba(255,255,255,.025); animation: vg-entra .8s ease both; }
 .vg-finale-testo { margin: 12px 0 0; font-style: italic; font-size: 24px; line-height: 1.42; color: #f7eddb; }
-.vg-finale-azioni { display: flex; gap: 10px; justify-content: center; margin-top: 22px; }
+.vg-finale-avanti { margin-top: 20px; cursor: pointer; background: none; border: none; font-family: 'Source Code Pro', ui-monospace, monospace;
+  font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: rgba(244,236,224,.5); animation: vg-entra .8s ease 1.2s both; }
+.vg-finale-avanti:hover, .vg-finale-avanti:focus-visible { color: rgba(244,236,224,.85); }
 
 .vg-comandi { flex-shrink: 0; display: flex; flex-direction: column; gap: 9px; padding: 10px 38px 14px;
   border-top: 1px solid rgba(255,255,255,.06); background: linear-gradient(to top, rgba(8,8,11,.96), rgba(8,8,11,.72)); }

@@ -28,10 +28,15 @@
 //  I TROFEI (piano 09, §7): dopo ogni turno le regole (gioco/trofei.ts) guardano
 //  il testo e lo stato del mondo; un trofeo nuovo si scrive nel deposito
 //  (lib/trofei.ts) e compare in alto col suono flautato, mai sopra il finale:
-//  quelli dell'ultimo turno li mostra la schermata finale. Le sfide della
+//  quelli dell'ultimo turno si annunciano sul menu d'avvio. Le sfide della
 //  partita (scritto, toccato, tornato indietro) viaggiano nei salvataggi.
 //  La MUSICA delle zone (gioco/musica.ts) segue il luogo: un brano per zona, che
 //  negli interni si sente da dentro; alla fine del viaggio si spegne.
+//  LA FINE (piano 11): il riquadro del finale tiene la frase, senza pulsanti;
+//  quando il narratore ha finito di leggere (o, senza voce, dopo il tempo di
+//  leggere) la partita passa la mano a chi l'ha aperta (onFine): la sequenza
+//  finale dopo un finale della storia, il menu d'avvio dopo una morte. Il gioco
+//  non riparte da solo.
 // ====================================================================
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { avviaGioco } from "../lib/favellaRuntime";
@@ -55,7 +60,7 @@ import PannelloOpzioni from "../gioco/Opzioni";
 import Pausa from "../gioco/Pausa";
 import { useOpzioni } from "../lib/useOpzioni";
 import { movimentoRidotto } from "../lib/accessibilita";
-import PaginaTrofei, { Medaglione } from "../gioco/PaginaTrofei";
+import PaginaTrofei from "../gioco/PaginaTrofei";
 import { PER_ID, sfideCaricate, sfideNuove, trofeiDelTurno, type Sfide } from "../gioco/trofei";
 import { ascoltaTrofei, deposito, nuovoViaggio, piuLontano, segnaLontano, vinci } from "../lib/trofei";
 import { suonaTrofeo } from "../gioco/suonoTrofeo";
@@ -73,8 +78,13 @@ type Menu = Cosa | null;
  *  `daRiga`: il comando è stato scritto, non toccato (per le sfide dei trofei) */
 type Richiesta = { cmd: string; etichetta: string; conferma: DatiConferma; annullabile: boolean; daRiga: boolean } | null;
 const SENZA_AZIONI: AzioniContesto = { soli: [], bersagli: [] };
+/** Dopo la voce del finale, un respiro prima di andare avanti (ms). */
+const DOPO_LA_VOCE = 2500;
 
-const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; carica?: Salvataggio | null }) => {
+/** Com'è finita la partita: `frase` è quella del finale (senza «FINALE —»), `trofei` quelli vinti nell'ultimo turno. */
+export interface FinePartita { esito: string; frase: string | null; trofei: string[] }
+
+const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => void; onFine: (f: FinePartita) => void; carica?: Salvataggio | null }) => {
   const [fase, setFase] = useState<"carica" | "gioca" | "errore">("carica");
   const [messaggio, setMessaggio] = useState("Si carica il motore…");
   const [voci, setVoci] = useState<Voce[]>([]);
@@ -301,6 +311,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
       annota("info", `trofei: ${davvero.join(", ")}`);
       setTrofeiViaggio((v) => [...v, ...davvero]);
       if (!fine) setCodaTrofei((c) => [...c, ...davvero]);
+      else trofeiDellaFine.current.push(...davvero);   // si annunciano sul menu d'avvio
     }).catch((err) => annota("warn", `trofei non scritti: ${err?.message ?? err}`));
   };
 
@@ -392,22 +403,46 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     if (!chiudere) setPannello(tipo);
   };
 
-  const ricomincia = () => {
-    if (!sessione.current) return;
-    const e = sessione.current.boot();
-    const primi = analizza(e.text);
-    setVoci([{ id: contatore.current++, blocchi: primi }]);
-    daiVoce(primi);
-    setMondo(sessione.current.stato());
-    setFinita(false); setEsito("in_corso"); setFinale(""); setIncontrati([]); setMenu(null); setUsaDa(null);
-    setPannello(null); setRichiesta(null);
-    setCamminaDa(performance.now());
-    setNonSalvati(0);
-    tempo.current = 0;
-    sfide.current = sfideNuove(nuovoViaggio());
-    setTrofeiViaggio([]); setCodaTrofei([]);
-    musica.chiudi();   // un viaggio nuovo: ogni zona ricomincia il suo brano dall'inizio
+  // ── la fine del viaggio ────────────────────────────────────────────
+  // Il riquadro del finale tiene la frase; quando il narratore ha finito di leggere (o, senza voce, dopo il tempo di
+  // leggere l'ultimo turno) si passa la mano: la sequenza finale o, dopo una morte, il menu d'avvio. Invio, Spazio o Esc
+  // vanno avanti subito. Il gioco non riparte da solo (Simone, 21/10/2026).
+  const trofeiDellaFine = useRef<string[]>([]);
+  const passata = useRef(false);
+  const continua = () => {
+    if (passata.current) return;
+    passata.current = true;
+    voce.ferma();
+    onFine({ esito, frase: finale || null, trofei: [...trofeiDellaFine.current] });
   };
+  const continuaRef = useRef(continua);
+  continuaRef.current = continua;
+  const ingombro = useRef(false);
+  ingombro.current = pausa || guida || !!taccuino || pannelloOpzioni || paginaTrofei || !!rapidoDaCaricare;
+  useEffect(() => {
+    if (!finita || fase !== "gioca") return;
+    passata.current = false;
+    const ultimo = voci[voci.length - 1];
+    const caratteri = ultimo ? ultimo.blocchi.reduce((n, b) => n + ("testo" in b ? b.testo.length : 0), 0) : 0;
+    const lettura = Math.min(40, Math.max(6, 4 + caratteri / 18)) * 1000;
+    let timer = 0;
+    // con un pannello aperto (pausa, opzioni, guida, taccuino, trofei) non si va avanti: si riprova dopo un respiro
+    const fra = (ms: number) => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => (ingombro.current ? fra(DOPO_LA_VOCE) : continuaRef.current()), ms);
+    };
+    // il tempo di leggere vale finché la voce non comincia; da lì si aspetta che taccia, poi un respiro
+    fra(voce.parla ? 600_000 : lettura);
+    const smetti = voce.ascolta((parla) => fra(parla ? 600_000 : DOPO_LA_VOCE));
+    const tasto = (e: KeyboardEvent) => {
+      if (e.defaultPrevented || ingombro.current || !["Enter", " ", "Escape"].includes(e.key)) return;
+      e.preventDefault();
+      continuaRef.current();
+    };
+    window.addEventListener("keydown", tasto);
+    return () => { window.clearTimeout(timer); smetti(); window.removeEventListener("keydown", tasto); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [finita, fase]);
 
   // ── salvare e caricare ─────────────────────────────────────────────
   const riassunto = (m: StatoMondo): Riassunto => {
@@ -498,6 +533,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     sfide.current = sfideCaricate(dati.sfide, dati.partita.comandi.length,
       (v) => Math.max(piuLontano(v), v === viaggioDiPrima ? qui : 0), nuovoViaggio());
     setTrofeiViaggio([]); setCodaTrofei([]);
+    trofeiDellaFine.current = [];
     setPausa(false);
   }
 
@@ -529,7 +565,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
   // sopra); con la riga vuota apre la pausa (piano 09, §5). I dialoghi aperti gestiscono Esc da sé, prima di qui.
   useEffect(() => {
     const tasto = (e: KeyboardEvent) => {
-      if (e.key !== "Escape" || e.defaultPrevented) return;
+      if (e.key !== "Escape" || e.defaultPrevented || finita) return;   // a viaggio finito Esc va avanti (la fine, qui sopra)
       if (fase !== "gioca" || pausa || guida || taccuino || richiesta || pannelloOpzioni || rapidoDaCaricare || paginaTrofei) return;
       if (menu || pannello || usaDa) { chiudiPannelli(); return; }
       if (zittita.current) { zittita.current = false; return; }
@@ -743,25 +779,8 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
                 <section className="vg-finale">
                   <p className="vg-sopratitolo">{esito === "vinta" ? "finale" : "fine"}</p>
                   <p className="vg-finale-testo">{finale || (esito === "vinta" ? "Sei arrivato." : "Il viaggio finisce qui.")}</p>
-                  {trofeiViaggio.length > 0 && (
-                    <div className="vg-finale-trofei" role="group" aria-label="I trofei di questo viaggio">
-                      <p className="vg-sopratitolo">i trofei di questo viaggio</p>
-                      <ul>
-                        {trofeiViaggio.map((id) => {
-                          const t = PER_ID.get(id);
-                          // compatti, perché il testo del finale resti in vista: la frase al passaggio del mouse e nella pagina
-                          return t ? <li key={id} title={t.frase} aria-label={`${t.nome}: ${t.frase}`}><Medaglione famiglia={t.famiglia} vinto accento={accento} />{t.nome}</li> : null;
-                        })}
-                      </ul>
-                    </div>
-                  )}
-                  <div className="vg-finale-azioni">
-                    <button className="vg-bottone vg-pieno" onClick={ricomincia}>↺ riparti dalla stazione</button>
-                    <button className="vg-bottone" onClick={() => setTaccuino("carica")}>carica una partita</button>
-                    <button className="vg-bottone" onClick={() => setPaginaTrofei(true)}>trofei</button>
-                    <button className="vg-bottone" onClick={onExit}>← intro</button>
-                    {inDesktop() && <button className="vg-bottone" onClick={esciDalGioco}>✕ esci</button>}
-                  </div>
+                  {/* niente pulsanti: finita la lettura si va avanti da soli (la sequenza finale, o il menu d'avvio) */}
+                  <button className="vg-finale-avanti" onClick={continua}>Invio · continua</button>
                 </section>
               )}
             </div>

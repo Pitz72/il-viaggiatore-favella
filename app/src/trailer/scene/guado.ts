@@ -134,11 +134,13 @@ function ombraVerso(ctx: C2D, x: number, y: number, alto: number, fase: number, 
   ctx.restore();
 }
 
-export function disegnaGuado(ctx: C2D, t: number, c: Cache) {
+/** `figure = false` è la sequenza finale (components/SequenzaFinale.tsx): Acquamorta e il greto senza Cosimo né il
+ *  viandante, e senza la camera del trailer (la muove chi chiama); `t` lì è soltanto l'orologio dell'acqua e delle nuvole. */
+export function disegnaGuado(ctx: C2D, t: number, c: Cache, figure = true) {
   const a = c.guado as StatoGuado;
   const l = t - 59.6;
   ctx.save();
-  camera(ctx, lerp(1.0, 1.12, easeInOut(seg(l, 0, 8.2))), 900, 760);
+  if (figure) camera(ctx, lerp(1.0, 1.12, easeInOut(seg(l, 0, 8.2))), 900, 760);
 
   // ── il cielo: cremisi che scende all'arancio dell'orizzonte
   cielo(ctx, [[0, "#12050d"], [0.30, "#3b0f22"], [0.52, "#8b2b3a"], [0.62, "#d4633f"], [0.66, "#f39a64"]], -250, 700);
@@ -198,6 +200,29 @@ export function disegnaGuado(ctx: C2D, t: number, c: Cache) {
   alone(ctx, 380, ay + 120, 900, "#ff7a50", 0.20, 0.16);
   ctx.globalCompositeOperation = "source-over";
 
+  if (figure) disegnaFigure(ctx, t, l);
+
+  // ── cenere e polvere nella luce rossa, e le canne secche in primo piano
+  ctx.globalCompositeOperation = "lighter";
+  pulviscolo(ctx, t, 63, 56, { x: 0, y: 260, w: W, h: 700 }, "#ffb49a", 0.5, 2.6);
+  ctx.globalCompositeOperation = "source-over";
+  const rc = rng(33);
+  ctx.strokeStyle = "#0b0308"; ctx.lineCap = "round";
+  for (const lato of [0, 1]) {
+    for (let i = 0; i < 18; i++) {
+      const bx = lato ? W - 20 - rc() * 260 : -20 + rc() * 240, alt = 130 + rc() * 190, curva = (lato ? -1 : 1) * (10 + rc() * 40);
+      const mov = Math.sin(t * 0.9 + i) * 5;
+      ctx.lineWidth = 1.6 + rc() * 2;
+      ctx.beginPath(); ctx.moveTo(bx, H + 30); ctx.quadraticCurveTo(bx + curva * 0.3 + mov * 0.4, H - alt * 0.6, bx + curva + mov, H - alt); ctx.stroke();
+      ctx.strokeStyle = "rgba(255,130,96,.45)"; ctx.lineWidth = 0.9;
+      ctx.beginPath(); ctx.moveTo(bx + curva * 0.5, H - alt * 0.55); ctx.lineTo(bx + curva + mov, H - alt); ctx.stroke(); ctx.strokeStyle = "#0b0308";
+    }
+  }
+  ctx.restore();
+}
+
+/** Cosimo fermo nel greto, e il viandante che arriva da destra e si ferma (solo nel trailer). */
+function disegnaFigure(ctx: C2D, t: number, l: number) {
   // ── Cosimo: fermo, controluce, le braccia appena aperte; guarda verso chi arriva (est)
   const respiro = t;
   const xC = 640, yC = 894, altoC = 336;
@@ -219,22 +244,4 @@ export function disegnaGuado(ctx: C2D, t: number, c: Cache) {
   disegnaViandante(ctx, vx, 896, 342, fase, {
     ...optV, lontano: "#040106", bordo: "#ff9d7a", latoLuce: -1, verso: -1, dettaglio: 1,
   });
-
-  // ── cenere e polvere nella luce rossa, e le canne secche in primo piano
-  ctx.globalCompositeOperation = "lighter";
-  pulviscolo(ctx, t, 63, 56, { x: 0, y: 260, w: W, h: 700 }, "#ffb49a", 0.5, 2.6);
-  ctx.globalCompositeOperation = "source-over";
-  const rc = rng(33);
-  ctx.strokeStyle = "#0b0308"; ctx.lineCap = "round";
-  for (const lato of [0, 1]) {
-    for (let i = 0; i < 18; i++) {
-      const bx = lato ? W - 20 - rc() * 260 : -20 + rc() * 240, alt = 130 + rc() * 190, curva = (lato ? -1 : 1) * (10 + rc() * 40);
-      const mov = Math.sin(t * 0.9 + i) * 5;
-      ctx.lineWidth = 1.6 + rc() * 2;
-      ctx.beginPath(); ctx.moveTo(bx, H + 30); ctx.quadraticCurveTo(bx + curva * 0.3 + mov * 0.4, H - alt * 0.6, bx + curva + mov, H - alt); ctx.stroke();
-      ctx.strokeStyle = "rgba(255,130,96,.45)"; ctx.lineWidth = 0.9;
-      ctx.beginPath(); ctx.moveTo(bx + curva * 0.5, H - alt * 0.55); ctx.lineTo(bx + curva + mov, H - alt); ctx.stroke(); ctx.strokeStyle = "#0b0308";
-    }
-  }
-  ctx.restore();
 }

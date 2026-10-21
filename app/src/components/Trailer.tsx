@@ -36,6 +36,9 @@ import { useOpzioni } from "../lib/useOpzioni";
 import { scalaTesto } from "../lib/accessibilita";
 import VociMenu, { type VoceMenu } from "../gioco/VociMenu";
 import Domanda from "../gioco/Domanda";
+import Cartiglio, { DURATA_TROFEO, type DatiCartiglio } from "../gioco/Cartiglio";
+import { PER_ID } from "../gioco/trofei";
+import { suonaTrofeo } from "../gioco/suonoTrofeo";
 
 // --------------------------------------------------------------------
 //  Testi (cue): tempi, posizione, tipo d'animazione
@@ -232,7 +235,17 @@ function scostamentoGrana(q: number): [number, number] {
 }
 
 // ====================================================================
-const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLaunch: (carica?: Salvataggio | null) => void }) => {
+interface Props {
+  startAtEnd?: boolean;
+  onLaunch: (carica?: Salvataggio | null) => void;
+  /** Extra → Titoli di coda: la sequenza finale senza la frase (components/SequenzaFinale.tsx) */
+  onTitoli?: () => void;
+  /** i trofei vinti nell'ultimo turno di una partita (la fine non li mostra): si annunciano sul menu, uno alla volta */
+  annuncia?: string[];
+  onAnnunciati?: () => void;
+}
+
+const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnunciati }: Props) => {
   const palcoRef = useRef<HTMLDivElement>(null);
   const telaRef = useRef<HTMLCanvasElement>(null);
   const granaDolceRef = useRef<HTMLDivElement>(null);
@@ -622,10 +635,33 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
     window.open(indirizzo, "_blank", "noopener,noreferrer");
     setNotaExtra(`Aperto nel browser: ${nome}`);
   };
+  // i trofei vinti nell'ultimo turno di una partita: sul menu, uno alla volta, col suono flautato (come in partita)
+  const [cartiglio, setCartiglio] = useState<DatiCartiglio | null>(null);
+  const daAnnunciare = useRef(annuncia);
+  daAnnunciare.current = annuncia;
+  const annunciati = useRef(onAnnunciati);
+  annunciati.current = onAnnunciati;
+  useEffect(() => {
+    const fila = daAnnunciare.current;
+    if (!finito || !fila.length) return;
+    const timer: number[] = [];
+    const uno = (i: number) => {
+      const id = fila[i];
+      setCartiglio({ n: i + 1, testo: PER_ID.get(id)?.nome ?? id, trofeo: true });
+      suonaTrofeo();
+      if (i + 1 < fila.length) timer.push(window.setTimeout(() => uno(i + 1), DURATA_TROFEO + 300));
+      else timer.push(window.setTimeout(() => annunciati.current?.(), DURATA_TROFEO));
+    };
+    timer.push(window.setTimeout(() => uno(0), 1400));   // quando il menu è comparso
+    return () => timer.forEach((t) => window.clearTimeout(t));
+  }, [finito]);
+
   const vociExtra: VoceMenu[] = [
     { id: "colonna", etichetta: "Scarica la colonna sonora ufficiale", dettaglio: "Il Viaggiatore Official Soundtrack · The Runtimers · sette brani", principale: true, azione: scaricaColonna },
     // finito il trailer si torna al menu d'avvio, non a Extra
     { id: "rivedi", etichetta: "Rivedi il trailer", azione: () => { setExtra(false); setNotaExtra(null); rivedi(); } },
+    // i crediti (e l'attribuzione delle voci ElevenLabs) restano raggiungibili anche da chi non arriva in fondo
+    ...(onTitoli ? [{ id: "titoli", etichetta: "Titoli di coda", azione: onTitoli }] : []),
     { id: "favella", etichetta: "favella.eu", azione: () => apriSito("https://favella.eu/", "favella.eu") },
     { id: "ecosystem", etichetta: "ecosystem.runtimeradio.com", azione: () => apriSito("https://ecosystem.runtimeradio.com/", "ecosystem.runtimeradio.com") },
     { id: "indietro", etichetta: "Indietro", tasto: "Esc", azione: () => setExtra(false) },
@@ -763,6 +799,10 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
               v{etichettaVersione(true)}
             </div>
           )}
+          {/* i trofei dell'ultimo turno: il cartiglio del gioco, disegnato per 1280×720, qui ingrandito a 1920×1080 */}
+          <div style={{ position: "absolute", left: 0, top: 0, width: 1280, height: 720, transform: "scale(1.5)", transformOrigin: "0 0", pointerEvents: "none" }}>
+            <Cartiglio dati={cartiglio} accento="#f0b77e" />
+          </div>
           {guida && !compatto && <ComeSiGioca base={19} onChiudi={() => setGuida(false)} />}
           {opzioniAperte && !compatto && <PannelloOpzioni base={19} onChiudi={() => setOpzioniAperte(false)} />}
           {trofeiAperti && !compatto && <PaginaTrofei base={19} onChiudi={() => setTrofeiAperti(false)} />}
