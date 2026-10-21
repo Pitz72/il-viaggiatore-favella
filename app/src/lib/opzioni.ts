@@ -16,8 +16,13 @@ export type ModoVoce = "recitata" | "lettore";
 export type Qualita = "automatica" | "alta" | "media" | "bassa";
 export const QUALITA: readonly Qualita[] = ["automatica", "alta", "media", "bassa"];
 export type Movimento = "sistema" | "ridotto" | "pieno";
+/** Come si danno i comandi (piano 09, §3.3): scrivendo e coi pulsanti, solo coi pulsanti, solo scrivendo. */
+export type ModoComandi = "entrambi" | "pulsanti" | "parole";
+export const MODI_COMANDI: readonly ModoComandi[] = ["entrambi", "pulsanti", "parole"];
 
 export interface Opzioni {
+  /** pulsanti e parole (com'è sempre stato), solo pulsanti (niente riga da scrivere), solo parole (l'avventura testuale pura) */
+  comandi: ModoComandi;
   /** la voce del gioco: il doppiaggio, oppure nessuna voce (il lettore di schermo legge il diario) */
   voce: ModoVoce;
   /** il volume generale, da 0 a 1: moltiplica i tre canali */
@@ -60,6 +65,7 @@ export function altaAccessibilita(o: Opzioni): "si" | "no" | "personalizzata" {
 }
 
 export const OPZIONI_DI_BASE: Readonly<Opzioni> = {
+  comandi: "entrambi",
   voce: "recitata",
   volume: 1,
   volumeMusica: 1,
@@ -86,6 +92,7 @@ export function pulisci(grezzo: unknown): Opzioni {
   const d = (grezzo && typeof grezzo === "object" ? grezzo : {}) as Record<string, unknown>;
   const b = OPZIONI_DI_BASE;
   return {
+    comandi: MODI_COMANDI.includes(d.comandi as ModoComandi) ? (d.comandi as ModoComandi) : b.comandi,
     voce: d.voce === "recitata" || d.voce === "lettore" ? d.voce : b.voce,
     volume: livello(d.volume, b.volume),
     volumeMusica: livello(d.volumeMusica, b.volumeMusica),

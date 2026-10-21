@@ -19,6 +19,12 @@
 //  automatici si scrivono a rotazione a ogni cambio di luogo e quando si lascia
 //  la partita. Ogni salvataggio porta la miniatura del paesaggio e il tempo di
 //  gioco (piano 09, §6).
+//  I comandi si danno in tre modi (opzioni, Generale; piano 09, §3.3): pulsanti
+//  e parole (com'è sempre stato); solo pulsanti (la riga sparisce, il fuoco va
+//  al primo pulsante utile); solo parole (l'avventura testuale pura: niente
+//  file di pulsanti, menu delle cose e dosi; risposte, scorte e bisaccia si
+//  leggono soltanto). «opzioni», «pausa», «salva» e «carica» scritti nella riga
+//  aprono i pannelli dell'app: non arrivano al motore.
 // ====================================================================
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { avviaGioco } from "../lib/favellaRuntime";
@@ -88,6 +94,9 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
   // In voce recitata il diario non si annuncia: ciò che la voce non dice (le risposte del
   // motore, i titoli dei luoghi, le parti senza audio) va al lettore di schermo da un'area a parte.
   const [opz] = useOpzioni();
+  // i comandi: la riga da scrivere c'è tranne che in «solo pulsanti», i pulsanti tranne che in «solo parole»
+  const conRiga = opz.comandi !== "pulsanti";
+  const conPulsanti = opz.comandi !== "parole";
   const [pannelloOpzioni, setPannelloOpzioni] = useState(false);
   const [pausa, setPausa] = useState(false);
   // Esc mentre la voce parla la zittisce soltanto: non apre anche la pausa
@@ -168,7 +177,8 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     // la voce si ferma al primo tasto (non ai soli tasti di modifica); F2 ridice l'ultimo testo
     const tasto = (e: KeyboardEvent) => {
       if (e.key === "F2") { e.preventDefault(); if (recitataRef.current) voce.riascolta(); return; }
-      if (["Shift", "Control", "Alt", "AltGraph", "Meta", "CapsLock"].includes(e.key)) return;
+      // né ai tasti di modifica né a Tab: passare da un pulsante all'altro non è parlarle sopra
+      if (["Shift", "Control", "Alt", "AltGraph", "Meta", "CapsLock", "Tab"].includes(e.key)) return;
       zittita.current = e.key === "Escape" && voce.parla;
       voce.ferma();
     };
@@ -201,7 +211,20 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     return () => { vivo = false; };
   }, []);
 
-  useEffect(() => { if (fase === "gioca" && !finita && !guida && !taccuino && !richiesta && !pannelloOpzioni && !pausa && !rapidoDaCaricare) inputRef.current?.focus(); }, [fase, finita, guida, taccuino, voci, richiesta, pannelloOpzioni, pausa, rapidoDaCaricare]);
+  // Il fuoco dove si gioca: la riga; in «solo pulsanti» il primo pulsante utile (la prima risposta, il «no» di una
+  // domanda, la prima uscita). Messo dal codice su una risposta, non la fa leggere: la voce sta dicendo la battuta.
+  const comandiRef = useRef<HTMLDivElement>(null);
+  const fuocoDaCodice = useRef(false);
+  const rimettiFuoco = () => {
+    if (conRiga) { inputRef.current?.focus(); return; }
+    const box = comandiRef.current;
+    const el = box?.querySelector<HTMLElement>("[data-fuoco]") ?? box?.querySelector<HTMLElement>("button:not(:disabled)");
+    if (!el) return;
+    fuocoDaCodice.current = true;
+    el.focus();
+    fuocoDaCodice.current = false;
+  };
+  useEffect(() => { if (fase === "gioca" && !finita && !guida && !taccuino && !richiesta && !pannelloOpzioni && !pausa && !rapidoDaCaricare) rimettiFuoco(); }, [fase, finita, guida, taccuino, voci, richiesta, pannelloOpzioni, pausa, rapidoDaCaricare, opz.comandi]); // eslint-disable-line react-hooks/exhaustive-deps
   // i verbi che qui e adesso hanno un effetto (attingi, curati, attacca…) cambiano a ogni turno
   useEffect(() => {
     if (fase === "gioca" && sessione.current && !finita) setAzioniCtx(sessione.current.azioni());
@@ -267,7 +290,32 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
     esegui(cmd, etichetta);
   };
   const confermaSi = () => { const r = richiesta; setRichiesta(null); if (r) esegui(r.cmd, r.etichetta); };
-  const confermaNo = () => { setRichiesta(null); inputRef.current?.focus(); };
+  const confermaNo = () => { setRichiesta(null); rimettiFuoco(); };
+
+  /** Ciò che si scrive nella riga. Quattro parole sono dell'app, non del motore (che non le usa): aprono i
+   *  pannelli e non diventano un turno. Il resto è un comando. */
+  const scritto = (grezzo: string) => {
+    const parola = grezzo.trim().toLowerCase();
+    const apri = parola === "opzioni" ? () => setPannelloOpzioni(true)
+      : parola === "pausa" ? () => setPausa(true)
+      : parola === "salva" ? () => setTaccuino("salva")
+      : parola === "carica" ? () => setTaccuino("carica")
+      : null;
+    if (!apri) { manda(grezzo); return; }
+    voce.ferma();
+    setBozza(""); chiudiPannelli();
+    iStoria.current = -1;
+    apri();
+  };
+
+  useEffect(() => { chiudiPannelli(); }, [opz.comandi]);
+  // in «solo pulsanti» il menu di una cosa che si apre prende il fuoco; quando si chiude senza un turno, il fuoco torna al gioco
+  const menuRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (conRiga || fase !== "gioca") return;
+    if (menu || usaDa) menuRef.current?.querySelector<HTMLElement>("button")?.focus();
+    else if (!pannello && (document.activeElement === document.body || document.activeElement === null)) rimettiFuoco();
+  }, [menu, usaDa, pannello]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const anteprima = useCallback((cmd: string) => sessione.current!.anteprima(cmd), []);
   const apriPannello = (tipo: "bere" | "mangiare") => {
@@ -391,6 +439,8 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
       if (fase !== "gioca" || guida || taccuino || pannelloOpzioni || richiesta || rapidoDaCaricare) return;
       if (e.key === "F5") { e.preventDefault(); salvaRapido(); }
       else if (e.key === "F9") { e.preventDefault(); caricaRapido(); }
+      // Ctrl+Z fuori da un campo di testo (nella riga lo prende la riga stessa, solo se è vuota)
+      else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z" && !(document.activeElement instanceof HTMLInputElement)) { e.preventDefault(); annulla(); }
     };
     window.addEventListener("keydown", tasto);
     return () => window.removeEventListener("keydown", tasto);
@@ -424,7 +474,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
   const annulla = () => { if (puoAnnullare) manda("annulla", "annulla"); };
 
   const tasto = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") manda(bozza);
+    if (e.key === "Enter") scritto(bozza);
     else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z" && !bozza) { e.preventDefault(); annulla(); }
     else if (e.key === "ArrowUp" || e.key === "ArrowDown") {
       const s = storia.current;
@@ -473,7 +523,7 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
   };
   const chiave = (grezza: string, i: number, attiva: boolean) => {
     const k = grezza.toLowerCase();
-    const viva = finita || !attiva ? null : chiaveViva(k);
+    const viva = finita || !attiva || !conPulsanti ? null : chiaveViva(k);
     if (!viva) return <span key={i} className="vg-chiave">{k}</span>;
     return <button key={i} type="button" className="vg-chiave vg-chiave-tasto" title={viva.titolo} onClick={viva.vai}>{k}</button>;
   };
@@ -528,6 +578,21 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
           {soglie.map((s) => <i key={s} style={{ left: `${(s / max) * 100}%` }} />)}
         </div>
       </div>
+    );
+  };
+  /** Una scorta: coi pulsanti si tocca e apre «Vuoi bere?» / «Vuoi mangiare?»; in «solo parole» si legge e basta. */
+  const scorta = (tipo: "bere" | "mangiare", detto: string, titolo: string, azione: string, segno: React.ReactNode, valore: number, sotto: string) => {
+    const dentro = (<>
+      <svg viewBox="0 0 24 24" aria-hidden="true">{segno}</svg>
+      <div><b>{valore}</b><span>{sotto}</span></div>
+    </>);
+    if (!conPulsanti) return <div className="vg-scorta vg-informa" role="group" aria-label={`${detto}.`}>{dentro}</div>;
+    return (
+      <button className={"vg-scorta" + (pannello === tipo ? " vg-scorta-attiva" : "")} disabled={finita}
+        onClick={() => apriPannello(tipo)} title={titolo} aria-label={`${detto}. ${azione[0].toUpperCase()}${azione.slice(1)}.`}>
+        {dentro}
+        <i className="vg-scorta-azione" aria-hidden="true">{azione}</i>
+      </button>
     );
   };
   const statoSete = (v: number) => (v >= 9 ? "disidratato" : v >= 6 ? "assetato" : "a posto");
@@ -611,44 +676,52 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
           </div>
 
           {!finita && (
-            <div className="vg-comandi">
+            <div className="vg-comandi" ref={comandiRef}>
               {mondo.dialog && mondo.dialog.opzioni.length > 0 && (
                 <div className="vg-risposte">
                   <p className="vg-sopratitolo">rispondi a {mondo.dialog.chi}</p>
                   <div className="vg-risposte-lista">
-                    {mondo.dialog.opzioni.map((o, i) => (
-                      <button key={i} className="vg-risposta" onClick={() => manda(String(i + 1), o)}
-                        onMouseEnter={() => diciScelta(o)} onFocus={() => diciScelta(o)}>
+                    {mondo.dialog.opzioni.map((o, i) => conPulsanti ? (
+                      <button key={i} className="vg-risposta" data-fuoco={i === 0 ? "" : undefined} onClick={() => manda(String(i + 1), o)}
+                        onMouseEnter={() => diciScelta(o)} onFocus={() => { if (!fuocoDaCodice.current) diciScelta(o); }}>
                         <span className="vg-num">{i + 1}</span><span>{o}</span>
                       </button>
+                    ) : (
+                      // in «solo parole» la risposta si sceglie scrivendo il suo numero
+                      <p key={i} className="vg-risposta vg-risposta-scritta"><span className="vg-num">{i + 1}</span><span>{o}</span></p>
                     ))}
                   </div>
                 </div>
               )}
 
-              {mondo.conferma && (
+              {conPulsanti && mondo.conferma && (
                 <div className="vg-azioni">
                   <span className="vg-etichetta">{mondo.conferma === "esci" ? "chiudere la partita?" : "ricominciare da capo?"}</span>
                   <button className="vg-chip vg-pieno" onClick={() => manda("sì", "sì")}>sì</button>
-                  <button className="vg-chip" onClick={() => manda("no", "no")}>no</button>
+                  <button className="vg-chip" data-fuoco="" onClick={() => manda("no", "no")}>no</button>
                 </div>
               )}
 
-              <div className="vg-input">
-                <span className="vg-prompt">›</span>
-                <input ref={inputRef} value={bozza} onChange={(e) => setBozza(e.target.value)} onKeyDown={tasto}
-                  spellCheck={false} autoCapitalize="off" autoCorrect="off" autoComplete="off"
-                  aria-label="Scrivi un comando" placeholder={mondo.dialog ? "scegli una risposta (1, 2…) o scrivi" : "Cosa fai? Scrivi un comando, o tocca qui sotto…"} />
-                <button className="vg-annulla" onClick={annulla} disabled={!puoAnnullare} title="Annulla l'ultima mossa (Ctrl+Z)" aria-label="Annulla l'ultima mossa">↶ annulla</button>
-                <button className="vg-invia" onClick={() => manda(bozza)} disabled={!bozza.trim()} aria-label="Invia">invio ↵</button>
-              </div>
+              {conRiga && (
+                <div className="vg-input">
+                  <span className="vg-prompt">›</span>
+                  <input ref={inputRef} value={bozza} onChange={(e) => setBozza(e.target.value)} onKeyDown={tasto}
+                    spellCheck={false} autoCapitalize="off" autoCorrect="off" autoComplete="off"
+                    aria-label="Scrivi un comando"
+                    placeholder={mondo.dialog
+                      ? (conPulsanti ? "scegli una risposta (1, 2…) o scrivi" : "scrivi il numero della risposta (1, 2…)")
+                      : (conPulsanti ? "Cosa fai? Scrivi un comando, o tocca qui sotto…" : "Cosa fai? Scrivi un comando e premi Invio…")} />
+                  {conPulsanti && <button className="vg-annulla" onClick={annulla} disabled={!puoAnnullare} title="Annulla l'ultima mossa (Ctrl+Z)" aria-label="Annulla l'ultima mossa">↶ annulla</button>}
+                  <button className="vg-invia" onClick={() => scritto(bozza)} disabled={!bozza.trim()} aria-label="Invia">invio ↵</button>
+                </div>
+              )}
 
-              {!mondo.dialog && (
+              {conPulsanti && !mondo.dialog && (
                 <div className="vg-contesto">
                   <div className="vg-gruppo">
                     <span className="vg-etichetta">uscite</span>
-                    {(mondo.exits ?? []).map((u) => (
-                      <button key={u.dir} className="vg-chip vg-uscita" onClick={() => manda(u.dir)} title={`${u.dir}: ${u.verso}`}>
+                    {(mondo.exits ?? []).map((u, i) => (
+                      <button key={u.dir} className="vg-chip vg-uscita" data-fuoco={i === 0 ? "" : undefined} onClick={() => manda(u.dir)} title={`${u.dir}: ${u.verso}`}>
                         <span className="vg-freccia">{DIREZIONI[u.dir] ?? "·"}</span>{u.dir}<em>{u.verso}</em>
                       </button>
                     ))}
@@ -657,6 +730,8 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
                       <button className="vg-chip vg-tenue" onClick={() => manda("inventario")} title="inventario: che cosa porti, a parole">inventario</button>
                       <button className="vg-chip vg-tenue" onClick={() => manda("stato")} title="stato: vita, sete, fame, acqua e cibo, a parole">stato</button>
                       <button className="vg-chip vg-tenue" onClick={() => manda("aspetta")} title="aspetta: lascia passare un po' di tempo">aspetta</button>
+                      {/* senza la riga, ↶ annulla sta qui */}
+                      {!conRiga && <button className="vg-chip vg-tenue" onClick={annulla} disabled={!puoAnnullare} title="Annulla l'ultima mossa (Ctrl+Z)" aria-label="Annulla l'ultima mossa">↶ annulla</button>}
                     </span>
                   </div>
                   {(mondo.present ?? []).length > 0 && (
@@ -688,12 +763,12 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
                 </div>
               )}
 
-              {pannello && (
+              {conPulsanti && pannello && (
                 <PannelloScorta tipo={pannello} mondo={mondo} anteprima={anteprima} onScegli={(cmd) => manda(cmd)} onChiudi={chiudiPannelli} />
               )}
 
-              {menu && (
-                <div className="vg-azioni">
+              {conPulsanti && menu && (
+                <div className="vg-azioni" ref={menuRef}>
                   <span className="vg-etichetta">{menu.nome}</span>
                   {vociDelMenu(menu, mondo, azioniCtx).map((v) => (
                     <button key={v.etichetta} className={"vg-chip" + (v.pieno ? " vg-pieno" : "")} title={v.cmd}
@@ -709,8 +784,8 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
                 </div>
               )}
 
-              {usaDa && (
-                <div className="vg-azioni">
+              {conPulsanti && usaDa && (
+                <div className="vg-azioni" ref={menuRef}>
                   <span className="vg-etichetta">{usaDa.tipo === "zaino" ? `usa ${usaDa.nome.toLowerCase()} su…` : `usa su ${usaDa.nome.toLowerCase()}…`}</span>
                   {bersagliDelUso(usaDa, mondo).map((b) => (
                     <button key={b.cmd} className="vg-chip" title={b.cmd} onClick={() => manda(b.cmd)}>{b.etichetta}</button>
@@ -732,20 +807,10 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
 
           <p className="vg-sezione">scorte</p>
           <div className="vg-scorte">
-            <button className={"vg-scorta" + (pannello === "bere" ? " vg-scorta-attiva" : "")} disabled={finita}
-              onClick={() => apriPannello("bere")} title="Bevi: scegli quanti sorsi"
-              aria-label={`Acqua: ${num("acqua")} su ${capienzaAcqua}. Bevi.`}>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 C8 9 6 12 6 15 A6 6 0 0 0 18 15 C18 12 16 9 12 3 Z" /></svg>
-              <div><b>{num("acqua")}</b><span>acqua /{capienzaAcqua}</span></div>
-              <i className="vg-scorta-azione" aria-hidden="true">bevi</i>
-            </button>
-            <button className={"vg-scorta" + (pannello === "mangiare" ? " vg-scorta-attiva" : "")} disabled={finita}
-              onClick={() => apriPannello("mangiare")} title="Mangia: scegli quante porzioni"
-              aria-label={`Cibo: ${num("cibo")}. Mangia.`}>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13 C4 8 8 6 12 6 C16 6 20 8 20 13 V17 H4 Z M8 9 L9 12 M12 8 V12 M16 9 L15 12" /></svg>
-              <div><b>{num("cibo")}</b><span>cibo</span></div>
-              <i className="vg-scorta-azione" aria-hidden="true">mangia</i>
-            </button>
+            {scorta("bere", `Acqua: ${num("acqua")} su ${capienzaAcqua}`, "Bevi: scegli quanti sorsi", "bevi",
+              <path d="M12 3 C8 9 6 12 6 15 A6 6 0 0 0 18 15 C18 12 16 9 12 3 Z" />, num("acqua"), `acqua /${capienzaAcqua}`)}
+            {scorta("mangiare", `Cibo: ${num("cibo")}`, "Mangia: scegli quante porzioni", "mangia",
+              <path d="M4 13 C4 8 8 6 12 6 C16 6 20 8 20 13 V17 H4 Z M8 9 L9 12 M12 8 V12 M16 9 L15 12" />, num("cibo"), "cibo")}
           </div>
 
           <p className="vg-sezione">bisaccia <span>{mondo.inventory.length}/{capienza}</span></p>
@@ -757,8 +822,10 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
               const attivo = menu?.tipo === "zaino" && menu.id === id;
               return (
                 <li key={i}>
-                  <button className={"vg-oggetto" + (attivo ? " vg-attivo" : "")} disabled={finita}
-                    onClick={() => setMenu(attivo ? null : { tipo: "zaino", id, nome: o })}>{o}</button>
+                  {conPulsanti ? (
+                    <button className={"vg-oggetto" + (attivo ? " vg-attivo" : "")} disabled={finita}
+                      onClick={() => setMenu(attivo ? null : { tipo: "zaino", id, nome: o })}>{o}</button>
+                  ) : <span className="vg-oggetto vg-informa">{o}</span>}
                 </li>
               );
             })}
@@ -813,15 +880,15 @@ const ViaggiatorePlayer = ({ onExit, carica = null }: { onExit: () => void; cari
       {pannelloOpzioni && (
         <PannelloOpzioni base={13} accento={accento}
           onRiascolta={() => { setPannelloOpzioni(false); setPausa(false); voce.riascolta(); }}
-          onChiudi={() => { setPannelloOpzioni(false); if (!pausa) inputRef.current?.focus(); }} />
+          onChiudi={() => { setPannelloOpzioni(false); if (!pausa) rimettiFuoco(); }} />
       )}
-      {guida && <ComeSiGioca base={13} accento={accento} onChiudi={() => { setGuida(false); if (!pausa) inputRef.current?.focus(); }} />}
+      {guida && <ComeSiGioca base={13} accento={accento} onChiudi={() => { setGuida(false); if (!pausa) rimettiFuoco(); }} />}
       {taccuino && (
         <Taccuino base={13} modo={taccuino} accento={accento} puoSalvare={!finita} avvisaPerdita={nonSalvati > 0 && !finita}
           istantanea={() => ({ riassunto: riassunto(mondo), miniatura: miniatura(), tempoMs: tempo.current })}
           onSalva={salvaIn}
           onCarica={(d) => { setTaccuino(null); setPausa(false); riprendi(d); }}
-          onChiudi={() => { setTaccuino(null); if (!pausa) inputRef.current?.focus(); }} />
+          onChiudi={() => { setTaccuino(null); if (!pausa) rimettiFuoco(); }} />
       )}
       {rapidoDaCaricare && (
         <Domanda base={13} accento={accento} domanda="Caricare il salvataggio rapido?"

@@ -7,8 +7,8 @@
 //  «ripristina le opzioni di base», con una conferma (S / N).
 //  Misure in em (prop `base`), come la guida e il taccuino: 19 sulla
 //  superficie 1920 del menu, 13 su quella 1280 della partita.
-//  Le schede compaiono quando hanno qualcosa: Generale, per ora, solo sul
-//  desktop (gli aggiornamenti). Video: lo schermo, la dimensione della
+//  Generale: il modo dei comandi (piano 09, fase 5) e, solo sul desktop, gli
+//  aggiornamenti. Video: lo schermo, la dimensione della
 //  finestra e la qualità della grafica (piano 09, fase 4); la finestra e gli
 //  aggiornamenti li tiene il processo principale (desktop/impostazioni.cjs).
 // ====================================================================
@@ -16,8 +16,8 @@ import { scalaTesto } from "../lib/accessibilita";
 import { useEffect, useRef, useState } from "react";
 import { useDialogo } from "./useDialogo";
 import { useOpzioni } from "../lib/useOpzioni";
-import { ACCESSIBILE, altaAccessibilita, NON_ACCESSIBILE, ripristinaOpzioni, type Opzioni, type Qualita } from "../lib/opzioni";
-import { cercaAggiornamenti, dimensioneFinestra, impostaSchermoIntero, inDesktop, seguiFinestra, statoFinestra, statoSchermoIntero, type StatoFinestra } from "../lib/desktop";
+import { ACCESSIBILE, altaAccessibilita, NON_ACCESSIBILE, ripristinaOpzioni, type ModoComandi, type Opzioni, type Qualita } from "../lib/opzioni";
+import { cercaAggiornamenti, dimensioneFinestra, impostaSchermoIntero, seguiFinestra, statoFinestra, statoSchermoIntero, type StatoFinestra } from "../lib/desktop";
 import "./opzioni.css";
 
 const SERIF = "'Lora', Georgia, serif";
@@ -25,10 +25,7 @@ const DISPLAY = "'Sora', 'Inter', sans-serif";
 const MONO = "'Source Code Pro', ui-monospace, monospace";
 
 type Scheda = "generale" | "video" | "audio";
-const SCHEDE: readonly [Scheda, string][] = [
-  ...(inDesktop() ? [["generale", "Generale"] as [Scheda, string]] : []),
-  ["video", "Video"], ["audio", "Audio"],
-];
+const SCHEDE: readonly [Scheda, string][] = [["generale", "Generale"], ["video", "Video"], ["audio", "Audio"]];
 // la scheda scelta resta finché il gioco è aperto: riaprendo le opzioni si ritrova
 let ultimaScheda: Scheda = SCHEDE[0][0];
 
@@ -39,6 +36,12 @@ const SPIEGA_QUALITA: Record<Qualita, string> = {
   alta: "I paesaggi della partita alla risoluzione piena dello schermo e il trailer fino al 4K: più nitidi, più lavoro per il computer.",
   media: "Tre quarti della risoluzione: per un computer che fatica.",
   bassa: "Metà della risoluzione: per i computer lenti. Meno nitido, più fluido.",
+};
+
+const SPIEGA_COMANDI: Record<ModoComandi, string> = {
+  entrambi: "Scrivi i comandi nella riga, o tocca i pulsanti: uscite, cose, persone, azioni. Dicono le stesse parole.",
+  pulsanti: "Niente riga da scrivere: si gioca coi pulsanti e con le parole del testo che si toccano. Con la tastiera, Tab passa da un pulsante all'altro.",
+  parole: "L'avventura testuale pura: ogni comando si scrive, anche il numero di una risposta. Scorte, bisaccia e fiducia restano a lato, da leggere.",
 };
 
 type Volume = "volume" | "volumeMusica" | "volumeVoce" | "volumeEffetti";
@@ -187,9 +190,14 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
 
         <div id="opz-foglio" role="tabpanel" aria-labelledby={`opz-scheda-${scheda}`} className="gv-scroll"
           style={{ marginTop: "1em", flex: 1, minHeight: 0, overflowY: "auto", borderTop: "1px solid rgba(255,255,255,.07)" }}>
-          {scheda === "generale" && finestra && (
-            <div style={stileColonne}>
-              <section aria-label="All'avvio">
+          {scheda === "generale" && (
+            // la riga dei comandi ha tre valori lunghi: la colonna sinistra è la larga
+            <div style={{ ...stileColonne, gridTemplateColumns: "1.3fr 1fr" }}>
+              <section aria-label="Il gioco">
+                <h3 className="opz-sezione" style={stileSezione}>Il gioco</h3>
+                {riga("Comandi", "comandi", [["entrambi", "pulsanti e parole"], ["pulsanti", "solo pulsanti"], ["parole", "solo parole"]], SPIEGA_COMANDI[o.comandi])}
+              </section>
+              {finestra && <section aria-label="All'avvio">
                 <h3 className="opz-sezione" style={stileSezione}>All'avvio</h3>
                 <div role="group" aria-label="Aggiornamenti" className="opz-riga" style={stileRiga}>
                   <span className="opz-nome" style={stileNome}>Aggiornamenti</span>
@@ -205,7 +213,7 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
                       : "All'avvio il gioco chiede a GitHub se c'è una versione nuova e la scarica; non manda niente di tuo. Vale dall'avvio dopo."}
                   </span>
                 </div>
-              </section>
+              </section>}
             </div>
           )}
           {scheda === "video" && (
