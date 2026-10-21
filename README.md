@@ -61,7 +61,7 @@ Dalla pagina [Releases](https://github.com/Pitz72/il-viaggiatore-favella/release
 
 Il gioco parte a schermo intero e funziona senza connessione. **Esc** salta i
 loghi e il trailer (e chiude il cartello dei crediti e l'avviso, come Invio). Il **menu d'avvio** è una colonna di voci
-(continua, nuovo viaggio, carica, trofei, opzioni, come si gioca, rivedi il trailer, esci) che si sceglie con le frecce e Invio o
+(continua, nuovo viaggio, carica, trofei, opzioni, come si gioca, rivedi il trailer, extra, esci) che si sceglie con le frecce e Invio o
 col mouse. In partita **Esc** apre la **pausa** (riprendi, salva, carica, trofei, opzioni, come si gioca, menu d'avvio, esci),
 **F11** commuta lo schermo intero, **F5** salva al volo e **F9** ricarica quel salvataggio rapido; Alt+F4 chiude. Gli eseguibili non sono firmati:
 Windows SmartScreen può chiedere una conferma.
@@ -87,6 +87,14 @@ subito e restano; «ripristina le opzioni di base» torna alle scelte del primo 
 **L'accessibilità.** Un interruttore, *alta accessibilità*, accende insieme contrasto alto, testo grande, il carattere
 Atkinson Hyperlegible, il movimento ridotto e il fuoco della tastiera marcato; poi si regolano una per una. Il movimento
 ridotto ferma la partita e i menu, non loghi e trailer (Esc li salta).
+
+**La musica.** Ogni zona ha il suo brano, dalla colonna sonora di The Runtimers (generata con Lyria 3.5): suona
+dall'inizio la prima volta e poi gira in tondo senza cuciture (il punto di ripetizione è calcolato sul brano e la
+giuntura è incisa nel file); cambiando zona i brani si danno il cambio in dissolvenza, e tornando indietro una zona
+riprende il suo da dove era rimasto. Negli interni (il bar, l'osteria, la grotta…) si sente da dentro, più bassa e
+senza acuti; quando il narratore parla si abbassa. A viaggio finito tace. Il volume è la riga «Musica» delle opzioni.
+Nel menu, **Extra → Scarica la colonna sonora ufficiale** dà l'album «Il Viaggiatore Official Soundtrack»: sette MP3
+con la copertina e un LEGGIMI, copiati in una cartella a scelta sul desktop, o in uno ZIP nella versione web.
 
 **I trofei.** Trenta, in sei famiglie: i sei finali, le tre fini lungo la strada, i dieci gesti verso chi incontri, sei
 modi di arrivare, tre sfide (arrivare a un finale senza mai tornare indietro, scrivendo ogni comando, coi soli pulsanti) e
@@ -159,7 +167,7 @@ di GitHub per i pacchetti.
 | `app/` | l'app React: loghi animati, licenze e crediti, avviso, trailer (canvas procedurale + colonna sonora + voce), gioco, guida «come si gioca»; in `app/public/voce/` la voce del doppiaggio, un file Opus per parte |
 | `doppiaggio/` | il doppiaggio: i testi per le voci ricavati dai `.fav`, il manifest delle parti, le voci scelte, il resoconto del banco; vedi `doppiaggio/LEGGIMI.md` |
 | `desktop/` | il guscio Electron per Windows e Linux |
-| `collaudo/` | i tredici collaudi automatici: i nove finali, le prove mirate, i salvataggi, le scorte, il ponte dell'interfaccia, i fili del viaggio, le giocate, il testo, le conferme, i pulsanti, la voce del doppiaggio, i trofei, l'esploratore |
+| `collaudo/` | i quattordici collaudi automatici: i nove finali, le prove mirate, i salvataggi, le scorte, il ponte dell'interfaccia, i fili del viaggio, le giocate, il testo, le conferme, i pulsanti, la voce del doppiaggio, i trofei, la musica, l'esploratore |
 | `pre-produzione/` | i documenti di progetto: visione, sistemi, mappa, oggetti, personaggi, ramificazione |
 | `grafica/` | l'icona (SVG), il banner del README e gli script che rasterizzano l'icona |
 | `sviluppo/` | le regole delle versioni e il diario di sviluppo |
@@ -200,6 +208,10 @@ npm run pacchetto:win     # oppure pacchetto:linux
 python strumenti/doppiaggio.py stato          # le parti da doppiare, per voce
 python strumenti/doppiaggio-banco.py          # dalle parti tagliate ai file Opus del gioco
 python strumenti/doppiaggio-trailer.py        # la traccia della voce del trailer
+
+# la colonna sonora (serve ffmpeg; gli MP3 originali di Lyria stanno fuori da git)
+python strumenti/colonna-sonora.py album <cartella>   # titoli, numeri, album, autore, copertina
+python strumenti/colonna-sonora.py anelli             # le versioni per il gioco, coi punti di ripetizione
 ```
 
 `npm run dev` e `npm run build` copiano motore, avventura e Pyodide dentro
@@ -221,11 +233,12 @@ python conferme.py      # quali scelte chiedono conferma
 python pulsanti.py      # i sei finali giocati senza tastiera, coi soli pulsanti
 python doppiaggio.py    # ogni testo che il gioco dice ha la sua voce, e il trailer la sua traccia
 python trofei.py        # ogni partita vince i suoi trofei, al momento giusto; tutti e trenta si possono vincere
+python musica.py        # un brano per zona, giri senza cuciture, l'album e il suo ZIP
 python esploratore.py   # 100 partite a caso che cercano i punti in cui il gioco si rompe
 ```
 
-Sono tredici ([che cosa fa ciascuno](collaudo/LEGGIMI.md)); `testo.py`, `conferme.py`, `pulsanti.py`,
-`doppiaggio.py` e `trofei.py` servono `npm ci --prefix app`. La CI li esegue tutti: l'esploratore in un giro corto (`-n 5 -t 150`) che non
+Sono quattordici ([che cosa fa ciascuno](collaudo/LEGGIMI.md)); `testo.py`, `conferme.py`, `pulsanti.py`,
+`doppiaggio.py`, `trofei.py` e `musica.py` servono `npm ci --prefix app`. La CI li esegue tutti: l'esploratore in un giro corto (`-n 5 -t 150`) che non
 blocca, il giro intero (qualche minuto) si lancia a mano. Del processo principale desktop e della data delle
 versioni, che non hanno bisogno di Electron, si occupano `node desktop/prove.cjs` e `node strumenti/prova-data.mjs`.
 

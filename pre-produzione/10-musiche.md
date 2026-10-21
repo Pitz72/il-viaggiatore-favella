@@ -1,9 +1,40 @@
 # IL VIAGGIATORE — Le musiche di sottofondo, zona per zona
 
-> Pre-produzione · **v0.1, bozza del 21/10/2026**, da rivedere con Simone.
+> Pre-produzione · **v0.2 del 21/10/2026: fatto** (1.31.0). Il §0 dice com'è andata; il resto è la bozza da cui
+> sono nati i brani.
 > Che cosa: una musica di sottofondo per ogni ambiente del gioco, e i prompt per generarla.
 > Che cosa non tocca: la storia, i testi, il doppiaggio (la musica gli sta **sotto**), `intro.mp3` del trailer e del
 > menu (la colonna originale di Simone resta com'è).
+
+---
+
+## 0. Com'è andata
+
+Simone ha generato i sette brani con **Lyria 3.5**, dai prompt del §3, e li ha assegnati alle zone nell'ordine in cui
+li ha generati (il più vecchio alla zona 1). L'ordine combacia coi nomi che Lyria aveva dato:
+
+| Zona | Lyria | Titolo nell'album | Da dove viene |
+|---|---|---|---|
+| 1 · Acquaviva | Warm Stillness | **Dove finiscono i binari** | la stazione: «I binari finiscono qui» |
+| 2 · La piana | Heat Haze | **Il catrame che ondeggia** | il tratto: «il catrame che ondeggia di calore» |
+| 3 · L'invaso | Brittle Salt | **Acqua ovunque, niente da bere** | il sottotitolo della zona |
+| 4 · La statale | Latent Strain | **Il silenzio delle cose costruite** | la rampa: «Il silenzio è diverso, qui: di cose costruite» |
+| 5 · Il paese | Olive Grove | **Il bicchiere tenuto da parte** | Rosaria, che a chi è partito «tiene ancora il bicchiere» |
+| 6 · Le colline | Ancient Moor | **Il vento che non smette** | il pianoro: «il vento che non smette» |
+| 7 · Il guado | Deep Stillness | **Cosa sei tornato a trovare** | il sottotitolo del guado, la domanda del trailer |
+
+- **L'album**, «Il Viaggiatore Official Soundtrack», di **The Runtimers**: sette MP3 (l'audio di Lyria così com'è, 128 kbit/s)
+  con titolo, numero, anno, genere e copertina (il logo del gioco a tutto quadrato, `grafica/copertina-album.jpg`), più un
+  LEGGIMI; in `app/public/colonna-sonora/`. Fuori dalla CC BY-SA, come le voci ElevenLabs (scelta di Simone).
+- **Nel gioco**, `app/public/musica/z1…z7.opus` (96 kbit/s, −23 LUFS) con `indice.json`, scritti da
+  `strumenti/colonna-sonora.py anelli`. Ogni brano suona una volta dall'inizio e poi gira in tondo su un tratto [inizio, fine]
+  scelto dove la musica si somiglia di più prima dei due punti, con gli attacchi e le onde allineati e una sfumatura di 4 s
+  incisa prima della fine: il salto è al campione esatto e non si sente (misurato: `collaudo/musica.py`). I giri vanno da
+  112 a 152 secondi.
+- **Il motore** è `app/src/gioco/musica.ts`, come nel §4: dissolvenza fra zone, ripresa dal punto lasciato, interni filtrati
+  (la stessa tabella del panorama), la musica sotto la voce, niente musica a viaggio finito.
+- **Extra** nel menu d'avvio: «Scarica la colonna sonora ufficiale» (sul desktop in una cartella a scelta, nella versione web
+  uno ZIP). Lì potranno andare altre cose, come il sito di FAVELLA 1.
 
 ---
 
