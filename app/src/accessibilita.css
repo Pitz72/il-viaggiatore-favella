@@ -131,6 +131,14 @@
 [data-testo="grande"] .csg-piede { margin-top: .6em !important; }
 [data-testo="grande"] [role="dialog"][aria-label="Come si gioca"] > div { padding-top: 1.25em !important; padding-bottom: 1.05em !important; }
 
+/* il menu d'avvio col testo grande: voci più vicine (il testo no), perché l'ultima resti lontana dal bordo a 1080 righe;
+   i fili d'accento scendono meno, così restano a metà della voce */
+[data-testo="grande"] .mv-avvio .mv-voce { padding-top: .08em; padding-bottom: .08em; }
+[data-testo="grande"] .mv-avvio .mv-voce::before,
+[data-testo="grande"] .mv-avvio .mv-voce::after { top: .70em; }
+[data-testo="grande"] .mv-avvio .mv-principale::before,
+[data-testo="grande"] .mv-avvio .mv-principale::after { top: .66em; }
+
 /* la pagina dei trofei: i testi tenui diventano chiari; i medaglioni non vinti restano tratteggiati ma si vedono */
 [data-contrasto="alto"] :is(.tr-titolo, .tr-quando, .tr-nota, .tr-coperto, .tr-accenno) { color: #ece6db !important; }
 [data-contrasto="alto"] .tr-medaglia:not(.tr-vinto) { border-color: rgba(255, 255, 255, .55); }

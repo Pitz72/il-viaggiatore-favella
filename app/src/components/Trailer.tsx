@@ -51,7 +51,13 @@ interface Cue {
  *  dalla maschera che taglia le righe (un'ombra larga verrebbe tagliata con un bordo duro). `cy` è il centro, in px di progetto. */
 interface Velo { id: string; da: number; a: number; entra: number; esce: number; cy: number; w: number; h: number; colore: string; alfa: number }
 
-const serif = (px: number, extra: React.CSSProperties = {}): React.CSSProperties =>
+/** Sul menu d'avvio il titolo sale da 262 (l'inquadratura J del trailer) a qui, e la colonna del menu parte da MENU_TOP:
+ *  misurato a 1920×1080, così l'ultima voce («Esci», con «Continua» e il suo dettaglio in cima) resta a ~90 px dal bordo
+ *  anche col testo grande (accessibilita.css stringe gli spazi fra le voci, non il testo). */
+const TITOLO_SU_MENU = 136;
+const MENU_TOP = 452;
+
+const serif =(px: number, extra: React.CSSProperties = {}): React.CSSProperties =>
   ({ fontFamily: FONT.serif, fontWeight: 500, fontSize: px, lineHeight: 1.16, letterSpacing: "-0.005em", ...extra });
 const display = (px: number, extra: React.CSSProperties = {}): React.CSSProperties =>
   ({ fontFamily: FONT.display, fontWeight: 600, fontSize: px, lineHeight: 1.08, letterSpacing: "-0.01em", ...extra });
@@ -258,7 +264,7 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
   const [guida, setGuida] = useState(false);
   const [opzioniAperte, setOpzioniAperte] = useState(false);
   const [trofeiAperti, setTrofeiAperti] = useState(false);
-  // il menu Extra: una seconda colonna al posto della prima; sotto, com'è andato lo scaricamento
+  // il menu Extra: una seconda colonna al posto della prima; sotto, com'è andato lo scaricamento (o quale sito si è aperto)
   const [extra, setExtra] = useState(false);
   const [notaExtra, setNotaExtra] = useState<string | null>(null);
   const [domandaNuovo, setDomandaNuovo] = useState(false);
@@ -600,19 +606,28 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
     { id: "trofei", etichetta: "Trofei", azione: () => setTrofeiAperti(true) },
     { id: "opzioni", etichetta: "Opzioni", azione: () => setOpzioniAperte(true) },
     { id: "guida", etichetta: "Come si gioca", azione: () => setGuida(true) },
-    { id: "rivedi", etichetta: "Rivedi il trailer", azione: rivedi },
     { id: "extra", etichetta: "Extra", azione: () => { setNotaExtra(null); setExtra(true); } },
     ...(inDesktop() ? [{ id: "esci", etichetta: "Esci", azione: esciDalGioco }] : []),
   ];
-  // Extra: la colonna sonora ufficiale (sul desktop si sceglie la cartella, nel browser si scarica uno ZIP); poi, forse, altro
+  // Extra, le cose di contorno (il menu d'avvio resta corto): la colonna sonora ufficiale (sul desktop si sceglie la
+  // cartella, nel browser si scarica uno ZIP), il trailer da rivedere, i due siti
   const scaricaColonna = () => {
     setNotaExtra("Un momento…");
     scaricaColonnaSonora()
       .then((e) => setNotaExtra(e.tipo === "cartella" ? `Salvata in ${e.dove}` : e.tipo === "zip" ? `Scaricata: ${e.nome}` : null))
       .catch((err) => setNotaExtra(`Non è stato possibile: ${err instanceof Error ? err.message : String(err)}`));
   };
+  // sul desktop il link esce dalla finestra e va nel browser di sistema (desktop/main.cjs, setWindowOpenHandler)
+  const apriSito = (indirizzo: string, nome: string) => {
+    window.open(indirizzo, "_blank", "noopener,noreferrer");
+    setNotaExtra(`Aperto nel browser: ${nome}`);
+  };
   const vociExtra: VoceMenu[] = [
     { id: "colonna", etichetta: "Scarica la colonna sonora ufficiale", dettaglio: "Il Viaggiatore Official Soundtrack · The Runtimers · sette brani", principale: true, azione: scaricaColonna },
+    // finito il trailer si torna al menu d'avvio, non a Extra
+    { id: "rivedi", etichetta: "Rivedi il trailer", azione: () => { setExtra(false); setNotaExtra(null); rivedi(); } },
+    { id: "favella", etichetta: "favella.eu", azione: () => apriSito("https://favella.eu/", "favella.eu") },
+    { id: "ecosystem", etichetta: "ecosystem.runtimeradio.com", azione: () => apriSito("https://ecosystem.runtimeradio.com/", "ecosystem.runtimeradio.com") },
     { id: "indietro", etichetta: "Indietro", tasto: "Esc", azione: () => setExtra(false) },
   ];
 
@@ -703,11 +718,11 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
 
           {/* J · il titolo, su un velo scuro e morbido: sul cielo acceso dell'alba la scritta resta leggibile */}
           <div ref={reg("velo")} style={{
-            position: "absolute", left: 0, right: 0, top: (finito ? 176 : 262) - 62, height: 400, opacity: 0, pointerEvents: "none",
+            position: "absolute", left: 0, right: 0, top: (finito ? TITOLO_SU_MENU : 262) - 62, height: 400, opacity: 0, pointerEvents: "none",
             background: "radial-gradient(48% 50% at 50% 50%, rgba(10,7,24,.6) 0%, rgba(10,7,24,.34) 52%, rgba(10,7,24,0) 100%)",
             transition: "top 1.1s cubic-bezier(.2,.7,.2,1)",
           }} />
-          <div style={{ position: "absolute", left: 0, right: 0, top: finito ? 176 : 262, textAlign: "center", transition: "top 1.1s cubic-bezier(.2,.7,.2,1)" }}>
+          <div style={{ position: "absolute", left: 0, right: 0, top: finito ? TITOLO_SU_MENU : 262, textAlign: "center", transition: "top 1.1s cubic-bezier(.2,.7,.2,1)" }}>
             <h1 ref={reg("titolo")} style={{
               // nowrap: all'inizio la spaziatura (0.5em) supera la larghezza del quadro;
               // senza, il titolo andrebbe a capo e tornerebbe su una riga (il «glitch»)
@@ -725,10 +740,10 @@ const Trailer = ({ startAtEnd = false, onLaunch }: { startAtEnd?: boolean; onLau
           <div ref={reg("bandaGiu")} style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: BANDA, background: "#000" }} />
           {/* il menu d'avvio (piano 09, §4): sull'ultimo fotogramma, sotto il titolo, una colonna di voci */}
           {finito && !compatto && (
-            <section style={{ position: "absolute", left: 0, right: 0, top: 492, textAlign: "center", pointerEvents: "auto", animation: "kf-launch 1.2s ease .3s both" }}>
+            <section style={{ position: "absolute", left: 0, right: 0, top: MENU_TOP, textAlign: "center", pointerEvents: "auto", animation: "kf-launch 1.2s ease .3s both" }}>
               <div style={{ position: "absolute", left: "50%", top: -190, width: 1760, height: 860, transform: "translateX(-50%)", background: "radial-gradient(50% 50% at 50% 50%, rgba(6,5,10,.86) 0%, rgba(6,5,10,.62) 52%, rgba(6,5,10,0) 100%)", pointerEvents: "none", zIndex: -1 }} />
               <p style={{ margin: 0, ...serif(36, { color: "rgba(244,236,224,.94)", fontStyle: "italic", textShadow: "0 1px 3px rgba(10,6,14,.85), 0 0 16px rgba(10,6,14,.7)" }) }}>Si parte a piedi.</p>
-              <div style={{ marginTop: 30, fontSize: 19 * scalaTesto(opz) }}>
+              <div className="mv-avvio" style={{ marginTop: 30, fontSize: 19 * scalaTesto(opz) }}>
                 {extra && <p style={{ margin: "0 0 .9em", ...mono(15, { color: "#f0b77e", letterSpacing: "0.34em", textShadow: "0 1px 3px rgba(10,6,14,.85)" }) }}>extra</p>}
                 <VociMenu key={extra ? "extra" : "menu"} voci={extra ? vociExtra : vociMenu} etichetta={extra ? "Extra" : "Menu d'avvio"} accento="#f0b77e"
                   coperto={guida || taccuino || opzioniAperte || trofeiAperti || domandaNuovo} />
