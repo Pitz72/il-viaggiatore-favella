@@ -80,6 +80,8 @@ jobs:
         run: python collaudo/pulsanti.py
       - name: I trofei (le partite di collaudo e le regole vere)
         run: python collaudo/trofei.py
+      - name: La musica delle zone e la colonna sonora
+        run: python collaudo/musica.py
       - name: La voce del doppiaggio (ogni testo stampato trova il suo audio)
         run: python collaudo/doppiaggio.py
       - name: L'esploratore (giro corto, non blocca)

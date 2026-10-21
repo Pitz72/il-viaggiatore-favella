@@ -186,6 +186,31 @@ prova("i trofei: un file guasto si riprende dalla copia di riserva", async () =>
   assert.equal(JSON.parse((await zitto(() => chiama("trofei:leggi"))).testo).n, "primo");
 });
 
+// ---- la colonna sonora da scaricare (menu Extra) -------------------------
+const colonna = require("./colonna-sonora.cjs");
+
+prova("la colonna sonora: si copia l'album dell'elenco in «Il Viaggiatore - Official Soundtrack»", async () => {
+  const web = fs.mkdtempSync(path.join(os.tmpdir(), "viaggiatore-web-"));
+  const dove = fs.mkdtempSync(path.join(os.tmpdir(), "viaggiatore-musica-"));
+  fs.mkdirSync(path.join(web, "colonna-sonora"));
+  const file = ["01 - Dove finiscono i binari.mp3", "03 - Acqua ovunque, niente da bere.mp3", "copertina.jpg", "LEGGIMI.txt"];
+  for (const f of file) fs.writeFileSync(path.join(web, "colonna-sonora", f), `contenuto di ${f}`);
+  fs.writeFileSync(path.join(web, "colonna-sonora", "album.json"), JSON.stringify({ file }));
+  const cartella = await colonna.copiaAlbum(web, dove);
+  assert.equal(cartella, path.join(dove, colonna.CARTELLA_ALBUM));
+  for (const f of file) assert.equal(fs.readFileSync(path.join(cartella, f), "utf8"), `contenuto di ${f}`);
+  assert.ok(!fs.existsSync(path.join(cartella, "album.json")), "l'elenco non si copia");
+});
+
+prova("la colonna sonora: un elenco con un percorso o un file strano si rifiuta", async () => {
+  const web = fs.mkdtempSync(path.join(os.tmpdir(), "viaggiatore-web-"));
+  fs.mkdirSync(path.join(web, "colonna-sonora"));
+  for (const elenco of [["../fuori.mp3"], ["sotto/brano.mp3"], ["programma.exe"], []]) {
+    fs.writeFileSync(path.join(web, "colonna-sonora", "album.json"), JSON.stringify({ file: elenco }));
+    await assert.rejects(() => colonna.copiaAlbum(web, os.tmpdir()), /guasto/, JSON.stringify(elenco));
+  }
+});
+
 // ---- le impostazioni della finestra ---------------------------------------
 const impostazioni = require("./impostazioni.cjs");
 
