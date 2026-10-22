@@ -126,7 +126,7 @@
 [data-contrasto="alto"] :is(.csg-testo, .csg-piede) { color: #ece6db !important; }
 [data-contrasto="alto"] .csg-esempio { background: #000 !important; border-color: rgba(255, 255, 255, .45) !important; }
 [data-contrasto="alto"] .csg-chiudi { border-color: rgba(255, 255, 255, .55) !important; color: #fff !important; }
-/* «solo parole»: le risposte da scrivere restano testo, non riquadri da toccare */
+/* avventura testuale: le risposte da scrivere restano testo, non riquadri da toccare */
 [data-contrasto="alto"] .vg-risposta-scritta { background: transparent; border-color: transparent; }
 
 /* la guida col testo grande: spazi un po' più stretti (il testo no), perché resti in vista senza scorrere */

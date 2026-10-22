@@ -115,16 +115,16 @@ const guasta = da({ "viaggiatore.opzioni": JSON.stringify({ contrasto: "altissim
 assert.deepEqual([guasta.contrasto, guasta.testo, guasta.carattere, guasta.movimento, guasta.fuoco], ["normale", "grande", "lora", "sistema", "normale"]);
 ok("l'alta accessibilità accende e spegne insieme le cinque righe; una cambiata la rende personalizzata");
 
-// 6c. i comandi: di base pulsanti e parole, com'è sempre stato; i tre modi si leggono, un modo guasto torna quello di base
-assert.equal(BASE.comandi, "entrambi");
-for (const m of ["entrambi", "pulsanti", "parole"]) assert.equal(da({ "viaggiatore.opzioni": JSON.stringify({ comandi: m }) }).comandi, m);
-for (const m of ["tastiera", "", null, 2, ["parole"]]) assert.equal(da({ "viaggiatore.opzioni": JSON.stringify({ comandi: m }) }).comandi, "entrambi");
+// 6c. i comandi: di base pulsanti; i due modi si leggono; «entrambi» (c'era fino alla 1.36: pulsanti e riga insieme) e ogni modo guasto tornano a pulsanti
+assert.equal(BASE.comandi, "pulsanti");
+for (const m of ["pulsanti", "parole"]) assert.equal(da({ "viaggiatore.opzioni": JSON.stringify({ comandi: m }) }).comandi, m);
+for (const m of ["entrambi", "tastiera", "", null, 2, ["parole"]]) assert.equal(da({ "viaggiatore.opzioni": JSON.stringify({ comandi: m }) }).comandi, "pulsanti");
 da({});
-O.cambiaOpzioni({ ...O.ACCESSIBILE, comandi: "pulsanti" });
+O.cambiaOpzioni({ ...O.ACCESSIBILE, comandi: "parole" });
 assert.equal(O.altaAccessibilita(O.opzioni()), "si", "il modo dei comandi non conta per l'alta accessibilità");
 O.ripristinaOpzioni();
-assert.equal(O.opzioni().comandi, "entrambi");
-ok("i tre modi dei comandi; un modo guasto torna a pulsanti e parole");
+assert.equal(O.opzioni().comandi, "pulsanti");
+ok("i due modi dei comandi; «pulsanti e parole» di prima e un modo guasto tornano a pulsanti");
 
 // 7. lo spazio negato: le opzioni valgono lo stesso finché il gioco è aperto, e la vecchia voce non si perde
 pieno = true;

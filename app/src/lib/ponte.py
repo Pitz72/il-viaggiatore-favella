@@ -502,6 +502,44 @@ def _maiuscola(nome):
     return nome[:1].upper() + nome[1:] if nome else nome
 
 
+_VERSO = {"nord": (0, -1), "sud": (0, 1), "est": (1, 0), "ovest": (-1, 0)}
+
+
+def fav_mappa():
+    """La carta di tutti i luoghi, per il pannello «mappa»: ogni luogo col suo posto su una griglia (nord in
+    alto, est a destra) e le strade che li uniscono. I posti non sono disegnati a mano: si ricavano dalle uscite
+    cardinali del motore, a partire dal primo luogo, così se l'avventura cambia la carta la segue. Un luogo che
+    le uscite cardinali non raggiungono, o che cadrebbe su un posto già preso, ha x e y nulli e non si disegna
+    (il collaudo, interfaccia.py, pretende che non ce ne siano). Non dice quali luoghi si sono visitati: lo dice
+    fav_stato, e l'interfaccia mostra solo quelli."""
+    m = _mondo
+    if m is None or not m.stanze:
+        return json.dumps({"luoghi": [], "strade": []})
+    primo = next(iter(m.stanze))
+    posto, preso, coda = {primo: (0, 0)}, {(0, 0): primo}, [primo]
+    while coda:
+        sid = coda.pop(0)
+        x, y = posto[sid]
+        for d, dest in m.stanze[sid].uscite.items():
+            if d not in _VERSO or dest not in m.stanze or dest in posto:
+                continue
+            nuovo = (x + _VERSO[d][0], y + _VERSO[d][1])
+            if nuovo in preso:
+                continue
+            posto[dest], preso[nuovo] = nuovo, dest
+            coda.append(dest)
+    x0 = min((p[0] for p in posto.values()), default=0)
+    y0 = min((p[1] for p in posto.values()), default=0)
+    luoghi = []
+    for sid, s in m.stanze.items():
+        p = posto.get(sid)
+        luoghi.append({"id": sid, "nome": _maiuscola(s.nome_visualizzato),
+                       "x": p[0] - x0 if p else None, "y": p[1] - y0 if p else None})
+    strade = sorted({tuple(sorted((sid, dest))) for sid, s in m.stanze.items()
+                     for d, dest in s.uscite.items() if d in _VERSO and dest in m.stanze})
+    return json.dumps({"luoghi": luoghi, "strade": [list(s) for s in strade]}, ensure_ascii=False)
+
+
 def fav_stato():
     # Istantanea del mondo per le schede laterali della UI: inventario (nomi
     # visualizzati), contatori (le variabili a valore INTERO), stanza corrente,
@@ -562,7 +600,11 @@ def fav_stato():
     # Gli stati della storia («stato di cosimo» → «riconosciuto»…): le regole dei trofei li leggono
     # (app/src/gioco/trofei.ts). Solo quelli che hanno già un valore.
     stati = {k: v for k, v in _mondo.variabili.items() if k.startswith("stato ") and isinstance(v, str)}
+    # I luoghi in cui sei stato (la mappa si riempie con questi). Il motore li tiene sempre e ANNULLA li disfa
+    # con il resto; un caricamento rigioca i comandi e li ritrova. Il luogo di adesso c'è anche se è al buio.
+    visitate = sorted(set(_mondo.stanze_visitate) | {_mondo.posizione_giocatore})
     return json.dumps({"inventory": inv, "counters": counters, "voci": voci, "gesti": gesti, "stati": stati,
+                       "visitate": visitate,
                        "room": room, "roomId": _mondo.posizione_giocatore,
                        "exits": uscite, "present": presenti, "dialog": dialogo,
                        "capacity": capienza, "turn": getattr(_mondo, "turno_corrente", 0),

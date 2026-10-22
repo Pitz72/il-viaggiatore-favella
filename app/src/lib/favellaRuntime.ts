@@ -135,6 +135,15 @@ export interface StatoMondo {
   gesti?: Record<string, string[]>;
   /** gli stati della storia che hanno un valore («stato di cosimo» → «riconosciuto»…): li leggono i trofei */
   stati?: Record<string, string>;
+  /** i luoghi in cui si è stati (gli id del motore), compreso quello di adesso: la mappa si riempie con questi */
+  visitate?: string[];
+}
+
+/** La carta di tutti i luoghi (vedi fav_mappa in ponte.py): il posto di ciascuno su una griglia con il nord in alto
+ *  e l'est a destra, e le strade che li uniscono. Non dice quali sono stati visitati: lo dice `StatoMondo.visitate`. */
+export interface Carta {
+  luoghi: { id: string; nome: string; x: number | null; y: number | null }[];
+  strade: [string, string][];
 }
 
 /** Che cosa farebbe un comando, senza farlo (vedi fav_anteprima in ponte.py). */
@@ -196,6 +205,7 @@ export interface SessioneGioco {
   stato: () => StatoMondo;
   anteprima: (cmd: string) => Anteprima;
   azioni: () => AzioniContesto;
+  mappa: () => Carta;
 }
 
 // Prepara una sessione di gioco: scrive i .fav nel FS e ritorna boot/step.
@@ -240,5 +250,6 @@ export async function avviaGioco(spec: GiocoSpec, onStatus: OnStatus): Promise<S
       return JSON.parse(pyodide.runPython("fav_anteprima(_cmd)")) as Anteprima;
     },
     azioni: () => JSON.parse(pyodide.runPython("fav_azioni()")) as AzioniContesto,
+    mappa: () => JSON.parse(pyodide.runPython("fav_mappa()")) as Carta,
   };
 }

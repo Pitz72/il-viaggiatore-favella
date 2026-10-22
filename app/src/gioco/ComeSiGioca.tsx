@@ -4,8 +4,8 @@
 //  (`base`), così si adatta alla superficie 1920 del trailer, alla 1280 del
 //  gioco e a una finestra piccola; nessun testo scende sotto .85em (11 px a base 13). Esc la chiude;
 //  il fuoco entra e torna (useDialogo).
-//  Le schede parlano del modo dei comandi scelto nelle opzioni (piano 09, §3.3): con «solo
-//  pulsanti» non dicono di scrivere e non mostrano comandi da scrivere, con «solo parole» non
+//  Le schede parlano del modo dei comandi scelto nelle opzioni (piano 09, §3.3): coi pulsanti
+//  non dicono di scrivere e non mostrano comandi da scrivere, nell'avventura testuale non
 //  dicono di toccare. I colori sono nel componente: col contrasto alto li supera accessibilita.css
 //  (le classi csg-*).
 // ====================================================================
@@ -22,19 +22,15 @@ interface Scheda { titolo: string; segno: string; testo: string; esempi?: string
 
 /** Le schede della guida, dette per il modo dei comandi. */
 function schede(modo: ModoComandi): Scheda[] {
-  const tocca = modo !== "parole", scrive = modo !== "pulsanti";
-  // in «solo pulsanti» niente comandi da scrivere sotto le schede
+  const tocca = modo === "pulsanti", scrive = modo === "parole";
+  // coi pulsanti niente comandi da scrivere sotto le schede
   const es = (esempi: string[]) => (scrive ? esempi : undefined);
   return [
-    modo === "entrambi"
-      ? { titolo: "Scrivi o tocca", segno: "M4 18 L16 6 M13 5 L17 9 M4 18 L3 21 L6 20",
-          testo: "Si gioca a parole, in italiano: scrivi un comando e premi Invio. Ma ogni cosa che puoi fare è anche un pulsante (le uscite a rosa dei venti, le cose, le persone, le azioni) e manda lo stesso comando. Le parole in maiuscolo del testo si toccano. Nelle opzioni puoi giocare solo coi pulsanti, o solo a parole.",
-          esempi: ["guarda", "nord", "esamina la mappa", "prendi il coltello", "parla con Nunzio"] }
-      : modo === "pulsanti"
+    modo === "pulsanti"
       ? { titolo: "Tocca", segno: "M9 11 V5 A1.5 1.5 0 0 1 12 5 V11 M12 10 A1.5 1.5 0 0 1 15 10 V12 M15 11 A1.5 1.5 0 0 1 18 11 V15 C18 18 16 21 12 21 C9 21 7 19 6 16 L4.5 12.5 A1.5 1.5 0 0 1 7 11 L9 14",
-          testo: "Si gioca coi pulsanti in basso: le uscite a rosa dei venti (nord in alto), le persone e le cose del luogo, le azioni. Tocca una cosa, anche nella bisaccia: accanto si apre ciò che puoi farci. Le parole in maiuscolo del testo si toccano. Tab passa da un pulsante all'altro, Invio sceglie." }
+          testo: "Si gioca coi pulsanti in basso: le uscite a rosa dei venti (nord in alto), le persone e le cose del luogo, le azioni. Tocca una cosa, anche nella bisaccia: accanto si apre ciò che puoi farci. Le parole in maiuscolo del testo si toccano. Tab passa da un pulsante all'altro, Invio sceglie. Nelle opzioni puoi giocare invece come in un'avventura testuale, scrivendo ogni comando." }
       : { titolo: "Scrivi", segno: "M4 18 L16 6 M13 5 L17 9 M4 18 L3 21 L6 20",
-          testo: "Si gioca a parole, in italiano, come nelle avventure testuali: scrivi un comando e premi Invio. Le uscite, le cose e le persone sono nel testo. Le frecce ↑ e ↓ ripescano i comandi già dati.",
+          testo: "Si gioca a parole, in italiano, come nelle avventure testuali: scrivi un comando e premi Invio. Le uscite, le cose e le persone sono nel testo. Le frecce ↑ e ↓ ripescano i comandi già dati. Nelle opzioni puoi giocare invece coi pulsanti.",
           esempi: ["guarda", "nord", "esamina la mappa", "prendi il coltello", "parla con Nunzio"] },
     { titolo: "Il corpo", segno: "M12 3 C8 9 6 12 6 15 A6 6 0 0 0 18 15 C18 12 16 9 12 3 Z",
       testo: "La sete sale col tempo e sotto il sole; la fame più piano. Oltre certe soglie la vita cala, e torna poco. " + (tocca
@@ -45,14 +41,15 @@ function schede(modo: ModoComandi): Scheda[] {
       testo: "Acqua e cibo sono scorte che si contano. Si barattano parlando con le persone, si trovano attingendo dove l'acqua c'è ancora. Prima di una scelta che costa (un baratto, un dono, una violenza) il gioco chiede conferma e ti mostra cosa dai e cosa ricevi.",
       esempi: es(["attingi", "parla con Ciro"]) },
     { titolo: "Parlare", segno: "M4 5 H20 V15 H10 L6 19 V15 H4 Z",
-      testo: (modo === "entrambi" ? "Nei dialoghi scegli una risposta col numero o toccandola."
-        : modo === "pulsanti" ? "Nei dialoghi tocca la risposta che vuoi dare."
-        : "Nei dialoghi scrivi il numero della risposta.") + " I doni fanno crescere la fiducia, e la fiducia apre porte, pozzi, sentieri.",
+      testo: (tocca ? "Nei dialoghi tocca la risposta che vuoi dare." : "Nei dialoghi scrivi il numero della risposta.") + " I doni fanno crescere la fiducia, e la fiducia apre porte, pozzi, sentieri.",
       esempi: es(["1", "2"]) },
     { titolo: "La bisaccia", segno: "M6 8 H18 L19 20 H5 Z M9 8 A3 3 0 0 1 15 8",
       testo: "Porti sette cose: la tanica e il biglietto di casa, più cinque a scelta. Quando è piena, lascia ciò che non serve. " + (tocca
-        ? "Alcune cose si usano su altre: tocca una cosa e scegli «usa…», poi su che cosa. Il gioco non dice quali coppie funzionano: tocca a te provare." + (scrive ? " Scrivendo è lo stesso." : "")
-        : "Alcune cose si usano su altre: USA una cosa SU un'altra. Il gioco non dice quali coppie funzionano: tocca a te provare."),
+        ? "Alcune cose si usano su altre: tocca una cosa e scegli «usa…», poi su che cosa. Il gioco non dice quali coppie funzionano: tocca a te provare."
+        : "Alcune cose si usano su altre: USA una cosa SU un'altra. Il gioco non dice quali coppie funzionano: tocca a te provare.")
+        // la mappa è una cosa del gioco che dà un attrezzo: dove si trova lo dice il racconto, qui si dice a che serve
+        + (tocca ? " Chi ha la mappa in bisaccia trova il pulsante «mappa» (o il tasto M): segna la strada fatta e dove sei."
+          : " Chi ha la mappa in bisaccia può scrivere MAPPA: segna la strada fatta e dove sei."),
       esempi: es(["inventario", "lascia la batteria", "usa il coltello sulla mappa"]) },
     { titolo: "Leggere il mondo", segno: "M3 12 C6 6 18 6 21 12 C18 18 6 18 3 12 Z M12 9 A3 3 0 1 0 12 15 A3 3 0 1 0 12 9",
       testo: "Le parole in MAIUSCOLO sono cose con cui fare qualcosa; tra parentesi ci sono i suggerimenti. "

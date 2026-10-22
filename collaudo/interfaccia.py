@@ -22,6 +22,9 @@ import json
 import os
 import sys
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 QUI = os.path.dirname(os.path.abspath(__file__))
 RADICE = os.path.dirname(QUI)
 sys.path.insert(0, os.path.join(RADICE, "motore"))
@@ -339,6 +342,67 @@ p = parti("casello", ["stecca", "coltello"], vita=10)
 passi(p, ["parla con Vito", "Ti do la stecca", "esci", "attacca Vito", "attacca Vito", "attacca Vito", "attacca Vito"])
 prova("gesti: più gesti alla stessa persona restano nell'ordine della tabella (pagato, poi a terra)",
       gesti(p) == {"Vito": ["pagato", "terra"]}, str(gesti(p)))
+
+# ── la carta e i luoghi visitati (il pannello «mappa») ──────────────────────────────────────
+VERSO = {"nord": (0, -1), "sud": (0, 1), "est": (1, 0), "ovest": (-1, 0)}
+p0 = nuovo_ponte()
+carta = json.loads(p0.fav_mappa())
+luoghi = {l["id"]: l for l in carta["luoghi"]}
+prova("mappa: ogni luogo del gioco ha il suo posto sulla carta",
+      len(luoghi) == len(p0._mondo.stanze) == 39 and all(l["x"] is not None and l["y"] is not None for l in luoghi.values()),
+      f"{len(luoghi)} luoghi, senza posto: {[i for i, l in luoghi.items() if l['x'] is None]}")
+prova("mappa: due luoghi non stanno mai nello stesso posto",
+      len({(l["x"], l["y"]) for l in luoghi.values()}) == len(luoghi))
+prova("mappa: la carta parte da 0 (niente margini vuoti)",
+      min(l["x"] for l in luoghi.values()) == 0 and min(l["y"] for l in luoghi.values()) == 0)
+storte = [(sid, d, dest) for sid, s in p0._mondo.stanze.items() for d, dest in s.uscite.items()
+          if d in VERSO and (luoghi[dest]["x"] - luoghi[sid]["x"], luoghi[dest]["y"] - luoghi[sid]["y"]) != VERSO[d]]
+prova("mappa: ogni uscita porta, sulla carta, proprio dove dice di portare (nord in alto, est a destra)", not storte, str(storte[:3]))
+strade = {tuple(sorted(s)) for s in carta["strade"]}
+prova("mappa: ogni strada unisce due luoghi vicini, una volta sola",
+      len(strade) == len(carta["strade"]) and all(abs(luoghi[a]["x"] - luoghi[b]["x"]) + abs(luoghi[a]["y"] - luoghi[b]["y"]) == 1 for a, b in strade),
+      f"{len(carta['strade'])} strade")
+vicini = {k: set() for k in luoghi}
+for a, b in strade:
+    vicini[a].add(b)
+    vicini[b].add(a)
+raggiunti, coda = {"stazione"}, ["stazione"]
+while coda:
+    for v in vicini[coda.pop()] - raggiunti:
+        raggiunti.add(v)
+        coda.append(v)
+prova("mappa: dal primo luogo si raggiungono tutti gli altri per strada", raggiunti == set(luoghi), f"{len(raggiunti)} su {len(luoghi)}")
+prova("mappa: i nomi sono titoli (maiuscola)", all(l["nome"][:1].isupper() for l in luoghi.values()),
+      str([l["nome"] for l in luoghi.values() if not l["nome"][:1].isupper()]))
+
+
+def visitate(p):
+    return json.loads(p.fav_stato())["visitate"]
+
+
+p = nuovo_ponte()
+prova("mappa: all'inizio si è stati solo nel luogo di partenza", visitate(p) == ["stazione"], str(visitate(p)))
+passi(p, ["nord", "nord"])
+prova("mappa: ogni luogo in cui si entra si aggiunge", visitate(p) == ["casa", "piazza", "stazione"], str(visitate(p)))
+passi(p, ["sud", "est"])
+prima = visitate(p)
+passi(p, ["annulla"])
+prova("mappa: ANNULLA toglie il luogo che si era appena raggiunto", "bar" in prima and "bar" not in visitate(p), f"{prima} → {visitate(p)}")
+passi(p, ["est", "ovest", "ovest"])
+salva = json.loads(p.fav_salva())
+q = nuovo_ponte()
+carico = json.loads(q.fav_carica(GIOCO, json.dumps(salva["comandi"]), salva["impronta"], salva.get("ultimo")))
+prova("mappa: un salvataggio caricato ritrova gli stessi luoghi visitati", carico["ok"] and visitate(q) == visitate(p), f"{visitate(p)} / {visitate(q)}")
+p2 = nuovo_ponte()
+for c in percorsi.Z1_Z4:              # come un giocatore attento: beve e mangia quando serve
+    v = p2._mondo.variabili
+    if not p2._mondo.dialogo_attivo and v.get("sete", 0) >= 5 and v.get("acqua", 0) >= 1:
+        passi(p2, ["bevi"])
+    if not p2._mondo.dialogo_attivo and v.get("fame", 0) >= 6 and v.get("cibo", 0) >= 1:
+        passi(p2, ["mangia qualcosa"])
+    passi(p2, [c])
+prova("mappa: lungo le prime cinque zone i luoghi visitati stanno tutti sulla carta",
+      set(visitate(p2)) <= set(luoghi) and {"stazione", "masseria", "conca", "casello", "porta"} <= set(visitate(p2)), str(visitate(p2)))
 
 print("TUTTO OK" if all(esiti) else "CI SONO FALLIMENTI")
 sys.exit(0 if all(esiti) else 1)

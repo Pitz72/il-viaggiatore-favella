@@ -77,8 +77,10 @@ jobs:
           node app/scripts/posti-node.mjs
           node app/scripts/trofei-prove.mjs
           node app/scripts/finale-node.mjs
-      - name: I finali giocati solo con i pulsanti
+      - name: I finali, le morti e i gesti giocati solo con i pulsanti
         run: python collaudo/pulsanti.py
+      - name: La mappa (le tappe, i luoghi visitati, i nomi che non si toccano)
+        run: python collaudo/mappa.py
       - name: I trofei (le partite di collaudo e le regole vere)
         run: python collaudo/trofei.py
       - name: La musica delle zone e la colonna sonora

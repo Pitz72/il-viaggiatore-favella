@@ -10,7 +10,7 @@
 //  gioco (1280×720, scalata sullo schermo: le misure si riportano alla
 //  scala). Un clic fuori la chiude (non sull'àncora, che la apre e la chiude
 //  da sé); Esc la chiude dal gioco. Le frecce ↑ ↓ passano da una voce
-//  all'altra; con `fuoco` (solo pulsanti) la prima voce prende il fuoco a
+//  all'altra; con `fuoco` (coi pulsanti) la prima voce prende il fuoco a
 //  ogni contenuto nuovo (`chiave`).
 // ====================================================================
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";

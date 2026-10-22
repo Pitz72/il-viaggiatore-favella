@@ -19,12 +19,14 @@
 //  automatici si scrivono a rotazione a ogni cambio di luogo e quando si lascia
 //  la partita. Ogni salvataggio porta la miniatura del paesaggio e il tempo di
 //  gioco (piano 09, §6).
-//  I comandi si danno in tre modi (opzioni, Generale; piano 09, §3.3): pulsanti
-//  e parole (com'è sempre stato); solo pulsanti (la riga sparisce, il fuoco va
-//  al primo pulsante utile); solo parole (l'avventura testuale pura: niente
-//  file di pulsanti, menu delle cose e dosi; risposte, scorte e bisaccia si
-//  leggono soltanto). «opzioni», «pausa», «salva» e «carica» scritti nella riga
+//  I comandi si danno in due modi (opzioni, Generale; piano 09, §3.3): pulsanti
+//  (niente riga da scrivere, il fuoco va al primo pulsante utile) e parole
+//  (l'avventura testuale pura: niente file di pulsanti, menu delle cose e dosi;
+//  risposte, scorte e bisaccia si leggono soltanto). «opzioni», «pausa», «salva»,
+//  «carica», «trofei» e, con la mappa in bisaccia, «mappa» scritti nella riga
 //  aprono i pannelli dell'app: non arrivano al motore.
+//  La MAPPA (gioco/Mappa.tsx): con la mappa in bisaccia compare il pulsante «mappa»
+//  (o il tasto M, o la parola scritta) e apre un foglio che si riempie camminando.
 //  I TROFEI (piano 09, §7): dopo ogni turno le regole (gioco/trofei.ts) guardano
 //  il testo e lo stato del mondo; un trofeo nuovo si scrive nel deposito
 //  (lib/trofei.ts) e compare in alto col suono flautato, mai sopra il finale:
@@ -40,7 +42,7 @@
 // ====================================================================
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { avviaGioco } from "../lib/favellaRuntime";
-import type { AzioniContesto, SessioneGioco, StatoMondo, TurnoEsito } from "../lib/favellaRuntime";
+import type { AzioniContesto, Carta, SessioneGioco, StatoMondo, TurnoEsito } from "../lib/favellaRuntime";
 import { VIAGGIATORE_GAME, ZONE_THEME, type ZoneKey, zoneOf } from "../data/viaggiatore";
 import Panorama, { tipoInterno, type Clima } from "../gioco/Panorama";
 import { musica } from "../gioco/musica";
@@ -63,6 +65,7 @@ import Pausa from "../gioco/Pausa";
 import { useOpzioni } from "../lib/useOpzioni";
 import { movimentoRidotto } from "../lib/accessibilita";
 import PaginaTrofei from "../gioco/PaginaTrofei";
+import Mappa from "../gioco/Mappa";
 import { PER_ID, sfideCaricate, sfideNuove, trofeiDelTurno, type Sfide } from "../gioco/trofei";
 import { ascoltaTrofei, deposito, nuovoViaggio, piuLontano, segnaLontano, vinci } from "../lib/trofei";
 import { suonaTrofeo } from "../gioco/suonoTrofeo";
@@ -121,9 +124,9 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
   // In voce recitata il diario non si annuncia: ciò che la voce non dice (le risposte del
   // motore, i titoli dei luoghi, le parti senza audio) va al lettore di schermo da un'area a parte.
   const [opz] = useOpzioni();
-  // i comandi: la riga da scrivere c'è tranne che in «solo pulsanti», i pulsanti tranne che in «solo parole»
-  const conRiga = opz.comandi !== "pulsanti";
-  const conPulsanti = opz.comandi !== "parole";
+  // i comandi: o la riga da scrivere (avventura testuale), o i pulsanti
+  const conRiga = opz.comandi === "parole";
+  const conPulsanti = opz.comandi === "pulsanti";
   const [pannelloOpzioni, setPannelloOpzioni] = useState(false);
   const [pausa, setPausa] = useState(false);
   // Esc mentre la voce parla la zittisce soltanto: non apre anche la pausa
@@ -143,6 +146,9 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
   const [trofeiViaggio, setTrofeiViaggio] = useState<string[]>([]);
   const [codaTrofei, setCodaTrofei] = useState<string[]>([]);
   const [paginaTrofei, setPaginaTrofei] = useState(false);
+  // la mappa: la carta di tutti i luoghi (la dà il ponte una volta), e il foglio aperto
+  const [carta, setCarta] = useState<Carta | null>(null);
+  const [paginaMappa, setPaginaMappa] = useState(false);
   // il tempo di gioco: corre solo con la partita in corso, la pausa chiusa e la finestra in primo piano
   const tempo = useRef(0);
   const conta = useRef(false);
@@ -278,6 +284,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
         const primi = analizza(e.text);
         setVoci([{ id: contatore.current++, blocchi: primi }]);
         setMondo(s.stato());
+        setCarta(s.mappa());
         setCamminaDa(performance.now());
         if (carica) riprendi(carica);
         else daiVoce(primi);
@@ -289,7 +296,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
     return () => { vivo = false; };
   }, []);
 
-  // Il fuoco dove si gioca: la riga; in «solo pulsanti» il primo pulsante utile (la prima risposta, il «no» di una
+  // Il fuoco dove si gioca: la riga; coi pulsanti il primo pulsante utile (la prima risposta, il «no» di una
   // domanda, la prima uscita). Messo dal codice su una risposta, non la fa leggere: la voce sta dicendo la battuta.
   const comandiRef = useRef<HTMLDivElement>(null);
   const fuocoDaCodice = useRef(false);
@@ -302,7 +309,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
     el.focus();
     fuocoDaCodice.current = false;
   };
-  useEffect(() => { if (fase === "gioca" && !finita && !guida && !taccuino && !richiesta && !pannelloOpzioni && !pausa && !rapidoDaCaricare && !paginaTrofei) rimettiFuoco(); }, [fase, finita, guida, taccuino, voci, richiesta, pannelloOpzioni, pausa, rapidoDaCaricare, paginaTrofei, opz.comandi]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (fase === "gioca" && !finita && !guida && !taccuino && !richiesta && !pannelloOpzioni && !pausa && !rapidoDaCaricare && !paginaTrofei && !paginaMappa) rimettiFuoco(); }, [fase, finita, guida, taccuino, voci, richiesta, pannelloOpzioni, pausa, rapidoDaCaricare, paginaTrofei, paginaMappa, opz.comandi]); // eslint-disable-line react-hooks/exhaustive-deps
   // i verbi che qui e adesso hanno un effetto (attingi, curati, attacca…) cambiano a ogni turno
   useEffect(() => {
     if (fase === "gioca" && sessione.current && !finita) setAzioniCtx(sessione.current.azioni());
@@ -362,7 +369,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
 
   // ── un comando: dalla tastiera o da un pulsante, è lo stesso ─────────
   const chiudiPannelli = () => { setMenu(null); setPannello(null); setUsaDa(null); setAncora(null); };
-  /** Chiude la tendina senza un turno: in «solo pulsanti» il fuoco torna a ciò che l'aveva aperta. */
+  /** Chiude la tendina senza un turno: coi pulsanti il fuoco torna a ciò che l'aveva aperta. */
   const chiudiTendina = () => {
     const a = ancora;
     chiudiPannelli();
@@ -418,8 +425,18 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
   const confermaSi = () => { const r = richiesta; setRichiesta(null); if (r) esegui(r.cmd, r.etichetta, r.daRiga); };
   const confermaNo = () => { setRichiesta(null); rimettiFuoco(); };
 
-  /** Ciò che si scrive nella riga. Cinque parole sono dell'app, non del motore (che non le usa): aprono i
-   *  pannelli e non diventano un turno. Il resto è un comando, scritto (per le sfide dei trofei). */
+  // la mappa c'è finché la mappa è in bisaccia: se la lasci, il suo pulsante se ne va con lei
+  const haMappa = mondo.inventory.some((o) => senzaArticolo(o) === "mappa");
+  const apriMappa = () => {
+    if (!haMappa || finita || !carta || fase !== "gioca" || richiesta) return;
+    voce.ferma();
+    chiudiPannelli();
+    setPaginaMappa(true);
+  };
+
+  /** Ciò che si scrive nella riga. Sei parole sono dell'app, non del motore (che non le usa): aprono i
+   *  pannelli e non diventano un turno («mappa» solo se la mappa è in bisaccia: se no la risponde il motore).
+   *  Il resto è un comando, scritto (per le sfide dei trofei). */
   const scritto = (grezzo: string) => {
     const parola = grezzo.trim().toLowerCase();
     const apri = parola === "opzioni" ? () => setPannelloOpzioni(true)
@@ -427,6 +444,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
       : parola === "salva" ? () => setTaccuino("salva")
       : parola === "carica" ? () => setTaccuino("carica")
       : parola === "trofei" ? () => setPaginaTrofei(true)
+      : parola === "mappa" && haMappa && carta && !finita ? apriMappa
       : null;
     if (!apri) { manda(grezzo, undefined, true); return; }
     voce.ferma();
@@ -460,7 +478,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
   const continuaRef = useRef(continua);
   continuaRef.current = continua;
   const ingombro = useRef(false);
-  ingombro.current = pausa || guida || !!taccuino || pannelloOpzioni || paginaTrofei || !!rapidoDaCaricare;
+  ingombro.current = pausa || guida || !!taccuino || pannelloOpzioni || paginaTrofei || paginaMappa || !!rapidoDaCaricare;
   useEffect(() => {
     if (!finita || fase !== "gioca") return;
     passata.current = false;
@@ -562,6 +580,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
       { id: contatore.current++, blocchi: ripresa },
     ]);
     daiVoce(ripresa);
+    eraMappa.current = nuovoMondo.inventory.some((o) => senzaArticolo(o) === "mappa");
     setMondo(nuovoMondo);
     autoLuogo.current = nuovoMondo.roomId;
     setIncontrati(dati.diario.incontrati ?? []);
@@ -594,22 +613,33 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
   };
   useEffect(() => {
     const tasto = (e: KeyboardEvent) => {
-      if (fase !== "gioca" || guida || taccuino || pannelloOpzioni || richiesta || rapidoDaCaricare || paginaTrofei) return;
+      if (fase !== "gioca" || guida || taccuino || pannelloOpzioni || richiesta || rapidoDaCaricare || paginaTrofei || paginaMappa) return;
       if (e.key === "F5") { e.preventDefault(); salvaRapido(); }
       else if (e.key === "F9") { e.preventDefault(); caricaRapido(); }
       // Ctrl+Z fuori da un campo di testo (nella riga lo prende la riga stessa, solo se è vuota)
       else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z" && !(document.activeElement instanceof HTMLInputElement)) { e.preventDefault(); annulla(); }
+      // M apre la mappa, fuori da un campo di testo (nella riga si scrive «mappa») e non sopra la pausa
+      else if (e.key.toLowerCase() === "m" && !e.defaultPrevented && !e.ctrlKey && !e.altKey && !e.metaKey && !pausa && !(document.activeElement instanceof HTMLInputElement)) { e.preventDefault(); apriMappa(); }
     };
     window.addEventListener("keydown", tasto);
     return () => window.removeEventListener("keydown", tasto);
   });
+
+  // la mappa appena presa: un cartiglio dice che c'è, una volta. Una partita ripresa con la mappa in bisaccia non lo fa.
+  const eraMappa = useRef<boolean | null>(null);
+  useEffect(() => {
+    if (fase !== "gioca") return;
+    if (eraMappa.current === false && haMappa) avvisa(conRiga ? "Hai la mappa · scrivi «mappa»" : "Hai la mappa · pulsante «mappa», o il tasto M");
+    eraMappa.current = haMappa;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [haMappa, fase]);
 
   // Esc, nell'ordine: chiude il menu o il pannello aperto; se la voce parlava, la zittisce soltanto (lo fa il tasto qui
   // sopra); con la riga vuota apre la pausa (piano 09, §5). I dialoghi aperti gestiscono Esc da sé, prima di qui.
   useEffect(() => {
     const tasto = (e: KeyboardEvent) => {
       if (e.key !== "Escape" || e.defaultPrevented || finita) return;   // a viaggio finito Esc va avanti (la fine, qui sopra)
-      if (fase !== "gioca" || pausa || guida || taccuino || richiesta || pannelloOpzioni || rapidoDaCaricare || paginaTrofei) return;
+      if (fase !== "gioca" || pausa || guida || taccuino || richiesta || pannelloOpzioni || rapidoDaCaricare || paginaTrofei || paginaMappa) return;
       if (menu || pannello || usaDa) { chiudiTendina(); return; }
       if (zittita.current) { zittita.current = false; return; }
       if (bozza.trim() && document.activeElement === inputRef.current) return;
@@ -738,7 +768,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
       </div>
     );
   };
-  /** Una scorta: coi pulsanti si tocca e apre «Vuoi bere?» / «Vuoi mangiare?»; in «solo parole» si legge e basta. */
+  /** Una scorta: coi pulsanti si tocca e apre «Vuoi bere?» / «Vuoi mangiare?»; nell'avventura testuale si legge e basta. */
   const scorta = (tipo: "bere" | "mangiare", detto: string, azione: string, segno: React.ReactNode, valore: number, sotto: string) => {
     const dentro = (<>
       <svg viewBox="0 0 24 24" aria-hidden="true">{segno}</svg>
@@ -846,7 +876,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
                         <span className="vg-num">{i + 1}</span><span>{o}</span>
                       </button>
                     ) : (
-                      // in «solo parole» la risposta si sceglie scrivendo il suo numero
+                      // nell'avventura testuale la risposta si sceglie scrivendo il suo numero
                       <p key={i} className="vg-risposta vg-risposta-scritta"><span className="vg-num">{i + 1}</span><span>{o}</span></p>
                     ))}
                   </div>
@@ -867,9 +897,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
                   <input ref={inputRef} value={bozza} onChange={(e) => setBozza(e.target.value)} onKeyDown={tasto}
                     spellCheck={false} autoCapitalize="off" autoCorrect="off" autoComplete="off"
                     aria-label="Scrivi un comando"
-                    placeholder={mondo.dialog
-                      ? (conPulsanti ? "scegli una risposta (1, 2…) o scrivi" : "scrivi il numero della risposta (1, 2…)")
-                      : (conPulsanti ? "Cosa fai? Scrivi un comando, o tocca qui sotto…" : "Cosa fai? Scrivi un comando e premi Invio…")} />
+                    placeholder={mondo.dialog ? "scrivi il numero della risposta (1, 2…)" : "Cosa fai? Scrivi un comando e premi Invio…"} />
                   <button className="vg-invia" onClick={() => scritto(bozza)} disabled={!bozza.trim()} aria-label="Invia">invio ↵</button>
                 </div>
               )}
@@ -877,8 +905,8 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
               {/* la plancia: andare (rosa dei venti), qui, fare, e la riga di servizio; nei dialoghi la sostituiscono le risposte */}
               {conPulsanti && !mondo.dialog && (
                 <Plancia mondo={mondo} azioni={azioniCtx} aperta={menu?.tipo === "qui" ? menu.id : usaDa?.tipo === "qui" ? usaDa.id : null}
-                  pannello={pannello} puoAnnullare={puoAnnullare} onManda={(cmd) => manda(cmd)} onCosa={apriCosa}
-                  onPannello={apriPannello} onAnnulla={annulla} />
+                  pannello={pannello} puoAnnullare={puoAnnullare} conMappa={haMappa && !!carta} onManda={(cmd) => manda(cmd)} onCosa={apriCosa}
+                  onPannello={apriPannello} onAnnulla={annulla} onMappa={apriMappa} />
               )}
             </div>
           )}
@@ -992,7 +1020,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
         </div>
       )}
       {pausa && (
-        <Pausa accento={accento} coperta={pannelloOpzioni || guida || !!taccuino || paginaTrofei} puoSalvare={!finita}
+        <Pausa accento={accento} coperta={pannelloOpzioni || guida || !!taccuino || paginaTrofei || paginaMappa} puoSalvare={!finita}
           onTrofei={() => setPaginaTrofei(true)}
           onRiprendi={() => setPausa(false)}
           onSalva={() => setTaccuino("salva")}
@@ -1024,6 +1052,10 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
           onNo={() => setRapidoDaCaricare(null)} />
       )}
       {paginaTrofei && <PaginaTrofei base={13} accento={accento} onChiudi={() => { setPaginaTrofei(false); if (!pausa && !finita) rimettiFuoco(); }} />}
+      {paginaMappa && carta && (
+        <Mappa base={13} accento={accento} carta={carta} visitate={mondo.visitate ?? []} qui={mondo.roomId}
+          onChiudi={() => { setPaginaMappa(false); if (!pausa && !finita) rimettiFuoco(); }} />
+      )}
       {/* a viaggio finito un trofeo non sta sopra il finale */}
       <Cartiglio dati={finita && cartiglio?.trofeo ? null : cartiglio} accento={accento} />
       {richiesta && (

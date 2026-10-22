@@ -42,8 +42,7 @@ const SPIEGA_QUALITA: Record<Qualita, string> = {
 };
 
 const SPIEGA_COMANDI: Record<ModoComandi, string> = {
-  entrambi: "Scrivi i comandi nella riga, o tocca i pulsanti: uscite, cose, persone, azioni. Dicono le stesse parole.",
-  pulsanti: "Niente riga da scrivere: si gioca coi pulsanti e con le parole del testo che si toccano. Con la tastiera, Tab passa da un pulsante all'altro.",
+  pulsanti: "Niente riga da scrivere: si gioca coi pulsanti (uscite, cose, persone, azioni) e con le parole del testo che si toccano. Con la tastiera, Tab passa da un pulsante all'altro.",
   parole: "L'avventura testuale pura: ogni comando si scrive, anche il numero di una risposta. Scorte, bisaccia e fiducia restano a lato, da leggere.",
 };
 
@@ -205,11 +204,11 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
         <div id="opz-foglio" role="tabpanel" aria-labelledby={`opz-scheda-${scheda}`} className="gv-scroll"
           style={{ marginTop: "1em", flex: 1, minHeight: 0, overflowY: "auto", borderTop: "1px solid rgba(255,255,255,.07)" }}>
           {scheda === "generale" && (
-            // la riga dei comandi ha tre valori lunghi: la colonna sinistra è la larga
+            // la riga dei comandi ha valori lunghi: la colonna sinistra è la larga
             <div style={{ ...stileColonne, gridTemplateColumns: "1.3fr 1fr" }}>
               <section aria-label="Il gioco">
                 <h3 className="opz-sezione" style={stileSezione}>Il gioco</h3>
-                {riga("Comandi", "comandi", [["entrambi", "pulsanti e parole"], ["pulsanti", "solo pulsanti"], ["parole", "solo parole"]], SPIEGA_COMANDI[o.comandi])}
+                {riga("Comandi", "comandi", [["pulsanti", "pulsanti"], ["parole", "avventura testuale"]], SPIEGA_COMANDI[o.comandi])}
                 <div role="group" aria-label="Trofei" className="opz-riga" style={stileRiga}>
                   <span className="opz-nome" style={stileNome}>Trofei</span>
                   <span style={{ display: "flex", flexWrap: "wrap", gap: ".5em" }}>

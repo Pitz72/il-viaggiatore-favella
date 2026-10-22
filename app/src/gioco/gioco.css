@@ -63,7 +63,7 @@
   border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.03); color: #ece5d9; font-family: 'Lora', serif; font-size: 15px; line-height: 1.35; transition: border-color .2s, background .2s; }
 .vg-risposta:hover, .vg-risposta:focus-visible { border-color: var(--acc); background: rgba(255,255,255,.06); outline: none; }
 .vg-num { font-family: 'Source Code Pro', monospace; font-size: 12px; color: var(--acc); min-width: 10px; }
-/* «solo parole»: la risposta si legge e si sceglie scrivendo il suo numero */
+/* avventura testuale: la risposta si legge e si sceglie scrivendo il suo numero */
 .vg-risposta-scritta, .vg-risposta-scritta:hover { margin: 0; cursor: default; padding: 3px 14px; border-color: transparent; background: transparent; }
 .vg-input { display: flex; align-items: center; gap: 12px; padding: 7px 10px 7px 16px; border-radius: 12px;
   border: 1px solid rgba(255,255,255,.1); background: rgba(0,0,0,.35); transition: border-color .2s, box-shadow .2s; }
@@ -100,6 +100,9 @@
 .vg-servizio .vg-chip { height: 24px; box-sizing: border-box; padding-top: 0; padding-bottom: 0; }
 .vg-servizio .vg-annulla-chip { margin-left: auto; }
 .vg-annulla-chip .vg-tasto { margin-left: 2px; }
+/* la mappa: un attrezzo, non un riepilogo a parole: bordo pieno nell'accento, non tratteggiato */
+.vg-mappa-chip { border-style: solid; border-color: color-mix(in srgb, var(--acc) 50%, transparent); color: #e9e1d4; }
+.vg-mappa-chip .vg-tasto { margin-left: 2px; }
 /* nei dialoghi le risposte prendono il posto della plancia, alte almeno quanto lei: entrare e uscire da un dialogo non sposta il diario */
 .vg-risposte-plancia { min-height: 132px; }
 
@@ -169,7 +172,7 @@
   background: rgba(255,255,255,.035); color: #e3dccf; font-family: 'Lora', serif; font-size: 12.5px; transition: border-color .2s, background .2s; }
 .vg-oggetto:hover:not(:disabled) { border-color: var(--acc); }
 .vg-oggetto:disabled { cursor: default; opacity: .85; }
-/* «solo parole»: scorte e bisaccia si leggono, non si toccano */
+/* avventura testuale: scorte e bisaccia si leggono, non si toccano */
 .vg-scorta.vg-informa, .vg-scorta.vg-informa:hover { cursor: default; border-color: rgba(255,255,255,.07); background: rgba(255,255,255,.03); }
 span.vg-oggetto.vg-informa, span.vg-oggetto.vg-informa:hover { display: block; box-sizing: border-box; line-height: 26px; cursor: default; border-color: rgba(255,255,255,.08); }
 .vg-fiducie { list-style: none; margin: 0; padding: 0; }

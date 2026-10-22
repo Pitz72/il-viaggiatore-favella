@@ -35,13 +35,16 @@ interface Props {
   aperta: string | null;
   pannello: "bere" | "mangiare" | null;
   puoAnnullare: boolean;
+  /** la mappa è in bisaccia: compare il suo pulsante (e solo allora) */
+  conMappa: boolean;
   onManda: (cmd: string) => void;
   onCosa: (cosa: Cosa, ancora: HTMLElement) => void;
   onPannello: (tipo: "bere" | "mangiare", ancora: HTMLElement) => void;
   onAnnulla: () => void;
+  onMappa: () => void;
 }
 
-export default function Plancia({ mondo, azioni, aperta, pannello, puoAnnullare, onManda, onCosa, onPannello, onAnnulla }: Props) {
+export default function Plancia({ mondo, azioni, aperta, pannello, puoAnnullare, conMappa, onManda, onCosa, onPannello, onAnnulla, onMappa }: Props) {
   const uscite = mondo.exits ?? [];
   const nellaRosa = ORDINE.flatMap((d) => uscite.filter((u) => u.dir === d));
   const fuori = uscite.filter((u) => !ROSA[u.dir]);
@@ -101,6 +104,14 @@ export default function Plancia({ mondo, azioni, aperta, pannello, puoAnnullare,
         <button className="vg-chip vg-tenue" onClick={() => onManda("inventario")} aria-label="inventario: che cosa porti, a parole">inventario</button>
         <button className="vg-chip vg-tenue" onClick={() => onManda("stato")} aria-label="stato: come stai, a parole">stato</button>
         <button className="vg-chip vg-tenue" onClick={() => onManda("aspetta")} aria-label="aspetta: lascia passare un po' di tempo">aspetta</button>
+        {conMappa && (
+          <button className="vg-chip vg-tenue vg-mappa-chip" onClick={onMappa} aria-label="Mappa: dove sei e la strada fatta (M)">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M3.5 6.5 L9 4.5 L15 6.5 L20.5 4.5 V17.5 L15 19.5 L9 17.5 L3.5 19.5 Z M9 4.5 V17.5 M15 6.5 V19.5" />
+            </svg>
+            mappa <span className="vg-tasto" aria-hidden="true">M</span>
+          </button>
+        )}
         <button className="vg-chip vg-tenue vg-annulla-chip" onClick={onAnnulla} disabled={!puoAnnullare} aria-label="Annulla l'ultima mossa (Ctrl+Z)">
           ↶ annulla <span className="vg-tasto" aria-hidden="true">Ctrl+Z</span>
         </button>

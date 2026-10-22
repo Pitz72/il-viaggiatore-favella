@@ -16,12 +16,13 @@ export type ModoVoce = "recitata" | "lettore";
 export type Qualita = "automatica" | "alta" | "media" | "bassa";
 export const QUALITA: readonly Qualita[] = ["automatica", "alta", "media", "bassa"];
 export type Movimento = "sistema" | "ridotto" | "pieno";
-/** Come si danno i comandi (piano 09, §3.3): scrivendo e coi pulsanti, solo coi pulsanti, solo scrivendo. */
-export type ModoComandi = "entrambi" | "pulsanti" | "parole";
-export const MODI_COMANDI: readonly ModoComandi[] = ["entrambi", "pulsanti", "parole"];
+/** Come si danno i comandi (piano 09, §3.3): coi pulsanti, o scrivendo come in un'avventura testuale. Fino alla 1.36 c'era anche
+ *  «entrambi» (pulsanti e riga insieme): chi l'aveva, e così ogni altro valore che non sia uno dei due, passa a «pulsanti». */
+export type ModoComandi = "pulsanti" | "parole";
+export const MODI_COMANDI: readonly ModoComandi[] = ["pulsanti", "parole"];
 
 export interface Opzioni {
-  /** pulsanti e parole (com'è sempre stato), solo pulsanti (niente riga da scrivere), solo parole (l'avventura testuale pura) */
+  /** pulsanti (niente riga da scrivere), o parole (l'avventura testuale pura: niente pulsanti) */
   comandi: ModoComandi;
   /** la voce del gioco: il doppiaggio, oppure nessuna voce (il lettore di schermo legge il diario) */
   voce: ModoVoce;
@@ -65,7 +66,7 @@ export function altaAccessibilita(o: Opzioni): "si" | "no" | "personalizzata" {
 }
 
 export const OPZIONI_DI_BASE: Readonly<Opzioni> = {
-  comandi: "entrambi",
+  comandi: "pulsanti",
   voce: "recitata",
   volume: 1,
   volumeMusica: 1,
