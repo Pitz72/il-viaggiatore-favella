@@ -8,6 +8,29 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.37.0] - 2026-10-22
+
+### Aggiunto
+- **La mappa.** La mappa che si trova nella casa di Acquaviva non è più soltanto la chiave del margine: con lei in bisaccia
+  compare il pulsante **mappa** nella riga di servizio (e il tasto **M**; nell'avventura testuale, la parola «mappa» scritta
+  nella riga). Apre un foglio di carta con le strade segnate a penna. Fin dal primo giorno ci sono le **tappe del viaggio**: le sette
+  zone e Acquamorta, ciascuna col suo nome nel suo posto (le strade fra una tappa e l'altra no: si fanno camminando).
+  Camminando il foglio si riempie: i luoghi in cui sei stato, uniti dal tragitto, ognuno nel colore della sua zona; dove sei,
+  in rosso; i luoghi che da lì si vedono, solo accennati col nome. Non porta da nessuna parte e non costa un turno. Se
+  lasci la mappa, il pulsante se ne va con lei; ciò che hai visitato resta. Il tasto M o Esc la chiudono. Un cartiglio dice
+  che c'è, quando la prendi. Per chi non vede il foglio, una lista dice dove sei, le tappe, dove sei stato e che cosa si vede.
+- **L'apertura della mappa**: la carta si spiega come una piegata in tre, con un fruscio di carta (suono sintetizzato, sul
+  volume degli effetti), e si richiude in un attimo; con il movimento ridotto compare e basta.
+
+### Cambiato
+- **Due modi per i comandi, non tre.** Resta l'avventura testuale (ogni comando si scrive) e i pulsanti; «pulsanti e parole», la
+  riga e i pulsanti insieme, non c'è più. Chi lo aveva (cioè quasi tutti, era il valore di base) passa ai **pulsanti**, che sono ora
+  il valore di base; le opzioni li chiamano «pulsanti» e «avventura testuale». La guida «Come si gioca» ha una scheda per ciascuno.
+- **Il collaudo dei pulsanti** (`collaudo/pulsanti.py`) gioca coi soli pulsanti anche le tre morti e le due partite al casello
+  (il bluff, Vito a terra), e ha un giocatore a caso che ha solo i pulsanti (`--esplora`): senza una riga da scrivere, ciò che non
+  ha un pulsante non si può più fare, e ora lo sappiamo con i numeri. Nuovo collaudo della mappa (`collaudo/mappa.py`) e prove sulla
+  carta e sui luoghi visitati nel ponte (`interfaccia.py`).
+
 ## [1.36.0] - 2026-10-21
 
 ### Aggiunto

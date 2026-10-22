@@ -85,15 +85,24 @@ personaggio non si interrompe. Nelle **opzioni** (dal menu d'avvio e dalla pausa
 sceglie fra voce recitata e *lettore di schermo* (nessuna voce del gioco: il diario si annuncia al
 tuo lettore). Con la voce recitata anche il trailer ha la voce del narratore, e la musica gli scende sotto.
 
-**I comandi.** Tre modi, a scelta nelle opzioni (scheda Generale). *Pulsanti e parole*, com'è all'inizio: si scrive in
-italiano nella riga, oppure si toccano i pulsanti della plancia, e le due vie dicono le stesse parole. La plancia ha
-tre zone che non si spostano: *andare*, con le uscite a rosa dei venti (nord in alto, sud in basso) e «guarda» al
-centro; *qui*, le persone e le cose del luogo; *fare*, bere, mangiare e i gesti che il luogo permette; sotto, inventario,
-stato, aspetta e ↶ annulla. Toccando una cosa (anche nella bisaccia, o una parola del testo) accanto si apre ciò che puoi
-farci. *Solo pulsanti*: la riga sparisce, e da tastiera Tab passa da un pulsante all'altro. *Solo parole*: l'avventura testuale pura,
-ogni comando si scrive (anche il numero di una risposta), e scorte e bisaccia si leggono soltanto. In tutti e tre restano
-la conferma delle scelte che costano, Ctrl+Z per tornare indietro di una mossa e i tasti del gioco. Scritte nella riga, «opzioni», «pausa»,
-«salva», «carica» e «trofei» aprono i loro pannelli; la guida «Come si gioca» parla del modo scelto.
+**I comandi.** Due modi, a scelta nelle opzioni (scheda Generale). *Pulsanti*, com'è all'inizio: niente riga da
+scrivere, si gioca con la plancia, che ha tre zone che non si spostano: *andare*, con le uscite a rosa dei venti (nord in
+alto, sud in basso) e «guarda» al centro; *qui*, le persone e le cose del luogo; *fare*, bere, mangiare e i gesti che il
+luogo permette; sotto, inventario, stato, aspetta e ↶ annulla. Toccando una cosa (anche nella bisaccia, o una parola del
+testo) accanto si apre ciò che puoi farci; da tastiera Tab passa da un pulsante all'altro. *Avventura testuale*: l'avventura
+pura, ogni comando si scrive in italiano (anche il numero di una risposta), e scorte e bisaccia si leggono soltanto. In
+tutti e due restano la conferma delle scelte che costano, Ctrl+Z per tornare indietro di una mossa e i tasti del gioco.
+Scritte nella riga, «opzioni», «pausa», «salva», «carica» e «trofei» aprono i loro pannelli; la guida «Come si gioca»
+parla del modo scelto. (Fino alla 1.36 c'era anche *pulsanti e parole*, la riga e i pulsanti insieme: chi lo aveva passa a *pulsanti*.)
+
+**La mappa.** Nella casa di Acquaviva, su un mobile, c'è la mappa della provincia: serve a passare il margine e, da
+quando la prendi, ha il suo pulsante nella riga di servizio (o il tasto M; nell'avventura testuale, la parola «mappa»
+scritta). Si apre come una carta piegata in tre che si spiega, con un fruscio di carta, e mostra un foglio con le strade
+segnate a penna. Le tappe del viaggio ci sono fin dall'inizio (le sette zone e Acquamorta, col loro nome); le strade
+no: si fanno camminando. Il foglio si riempie: i luoghi in cui sei stato, uniti dal tragitto, ognuno nel colore della sua
+zona; dove sei adesso, in rosso; i luoghi che da lì si vedono, solo accennati, col nome. Non porta da nessuna parte e non
+costa un turno. Se la lasci, il pulsante se ne va con lei, e ritorna se la riprendi: quello che hai visitato resta in
+ogni caso.
 
 **Le opzioni.** Il modo dei comandi; schermo intero o finestra, ricordati da un lancio all'altro, e la dimensione della finestra; la qualità
 della grafica (automatica, alta, media, bassa); i volumi (generale, musica, voce, effetti), che cambiano dal vivo; stereo

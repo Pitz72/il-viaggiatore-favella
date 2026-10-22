@@ -30,7 +30,7 @@ browser) senza guidare le scelte.
 
 | # | Domanda | Risposta |
 |---|---|---|
-| — | Comandi | **tre modi**: pulsanti e parole (predefinito), solo pulsanti, solo parole |
+| — | Comandi | **due modi** (dalla 1.37, per scelta di Simone il 22/10/2026): pulsanti (predefinito) e avventura testuale. Il terzo, «pulsanti e parole», è tolto: chi lo aveva passa a pulsanti |
 | — | Pausa | **Esc a riga vuota**, come nel Relitto |
 | — | Menu d'avvio | non fa parte dell'intro: **da riorganizzare** |
 | D1 | Schermo all'avvio | **predefinito schermo intero; la finestra scelta si ricorda** (dimensione e posizione) |
@@ -102,15 +102,15 @@ e loghi vedono le stesse opzioni e un cambio vale subito, senza riavviare.
 
 | Opzione | Valori | Note |
 |---|---|---|
-| **Comandi** | pulsanti e parole · solo pulsanti · solo parole | predefinito: pulsanti e parole |
+| **Comandi** | pulsanti · avventura testuale | predefinito: pulsanti (fino alla 1.36: pulsanti e parole, insieme) |
 | **Aggiornamenti** | cercali all'avvio · no | solo desktop. Si chiede a GitHub e non si manda niente; la portatile e il .deb non si aggiornano da soli, e lo si scrive |
 | **Trofei** | azzera i trofei | con una conferma; i salvataggi non si toccano |
 
-**Solo pulsanti.** La riga di comando sparisce (con «invio ↵»); resta tutto il resto: uscite, cose,
+**Pulsanti.** La riga di comando sparisce (con «invio ↵»); resta tutto il resto: uscite, cose,
 azioni, menu delle cose, «usa su…», risposte di dialogo, scorte e bisaccia che si toccano, parole in
 maiuscolo che si toccano, ↶ annulla e Ctrl+Z, F2, F5, F9. Il fuoco va al primo pulsante invece che al campo.
 
-**Solo parole.** L'avventura testuale pura: spariscono le file di pulsanti (uscite, qui, azioni), i menu
+**Avventura testuale** (il valore interno è «parole»). L'avventura testuale pura: spariscono le file di pulsanti (uscite, qui, azioni), i menu
 delle cose, il pannello delle dosi; le parole in maiuscolo restano evidenziate ma non si toccano; le
 risposte di dialogo restano scritte e numerate, e si sceglie scrivendo il numero; scorte, bisaccia e
 fiducia a lato restano come informazione, non si toccano. Restano i tasti dell'app (F2, F5, F9, Esc).
@@ -118,8 +118,11 @@ La **conferma delle scelte che costano** resta: è una rete di sicurezza, e si r
 «opzioni», «pausa» e «trofei» scritti aprono i pannelli (si fermano prima del motore: da verificare che il
 motore non li usi già).
 
-**I testi che parlano dei comandi** si adattano al modo: la guida «Come si gioca» (la scheda «Scrivi o
-tocca») e il segnaposto della riga.
+**I testi che parlano dei comandi** si adattano al modo: la guida «Come si gioca» (la scheda «Tocca» o «Scrivi»)
+e il segnaposto della riga.
+
+**La mappa** (1.37): «mappa» scritta nella riga apre il suo foglio, come «opzioni» e «pausa», ma solo con la mappa
+in bisaccia (se no la risponde il motore); coi pulsanti c'è anche il pulsante «mappa» e il tasto M.
 
 ### 3.4 Video
 
@@ -396,8 +399,8 @@ Totale: **30**.
   momento.
 - **`collaudo/salvataggi.py`**: anche i salvataggi coi campi nuovi si ricaricano con la stessa impronta;
   un file vecchio si apre; le sfide sopravvivono a «continua» e cadono tornando indietro.
-- **`collaudo/pulsanti.py`** resta la prova di «solo pulsanti» (e vince «Tutto a pulsanti»); `finali.py`
-  copre «solo parole».
+- **`collaudo/pulsanti.py`** resta la prova dei pulsanti (e vince «Tutto a pulsanti»); `finali.py`
+  copre l'avventura testuale.
 - **Nel browser integrato**, per ogni modo dei comandi e con l'alta accessibilità: catture, contrasto
   misurato sui colori calcolati, un giro solo da tastiera (menu → opzioni → partita → pausa → taccuino →
   trofei → menu).
