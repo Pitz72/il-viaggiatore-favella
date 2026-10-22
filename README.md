@@ -283,6 +283,9 @@ salva e ricarica, e prova la voce (una parte per ogni voce, la traccia del trail
   in [`sviluppo/VERSIONI.md`](sviluppo/VERSIONI.md). Strumento:
   `node strumenti/versione.mjs mostra | verifica | prepara | note`.
 - **Registro delle modifiche**: [`CHANGELOG.md`](CHANGELOG.md), in formato Keep a Changelog.
+- **Relazione sull'integrazione di FAVELLA** in interfacce per videogiochi narrativi professionali:
+  [`sviluppo/RELAZIONE-INTEGRAZIONE-FAVELLA.md`](sviluppo/RELAZIONE-INTEGRAZIONE-FAVELLA.md), le lezioni apprese da questo
+  progetto (architettura, il ponte, salvataggi, collaudi, attriti, raccomandazioni per il motore).
 - **Diario di sviluppo**: [`sviluppo/DIARIO.md`](sviluppo/DIARIO.md), una voce per
   sessione, decisione o problema, col perché delle scelte.
   `node strumenti/diario.mjs nuovo "Titolo" --tipo decisione`.
