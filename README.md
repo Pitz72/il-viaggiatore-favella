@@ -9,9 +9,8 @@
 </p>
 
 <p align="center">
-  <a href="https://pitz72.github.io/il-viaggiatore-favella/"><b>▶ GIOCA ORA NEL BROWSER</b></a>
-  &nbsp;·&nbsp;
-  <a href="https://github.com/Pitz72/il-viaggiatore-favella/releases/latest">scarica la versione desktop per Windows e Linux</a>
+  <a href="https://github.com/Pitz72/il-viaggiatore-favella/releases/latest"><b>⬇ SCARICA IL GIOCO PER WINDOWS E LINUX</b></a>
+  <br>in italiano e, dalla 1.40, in inglese
 </p>
 
 <p align="center">
@@ -47,14 +46,11 @@ trailer, circa un'ora di parlato); si ascolta con la *voce recitata*, oppure si 
 
 ## Scaricare e giocare
 
-**La versione web è definitiva così com'è** (la 1.23.0, nel browser qui sotto e su [favella.eu](https://favella.eu)): la
-storia intera, doppiata, col suo trailer. **La versione desktop, per Windows e Linux, è la più completa** e ha dei plus
-suoi: le opzioni a schede (volumi, accessibilità, finestra e qualità della grafica), la pausa, i salvataggi con nome e
-quelli rapidi (F5/F9), i trenta trofei, la musica di ogni zona e la colonna sonora da scaricare, la sequenza finale con i
-titoli di coda e la sua canzone.
-
-**Subito, senza scaricare niente:** [gioca nel browser](https://pitz72.github.io/il-viaggiatore-favella/)
-(Chrome, Edge, Firefox; le partite salvate restano nel tuo browser). Oppure scarica la versione desktop.
+**Il gioco si scarica, per Windows e Linux** (dalla 1.40.0 anche in inglese): la storia intera, doppiata, col suo
+trailer, le opzioni a schede (lingua, volumi, accessibilità, finestra e qualità della grafica), la pausa, i salvataggi con
+nome e quelli rapidi (F5/F9), i trofei, la musica di ogni zona e la colonna sonora da scaricare, la sequenza finale con i
+titoli di coda e la sua canzone. La versione da giocare nel browser, ferma alla 1.23.0 e solo in italiano, non si
+distribuisce più: dalla 1.40.0 non c'è più nemmeno su [favella.eu](https://favella.eu).
 
 Dalla pagina [Releases](https://github.com/Pitz72/il-viaggiatore-favella/releases):
 
@@ -145,7 +141,9 @@ Nel menu, **Extra → Scarica la colonna sonora ufficiale** dà l'album «Il Via
 
 **I trofei.** Trenta, in sei famiglie: i sei finali, le tre fini lungo la strada, i dieci gesti verso chi incontri, sei
 modi di arrivare, tre sfide (arrivare a un finale senza mai tornare indietro, scrivendo ogni comando, coi soli pulsanti) e
-la collezione. Finché non lo vinci, un trofeo ha il nome coperto e un accenno che dice dove guardare, non che cosa fare.
+la collezione. In inglese, dove si gioca coi pulsanti, al posto di «scrivendo ogni comando» c'è *Word by Word* (Parola per
+parola): arrivare a un finale prendendo dal testo, toccando la sua parola, ogni strada che il testo nomina; per la collezione
+l'una vale l'altra. Finché non lo vinci, un trofeo ha il nome coperto e un accenno che dice dove guardare, non che cosa fare.
 Quando lo vinci compare in alto, per quattro secondi, con un suono lievissimo (sul volume degli effetti); mai sopra il
 finale: quelli dell'ultimo turno li elenca la schermata finale. Si vincono una volta sola e restano anche ricominciando;
 la pagina dei trofei (dal menu, dalla pausa, dal finale) li mostra con la data, e nelle opzioni si possono azzerare
