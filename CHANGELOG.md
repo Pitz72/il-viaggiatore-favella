@@ -8,6 +8,11 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+### Rimosso
+- **«Il cammino» in fondo alla colonna di destra**, le sette barrette colorate una per zona. Sembravano una mini mappa ma non lo
+  erano, e andavano da sinistra a destra mentre il viaggio va verso ovest e poi a nord: disorientavano. A che punto sei del
+  viaggio lo dicono la testata («tappa 3 di 7») e il nome della zona sul panorama; dove sei, la mappa.
+
 ## [1.37.0] - 2026-10-22
 
 ### Aggiunto

@@ -9,6 +9,7 @@ Questo indice si rigenera da sé (`node strumenti/diario.mjs indice`).
 
 | Data | Tipo | Versione | Voce |
 |---|---|---|---|
+| 2026-10-30 | decisione | 1.37.1 | [Il cammino in basso a destra se ne va](diario/2026-10-30-il-cammino-in-basso-a-destra-se-ne-va.md) — Un tester ha detto a Simone che le sette barrette in fondo alla colonna di destra («il cammino») disorientano: sembrano una |
 | 2026-10-22 | sessione | 1.37.0 | [La mappa, le tappe e le due sole modalità dei comandi](diario/2026-10-22-la-mappa-le-tappe-e-le-due-sole-modalita-dei-comandi.md) — Simone, giocando la 1.36.0, ha chiesto due cose: togliere «pulsanti e parole» e fare della mappa una meccanica, con |
 | 2026-10-21 | sessione | 1.35.0 | [La plancia dei pulsanti, la tendina e la voce delle risposte](diario/2026-10-21-la-plancia-dei-pulsanti-la-tendina-e-la-voce-delle-risposte.md) — Tre imperfezioni trovate da Simone giocando (la voce delle risposte che zittiva il personaggio, un fumetto che non se ne |
 | 2026-10-21 | sessione | 1.34.0 | [Le immagini promozionali](diario/2026-10-21-le-immagini-promozionali.md) — Una key art nuova, dipinta col pennello del trailer e impaginata per sei formati (16:9, 21:9, 4:3, quadrata, locandina |
