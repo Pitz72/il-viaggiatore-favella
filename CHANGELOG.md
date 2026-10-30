@@ -8,6 +8,8 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.38.0] - 2026-10-30
+
 ### Aggiunto
 - **La mappa è una carta fisica.** Sotto la mano c'è ora la stampa della provincia, com'era prima della secca: le tinte del
   rilievo (la pianura verde verso il mare, le colline ocra e brune a ovest) con l'ombra da nord-ovest e le curve di
