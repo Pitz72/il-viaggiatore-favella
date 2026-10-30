@@ -16,9 +16,13 @@ Testo legale completo: <https://creativecommons.org/licenses/by-sa/4.0/legalcode
 | La colonna sonora originale dell'intro («Il Viaggiatore — Intro») | `app/src/assets/intro.mp3` |
 | Le voci del doppiaggio (la lettura dei testi qui sopra, generata con Google Gemini TTS) | `app/public/voce/`, tranne `app/public/voce/elevenlabs/` |
 | L'icona, la copertina e la grafica | `grafica/` (immagini) |
+| I ritratti dei personaggi e le illustrazioni degli oggetti (generati con Nano Banana Pro 2.1 di Google, in Google Flow) | `app/public/immagini/` |
 | I testi a schermo del trailer e della guida | `app/src/trailer/`, `app/src/gioco/ComeSiGioca.tsx` (solo i testi) |
 
 Il codice che fa funzionare tutto questo è invece sotto licenza MIT (`LICENSE`).
+
+Per le voci di Gemini TTS e per le immagini di Nano Banana Pro vale lo stesso: Google non rivendica la proprietà di ciò
+che si genera, che però non è esclusivo; i file generati portano la filigrana invisibile SynthID.
 
 ## Cosa NON copre: i marchi
 

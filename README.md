@@ -110,6 +110,14 @@ lago che la carta dà ancora pieno. Non porta da nessuna parte e non costa un tu
 con lei, e ritorna se la riprendi: quello che hai visitato resta in ogni caso. Con il contrasto alto la stampa non c'è:
 carta bianca e inchiostro nero.
 
+**I volti e gli oggetti.** Chi parla ha il suo volto, un cammeo tondo accanto alla battuta e più grande accanto alle
+risposte; i quattordici personaggi, più due momenti (Imma dopo aver mangiato, Pasquale guarito). Il protagonista non ha
+volto, né la sua famiglia. Otto oggetti della memoria (la foto, il biglietto, la tanica, il diario, la fede, il
+cavalluccio, il santino, la lettera di Cosimo) hanno la loro tavola: quando li esamini compare a destra del testo, che le
+gira attorno, come in un libro illustrato; la foto della casa è storta alla parete finché non la raddrizzi. Valgono anche
+nell'avventura testuale, e tornando indietro nel testo restano com'erano allora. Sono generati con Nano Banana Pro 2.1 di Google, in
+Google Flow, nello stile del gioco; `strumenti/immagini.py` li porta dagli originali (fuori da git) al gioco.
+
 **Le opzioni.** Il modo dei comandi; schermo intero o finestra, ricordati da un lancio all'altro, e la dimensione della finestra; la qualità
 della grafica (automatica, alta, media, bassa); i volumi (generale, musica, voce, effetti), che cambiano dal vivo; stereo
 o mono; il silenzio quando il gioco non è in primo piano; sul desktop, se cercare gli aggiornamenti all'avvio. Valgono
@@ -308,8 +316,9 @@ salva e ricarica, e prova la voce (una parte per ogni voce, la traccia del trail
 - **Codice** (app, desktop, collaudo, script): [MIT](LICENSE).
 - **Motore FAVELLA 1** (`motore/`): MIT, © Simone (Pitz72), [motore/LICENSE](motore/LICENSE).
 - **Storia, testi, musica dell'intro, voci del doppiaggio, icona e grafica** (comprese le immagini promozionali di
-  `grafica/branding/`): [CC BY-SA 4.0](LICENSE-CONTENUTI.md), tranne le musiche di The Runtimers e le voci di Imma, Rosaria,
-  Tore e Vito (qui sotto).
+  `grafica/branding/` e i ritratti e gli oggetti di `app/public/immagini/`, generati con Nano Banana Pro 2.1 di Google in
+  Google Flow): [CC BY-SA 4.0](LICENSE-CONTENUTI.md), tranne le musiche di The Runtimers e le voci di Imma, Rosaria, Tore e
+  Vito (qui sotto).
 - **Le musiche delle zone e la canzone dei titoli di coda** (`app/public/musica/`, `app/public/colonna-sonora/`): di
   The Runtimers, generate con Lyria 3.5 di Google, **escluse dalla licenza libera**; per il loro uso valgono i termini di
   Google per i contenuti generati con Lyria. Si ridistribuiscono come parte del gioco.

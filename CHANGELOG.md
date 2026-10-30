@@ -16,6 +16,14 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
   modello ancorato alle tappe, non un disegno: se l'avventura cambiasse, la carta la seguirebbe. Nessuna strada è
   stampata. Si prepara una volta, in momenti liberi, appena la mappa è in bisaccia: aprirla non costa niente.
 - **Il sale sul lago.** Quando arrivi all'invaso, la mano tratteggia il lago che la carta dà ancora pieno.
+- **I volti dei personaggi.** Chi parla ha il suo volto: un cammeo tondo accanto alla battuta, filato dell'accento della
+  zona, e più grande accanto alle tue risposte; piccolo, anche in «chi hai incontrato». Quattordici ritratti, più Imma
+  dopo aver mangiato e Pasquale guarito. Il protagonista e la sua famiglia restano senza volto.
+- **Le tavole degli oggetti della memoria.** Quando esamini la foto, il biglietto, la tanica, il diario, la fede, il
+  cavalluccio, il santino o la lettera di Cosimo, la sua illustrazione compare a destra del testo, che le gira attorno; la
+  foto della casa è storta alla parete, e quando la raddrizzi la tavola si raddrizza. Anche nell'avventura testuale.
+- I ritratti e gli oggetti sono generati con Nano Banana Pro 2.1 di Google, in Google Flow, e distribuiti con la licenza dei
+  contenuti (CC BY-SA 4.0); sono nei titoli di coda.
 
 ### Cambiato
 - **I luoghi non stanno più su una griglia.** Le colonne sono larghe nella piana e strette nei paesi, la carta ondeggia,
@@ -27,7 +35,10 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
   parte da dove sei è pieno d'inchiostro.
 - **I segni**: dove sei, un disco rosso con quattro tacche a mirino (si riconosce anche senza il colore); gli anelli delle
   tappe tracciati a mano. Spariscono le macchie di colore delle zone. Ogni nome ha un lato fisso e non salta da
-  un'apertura all'altra. Per il lettore di schermo, le tappe dicono anche da che parte stanno.
+  un'apertura all'altra. Per il lettore di schermo, le tappe dicono anche da che parte stanno e se le hai raggiunte.
+- **La legenda della mappa** usa gli stessi segni del foglio (il mirino di «sei qui», l'anello pieno di ciò che si vede) e
+  spiega il tratteggio delle strade; l'anello di una tappa è tratteggiato finché non la raggiungi, pieno dopo, così si
+  distingue anche col contrasto alto.
 
 ## [1.37.1] - 2026-10-30
 
