@@ -5,9 +5,10 @@
 //  nel gioco: la mappa della provincia. Ci sono fin dall'inizio le tappe del
 //  viaggio (le sette zone e Acquamorta), ciascuna col suo nome; le strade, no:
 //  si fanno camminando. Camminando si riempie: i luoghi in cui sei stato,
-//  uniti dal tragitto; il luogo dove sei, in rosso; quelli che da lì si vedono,
-//  solo accennati col loro nome. Ogni zona ha la sua macchia di colore, quello
-//  dei suoi paesaggi.
+//  uniti dal tragitto, ogni strada col tratto della sua classe (la statale a
+//  doppio filo con l'anima gialla, la provinciale bianca, le sterrate, i
+//  sentieri); il luogo dove sei, in rosso e a mirino; quelli che da lì si
+//  vedono, solo accennati col loro nome.
 //  Si apre come una carta piegata in tre che si spiega (con un fruscio di carta,
 //  suonaCarta.ts) e si richiude in un attimo; con il movimento ridotto compare
 //  e basta. Non si tocca niente: la mappa orienta, non porta da nessuna parte e
@@ -19,15 +20,18 @@ import type { Carta } from "../lib/favellaRuntime";
 import { ROOM_ZONE, ZONE_THEME, type ZoneKey } from "../data/viaggiatore";
 import { movimentoRidotto, scalaTesto } from "../lib/accessibilita";
 import { useOpzioni } from "../lib/useOpzioni";
-import { CORPO_NOME, CORPO_TAPPA, RAGGIO, RAGGIO_TAPPA, descrizione, foglio, postoNome } from "./foglio";
+import { CARTIGLIO, CORPO_NOME, CORPO_TAPPA, RAGGIO_TAPPA, ROSA, ancoreTerreno, descrizione, disposizione, foglio, postoNome, type Classe } from "./foglio";
+import { scalaStampa, useStampa } from "./stampa";
 import { DURATA_APRE, DURATA_CHIUDE, suonaCarta } from "./suonoCarta";
 import { useDialogo } from "./useDialogo";
 import "./mappa.css";
 
 const SERIF = "'Lora', Georgia, serif";
 const MONO = "'Source Code Pro', ui-monospace, monospace";
-/** L'accento di una tappa: quello della sua zona; Acquamorta, che non è una zona, ha l'inchiostro */
-const accentoTappa = (zona: string) => (zona in ZONE_THEME ? ZONE_THEME[zona as ZoneKey].accent : "#5a4a35");
+/** Le classi di strada a doppio filo: un bordo d'inchiostro e un'anima chiara. */
+const DOPPIE: ReadonlySet<Classe> = new Set(["statale", "provinciale"]);
+/** Le quattro tacche del mirino attorno al luogo dove sei, da r 7 a r 9,5. */
+const MIRINO: readonly [number, number, number, number][] = [[0, -7, 0, -9.5], [7, 0, 9.5, 0], [0, 7, 0, 9.5], [-7, 0, -9.5, 0]];
 /** «L'invaso morto · il sale» → «L'invaso morto» */
 const nomeBreve = (z: ZoneKey) => ZONE_THEME[z].nome.split(" · ")[0];
 
@@ -66,16 +70,21 @@ export default function Mappa({ base, accento = "#f0b77e", carta, visitate, qui,
   const dialogo = useDialogo<HTMLDivElement>(chiudi);
 
   const f = useMemo(() => foglio(carta, visitate, qui, (id) => ROOM_ZONE[id]), [carta, visitate, qui]);
+  // la stampa fisica (stampa.ts): pronta da prima, di solito; se no arriva con una dissolvenza. Con il contrasto alto non c'è.
+  const alto = opz.contrasto === "alto";
+  const ancore = useMemo(() => (alto ? null : ancoreTerreno(disposizione(carta, (id) => ROOM_ZONE[id]))), [carta, alto]);
+  const stampa = useStampa(ancore, scalaStampa(opz.qualita));
+  const conSale = !!stampa?.sale && f.tappe.some((t) => t.zona === "z3" && t.raggiunta);
   const d = useMemo(() => descrizione(f), [f]);
   const zonaQui = qui ? ROOM_ZONE[qui] : undefined;
   const posto = useMemo(() => new Map(f.luoghi.map((l) => [l.id, l])), [f]);
-  const accentoDi = (id: string) => ZONE_THEME[ROOM_ZONE[id] ?? "z0"].accent;
 
   /** Il disegno del foglio. Durante l'apertura se ne vedono tre copie, ciascuna con la sua piega (le definizioni dei filtri stanno fuori, una volta sola). */
   const disegno = (
     <svg viewBox={`0 0 ${f.larghezza} ${f.altezza}`} width="100%" role={fase === "apre" ? undefined : "img"} aria-hidden={fase === "apre" ? true : undefined}
-      aria-label={`La mappa. Sei a ${d.qui ?? "un luogo sconosciuto"}. Luoghi in cui sei stato: ${d.visti.length + (d.qui ? 1 : 0)}.`}>
+      aria-label={`${alto ? "La mappa" : "La carta fisica della provincia"}. Sei a ${d.qui ?? "un luogo sconosciuto"}. Luoghi in cui sei stato: ${d.visti.length + (d.qui ? 1 : 0)}.`}>
       <rect className="mp-carta-fondo" width={f.larghezza} height={f.altezza} />
+      {stampa && <image className="mp-stampa" href={stampa.url} width={f.larghezza} height={f.altezza} preserveAspectRatio="none" />}
       <rect className="mp-carta-grana" width={f.larghezza} height={f.altezza} filter="url(#mp-grana)" />
       {/* le pieghe della carta: in tre per il lungo, in due per il largo */}
       <g className="mp-pieghe" aria-hidden="true">
@@ -84,8 +93,18 @@ export default function Mappa({ base, accento = "#f0b77e", carta, visitate, qui,
       </g>
       <rect className="mp-carta-bordo" width={f.larghezza} height={f.altezza} fill="url(#mp-bordo)" />
 
-      {/* la rosa dei venti, in un angolo che il viaggio non tocca */}
-      <g className="mp-rosa" transform={`translate(${f.larghezza - 120} 92)`} aria-hidden="true">
+      {/* il cartiglio della carta stampata */}
+      {!alto && (
+        <g className="mp-cartiglio" aria-hidden="true">
+          <rect x={CARTIGLIO.x0} y={CARTIGLIO.y0} width={CARTIGLIO.x1 - CARTIGLIO.x0} height={CARTIGLIO.y1 - CARTIGLIO.y0} />
+          <rect className="mp-cartiglio-filo" x={CARTIGLIO.x0 + 3} y={CARTIGLIO.y0 + 3} width={CARTIGLIO.x1 - CARTIGLIO.x0 - 6} height={CARTIGLIO.y1 - CARTIGLIO.y0 - 6} />
+          <text className="mp-cartiglio-titolo" x={(CARTIGLIO.x0 + CARTIGLIO.x1) / 2} y={CARTIGLIO.y0 + 30} textAnchor="middle">CARTA FISICA</text>
+          <text className="mp-cartiglio-sotto" x={(CARTIGLIO.x0 + CARTIGLIO.x1) / 2} y={CARTIGLIO.y0 + 47} textAnchor="middle">della provincia</text>
+        </g>
+      )}
+
+      {/* la rosa dei venti, sul mare */}
+      <g className="mp-rosa" transform={`translate(${ROSA.cx} ${ROSA.cy}) scale(${ROSA.r / 34})`} aria-hidden="true">
         <circle r="34" fill="none" strokeWidth="1" />
         <circle r="27" fill="none" strokeWidth=".6" strokeDasharray="1.5 3" />
         <path d="M0 -44 L7 0 L0 44 L-7 0 Z" fill="none" strokeWidth="1" />
@@ -94,32 +113,27 @@ export default function Mappa({ base, accento = "#f0b77e", carta, visitate, qui,
         <text y="-52" textAnchor="middle" className="mp-lettera">N</text>
       </g>
 
-      {/* le macchie di colore: la zona di ciascun luogo visitato, e appena accennata quella di ogni tappa ancora lontana */}
-      <g filter="url(#mp-macchia)" className="mp-macchie" aria-hidden="true">
-        {f.tappe.filter((t) => t.zona in ZONE_THEME && !t.raggiunta).map((t) => (
-          <circle key={t.id} className="mp-macchia-tappa" cx={t.cx} cy={t.cy} r={34} fill={accentoTappa(t.zona)} />
+      {/* le strade, a penna, in passate separate: le accennate, poi i bordi della statale e della provinciale, poi le loro
+          anime (così i tratti si saldano senza giunture), poi le strade semplici. La classe si scopre percorrendola. */}
+      {/* il sale: con l'invaso raggiunto, la mano tratteggia il lago che la stampa dà ancora pieno */}
+      {conSale && <image className="mp-sale" href={stampa!.sale!} width={f.larghezza} height={f.altezza} preserveAspectRatio="none" />}
+      <g className="mp-strade" aria-hidden="true">
+        {f.strade.filter((s) => !s.battuta).map((s) => (
+          <path key={s.da + s.a} d={s.d} className={"mp-accennata" + (s.daQui ? " mp-da-qui" : "")} />
         ))}
-        {f.luoghi.filter((l) => l.stato !== "noto").map((l) => (
-          <circle key={l.id} cx={l.cx} cy={l.cy} r={30} fill={accentoDi(l.id)} />
-        ))}
+        {f.strade.filter((s) => s.battuta && DOPPIE.has(s.classe)).map((s) => <path key={s.da + s.a} d={s.d} className={`mp-bordo mp-${s.classe}`} />)}
+        {f.strade.filter((s) => s.battuta && DOPPIE.has(s.classe)).map((s) => <path key={s.da + s.a} d={s.d} className={`mp-anima mp-${s.classe}`} />)}
+        {f.strade.filter((s) => s.battuta && !DOPPIE.has(s.classe)).map((s) => <path key={s.da + s.a} d={s.d} className={`mp-battuta mp-${s.classe}`} />)}
       </g>
 
-      {/* le strade: battute a penna piena, accennate verso ciò che non hai visto */}
-      <g filter="url(#mp-penna)" className="mp-strade" aria-hidden="true">
-        {f.strade.map((s) => {
-          const a = posto.get(s.da)!, b = posto.get(s.a)!;
-          return <line key={s.da + s.a} x1={a.cx} y1={a.cy} x2={b.cx} y2={b.cy} className={s.battuta ? "mp-battuta" : "mp-accennata"} />;
-        })}
-      </g>
-
-      {/* le tappe: un anello attorno al luogo centrale, e il nome della tappa */}
+      {/* le tappe: un anello tracciato a mano attorno al luogo centrale, e il nome della tappa */}
       <g className="mp-tappe">
         {f.tappe.map((t) => {
-          const p = postoNome({ cx: t.cx, cy: t.cy, lato: t.lato, raggio: RAGGIO_TAPPA }, CORPO_TAPPA);
+          const p = postoNome({ cx: t.cx, cy: t.cy, lato: t.lato, scosta: t.scosta, raggio: RAGGIO_TAPPA }, CORPO_TAPPA);
           const visto = posto.has(t.id);
           return (
             <g key={t.id} className={"mp-tappa" + (t.raggiunta ? " mp-raggiunta" : "")}>
-              <circle className="mp-anello" cx={t.cx} cy={t.cy} r={RAGGIO_TAPPA} filter="url(#mp-penna)" />
+              <path className="mp-anello" d={t.anello} />
               {!visto && <circle className="mp-cuore" cx={t.cx} cy={t.cy} r={3} />}
               <text className="mp-nome-tappa" x={p.x} y={p.y} textAnchor={p.ancora} fontSize={CORPO_TAPPA}>{t.nome.toUpperCase()}</text>
             </g>
@@ -127,14 +141,17 @@ export default function Mappa({ base, accento = "#f0b77e", carta, visitate, qui,
         })}
       </g>
 
-      {/* i luoghi e i loro nomi */}
+      {/* i luoghi e i loro nomi. Dove sei: il disco rosso e quattro tacche a mirino, che lo dicono anche senza il colore */}
       <g>
         {f.luoghi.map((l) => {
           const p = postoNome(l);
           return (
             <g key={l.id} className={`mp-luogo mp-${l.stato}`}>
-              {l.stato === "qui" && <circle className="mp-alone" cx={l.cx} cy={l.cy} r={RAGGIO + 4} />}
-              <circle className="mp-segno" cx={l.cx} cy={l.cy} r={l.stato === "qui" ? RAGGIO + 1.5 : l.stato === "visto" ? RAGGIO : RAGGIO - 1} filter={l.stato === "noto" ? undefined : "url(#mp-penna)"} />
+              {l.stato === "qui" && <>
+                <circle className="mp-alone" cx={l.cx} cy={l.cy} r={8} />
+                <path className="mp-mirino" d={MIRINO.map(([x0, y0, x1, y1]) => `M${l.cx + x0} ${l.cy + y0}L${l.cx + x1} ${l.cy + y1}`).join("")} />
+              </>}
+              <circle className="mp-segno" cx={l.cx} cy={l.cy} r={l.stato === "qui" ? 5.5 : l.stato === "visto" ? 4 : 3.6} />
               {!l.nomeNascosto && <text className="mp-nome" x={p.x} y={p.y} textAnchor={p.ancora} fontSize={CORPO_NOME}>{l.nome}</text>}
             </g>
           );
@@ -155,11 +172,6 @@ export default function Mappa({ base, accento = "#f0b77e", carta, visitate, qui,
       {/* i filtri del foglio, una volta sola: le tre pieghe e il foglio intero li usano tutti */}
       <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true" focusable="false">
         <defs>
-          <filter id="mp-penna" x="-5%" y="-5%" width="110%" height="110%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="7" result="r" />
-            <feDisplacementMap in="SourceGraphic" in2="r" scale="2" />
-          </filter>
-          <filter id="mp-macchia" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="9" /></filter>
           <filter id="mp-grana" x="0" y="0" width="100%" height="100%">
             <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3" />
             <feColorMatrix values="0 0 0 0 0.35  0 0 0 0 0.26  0 0 0 0 0.16  0 0 0 0.55 -0.12" />
@@ -203,9 +215,11 @@ export default function Mappa({ base, accento = "#f0b77e", carta, visitate, qui,
         {/* chi non vede il foglio: dove sei, le tappe, dov'è passato, che cosa si vede */}
         <ul className="sr-only">
           {d.qui && <li>Sei a {d.qui}.</li>}
-          {d.tappe.length > 0 && <li>Le tappe del viaggio: {d.tappe.join(", ")}.</li>}
+          {d.tappe.length > 0 && <li>Le tappe del viaggio: {d.tappe.join("; ")}.</li>}
           {d.visti.length > 0 && <li>Ci sei già stato: {d.visti.join(", ")}.</li>}
           {d.noti.length > 0 && <li>Da lì si vedono, ma non ci sei stato: {d.noti.join(", ")}.</li>}
+          {!alto && <li>La carta è fisica, stampata prima della secca: colline a ovest, pianura a est, il lago dove ora c'è l'invaso, un torrente
+            che passa al guado, il mare a nord-est.{conSale ? " Sul lago hai segnato a penna il sale." : ""}</li>}
         </ul>
 
         <div style={{ marginTop: ".9em", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1.4em", flexShrink: 0 }}>

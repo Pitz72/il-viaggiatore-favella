@@ -43,7 +43,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { avviaGioco } from "../lib/favellaRuntime";
 import type { AzioniContesto, Carta, SessioneGioco, StatoMondo, TurnoEsito } from "../lib/favellaRuntime";
-import { VIAGGIATORE_GAME, ZONE_THEME, type ZoneKey, zoneOf } from "../data/viaggiatore";
+import { ROOM_ZONE, VIAGGIATORE_GAME, ZONE_THEME, type ZoneKey, zoneOf } from "../data/viaggiatore";
 import Panorama, { tipoInterno, type Clima } from "../gioco/Panorama";
 import { musica } from "../gioco/musica";
 import ComeSiGioca from "../gioco/ComeSiGioca";
@@ -66,6 +66,7 @@ import { useOpzioni } from "../lib/useOpzioni";
 import { movimentoRidotto } from "../lib/accessibilita";
 import PaginaTrofei from "../gioco/PaginaTrofei";
 import Mappa from "../gioco/Mappa";
+import { preparaInAnticipo } from "../gioco/stampa";
 import { PER_ID, sfideCaricate, sfideNuove, trofeiDelTurno, type Sfide } from "../gioco/trofei";
 import { ascoltaTrofei, deposito, nuovoViaggio, piuLontano, segnaLontano, vinci } from "../lib/trofei";
 import { suonaTrofeo } from "../gioco/suonoTrofeo";
@@ -425,8 +426,12 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
   const confermaSi = () => { const r = richiesta; setRichiesta(null); if (r) esegui(r.cmd, r.etichetta, r.daRiga); };
   const confermaNo = () => { setRichiesta(null); rimettiFuoco(); };
 
-  // la mappa c'è finché la mappa è in bisaccia: se la lasci, il suo pulsante se ne va con lei
+  // la mappa c'è finché la mappa è in bisaccia: se la lasci, il suo pulsante se ne va con lei. Appena c'è, il foglio e la sua
+  // stampa si preparano in momenti liberi (stampa.ts), così aprirla non costa niente
   const haMappa = mondo.inventory.some((o) => senzaArticolo(o) === "mappa");
+  useEffect(() => {
+    if (haMappa && carta) preparaInAnticipo(carta, (id) => ROOM_ZONE[id], opz.qualita, opz.contrasto === "alto");
+  }, [haMappa, carta, opz.qualita, opz.contrasto]);
   const apriMappa = () => {
     if (!haMappa || finita || !carta || fase !== "gioca" || richiesta) return;
     voce.ferma();
