@@ -68,6 +68,7 @@ import PaginaTrofei from "../gioco/PaginaTrofei";
 import Mappa from "../gioco/Mappa";
 import { preparaInAnticipo } from "../gioco/stampa";
 import { statiDelleImmagini, tavolaDi, voltoDi } from "../gioco/immagini";
+import RitrattoNostro from "../gioco/RitrattoNostro";
 import { PER_ID, sfideCaricate, sfideNuove, trofeiDelTurno, type Sfide } from "../gioco/trofei";
 import { ascoltaTrofei, deposito, nuovoViaggio, piuLontano, segnaLontano, vinci } from "../lib/trofei";
 import { suonaTrofeo } from "../gioco/suonoTrofeo";
@@ -894,8 +895,9 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
           {!finita && (
             <div className="vg-comandi" ref={comandiRef}>
               {mondo.dialog && mondo.dialog.opzioni.length > 0 && (
-                <div className={"vg-risposte" + (conPulsanti ? " vg-risposte-plancia" : "") + (voltoDi(mondo.dialog.chi) ? " vg-risposte-volto" : "")}
-                  style={voltoDi(mondo.dialog.chi) ? ({ ["--volto" as string]: `url("${voltoDi(mondo.dialog.chi, mondo.stati)}")` } as React.CSSProperties) : undefined}>
+                // accanto alle risposte, chi le dice: noi, il viandante senza volto, nella luce della zona
+                <div className={"vg-risposte vg-risposte-noi" + (conPulsanti ? " vg-risposte-plancia" : "")}>
+                  <RitrattoNostro clima={zona} className="vg-noi" />
                   <p className="vg-sopratitolo">rispondi a {mondo.dialog.chi}</p>
                   <div className="vg-risposte-lista">
                     {mondo.dialog.opzioni.map((o, i) => conPulsanti ? (

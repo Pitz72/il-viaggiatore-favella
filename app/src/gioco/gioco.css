@@ -263,29 +263,28 @@ button.vg-chiave-tasto:hover, button.vg-chiave-tasto:focus-visible { border-bott
 @keyframes vg-cartiglio { 0% { opacity: 0; transform: translate(-50%, -6px); } 8%, 82% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, 0); } }
 
 /* ── i volti e le tavole (gioco/immagini.ts) ─────────────────────────────────────────────────────────────────────
-   Il volto di chi parla, un cammeo tondo con un filo dell'accento della zona e un anello di buio che lo stacca;
-   la tavola di un oggetto della memoria, a destra del testo come in un libro illustrato, che sfuma nel fondo. */
+   Il volto di chi parla, un cammeo tondo accanto alla sua battuta, con un filo dell'accento della zona e un anello di
+   buio che lo stacca; il nostro (RitrattoNostro.tsx) accanto alle risposte; la tavola di un oggetto della memoria, a
+   destra del testo come in un libro illustrato, che sfuma nel fondo. */
 .vg-voce { display: flow-root; }
-.vg-con-volto { display: grid; grid-template-columns: 46px 1fr; column-gap: 14px; align-items: start; }
+.vg-con-volto { display: grid; grid-template-columns: 78px 1fr; column-gap: 18px; align-items: start; }
 .vg-con-volto .vg-volto { grid-row: 1 / span 2; }
 .vg-con-volto .vg-chi, .vg-con-volto .vg-prosa { grid-column: 2; }
-.vg-volto, .vg-volto-piccolo, .vg-risposte-volto::before {
+.vg-con-volto .vg-chi { margin-top: 6px; }
+.vg-volto, .vg-volto-piccolo, .vg-noi {
   border-radius: 50%; object-fit: cover; background: #0b0a0e;
   box-shadow: 0 0 0 2px #0b0a0e, 0 0 0 3.2px color-mix(in srgb, var(--acc) 72%, transparent), 0 6px 18px rgba(0,0,0,.55);
 }
-.vg-volto { width: 46px; height: 46px; margin-top: 2px; animation: vg-volto .6s ease both; }
+.vg-volto { width: 78px; height: 78px; margin: 2px 0 6px; animation: vg-volto .6s ease both; }
 .vg-passata .vg-volto { filter: saturate(.7) brightness(.86); transition: filter .6s ease; }
 .vg-passata:hover .vg-volto { filter: none; }
 @keyframes vg-volto { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: none; } }
 
-/* nelle risposte di un dialogo: il volto di chi ti sta parlando, più grande, accanto alle tue parole */
-.vg-risposte-volto { position: relative; padding-left: 94px; min-height: 84px; }
+/* nelle risposte di un dialogo: chi le dice, cioè noi; il viandante senza volto, fermo nella luce della zona */
+.vg-risposte-noi { position: relative; padding-left: 90px; min-height: 76px; }
 /* con la plancia vale il suo minimo (più su): entrare e uscire da un dialogo non sposta il diario */
-.vg-risposte-volto.vg-risposte-plancia { min-height: 132px; }
-.vg-risposte-volto::before {
-  content: ""; position: absolute; left: 4px; top: 4px; width: 72px; height: 72px;
-  background: var(--volto) center / cover no-repeat, #0b0a0e; animation: vg-volto .5s ease both;
-}
+.vg-risposte-noi.vg-risposte-plancia { min-height: 132px; }
+.vg-noi { position: absolute; left: 4px; top: 4px; width: 66px; height: 66px; animation: vg-volto .5s ease both; }
 
 /* in «chi hai incontrato» */
 .vg-incontrato { display: inline-flex; align-items: center; gap: 10px; }

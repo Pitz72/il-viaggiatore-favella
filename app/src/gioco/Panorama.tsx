@@ -302,6 +302,14 @@ const INTERNI = new Map<string, Interno>([
   ["torre di presa", { tipo: "torre" }],
 ]);
 /** Il tipo di luogo chiuso (stanza, grotta, galleria…), o undefined all'aperto: lo usa anche la musica (gioco/musica.ts). */
+/** La luce di una zona per chi la usa fuori dal panorama (il nostro ritratto, gioco/ritrattoNostro.ts): il cielo, il sole, il
+ *  colore della figura e quello della luce di contorno. */
+export const luceDi = (clima: Clima) => {
+  const p = TAV[clima];
+  return { cielo: p.cielo, sole: p.sole, strati: p.strati, suolo: p.suolo, figura: p.figura, bordo: p.bordo };
+};
+export type Luce = ReturnType<typeof luceDi>;
+
 export const tipoInterno = (luogo: string | null): string | undefined => (luogo ? INTERNI.get(luogo)?.tipo : undefined);
 // nelle schermate di fine (vinta, persa) il panorama torna all'aperto, ovunque sia finito il viaggio
 const internoDi = (clima: Clima, luogo: string | null) => (luogo && clima !== "vinta" && clima !== "persa" ? INTERNI.get(luogo) : undefined);
