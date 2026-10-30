@@ -1,0 +1,675 @@
+[
+ {
+  "tipo": "descrizione",
+  "dove": "z5-paese.fav:48",
+  "it": "Una porta di paese vera, di pietra, con la nicchia di un santo svuotata. Di qua si sente quello che non sentivi da giorni: voci, un cane che abbaia per gioco, una radio. Acquamorta è ancora lontana, oltre le colline. A OVEST la piazzetta; a EST la statale da cui sei sceso.",
+  "en": "A proper village gate, of stone, with a saint's niche emptied out. On this side you hear what you haven't heard in days: voices, a dog barking in play, a radio. Acquamorta is still far off, beyond the hills. WEST, the little square; EAST, the main road you came down from."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z5-paese.fav:51",
+  "it": "Una piazzetta in salita, i panni stesi tra una finestra e l'altra. Su un gradino, PEPPE, diciassette anni e gli occhi già altrove. (PARLA CON Peppe.) A NORD l'osteria; a SUD il mercato; a OVEST un vicolo stretto; a EST si torna alla porta.",
+  "en": "A little square on a slope, washing strung from one window to the next. On a step, PEPPE, seventeen, his eyes already elsewhere. (TALK TO Peppe.) NORTH, the tavern; SOUTH, the market; WEST, a narrow alley; EAST, back to the gate."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z5-paese.fav:52",
+  "it": "Una piazzetta in salita, i panni stesi tra una finestra e l'altra. Il gradino di Peppe è vuoto: ti aspetta alla mulattiera. A NORD l'osteria; a SUD il mercato; a OVEST un vicolo stretto; a EST si torna alla porta.",
+  "en": "A little square on a slope, washing strung from one window to the next. Peppe's step is empty: he's waiting for you at the mule track. NORTH, the tavern; SOUTH, the market; WEST, a narrow alley; EAST, back to the gate."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z5-paese.fav:53",
+  "it": "Una piazzetta in salita, i panni stesi tra una finestra e l'altra. Il gradino di Peppe è vuoto. A NORD l'osteria; a SUD il mercato; a OVEST un vicolo stretto; a EST si torna alla porta.",
+  "en": "A little square on a slope, washing strung from one window to the next. Peppe's step is empty. NORTH, the tavern; SOUTH, the market; WEST, a narrow alley; EAST, back to the gate."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z5-paese.fav:56",
+  "it": "Una stanza bassa che sa di vino e di legna. ROSARIA tiene il banco, il grembiule legato due volte in vita. (PARLA CON Rosaria.) A EST un cortile; a NORD la mulattiera che sale alle colline; a SUD la piazzetta.",
+  "en": "A low room that smells of wine and firewood. ROSARIA minds the counter, her apron tied twice round her waist. (TALK TO Rosaria.) EAST, a courtyard; NORTH, the mule track that climbs to the hills; SOUTH, the little square."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z5-paese.fav:57",
+  "it": "Una stanza bassa che sa di vino e di legna. ROSARIA tiene il banco, il grembiule legato due volte in vita; al tavolo della finestra mangia IMMA. (PARLA CON Rosaria.) A EST un cortile; a NORD la mulattiera che sale alle colline; a SUD la piazzetta.",
+  "en": "A low room that smells of wine and firewood. ROSARIA minds the counter, her apron tied twice round her waist; at the window table, IMMA is eating. (TALK TO Rosaria.) EAST, a courtyard; NORTH, the mule track that climbs to the hills; SOUTH, the little square."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z5-paese.fav:60",
+  "it": "Quattro banchi sotto un telone scolorito: il mercato del baratto. CIRO ci sta in mezzo, la matita dietro l'orecchio. (PARLA CON Ciro per scambiare.) A NORD la piazzetta.",
+  "en": "Four stalls under a faded tarpaulin: the barter market. CIRO stands in the middle of them, a pencil behind his ear. (TALK TO Ciro to trade.) NORTH, the little square."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z5-paese.fav:63",
+  "it": "Un vicolo cieco, l'ombra fresca. Su un giaciglio di stracci, PASQUALE brucia di febbre. (Con le MEDICINE giuste lo si può curare: USA LE MEDICINE SU Pasquale. Oppure si tira dritto.) A EST la piazzetta.",
+  "en": "A blind alley in cool shade. On a bed of rags, PASQUALE is burning with fever. (With the right MEDICINE he can be cured: USE the MEDICINE ON Pasquale. Or carry straight on.) EAST, the little square."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z5-paese.fav:64",
+  "it": "Un vicolo cieco, l'ombra fresca. PASQUALE è seduto sul giaciglio, la febbre rotta, e mangia piano. A EST la piazzetta.",
+  "en": "A blind alley in cool shade. PASQUALE sits on his bed of rags, the fever broken, and eats slowly. EAST, the little square."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z5-paese.fav:67",
+  "it": "Un cortile in penombra, gerani secchi nei barattoli. CONCETTA siede su una sedia impagliata, vecchissima, le mani in grembo. (PARLA CON Concetta.) A OVEST l'osteria.",
+  "en": "A courtyard in half-light, dried geraniums in tins. CONCETTA sits on a rush-seated chair, ancient, her hands in her lap. (TALK TO Concetta.) WEST, the tavern."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z5-paese.fav:70",
+  "it": "Dove le case finiscono, una mulattiera si inerpica tra i fichi d'India verso le colline. L'aria cambia, si fa di pietra. È la via per Acquamorta.",
+  "en": "Where the houses end, a mule track scrambles up through the prickly pears towards the hills. The air changes, turns to stone. This is the way to Acquamorta."
+ },
+ {
+  "tipo": "posto",
+  "dove": "z5-paese.fav:85",
+  "it": "Su una mensola, un REGISTRO del paese.",
+  "en": "On a shelf, the village REGISTER."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z5-paese.fav:86",
+  "it": "Il registro del paese: nascite, morti, partenze, in una grafia a penna che si fa più rada anno dopo anno. Da quando Acquamorta non ha più un comune, qui segnano anche i suoi. Nella colonna dei morti, verso il fondo, il tuo cognome torna due volte, a un mese di distanza. I nomi di battesimo li ha mangiati l'umido.",
+  "en": "The village register: births, deaths, departures, in pen, in a hand that grows sparser year after year. Since Acquamorta lost its town hall, they write its people in here as well. In the deaths column, near the bottom, your surname comes up twice, a month apart. The Christian names have been eaten by the damp."
+ },
+ {
+  "tipo": "posto",
+  "dove": "z5-paese.fav:91",
+  "it": "Su un davanzale, un GIOCATTOLO di legno.",
+  "en": "On a windowsill, a wooden TOY."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z5-paese.fav:92",
+  "it": "Un cavalluccio di legno intagliato a coltello, la vernice consumata dove una mano piccola lo stringeva. Concetta giura che era tuo, o di tuo fratello. Tu non l'hai mai visto.",
+  "en": "A wooden toy horse carved with a knife, the paint worn away where a small hand used to grip it. Concetta swears it was yours, or your brother's. You've never seen it."
+ },
+ {
+  "tipo": "posto",
+  "dove": "z5-paese.fav:97",
+  "it": "In un barattolo di gerani secchi, qualcosa luccica: un ANELLO.",
+  "en": "In a tin of dried geraniums, something glints: a RING."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z5-paese.fav:98",
+  "it": "Una fede sottile, da donna. Dentro, incisa, una data che conosci: la stessa della tua. Tenerla è riportarla a casa; venderla è acqua per la strada.",
+  "en": "A thin wedding ring, a woman's. Engraved inside, a date you know: the same as on yours. Keep it, and you take it back home; sell it, and it's water for the road."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z5-paese.fav:104",
+  "it": "Una donna sui sessanta, le braccia tonde, gli occhi che hanno visto andare via tutti a uno a uno. Sa il nome di ognuno che è partito, e a qualcuno tiene ancora il bicchiere da parte.",
+  "en": "A woman of about sixty, round arms, eyes that have watched everyone leave, one by one. She knows the name of everyone who has gone, and for some of them she still keeps a glass aside."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Rosaria",
+  "dove": "z5-paese.fav:107",
+  "it": "«Eccoti. Siediti, che ti riempio il bicchiere.»",
+  "en": "“There you are. Sit down, I'll fill your glass.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Rosaria",
+  "dove": "z5-paese.fav:109",
+  "it": "Si siede di fianco, la schiena alla finestra. «Da mangiare e da bere, qui, si dà a tutti. La fiducia no: quella si guadagna.» Con un cenno indica Imma, che mastica senza guardare. «Ma c'è chi ha parlato bene di te, e si sente.»",
+  "en": "She sits down beside you, her back to the window. “Food and drink, here, we give to everyone. Trust, no: that has to be earned.” With a nod she points to Imma, who chews without looking up. “But someone has spoken well of you, and it shows.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Rosaria",
+  "dove": "z5-paese.fav:110",
+  "it": "Non si siede nemmeno adesso. «Da mangiare e da bere, qui, si dà a tutti. La fiducia no: quella si guadagna.»",
+  "en": "She doesn't sit down, not even now. “Food and drink, here, we give to everyone. Trust, no: that has to be earned.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Rosaria",
+  "dove": "z5-paese.fav:111",
+  "it": "Ti rimette davanti il bicchiere, mezzo pieno. «Parla pure.»",
+  "en": "She puts your glass back in front of you, half full. “Go on, then.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Rosaria",
+  "dove": "z5-paese.fav:112",
+  "it": "«Siediti, che sei bianco di polvere. Qui si entra come si entra in casa d'altri: con rispetto.» Ti versa da bere senza chiederti niente.",
+  "en": "“Sit down, you're white with dust. In here you come in the way you'd come into someone else's house: with respect.” She pours you a drink without asking you anything."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:114",
+  "it": "Ti lascio dell'acqua, per l'ospitalità.",
+  "en": "I'll leave you some water, for the hospitality."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:116",
+  "it": "Cosa si dice di Acquamorta?",
+  "en": "What do people say about Acquamorta?"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:117",
+  "it": "Mi serve salire alle colline.",
+  "en": "I need to get up into the hills."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:118",
+  "it": "Niente, grazie.",
+  "en": "Nothing, thanks."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Rosaria",
+  "dove": "z5-paese.fav:120",
+  "it": "Accetta con un cenno e la versa in una brocca a parte, per chi passerà dopo di te.",
+  "en": "She accepts with a nod and pours it into a separate jug, for whoever comes by after you."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:121",
+  "it": "…",
+  "en": "…"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Rosaria",
+  "dove": "z5-paese.fav:123",
+  "it": "Abbassa la voce. «Acquamorta è vuota, ormai. Tranne uno. Dicono sia rimasto a tenere il paese, o quel che ne resta, e che non lasci entrare nessuno. Chi è andato via, per lui, è come morto.» Ti guarda. «Tu di là vieni, eh? Pensaci, a cosa torni.»",
+  "en": "She lowers her voice. “Acquamorta is empty now. Except for one. They say he stayed to hold the village, or what's left of it, and that he lets nobody in. Anyone who went away, to him, is as good as dead.” She looks at you. “That's where you come from, eh? Think about it, what you're going back to.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:124",
+  "it": "Chi è quest'uomo?",
+  "en": "Who is this man?"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Rosaria",
+  "dove": "z5-paese.fav:127",
+  "it": "«Non lo so, e chi lo sa non lo dice.» Ti rimette il bicchiere davanti. «Chiedi a Concetta, nel cortile. Lei le famiglie le sa tutte, anche quelle che non ci sono più.»",
+  "en": "“I don't know, and those who know don't say.” She puts the glass back in front of you. “Ask Concetta, in the courtyard. She knows all the families, even the ones that are gone.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Rosaria",
+  "dove": "z5-paese.fav:130",
+  "it": "«Su, da quelle parti, non si arriva da estranei: c'è Onofrio, e i pastori, gente che spara prima di chiedere. Ti do due righe mie, ma prima il paese deve fidarsi di te. Fatti voler bene. Aiuta qualcuno, qui.»",
+  "en": "“Up that way, a stranger doesn't get through: there's Onofrio, and the shepherds, people who shoot before they ask. I'll write you a couple of lines, but first the village has to trust you. Get people to like you. Help someone, here.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Rosaria",
+  "dove": "z5-paese.fav:131",
+  "it": "«Te lo sei guadagnato. Due righe mie, a chi sta lassù.»",
+  "en": "“You've earned it. A couple of lines from me, to the people up there.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:132",
+  "it": "Scrivile, allora.",
+  "en": "Write them, then."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:133",
+  "it": "Capito. Tornerò.",
+  "en": "Understood. I'll be back."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Rosaria",
+  "dove": "z5-paese.fav:135",
+  "it": "Scrive in fretta su un foglio, lo piega e lo affida a un ragazzo che sale al pianoro. «Quando arrivi, lassù sanno già chi sei.» Poi: «E mangia, prima di salire. Lassù non ti invita nessuno.»",
+  "en": "She writes quickly on a sheet of paper, folds it and hands it to a boy who is going up to the plateau. “When you get there, up there they'll already know who you are.” Then: “And eat before you go up. Up there, nobody will ask you in.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:136",
+  "it": "Grazie.",
+  "en": "Thanks."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z5-paese.fav:139",
+  "it": "Fai per imboccare la salita, ma Rosaria ti ferma con un'occhiata dal banco. «Senza una mia parola, lassù non ci arrivi.»",
+  "en": "You make to start up the climb, but Rosaria stops you with a look from behind the counter. “Without a word from me, you won't get up there.”"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z5-paese.fav:142",
+  "it": "Rosaria ti mette davanti un bicchiere d'acqua e una scodella di legumi, come a chiunque passi di qui: l'ospitalità non si nega. Ma non si siede. In fondo, due uomini scesi dalla statale smettono di parlare quando entri. Lei ripiega lo straccio sul banco, e intanto ti guarda le mani.",
+  "en": "Rosaria sets a glass of water and a bowl of beans in front of you, as she would for anyone passing through: no one is refused hospitality. But she doesn't sit down. At the back, two men down from the main road stop talking when you come in. She folds the cloth on the counter, and all the while she looks at your hands."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z5-paese.fav:143",
+  "it": "Rosaria ti mette davanti un bicchiere d'acqua fresca prima ancora che tu apra bocca, e una scodella di legumi. Mangi e bevi senza parlare, e lei non ti chiede niente finché non hai finito.",
+  "en": "Rosaria sets a glass of cool water in front of you before you've even opened your mouth, and a bowl of beans. You eat and drink without speaking, and she asks you nothing until you've finished."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z5-paese.fav:146",
+  "it": "Rosaria ti mette davanti un bicchiere d'acqua e una scodella di legumi, come a chiunque passi di qui. In fondo, due uomini scesi dalla statale smettono di parlare quando entri. Dal tavolo della finestra, Imma posa il cucchiaio. «Quello lì mi ha dato da mangiare, sulla discesa.» Lo dice a nessuno, e lo dice forte. I due uomini ricominciano a parlare, più piano. Rosaria ripiega lo straccio, ti guarda le mani a lungo, e alla fine si siede.",
+  "en": "Rosaria sets a glass of water and a bowl of beans in front of you, as she would for anyone passing through. At the back, two men down from the main road stop talking when you come in. At the window table, Imma puts down her spoon. “That one there gave me food, on the descent.” She says it to no one, and she says it loud. The two men start talking again, more quietly. Rosaria folds the cloth, looks at your hands for a long time, and in the end sits down."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z5-paese.fav:147",
+  "it": "Rosaria ti mette davanti un bicchiere d'acqua fresca prima ancora che tu apra bocca, e una scodella di legumi. Dal tavolo della finestra Imma ti fa un cenno col mento, e Rosaria, passandoti il pane, lo vede. «Mi ha detto della discesa.» Non aggiunge altro. La scodella, a guardarla, è più piena di come la riempie per gli altri.",
+  "en": "Rosaria sets a glass of cool water in front of you before you've even opened your mouth, and a bowl of beans. From the window table Imma gives you a nod of the chin, and Rosaria, passing you the bread, sees it. “She told me about the descent.” She adds nothing else. The bowl, when you look at it, is fuller than she fills it for the others."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z5-paese.fav:149",
+  "it": "Al tavolo della finestra c'è Imma, con la scodella davanti. Rosaria ti guarda da dietro il banco e annuisce, una volta sola.",
+  "en": "Imma is at the window table, a bowl in front of her. Rosaria looks at you from behind the counter and nods, just once."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z5-paese.fav:155",
+  "it": "Tanto vecchia che il tempo, su di lei, sembra essersi seduto a riposare. Non ti riconosce, e poi un po' sì.",
+  "en": "So old that time, in her case, seems to have sat down to rest. She doesn't recognise you, and then, a little, she does."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Concetta",
+  "dove": "z5-paese.fav:158",
+  "it": "Ti guarda a lungo. «Tu… ma tu sei dei… aspetta.» Batte due dita sul bracciolo, come per contare. «La casa in fondo, ad Acquamorta. Due maschi, c'erano. Tu quale dei due?»",
+  "en": "She looks at you for a long time. “You… but you're one of the… wait.” She taps two fingers on the armrest, as if counting. “The house at the end, in Acquamorta. There were two boys. Which of the two are you?”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:159",
+  "it": "Erano in due?",
+  "en": "There were two of them?"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:160",
+  "it": "Il giocattolo, sul davanzale…",
+  "en": "The toy, on the windowsill…"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:161",
+  "it": "Ti lascio riposare.",
+  "en": "I'll let you rest."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Concetta",
+  "dove": "z5-paese.fav:163",
+  "it": "«Due, sì. Tu te ne andasti, col treno, e non tornasti più. L'altro restò. Cosimo.» Mastica il nome come pane vecchio. «Cosimo restò, e si chiuse. Dopo che… no. Dopo non ricordo. C'è stata una disgrazia, in quella casa, ma il quando mi sfugge.»",
+  "en": "“Two, yes. You went away, on the train, and never came back. The other one stayed. Cosimo.” She chews the name like stale bread. “Cosimo stayed, and shut himself away. After… no. After that I don't remember. There was a tragedy, in that house, but the when of it escapes me.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:164",
+  "it": "Che disgrazia?",
+  "en": "What tragedy?"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Concetta",
+  "dove": "z5-paese.fav:167",
+  "it": "Scuote la testa piano. «Non me lo far dire, che poi sbaglio e ti faccio male per niente. Vacci, e guardala tu, la casa.» Ti spinge verso il davanzale. «Pìgliati il cavallo di legno. Era vostro.»",
+  "en": "She shakes her head slowly. “Don't make me say it, I'll get it wrong and hurt you for nothing. Go there, and look at it yourself, the house.” She nudges you towards the windowsill. “Take the wooden horse. It belonged to you two.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Concetta",
+  "dove": "z5-paese.fav:170",
+  "it": "«Pìgliatelo. Lo tenevo io, da quando la casa si è chiusa. Uno di voi due ci dormiva insieme, ma quale non te lo so dire.» Sorride senza denti. «Portatelo a casa, quel cavallo. Le case vogliono indietro le loro cose.»",
+  "en": "“Take it. I've kept it since the house was shut up. One of you two used to sleep with it, but which one I couldn't tell you.” She gives a toothless smile. “Take that horse home. Houses want their things back.”"
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z5-paese.fav:176",
+  "it": "Un uomo giovane invecchiato dalla febbre, il sudore che gli incolla i capelli. Non chiede: gli brucia troppo l'orgoglio, anche adesso.",
+  "en": "A young man aged by fever, the sweat gluing his hair down. He doesn't ask: his pride burns too much, even now."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z5-paese.fav:177",
+  "it": "Un uomo giovane, ancora pallido. La febbre è passata; l'orgoglio no.",
+  "en": "A young man, still pale. The fever has gone; the pride hasn't."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Pasquale",
+  "dove": "z5-paese.fav:180",
+  "it": "«Non sto male.» Lo dice e gli trema la voce. «Passa pure, viandante. Non sei il primo che passa.»",
+  "en": "“I'm not ill.” He says it and his voice shakes. “Pass on, traveller. You're not the first to pass.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Pasquale",
+  "dove": "z5-paese.fav:181",
+  "it": "«Sto meglio. Te lo devo.» Si tira su a sedere. «Rosaria l'ha già saputo. Qui le cose si sanno prima di sera.»",
+  "en": "“I'm better. I owe it to you.” He pulls himself up to sit. “Rosaria's already heard. Round here, things get known before nightfall.”"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z5-paese.fav:185",
+  "it": "Sciogli le medicine in un dito d'acqua e lo aiuti a mandarle giù. Per la prima volta da giorni, il respiro gli si fa lungo. Una donna sulla soglia ti guarda fare, poi se ne va di fretta verso l'osteria.",
+  "en": "You dissolve the medicine in a finger of water and help him get it down. For the first time in days, his breathing lengthens. A woman on a doorstep watches you do it, then hurries off towards the tavern."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z5-paese.fav:186",
+  "it": "Pasquale riposa, la febbre rotta. Non gli serve altro.",
+  "en": "Pasquale is resting, the fever broken. He needs nothing more."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z5-paese.fav:187",
+  "it": "Le medicine sono lì per terra: prendile, prima.",
+  "en": "The medicine is there on the ground: pick it up first."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z5-paese.fav:193",
+  "it": "Diciassette anni, le scarpe sbagliate per camminare e la testa piena di altrove. Ti ha visto arrivare dalla strada e non smette di fissarti.",
+  "en": "Seventeen, the wrong shoes for walking and a head full of elsewhere. He saw you come in off the road and won't stop staring at you."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Peppe",
+  "dove": "z5-paese.fav:196",
+  "it": "Ti guarda le mani prima delle scarpe, e si alza. «Giù al mercato dicono che hai già fatto del male, per strada.» Si ferma, ricomincia. «Io voglio saperlo da te, non da loro.»",
+  "en": "He looks at your hands before your shoes, and stands up. “Down at the market they say you've already hurt someone, on the road.” He stops, starts again. “I want to hear it from you, not from them.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Peppe",
+  "dove": "z5-paese.fav:197",
+  "it": "«Tu vai a ovest, vero? Oltre le colline.» Si alza di scatto. «Portami con te. Qui si muore da fermi. Io cammino, non mi lamento, ti giuro.»",
+  "en": "“You're going west, aren't you? Beyond the hills.” He jumps to his feet. “Take me with you. Here you die standing still. I'll walk, I won't complain, I swear.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Peppe",
+  "dove": "z5-paese.fav:198",
+  "it": "«Allora si parte davvero?» Ha già un fagotto pronto, lo nasconde male.",
+  "en": "“So we're really going?” He already has a bundle ready, and hides it badly."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Peppe",
+  "dove": "z5-paese.fav:199",
+  "it": "Non alza più gli occhi da terra. «Ho capito. Stammi bene, viandante.»",
+  "en": "He won't lift his eyes from the ground now. “I understand. Look after yourself, traveller.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:201",
+  "it": "È vero. Non l'ho voluto.",
+  "en": "It's true. I didn't want to."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:202",
+  "it": "Non è così.",
+  "en": "It's not like that."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:203",
+  "it": "Non devo dirti niente.",
+  "en": "I don't have to tell you anything."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:204",
+  "it": "Vieni con me, allora.",
+  "en": "Come with me, then."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:205",
+  "it": "È troppo dura, dove vado. Resta.",
+  "en": "It's too hard, where I'm going. Stay."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Peppe",
+  "dove": "z5-paese.fav:208",
+  "it": "Non distoglie gli occhi. «Allora lo sai com'è.» Ci pensa. «Mio padre diceva che chi lo dice subito fa meno paura di chi lo nasconde. Non so se è vero. Ma me l'hai detto.»",
+  "en": "He doesn't look away. “Then you know what it's like.” He thinks about it. “My father used to say the one who tells it straight away is less frightening than the one who hides it. I don't know if it's true. But you told me.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Peppe",
+  "dove": "z5-paese.fav:210",
+  "it": "«Ah.» Annuisce, come a un conto che non torna. «Rosaria di queste cose non sbaglia mai. Ma va bene. Va bene così.» Non va bene: si capisce da come si risiede sul gradino.",
+  "en": "“Ah.” He nods, as at a sum that doesn't add up. “Rosaria's never wrong about these things. But all right. That's all right.” It isn't all right: you can tell from the way he sits back down on the step."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Peppe",
+  "dove": "z5-paese.fav:212",
+  "it": "Alza le spalle, a metà. «Almeno non mi hai detto una bugia.» Non è un ringraziamento.",
+  "en": "He gives half a shrug. “At least you didn't lie to me.” It isn't a thank-you."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Peppe",
+  "dove": "z5-paese.fav:215",
+  "it": "Ride, una volta sola, e si copre la bocca. «Non te ne penti. Salutare non ho da salutare nessuno: sono pronto. Ti aspetto dove comincia la mulattiera.»",
+  "en": "He laughs, just once, and covers his mouth. “You won't be sorry. As for goodbyes, I've no one to say them to: I'm ready. I'll wait for you where the mule track starts.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Peppe",
+  "dove": "z5-paese.fav:218",
+  "it": "Incassa, annuisce, si rimette a sedere sul gradino. «Sì. Sì, certo. Era una cosa da ragazzini.» Non ci crede, e neanche tu.",
+  "en": "He takes the blow, nods, sits back down on the step. “Yes. Yes, of course. It was a childish idea.” He doesn't believe it, and neither do you."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z5-paese.fav:222",
+  "it": "Dividi un boccone con Peppe. Lo mangia in due morsi e ti ringrazia con gli occhi.",
+  "en": "You share a mouthful with Peppe. He eats it in two bites and thanks you with his eyes."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z5-paese.fav:223",
+  "it": "Non c'è niente da dividere. Gli lasci la tua parte di niente, e cammini più vuoto.",
+  "en": "There's nothing to share. You leave him your share of nothing, and walk on emptier."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z5-paese.fav:224",
+  "it": "Peppe beve un sorso dalla tua tanica, piano, guardandoti mentre lo fa.",
+  "en": "Peppe takes a sip from your jerrycan, slowly, watching you as he does."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z5-paese.fav:225",
+  "it": "Peppe è già lì, seduto su un muretto col suo fagotto. Si alza prima che tu arrivi, come se temesse che tu cambiassi idea.",
+  "en": "Peppe is already there, sitting on a low wall with his bundle. He gets up before you reach him, as if afraid you might change your mind."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z5-paese.fav:230",
+  "it": "Svelto d'occhi e di mani, la faccia di chi tratta da quando aveva i calzoni corti. Non vuole amicizia: vuole fare affari.",
+  "en": "Quick of eye and hand, with the face of a man who has been haggling since he was in short trousers. He doesn't want friendship: he wants to do business."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Ciro",
+  "dove": "z5-paese.fav:233",
+  "it": "«Avanti, che anche il tempo è merce.» (Hai [acqua] d'acqua e [cibo] di cibo.)",
+  "en": "“Come on, time's merchandise too.” (You have [acqua] water and [cibo] food.)"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Ciro",
+  "dove": "z5-paese.fav:234",
+  "it": "«Tutto si scambia, niente si regala.» Allarga le mani sui banchi. «Acqua, cibo, o qualcosa di buono da rivendere. Tu cos'hai?» (Hai [acqua] d'acqua e [cibo] di cibo.)",
+  "en": "“Everything's traded, nothing's given away.” He spreads his hands over the stalls. “Water, food, or something good to sell on. What have you got?” (You have [acqua] water and [cibo] food.)"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:235",
+  "it": "Ti do l'orologio per dell'acqua.",
+  "en": "I'll give you the watch for some water."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:236",
+  "it": "La tanica non ha posto: ti do l'orologio per del cibo.",
+  "en": "The jerrycan's full: I'll give you the watch for some food."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:237",
+  "it": "Ti do i cristalli di sale per del cibo.",
+  "en": "I'll give you the salt crystals for some food."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:238",
+  "it": "Vendo l'anello.",
+  "en": "I'll sell the ring."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:239",
+  "it": "Ti do la batteria.",
+  "en": "I'll give you the battery."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:240",
+  "it": "La tanica non ha posto: ti do la batteria per del cibo.",
+  "en": "The jerrycan's full: I'll give you the battery for some food."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:241",
+  "it": "Ti do la borsa di tela.",
+  "en": "I'll give you the canvas bag."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:242",
+  "it": "Ti do le cartucce.",
+  "en": "I'll give you the cartridges."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:243",
+  "it": "La tanica non ha posto: ti do le cartucce per del cibo.",
+  "en": "The jerrycan's full: I'll give you the cartridges for some food."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:244",
+  "it": "Ti do il giubbotto.",
+  "en": "I'll give you the jacket."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:245",
+  "it": "Ti do la stecca di sigarette.",
+  "en": "I'll give you the carton of cigarettes."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:246",
+  "it": "La tanica non ha posto: ti do la stecca di sigarette per del cibo.",
+  "en": "The jerrycan's full: I'll give you the carton of cigarettes for some food."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:247",
+  "it": "Ti do la tanica di benzina.",
+  "en": "I'll give you the jerrycan of petrol."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:248",
+  "it": "Ho la carta di Vito.",
+  "en": "I've got Vito's paper."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:250",
+  "it": "Ti do tre d'acqua per del cibo.",
+  "en": "I'll give you three water for some food."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:251",
+  "it": "Niente, per ora.",
+  "en": "Nothing, for now."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Ciro",
+  "dove": "z5-paese.fav:253",
+  "it": "«Affare.» Conta due volte e ti dà il dovuto, non un sorso di più. (Ora hai [acqua] d'acqua e [cibo] di cibo.)",
+  "en": "“Deal.” He counts twice and gives you what's due, not a sip more. (Now you have [acqua] water and [cibo] food.)"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:254",
+  "it": "Altro.",
+  "en": "Something else."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:255",
+  "it": "Basta così.",
+  "en": "That'll do."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Ciro",
+  "dove": "z5-paese.fav:257",
+  "it": "Rigira la fede controluce, legge la data e non fa domande. Paga subito, e bene, prima che tu ci ripensi. (Ora hai [acqua] d'acqua.)",
+  "en": "He turns the wedding ring against the light, reads the date and asks no questions. He pays at once, and well, before you think better of it. (Now you have [acqua] water.)"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z5-paese.fav:258",
+  "it": "Va bene così.",
+  "en": "That's fine."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Ciro",
+  "dove": "z5-paese.fav:259",
+  "it": "«Carta di Vito?» Ride, e se la mette in tasca. «Mi deve una tanica da due inverni. Questa la prendo per buona.» (Ora hai [acqua] d'acqua e [cibo] di cibo.)",
+  "en": "“Vito's paper?” He laughs, and puts it in his pocket. “He's owed me a jerrycan for two winters. I'll take this as good.” (Now you have [acqua] water and [cibo] food.)"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z5-paese.fav:263",
+  "it": "Ciro ti vede entrare e fischia piano. «Quello del casello.» Lo dice ai banchi, non a te. «Vito mi doveva una tanica da due inverni. Adesso chi me la rende?»",
+  "en": "Ciro sees you come in and gives a low whistle. “The one from the tollbooth.” He says it to the stalls, not to you. “Vito had owed me a jerrycan for two winters. Who's going to pay me back now?”"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z5-paese.fav:265",
+  "it": "Ciro ti vede entrare e non nasconde il sorriso. «Quello della pistola.» Lo dice ai banchi, e i banchi ridono piano. «Vito è passato a raccontarla: gliel'hai puntata in faccia, ed era scarica. Dice che l'ha capito da come la tenevi, come una cosa che si porta, non come una che si usa.» Conta qualcosa sul banco, senza guardarti. «Qui da me puoi puntare quello che vuoi. Io guardo le mani, e se hanno acqua.»",
+  "en": "Ciro sees you come in and doesn't hide his smile. “The one with the pistol.” He says it to the stalls, and the stalls laugh quietly. “Vito came by to tell it: you pointed it in his face, and it wasn't loaded. He says he could tell from the way you held it, like something you carry, not something you use.” He counts something out on the stall, without looking at you. “At my stall you can point whatever you like. I look at hands, and whether they've got water.”"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z5-paese.fav:270",
+  "it": "Imbocchi la mulattiera. Il paese resta sotto, con le sue voci. Davanti, la pietra delle colline.",
+  "en": "You start up the mule track. The village stays below, with its voices. Ahead, the stone of the hills."
+ }
+]

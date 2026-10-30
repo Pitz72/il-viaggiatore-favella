@@ -4,9 +4,14 @@
 //  lettore di schermo lo sente (role status, o alert se è un problema).
 //  Ogni cartiglio nuovo prende il posto del precedente (`n` cambia).
 //  Un trofeo vinto (piano 09, §7.1) ha il suo: «Trofeo · Il cavallo di
-//  legno», col medaglione, per quattro secondi.
+//  legno», col medaglione, per quattro secondi. Il nome del trofeo si mostra
+//  nella lingua di adesso, che chi chiama passi l'id, il nome italiano o
+//  quello inglese (gioco/trofei.ts).
 // ====================================================================
 import { useEffect, useState } from "react";
+import { tr } from "../lib/lingua";
+import { useLingua } from "../lib/useOpzioni";
+import { TROFEI, testiTrofeo } from "./trofei";
 
 export interface DatiCartiglio { n: number; testo: string; grave?: boolean; trofeo?: boolean }
 
@@ -15,7 +20,14 @@ const SERIF = "'Lora', Georgia, serif";
 const DURATA = 2600;
 export const DURATA_TROFEO = 4000;
 
+/** Il nome di un trofeo nella lingua data, dall'id o da uno dei due nomi; un testo che non è un trofeo resta com'è. */
+const nomeTrofeo = (testo: string, lingua: "it" | "en") => {
+  const t = TROFEI.find((x) => x.id === testo || x.nome === testo || x.en.nome === testo);
+  return t ? testiTrofeo(t, lingua).nome : testo;
+};
+
 export default function Cartiglio({ dati, accento }: { dati: DatiCartiglio | null; accento: string }) {
+  const lingua = useLingua();
   const [visibile, setVisibile] = useState<DatiCartiglio | null>(null);
   const durata = (d: DatiCartiglio) => (d.trofeo ? DURATA_TROFEO : d.grave ? DURATA * 2 : DURATA);
   useEffect(() => {
@@ -39,9 +51,9 @@ export default function Cartiglio({ dati, accento }: { dati: DatiCartiglio | nul
             <circle cx="12" cy="12" r="10" />
             <path d="M12 6.5 L13.6 10.1 L17.5 10.4 L14.5 13 L15.4 16.8 L12 14.8 L8.6 16.8 L9.5 13 L6.5 10.4 L10.4 10.1 Z" />
           </svg>
-          <span style={{ color: accento }}>Trofeo</span>
+          <span style={{ color: accento }}>{tr("Trofeo", "Trophy")}</span>
           <span aria-hidden="true" style={{ opacity: 0.5 }}>·</span>
-          <span style={{ fontFamily: SERIF, fontSize: 15, letterSpacing: 0, textTransform: "none", color: "#f4ece0" }}>{visibile.testo}</span>
+          <span style={{ fontFamily: SERIF, fontSize: 15, letterSpacing: 0, textTransform: "none", color: "#f4ece0" }}>{nomeTrofeo(visibile.testo, lingua)}</span>
         </>
       ) : visibile.testo}
     </div>

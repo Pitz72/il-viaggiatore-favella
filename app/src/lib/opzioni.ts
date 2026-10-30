@@ -10,9 +10,17 @@
 //  La prima volta si raccolgono le scelte della voce di prima (1.20 – 1.23,
 //  «viaggiatore.voce»). Niente React qui: il gancio è in useOpzioni.ts, così
 //  il collaudo prova questo file in Node (app/scripts/opzioni-node.mjs).
+//  La lingua del testo e la voce si scelgono nella finestra che si apre prima
+//  dei loghi, finché non c'è una scelta (linguaScelta); poi nelle opzioni. In
+//  inglese i comandi sono soltanto i pulsanti: il parser capisce l'italiano.
 // ====================================================================
 
-export type ModoVoce = "recitata" | "lettore";
+/** La voce del gioco: il doppiaggio italiano, nessuna voce, o nessuna voce e il diario letto dal lettore di schermo. */
+export type ModoVoce = "recitata" | "nessuna" | "lettore";
+export const MODI_VOCE: readonly ModoVoce[] = ["recitata", "nessuna", "lettore"];
+/** La lingua dei testi: del racconto e dell'interfaccia. Il motore e i comandi restano in italiano. */
+export type Lingua = "it" | "en";
+export const LINGUE: readonly Lingua[] = ["it", "en"];
 export type Qualita = "automatica" | "alta" | "media" | "bassa";
 export const QUALITA: readonly Qualita[] = ["automatica", "alta", "media", "bassa"];
 export type Movimento = "sistema" | "ridotto" | "pieno";
@@ -22,9 +30,13 @@ export type ModoComandi = "pulsanti" | "parole";
 export const MODI_COMANDI: readonly ModoComandi[] = ["pulsanti", "parole"];
 
 export interface Opzioni {
+  /** la lingua dei testi */
+  lingua: Lingua;
+  /** la finestra della lingua all'avvio ha avuto una risposta: non si apre più */
+  linguaScelta: boolean;
   /** pulsanti (niente riga da scrivere), o parole (l'avventura testuale pura: niente pulsanti) */
   comandi: ModoComandi;
-  /** la voce del gioco: il doppiaggio, oppure nessuna voce (il lettore di schermo legge il diario) */
+  /** la voce del gioco: il doppiaggio (italiano), nessuna voce, o il lettore di schermo che legge il diario */
   voce: ModoVoce;
   /** il volume generale, da 0 a 1: moltiplica i tre canali */
   volume: number;
@@ -66,6 +78,8 @@ export function altaAccessibilita(o: Opzioni): "si" | "no" | "personalizzata" {
 }
 
 export const OPZIONI_DI_BASE: Readonly<Opzioni> = {
+  lingua: "it",
+  linguaScelta: false,
   comandi: "pulsanti",
   voce: "recitata",
   volume: 1,
@@ -93,8 +107,10 @@ export function pulisci(grezzo: unknown): Opzioni {
   const d = (grezzo && typeof grezzo === "object" ? grezzo : {}) as Record<string, unknown>;
   const b = OPZIONI_DI_BASE;
   return {
+    lingua: LINGUE.includes(d.lingua as Lingua) ? (d.lingua as Lingua) : b.lingua,
+    linguaScelta: typeof d.linguaScelta === "boolean" ? d.linguaScelta : b.linguaScelta,
     comandi: MODI_COMANDI.includes(d.comandi as ModoComandi) ? (d.comandi as ModoComandi) : b.comandi,
-    voce: d.voce === "recitata" || d.voce === "lettore" ? d.voce : b.voce,
+    voce: MODI_VOCE.includes(d.voce as ModoVoce) ? (d.voce as ModoVoce) : b.voce,
     volume: livello(d.volume, b.volume),
     volumeMusica: livello(d.volumeMusica, b.volumeMusica),
     volumeVoce: livello(d.volumeVoce, b.volumeVoce),
@@ -152,8 +168,16 @@ export function cambiaOpzioni(cambio: Partial<Opzioni>) {
   for (const a of ascoltatori) a(attuali);
 }
 
-/** Tutte le opzioni di nuovo come al primo avvio. */
-export const ripristinaOpzioni = () => cambiaOpzioni(OPZIONI_DI_BASE);
+/** Come si danno davvero i comandi: in inglese soltanto coi pulsanti (il parser capisce l'italiano). La scelta
+ *  «avventura testuale» resta nel deposito, e torna valida tornando all'italiano. */
+export const comandiEffettivi = (o: Opzioni): ModoComandi => (o.lingua === "en" ? "pulsanti" : o.comandi);
+
+/** Tutte le opzioni di nuovo come al primo avvio, tranne la lingua e la voce: sono le risposte alla prima finestra,
+ *  e chi gioca in inglese, o col lettore di schermo, non deve ritrovarsi in un gioco che non capisce. */
+export const ripristinaOpzioni = () => {
+  const { lingua, linguaScelta, voce } = opzioni();
+  cambiaOpzioni({ ...OPZIONI_DI_BASE, lingua, linguaScelta, voce });
+};
 
 /** Ascolta i cambi; restituisce come smettere. */
 export function ascoltaOpzioni(f: (o: Opzioni) => void): () => void {

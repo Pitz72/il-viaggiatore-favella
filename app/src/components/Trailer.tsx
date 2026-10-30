@@ -16,6 +16,11 @@
 //     desktop parte da sola; nel browser col primo tasto o clic. Con la voce
 //     recitata (le impostazioni della voce del gioco) Enzo legge i testi sullo
 //     stesso orologio, e la musica gli scende sotto (trailer/audio.ts).
+//   · In inglese (lib/lingua.ts) cambiano soltanto le parole: i testi DOM hanno
+//     accanto la loro traduzione e si ridisegnano al cambio di lingua; quelli
+//     dipinti sul canvas (il biglietto, le date, i nomi della mappa) leggono la
+//     lingua a ogni fotogramma. Tempi e voce restano quelli italiani: Enzo legge
+//     in italiano anche sotto le scritte inglesi.
 // ====================================================================
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { W, H, BANDA, SCENE, DURATA, presenza, TAPPE_T0, TAPPE_PASSO, CINQUE_T0, CINQUE_PASSO, REGOLA_DUR } from "../trailer/scaletta";
@@ -33,6 +38,7 @@ import PaginaTrofei from "../gioco/PaginaTrofei";
 import { scaricaColonnaSonora } from "../lib/colonnaSonora";
 import { ascoltaOpzioni, opzioni, type Qualita } from "../lib/opzioni";
 import { useOpzioni } from "../lib/useOpzioni";
+import { tr, type Lingua } from "../lib/lingua";
 import { scalaTesto } from "../lib/accessibilita";
 import VociMenu, { type VoceMenu } from "../gioco/VociMenu";
 import Domanda from "../gioco/Domanda";
@@ -44,7 +50,9 @@ import { suonaTrofeo } from "../gioco/suonoTrofeo";
 //  Testi (cue): tempi, posizione, tipo d'animazione
 // --------------------------------------------------------------------
 type Tipo = "maschera" | "dissolvi" | "timbro";
-interface Riga { testo: React.ReactNode; stile?: React.CSSProperties }
+/** Un testo del trailer nelle due lingue (le scritte non si traducono al volo: sono composte, a volte con un segno dentro). */
+type Doppio = Record<Lingua, React.ReactNode>;
+interface Riga { testo: Doppio; stile?: React.CSSProperties }
 interface Cue {
   id: string; da: number; a: number; entra?: number; esce?: number; tipo: Tipo;
   box: React.CSSProperties; righe: Riga[]; sfalsa?: number;
@@ -80,65 +88,69 @@ const VELI: Velo[] = [
 ];
 
 const regolaScura = { width: 120, height: 2, background: "#3b2415", display: "inline-block" } as const;
+const secca = (parola: string) => <span style={{ display: "inline-flex", alignItems: "center", gap: 30 }}>{parola}<i style={regolaScura} /></span>;
 
 const CUES: Cue[] = [
-  { id: "alba1", da: 10.6, a: 16.9, tipo: "maschera", box: centro(250), righe: [{ testo: "Un uomo torna a casa.", stile: serif(88, { color: "#f4ece0", textShadow: OMBRA_ALBA }) }] },
-  { id: "alba2", da: 12.3, a: 16.9, tipo: "maschera", box: centro(360), righe: [{ testo: "A piedi.", stile: serif(88, { color: "#f6b77c", fontStyle: "italic", textShadow: OMBRA_ALBA }) }] },
+  { id: "alba1", da: 10.6, a: 16.9, tipo: "maschera", box: centro(250), righe: [{ testo: { it: "Un uomo torna a casa.", en: "A man returns home." }, stile: serif(88, { color: "#f4ece0", textShadow: OMBRA_ALBA }) }] },
+  { id: "alba2", da: 12.3, a: 16.9, tipo: "maschera", box: centro(360), righe: [{ testo: { it: "A piedi.", en: "On foot." }, stile: serif(88, { color: "#f6b77c", fontStyle: "italic", textShadow: OMBRA_ALBA }) }] },
   { id: "terra", da: 18.3, a: 22.4, tipo: "maschera", sfalsa: 0.16, box: { left: 170, top: 196 },
-    righe: [{ testo: "Attraverso una terra", stile: serif(70, { color: "#2c1a0e" }) }, { testo: "che l’acqua ha svuotato.", stile: serif(70, { color: "#2c1a0e" }) }] },
+    righe: [{ testo: { it: "Attraverso una terra", en: "Across a land" }, stile: serif(70, { color: "#2c1a0e" }) }, { testo: { it: "che l’acqua ha svuotato.", en: "the water has emptied." }, stile: serif(70, { color: "#2c1a0e" }) }] },
   { id: "secca", da: 22.6, a: 25.1, entra: 0.3, tipo: "timbro", box: { left: 170, top: 400 },
     righe: [
-      { testo: <span style={{ display: "inline-flex", alignItems: "center", gap: 30 }}>la secca<i style={regolaScura} /></span>, stile: mono(34, { color: "#3b2415", letterSpacing: "0.62em", fontWeight: 600 }) },
-      { testo: "dieci anni senza pioggia", stile: serif(34, { color: "#4a3020", fontStyle: "italic", marginTop: 18 }) },
+      { testo: { it: secca("la secca"), en: secca("the drought") }, stile: mono(34, { color: "#3b2415", letterSpacing: "0.62em", fontWeight: 600 }) },
+      { testo: { it: "dieci anni senza pioggia", en: "ten years without rain" }, stile: serif(34, { color: "#4a3020", fontStyle: "italic", marginTop: 18 }) },
     ] },
-  { id: "dom1", da: 27.2, a: 32.9, tipo: "maschera", box: centro(260), righe: [{ testo: "A cosa stai tornando —", stile: serif(72, { color: "#eef2f8", fontStyle: "italic" }) }] },
-  { id: "dom2", da: 28.7, a: 32.9, tipo: "maschera", box: centro(356), righe: [{ testo: "e cosa resterà di te quando ci arrivi?", stile: serif(72, { color: "#eef2f8", fontStyle: "italic" }) }] },
-  { id: "mappa", da: 33.6, a: 36.1, tipo: "dissolvi", box: centro(190), righe: [{ testo: "Sette tappe fino a casa.", stile: serif(64, { color: "#e8eef6" }) }] },
+  { id: "dom1", da: 27.2, a: 32.9, tipo: "maschera", box: centro(260), righe: [{ testo: { it: "A cosa stai tornando —", en: "What are you going back to —" }, stile: serif(72, { color: "#eef2f8", fontStyle: "italic" }) }] },
+  { id: "dom2", da: 28.7, a: 32.9, tipo: "maschera", box: centro(356), righe: [{ testo: { it: "e cosa resterà di te quando ci arrivi?", en: "and what will be left of you when you get there?" }, stile: serif(72, { color: "#eef2f8", fontStyle: "italic" }) }] },
+  { id: "mappa", da: 33.6, a: 36.1, tipo: "dissolvi", box: centro(190), righe: [{ testo: { it: "Sette tappe fino a casa.", en: "Seven stages home." }, stile: serif(64, { color: "#e8eef6" }) }] },
   { id: "cinque", da: 49.3, a: 52.4, tipo: "maschera", sfalsa: 0.18, box: centro(420),
-    righe: [{ testo: "Cinque modi di stare", stile: serif(78, { color: "#eef2f8" }) }, { testo: "in un mondo che muore.", stile: serif(78, { color: "#eef2f8", fontStyle: "italic" }) }] },
-  { id: "guado1", da: 61.8, a: 67.5, tipo: "maschera", box: centro(214), righe: [{ testo: "E al guado, ad aspettarti,", stile: serif(76, { color: "#f6e6e2", textShadow: OMBRA_GUADO }) }] },
-  { id: "guado2", da: 64.0, a: 67.5, tipo: "maschera", box: centro(318), righe: [{ testo: "tuo fratello.", stile: serif(76, { color: "#ffa0a0", fontStyle: "italic", textShadow: OMBRA_GUADO }) }] },
+    righe: [{ testo: { it: "Cinque modi di stare", en: "Five ways to live" }, stile: serif(78, { color: "#eef2f8" }) }, { testo: { it: "in un mondo che muore.", en: "in a dying world." }, stile: serif(78, { color: "#eef2f8", fontStyle: "italic" }) }] },
+  { id: "guado1", da: 61.8, a: 67.5, tipo: "maschera", box: centro(214), righe: [{ testo: { it: "E al guado, ad aspettarti,", en: "And at the ford, waiting for you," }, stile: serif(76, { color: "#f6e6e2", textShadow: OMBRA_GUADO }) }] },
+  { id: "guado2", da: 64.0, a: 67.5, tipo: "maschera", box: centro(318), righe: [{ testo: { it: "tuo fratello.", en: "your brother." }, stile: serif(76, { color: "#ffa0a0", fontStyle: "italic", textShadow: OMBRA_GUADO }) }] },
   ...REGOLE.map((r, i): Cue => ({
     id: "regola" + i, da: 67.8 + i * REGOLA_DUR + 0.06, a: 67.8 + (i + 1) * REGOLA_DUR - 0.04, entra: 0.35, esce: 0.12, tipo: "maschera",
     box: { left: 150, top: 390, width: 980 },
     righe: [
-      { testo: `0${i + 1} — 05`, stile: mono(20, { color: r.a, marginBottom: 26 }) },
-      { testo: r.testo, stile: display(76, { color: "#f2f4f8", whiteSpace: "pre-line" }) },
+      { testo: { it: `0${i + 1} — 05`, en: `0${i + 1} — 05` }, stile: mono(20, { color: r.a, marginBottom: 26 }) },
+      { testo: { it: r.testo, en: r.en }, stile: display(76, { color: "#f2f4f8", whiteSpace: "pre-line" }) },
     ],
   })),
   { id: "numeritag", da: 78.9, a: 81.7, tipo: "dissolvi", box: centro(760),
-    righe: [{ testo: "Un’avventura testuale in italiano, scritta e giocata col motore vero.", stile: serif(34, { color: "#b9c4d4", fontStyle: "italic" }) }] },
+    righe: [{ testo: { it: "Un’avventura testuale in italiano, scritta e giocata col motore vero.", en: "An Italian text adventure, written and played on the real engine." }, stile: serif(34, { color: "#b9c4d4", fontStyle: "italic" }) }] },
 ];
 
-const STATS = [{ n: 7, l: "tappe" }, { n: 39, l: "luoghi" }, { n: 14, l: "personaggi" }, { n: 6, l: "finali" }];
+const STATS: { n: number; l: Doppio }[] = [
+  { n: 7, l: { it: "tappe", en: "stages" } }, { n: 39, l: { it: "luoghi", en: "places" } },
+  { n: 14, l: { it: "personaggi", en: "characters" } }, { n: 6, l: { it: "finali", en: "endings" } },
+];
 
 const CINQUE = [
   // Saverio custodisce il pozzo: tetto a due falde, carrucola, secchio, muro di pietre
-  { nome: "Saverio", luogo: "il pozzo", verbo: "custodire", a: "#e6a85a",
+  { nome: "Saverio", luogo: { it: "il pozzo", en: "the well" }, verbo: { it: "custodire", en: "guarding" }, a: "#e6a85a",
     d: ["M30 76 Q60 90 90 76", "M30 76 Q60 64 90 76", "M30 76 V102 Q60 112 90 102 V76", "M31 88 Q60 98 89 88",
         "M46 82 V93", "M62 84 V96", "M77 82 V92", "M40 94 V104", "M55 97 V108",
         "M38 74 V34", "M82 74 V34", "M24 34 H96", "M22 34 L60 12 L98 34", "M34 27 H86", "M45 20 H75",
         "M54 44 a6 6 0 1 0 12 0 a6 6 0 1 0 -12 0", "M60 50 V64", "M52 64 H68 L65.5 78 H54.5 Z", "M53 70 H67", "M82 44 H100 L104 52"],
     riempi: ["M22 34 L60 12 L98 34 Z", "M52 64 H68 L65.5 78 H54.5 Z"] },
   // Iole aspetta alla pompa: corpo, manico alzato, beccuccio, la goccia che tarda a cadere
-  { nome: "Iole", luogo: "la diga", verbo: "aspettare", a: "#a9dbe4",
+  { nome: "Iole", luogo: { it: "la diga", en: "the dam" }, verbo: { it: "aspettare", en: "waiting" }, a: "#a9dbe4",
     d: ["M38 106 H82", "M44 106 V94 H76 V106", "M52 94 V40 Q52 32 60 32 Q68 32 68 40 V94", "M52 78 H68", "M52 58 H68",
         "M68 62 H90 Q98 62 98 70 V74", "M60 32 V14", "M52 14 H68", "M60 24 L26 14", "M22 12 L30 18",
         "M98 82 Q94 90 98 94 Q102 90 98 82 Z", "M84 108 Q98 112 112 108"],
     riempi: ["M52 94 V40 Q52 32 60 32 Q68 32 68 40 V94 Z", "M98 82 Q94 90 98 94 Q102 90 98 82 Z"] },
   // Vito tiene il casello: garitta, sbarra alzata a strisce, contrappeso, lampada
-  { nome: "Vito", luogo: "il casello", verbo: "predare", a: "#f2ad45",
+  { nome: "Vito", luogo: { it: "il casello", en: "the tollbooth" }, verbo: { it: "predare", en: "preying" }, a: "#f2ad45",
     d: ["M14 106 H52", "M20 106 V58 H44 V106", "M17 58 L32 46 L47 58", "M26 70 H38 V84 H26 Z",
         "M44 66 L104 36", "M56 60 L54 53", "M68 54 L66 47", "M80 48 L78 41", "M92 42 L90 35",
         "M100 36 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0", "M44 66 L36 76", "M27 78 a5 5 0 1 0 10 0 a5 5 0 1 0 -10 0"],
     riempi: ["M20 106 V58 H44 V106 Z", "M26 70 H38 V84 H26 Z"] },
   // Rosaria resta: un bicchiere d'acqua sul tavolo, con il suo menisco
-  { nome: "Rosaria", luogo: "l’osteria", verbo: "restare", a: "#ec7d54",
+  { nome: "Rosaria", luogo: { it: "l’osteria", en: "the tavern" }, verbo: { it: "restare", en: "staying" }, a: "#ec7d54",
     d: ["M38 34 L44 102 H76 L82 34", "M38 34 Q60 42 82 34 Q60 26 38 34", "M41 58 Q60 66 79 58", "M46 44 L50 92",
         "M30 106 H90", "M96 84 Q92 92 96 96 Q100 92 96 84 Z"],
     riempi: ["M41 58 Q60 66 79 58 L76 102 H44 Z"] },
   // Onofrio rinuncia: il cavallo di legno, intagliato, con le venature
-  { nome: "Onofrio", luogo: "la grotta", verbo: "rinunciare", a: "#9aa6e0",
+  { nome: "Onofrio", luogo: { it: "la grotta", en: "the cave" }, verbo: { it: "rinunciare", en: "giving up" }, a: "#9aa6e0",
     d: [// le due gambe lontane, dietro il corpo
         "M62 74 L62 98 L66 103", "M58 76 L59 99 L63 103",
         // il corpo del cavallo, di profilo: groppa, dorso, criniera, testa lunga, petto, zampe
@@ -281,7 +293,11 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
   const [extra, setExtra] = useState(false);
   const [notaExtra, setNotaExtra] = useState<string | null>(null);
   const [domandaNuovo, setDomandaNuovo] = useState(false);
-  const [opz] = useOpzioni();   // il testo grande fa crescere la colonna del menu e i pannelli
+  const [opz] = useOpzioni();   // il testo grande fa crescere la colonna del menu e i pannelli; la lingua cambia le scritte
+  const lingua = opz.lingua;
+  // il fotogramma scrive da sé alcune scritte (la didascalia a macchina, il contatore): leggono la lingua da qui
+  const inglese = useRef(lingua === "en");
+  inglese.current = lingua === "en";
   const grana = useMemo(faiGrana, []);
   pixelVeri.current = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
 
@@ -395,7 +411,7 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
     // A · la didascalia battuta a macchina
     const dida = extraRef.current.dida, testo = extraRef.current.didaTesto;
     if (dida && testo) {
-      const frase = "Le lettere hanno smesso di arrivare.";
+      const frase = inglese.current ? "The letters have stopped coming." : "Le lettere hanno smesso di arrivare.";
       dida.style.opacity = String(inviluppo(t, 4.9, 9.2, 0.2, 0.6));
       const n = Math.floor(clamp(seg(t, 5.0, 6.6)) * frase.length);
       if (testo.textContent !== frase.slice(0, n)) testo.textContent = frase.slice(0, n);
@@ -406,7 +422,7 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
     if (cont) {
       cont.style.opacity = String(inviluppo(t, TAPPE_T0 - 0.2, 48.7, 0.5, 0.5));
       const n = tappaCorrente(t);
-      const txt = t > TAPPE_T0 + 7 * TAPPE_PASSO ? "casa" : `tappa 0${Math.max(1, n)} · 07`;
+      const txt = t > TAPPE_T0 + 7 * TAPPE_PASSO ? (inglese.current ? "home" : "casa") : `${inglese.current ? "stage" : "tappa"} 0${Math.max(1, n)} · 07`;
       if (cont.textContent !== txt) cont.textContent = txt;
     }
 
@@ -608,32 +624,32 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
   // dove riprende «Continua»: il nome (se non è quello del luogo), il luogo, il tempo di gioco (o il turno, per i salvataggi di prima)
   const dettaglioContinua = (u: Salvataggio) => {
     const nome = nomeVisibile({ posto: u.posto, dati: u });
-    return [nome !== u.riassunto.luogo ? nome : null, u.riassunto.luogo, u.tempoMs !== undefined ? durataLeggibile(u.tempoMs) : `turno ${u.riassunto.turno}`]
+    return [nome !== u.riassunto.luogo ? nome : null, u.riassunto.luogo, u.tempoMs !== undefined ? durataLeggibile(u.tempoMs) : tr(`turno ${u.riassunto.turno}`, `turn ${u.riassunto.turno}`)]
       .filter(Boolean).join(" · ");
   };
   // le voci del menu d'avvio: «Continua» solo se c'è un viaggio salvato; «Nuovo viaggio» allora chiede conferma (D4)
   const vociMenu: VoceMenu[] = [
-    ...(ultimo ? [{ id: "continua", etichetta: "Continua il viaggio", dettaglio: dettaglioContinua(ultimo), principale: true, azione: () => onLaunch(ultimo) }] : []),
-    { id: "nuovo", etichetta: ultimo ? "Nuovo viaggio" : "Inizia il viaggio", principale: !ultimo, azione: () => (ultimo ? setDomandaNuovo(true) : onLaunch(null)) },
-    { id: "carica", etichetta: "Carica un viaggio", azione: () => setTaccuino(true) },
-    { id: "trofei", etichetta: "Trofei", azione: () => setTrofeiAperti(true) },
-    { id: "opzioni", etichetta: "Opzioni", azione: () => setOpzioniAperte(true) },
-    { id: "guida", etichetta: "Come si gioca", azione: () => setGuida(true) },
-    { id: "extra", etichetta: "Extra", azione: () => { setNotaExtra(null); setExtra(true); } },
-    ...(inDesktop() ? [{ id: "esci", etichetta: "Esci", azione: esciDalGioco }] : []),
+    ...(ultimo ? [{ id: "continua", etichetta: tr("Continua il viaggio", "Continue the journey"), dettaglio: dettaglioContinua(ultimo), principale: true, azione: () => onLaunch(ultimo) }] : []),
+    { id: "nuovo", etichetta: ultimo ? tr("Nuovo viaggio", "New journey") : tr("Inizia il viaggio", "Start the journey"), principale: !ultimo, azione: () => (ultimo ? setDomandaNuovo(true) : onLaunch(null)) },
+    { id: "carica", etichetta: tr("Carica un viaggio", "Load a journey"), azione: () => setTaccuino(true) },
+    { id: "trofei", etichetta: tr("Trofei", "Trophies"), azione: () => setTrofeiAperti(true) },
+    { id: "opzioni", etichetta: tr("Opzioni", "Options"), azione: () => setOpzioniAperte(true) },
+    { id: "guida", etichetta: tr("Come si gioca", "How to play"), azione: () => setGuida(true) },
+    { id: "extra", etichetta: tr("Extra", "Extras"), azione: () => { setNotaExtra(null); setExtra(true); } },
+    ...(inDesktop() ? [{ id: "esci", etichetta: tr("Esci", "Quit"), azione: esciDalGioco }] : []),
   ];
   // Extra, le cose di contorno (il menu d'avvio resta corto): la colonna sonora ufficiale (sul desktop si sceglie la
   // cartella, nel browser si scarica uno ZIP), il trailer da rivedere, i due siti
   const scaricaColonna = () => {
-    setNotaExtra("Un momento…");
+    setNotaExtra(tr("Un momento…", "One moment…"));
     scaricaColonnaSonora()
-      .then((e) => setNotaExtra(e.tipo === "cartella" ? `Salvata in ${e.dove}` : e.tipo === "zip" ? `Scaricata: ${e.nome}` : null))
-      .catch((err) => setNotaExtra(`Non è stato possibile: ${err instanceof Error ? err.message : String(err)}`));
+      .then((e) => setNotaExtra(e.tipo === "cartella" ? tr(`Salvata in ${e.dove}`, `Saved in ${e.dove}`) : e.tipo === "zip" ? tr(`Scaricata: ${e.nome}`, `Downloaded: ${e.nome}`) : null))
+      .catch((err) => setNotaExtra(tr("Non è stato possibile: ", "It could not be done: ") + (err instanceof Error ? err.message : String(err))));
   };
   // sul desktop il link esce dalla finestra e va nel browser di sistema (desktop/main.cjs, setWindowOpenHandler)
   const apriSito = (indirizzo: string, nome: string) => {
     window.open(indirizzo, "_blank", "noopener,noreferrer");
-    setNotaExtra(`Aperto nel browser: ${nome}`);
+    setNotaExtra(tr(`Aperto nel browser: ${nome}`, `Opened in the browser: ${nome}`));
   };
   // i trofei vinti nell'ultimo turno di una partita: sul menu, uno alla volta, col suono flautato (come in partita)
   const [cartiglio, setCartiglio] = useState<DatiCartiglio | null>(null);
@@ -657,14 +673,15 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
   }, [finito]);
 
   const vociExtra: VoceMenu[] = [
-    { id: "colonna", etichetta: "Scarica la colonna sonora ufficiale", dettaglio: "Il Viaggiatore Official Soundtrack · The Runtimers · sette brani", principale: true, azione: scaricaColonna },
+    { id: "colonna", etichetta: tr("Scarica la colonna sonora ufficiale", "Download the official soundtrack"),
+      dettaglio: tr("Il Viaggiatore Official Soundtrack · The Runtimers · otto brani", "Il Viaggiatore Official Soundtrack · The Runtimers · eight tracks"), principale: true, azione: scaricaColonna },
     // finito il trailer si torna al menu d'avvio, non a Extra
-    { id: "rivedi", etichetta: "Rivedi il trailer", azione: () => { setExtra(false); setNotaExtra(null); rivedi(); } },
+    { id: "rivedi", etichetta: tr("Rivedi il trailer", "Watch the trailer again"), azione: () => { setExtra(false); setNotaExtra(null); rivedi(); } },
     // i crediti (e l'attribuzione delle voci ElevenLabs) restano raggiungibili anche da chi non arriva in fondo
-    ...(onTitoli ? [{ id: "titoli", etichetta: "Titoli di coda", azione: onTitoli }] : []),
+    ...(onTitoli ? [{ id: "titoli", etichetta: tr("Titoli di coda", "Credits"), azione: onTitoli }] : []),
     { id: "favella", etichetta: "favella.eu", azione: () => apriSito("https://favella.eu/", "favella.eu") },
     { id: "ecosystem", etichetta: "ecosystem.runtimeradio.com", azione: () => apriSito("https://ecosystem.runtimeradio.com/", "ecosystem.runtimeradio.com") },
-    { id: "indietro", etichetta: "Indietro", tasto: "Esc", azione: () => setExtra(false) },
+    { id: "indietro", etichetta: tr("Indietro", "Back"), tasto: "Esc", azione: () => setExtra(false) },
   ];
 
   return (
@@ -689,7 +706,7 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
           {/* le tele si dipingono a pezzi mentre girano i loghi; su un computer lento possono servire ancora un momento */}
           {!pronto && (
             <div style={{ position: "absolute", left: 0, right: 0, top: 500, textAlign: "center", opacity: 0, animation: "kf-on .8s ease .7s forwards" }}>
-              <div style={mono(20, { color: "rgba(214,224,238,.62)", letterSpacing: "0.42em" })}>PREPARO IL VIAGGIO</div>
+              <div style={mono(20, { color: "rgba(214,224,238,.62)", letterSpacing: "0.42em" })}>{tr("PREPARO IL VIAGGIO", "PREPARING THE JOURNEY")}</div>
               <div style={{ width: 340, height: 2, margin: "24px auto 0", background: "rgba(255,255,255,.12)", overflow: "hidden" }}>
                 <div style={{ height: "100%", width: `${Math.max(6, Math.round(carica * 100))}%`, background: "#f0b77e", transition: "width .6s ease" }} />
               </div>
@@ -709,7 +726,7 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
             <div key={c.id} ref={(el) => { cueRef.current[c.id] = el; }} style={{ position: "absolute", visibility: "hidden", ...c.box }}>
               {c.righe.map((r, i) => (
                 <div key={i} style={{ overflow: c.tipo === "maschera" ? "hidden" : "visible", paddingBottom: c.tipo === "maschera" ? "0.14em" : 0 }}>
-                  <div data-riga style={{ ...r.stile, willChange: "transform" }}>{r.testo}</div>
+                  <div data-riga style={{ ...r.stile, willChange: "transform" }}>{r.testo[lingua]}</div>
                 </div>
               ))}
             </div>
@@ -734,8 +751,8 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
                   {c.d.map((d, j) => <path key={j} d={d} pathLength={1} fill="none" stroke={c.a} strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round" style={{ strokeDasharray: 1, strokeDashoffset: 1 }} />)}
                 </svg>
                 <div style={mono(17, { color: c.a, marginTop: 34 })}>{c.nome}</div>
-                <div style={serif(56, { color: "#f1f3f7", fontStyle: "italic", marginTop: 20 })}>{c.verbo}</div>
-                <div style={serif(26, { color: "rgba(214,224,238,.55)", marginTop: 14 })}>{c.luogo}</div>
+                <div style={serif(56, { color: "#f1f3f7", fontStyle: "italic", marginTop: 20 })}>{c.verbo[lingua]}</div>
+                <div style={serif(26, { color: "rgba(214,224,238,.55)", marginTop: 14 })}>{c.luogo[lingua]}</div>
               </div>
             ))}
           </div>
@@ -745,9 +762,9 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
             {STATS.map((s, i) => (
               // a misura del contenuto: le cifre (tabulari: ognuna è 1ch) hanno la larghezza del numero finale, così lo
               // spazio fra una cifra e il filetto è lo stesso in tutte le colonne e non si muove mentre si conta
-              <div key={s.l} style={{ padding: "0 78px", textAlign: "center", borderLeft: i ? "1px solid rgba(255,255,255,.1)" : "none" }}>
+              <div key={s.n} style={{ padding: "0 78px", textAlign: "center", borderLeft: i ? "1px solid rgba(255,255,255,.1)" : "none" }}>
                 <div ref={reg("n" + i)} style={display(170, { fontWeight: 700, color: "#f4f1ea", fontVariantNumeric: "tabular-nums", letterSpacing: "-0.04em", minWidth: `${String(s.n).length}ch` })}>0</div>
-                <div style={mono(20, { color: "rgba(214,224,238,.6)", marginTop: 18 })}>{s.l}</div>
+                <div style={mono(20, { color: "rgba(214,224,238,.6)", marginTop: 18 })}>{s.l[lingua]}</div>
               </div>
             ))}
           </div>
@@ -767,8 +784,8 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
               backgroundSize: "300% 100%", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent",
               textShadow: "0 0 60px rgba(255,190,130,.18)", paddingLeft: "0.14em",
             }}>IL VIAGGIATORE</h1>
-            <div ref={reg("sottotitolo")} style={mono(22, { color: "#ffe0bd", fontWeight: 500, letterSpacing: "0.5em", marginTop: 26, opacity: 0, textShadow: "0 1px 3px rgba(20,8,10,.85), 0 1px 22px rgba(0,0,0,.85)" })}>un esperimento in favella 1</div>
-            <div ref={reg("autore")} style={serif(28, { color: "rgba(244,236,224,.86)", fontStyle: "italic", marginTop: 18, opacity: 0, textShadow: "0 1px 3px rgba(20,8,10,.85), 0 1px 22px rgba(0,0,0,.85)" })}>un gioco di Simone Pizzi</div>
+            <div ref={reg("sottotitolo")} style={mono(22, { color: "#ffe0bd", fontWeight: 500, letterSpacing: "0.5em", marginTop: 26, opacity: 0, textShadow: "0 1px 3px rgba(20,8,10,.85), 0 1px 22px rgba(0,0,0,.85)" })}>{tr("un esperimento in favella 1", "an experiment in favella 1")}</div>
+            <div ref={reg("autore")} style={serif(28, { color: "rgba(244,236,224,.86)", fontStyle: "italic", marginTop: 18, opacity: 0, textShadow: "0 1px 3px rgba(20,8,10,.85), 0 1px 22px rgba(0,0,0,.85)" })}>{tr("un gioco di Simone Pizzi", "a game by Simone Pizzi")}</div>
           </div>
 
           {/* letterbox */}
@@ -778,10 +795,10 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
           {finito && !compatto && (
             <section style={{ position: "absolute", left: 0, right: 0, top: MENU_TOP, textAlign: "center", pointerEvents: "auto", animation: "kf-launch 1.2s ease .3s both" }}>
               <div style={{ position: "absolute", left: "50%", top: -190, width: 1760, height: 860, transform: "translateX(-50%)", background: "radial-gradient(50% 50% at 50% 50%, rgba(6,5,10,.86) 0%, rgba(6,5,10,.62) 52%, rgba(6,5,10,0) 100%)", pointerEvents: "none", zIndex: -1 }} />
-              <p style={{ margin: 0, ...serif(36, { color: "rgba(244,236,224,.94)", fontStyle: "italic", textShadow: "0 1px 3px rgba(10,6,14,.85), 0 0 16px rgba(10,6,14,.7)" }) }}>Si parte a piedi.</p>
+              <p style={{ margin: 0, ...serif(36, { color: "rgba(244,236,224,.94)", fontStyle: "italic", textShadow: "0 1px 3px rgba(10,6,14,.85), 0 0 16px rgba(10,6,14,.7)" }) }}>{tr("Si parte a piedi.", "You set out on foot.")}</p>
               <div className="mv-avvio" style={{ marginTop: 30, fontSize: 19 * scalaTesto(opz) }}>
-                {extra && <p style={{ margin: "0 0 .9em", ...mono(15, { color: "#f0b77e", letterSpacing: "0.34em", textShadow: "0 1px 3px rgba(10,6,14,.85)" }) }}>extra</p>}
-                <VociMenu key={extra ? "extra" : "menu"} voci={extra ? vociExtra : vociMenu} etichetta={extra ? "Extra" : "Menu d'avvio"} accento="#f0b77e"
+                {extra && <p style={{ margin: "0 0 .9em", ...mono(15, { color: "#f0b77e", letterSpacing: "0.34em", textShadow: "0 1px 3px rgba(10,6,14,.85)" }) }}>{tr("extra", "extras")}</p>}
+                <VociMenu key={extra ? "extra" : "menu"} voci={extra ? vociExtra : vociMenu} etichetta={extra ? tr("Extra", "Extras") : tr("Menu d'avvio", "Start menu")} accento="#f0b77e"
                   coperto={guida || taccuino || opzioniAperte || trofeiAperti || domandaNuovo} />
                 {extra && notaExtra && (
                   <p className="mv-nota" role="status" style={{ margin: "1.1em auto 0", maxWidth: "46em", ...serif(17, { color: "rgba(244,236,224,.8)", fontStyle: "italic", textShadow: "0 1px 3px rgba(10,6,14,.85)" }) }}>{notaExtra}</p>
@@ -791,7 +808,7 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
           )}
           {finito && !compatto && (
             <div className="mv-nota" style={{ position: "absolute", left: 60, bottom: 46, ...mono(14, { color: "rgba(214,224,238,.34)", letterSpacing: "0.14em", textTransform: "none" }) }}>
-              ↑↓ scegli · Invio conferma
+              {tr("↑↓ scegli · Invio conferma", "↑↓ choose · Enter confirm")}
             </div>
           )}
           {finito && !compatto && (
@@ -807,9 +824,10 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
           {opzioniAperte && !compatto && <PannelloOpzioni base={19} onChiudi={() => setOpzioniAperte(false)} />}
           {trofeiAperti && !compatto && <PaginaTrofei base={19} onChiudi={() => setTrofeiAperti(false)} />}
           {domandaNuovo && !compatto && (
-            <Domanda base={19} domanda="Cominciare un viaggio nuovo?"
-              sotto="I salvataggi del taccuino restano. Il posto automatico si riscriverà al primo cambio di luogo."
-              si="sì, un viaggio nuovo" no="no"
+            <Domanda base={19} domanda={tr("Cominciare un viaggio nuovo?", "Start a new journey?")}
+              sotto={tr("I salvataggi del taccuino restano. Il posto automatico si riscriverà al primo cambio di luogo.",
+                "The saves in your notebook stay. The autosave slot will be overwritten at the first change of place.")}
+              si={tr("sì, un viaggio nuovo", "yes, a new journey")} no="no"
               onSi={() => { setDomandaNuovo(false); onLaunch(null); }} onNo={() => setDomandaNuovo(false)} />
           )}
           {taccuino && !compatto && (
@@ -825,13 +843,14 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
           {finito ? (
             <>
               <p style={{ margin: 0, fontFamily: FONT.serif, fontSize: 17, lineHeight: 1.45, color: "rgba(230,222,208,.8)", maxWidth: 340 }}>
-                Si parte a piedi. Da qui in poi comandi tu: scrivi in italiano o scegli con i pulsanti. Il gioco rende meglio in orizzontale.
+                {tr("Si parte a piedi. Da qui in poi comandi tu: scrivi in italiano o scegli con i pulsanti. Il gioco rende meglio in orizzontale.",
+                  "You set out on foot. From here on, you are in charge: you play with the buttons. The game looks better in landscape.")}
               </p>
-              <button onClick={() => onLaunch(ultimo)} style={{ cursor: "pointer", border: "none", borderRadius: 999, padding: "14px 30px", fontFamily: FONT.display, fontWeight: 700, fontSize: 17, color: "#140c06", background: "#f0b77e", ["--gl" as string]: "rgba(240,183,126,.55)", animation: "kf-pulse 1.9s ease-in-out infinite" } as React.CSSProperties}>{ultimo ? "Continua il viaggio →" : "Inizia il viaggio →"}</button>
+              <button onClick={() => onLaunch(ultimo)} style={{ cursor: "pointer", border: "none", borderRadius: 999, padding: "14px 30px", fontFamily: FONT.display, fontWeight: 700, fontSize: 17, color: "#140c06", background: "#f0b77e", ["--gl" as string]: "rgba(240,183,126,.55)", animation: "kf-pulse 1.9s ease-in-out infinite" } as React.CSSProperties}>{ultimo ? tr("Continua il viaggio →", "Continue the journey →") : tr("Inizia il viaggio →", "Start the journey →")}</button>
               <div style={{ display: "flex", gap: 10 }}>
-                <button onClick={() => setGuida(true)} style={{ ...bottoneCompatto, color: "#f0b77e" }}>? come si gioca</button>
-                <button onClick={rivedi} style={bottoneCompatto}>↺ rivedi</button>
-                <button onClick={commutaAudio} style={bottoneCompatto} aria-pressed={audio}>{audio ? "♪ sì" : "♪ no"}</button>
+                <button onClick={() => setGuida(true)} style={{ ...bottoneCompatto, color: "#f0b77e" }}>{tr("? come si gioca", "? how to play")}</button>
+                <button onClick={rivedi} style={bottoneCompatto}>{tr("↺ rivedi", "↺ watch again")}</button>
+                <button onClick={commutaAudio} style={bottoneCompatto} aria-pressed={audio}>{audio ? tr("♪ sì", "♪ on") : tr("♪ no", "♪ off")}</button>
               </div>
             </>
           ) : null}

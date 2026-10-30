@@ -1,0 +1,358 @@
+[
+ {
+  "tipo": "descrizione",
+  "dove": "z6-colline.fav:23",
+  "it": "La mulattiera si fa ripida tra muretti a secco crollati. Il fiato si accorcia, la pietra rimanda il caldo del giorno e già promette il freddo della notte. A NORD si sale a un pianoro; a EST una cappella diroccata; a SUD si ridiscende al paese.",
+  "en": "The mule track turns steep between collapsed dry-stone walls. Your breath shortens; the stone gives back the heat of the day and already promises the cold of the night. NORTH, up to a plateau; EAST, a ruined chapel; SOUTH, back down to the village."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z6-colline.fav:26",
+  "it": "Un pianoro di ginestra e roccia, il vento che non smette. TORE muove poche pecore tra le pietre, l'ultimo che lavora la terra alta. (PARLA CON Tore.) A OVEST una grotta abitata; a EST una sorgente; a NORD il valico verso il guado; a SUD il sentiero.",
+  "en": "A plateau of broom and rock, and a wind that never stops. TORE moves a few sheep among the stones, the last one working the high ground. (TALK TO Tore.) WEST, a cave someone lives in; EAST, a spring; NORTH, the pass towards the ford; SOUTH, the path."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z6-colline.fav:29",
+  "it": "Una grotta chiusa da un muro a secco e una porta di tavole. Dentro, al buio, ONOFRIO: barba lunga, occhi fermi, un coltellino che lavora un pezzo di legno. (PARLA CON Onofrio.) Si esce a EST.",
+  "en": "A cave closed off by a dry-stone wall and a plank door. Inside, in the dark, ONOFRIO: long beard, steady eyes, a penknife working a piece of wood. (TALK TO Onofrio.) Out EAST."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z6-colline.fav:32",
+  "it": "Una vena d'acqua che esce dalla roccia e sparisce tra i sassi, fredda, viva, dimenticata da tutti tranne le bestie. (ATTINGI per riempire la tanica.) Si torna a OVEST.",
+  "en": "A vein of water that comes out of the rock and disappears among the stones, cold, alive, forgotten by everyone but the animals. (DRAW WATER to fill the jerrycan.) Back WEST."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z6-colline.fav:35",
+  "it": "Una cappella senza tetto, l'altare spaccato, le panche ribaltate. Si torna a OVEST.",
+  "en": "A chapel with no roof, the altar split, the pews overturned. Back WEST."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z6-colline.fav:38",
+  "it": "Il punto più alto della salita. Di qua le colline finiscono e il terreno ricomincia a scendere, verso un greto e un guado. Oltre, lo sai, c'è Acquamorta. (Al guado: USA LA LETTERA SU Cosimo; col fucile, ATTACCA Cosimo o LASCIA IL FUCILE.) A NORD si scende al guado; a SUD il pianoro.",
+  "en": "The highest point of the climb. Here the hills end and the ground starts to fall again, towards a riverbed and a ford. Beyond it, you know, is Acquamorta. (At the ford: USE the LETTER ON Cosimo; with the shotgun, ATTACK Cosimo or DROP the SHOTGUN.) NORTH, down to the ford; SOUTH, the plateau."
+ },
+ {
+  "tipo": "posto",
+  "dove": "z6-colline.fav:52",
+  "it": "In una fessura del muro, un SANTINO consunto.",
+  "en": "In a crack in the wall, a worn HOLY CARD."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z6-colline.fav:53",
+  "it": "Un santino di carta, la figura sbiadita fino a non riconoscersi. Dietro, a matita, un nome da bambino, il tuo cognome e due date troppo vicine.",
+  "en": "A paper holy card, the figure faded beyond recognition. On the back, in pencil, a child's name, your surname and two dates too close together."
+ },
+ {
+  "tipo": "posto",
+  "dove": "z6-colline.fav:58",
+  "it": "Sull'unica panca rimasta in piedi, una COPERTA di lana piegata da qualcuno che non è più tornato a prenderla.",
+  "en": "On the only pew still standing, a wool BLANKET, folded by someone who never came back for it."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z6-colline.fav:59",
+  "it": "Una coperta di lana grezza, che sa di fumo. Lassù, di notte, vale più del pane.",
+  "en": "A blanket of coarse wool that smells of smoke. Up there, at night, it's worth more than bread."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z6-colline.fav:65",
+  "it": "La lettera che Cosimo scrisse e non spedì mai. La grafia parte ferma e si sfalda riga dopo riga. Non l'hai ancora letta tutta: certe cose si leggono una volta sola, e davanti a chi le ha scritte. (Al guado: USA LA LETTERA SU Cosimo.)",
+  "en": "The letter Cosimo wrote and never sent. The handwriting starts out steady and comes apart line by line. You haven't read it all yet: some things you read only once, and in front of the one who wrote them. (At the ford: USE the LETTER ON Cosimo.)"
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z6-colline.fav:69",
+  "it": "Un fucile da caccia a due colpi, oliato di fresco da mani che non cacciano più niente. Carico. Onofrio non ti ha detto per chi lo teneva pronto. (Al guado: ATTACCA Cosimo. Oppure posalo: LASCIA IL FUCILE.)",
+  "en": "A double-barrelled hunting shotgun, freshly oiled by hands that no longer hunt anything. Loaded. Onofrio didn't tell you who he was keeping it ready for. (At the ford: ATTACK Cosimo. Or put it down: DROP the SHOTGUN.)"
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z6-colline.fav:74",
+  "it": "Vecchio quanto i muri a secco là fuori. Ha smesso di scendere a valle quando laggiù non c'era più niente che gli servisse. Intaglia anche al buio, a memoria, e non posa il legno nemmeno per parlare.",
+  "en": "As old as the dry-stone walls outside. He stopped going down to the valley when there was nothing left down there that he needed. He carves in the dark too, from memory, and won't put the wood down even to talk."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Onofrio",
+  "dove": "z6-colline.fav:77",
+  "it": "Il coltellino ha ripreso a lavorare il legno. «Chiedi, finché ho voglia di rispondere.»",
+  "en": "The penknife is back at work on the wood. “Ask, while I feel like answering.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Onofrio",
+  "dove": "z6-colline.fav:78",
+  "it": "«Non scendo, non parlo, non prego più. Cosa vuoi da un vecchio rimasto.» Poi ti mette a fuoco, e il coltellino si ferma. «Ma tu… io ti conosco. Tu sei di quella casa.»",
+  "en": "“I don't go down, I don't talk, I don't pray any more. What do you want from an old man who stayed.” Then he brings you into focus, and the penknife stops. “But you… I know you. You're from that house.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z6-colline.fav:79",
+  "it": "Cosa è successo, ad Acquamorta?",
+  "en": "What happened in Acquamorta?"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z6-colline.fav:80",
+  "it": "Ti mostro questo cavallo di legno.",
+  "en": "Let me show you this wooden horse."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z6-colline.fav:81",
+  "it": "Ti mostro questo santino.",
+  "en": "Let me show you this holy card."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z6-colline.fav:82",
+  "it": "Devo passare il guado.",
+  "en": "I have to cross the ford."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z6-colline.fav:83",
+  "it": "Mi serve il tuo aiuto, per il guado.",
+  "en": "I need your help with the ford."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z6-colline.fav:84",
+  "it": "Lasciami stare anche tu.",
+  "en": "You leave me alone too."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Onofrio",
+  "dove": "z6-colline.fav:86",
+  "it": "«Sei andato via per mandare i soldi. Per un po' sono arrivati, i soldi. Poi l'acqua se n'è andata, e i soldi non si bevono.» Tace, sceglie le parole come sassi. «Il piccolo per primo, l'estate della febbre. Lei un mese dopo. Cosimo li ha messi sotto terra da solo, dietro la casa, e non ha voluto nessuno ad aiutarlo.» Soffia via un truciolo. «Giù al paese hai rimesso in piedi uno con la febbre, mi hanno detto.» Un'altra passata di lama. «Quell'estate, qui, le medicine non le aveva nessuno.»",
+  "en": "“You went away to send money back. For a while it came, the money. Then the water went, and you can't drink money.” He falls silent, choosing his words like stones. “The little one first, the summer of the fever. Her a month later. Cosimo put them in the ground by himself, behind the house, and wouldn't have anyone help him.” He blows a shaving away. “Down in the village you put a man with the fever back on his feet, I'm told.” Another pass of the blade. “That summer, here, nobody had medicine.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Onofrio",
+  "dove": "z6-colline.fav:87",
+  "it": "«Sei andato via per mandare i soldi. Per un po' sono arrivati, i soldi. Poi l'acqua se n'è andata, e i soldi non si bevono.» Tace, sceglie le parole come sassi. «Il piccolo per primo, l'estate della febbre. Lei un mese dopo. Cosimo li ha messi sotto terra da solo, dietro la casa, e non ha voluto nessuno ad aiutarlo.»",
+  "en": "“You went away to send money back. For a while it came, the money. Then the water went, and you can't drink money.” He falls silent, choosing his words like stones. “The little one first, the summer of the fever. Her a month later. Cosimo put them in the ground by himself, behind the house, and wouldn't have anyone help him.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z6-colline.fav:88",
+  "it": "E il biglietto che diceva di non tornare?",
+  "en": "And the note that said not to come back?"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z6-colline.fav:89",
+  "it": "…",
+  "en": "…"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Onofrio",
+  "dove": "z6-colline.fav:91",
+  "it": "«Quella riga l'ha scritta Cosimo. Il perché chiedilo a lui.» Si gratta la barba. «Poi ne scrisse un'altra, di notte, e non la spedì. Ce l'ho io. Lui non sa che ce l'ho.»",
+  "en": "“Cosimo wrote that line. As for why, ask him.” He scratches his beard. “Then he wrote another one, at night, and didn't send it. I've got it. He doesn't know I've got it.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Onofrio",
+  "dove": "z6-colline.fav:94",
+  "it": "Prende il cavallo di legno con due dita, lo gira. Per un attimo il vecchio non c'è più, c'è un uomo. «Era del piccolo. Lo so perché glielo intagliai io.» Te lo rende. «Adesso ascolta.»",
+  "en": "He takes the wooden horse between two fingers and turns it over. For a moment the old man is gone; there is a man. “It was the little one's. I know because I carved it for him.” He gives it back. “Now listen.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z6-colline.fav:95",
+  "it": "Cosa mi dai?",
+  "en": "What will you give me?"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Onofrio",
+  "dove": "z6-colline.fav:96",
+  "it": "Lo prende e gira il retro verso la poca luce. Legge i nomi senza muovere le labbra. «L'ho messo io, nella cappella. Qualcuno doveva.» Te lo rende. «Adesso ascolta.»",
+  "en": "He takes it and turns the back towards what little light there is. He reads the names without moving his lips. “I put it there, in the chapel. Someone had to.” He gives it back. “Now listen.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Onofrio",
+  "dove": "z6-colline.fav:99",
+  "it": "«Il guado.» Il coltellino riprende a grattare il legno. «Ne sono passati, di quelli che chiedevano. Io non do niente a chi non so chi è.» Soffia via un truciolo. «Portami qualcosa di quella casa. Allora parliamo.»",
+  "en": "“The ford.” The penknife goes back to scraping the wood. “Plenty have come through here asking. I don't give anything to someone I don't know.” He blows a shaving away. “Bring me something from that house. Then we'll talk.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Onofrio",
+  "dove": "z6-colline.fav:102",
+  "it": "«Al guado c'è Cosimo, e non ti lascia passare. Posso darti una cosa sola.» Indica il buio della grotta. «La lettera che non spedì: portagliela, e mettilo davanti a quello che ha scritto. O il fucile: e fattela tu, la strada. Scegli, e va'.»",
+  "en": "“Cosimo is at the ford, and he won't let you through. I can give you one thing only.” He points into the dark of the cave. “The letter he never sent: take it to him, and put him in front of what he wrote. Or the shotgun: and clear the road yourself. Choose, and go.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Onofrio",
+  "dove": "z6-colline.fav:103",
+  "it": "«Ho già dato. Quello che hai in mano è la tua scelta, ormai.»",
+  "en": "“I've already given. What you're holding is your choice, now.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z6-colline.fav:104",
+  "it": "Dammi la lettera.",
+  "en": "Give me the letter."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z6-colline.fav:105",
+  "it": "Dammi il fucile.",
+  "en": "Give me the shotgun."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z6-colline.fav:106",
+  "it": "Devo pensarci.",
+  "en": "I need to think about it."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Onofrio",
+  "dove": "z6-colline.fav:108",
+  "it": "Indica una mensola in fondo, nel buio. «È là, piegata dentro il messale. Prendila tu: io non la tocco più.» Poi, piano: «Va'. E qualunque cosa fai al guado, falla guardandolo in faccia.»",
+  "en": "He points to a shelf at the back, in the dark. “It's there, folded inside the missal. You take it: I won't touch it again.” Then, quietly: “Go. And whatever you do at the ford, do it looking him in the face.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Onofrio",
+  "dove": "z6-colline.fav:109",
+  "it": "Indica il chiodo sopra la porta. «È là, carico. Prendilo tu: io non lo tocco più.» Poi, piano: «Va'. E qualunque cosa fai al guado, falla guardandolo in faccia.»",
+  "en": "He points to the nail above the door. “It's there, loaded. You take it: I won't touch it again.” Then, quietly: “Go. And whatever you do at the ford, do it looking him in the face.”"
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z6-colline.fav:115",
+  "it": "Asciutto, la faccia screpolata dal vento. Conta le pecore a mezza voce anche mentre ti parla.",
+  "en": "Lean, his face chapped by the wind. He counts his sheep under his breath even while he talks to you."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Tore",
+  "dove": "z6-colline.fav:118",
+  "it": "Ricomincia a contare da capo, a mezza voce. «Che altro?»",
+  "en": "He starts counting again from the beginning, under his breath. “What else?”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Tore",
+  "dove": "z6-colline.fav:119",
+  "it": "«Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire di lasciarti passare.» Conta una pecora. «Ha mandato a dire anche il resto.» Studia da che parte vieni. «Ho formaggio, se hai da scambiare. Acqua, magari: di quella, quassù, se ne beve poca.»",
+  "en": "“Nobody comes up here any more, and yet you do. Rosaria sent word to let you through.” He counts a sheep. “She sent word of the rest as well.” He studies the way you've come. “I've got cheese, if you've got anything to trade. Water, maybe: up here there's little of that to drink.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Tore",
+  "dove": "z6-colline.fav:120",
+  "it": "«Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire di lasciarti passare.» Conta una pecora, e quasi sorride. «Ha mandato a dire anche che al casello hai tirato fuori un ferro vuoto, e che l'altro ha fatto calma, calma.» Studia da che parte vieni. «Quassù i ferri vuoti non li tiriamo fuori. Ma ho formaggio, se hai da scambiare. Acqua, magari.»",
+  "en": "“Nobody comes up here any more, and yet you do. Rosaria sent word to let you through.” He counts a sheep, and almost smiles. “She also sent word that at the tollbooth you pulled out an empty gun, and the other man said easy, easy.” He studies the way you've come. “Up here we don't pull out empty guns. But I've got cheese, if you've got anything to trade. Water, maybe.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Tore",
+  "dove": "z6-colline.fav:121",
+  "it": "«Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire che lasci qualcosa a chi resta.» Studia da che parte vieni. «Gente così, quassù, si ferma poco. Ho formaggio, se hai da scambiare. Acqua, magari: di quella, quassù, se ne beve poca.»",
+  "en": "“Nobody comes up here any more, and yet you do. Rosaria sent word that you leave something for those who stay.” He studies the way you've come. “People like that seldom stop up here. I've got cheese, if you've got anything to trade. Water, maybe: up here there's little of that to drink.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Tore",
+  "dove": "z6-colline.fav:122",
+  "it": "«Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire che sei uno a posto.» Studia da che parte vieni. «Ho formaggio, se hai da scambiare. Acqua, magari: di quella, quassù, se ne beve poca.»",
+  "en": "“Nobody comes up here any more, and yet you do. Rosaria sent word that you're all right.” He studies the way you've come. “I've got cheese, if you've got anything to trade. Water, maybe: up here there's little of that to drink.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z6-colline.fav:123",
+  "it": "Ti do un po' d'acqua per del formaggio.",
+  "en": "I'll give you some water for cheese."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z6-colline.fav:124",
+  "it": "Chi c'è, al guado?",
+  "en": "Who's at the ford?"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z6-colline.fav:125",
+  "it": "Il vecchio nella grotta?",
+  "en": "The old man in the cave?"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z6-colline.fav:126",
+  "it": "Tiro avanti.",
+  "en": "I'll keep going."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Tore",
+  "dove": "z6-colline.fav:128",
+  "it": "Taglia una fetta di pecorino duro e te la passa. «Roba che cammina con te per giorni.»",
+  "en": "He cuts a slice of hard pecorino and hands it to you. “That'll walk with you for days.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Tore",
+  "dove": "z6-colline.fav:131",
+  "it": "«Uno che non lascia passare. Sta là da quando il paese è morto, a guardia di niente.» Conta una pecora, poi un'altra. «Tuo fratello, dicono giù al paese. Io non chiedo.»",
+  "en": "“A man who lets nobody through. He's been there since the village died, guarding nothing.” He counts a sheep, then another. “Your brother, they say down in the village. I don't ask.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Tore",
+  "dove": "z6-colline.fav:134",
+  "it": "«Onofrio non parla con anima viva. Con te, forse, se gli porti qualcosa di casa tua. È l'unico che sappia com'è andata davvero, laggiù.»",
+  "en": "“Onofrio doesn't talk to a living soul. To you, maybe, if you bring him something from your house. He's the only one who knows what really happened, down there.”"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z6-colline.fav:138",
+  "it": "Metti la tanica sotto la vena. Viene su un'acqua che sa di pietra e di freddo, la prima acqua buona che non devi a nessuno. La vena è sottile: per riempire ci vuole tempo.",
+  "en": "You set the jerrycan under the vein. Up comes water that tastes of stone and cold, the first good water you owe nobody for. The vein is thin: filling up takes time."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z6-colline.fav:141",
+  "it": "Quassù il vento passa attraverso la camicia. Tremi, e tremare prosciuga.",
+  "en": "Up here the wind goes right through your shirt. You shiver, and shivering dries you out."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z6-colline.fav:142",
+  "it": "Peppe si ferma a riprendere fiato e guarda giù, verso il greto. «È là, casa tua?» Non rispondi, e lui non chiede più.",
+  "en": "Peppe stops to catch his breath and looks down, towards the riverbed. “Is that your house, down there?” You don't answer, and he doesn't ask again."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z6-colline.fav:143",
+  "it": "Peppe si ferma a riprendere fiato e guarda giù, verso il greto. «È là, casa tua?» Non rispondi. «Mi hai detto del male che hai fatto.» Lo dice piano, senza accusa. «Se là devi farne ancora, dimmelo prima. Io resto indietro, ma voglio saperlo.»",
+  "en": "Peppe stops to catch his breath and looks down, towards the riverbed. “Is that your house, down there?” You don't answer. “You told me about the harm you've done.” He says it quietly, without accusation. “If there's more of it to do down there, tell me first. I'll stay back, but I want to know.”"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z6-colline.fav:144",
+  "it": "Peppe si ferma a riprendere fiato e guarda giù, verso il greto. «È là, casa tua?» Non rispondi, e lui non chiede più. Poi, senza voltarsi: «Giù, ti ho chiesto una cosa, e mi hai detto di no. Io i conti li tengo.»",
+  "en": "Peppe stops to catch his breath and looks down, towards the riverbed. “Is that your house, down there?” You don't answer, and he doesn't ask again. Then, without turning round: “Back down there, I asked you something, and you told me no. I keep count.”"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z6-colline.fav:148",
+  "it": "Guardi giù, verso il greto. Onofrio è stato chiaro: a Cosimo, a mani vuote, non ci si arriva. Torna da lui, e scegli cosa portargli.",
+  "en": "You look down, towards the riverbed. Onofrio was clear: you don't get to Cosimo empty-handed. Go back to him, and choose what to bring."
+ }
+]

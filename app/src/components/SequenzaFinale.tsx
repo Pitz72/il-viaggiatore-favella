@@ -14,6 +14,8 @@
 //  Il paesaggio è quello del trailer (trailer/scene/guado.ts, con le tele già
 //  dipinte all'avvio); i testi stanno su una superficie di 1920×1080 scalata,
 //  come nel trailer; i loghi sono quelli dell'avvio (loghi/), guidati da qui.
+//  In inglese cambiano le scritte (i crediti hanno la loro traduzione accanto,
+//  finale/crediti.ts); la frase del finale arriva già nella lingua di chi gioca.
 //  Solo in sviluppo: window.__finale.vai(t) ferma l'orologio a quel secondo.
 // ====================================================================
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
@@ -28,7 +30,9 @@ import branoIntro from "../assets/intro.mp3";
 import LogoRuntime, { type Animabile } from "../loghi/LogoRuntime";
 import LogoFavella from "../loghi/LogoFavella";
 import { ATTACCO, presenza, tempi, type Tempi } from "../finale/scaletta";
-import { GRAZIE, LICENZE, righeDeiTitoli } from "../finale/crediti";
+import { GRAZIE, GRAZIE_EN, LICENZE, LICENZE_EN, righeDeiTitoli } from "../finale/crediti";
+import { useLingua } from "../lib/useOpzioni";
+import { tr } from "../lib/lingua";
 
 const CANZONE = `${import.meta.env.BASE_URL}musica/finale.opus`;
 const TETTO_TELA = 2560;      // px: la tela non va oltre (la scena è dipinta per il trailer, che a questa misura è nitido)
@@ -66,6 +70,7 @@ interface Props {
 }
 
 export default function SequenzaFinale({ frase, onFine }: Props) {
+  const en = useLingua() === "en";
   const palco = useRef<HTMLDivElement>(null);
   const tela = useRef<HTMLCanvasElement>(null);
   const nero = useRef<HTMLDivElement>(null);
@@ -227,11 +232,11 @@ export default function SequenzaFinale({ frase, onFine }: Props) {
     };
   }, [avvio]);
 
-  const righe = righeDeiTitoli(avvio?.conCanzone ?? false);
+  const righe = righeDeiTitoli(avvio?.conCanzone ?? false, en);
   const ombra = "0 2px 6px rgba(8,4,10,.9), 0 0 34px rgba(8,4,10,.75)";
   return (
     <div style={{ position: "fixed", inset: 0, background: "#000", display: "flex", alignItems: "center", justifyContent: "center",
-      cursor: "none", overflow: "hidden", userSelect: "none" }} aria-label={frase ? "La sequenza finale" : "I titoli di coda"}>
+      cursor: "none", overflow: "hidden", userSelect: "none" }} aria-label={frase ? tr("La sequenza finale", "The closing sequence") : tr("I titoli di coda", "The closing credits")}>
       <div ref={palco} style={{ position: "relative", overflow: "hidden",
         width: "min(100vw, calc(100dvh * 16 / 9))", height: "min(100dvh, calc(100vw * 9 / 16))" }}>
         <canvas ref={tela} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }} />
@@ -255,9 +260,9 @@ export default function SequenzaFinale({ frase, onFine }: Props) {
                 <div style={{ fontFamily: FONT.display, fontWeight: 800, fontSize: 112, lineHeight: 1.08, letterSpacing: "0.14em",
                   paddingLeft: "0.14em", color: "#f4ece0", textShadow: "0 0 50px rgba(255,190,130,.16)" }}>IL VIAGGIATORE</div>
                 <div style={{ marginTop: 22, fontFamily: FONT.mono, fontWeight: 500, fontSize: 20, letterSpacing: "0.5em", textTransform: "uppercase",
-                  color: "#ffe0bd", textShadow: ombra }}>un esperimento in favella 1</div>
+                  color: "#ffe0bd", textShadow: ombra }}>{tr("un esperimento in favella 1", "an experiment in favella 1")}</div>
                 <div style={{ marginTop: 16, fontFamily: FONT.serif, fontStyle: "italic", fontSize: 28, color: "rgba(244,236,224,.88)",
-                  textShadow: ombra }}>un gioco di Simone Pizzi</div>
+                  textShadow: ombra }}>{tr("un gioco di Simone Pizzi", "a game by Simone Pizzi")}</div>
               </div>
               {/* abbastanza sotto da non vedersi mentre il titolo sta fermo al centro */}
               <dl style={{ margin: "460px auto 0", maxWidth: 1180, display: "flex", flexDirection: "column", gap: 50 }}>
@@ -270,9 +275,9 @@ export default function SequenzaFinale({ frase, onFine }: Props) {
                 ))}
               </dl>
               <p style={{ margin: "90px 0 0", fontFamily: FONT.serif, fontStyle: "italic", fontSize: 21, color: "rgba(236,228,214,.72)",
-                textShadow: ombra }}>{LICENZE}</p>
+                textShadow: ombra }}>{en ? LICENZE_EN : LICENZE}</p>
               <p ref={grazie} style={{ margin: "150px 0 0", fontFamily: FONT.serif, fontStyle: "italic", fontSize: 36, color: "#f4ece0",
-                textShadow: ombra }}>{GRAZIE}</p>
+                textShadow: ombra }}>{en ? GRAZIE_EN : GRAZIE}</p>
             </div>
           </div>
           {/* le bande nere: si richiudono sul tramonto */}

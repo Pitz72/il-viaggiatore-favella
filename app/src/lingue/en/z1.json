@@ -1,0 +1,212 @@
+[
+ {
+  "tipo": "descrizione",
+  "dove": "z1-acquaviva.fav:8",
+  "it": "La stazione di Acquaviva. I binari finiscono qui, mangiati dalla gramigna; un cartello arrugginito promette treni che non passano da anni. È da qui che parti, a piedi. In tasca hai l'ultimo biglietto arrivato da casa. Le lettere di prima le scriveva tua moglie, fitte, con le notizie del bambino in fondo; questo è in stampatello, senza firma, e dice una cosa sola: «Non è il caso di tornare.» Sei tornato lo stesso. (ESAMINA IL BIGLIETTO per rileggerlo.) A NORD la piazza. (Quando il corpo lo chiede: BEVI per la sete, MANGIA per la fame; STATO per vederti addosso.)",
+  "en": "Acquaviva station. The tracks end here, eaten by couch grass; a rusted sign promises trains that haven't come through in years. This is where you set out, on foot. In your pocket is the last note that came from home. The letters before it were your wife's, closely written, with news of the boy at the bottom; this one is in block capitals, unsigned, and says one thing only: “There's no point coming back.” You've come back anyway. (EXAMINE the NOTE to read it again.) NORTH, the square. (When your body asks: DRINK for thirst, EAT for hunger; STATUS to take stock of yourself.)"
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z1-acquaviva.fav:11",
+  "it": "La piazza del paese attorno a un pozzo asciutto. Persiane sbarrate, una fontana muta. Solo il BAR, a EST, tiene una luce accesa. A NORD una casa aperta, a OVEST il margine del paese e la strada. A SUD la stazione.",
+  "en": "The village square, around a dry well. Barred shutters, a silent fountain. Only the BAR, to the EAST, keeps a light on. NORTH, an open house; WEST, the edge of the village and the road. SOUTH, the station."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z1-acquaviva.fav:14",
+  "it": "Un bar fermo agli ultimi avventori. Dietro il banco, NUNZIO tiene in fila bottiglie vuote, le etichette in avanti. (PARLA CON Nunzio per barattare.) Si torna a OVEST.",
+  "en": "A bar that stopped with its last customers. Behind the counter, NUNZIO keeps a row of empty bottles, labels facing out. (TALK TO Nunzio to barter.) Back WEST."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z1-acquaviva.fav:17",
+  "it": "Una casa lasciata in fretta: cassetti aperti, una FOTO storta alla parete. Marito, moglie, un bambino in braccio: gente di qui, che non conosci. Ti viene da raddrizzarla. Si torna a SUD.",
+  "en": "A house left in a hurry: drawers open, a crooked PHOTO on the wall. Husband, wife, a child in arms: people from here, people you don't know. You feel like straightening it. Back SOUTH."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z1-acquaviva.fav:18",
+  "it": "Una casa lasciata in fretta: cassetti aperti, una FOTO alla parete, adesso dritta. Marito, moglie, un bambino in braccio: gente di qui, che non conosci. Si torna a SUD.",
+  "en": "A house left in a hurry: drawers open, a PHOTO on the wall, straight now. Husband, wife, a child in arms: people from here, people you don't know. Back SOUTH."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z1-acquaviva.fav:21",
+  "it": "Dove finiscono le case comincia il bianco. La strada esce a OVEST, nella piana che frigge sotto il sole. Si torna a EST, in piazza.",
+  "en": "Where the houses end, the white begins. The road leaves to the WEST, into the plain frying under the sun. Back EAST, to the square."
+ },
+ {
+  "tipo": "posto",
+  "dove": "z1-acquaviva.fav:32",
+  "it": "Su un mobile, una MAPPA piegata della provincia.",
+  "en": "On a sideboard, a folded MAP of the province."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z1-acquaviva.fav:33",
+  "it": "Una mappa della provincia, le strade segnate a penna. Acquamorta è all'altro capo, oltre le colline.",
+  "en": "A map of the province, the roads marked in pen. Acquamorta is at the far end, beyond the hills."
+ },
+ {
+  "tipo": "posto",
+  "dove": "z1-acquaviva.fav:38",
+  "it": "In un cassetto rimasto aperto, un vecchio OROLOGIO da polso.",
+  "en": "In a drawer left open, an old WATCH."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z1-acquaviva.fav:39",
+  "it": "Un orologio da polso fermo, ma d'oro vero. Qualcuno te lo cambierebbe con qualcosa di più utile.",
+  "en": "A stopped wristwatch, but real gold. Someone would trade you something more useful for it."
+ },
+ {
+  "tipo": "posto",
+  "dove": "z1-acquaviva.fav:44",
+  "it": "Sul lavello, un COLTELLO da cucina.",
+  "en": "On the sink, a kitchen KNIFE."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z1-acquaviva.fav:45",
+  "it": "Un coltello da cucina, la lama ancora buona. Meglio di niente, contro i denti.",
+  "en": "A kitchen knife, the blade still good. Better than nothing, against teeth."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z1-acquaviva.fav:51",
+  "it": "Marito, moglie e un bambino in braccio, in posa davanti alla fontana della piazza, quando buttava ancora acqua. Una crepa attraversa il vetro in un angolo.",
+  "en": "Husband, wife and a child in arms, posing in front of the fountain in the square, back when it still gave water. A crack crosses the glass in one corner."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z1-acquaviva.fav:55",
+  "it": "La raddrizzi con due dita. Il chiodo tiene. Per un momento la casa sembra soltanto chiusa, non lasciata.",
+  "en": "You straighten it with two fingers. The nail holds. For a moment the house looks merely shut, not left."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z1-acquaviva.fav:56",
+  "it": "È dritta. Di più non puoi fare, per gente che non conosci.",
+  "en": "It's straight. You can't do more than that, for people you don't know."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z1-acquaviva.fav:57",
+  "it": "La lasci al suo chiodo. Non è roba tua, e non è roba da portare in viaggio.",
+  "en": "You leave it on its nail. It isn't yours, and it isn't a thing to carry on the road."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z1-acquaviva.fav:62",
+  "it": "Magro, la camicia stirata anche adesso che non viene più nessuno. Tiene aperto per testardaggine.",
+  "en": "Thin, his shirt ironed even now that nobody comes any more. He keeps the place open out of stubbornness."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Nunzio",
+  "dove": "z1-acquaviva.fav:67",
+  "it": "Rimette il bicchiere al suo posto. «Altro?» (Hai [acqua] d'acqua e [cibo] di cibo.)",
+  "en": "He puts the glass back in its place. “Anything else?” (You have [acqua] water and [cibo] food.)"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Nunzio",
+  "dove": "z1-acquaviva.fav:68",
+  "it": "«Acqua non ne ho da regalare, di questi tempi. Ma qualcosa per la strada lo trovo, se hai da scambiare.» (Hai [acqua] d'acqua e [cibo] di cibo.)",
+  "en": "“I've no water to give away, not these days. But I can find you something for the road, if you've something to trade.” (You have [acqua] water and [cibo] food.)"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z1-acquaviva.fav:70",
+  "it": "Ti do l'orologio per dell'acqua.",
+  "en": "I'll give you the watch for some water."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z1-acquaviva.fav:71",
+  "it": "Hai qualcosa da mangiare?",
+  "en": "Have you got anything to eat?"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z1-acquaviva.fav:72",
+  "it": "Posso lavorare, per un po' d'acqua?",
+  "en": "Could I work, for a bit of water?"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z1-acquaviva.fav:73",
+  "it": "Da che parte è Acquamorta?",
+  "en": "Which way is Acquamorta?"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z1-acquaviva.fav:74",
+  "it": "Niente, per ora.",
+  "en": "Nothing, for now."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Nunzio",
+  "dove": "z1-acquaviva.fav:76",
+  "it": "«Oro per acqua. Ai miei tempi avrei riso. Tieni.» Versa nella tua tanica. (Ora hai [acqua] d'acqua.)",
+  "en": "“Gold for water. In my day I'd have laughed. Here.” He pours it into your jerrycan. (Now you have [acqua] water.)"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z1-acquaviva.fav:77",
+  "it": "Torno a vedere cos'hai.",
+  "en": "I'll have another look at what you've got."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z1-acquaviva.fav:78",
+  "it": "Basta così.",
+  "en": "That'll do."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Nunzio",
+  "dove": "z1-acquaviva.fav:80",
+  "it": "«Un po' di scorta secca. Ti costa un sorso, ma cammini meglio.» (Ora hai [cibo] di cibo.)",
+  "en": "“Some dry rations. It'll cost you a sip, but you'll walk better.” (Now you have [cibo] food.)"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Nunzio",
+  "dove": "z1-acquaviva.fav:83",
+  "it": "«Le casse vuote, nel retro. Portale giù in cantina e un bicchiere te lo verso.» Quando risali hai la schiena rotta e un fondo d'acqua in più nella tanica. (Ora hai [acqua] d'acqua.)",
+  "en": "“The empty crates, out the back. Carry them down to the cellar and I'll pour you a glass.” When you come up again, your back is in pieces and there's an inch more water in the jerrycan. (Now you have [acqua] water.)"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Nunzio",
+  "dove": "z1-acquaviva.fav:87",
+  "it": "«A ovest, oltre la piana, c'è l'invaso secco. Poi la statale, e un paese che resiste. Poi le colline: Acquamorta è dietro.» Guarda la tua tanica. «Ma serve una mappa, e acqua. Senza, non ci arrivi.»",
+  "en": "“West, past the plain, there's the dry reservoir. Then the main road, and a village that's holding out. Then the hills: Acquamorta is behind them.” He looks at your jerrycan. “But you need a map, and water. Without them, you won't get there.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z1-acquaviva.fav:88",
+  "it": "Grazie.",
+  "en": "Thanks."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z1-acquaviva.fav:89",
+  "it": "Altro.",
+  "en": "Something else."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z1-acquaviva.fav:93",
+  "it": "Senza una mappa, là fuori è solo perdersi. Cerca in giro prima di partire.",
+  "en": "Without a map, out there you'll only get lost. Look around before you set off."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z1-acquaviva.fav:94",
+  "it": "Guardi la distesa bianca. Con quest'acqua non arrivi dall'altra parte. Fa' scorta, prima: al bar si baratta, e chi non ha niente da dare può sempre faticare.",
+  "en": "You look at the white expanse. With this much water you won't reach the other side. Stock up first: at the bar you can barter, and anyone with nothing to give can always work for it."
+ }
+]

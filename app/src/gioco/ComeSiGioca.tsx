@@ -6,13 +6,16 @@
 //  il fuoco entra e torna (useDialogo).
 //  Le schede parlano del modo dei comandi scelto nelle opzioni (piano 09, §3.3): coi pulsanti
 //  non dicono di scrivere e non mostrano comandi da scrivere, nell'avventura testuale non
-//  dicono di toccare. I colori sono nel componente: col contrasto alto li supera accessibilita.css
-//  (le classi csg-*).
+//  dicono di toccare. In inglese si gioca soltanto coi pulsanti (il parser capisce l'italiano): la guida
+//  segue il modo che vale davvero (comandiEffettivi), così i testi dell'avventura testuale si leggono solo
+//  in italiano, e restano senza traduzione. I colori sono nel componente: col contrasto alto li supera
+//  accessibilita.css (le classi csg-*).
 // ====================================================================
 import { useDialogo } from "./useDialogo";
 import { useOpzioni } from "../lib/useOpzioni";
 import { scalaTesto } from "../lib/accessibilita";
-import type { ModoComandi } from "../lib/opzioni";
+import { comandiEffettivi, type ModoComandi } from "../lib/opzioni";
+import { tr } from "../lib/lingua";
 
 const SERIF = "'Lora', Georgia, serif";
 const DISPLAY = "'Sora', 'Inter', sans-serif";
@@ -20,43 +23,55 @@ const MONO = "'Source Code Pro', ui-monospace, monospace";
 
 interface Scheda { titolo: string; segno: string; testo: string; esempi?: string[] }
 
-/** Le schede della guida, dette per il modo dei comandi. */
+/** Le schede della guida, dette per il modo dei comandi. «parole» c'è solo in italiano: i suoi testi non hanno l'inglese. */
 function schede(modo: ModoComandi): Scheda[] {
   const tocca = modo === "pulsanti", scrive = modo === "parole";
   // coi pulsanti niente comandi da scrivere sotto le schede
   const es = (esempi: string[]) => (scrive ? esempi : undefined);
   return [
     modo === "pulsanti"
-      ? { titolo: "Tocca", segno: "M9 11 V5 A1.5 1.5 0 0 1 12 5 V11 M12 10 A1.5 1.5 0 0 1 15 10 V12 M15 11 A1.5 1.5 0 0 1 18 11 V15 C18 18 16 21 12 21 C9 21 7 19 6 16 L4.5 12.5 A1.5 1.5 0 0 1 7 11 L9 14",
-          testo: "Si gioca coi pulsanti in basso: le uscite a rosa dei venti (nord in alto), le persone e le cose del luogo, le azioni. Tocca una cosa, anche nella bisaccia: accanto si apre ciò che puoi farci. Le parole in maiuscolo del testo si toccano. Tab passa da un pulsante all'altro, Invio sceglie. Nelle opzioni puoi giocare invece come in un'avventura testuale, scrivendo ogni comando." }
+      ? { titolo: tr("Tocca", "Touch"), segno: "M9 11 V5 A1.5 1.5 0 0 1 12 5 V11 M12 10 A1.5 1.5 0 0 1 15 10 V12 M15 11 A1.5 1.5 0 0 1 18 11 V15 C18 18 16 21 12 21 C9 21 7 19 6 16 L4.5 12.5 A1.5 1.5 0 0 1 7 11 L9 14",
+          testo: tr("Si gioca coi pulsanti in basso: le uscite a rosa dei venti (nord in alto), le persone e le cose del luogo, le azioni. Tocca una cosa, anche nella bisaccia: accanto si apre ciò che puoi farci. Le parole in maiuscolo del testo si toccano. Tab passa da un pulsante all'altro, Invio sceglie. Nelle opzioni puoi giocare invece come in un'avventura testuale, scrivendo ogni comando.",
+            "You play with the buttons at the bottom: the exits on a compass rose (north at the top), the people and things in the place, the actions. Touch a thing, even in your satchel: what you can do with it opens beside it. The words in capitals in the text can be touched too. Tab moves from one button to the next, Enter chooses.") }
       : { titolo: "Scrivi", segno: "M4 18 L16 6 M13 5 L17 9 M4 18 L3 21 L6 20",
           testo: "Si gioca a parole, in italiano, come nelle avventure testuali: scrivi un comando e premi Invio. Le uscite, le cose e le persone sono nel testo. Le frecce ↑ e ↓ ripescano i comandi già dati. Nelle opzioni puoi giocare invece coi pulsanti.",
           esempi: ["guarda", "nord", "esamina la mappa", "prendi il coltello", "parla con Nunzio"] },
-    { titolo: "Il corpo", segno: "M12 3 C8 9 6 12 6 15 A6 6 0 0 0 18 15 C18 12 16 9 12 3 Z",
-      testo: "La sete sale col tempo e sotto il sole; la fame più piano. Oltre certe soglie la vita cala, e torna poco. " + (tocca
-        ? "Tocca l'acqua o il cibo fra le scorte (o la tanica): «Vuoi bere?», «Vuoi mangiare?», e scegli quanti sorsi, quante porzioni."
+    { titolo: tr("Il corpo", "The body"), segno: "M12 3 C8 9 6 12 6 15 A6 6 0 0 0 18 15 C18 12 16 9 12 3 Z",
+      testo: tr("La sete sale col tempo e sotto il sole; la fame più piano. Oltre certe soglie la vita cala, e torna poco. ",
+        "Thirst rises with time and under the sun; hunger more slowly. Past certain thresholds your life drops, and little of it comes back. ") + (tocca
+        ? tr("Tocca l'acqua o il cibo fra le scorte (o la tanica): «Vuoi bere?», «Vuoi mangiare?», e scegli quanti sorsi, quante porzioni.",
+          "Touch the water or the food among your supplies (or the jerrycan): “Drink?”, “Eat?”, and choose how many sips, how many portions.")
         : "Scrivi quanto bere e quanto mangiare; STATO ti dice come stai."),
       esempi: es(["bevi", "bevi due sorsi", "mangia", "mangia tre porzioni", "stato"]) },
-    { titolo: "Acqua, cibo, baratto", segno: "M5 9 H19 L17 20 H7 Z M9 9 V6 A3 3 0 0 1 15 6 V9",
-      testo: "Acqua e cibo sono scorte che si contano. Si barattano parlando con le persone, si trovano attingendo dove l'acqua c'è ancora. Prima di una scelta che costa (un baratto, un dono, una violenza) il gioco chiede conferma e ti mostra cosa dai e cosa ricevi.",
+    { titolo: tr("Acqua, cibo, baratto", "Water, food, barter"), segno: "M5 9 H19 L17 20 H7 Z M9 9 V6 A3 3 0 0 1 15 6 V9",
+      testo: tr("Acqua e cibo sono scorte che si contano. Si barattano parlando con le persone, si trovano attingendo dove l'acqua c'è ancora. Prima di una scelta che costa (un baratto, un dono, una violenza) il gioco chiede conferma e ti mostra cosa dai e cosa ricevi.",
+        "Water and food are supplies you count. You barter for them by talking to people, and find them by drawing water where there is still some. Before a choice that costs you (a trade, a gift, an act of violence) the game asks you to confirm, and shows you what you give and what you get."),
       esempi: es(["attingi", "parla con Ciro"]) },
-    { titolo: "Parlare", segno: "M4 5 H20 V15 H10 L6 19 V15 H4 Z",
-      testo: (tocca ? "Nei dialoghi tocca la risposta che vuoi dare." : "Nei dialoghi scrivi il numero della risposta.") + " I doni fanno crescere la fiducia, e la fiducia apre porte, pozzi, sentieri.",
+    { titolo: tr("Parlare", "Talking"), segno: "M4 5 H20 V15 H10 L6 19 V15 H4 Z",
+      testo: (tocca ? tr("Nei dialoghi tocca la risposta che vuoi dare.", "In a conversation, touch the reply you want to give.") : "Nei dialoghi scrivi il numero della risposta.")
+        + tr(" I doni fanno crescere la fiducia, e la fiducia apre porte, pozzi, sentieri.", " Gifts build trust, and trust opens doors, wells, paths."),
       esempi: es(["1", "2"]) },
-    { titolo: "La bisaccia", segno: "M6 8 H18 L19 20 H5 Z M9 8 A3 3 0 0 1 15 8",
-      testo: "Porti sette cose: la tanica e il biglietto di casa, più cinque a scelta. Quando è piena, lascia ciò che non serve. " + (tocca
-        ? "Alcune cose si usano su altre: tocca una cosa e scegli «usa…», poi su che cosa. Il gioco non dice quali coppie funzionano: tocca a te provare."
+    { titolo: tr("La bisaccia", "The satchel"), segno: "M6 8 H18 L19 20 H5 Z M9 8 A3 3 0 0 1 15 8",
+      testo: tr("Porti sette cose: la tanica e il biglietto di casa, più cinque a scelta. Quando è piena, lascia ciò che non serve. ",
+        "You carry seven things: the jerrycan and the note from home, plus five of your choice. When it is full, drop what you don't need. ") + (tocca
+        ? tr("Alcune cose si usano su altre: tocca una cosa e scegli «usa…», poi su che cosa. Il gioco non dice quali coppie funzionano: tocca a te provare.",
+          "Some things can be used on others: touch a thing and choose “use on…”, then what to use it on. The game doesn't say which pairs work: it's up to you to try.")
         : "Alcune cose si usano su altre: USA una cosa SU un'altra. Il gioco non dice quali coppie funzionano: tocca a te provare.")
         // la mappa è una cosa del gioco che dà un attrezzo: dove si trova lo dice il racconto, qui si dice a che serve
-        + (tocca ? " Chi ha la mappa in bisaccia trova il pulsante «mappa» (o il tasto M): segna la strada fatta e dove sei."
+        + (tocca ? tr(" Chi ha la mappa in bisaccia trova il pulsante «mappa» (o il tasto M): segna la strada fatta e dove sei.",
+          " With the map in your satchel you get the “map” button (or the M key): it marks the road you've travelled and where you are.")
           : " Chi ha la mappa in bisaccia può scrivere MAPPA: segna la strada fatta e dove sei."),
       esempi: es(["inventario", "lascia la batteria", "usa il coltello sulla mappa"]) },
-    { titolo: "Leggere il mondo", segno: "M3 12 C6 6 18 6 21 12 C18 18 6 18 3 12 Z M12 9 A3 3 0 1 0 12 15 A3 3 0 1 0 12 9",
-      testo: "Le parole in MAIUSCOLO sono cose con cui fare qualcosa; tra parentesi ci sono i suggerimenti. "
-        + (tocca ? "Se sbagli una mossa, ↶ annulla (o Ctrl+Z) ti riporta indietro. " : "Se sbagli una mossa, ANNULLA (o Ctrl+Z) ti riporta indietro. ")
-        + "Il racconto ha una voce: un tasto la ferma, F2 la ridice, le opzioni la regolano. "
-        + (scrive ? "Esc (o PAUSA) mette in pausa: da lì le opzioni, questa guida, il menu d'avvio. " : "Esc mette in pausa: da lì le opzioni, questa guida, il menu d'avvio. ")
-        + "Sei finali: come arrivi decide quale.",
+    { titolo: tr("Leggere il mondo", "Reading the world"), segno: "M3 12 C6 6 18 6 21 12 C18 18 6 18 3 12 Z M12 9 A3 3 0 1 0 12 15 A3 3 0 1 0 12 9",
+      testo: tr("Le parole in MAIUSCOLO sono cose con cui fare qualcosa; tra parentesi ci sono i suggerimenti. ",
+        "Words in CAPITALS are things you can do something with; suggestions are in brackets. ")
+        + (tocca ? tr("Se sbagli una mossa, ↶ annulla (o Ctrl+Z) ti riporta indietro. ", "If you make a wrong move, ↶ undo (or Ctrl+Z) takes you back. ")
+          : "Se sbagli una mossa, ANNULLA (o Ctrl+Z) ti riporta indietro. ")
+        + tr("Il racconto ha una voce: un tasto la ferma, F2 la ridice, le opzioni la regolano. ",
+          "The story is voiced (in Italian, for now): any key stops the voice, F2 repeats it, the options adjust it. ")
+        + (scrive ? "Esc (o PAUSA) mette in pausa: da lì le opzioni, questa guida, il menu d'avvio. "
+          : tr("Esc mette in pausa: da lì le opzioni, questa guida, il menu d'avvio. ", "Esc pauses the game: from there, the options, this guide, the main menu. "))
+        + tr("Sei finali: come arrivi decide quale.", "Six endings: how you get there decides which."),
       esempi: es(["annulla"]) },
   ];
 }
@@ -65,9 +80,9 @@ export default function ComeSiGioca({ base, accento = "#f0b77e", onChiudi, compa
   { base: number; accento?: string; onChiudi: () => void; compatto?: boolean }) {
   const dialogo = useDialogo<HTMLDivElement>(onChiudi);   // Esc chiude, anche in partita
   const [opz] = useOpzioni();
-  const SCHEDE = schede(opz.comandi);
+  const SCHEDE = schede(comandiEffettivi(opz));
   return (
-    <div ref={dialogo} tabIndex={-1} role="dialog" aria-modal="true" aria-label="Come si gioca"
+    <div ref={dialogo} tabIndex={-1} role="dialog" aria-modal="true" aria-label={tr("Come si gioca", "How to play")}
       style={{ outline: "none", fontSize: base * scalaTesto(opz), position: "absolute", inset: 0, zIndex: 70, display: "flex", alignItems: "center", justifyContent: "center",
         background: "rgba(4,4,8,.72)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", animation: "kf-launch .35s ease both", pointerEvents: "auto" }}
       onClick={onChiudi}>
@@ -78,12 +93,12 @@ export default function ComeSiGioca({ base, accento = "#f0b77e", onChiudi, compa
           boxShadow: "0 2em 6em rgba(0,0,0,.6)" }}>
         <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "1em" }}>
           <div>
-            <p style={{ margin: 0, fontFamily: MONO, fontSize: ".85em", letterSpacing: ".26em", textTransform: "uppercase", color: accento }}>prima di partire</p>
-            <h2 style={{ margin: ".2em 0 0", fontFamily: SERIF, fontWeight: 500, fontSize: "2em", color: "#f4ece0", letterSpacing: "-.01em" }}>Come si gioca</h2>
+            <p style={{ margin: 0, fontFamily: MONO, fontSize: ".85em", letterSpacing: ".26em", textTransform: "uppercase", color: accento }}>{tr("prima di partire", "before you set off")}</p>
+            <h2 style={{ margin: ".2em 0 0", fontFamily: SERIF, fontWeight: 500, fontSize: "2em", color: "#f4ece0", letterSpacing: "-.01em" }}>{tr("Come si gioca", "How to play")}</h2>
           </div>
-          <button onClick={onChiudi} aria-label="Chiudi la guida" className="csg-chiudi"
+          <button onClick={onChiudi} aria-label={tr("Chiudi la guida", "Close the guide")} className="csg-chiudi"
             style={{ cursor: "pointer", flexShrink: 0, border: "1px solid rgba(255,255,255,.16)", background: "transparent", color: "#c9d2de", borderRadius: 999,
-              fontFamily: MONO, fontSize: ".85em", letterSpacing: ".14em", textTransform: "uppercase", padding: ".6em 1.1em" }}>chiudi ✕</button>
+              fontFamily: MONO, fontSize: ".85em", letterSpacing: ".14em", textTransform: "uppercase", padding: ".6em 1.1em" }}>{tr("chiudi", "close")} ✕</button>
         </div>
         <div className="csg-griglia" style={{ marginTop: "1.4em", display: "grid", gridTemplateColumns: compatto ? "1fr" : "1fr 1fr 1fr", gap: "1em" }}>
           {SCHEDE.map((s) => (
@@ -104,7 +119,7 @@ export default function ComeSiGioca({ base, accento = "#f0b77e", onChiudi, compa
           ))}
         </div>
         <p className="csg-piede" style={{ margin: "1.2em 0 0", fontFamily: SERIF, fontStyle: "italic", fontSize: ".95em", color: "rgba(226,220,208,.6)", textAlign: "center" }}>
-          Non c'è fretta. Il tempo passa solo quando fai qualcosa.
+          {tr("Non c'è fretta. Il tempo passa solo quando fai qualcosa.", "There's no hurry. Time passes only when you do something.")}
         </p>
       </div>
     </div>

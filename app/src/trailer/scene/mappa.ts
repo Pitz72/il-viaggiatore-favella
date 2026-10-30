@@ -14,6 +14,7 @@ import { alone, camera, type C2D } from "../pittura";
 import { creaTela, ctxDi, fbmPeriodico, hexRgb, perlin, riempi, type Tela } from "../texture";
 import { FONT } from "../font";
 import { ZONE } from "../zone";
+import { inglese } from "../../lib/lingua";
 
 export const MAPPA_W = 3600;
 export const NODI_MAPPA = [
@@ -234,7 +235,7 @@ async function faiMappa(): Promise<Tela> {
   g.beginPath(); g.moveTo(3000, 990); g.lineTo(3240, 990); g.stroke();
   for (let k = 0; k <= 4; k++) { g.beginPath(); g.moveTo(3000 + k * 60, 984); g.lineTo(3000 + k * 60, 996); g.stroke(); }
   g.font = `500 12px ${FONT.mono}`; g.textAlign = "left"; g.fillText("0", 2996, 1014); g.fillText("10 km", 3226, 1014);
-  g.font = `italic 500 14px ${FONT.serif}`; g.fillText("Carta dei luoghi, con la secca", 3000, 1046);
+  // la didascalia della carta non sta nella tela: si scrive a ogni fotogramma, nella lingua di adesso (disegnaMappa)
 
   // polvere di stelle, come il cielo che si scioglie nella carta
   const sr = rng(5);
@@ -296,6 +297,12 @@ export function disegnaMappa(ctx: C2D, t: number, c: Cache) {
   camera(ctx, zoom, W / 2, H / 2);
   ctx.drawImage(a.mappa, camX, 0, W, H, 0, 0, W, H);
   ctx.translate(-camX, 0);
+  const en = inglese();
+  // la didascalia della carta, sotto la scala grafica: nella lingua di adesso, per questo non è dipinta nella tela
+  ctx.save();
+  ctx.fillStyle = "rgba(176,198,228,.4)"; ctx.font = `italic 500 14px ${FONT.serif}`; ctx.textAlign = "left"; ctx.textBaseline = "middle";
+  ctx.fillText(en ? "Map of the places, in the Drought" : "Carta dei luoghi, con la secca", 3000, 1046);
+  ctx.restore();
 
   const { pts, cum, nodi } = a.rotta;
   // rotta futura: tratteggio tenue
@@ -361,15 +368,16 @@ export function disegnaMappa(ctx: C2D, t: number, c: Cache) {
       vv.addColorStop(0, "rgba(5,8,14,.72)"); vv.addColorStop(1, "rgba(5,8,14,0)");
       ctx.fillStyle = vv; ctx.fillRect(n.x - 200, nome - 92 + dy, 400, 230);
       ctx.fillStyle = "#f0e6d8"; ctx.font = `600 22px ${FONT.mono}`; ctx.fillText("A C Q U A M O R T A", n.x, nome + dy);
-      ctx.fillStyle = "rgba(240,230,216,.62)"; ctx.font = `italic 500 26px ${FONT.serif}`; ctx.fillText("casa", n.x, nome + 38 + dy);
+      ctx.fillStyle = "rgba(240,230,216,.62)"; ctx.font = `italic 500 26px ${FONT.serif}`; ctx.fillText(en ? "home" : "casa", n.x, nome + 38 + dy);
     } else {
       const base = sopra ? Math.min(n.y - 118, n.y + 40 + ing.alto - MARGINE - 86 - 8) : Math.max(n.y + 64, n.y + 40 + ing.basso + MARGINE + 8);
       const vv = ctx.createRadialGradient(n.x, base + 30 + dy, 10, n.x, base + 30 + dy, 210);
       vv.addColorStop(0, "rgba(5,8,14,.74)"); vv.addColorStop(1, "rgba(5,8,14,0)");
       ctx.fillStyle = vv; ctx.fillRect(n.x - 230, base - 60 + dy, 460, 190);
       ctx.fillStyle = "rgba(200,215,235,.55)"; ctx.font = `500 17px ${FONT.mono}`; ctx.fillText(`0${i + 1}`, n.x, base + dy);
-      ctx.fillStyle = col; ctx.font = `700 44px ${FONT.display}`; ctx.fillText(ZONE[i].n, n.x, base + 50 + dy);
-      ctx.fillStyle = "rgba(226,234,244,.76)"; ctx.font = `italic 500 25px ${FONT.serif}`; ctx.fillText(ZONE[i].s, n.x, base + 86 + dy);
+      const z = en ? ZONE[i].en : ZONE[i];
+      ctx.fillStyle = col; ctx.font = `700 44px ${FONT.display}`; ctx.fillText(z.n, n.x, base + 50 + dy);
+      ctx.fillStyle = "rgba(226,234,244,.76)"; ctx.font = `italic 500 25px ${FONT.serif}`; ctx.fillText(z.s, n.x, base + 86 + dy);
     }
     ctx.globalAlpha = 1;
   });

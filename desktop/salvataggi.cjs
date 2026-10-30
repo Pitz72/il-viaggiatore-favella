@@ -19,6 +19,7 @@
 //  lo decide la pagina (app/src/lib/trofei.ts): qui si legge e si scrive.
 // ====================================================================
 const { app, dialog, shell } = require("electron");
+const { tr } = require("./lingua.cjs");
 const fs = require("node:fs");
 const path = require("node:path");
 const registro = require("./registro.cjs");
@@ -125,9 +126,9 @@ function registra(finestra) {
   gestisci("salvataggi:esporta", async (_e, posto, suggerito) => {
     const file = controllaPosto(posto);
     const scelta = await dialog.showSaveDialog(finestra(), {
-      title: "Esporta il salvataggio",
+      title: tr("Esporta il salvataggio", "Export the save"),
       defaultPath: path.join(app.getPath("documents"), String(suggerito || nomeFile(posto)).replace(/[\\/:*?"<>|]/g, "-")),
-      filters: [{ name: "Salvataggio del Viaggiatore", extensions: ["viaggiatore"] }],
+      filters: [{ name: tr("Salvataggio del Viaggiatore", "Il Viaggiatore save"), extensions: ["viaggiatore"] }],
     });
     if (scelta.canceled || !scelta.filePath) return false;
     await fs.promises.copyFile(file, scelta.filePath);
@@ -137,10 +138,10 @@ function registra(finestra) {
 
   gestisci("salvataggi:importa", async () => {
     const scelta = await dialog.showOpenDialog(finestra(), {
-      title: "Apri un salvataggio",
+      title: tr("Apri un salvataggio", "Open a save"),
       defaultPath: app.getPath("documents"),
       properties: ["openFile"],
-      filters: [{ name: "Salvataggio del Viaggiatore", extensions: ["viaggiatore", "json"] }],
+      filters: [{ name: tr("Salvataggio del Viaggiatore", "Il Viaggiatore save"), extensions: ["viaggiatore", "json"] }],
     });
     if (scelta.canceled || !scelta.filePaths[0]) return null;
     const stat = await fs.promises.stat(scelta.filePaths[0]);

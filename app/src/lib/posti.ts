@@ -1,7 +1,9 @@
 // ====================================================================
 //  I posti dei salvataggi (piano 09, §6): come si chiamano, di che genere
 //  sono, come si mostrano. Niente import: il collaudo lo prova in Node
-//  (app/scripts/posti-node.mjs).
+//  (app/scripts/posti-node.mjs). I nomi e le durate si dicono nelle due
+//  lingue: la lingua arriva da chi chiama (lib/salvataggi.ts, quella di
+//  adesso), e senza vale l'italiano.
 // --------------------------------------------------------------------
 //  Un «posto» è il nome del file senza estensione (sul desktop) o la coda
 //  della chiave (nel browser):
@@ -16,6 +18,8 @@
 
 export type Posto = string;
 export type Genere = "rapido" | "automatico" | "manuale";
+/** La lingua di un testo da mostrare (la stessa di lib/opzioni.ts, scritta qui per non importarla). */
+type Lingua = "it" | "en";
 
 export const RAPIDO: Posto = "rapido";
 export const AUTOMATICI: readonly Posto[] = ["automatico-1", "automatico-2", "automatico-3"];
@@ -46,15 +50,16 @@ export const pulisciNome = (nome: unknown): string =>
   typeof nome === "string" ? nome.replace(/\s+/g, " ").trim().slice(0, LUNGHEZZA_NOME).trim() : "";
 
 /** Come si chiama, per chi gioca, il salvataggio di un posto. */
-export function nomeDi(posto: Posto, nome?: string, luogo?: string): string {
+export function nomeDi(posto: Posto, nome?: string, luogo?: string, lingua: Lingua = "it"): string {
   const n = pulisciNome(nome);
   if (n) return n;
+  const en = lingua === "en";
   const g = genere(posto);
-  if (g === "rapido") return "Salvataggio rapido";
-  if (g === "automatico") return "Salvataggio automatico";
+  if (g === "rapido") return en ? "Quick save" : "Salvataggio rapido";
+  if (g === "automatico") return en ? "Autosave" : "Salvataggio automatico";
   const m = VECCHIO_MANUALE.exec(posto);
-  if (m) return `Posto ${m[1]}`;
-  return luogo || "Salvataggio";
+  if (m) return en ? `Slot ${m[1]}` : `Posto ${m[1]}`;
+  return luogo || (en ? "Save" : "Salvataggio");
 }
 
 /** Il prossimo dei tre automatici: dopo quello scritto per ultimo (l'indice, se si sa), cioè il più vecchio. */
@@ -62,11 +67,11 @@ export function prossimoAutomatico(ultimo: number | null): number {
   return ultimo === null || !Number.isInteger(ultimo) || ultimo < 0 || ultimo >= AUTOMATICI.length ? 0 : (ultimo + 1) % AUTOMATICI.length;
 }
 
-/** Il tempo di gioco, a parole brevi: «meno di un minuto», «14 min», «2 h 05 min». */
-export function durataLeggibile(ms: number | undefined): string {
+/** Il tempo di gioco, a parole brevi: «meno di un minuto», «14 min», «2 h 05 min» (in inglese «less than a minute»). */
+export function durataLeggibile(ms: number | undefined, lingua: Lingua = "it"): string {
   if (typeof ms !== "number" || !Number.isFinite(ms) || ms < 0) return "—";
   const minuti = Math.floor(ms / 60000);
-  if (minuti < 1) return "meno di un minuto";
+  if (minuti < 1) return lingua === "en" ? "less than a minute" : "meno di un minuto";
   if (minuti < 60) return `${minuti} min`;
   return `${Math.floor(minuti / 60)} h ${String(minuti % 60).padStart(2, "0")} min`;
 }

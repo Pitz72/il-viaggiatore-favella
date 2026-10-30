@@ -14,6 +14,7 @@ import type { Cache } from "../cache";
 import { alone, pulviscolo, type C2D } from "../pittura";
 import { FONT } from "../font";
 import { REGOLE } from "../zone";
+import { inglese } from "../../lib/lingua";
 
 // --------------------------------------------------------------------
 //  F · sfondo dei cinque modi
@@ -255,7 +256,7 @@ function albero(ctx: C2D, col: string, k: number) {
     ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(f.x - 3, f.y - 3, 4, 0, Math.PI * 2); ctx.fill();
   }
   ctx.globalAlpha = seg(k, 0.7, 0.9);
-  ctx.fillStyle = col; ctx.font = `600 24px ${FONT.mono}`; ctx.textAlign = "left"; ctx.fillText("6 FINALI", CX + 350, CY + 8);
+  ctx.fillStyle = col; ctx.font = `600 24px ${FONT.mono}`; ctx.textAlign = "left"; ctx.fillText(inglese() ? "6 ENDINGS" : "6 FINALI", CX + 350, CY + 8);
   ctx.globalAlpha = 1;
 }
 

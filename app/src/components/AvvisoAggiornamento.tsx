@@ -8,11 +8,14 @@
 // ====================================================================
 import { useEffect, useState } from "react";
 import { installaAggiornamento, seguiAggiornamento, type StatoAggiornamento } from "../lib/desktop";
+import { in_, tr, TITOLO } from "../lib/lingua";
+import { useLingua } from "../lib/useOpzioni";
 
 const MONO = "'Source Code Pro', ui-monospace, monospace";
 const SERIF = "'Lora', Georgia, serif";
 
 export default function AvvisoAggiornamento() {
+  useLingua();   // sta fuori dalle fasi: si ridisegna da sé quando cambia la lingua
   const [stato, setStato] = useState<StatoAggiornamento>({ stato: "fermo" });
   const [chiuso, setChiuso] = useState<string | null>(null);
   useEffect(() => seguiAggiornamento(setStato), []);
@@ -26,20 +29,20 @@ export default function AvvisoAggiornamento() {
       boxShadow: "0 12px 40px rgba(0,0,0,.5)", backdropFilter: "blur(6px)", animation: "kf-launch .5s ease both" }}>
       <div>
         <p style={{ margin: 0, fontFamily: MONO, fontSize: 10, letterSpacing: ".24em", textTransform: "uppercase", color: "#f0b77e" }}>
-          {pronto ? "aggiornamento pronto" : "aggiornamento in arrivo"}
+          {pronto ? tr("aggiornamento pronto", "update ready") : tr("aggiornamento in arrivo", "update on the way")}
         </p>
         <p style={{ margin: "3px 0 0", fontFamily: SERIF, fontSize: 14, color: "#efe8dc" }}>
-          Il Viaggiatore {stato.versione}
-          {pronto ? " · si installa alla chiusura" : stato.percento != null ? ` · ${stato.percento}%` : " · si scarica"}
+          {in_(TITOLO)} {stato.versione}
+          {pronto ? tr(" · si installa alla chiusura", " · installs when you quit") : stato.percento != null ? ` · ${stato.percento}%` : tr(" · si scarica", " · downloading")}
         </p>
       </div>
       {pronto && (
         <button onClick={installaAggiornamento} style={{ cursor: "pointer", border: "none", borderRadius: 999, padding: "8px 14px",
           background: "#f0b77e", color: "#140c06", fontFamily: MONO, fontSize: 10, letterSpacing: ".16em", textTransform: "uppercase" }}>
-          riavvia ora
+          {tr("riavvia ora", "restart now")}
         </button>
       )}
-      <button aria-label="Chiudi l'avviso" onClick={() => setChiuso(`${stato.stato}:${stato.versione}`)}
+      <button aria-label={tr("Chiudi l'avviso", "Dismiss the notice")} onClick={() => setChiuso(`${stato.stato}:${stato.versione}`)}
         style={{ cursor: "pointer", border: "none", background: "transparent", color: "rgba(239,232,220,.5)", fontSize: 16, padding: 4 }}>✕</button>
     </div>
   );

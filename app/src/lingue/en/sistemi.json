@@ -1,0 +1,188 @@
+[
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:35",
+  "it": "Non hai sete. Quest'acqua costa troppo per berla senza bisogno.",
+  "en": "You're not thirsty. This water costs too much to drink when you don't need it."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:36",
+  "it": "Bevi a piccoli sorsi dalla tanica. La gola brucia meno.",
+  "en": "You drink in small sips from the jerrycan. Your throat burns less."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:37",
+  "it": "Porti la tanica alle labbra: vuota. Solo il sapore del metallo caldo.",
+  "en": "You lift the jerrycan to your lips: empty. Only the taste of hot metal."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:39",
+  "it": "Bevi due sorsi lenti, tenendoli in bocca prima di mandarli giù. La gola smette di raspare.",
+  "en": "You take two slow sips, holding each in your mouth before you swallow. Your throat stops rasping."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:40",
+  "it": "Nella tanica c'è un fondo solo: due sorsi non ci sono. Ne resta uno.",
+  "en": "The jerrycan is down to the last of it: there aren't two sips. There's one left."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:43",
+  "it": "Bevi a lungo, gli occhi chiusi, finché la tanica non cambia suono. Per un po' la sete tace.",
+  "en": "You drink long, eyes closed, until the jerrycan changes its sound. For a while the thirst falls silent."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:44",
+  "it": "Nella tanica non c'è acqua per tre sorsi.",
+  "en": "There isn't enough water in the jerrycan for three sips."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:74",
+  "it": "Non hai fame. Il cibo lo tieni per quando servirà.",
+  "en": "You're not hungry. You keep the food for when you'll need it."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:75",
+  "it": "Mastichi piano. Non sa di niente, ma è qualcosa nello stomaco.",
+  "en": "You chew slowly. It tastes of nothing, but it's something in your stomach."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:76",
+  "it": "Non hai niente da mettere sotto i denti.",
+  "en": "You have nothing to get your teeth into."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:78",
+  "it": "Mangi con metodo, un boccone dopo l'altro, senza guardare cos'è. Lo stomaco smette di stringere.",
+  "en": "You eat methodically, one mouthful after another, without looking at what it is. Your stomach stops clenching."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:79",
+  "it": "Di cibo ce n'è per una porzione sola, non per due.",
+  "en": "There's food for one portion only, not two."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:82",
+  "it": "Mangi tutto quello che c'è da mangiare, senza fretta e senza sapore. Per il momento, lo stomaco è zitto.",
+  "en": "You eat everything there is to eat, without hurry and without taste. For the moment, your stomach keeps quiet."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:83",
+  "it": "Non hai cibo per tre porzioni.",
+  "en": "You haven't enough food for three portions."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:86",
+  "it": "La tanica non la molli. Senza, l'acqua non avresti dove tenerla.",
+  "en": "You don't let go of the jerrycan. Without it, you'd have nowhere to keep the water."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:99",
+  "it": "La lingua ti si incolla al palato.",
+  "en": "Your tongue sticks to the roof of your mouth."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:100",
+  "it": "Hai la lingua impastata. Devi bere.",
+  "en": "Your tongue is furred. You need to drink."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:102",
+  "it": "Le mani tremano, la vista si stringe ai bordi. (BEVI.)",
+  "en": "Your hands shake, your vision narrows at the edges. (DRINK.)"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:103",
+  "it": "Le gambe cedono sul ciglio della strada. Da terra, i sassi scottano più dell'aria.",
+  "en": "Your legs give way at the side of the road. From the ground, the stones are hotter than the air."
+ },
+ {
+  "tipo": "finale",
+  "dove": "sistemi.fav:103",
+  "it": "La sete ti ha avuto prima di casa.",
+  "en": "Thirst got you before home did."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:105",
+  "it": "Lo stomaco brontola. (MANGIA.)",
+  "en": "Your stomach growls. (EAT.)"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:106",
+  "it": "Lo stomaco ti si è chiuso. (MANGIA, se hai di che.)",
+  "en": "Your stomach has closed up. (EAT, if you have anything.)"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:108",
+  "it": "La debolezza ti rallenta i passi. (MANGIA.)",
+  "en": "Weakness slows your steps. (EAT.)"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:109",
+  "it": "Non hai più la forza di rialzarti.",
+  "en": "You no longer have the strength to get up."
+ },
+ {
+  "tipo": "finale",
+  "dove": "sistemi.fav:109",
+  "it": "La fame ti ha fermato lungo la strada.",
+  "en": "Hunger stopped you on the road."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:116",
+  "it": "Ti accasci, e non riparti più.",
+  "en": "You sink down, and you don't set off again."
+ },
+ {
+  "tipo": "finale",
+  "dove": "sistemi.fav:116",
+  "it": "Il viaggio finisce qui.",
+  "en": "The journey ends here."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:124",
+  "it": "Il corpo, per una volta, non chiede niente. Ti senti un poco più in forze.",
+  "en": "Your body, for once, asks for nothing. You feel a little stronger."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:127",
+  "it": "Tanica e damigiana sono piene fino all'orlo: il resto lo lasci andare.",
+  "en": "The jerrycan and the demijohn are full to the brim: you let the rest go."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:128",
+  "it": "La tanica è piena fino all'orlo: il resto lo lasci andare.",
+  "en": "The jerrycan is full to the brim: you let the rest go."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "sistemi.fav:133",
+  "it": "Vita [vita]/10 · Sete [sete] · Fame [fame] · Acqua [acqua] · Cibo [cibo]",
+  "en": "Life [vita]/10 · Thirst [sete] · Hunger [fame] · Water [acqua] · Food [cibo]"
+ }
+]

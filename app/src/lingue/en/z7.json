@@ -1,0 +1,437 @@
+[
+ {
+  "tipo": "descrizione",
+  "dove": "z7-guado.fav:30",
+  "it": "Un greto di pietre bianche, un filo d'acqua morta in mezzo. Sull'altra riva comincia Acquamorta. Di qua, in piedi tra te e il guado, c'è COSIMO: più vecchio di come te lo ricordi, più tuo di chiunque. (PARLA CON Cosimo.) A NORD si guada; a SUD il valico.",
+  "en": "A riverbed of white stones, a thread of dead water down the middle. On the far bank Acquamorta begins. On this side, standing between you and the ford, is COSIMO: older than you remember him, more yours than anyone. (TALK TO Cosimo.) NORTH, across the ford; SOUTH, the pass."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z7-guado.fav:31",
+  "it": "Un greto di pietre bianche, un filo d'acqua morta in mezzo. Sull'altra riva comincia Acquamorta. Di qua, tra i sassi, c'è COSIMO, e non si rialzerà. A NORD si guada; a SUD il valico.",
+  "en": "A riverbed of white stones, a thread of dead water down the middle. On the far bank Acquamorta begins. On this side, among the stones, lies COSIMO, and he won't get up again. NORTH, across the ford; SOUTH, the pass."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z7-guado.fav:32",
+  "it": "Un greto di pietre bianche, un filo d'acqua morta in mezzo. Sull'altra riva comincia Acquamorta. COSIMO si è fatto da parte e guarda l'acqua: il passaggio è libero. A NORD si guada; a SUD il valico.",
+  "en": "A riverbed of white stones, a thread of dead water down the middle. On the far bank Acquamorta begins. COSIMO has stepped aside and is looking at the water: the way is clear. NORTH, across the ford; SOUTH, the pass."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z7-guado.fav:35",
+  "it": "La strada di Acquamorta, tra case con le porte aperte sul niente. Nessuna voce, nessun cane. Solo il tuo passo, e il vento che entra ed esce dalle finestre. In fondo, la tua casa. A NORD la casa; a SUD il guado.",
+  "en": "The street of Acquamorta, between houses with their doors open onto nothing. Not a voice, not a dog. Only your footsteps, and the wind going in and out of the windows. At the end, your house. NORTH, the house; SOUTH, the ford."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z7-guado.fav:38",
+  "it": "La porta di casa tua, socchiusa. La maniglia la conosci ancora, la mano ci torna da sola.",
+  "en": "The door of your house, ajar. You still know the handle; your hand goes back to it on its own."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z7-guado.fav:48",
+  "it": "Tuo fratello. Le stesse mani di vostro padre, la stessa fronte. Tiene il greto come si tiene una tomba.",
+  "en": "Your brother. The same hands as your father, the same brow. He keeps the riverbed the way a grave is kept."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z7-guado.fav:49",
+  "it": "Tuo fratello, steso sulle pietre bianche. Ha la faccia di vostro padre, adesso più che mai.",
+  "en": "Your brother, lying on the white stones. He has your father's face, now more than ever."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z7-guado.fav:50",
+  "it": "Si è fatto da parte di un passo. Tiene il fucile aperto sul braccio, scarico, e guarda l'acqua morta, non te.",
+  "en": "He has stepped a pace aside. He holds the shotgun broken open over his arm, unloaded, and looks at the dead water, not at you."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z7-guado.fav:51",
+  "it": "Si è fatto da parte di un passo. Ha il fucile aperto sul braccio e le cartucce in tasca; guarda l'acqua morta, non te.",
+  "en": "He has stepped a pace aside. He has the shotgun broken open over his arm and the cartridges in his pocket; he looks at the dead water, not at you."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z7-guado.fav:52",
+  "it": "Si è fatto da parte di un passo. Guarda l'acqua morta, non te, e tiene la lettera stretta in una mano.",
+  "en": "He has stepped a pace aside. He looks at the dead water, not at you, and holds the letter tight in one hand."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Cosimo",
+  "dove": "z7-guado.fav:55",
+  "it": "È steso tra le pietre bianche, gli occhi aperti sul cielo. Non c'è più niente da dirgli.",
+  "en": "He lies among the white stones, eyes open to the sky. There is nothing left to say to him."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Cosimo",
+  "dove": "z7-guado.fav:56",
+  "it": "«Va' avanti tu.» Guarda l'acqua, non te. «Io arrivo. Dammi il tempo di ricordarmi la strada.»",
+  "en": "“You go on.” He looks at the water, not at you. “I'll be along. Give me time to remember the way.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Cosimo",
+  "dove": "z7-guado.fav:57",
+  "it": "Non si è mosso di un passo. «Hai altro da dirmi, o hai finito?»",
+  "en": "He hasn't moved a step. “Anything else to say to me, or have you finished?”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Cosimo",
+  "dove": "z7-guado.fav:59",
+  "it": "«Lo sapevo, che saresti tornato. Quando non serve più a nessuno.» Guarda le tue mani prima della tua faccia. «E so anche come sei passato: la voce corre più svelta di te, su questa strada. Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi.»",
+  "en": "“I knew you'd come back. When it's no use to anyone any more.” He looks at your hands before your face. “And I know how you came through, too: word travels faster than you do on this road. I stayed here, closing everyone's eyes. You were safe, far away. The ford is mine now, and you don't cross it.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Cosimo",
+  "dove": "z7-guado.fav:60",
+  "it": "«Lo sapevo, che saresti tornato. Quando non serve più a nessuno.» Non alza la voce. «Dicono che per strada lasci l'acqua a chi è rimasto.» Una pausa. «A me non l'ha lasciata nessuno. Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi.»",
+  "en": "“I knew you'd come back. When it's no use to anyone any more.” He doesn't raise his voice. “They say you leave water along the road for the ones who stayed.” A pause. “Nobody left any for me. I stayed here, closing everyone's eyes. You were safe, far away. The ford is mine now, and you don't cross it.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Cosimo",
+  "dove": "z7-guado.fav:61",
+  "it": "«Lo sapevo, che saresti tornato. Quando non serve più a nessuno.» Non alza la voce. «Dicono che al casello hai puntato una pistola a uno che ti stava addosso, e che era scarica. Hai fatto la faccia giusta.» Quasi un complimento. «Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi.»",
+  "en": "“I knew you'd come back. When it's no use to anyone any more.” He doesn't raise his voice. “They say at the tollbooth you pointed a pistol at a man who was leaning on you, and it was empty. You got the face right.” Almost a compliment. “I stayed here, closing everyone's eyes. You were safe, far away. The ford is mine now, and you don't cross it.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Cosimo",
+  "dove": "z7-guado.fav:62",
+  "it": "«Lo sapevo, che saresti tornato. Quando non serve più a nessuno.» Non alza la voce. «Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi.»",
+  "en": "“I knew you'd come back. When it's no use to anyone any more.” He doesn't raise his voice. “I stayed here, closing everyone's eyes. You were safe, far away. The ford is mine now, and you don't cross it.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z7-guado.fav:63",
+  "it": "Non sapevo. Te lo giuro.",
+  "en": "I didn't know. I swear to you."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z7-guado.fav:64",
+  "it": "Fammi passare, Cosimo.",
+  "en": "Let me through, Cosimo."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z7-guado.fav:65",
+  "it": "…",
+  "en": "…"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Cosimo",
+  "dove": "z7-guado.fav:67",
+  "it": "«Non sapevi.» Lo ripete piano. «Quella riga te la scrissi io. Per dirti di non venire, che ero capace di tenere tutto in piedi. Bugia. L'altra lettera non te l'ho mandata.» Si guarda le mani. «Non sapevi perché io non te l'ho lasciato sapere. Questo non ti assolve. Assolve me, semmai, e non voglio.»",
+  "en": "“You didn't know.” He says it again, quietly. “I wrote you that line. To tell you not to come, that I could hold everything together. A lie. The other letter I never sent you.” He looks at his hands. “You didn't know because I didn't let you know. That doesn't absolve you. It absolves me, if anything, and I don't want it.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Cosimo",
+  "dove": "z7-guado.fav:70",
+  "it": "«No.» Allarga appena le braccia, a chiudere il passaggio. «Di là ci sono loro. Tu di là ci entri solo se prima passi da me. In un modo o nell'altro.»",
+  "en": "“No.” He spreads his arms a little, closing the way. “They're on the other side. You only go over there if you get past me first. One way or another.”"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:74",
+  "it": "Tiri fuori la lettera che lui credeva persa e gliela tieni davanti agli occhi. Cosimo riconosce la grafia, la sua. Allunga la mano e la ritira a metà strada. «Quella non doveva leggerla nessuno.» «L'ho letta.» Restate così, due uomini su un greto. Poi Cosimo si sposta di un passo, quanto basta, senza dire niente.",
+  "en": "You take out the letter he thought was lost and hold it up before his eyes. Cosimo knows the handwriting: his own. He reaches out, and draws his hand back halfway. “Nobody was meant to read that.” “I've read it.” You stand there like that, two men on a riverbed. Then Cosimo moves a pace aside, just enough, without a word."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:75",
+  "it": "La lettera è lì tra i sassi: raccoglila, prima.",
+  "en": "The letter is over there among the stones: pick it up first."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:76",
+  "it": "È già detto tutto, qui.",
+  "en": "It's all been said already."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:77",
+  "it": "Gli tendi il biglietto. Cosimo riconosce il suo stampatello e guarda altrove. «Quello lo conosco. L'ho scritto per tenerti lontano, e non è bastato.» Non si sposta.",
+  "en": "You hold out the note. Cosimo recognises his own block capitals and looks away. “I know that one. I wrote it to keep you away, and it wasn't enough.” He doesn't step aside."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:78",
+  "it": "Lo rimetti in tasca. Adesso non serve più.",
+  "en": "You put it back in your pocket. It's no use now."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:81",
+  "it": "Alzi il fucile. Cosimo non scappa, non implora: fa un passo avanti, come per aiutarti a mirare. «Bravo. Almeno uno di noi due finisce questa storia.» Il colpo parte e copre il rumore del greto. Poi solo il vento, e l'acqua morta, e tu di qua, ancora in piedi.",
+  "en": "You raise the shotgun. Cosimo doesn't run, doesn't beg: he takes a step forward, as if to help you aim. “Well done. At least one of us finishes this.” The shot goes off and covers the sound of the riverbed. Then only the wind, and the dead water, and you on this side, still standing."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:82",
+  "it": "A mani nude non concludi niente, e lui non alza un dito per difendersi. Ti lascia provare. Alla fine sei tu a fermarti, col fiato rotto, e lui non si è mosso.",
+  "en": "Bare-handed you get nowhere, and he doesn't lift a finger to defend himself. He lets you try. In the end you're the one who stops, breath ragged, and he hasn't moved."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:83",
+  "it": "È già fatta. Non c'è altro da togliergli.",
+  "en": "It's done. There's nothing more to take from him."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:87",
+  "it": "Gli punti contro la pistola e premi il grilletto. Un clic secco, e niente. Cosimo non ha battuto ciglio.",
+  "en": "You point the pistol at him and pull the trigger. A dry click, and nothing. Cosimo hasn't batted an eyelid."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:90",
+  "it": "Il fucile è tra i sassi, ai tuoi piedi. (Per riprenderlo: PRENDI IL FUCILE.)",
+  "en": "The shotgun is among the stones, at your feet. (To pick it up again: TAKE the SHOTGUN.)"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:91",
+  "it": "Non c'è più niente da fare, con quel fucile.",
+  "en": "There's nothing more to be done with that shotgun."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:93",
+  "it": "Gli punti il fucile al petto. Cosimo non alza le mani. «O spari, o lo posi. Il resto sono chiacchiere.»",
+  "en": "You aim the shotgun at his chest. Cosimo doesn't raise his hands. “Either shoot or put it down. The rest is talk.”"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:94",
+  "it": "Tiri fuori la pistola. Cosimo non la guarda nemmeno. «Quella del casello.» Lo dice come si dice un nome. «Vito l'ha capito dopo. Io l'avevo capito prima che la tirassi fuori.»",
+  "en": "You draw the pistol. Cosimo doesn't even look at it. “The one from the tollbooth.” He says it the way you'd say a name. “Vito worked it out afterwards. I'd worked it out before you drew it.”"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:95",
+  "it": "Tiri fuori la pistola. Cosimo la guarda appena. «Scarica. Si vede da come la tieni.»",
+  "en": "You draw the pistol. Cosimo barely glances at it. “Empty. You can tell from the way you hold it.”"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:96",
+  "it": "Cosimo ti lascia finire. «Le stesse parole le dicevo io, a chi voleva passare. Non sono servite nemmeno a me.»",
+  "en": "Cosimo lets you finish. “I used to say the same words to anyone who wanted to cross. They did me no good either.”"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:97",
+  "it": "Lasci perdere. Tra te e lui, ormai, le minacce non servono più.",
+  "en": "You let it go. Between you and him, threats are no use now."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:100",
+  "it": "Cosimo guarda il fucile prima di guardare te. Non fa un passo indietro.",
+  "en": "Cosimo looks at the shotgun before he looks at you. He doesn't take a step back."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:102",
+  "it": "Posi il fucile sul greto, la canna verso l'acqua. Cosimo lo guarda a lungo, poi guarda te. «Quello che lasciava l'acqua per strada.» Non è una domanda. Si china, raccoglie il fucile, lo apre e si mette le due cartucce in tasca. Poi si sposta di un passo. Quanto basta.",
+  "en": "You lay the shotgun down on the riverbed, the barrels towards the water. Cosimo looks at it a long while, then at you. “The one who left water along the road.” It isn't a question. He bends down, picks up the shotgun, breaks it open and puts the two cartridges in his pocket. Then he moves a pace aside. Just enough."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:104",
+  "it": "Posi il fucile sul greto, la canna verso l'acqua. Cosimo non lo guarda nemmeno. «E per strada? L'hai posato anche lì?» Resta dov'è, tra te e l'altra riva. Il fucile è ai tuoi piedi. (ASPETTA con lui, oppure riprendi il FUCILE.)",
+  "en": "You lay the shotgun down on the riverbed, the barrels towards the water. Cosimo doesn't even look at it. “And on the road? Did you put it down there too?” He stays where he is, between you and the far bank. The shotgun is at your feet. (WAIT with him, or take the SHOTGUN back.)"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:106",
+  "it": "Posi il fucile sul greto, la canna verso l'acqua. Cosimo guarda il fucile, poi te, e non si sposta. «Posarlo non basta. Che ne so io di chi sei diventato, per strada?» (ASPETTA con lui, oppure riprendi il FUCILE.)",
+  "en": "You lay the shotgun down on the riverbed, the barrels towards the water. Cosimo looks at the shotgun, then at you, and doesn't step aside. “Putting it down isn't enough. What do I know about who you've become, out on the road?” (WAIT with him, or take the SHOTGUN back.)"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:108",
+  "it": "Aspetti. Cosimo guarda il fucile tra i sassi, poi l'acqua. Non parla, e non se ne va.",
+  "en": "You wait. Cosimo looks at the shotgun among the stones, then at the water. He doesn't speak, and he doesn't leave."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:109",
+  "it": "Cosimo si siede su una pietra, dall'altra parte del fucile. «Da ragazzi ci passavamo i pomeriggi, qui. A tirare sassi per vedere chi arrivava di là.» Poi si alza, raccoglie il fucile, lo apre e si mette le cartucce in tasca. Si sposta di un passo. Quanto basta.",
+  "en": "Cosimo sits down on a stone, on the other side of the shotgun. “When we were boys we spent our afternoons here. Throwing stones to see who'd reach the other side.” Then he gets up, picks up the shotgun, breaks it open and puts the cartridges in his pocket. He moves a pace aside. Just enough."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:110",
+  "it": "«Chi alza le mani per strada non le posa per sempre al guado.» Lo dice all'acqua, non a te.",
+  "en": "“A man who raises his hands on the road doesn't lay them down for good at the ford.” He says it to the water, not to you."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:111",
+  "it": "Il sole si è spostato sul greto. Hai la gola di sabbia. Cosimo non si è mosso, e nemmeno tu.",
+  "en": "The sun has moved across the riverbed. Your throat is sand. Cosimo hasn't moved, and nor have you."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:112",
+  "it": "Cosimo si china sul fucile, lo raccoglie e lo apre. Si mette le due cartucce in tasca, una alla volta. «Sei ancora capace di stare fermo. Almeno questo.» Si sposta di un passo, quanto basta, e non ti guarda passare.",
+  "en": "Cosimo bends over the shotgun, picks it up and breaks it open. He puts the two cartridges in his pocket, one at a time. “You still know how to keep still. That much, at least.” He moves a pace aside, just enough, and doesn't watch you go by."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:114",
+  "it": "Cosimo ti guarda raccoglierlo. Annuisce appena, come chi aveva scommesso proprio su questo.",
+  "en": "Cosimo watches you pick it up. He nods, barely, like a man who had bet on exactly this."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:117",
+  "it": "Cosimo è tra te e l'altra riva. Non si guada, finché è lì in piedi a guardarti.",
+  "en": "Cosimo is between you and the far bank. There's no crossing while he stands there watching you."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:118",
+  "it": "Peppe resta qualche passo indietro, sui sassi. Ha capito prima di te chi è quell'uomo.",
+  "en": "Peppe stays a few paces back, on the stones. He worked out who that man is before you did."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:119",
+  "it": "Peppe resta qualche passo indietro, sui sassi. Ha capito prima di te chi è quell'uomo, e ti guarda le mani. Non per paura: per sapere.",
+  "en": "Peppe stays a few paces back, on the stones. He worked out who that man is before you did, and he watches your hands. Not out of fear: to know."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:120",
+  "it": "Peppe resta qualche passo indietro, sui sassi. Ha capito prima di te chi è quell'uomo, e tiene gli occhi sulle tue mani come su una cosa che gli hanno già raccontato.",
+  "en": "Peppe stays a few paces back, on the stones. He worked out who that man is before you did, and he keeps his eyes on your hands, like something he has already been told about."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:123",
+  "it": "Quando ti volti, Peppe non c'è più. Sul greto, i sassi smossi di qualcuno che è corso via senza voltarsi.",
+  "en": "When you turn round, Peppe is gone. On the riverbed, the stones kicked loose by someone who ran off without looking back."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:124",
+  "it": "Quando ti volti, Peppe non c'è più. Sul greto, i sassi smossi di qualcuno che è corso via senza voltarsi. In paese ti aveva chiesto che uomo fossi, e tu gliel'avevi detto. Adesso l'ha visto.",
+  "en": "When you turn round, Peppe is gone. On the riverbed, the stones kicked loose by someone who ran off without looking back. Back in the village he asked you what kind of man you were, and you told him. Now he has seen it."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:125",
+  "it": "Quando ti volti, Peppe non c'è più. Sul greto, i sassi smossi di qualcuno che è corso via senza voltarsi. In paese ti aveva chiesto che uomo fossi, e tu gli avevi detto di no. Adesso non ha più niente da chiederti.",
+  "en": "When you turn round, Peppe is gone. On the riverbed, the stones kicked loose by someone who ran off without looking back. Back in the village he asked you what kind of man you were, and you denied it. Now he has nothing left to ask you."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:128",
+  "it": "Alla fontana secca Cosimo ti raggiunge. Si ferma un passo indietro. «Di come sei passato, si è saputo anche qui.» Non aggiunge altro, e non ti passa avanti.",
+  "en": "At the dry fountain Cosimo catches up with you. He stops a pace behind. “Word of how you came through got here too.” He says nothing more, and doesn't walk ahead of you."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:129",
+  "it": "Alla fontana secca Cosimo ti raggiunge, e cammina un passo dietro di te. Parla senza fretta, come chi riprende un discorso. «Rosaria ha mandato un ragazzo su dai pastori, e i pastori scendono al greto per le bestie. Così si sa.» Una pausa. «Lo so da tre giorni, che arrivavi. So anche dove hai lasciato l'acqua.»",
+  "en": "At the dry fountain Cosimo catches up with you, and walks a pace behind you. He speaks without hurry, like a man picking up a conversation. “Rosaria sent a boy up to the shepherds, and the shepherds bring their animals down to the riverbed. That's how word gets round.” A pause. “I've known for three days that you were coming. I know where you left the water, too.”"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:130",
+  "it": "Sul muro della prima casa, a carbone, qualcuno ha segnato le partenze: nomi e date, una colonna lunga fino a terra. L'ultimo nome è il tuo, con la data di tre giorni fa. Il carbone è ancora sul davanzale.",
+  "en": "On the wall of the first house, in charcoal, someone has marked down the departures: names and dates, a column reaching to the ground. The last name is yours, dated three days ago. The charcoal is still on the windowsill."
+ },
+ {
+  "tipo": "testo",
+  "dove": "z7-guado.fav:134",
+  "it": "[se la fiducia di Saverio è almeno 3 oppure lo stato del cane è abbattuto oppure lo stato della pompa è attiva oppure lo stato del bluff è fatto oppure la vita di Vito è al massimo 0 oppure lo stato di Imma non è digiuna oppure lo stato della brocca è piena oppure lo stato di Pasquale è curato oppure l'anello è nel nulla]Dietro di te, la strada. [fine][se la fiducia di Saverio è almeno 3]Saverio ha preso il cibo e non ha detto grazie. [fine][se lo stato del cane è abbattuto]Nella serra il cane è rimasto giù, tra le casse. [fine][se lo stato della pompa è attiva]La pompa della diga tira acqua da bere. Il filtro è il tuo. [fine][se lo stato del bluff è fatto]Vito, al casello, ti ha fissato in faccia per ricordarsela. [fine][se la vita di Vito è al massimo 0]Contro la sbarra del casello Vito è rimasto seduto. [fine][se lo stato di Imma non è digiuna]Imma, sulla discesa, ha avuto da mangiare. [fine][se lo stato della brocca è piena]Dietro il banco di Rosaria c'è una brocca piena: l'acqua è la tua. [fine][se lo stato di Pasquale è curato]Pasquale, nel vicolo, ha la febbre rotta. L'orgoglio, quello no. [fine][se l'anello è nel nulla]La fede di lei Ciro l'ha rigirata controluce, al mercato, e non ha fatto domande. [fine]",
+  "en": "[se la fiducia di Saverio è almeno 3 oppure lo stato del cane è abbattuto oppure lo stato della pompa è attiva oppure lo stato del bluff è fatto oppure la vita di Vito è al massimo 0 oppure lo stato di Imma non è digiuna oppure lo stato della brocca è piena oppure lo stato di Pasquale è curato oppure l'anello è nel nulla]Behind you, the road. [fine][se la fiducia di Saverio è almeno 3]Saverio took the food and didn't say thank you. [fine][se lo stato del cane è abbattuto]In the greenhouse the dog stayed down, among the crates. [fine][se lo stato della pompa è attiva]The pump at the dam draws water you can drink. The filter is yours. [fine][se lo stato del bluff è fatto]Vito, at the tollbooth, stared at your face to remember it. [fine][se la vita di Vito è al massimo 0]Against the tollbooth barrier, Vito stayed sitting. [fine][se lo stato di Imma non è digiuna]Imma, on the descent, got something to eat. [fine][se lo stato della brocca è piena]Behind Rosaria's counter there's a full jug: the water is yours. [fine][se lo stato di Pasquale è curato]In the alley, Pasquale's fever has broken. His pride hasn't. [fine][se l'anello è nel nulla]At the market, Ciro turned her wedding ring to the light and asked no questions. [fine]"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:143",
+  "it": "Spingi la porta, cede. Dentro è tutto fermo all'ultimo giorno: due piatti, una sedia rovesciata. Dietro la casa, due croci di legno e la vanga appoggiata al muro. Ti volti per chiamare Peppe, per abitudine, e ti ricordi che non c'è più nessuno da chiamare.\\n[i fili del viaggio]",
+  "en": "You push the door; it gives. Inside, everything stopped on the last day: two plates, an overturned chair. Behind the house, two wooden crosses and the spade leaning against the wall. You turn to call Peppe, out of habit, and remember there's no one left to call.\\n[i fili del viaggio]"
+ },
+ {
+  "tipo": "finale",
+  "dove": "z7-guado.fav:143",
+  "it": "FINALE — La casa è tua. Il ragazzo che ti seguiva ha visto cosa sei disposto a fare per averla.",
+  "en": "FINALE — The house is yours. The boy who followed you has seen what you are prepared to do to have it."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:145",
+  "it": "Spingi la porta, cede. Dentro è tutto fermo all'ultimo giorno: due piatti, una sedia rovesciata. Dietro la casa, due croci di legno. Accanto, appoggiata al muro dove l'ha lasciata lui, la vanga.\\n[i fili del viaggio]",
+  "en": "You push the door; it gives. Inside, everything stopped on the last day: two plates, an overturned chair. Behind the house, two wooden crosses. Beside them, leaning against the wall where he left it, the spade.\\n[i fili del viaggio]"
+ },
+ {
+  "tipo": "finale",
+  "dove": "z7-guado.fav:145",
+  "it": "FINALE — Sei entrato ad Acquamorta sopra il corpo di tuo fratello. La casa è tua, e non c'è più nessuno a cui dirlo.",
+  "en": "FINALE — You came into Acquamorta over your brother's body. The house is yours, and there is no one left to tell."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:148",
+  "it": "Entri, ma solo con gli occhi: due piatti, la sedia rovesciata, le due croci dietro. Poi ti volti. Peppe è fermo al cancello col suo fagotto e non entra: aspetta te. Saluti Cosimo senza una parola che basti e riprendi la strada dalla parte opposta, col ragazzo accanto che parla già di dove andrete.\\n[i fili del viaggio]",
+  "en": "You go in, but only with your eyes: two plates, the overturned chair, the two crosses behind. Then you turn. Peppe is standing at the gate with his bundle and doesn't come in: he's waiting for you. You say goodbye to Cosimo without a word that would be enough, and take the road again the other way, the boy beside you already talking about where you'll go.\\n[i fili del viaggio]"
+ },
+ {
+  "tipo": "finale",
+  "dove": "z7-guado.fav:148",
+  "it": "FINALE — Hai trovato la casa, e hai scelto di non restarci. Qualcuno, almeno, lo porti via vivo.",
+  "en": "FINALE — You found the house, and chose not to stay. Someone, at least, you take away alive."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:151",
+  "it": "Entri. Cosimo resta sulla soglia, dietro di te, e non entra: non ne è più capace. Dietro la casa, due croci, l'erba tenuta corta da una mano paziente per anni. Posi il cavallo di legno sulla più piccola. Non vi dite niente. Resti. La sera apparecchi per due; Cosimo mangia fuori, sul gradino, col piatto sulle ginocchia, e tu non gli chiedi di entrare.\\n[i fili del viaggio]",
+  "en": "You go in. Cosimo stays on the doorstep, behind you, and doesn't come in: he no longer has it in him. Behind the house, two crosses, the grass kept short for years by a patient hand. You set the wooden horse on the smaller one. Neither of you says anything. You stay. In the evening you lay the table for two; Cosimo eats outside, on the step, his plate on his knees, and you don't ask him to come in.\\n[i fili del viaggio]"
+ },
+ {
+  "tipo": "finale",
+  "dove": "z7-guado.fav:151",
+  "it": "FINALE — Sei tornato, e hai riportato a casa l'ultima cosa che restava da riportare.",
+  "en": "FINALE — You've come back, and brought home the last thing left to bring home."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:154",
+  "it": "Entri. Cosimo resta sulla soglia, dietro di te, e non entra. Dietro la casa, due croci, l'erba tenuta corta da una mano paziente per anni. Tiri fuori la fede di lei e la infili nel nodo di corda che tiene insieme i legni della croce più grande. Cosimo guarda la fede, poi te, e per la prima volta è lui ad abbassare gli occhi. Resti.\\n[i fili del viaggio]",
+  "en": "You go in. Cosimo stays on the doorstep, behind you, and doesn't come in. Behind the house, two crosses, the grass kept short for years by a patient hand. You take out her wedding ring and slip it into the knot of rope that holds the larger cross together. Cosimo looks at the ring, then at you, and for the first time he is the one who lowers his eyes. You stay.\\n[i fili del viaggio]"
+ },
+ {
+  "tipo": "finale",
+  "dove": "z7-guado.fav:154",
+  "it": "FINALE — Sei tornato, e le hai riportato quello che era suo.",
+  "en": "FINALE — You've come back, and brought back to her what was hers."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z7-guado.fav:157",
+  "it": "Spingi la porta. La casa è vuota di tutto, anche di te. Dietro, due croci con i nomi ormai illeggibili. Vorresti posarci qualcosa di loro. Di loro non hai niente: l'hai barattato per strada, o non l'hai raccolto quando potevi. Cosimo resta al cancello, tu sulla soglia. Nessuno dei due entra.\\n[i fili del viaggio]",
+  "en": "You push the door. The house is empty of everything, even of you. Behind it, two crosses with names you can no longer read. You'd like to lay something of theirs there. Of theirs you have nothing: you bartered it away on the road, or didn't pick it up when you could. Cosimo stays at the gate, you on the doorstep. Neither of you goes in.\\n[i fili del viaggio]"
+ },
+ {
+  "tipo": "finale",
+  "dove": "z7-guado.fav:157",
+  "it": "FINALE — Sei arrivato a casa con le mani vuote, e la casa se n'è accorta.",
+  "en": "FINALE — You came home empty-handed, and the house noticed."
+ }
+]

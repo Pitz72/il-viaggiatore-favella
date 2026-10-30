@@ -1,10 +1,12 @@
 // ====================================================================
-//  Una domanda sì o no, a parte, al centro: S risponde sì, N (o Esc) no.
+//  Una domanda sì o no, a parte, al centro: S risponde sì, N (o Esc) no
+//  (in inglese Y e N; Y vale per sì anche in italiano, come nelle opzioni).
 //  La usa il menu d'avvio per «Nuovo viaggio» quando c'è un viaggio da
 //  continuare. Stesso aspetto dei pannelli; il fuoco entra e torna.
 // ====================================================================
 import { scalaTesto } from "../lib/accessibilita";
 import { useOpzioni } from "../lib/useOpzioni";
+import { tr } from "../lib/lingua";
 import { useEffect, useRef } from "react";
 import { useDialogo } from "./useDialogo";
 import "./opzioni.css";   // l'anello del fuoco dei pulsanti (opz-bottone)
@@ -33,7 +35,7 @@ export default function Domanda({ base, accento = "#f0b77e", domanda, sotto, si,
   useEffect(() => {
     const tasto = (e: KeyboardEvent) => {
       const k = e.key.toLowerCase();
-      if (k === "s") { e.preventDefault(); e.stopPropagation(); onSi(); }
+      if (k === "s" || k === "y") { e.preventDefault(); e.stopPropagation(); onSi(); }
       else if (k === "n") { e.preventDefault(); e.stopPropagation(); onNo(); }
     };
     window.addEventListener("keydown", tasto, true);
@@ -55,7 +57,7 @@ export default function Domanda({ base, accento = "#f0b77e", domanda, sotto, si,
         <p style={{ margin: 0, fontFamily: SERIF, fontSize: "1.45em", color: "#f4ece0" }}>{domanda}</p>
         {sotto && <p className="dm-sotto" style={{ margin: ".6em 0 0", fontFamily: SERIF, fontStyle: "italic", fontSize: ".98em", lineHeight: 1.45, color: "rgba(226,220,208,.74)" }}>{sotto}</p>}
         <div style={{ marginTop: "1.5em", display: "flex", justifyContent: "center", gap: ".8em" }}>
-          <button ref={siRef} type="button" className="opz-bottone" onClick={onSi} style={{ ...bottone, background: accento, color: "#140c06", borderColor: accento }}>{si} <b>S</b></button>
+          <button ref={siRef} type="button" className="opz-bottone" onClick={onSi} style={{ ...bottone, background: accento, color: "#140c06", borderColor: accento }}>{si} <b>{tr("S", "Y")}</b></button>
           <button type="button" className="opz-bottone" onClick={onNo} style={bottone}>{no} <b>N</b></button>
         </div>
       </div>

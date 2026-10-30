@@ -26,6 +26,7 @@ const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 const registro = require("./registro.cjs");
+const lingua = require("./lingua.cjs");
 const salvataggi = require("./salvataggi.cjs");
 const colonnaSonora = require("./colonna-sonora.cjs");
 const aggiornamenti = require("./aggiornamenti.cjs");
@@ -177,6 +178,7 @@ su("registro", (_e, livello, testo) => {
   scrivi(`[pagina] ${String(testo).slice(0, 2000)}`);
 });
 gestisci("registro:percorso", () => registro.percorso());
+su("lingua", (_e, l) => lingua.imposta(l));
 su("esci", () => app.quit());
 gestisci("schermo", () => !!finestra?.isFullScreen());
 gestisci("commuta-schermo", () => {

@@ -1,7 +1,8 @@
 // ====================================================================
 //  «Il Viaggiatore» — orchestratore.
 // --------------------------------------------------------------------
-//  Cinque fasi: i LOGHI (Runtime, FAVELLA; solo all'avvio), l'AVVISO (che
+//  Prima di tutto, finché nessuno ha risposto, la LINGUA (il testo e la voce;
+//  poi si cambiano dalle opzioni). Poi cinque fasi: i LOGHI (Runtime, FAVELLA; solo all'avvio), l'AVVISO (che
 //  cos'è questo gioco), il TRAILER, il GIOCO (shell 16:9 col motore FAVELLA
 //  reale) e la SEQUENZA FINALE (dopo i sei finali della storia: il tramonto,
 //  la frase, i titoli di coda e i loghi; piano 11). Dal menu del trailer si
@@ -19,6 +20,7 @@
 //  direttamente la sequenza finale, per guardarla e fotografarla.
 // ====================================================================
 import { useEffect, useState } from "react";
+import SceltaLingua from "./components/SceltaLingua";
 import Loghi from "./components/Loghi";
 import Avviso from "./components/Avviso";
 import { avviaPreparazione } from "./trailer/paesaggi";
@@ -29,8 +31,11 @@ import AvvisoAggiornamento from "./components/AvvisoAggiornamento";
 import ConfineErrori from "./components/ConfineErrori";
 import type { Salvataggio } from "./lib/salvataggi";
 import type { FinePartita } from "./components/ViaggiatorePlayer";
+import { opzioni } from "./lib/opzioni";
+import { useLingua } from "./lib/useOpzioni";
+import { inInglese } from "./gioco/traduci";
 
-type Fase = "loghi" | "avviso" | "trailer" | "gioco" | "finale";
+type Fase = "lingua" | "loghi" | "avviso" | "trailer" | "gioco" | "finale";
 
 const PROVA = (() => {
   if (!import.meta.env.DEV) return null;
@@ -41,7 +46,9 @@ const PROVA = (() => {
 })();
 
 export default function App() {
-  const [fase, setFase] = useState<Fase>(PROVA ? "finale" : "loghi");
+  const [fase, setFase] = useState<Fase>(PROVA ? "finale" : opzioni().linguaScelta ? "loghi" : "lingua");
+  // le fasi si ridisegnano quando cambia la lingua (dalle opzioni, in qualunque momento)
+  const lingua = useLingua();
   // Dopo aver visto il gioco almeno una volta, il trailer riparte dal finale.
   const [giaVisto, setGiaVisto] = useState(false);
   const [carica, setCarica] = useState<Salvataggio | null>(null);
@@ -70,6 +77,7 @@ export default function App() {
   return (
     <div className="h-full w-full bg-black">
       <ConfineErrori key={ripartenza} onTorna={tornaAllIntro}>
+        {fase === "lingua" && <SceltaLingua onFine={() => setFase("loghi")} />}
         {fase === "loghi" && <Loghi onFine={() => setFase("avviso")} />}
         {fase === "avviso" && <Avviso onFine={() => setFase("trailer")} />}
         {fase === "trailer" && (
@@ -83,7 +91,8 @@ export default function App() {
           />
         )}
         {fase === "gioco" && <GameShell key={partita} carica={carica} onExit={() => setFase("trailer")} onFine={finePartita} />}
-        {fase === "finale" && <SequenzaFinale frase={sequenza.frase} onFine={alMenu} />}
+        {/* la frase del finale viene dal motore, in italiano: in inglese si traduce qui (traduci.ts) */}
+        {fase === "finale" && <SequenzaFinale frase={sequenza.frase && lingua === "en" ? inInglese(sequenza.frase) : sequenza.frase} onFine={alMenu} />}
       </ConfineErrori>
       <AvvisoAggiornamento />
     </div>

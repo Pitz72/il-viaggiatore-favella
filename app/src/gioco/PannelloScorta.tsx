@@ -8,6 +8,8 @@
 //  qui non c'è nessun numero scritto a mano (quanta sete toglie un sorso
 //  lo decide il gioco).
 // ====================================================================
+import { contiInglese, etichettaInglese, inInglese } from "./traduci";
+import { inglese, tr } from "../lib/lingua";
 import { useMemo } from "react";
 import type { Anteprima, StatoMondo } from "../lib/favellaRuntime";
 import { PASTI, previsioni } from "./azioni";
@@ -29,30 +31,31 @@ const Ciotola = () => (
 
 export default function PannelloScorta({ tipo, mondo, anteprima, onScegli, onChiudi }: Props) {
   const p = PASTI[tipo];
+  const en = inglese();
   const { dosi, motivo } = useMemo(() => previsioni(p, mondo, anteprima), [p, mondo, anteprima]);
   const c = mondo.counters;
   return (
-    <div className="vg-pannello" role="group" aria-label={p.titolo}>
+    <div className="vg-pannello" role="group" aria-label={en ? etichettaInglese(p.titolo) : p.titolo}>
       <div className="vg-pannello-testa">
         <span className="vg-pannello-icona">{tipo === "bere" ? <Goccia /> : <Ciotola />}</span>
         <div>
-          <b>{p.titolo}</b>
-          <span>{p.bisogno} {c[p.bisogno] ?? 0} · {p.risorsa} {c[p.risorsa] ?? 0}</span>
+          <b>{en ? etichettaInglese(p.titolo) : p.titolo}</b>
+          <span>{en ? contiInglese(`${p.bisogno} ${c[p.bisogno] ?? 0} · ${p.risorsa} ${c[p.risorsa] ?? 0}`) : `${p.bisogno} ${c[p.bisogno] ?? 0} · ${p.risorsa} ${c[p.risorsa] ?? 0}`}</span>
         </div>
       </div>
       {dosi.length > 0 ? (
         <div className="vg-dosi">
           {dosi.map(({ dose, buona, quanto, motivo: perche }) => (
             <button key={dose.cmd} className="vg-dose" disabled={!buona} onClick={() => onScegli(dose.cmd)}>
-              <span>{dose.etichetta}</span>
-              <small>{buona ? quanto : perche}</small>
+              <span>{en ? etichettaInglese(dose.etichetta) : dose.etichetta}</span>
+              <small>{en ? (buona ? contiInglese(quanto) : inInglese(perche)) : buona ? quanto : perche}</small>
             </button>
           ))}
         </div>
       ) : (
-        <p className="vg-pannello-nota">{motivo || "Niente da fare, adesso."}</p>
+        <p className="vg-pannello-nota">{motivo ? (en ? inInglese(motivo) : motivo) : tr("Niente da fare, adesso.", "Nothing to do, right now.")}</p>
       )}
-      <button className="vg-chip vg-chiudi" onClick={onChiudi} aria-label="Chiudi">✕</button>
+      <button className="vg-chip vg-chiudi" onClick={onChiudi} aria-label={tr("Chiudi", "Close")}>✕</button>
     </div>
   );
 }

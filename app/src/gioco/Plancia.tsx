@@ -18,6 +18,8 @@
 // ====================================================================
 import type { AzioniContesto, StatoMondo } from "../lib/favellaRuntime";
 import { chipDiContesto, type Cosa } from "./azioni";
+import { etichettaInglese, nome } from "./traduci";
+import { inglese, tr } from "../lib/lingua";
 
 /** Il posto di ciascuna direzione nella rosa (le aree della griglia in gioco.css) e la sua freccia. */
 const ROSA: Record<string, { area: string; freccia: string }> = {
@@ -51,49 +53,52 @@ export default function Plancia({ mondo, azioni, aperta, pannello, puoAnnullare,
   const prima = nellaRosa[0]?.dir ?? fuori[0]?.dir;
   const presenti = mondo.present ?? [];
   const gesti = chipDiContesto(azioni);
+  // in inglese le uscite, le cose e i gesti si mostrano tradotti; i comandi che partono restano quelli del motore
+  const en = inglese();
+  const n = (s: string) => (en ? nome(s) : s);
 
   const uscita = (dir: string, verso: string, area: string, freccia: string) => (
     <button key={dir} className={`vg-chip vg-uscita vg-verso-${area}`} style={{ gridArea: area }} data-fuoco={dir === prima ? "" : undefined}
-      onClick={() => onManda(dir)} aria-label={`${dir}: ${verso}`}>
-      <span className="vg-freccia" aria-hidden="true">{freccia}</span><em aria-hidden="true">{verso}</em>
+      onClick={() => onManda(dir)} aria-label={`${n(dir)}: ${n(verso)}`}>
+      <span className="vg-freccia" aria-hidden="true">{freccia}</span><em aria-hidden="true">{n(verso)}</em>
     </button>
   );
 
   return (
     <>
       <div className="vg-plancia">
-        <section className="vg-zona vg-zona-andare" aria-label="Andare">
-          <span className="vg-etichetta" aria-hidden="true">andare</span>
+        <section className="vg-zona vg-zona-andare" aria-label={tr("Andare", "Go")}>
+          <span className="vg-etichetta" aria-hidden="true">{tr("andare", "go")}</span>
           <div className="vg-rosa">
             {nellaRosa.map((u) => uscita(u.dir, u.verso, ROSA[u.dir].area, ROSA[u.dir].freccia))}
             {fuori.slice(0, ANGOLI.length).map((u, i) => uscita(u.dir, u.verso, ANGOLI[i], FRECCE_ALTRE[u.dir] ?? "·"))}
-            <button className="vg-chip vg-guarda" style={{ gridArea: "c" }} onClick={() => onManda("guarda")} aria-label="guarda: guardati intorno">guarda</button>
+            <button className="vg-chip vg-guarda" style={{ gridArea: "c" }} onClick={() => onManda("guarda")} aria-label={tr("guarda: guardati intorno", "look: look around you")}>{tr("guarda", "look")}</button>
           </div>
         </section>
 
-        <section className="vg-zona vg-zona-qui" aria-label="Qui">
-          <span className="vg-etichetta" aria-hidden="true">qui</span>
+        <section className="vg-zona vg-zona-qui" aria-label={tr("Qui", "Here")}>
+          <span className="vg-etichetta" aria-hidden="true">{tr("qui", "here")}</span>
           <div className="vg-zona-corpo">
             {presenti.length === 0 && <span className="vg-nessuno" aria-hidden="true">—</span>}
             {presenti.map((p) => (
               <button key={p.id} className={"vg-chip" + (p.persona ? " vg-persona" : "") + (aperta === p.id ? " vg-attivo" : "")} aria-expanded={aperta === p.id}
                 onClick={(e) => onCosa({ tipo: "qui", id: p.id, nome: p.nome, persona: p.persona, prendibile: p.prendibile }, e.currentTarget)}>
-                {p.persona && <span className="vg-freccia" aria-hidden="true">◉</span>}<span className="vg-chip-testo">{p.nome}</span>
+                {p.persona && <span className="vg-freccia" aria-hidden="true">◉</span>}<span className="vg-chip-testo">{n(p.nome)}</span>
               </button>
             ))}
           </div>
         </section>
 
-        <section className="vg-zona vg-zona-fare" aria-label="Fare">
-          <span className="vg-etichetta" aria-hidden="true">fare</span>
+        <section className="vg-zona vg-zona-fare" aria-label={tr("Fare", "Do")}>
+          <span className="vg-etichetta" aria-hidden="true">{tr("fare", "do")}</span>
           <div className="vg-zona-corpo">
             <button className={"vg-chip vg-verbo" + (pannello === "bere" ? " vg-attivo" : "")} aria-expanded={pannello === "bere"}
-              onClick={(e) => onPannello("bere", e.currentTarget)}><span className="vg-freccia" aria-hidden="true">▸</span>Bevi</button>
+              onClick={(e) => onPannello("bere", e.currentTarget)}><span className="vg-freccia" aria-hidden="true">▸</span>{tr("Bevi", "Drink")}</button>
             <button className={"vg-chip vg-verbo" + (pannello === "mangiare" ? " vg-attivo" : "")} aria-expanded={pannello === "mangiare"}
-              onClick={(e) => onPannello("mangiare", e.currentTarget)}><span className="vg-freccia" aria-hidden="true">▸</span>Mangia</button>
+              onClick={(e) => onPannello("mangiare", e.currentTarget)}><span className="vg-freccia" aria-hidden="true">▸</span>{tr("Mangia", "Eat")}</button>
             {gesti.map((g) => (
               <button key={g.chiave} className="vg-chip vg-verbo" onClick={() => onManda(g.cmd)}>
-                <span className="vg-freccia" aria-hidden="true">▸</span><span className="vg-chip-testo">{g.etichetta}</span>
+                <span className="vg-freccia" aria-hidden="true">▸</span><span className="vg-chip-testo">{en ? etichettaInglese(g.etichetta) : g.etichetta}</span>
               </button>
             ))}
           </div>
@@ -101,19 +106,19 @@ export default function Plancia({ mondo, azioni, aperta, pannello, puoAnnullare,
       </div>
 
       <div className="vg-servizio">
-        <button className="vg-chip vg-tenue" onClick={() => onManda("inventario")} aria-label="inventario: che cosa porti, a parole">inventario</button>
-        <button className="vg-chip vg-tenue" onClick={() => onManda("stato")} aria-label="stato: come stai, a parole">stato</button>
-        <button className="vg-chip vg-tenue" onClick={() => onManda("aspetta")} aria-label="aspetta: lascia passare un po' di tempo">aspetta</button>
+        <button className="vg-chip vg-tenue" onClick={() => onManda("inventario")} aria-label={tr("inventario: che cosa porti, a parole", "inventory: what you carry, in words")}>{tr("inventario", "inventory")}</button>
+        <button className="vg-chip vg-tenue" onClick={() => onManda("stato")} aria-label={tr("stato: come stai, a parole", "status: how you are, in words")}>{tr("stato", "status")}</button>
+        <button className="vg-chip vg-tenue" onClick={() => onManda("aspetta")} aria-label={tr("aspetta: lascia passare un po' di tempo", "wait: let some time pass")}>{tr("aspetta", "wait")}</button>
         {conMappa && (
-          <button className="vg-chip vg-tenue vg-mappa-chip" onClick={onMappa} aria-label="Mappa: dove sei e la strada fatta (M)">
+          <button className="vg-chip vg-tenue vg-mappa-chip" onClick={onMappa} aria-label={tr("Mappa: dove sei e la strada fatta (M)", "Map: where you are and the road behind you (M)")}>
             <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M3.5 6.5 L9 4.5 L15 6.5 L20.5 4.5 V17.5 L15 19.5 L9 17.5 L3.5 19.5 Z M9 4.5 V17.5 M15 6.5 V19.5" />
             </svg>
-            mappa <span className="vg-tasto" aria-hidden="true">M</span>
+            {tr("mappa", "map")} <span className="vg-tasto" aria-hidden="true">M</span>
           </button>
         )}
-        <button className="vg-chip vg-tenue vg-annulla-chip" onClick={onAnnulla} disabled={!puoAnnullare} aria-label="Annulla l'ultima mossa (Ctrl+Z)">
-          ↶ annulla <span className="vg-tasto" aria-hidden="true">Ctrl+Z</span>
+        <button className="vg-chip vg-tenue vg-annulla-chip" onClick={onAnnulla} disabled={!puoAnnullare} aria-label={tr("Annulla l'ultima mossa (Ctrl+Z)", "Undo the last move (Ctrl+Z)")}>
+          ↶ {tr("annulla", "undo")} <span className="vg-tasto" aria-hidden="true">Ctrl+Z</span>
         </button>
       </div>
     </>

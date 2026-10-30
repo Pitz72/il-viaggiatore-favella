@@ -54,6 +54,11 @@ export const TAPPE: readonly Tappa[] = [
   { zona: "z7", luogo: "guado", nome: "Il guado" },
   { zona: ACQUAMORTA, luogo: "soglia", nome: "Acquamorta" },
 ];
+/** I nomi delle tappe nella lingua dei testi: in inglese li dà Mappa.tsx (per zona), e la disposizione e il foglio li
+ *  misurano e li scrivono così; null, quelli italiani qui sopra. */
+let nomiTappe: Readonly<Record<string, string>> | null = null;
+export function nomiDelleTappe(n: Readonly<Record<string, string>> | null) { nomiTappe = n; }
+const nomeTappa = (t: Tappa) => nomiTappe?.[t.zona] ?? t.nome;
 
 export interface LuogoSulFoglio {
   id: string;
@@ -477,7 +482,7 @@ interface Lati { tappe: Map<string, Posto>; luoghi: Map<string, Posto>; qui: Map
  *  contro tutti gli altri nomi già fermi. */
 function latiDi(nodi: Nodo[], nomi: Map<string, string>, posti: Map<string, Punto>, tracciati: Map<string, Tracciato>): Lati {
   const tappaDi = new Map(TAPPE.filter((t) => posti.has(t.luogo)).map((t) => [t.luogo, t]));
-  const nascosto = (id: string) => tappaDi.get(id)?.nome.toLowerCase() === (nomi.get(id) ?? "").toLowerCase();
+  const nascosto = (id: string) => { const t = tappaDi.get(id); return !!t && nomeTappa(t).toLowerCase() === (nomi.get(id) ?? "").toLowerCase(); };
   const raggio = (id: string) => (tappaDi.has(id) ? RAGGIO_TAPPA : RAGGIO_QUI);
   const segni = nodi.map((n) => ({ id: n.id, s: scatolaSegno(posti.get(n.id)!.cx, posti.get(n.id)!.cy, raggio(n.id)) }));
   const strade = new Secchi([...tracciati.values()].flatMap((t) => fitti(t.campioni)));
@@ -509,7 +514,7 @@ function latiDi(nodi: Nodo[], nomi: Map<string, string>, posti: Map<string, Punt
     }
   };
   const tappe = new Map<string, Posto>(), luoghi = new Map<string, Posto>(), qui = new Map<string, Posto>();
-  piazza([...tappaDi.values()].map((t) => ({ id: t.luogo, chiave: `tappa:${t.luogo}`, w: larghezzaTappa(t.nome), r: RAGGIO_TAPPA, tappa: true })), false, tappe, true);
+  piazza([...tappaDi.values()].map((t) => ({ id: t.luogo, chiave: `tappa:${t.luogo}`, w: larghezzaTappa(nomeTappa(t)), r: RAGGIO_TAPPA, tappa: true })), false, tappe, true);
   const voci = nodi.filter((n) => !nascosto(n.id)).map((n) => ({ id: n.id, chiave: n.id, w: larghezzaNome(nomi.get(n.id) ?? n.id), r: tappaDi.has(n.id) ? RAGGIO_TAPPA : RAGGIO, tappa: false }));
   piazza(voci, true, luoghi, true);
   // il nome del luogo dove sei: col segno grande, contro tutti i nomi fermi tranne il suo
@@ -553,7 +558,8 @@ export function disposizione(carta: Carta, zonaDi?: (luogo: string) => string | 
   const luoghi = carta.luoghi.filter((l) => l.x !== null && l.y !== null);
   const nodi: Nodo[] = luoghi.map((l) => ({ id: l.id, x: l.x!, y: l.y! }));
   const nomi = new Map(luoghi.map((l) => [l.id, l.nome]));
-  const firma = luoghi.map((l) => `${l.id}:${l.x},${l.y}:${zonaDi?.(l.id) ?? ""}:${l.nome}`).join("|") + "#" + carta.strade.map((s) => s.join("-")).join("|");
+  const firma = luoghi.map((l) => `${l.id}:${l.x},${l.y}:${zonaDi?.(l.id) ?? ""}:${l.nome}`).join("|") + "#" + carta.strade.map((s) => s.join("-")).join("|")
+    + "#" + JSON.stringify(nomiTappe);
   if (ultima && ultima.firma === firma) return ultima;
   const tappaDi = new Set(TAPPE.map((t) => t.luogo));
   const raggioDi = (id: string) => (tappaDi.has(id) ? RAGGIO_TAPPA : RAGGIO_QUI);
@@ -641,7 +647,7 @@ export function foglio(carta: Carta, visitate: readonly string[], qui: string | 
     const { cx, cy } = disp.posti.get(t.luogo)!;
     const raggiunta = visti.has(t.luogo) || (!!zonaDi && t.zona !== ACQUAMORTA && [...visti].some((id) => zonaDi(id) === t.zona));
     const posto = disp.lati.tappe.get(t.luogo) ?? CANDIDATI[0];
-    return { id: t.luogo, zona: t.zona, nome: t.nome, cx, cy, raggiunta, lato: posto.lato, scosta: posto.scosta,
+    return { id: t.luogo, zona: t.zona, nome: nomeTappa(t), cx, cy, raggiunta, lato: posto.lato, scosta: posto.scosta,
       anello: anello(cx, cy, RAGGIO_TAPPA, t.luogo), verso: quiP && t.luogo !== qui ? versoA(quiP, { cx, cy }) : null };
   });
   const mostrati = [...conPosto.values()].filter((l) => visti.has(l.id) || noti.has(l.id))
@@ -649,7 +655,8 @@ export function foglio(carta: Carta, visitate: readonly string[], qui: string | 
     .sort((a, b) => a.p.cy - b.p.cy || a.p.cx - b.p.cx);                // dall'alto, da sinistra: l'ordine in cui si leggono
   const luoghi: LuogoSulFoglio[] = mostrati.map(({ l, p }) => {
     const stato: StatoLuogo = l.id === qui ? "qui" : visti.has(l.id) ? "visto" : "noto";
-    const nomeNascosto = tappaDi.get(l.id)?.nome.toLowerCase() === l.nome.toLowerCase();
+    const tappa = tappaDi.get(l.id);
+    const nomeNascosto = !!tappa && nomeTappa(tappa).toLowerCase() === l.nome.toLowerCase();
     const posto = (stato === "qui" ? disp.lati.qui.get(l.id) : disp.lati.luoghi.get(l.id)) ?? CANDIDATI[0];
     const raggio = tappaDi.has(l.id) ? RAGGIO_TAPPA : stato === "qui" ? RAGGIO_QUI : RAGGIO;
     return { id: l.id, nome: l.nome, cx: p.cx, cy: p.cy, stato, raggio, nomeNascosto, lato: posto.lato, scosta: posto.scosta };

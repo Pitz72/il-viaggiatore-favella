@@ -20,6 +20,7 @@ contextBridge.exposeInMainWorld("viaggiatoreDesktop", {
   },
   esitoAutoverifica: (ok, dettagli) => ipcRenderer.send("autoverifica", !!ok, String(dettagli)),
   registro: (livello, testo) => ipcRenderer.send("registro", String(livello), String(testo)),
+  lingua: (l) => ipcRenderer.send("lingua", String(l)),
 
   salvataggi: {
     elenco: () => ipcRenderer.invoke("salvataggi:elenco"),

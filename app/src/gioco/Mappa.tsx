@@ -20,7 +20,9 @@ import type { Carta } from "../lib/favellaRuntime";
 import { ROOM_ZONE, ZONE_THEME, type ZoneKey } from "../data/viaggiatore";
 import { movimentoRidotto, scalaTesto } from "../lib/accessibilita";
 import { useOpzioni } from "../lib/useOpzioni";
-import { CARTIGLIO, CORPO_NOME, CORPO_TAPPA, RAGGIO_TAPPA, ROSA, ancoreTerreno, descrizione, disposizione, foglio, postoNome, type Classe } from "./foglio";
+import { CARTIGLIO, CORPO_NOME, CORPO_TAPPA, RAGGIO_TAPPA, ROSA, TAPPE, ancoreTerreno, descrizione, disposizione, foglio, nomiDelleTappe, postoNome, type Classe } from "./foglio";
+import { nome } from "./traduci";
+import { tr } from "../lib/lingua";
 import { scalaStampa, useStampa } from "./stampa";
 import { DURATA_APRE, DURATA_CHIUDE, suonaCarta } from "./suonoCarta";
 import { useDialogo } from "./useDialogo";
@@ -32,8 +34,15 @@ const MONO = "'Source Code Pro', ui-monospace, monospace";
 const DOPPIE: ReadonlySet<Classe> = new Set(["statale", "provinciale"]);
 /** Le quattro tacche del mirino attorno al luogo dove sei, da r 7 a r 9,5. */
 const MIRINO: readonly [number, number, number, number][] = [[0, -7, 0, -9.5], [7, 0, 9.5, 0], [0, 7, 0, 9.5], [-7, 0, -9.5, 0]];
-/** «L'invaso morto · il sale» → «L'invaso morto» */
-const nomeBreve = (z: ZoneKey) => ZONE_THEME[z].nome.split(" · ")[0];
+/** «L'invaso morto · il sale» → «L'invaso morto» (in inglese, «The dead reservoir») */
+const nomeBreve = (z: ZoneKey, en = false) => (en ? ZONE_THEME[z].nomeEn : ZONE_THEME[z].nome).split(" · ")[0];
+
+/** La carta coi nomi nella lingua dei testi, e le tappe coi loro nomi inglesi: foglio.ts li misura e li scrive così, perché
+ *  nessun nome ne tocchi un altro anche in inglese. La usano la mappa e la preparazione della stampa (ViaggiatorePlayer). */
+export function cartaNellaLingua(carta: Carta, en: boolean): Carta {
+  nomiDelleTappe(en ? Object.fromEntries(TAPPE.map((t) => [t.zona, t.zona in ZONE_THEME ? nomeBreve(t.zona as ZoneKey, true) : t.nome])) : null);
+  return en ? { ...carta, luoghi: carta.luoghi.map((l) => ({ ...l, nome: nome(l.nome) })) } : carta;
+}
 
 interface Props {
   base: number;
@@ -69,11 +78,13 @@ export default function Mappa({ base, accento = "#f0b77e", carta, visitate, qui,
   }, []);
   const dialogo = useDialogo<HTMLDivElement>(chiudi);
 
-  const f = useMemo(() => foglio(carta, visitate, qui, (id) => ROOM_ZONE[id]), [carta, visitate, qui]);
+  const en = opz.lingua === "en";
+  const cartaL = useMemo(() => cartaNellaLingua(carta, en), [carta, en]);
+  const f = useMemo(() => foglio(cartaL, visitate, qui, (id) => ROOM_ZONE[id]), [cartaL, visitate, qui]);
   // la stampa fisica (stampa.ts): pronta da prima, di solito; se no arriva con una dissolvenza. Con il contrasto alto non c'è.
   // Il cartiglio e quello che la carta dice a voce seguono la stampa: senza, è la mappa e basta.
   const alto = opz.contrasto === "alto";
-  const ancore = useMemo(() => (alto ? null : ancoreTerreno(disposizione(carta, (id) => ROOM_ZONE[id]))), [carta, alto]);
+  const ancore = useMemo(() => (alto ? null : ancoreTerreno(disposizione(cartaL, (id) => ROOM_ZONE[id]))), [cartaL, alto]);
   const { stampa, tardiva } = useStampa(ancore, scalaStampa(opz.qualita));
   const faseArrivo = useRef<string | null>(null);
   if (!tardiva) faseArrivo.current = null;
@@ -87,7 +98,8 @@ export default function Mappa({ base, accento = "#f0b77e", carta, visitate, qui,
   /** Il disegno del foglio. Durante l'apertura se ne vedono tre copie, ciascuna con la sua piega (le definizioni dei filtri stanno fuori, una volta sola). */
   const disegno = (
     <svg viewBox={`0 0 ${f.larghezza} ${f.altezza}`} width="100%" role={fase === "apre" ? undefined : "img"} aria-hidden={fase === "apre" ? true : undefined}
-      aria-label={`${stampa ? "La carta fisica della provincia" : "La mappa"}. Sei a ${d.qui ?? "un luogo sconosciuto"}. Luoghi in cui sei stato: ${d.visti.length + (d.qui ? 1 : 0)}.`}>
+      aria-label={tr(`${stampa ? "La carta fisica della provincia" : "La mappa"}. Sei a ${d.qui ?? "un luogo sconosciuto"}. Luoghi in cui sei stato: ${d.visti.length + (d.qui ? 1 : 0)}.`,
+        `${stampa ? "The physical map of the province" : "The map"}. You are at ${d.qui ?? "an unknown place"}. Places you have been: ${d.visti.length + (d.qui ? 1 : 0)}.`)}>
       <rect className="mp-carta-fondo" width={f.larghezza} height={f.altezza} />
       {stampa && <image className={"mp-stampa" + (dissolvi ? " mp-tardiva" : "")} href={stampa.url} width={f.larghezza} height={f.altezza} preserveAspectRatio="none" />}
       <rect className="mp-carta-grana" width={f.larghezza} height={f.altezza} filter="url(#mp-grana)" />
@@ -103,8 +115,8 @@ export default function Mappa({ base, accento = "#f0b77e", carta, visitate, qui,
         <g className="mp-cartiglio" aria-hidden="true">
           <rect x={CARTIGLIO.x0} y={CARTIGLIO.y0} width={CARTIGLIO.x1 - CARTIGLIO.x0} height={CARTIGLIO.y1 - CARTIGLIO.y0} />
           <rect className="mp-cartiglio-filo" x={CARTIGLIO.x0 + 3} y={CARTIGLIO.y0 + 3} width={CARTIGLIO.x1 - CARTIGLIO.x0 - 6} height={CARTIGLIO.y1 - CARTIGLIO.y0 - 6} />
-          <text className="mp-cartiglio-titolo" x={(CARTIGLIO.x0 + CARTIGLIO.x1) / 2} y={CARTIGLIO.y0 + 30} textAnchor="middle">CARTA FISICA</text>
-          <text className="mp-cartiglio-sotto" x={(CARTIGLIO.x0 + CARTIGLIO.x1) / 2} y={CARTIGLIO.y0 + 47} textAnchor="middle">della provincia</text>
+          <text className="mp-cartiglio-titolo" x={(CARTIGLIO.x0 + CARTIGLIO.x1) / 2} y={CARTIGLIO.y0 + 30} textAnchor="middle">{tr("CARTA FISICA", "PHYSICAL MAP")}</text>
+          <text className="mp-cartiglio-sotto" x={(CARTIGLIO.x0 + CARTIGLIO.x1) / 2} y={CARTIGLIO.y0 + 47} textAnchor="middle">{tr("della provincia", "of the province")}</text>
         </g>
       )}
 
@@ -166,7 +178,7 @@ export default function Mappa({ base, accento = "#f0b77e", carta, visitate, qui,
   );
 
   return (
-    <div ref={dialogo} tabIndex={-1} role="dialog" aria-modal="true" aria-label="Mappa"
+    <div ref={dialogo} tabIndex={-1} role="dialog" aria-modal="true" aria-label={tr("Mappa", "Map")}
       // M chiude come Esc; l'evento si ferma qui, se no il gioco, che ascolta M più su, la riaprirebbe subito
       onKeyDown={(e) => { if (e.key.toLowerCase() === "m" && !e.ctrlKey && !e.altKey && !e.metaKey) { e.preventDefault(); e.stopPropagation(); chiudi(); } }}
       className={"mp-velo mp-" + fase}
@@ -193,14 +205,14 @@ export default function Mappa({ base, accento = "#f0b77e", carta, visitate, qui,
           background: "linear-gradient(180deg, rgba(20,18,24,.97), rgba(10,10,14,.98))", border: "1px solid rgba(255,255,255,.08)", boxShadow: "0 2em 6em rgba(0,0,0,.6)" }}>
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: "1.5em" }}>
           <div>
-            <p style={{ margin: 0, fontFamily: MONO, fontSize: ".85em", letterSpacing: ".3em", textTransform: "uppercase", color: accento }}>il viaggio</p>
-            <h2 style={{ margin: ".2em 0 0", fontFamily: SERIF, fontWeight: 500, fontSize: "2em", color: "#f4ece0", letterSpacing: "-.01em" }}>Mappa</h2>
+            <p style={{ margin: 0, fontFamily: MONO, fontSize: ".85em", letterSpacing: ".3em", textTransform: "uppercase", color: accento }}>{tr("il viaggio", "the journey")}</p>
+            <h2 style={{ margin: ".2em 0 0", fontFamily: SERIF, fontWeight: 500, fontSize: "2em", color: "#f4ece0", letterSpacing: "-.01em" }}>{tr("Mappa", "Map")}</h2>
           </div>
           <p className="mp-dove" style={{ flex: 1, margin: "0 0 .35em", textAlign: "right" }}>
-            {d.qui && <>sei qui · <b>{d.qui}</b></>}
-            {zonaQui && nomeBreve(zonaQui).toLowerCase() !== d.qui?.toLowerCase() && <span> · {nomeBreve(zonaQui)}</span>}
+            {d.qui && <>{tr("sei qui", "you are here")} · <b>{d.qui}</b></>}
+            {zonaQui && nomeBreve(zonaQui, en).toLowerCase() !== d.qui?.toLowerCase() && <span> · {nomeBreve(zonaQui, en)}</span>}
           </p>
-          <button type="button" className="opz-bottone mp-chiudi" onClick={chiudi} aria-label="Chiudi la mappa">chiudi <b>Esc</b></button>
+          <button type="button" className="opz-bottone mp-chiudi" onClick={chiudi} aria-label={tr("Chiudi la mappa", "Close the map")}>{tr("chiudi", "close")} <b>Esc</b></button>
         </div>
 
         {fase === "apre" ? (
@@ -219,26 +231,35 @@ export default function Mappa({ base, accento = "#f0b77e", carta, visitate, qui,
 
         {/* chi non vede il foglio: dove sei, le tappe, dov'è passato, che cosa si vede */}
         <ul className="sr-only">
+          {en ? (<>
+            {d.qui && <li>You are at {d.qui}.</li>}
+            {d.tappe.length > 0 && <li>The stages of the journey: {d.tappe.map((t) => t.replace(", raggiunta", ", reached")).join("; ")}.</li>}
+            {d.visti.length > 0 && <li>You have already been to: {d.visti.join(", ")}.</li>}
+            {d.noti.length > 0 && <li>Visible from there, but not visited: {d.noti.join(", ")}.</li>}
+            {stampa && <li>A physical map, printed before the drought: hills to the west, with Serra Alta, plain to the east, the lake where
+              the reservoir is now, the Torrente Morto running past the ford, the sea to the north-east.{conSale ? " On the lake you have marked the salt in pen." : ""}</li>}
+          </>) : (<>
           {d.qui && <li>Sei a {d.qui}.</li>}
           {d.tappe.length > 0 && <li>Le tappe del viaggio: {d.tappe.join("; ")}.</li>}
           {d.visti.length > 0 && <li>Ci sei già stato: {d.visti.join(", ")}.</li>}
           {d.noti.length > 0 && <li>Da lì si vedono, ma non ci sei stato: {d.noti.join(", ")}.</li>}
           {stampa && <li>La carta è fisica, stampata prima della secca: colline a ovest, con la Serra Alta, pianura a est, il lago dove ora c'è
             l'invaso, il Torrente Morto che passa al guado, il mare a nord-est.{conSale ? " Sul lago hai segnato a penna il sale." : ""}</li>}
+          </>)}
         </ul>
 
         <div style={{ marginTop: ".9em", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1.4em", flexShrink: 0 }}>
           {/* la legenda, con gli stessi segni del foglio: l'anello della tappa pieno o tratteggiato, il mirino di «sei qui», il
               tondo vuoto del luogo che si vede, il tratteggio della strada */}
           <div className="mp-legenda" aria-hidden="true">
-            <span><svg viewBox="-10 -10 20 20"><circle className="mp-l-filo" r="7.5" strokeWidth="1.8" /><circle className="mp-l-pieno" r="3" /></svg>tappa raggiunta</span>
-            <span><svg viewBox="-10 -10 20 20"><circle className="mp-l-filo" r="7.5" strokeWidth="1.2" strokeDasharray="3 2.5" /><circle className="mp-l-filo" r="3.2" strokeWidth="1" /></svg>tappa da raggiungere</span>
-            <span><svg viewBox="-10 -10 20 20"><path className="mp-l-filo" strokeWidth="1.4" d={MIRINO.map(([x0, y0, x1, y1]) => `M${x0} ${y0}L${x1} ${y1}`).join("")} /><circle className="mp-l-rosso" r="5" /></svg>sei qui</span>
-            <span><svg viewBox="-10 -10 20 20"><circle className="mp-l-pieno" r="4" /></svg>ci sei stato</span>
-            <span><svg viewBox="-10 -10 20 20"><circle className="mp-l-filo" r="3.6" strokeWidth="1.3" /></svg>si vede, non ci sei stato</span>
-            <span><svg viewBox="-10 -10 20 20"><path className="mp-l-filo" strokeWidth="1.5" strokeDasharray="2.4 4" strokeLinecap="round" d="M-9 0H9" /></svg>strada non ancora percorsa</span>
+            <span><svg viewBox="-10 -10 20 20"><circle className="mp-l-filo" r="7.5" strokeWidth="1.8" /><circle className="mp-l-pieno" r="3" /></svg>{tr("tappa raggiunta", "stage reached")}</span>
+            <span><svg viewBox="-10 -10 20 20"><circle className="mp-l-filo" r="7.5" strokeWidth="1.2" strokeDasharray="3 2.5" /><circle className="mp-l-filo" r="3.2" strokeWidth="1" /></svg>{tr("tappa da raggiungere", "stage to reach")}</span>
+            <span><svg viewBox="-10 -10 20 20"><path className="mp-l-filo" strokeWidth="1.4" d={MIRINO.map(([x0, y0, x1, y1]) => `M${x0} ${y0}L${x1} ${y1}`).join("")} /><circle className="mp-l-rosso" r="5" /></svg>{tr("sei qui", "you are here")}</span>
+            <span><svg viewBox="-10 -10 20 20"><circle className="mp-l-pieno" r="4" /></svg>{tr("ci sei stato", "been there")}</span>
+            <span><svg viewBox="-10 -10 20 20"><circle className="mp-l-filo" r="3.6" strokeWidth="1.3" /></svg>{tr("si vede, non ci sei stato", "in sight, not visited")}</span>
+            <span><svg viewBox="-10 -10 20 20"><path className="mp-l-filo" strokeWidth="1.5" strokeDasharray="2.4 4" strokeLinecap="round" d="M-9 0H9" /></svg>{tr("strada non ancora percorsa", "road not yet travelled")}</span>
           </div>
-          <span className="mp-nota" style={{ textAlign: "right" }}>M o Esc chiudono</span>
+          <span className="mp-nota" style={{ textAlign: "right" }}>{tr("M o Esc chiudono", "M or Esc to close")}</span>
         </div>
       </div>
     </div>

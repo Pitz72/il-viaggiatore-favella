@@ -38,6 +38,7 @@ export const ROOM_ZONE: Record<string, ZoneKey> = {
 
 export interface ZoneTheme {
   nome: string;          // etichetta della zona, mostrata nella scheda LUOGO
+  nomeEn: string;        // la stessa, in inglese
   accent: string;        // colore-guida (titoli, barre, bordi)
   accentSoft: string;    // rgba tenue per glow/sfondi
   bg: string;            // gradiente di fondo dello schermo di gioco
@@ -46,21 +47,21 @@ export interface ZoneTheme {
 // La palette di ogni zona. Scelta personale: ogni tappa ha il suo clima
 // cromatico, dal teal polveroso della partenza al cremisi del guado.
 export const ZONE_THEME: Record<ZoneKey, ZoneTheme> = {
-  z0: { nome: "—", accent: "#e0a96d", accentSoft: "rgba(224,169,109,0.16)",
+  z0: { nome: "—", nomeEn: "—", accent: "#e0a96d", accentSoft: "rgba(224,169,109,0.16)",
         bg: "radial-gradient(120% 120% at 50% -10%, #0c0a07 0%, #05060b 60%, #03040a 100%)" },
-  z1: { nome: "Acquaviva · il capolinea", accent: "#7fc8bd", accentSoft: "rgba(127,200,189,0.15)",
+  z1: { nome: "Acquaviva · il capolinea", nomeEn: "Acquaviva · the end of the line", accent: "#7fc8bd", accentSoft: "rgba(127,200,189,0.15)",
         bg: "radial-gradient(120% 120% at 70% -10%, #0a1614 0%, #05090e 55%, #03060b 100%)" },
-  z2: { nome: "La piana · il sole", accent: "#e6a85a", accentSoft: "rgba(230,168,90,0.16)",
+  z2: { nome: "La piana · il sole", nomeEn: "The plain · the sun", accent: "#e6a85a", accentSoft: "rgba(230,168,90,0.16)",
         bg: "radial-gradient(130% 120% at 60% -15%, #1a1206 0%, #0b0a07 55%, #05050a 100%)" },
-  z3: { nome: "L'invaso morto · il sale", accent: "#a9dbe4", accentSoft: "rgba(169,219,228,0.14)",
+  z3: { nome: "L'invaso morto · il sale", nomeEn: "The dead reservoir · the salt", accent: "#a9dbe4", accentSoft: "rgba(169,219,228,0.14)",
         bg: "radial-gradient(120% 120% at 50% -10%, #0d1820 0%, #070d14 55%, #04070d 100%)" },
-  z4: { nome: "La statale · il casello", accent: "#f2ad45", accentSoft: "rgba(242,173,69,0.15)",
+  z4: { nome: "La statale · il casello", nomeEn: "The main road · the tollbooth", accent: "#f2ad45", accentSoft: "rgba(242,173,69,0.15)",
         bg: "radial-gradient(120% 120% at 40% -10%, #14130f 0%, #0a0a0c 55%, #050609 100%)" },
-  z5: { nome: "Il paese · i vivi", accent: "#ec7d54", accentSoft: "rgba(236,125,84,0.17)",
+  z5: { nome: "Il paese · i vivi", nomeEn: "The village · the living", accent: "#ec7d54", accentSoft: "rgba(236,125,84,0.17)",
         bg: "radial-gradient(130% 120% at 65% -12%, #1c0f08 0%, #0d0805 55%, #060509 100%)" },
-  z6: { nome: "Le colline · la pietra", accent: "#9aa6e0", accentSoft: "rgba(154,166,224,0.15)",
+  z6: { nome: "Le colline · la pietra", nomeEn: "The hills · the stone", accent: "#9aa6e0", accentSoft: "rgba(154,166,224,0.15)",
         bg: "radial-gradient(120% 120% at 45% -10%, #0e1020 0%, #080912 55%, #050610 100%)" },
-  z7: { nome: "Il guado · il fratello", accent: "#df5f78", accentSoft: "rgba(223,95,120,0.16)",
+  z7: { nome: "Il guado · il fratello", nomeEn: "The ford · the brother", accent: "#df5f78", accentSoft: "rgba(223,95,120,0.16)",
         bg: "radial-gradient(120% 120% at 50% -8%, #1a0b12 0%, #0c060d 55%, #060509 100%)" },
 };
 

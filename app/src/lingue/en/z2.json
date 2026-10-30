@@ -1,0 +1,235 @@
+[
+ {
+  "tipo": "descrizione",
+  "dove": "z2-piana.fav:28",
+  "it": "Un tratto di strada provinciale, dritto e nudo. Niente ombra, niente acqua, il catrame che ondeggia di calore. Si tira avanti a OVEST, verso una masseria; o si torna a EST, al paese.",
+  "en": "A stretch of provincial road, straight and bare. No shade, no water, the tarmac shimmering with heat. You push on WEST, towards a farmstead; or back EAST, to the village."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z2-piana.fav:31",
+  "it": "Una masseria bassa, intonaco scrostato. Nel cortile, un trattore senza gomme. A NORD il pozzo, dove un uomo monta la guardia. A SUD una serra di vetro. A OVEST una sterrata punta verso il bianco di un invaso. A EST si torna sulla provinciale.",
+  "en": "A low farmstead, its plaster peeling. In the courtyard, a tractor with no tyres. NORTH, the well, where a man stands guard. SOUTH, a glass greenhouse. WEST, a dirt track heads for the white of a reservoir. EAST, back to the provincial road."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z2-piana.fav:34",
+  "it": "Un pozzo vero, di quelli che pescano in fondo. SAVERIO siede sul bordo di pietra, le gambe verso il buio, gli occhi che ti misurano. (PARLA CON Saverio; poi ATTINGI per prendere acqua.) Si torna a SUD.",
+  "en": "A real well, the kind that draws from deep down. SAVERIO sits on the stone rim, legs towards the dark, eyes sizing you up. (TALK TO Saverio; then DRAW WATER to take some.) Back SOUTH."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z2-piana.fav:35",
+  "it": "Un pozzo vero, ma il fondo ormai è fango e la corda è sfilacciata. SAVERIO siede sul bordo di pietra, le gambe verso il buio. (Se sei a secco, ATTINGI: aspettando, il fondo dà ancora un poco.) Si torna a SUD.",
+  "en": "A real well, but the bottom is mud now and the rope is fraying. SAVERIO sits on the stone rim, legs towards the dark. (If you're running dry, DRAW WATER: if you wait, the bottom still gives a little.) Back SOUTH."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z2-piana.fav:38",
+  "it": "Una serra dai vetri opachi di salsedine. Tra i filari secchi, casse di conserve ancora buone. Ma un CANE rognoso le fa la guardia, il pelo ritto. (Col cibo lo puoi distrarre: GETTA CIBO. Oppure ATTACCA il cane.) Si torna a NORD.",
+  "en": "A greenhouse, its glass clouded with salt. Among the dry rows, crates of preserves still good. But a mangy DOG guards them, its hackles up. (You can distract it with food: THROW FOOD. Or ATTACK the dog.) Back NORTH."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z2-piana.fav:39",
+  "it": "Una serra dai vetri opachi di salsedine. Tra i filari secchi, le casse di conserve aperte. Del cane, solo le impronte nella polvere. Si torna a NORD.",
+  "en": "A greenhouse, its glass clouded with salt. Among the dry rows, the crates of preserves, open. Of the dog, only its prints in the dust. Back NORTH."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z2-piana.fav:40",
+  "it": "Una serra dai vetri opachi di salsedine. Tra i filari secchi, le casse di conserve aperte, e il CANE steso su un fianco accanto a quelle che difendeva. Si torna a NORD.",
+  "en": "A greenhouse, its glass clouded with salt. Among the dry rows, the crates of preserves, open, and the DOG lying on its side beside the ones it was defending. Back NORTH."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z2-piana.fav:43",
+  "it": "La sterrata scollina e, sotto, si apre la conca accecante dell'invaso prosciugato.",
+  "en": "The dirt track crests a rise and, below, the blinding basin of the drained reservoir opens out."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z2-piana.fav:50",
+  "it": "Il sole picchia sulla nuca. La gola si secca a vista d'occhio.",
+  "en": "The sun beats on the back of your neck. Your throat dries by the minute."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z2-piana.fav:56",
+  "it": "Un uomo con la nuca bruciata e le mani grosse. Non se n'è andato perché il pozzo è suo padre e suo figlio. Diffida di tutto ciò che cammina.",
+  "en": "A man with a sunburnt neck and thick hands. He hasn't left because the well is his father and his son. He mistrusts anything that walks."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Saverio",
+  "dove": "z2-piana.fav:59",
+  "it": "«Cosa vuoi.» Non è una domanda.",
+  "en": "“What do you want.” It isn't a question."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Saverio",
+  "dove": "z2-piana.fav:60",
+  "it": "«Tu. Il secchio sai dov'è.»",
+  "en": "“You. You know where the bucket is.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z2-piana.fav:62",
+  "it": "Ti lascio del cibo. Ne hai più bisogno tu di me.",
+  "en": "I'll leave you some food. You need it more than I do."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z2-piana.fav:63",
+  "it": "Mi serve acqua dal pozzo.",
+  "en": "I need water from the well."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z2-piana.fav:64",
+  "it": "Niente.",
+  "en": "Nothing."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Saverio",
+  "dove": "z2-piana.fav:66",
+  "it": "Prende il cibo e se lo infila nella camicia, senza ringraziare. «Il pozzo. Una tanica, non di più: la corda è vecchia.»",
+  "en": "He takes the food and tucks it into his shirt, without a word of thanks. “The well. One jerrycan, no more: the rope's old.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z2-piana.fav:67",
+  "it": "Grazie.",
+  "en": "Thanks."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Saverio",
+  "dove": "z2-piana.fav:71",
+  "it": "«Acqua.» Sputa di lato. «Tutti vogliono acqua. Portami un motivo per fidarmi, e ne parliamo.»",
+  "en": "“Water.” He spits to one side. “Everyone wants water. Bring me a reason to trust you, and we'll talk.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Saverio",
+  "dove": "z2-piana.fav:72",
+  "it": "«Acqua.» Stavolta non sputa. Accenna alla corda con il mento. «Cala piano, la corda è vecchia. Quel che viene su è tuo.»",
+  "en": "“Water.” This time he doesn't spit. He points his chin at the rope. “Let it down slowly, the rope's old. Whatever comes up is yours.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z2-piana.fav:73",
+  "it": "Capito.",
+  "en": "Understood."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z2-piana.fav:77",
+  "it": "Saverio fa un cenno secco. Cali la tanica: risale mezza piena di acqua vera, fredda di fondo. Ne hai per il tratto che viene.",
+  "en": "Saverio gives a curt nod. You lower the jerrycan: it comes back up half full of real water, cold from the deep. Enough for the stretch ahead."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z2-piana.fav:78",
+  "it": "Cali la tanica e aspetti, a lungo, che il fondo si rischiari. Viene su poca acqua, grigia di fango, ma si beve. Saverio ti guarda aspettare e non dice niente.",
+  "en": "You lower the jerrycan and wait, a long time, for the bottom to clear. A little water comes up, grey with mud, but it's drinkable. Saverio watches you wait and says nothing."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z2-piana.fav:79",
+  "it": "Il pozzo ormai dà solo fango. Finché la tanica tiene, non vale la pena di aspettare il fondo.",
+  "en": "The well gives only mud now. While the jerrycan lasts, it isn't worth waiting for the bottom."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z2-piana.fav:80",
+  "it": "«Giù le mani» ti ferma Saverio, senza alzarsi. «Questo pozzo non è una fontana.»",
+  "en": "“Hands off,” Saverio says, stopping you without getting up. “This well isn't a fountain.”"
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z2-piana.fav:85",
+  "it": "Un cane rimasto solo e tornato mezzo selvatico, le costole in vista. Difende le casse come fossero cuccioli.",
+  "en": "A dog left on its own and gone half wild, its ribs showing. It guards the crates as if they were its pups."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z2-piana.fav:86",
+  "it": "Il cane è steso su un fianco tra le casse, le costole ferme. Difendeva l'unica cosa che gli era rimasta.",
+  "en": "The dog lies on its side among the crates, its ribs still. It was defending the only thing it had left."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z2-piana.fav:89",
+  "it": "Tieni il cane a distanza con la lama e affondi quando si lancia.",
+  "en": "You hold the dog at bay with the blade and thrust when it lunges."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z2-piana.fav:90",
+  "it": "Lo colpisci a mani nude. Ringhia, ti morde, non basta mai.",
+  "en": "You hit it with your bare hands. It snarls, it bites you, it's never enough."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z2-piana.fav:91",
+  "it": "Il cane non è più un problema.",
+  "en": "The dog isn't a problem any more."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z2-piana.fav:99",
+  "it": "Strappi un boccone e lo lanci lontano tra i filari. Il cane scatta dietro l'odore e sparisce. Dalle casse prendi le conserve buone, quante ne porti.",
+  "en": "You tear off a mouthful and throw it far down the rows. The dog darts after the smell and disappears. From the crates you take the good preserves, as many as you can carry."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z2-piana.fav:100",
+  "it": "Non hai niente da lanciargli. Il cane lo sente, e ringhia più forte.",
+  "en": "You have nothing to throw it. The dog senses it, and snarls louder."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z2-piana.fav:101",
+  "it": "Non c'è niente da gettare, o nessuno a cui interessi.",
+  "en": "There's nothing to throw, or nobody it would interest."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z2-piana.fav:106",
+  "it": "Il cane ti azzanna il polpaccio.",
+  "en": "The dog sinks its teeth into your calf."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z2-piana.fav:107",
+  "it": "Stavolta i denti vanno a fondo.",
+  "en": "This time the teeth go deep."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z2-piana.fav:108",
+  "it": "Il cane si pianta tra te e le casse, il muso basso, i denti scoperti. Un passo ancora, e morde.",
+  "en": "The dog plants itself between you and the crates, muzzle low, teeth bared. One more step, and it bites."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z2-piana.fav:111",
+  "it": "Il cane crolla su un fianco con un guaìto e resta giù. Tra le casse, le conserve sono tue: cibo per giorni.",
+  "en": "The dog collapses on its side with a yelp and stays down. Among the crates, the preserves are yours: food for days."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z2-piana.fav:115",
+  "it": "La sterrata punta verso una conca bianca, senza un filo d'ombra. Con quest'acqua è suicidio. Riempi la tanica al pozzo.",
+  "en": "The dirt track heads for a white basin without a scrap of shade. With this much water it's suicide. Fill the jerrycan at the well."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z2-piana.fav:119",
+  "it": "Ti fermi sul crinale. Davanti, l'invaso morto luccica di sale fino all'orizzonte. Acquaviva è alle spalle, la piana è attraversata. Si scende a OVEST, nella conca.",
+  "en": "You stop on the ridge. Ahead, the dead reservoir glitters with salt to the horizon. Acquaviva is behind you, the plain is crossed. The way down is WEST, into the basin."
+ }
+]

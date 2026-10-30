@@ -1,0 +1,527 @@
+[
+ {
+  "tipo": "descrizione",
+  "dove": "z4-statale.fav:40",
+  "it": "La condotta sbuca su una rampa che sale alla superstrada: due corsie di asfalto crepato, i guardrail mangiati dalla ruggine. Il silenzio è diverso, qui: di cose costruite e lasciate. A OVEST il casello; a EST la condotta da cui sei venuto.",
+  "en": "The culvert comes out on a ramp that climbs to the dual carriageway: two lanes of cracked tarmac, the crash barriers eaten by rust. The silence is different here: a silence of things built and left behind. WEST, the tollbooth; EAST, the culvert you came through."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z4-statale.fav:43",
+  "it": "Un casello di pedaggio in mezzo al nulla, la sbarra abbassata. VITO ci sta dietro come dietro un bancone, un tubo di ferro a portata di mano. (PARLA CON Vito; oppure ATTACCA Vito, se proprio.) A NORD una piazzola di sosta, a SUD una vecchia area di servizio. A OVEST la strada prosegue, oltre la sbarra. A EST la rampa.",
+  "en": "A tollbooth in the middle of nowhere, the barrier down. VITO stands behind it as if behind a counter, an iron pipe within reach. (TALK TO Vito; or ATTACK Vito, if you must.) NORTH, a lay-by; SOUTH, an old service area. WEST, the road goes on, past the barrier. EAST, the ramp."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z4-statale.fav:44",
+  "it": "Un casello di pedaggio in mezzo al nulla, la sbarra alzata. VITO è seduto a terra contro il palo, il tubo lontano dalla mano. A NORD una piazzola di sosta, a SUD una vecchia area di servizio. A OVEST la strada prosegue. A EST la rampa.",
+  "en": "A tollbooth in the middle of nowhere, the barrier up. VITO is sitting on the ground against the post, the pipe far from his hand. NORTH, a lay-by; SOUTH, an old service area. WEST, the road goes on. EAST, the ramp."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z4-statale.fav:45",
+  "it": "Un casello di pedaggio in mezzo al nulla, la sbarra alzata. VITO ci sta dietro come dietro un bancone e ti guarda passare. A NORD una piazzola di sosta, a SUD una vecchia area di servizio. A OVEST la strada prosegue, oltre la sbarra. A EST la rampa.",
+  "en": "A tollbooth in the middle of nowhere, the barrier up. VITO stands behind it as if behind a counter and watches you go by. NORTH, a lay-by; SOUTH, an old service area. WEST, the road goes on, past the barrier. EAST, the ramp."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z4-statale.fav:48",
+  "it": "Una piazzola di sosta con due auto sventrate, gli sportelli spalancati, i sedili ridotti alle molle. Si torna a SUD, al casello.",
+  "en": "A lay-by with two gutted cars, the doors wide open, the seats stripped to the springs. Back SOUTH, to the tollbooth."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z4-statale.fav:51",
+  "it": "Una stazione di servizio diroccata, le pompe a secco da anni; la porta del ripostiglio è sfondata. A OVEST una GRATA chiude un sottopasso di servizio. A NORD il casello.",
+  "en": "A ruined petrol station, the pumps dry for years; the storeroom door has been kicked in. WEST, a GRATE closes off a service underpass. NORTH, the tollbooth."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z4-statale.fav:54",
+  "it": "Un budello di cemento che passa sotto la carreggiata, l'acqua piovana raggrumata sul fondo. Puzza di chiuso, ma porta dall'altra parte senza dover salutare nessuno. A NORD si risale, oltre il casello. A EST la grata.",
+  "en": "A narrow concrete passage that runs under the carriageway, old rainwater clotted on the bottom. It smells musty, but it takes you to the other side without having to say hello to anyone. NORTH, you come back up, past the tollbooth. EAST, the grate."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z4-statale.fav:57",
+  "it": "La statale ridiscende dolce verso una conca di tetti. Un filo di fumo sale da un camino: il paese, ancora vivo. Per la prima volta da giorni, in lontananza, voci.",
+  "en": "The main road runs gently down again towards a basin of rooftops. A thread of smoke rises from a chimney: the village, still alive. For the first time in days, in the distance, voices."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z4-statale.fav:58",
+  "it": "La statale ridiscende dolce verso una conca di tetti. Un filo di fumo sale da un camino: il paese, ancora vivo. Per la prima volta da giorni, in lontananza, voci. Sul guardrail siede IMMA, un sacchetto di tela tra i piedi. (PARLA CON Imma.)",
+  "en": "The main road runs gently down again towards a basin of rooftops. A thread of smoke rises from a chimney: the village, still alive. For the first time in days, in the distance, voices. IMMA sits on the crash barrier, a little cloth bag between her feet. (TALK TO Imma.)"
+ },
+ {
+  "tipo": "posto",
+  "dove": "z4-statale.fav:70",
+  "it": "Nel vano portaoggetti della prima auto, una STECCA di sigarette.",
+  "en": "In the glovebox of the first car, a CARTON of cigarettes."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z4-statale.fav:71",
+  "it": "Una stecca di sigarette, ancora sigillata. Sulla strada c'è chi darebbe acqua, per fumare.",
+  "en": "A carton of cigarettes, still sealed. On the road there are people who'd give water for a smoke."
+ },
+ {
+  "tipo": "posto",
+  "dove": "z4-statale.fav:76",
+  "it": "Sotto il sedile della seconda, una PISTOLA.",
+  "en": "Under the seat of the second car, a PISTOL."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z4-statale.fav:77",
+  "it": "Una pistola vera, pesante, scarica da chissà quanto. Non spara: ma chi se la trova puntata addosso non può saperlo. (Con questa in mano, MINACCIA chi ti sbarra la strada.)",
+  "en": "A real pistol, heavy, unloaded for who knows how long. It doesn't fire: but whoever finds it pointed at them can't know that. (With this in hand, THREATEN whoever blocks your way.)"
+ },
+ {
+  "tipo": "posto",
+  "dove": "z4-statale.fav:82",
+  "it": "Sul tappetino, una scatola di CARTUCCE.",
+  "en": "On the floor mat, a box of CARTRIDGES."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z4-statale.fav:83",
+  "it": "Cartucce di un altro calibro: nella pistola non entrano. Restano metallo da barattare, o un peso in tasca.",
+  "en": "Cartridges of another calibre: they don't fit the pistol. They're still metal to barter, or a weight in your pocket."
+ },
+ {
+  "tipo": "posto",
+  "dove": "z4-statale.fav:88",
+  "it": "Sul sedile posteriore, un GIUBBOTTO pesante.",
+  "en": "On the back seat, a heavy JACKET."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z4-statale.fav:89",
+  "it": "Un giubbotto di pelle screpolata, caldo. Le notti, più avanti, si faranno fredde; o lo si baratta.",
+  "en": "A jacket of cracked leather, warm. The nights, further on, will turn cold; or you can barter it."
+ },
+ {
+  "tipo": "posto",
+  "dove": "z4-statale.fav:95",
+  "it": "Nel ripostiglio, una tanica di BENZINA.",
+  "en": "In the storeroom, a jerrycan of PETROL."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z4-statale.fav:96",
+  "it": "Una tanica di benzina, mezza piena. A piedi non serve a niente; ma c'è chi la vorrebbe, e paga.",
+  "en": "A jerrycan of petrol, half full. On foot it's no use at all; but some people would want it, and pay."
+ },
+ {
+  "tipo": "posto",
+  "dove": "z4-statale.fav:101",
+  "it": "Appesa a un gancio del ripostiglio, una CHIAVE inglese.",
+  "en": "Hanging from a hook in the storeroom, a SPANNER."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z4-statale.fav:102",
+  "it": "Una chiave inglese grossa, buona per i bulloni e, all'occorrenza, per le teste.",
+  "en": "A big spanner, good for bolts and, if need be, for heads."
+ },
+ {
+  "tipo": "posto",
+  "dove": "z4-statale.fav:107",
+  "it": "Su uno scaffale, una scatola di MEDICINE da un kit di pronto soccorso.",
+  "en": "On a shelf, a box of MEDICINE from a first-aid kit."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z4-statale.fav:108",
+  "it": "Una scatola di medicine da pronto soccorso: febbre, infezioni. Possono rimetterti in sesto te (CURATI), o salvare qualcuno che sta peggio di te.",
+  "en": "A box of first-aid medicine: fever, infections. It can set you back on your feet (TREAT YOURSELF), or save someone worse off than you."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z4-statale.fav:112",
+  "it": "Una grata di ferro avvitata all'imbocco del sottopasso. La ruggine ha mangiato i bulloni: con l'attrezzo giusto, cede.",
+  "en": "An iron grate bolted over the mouth of the underpass. Rust has eaten the bolts: with the right tool, it will give."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z4-statale.fav:117",
+  "it": "Un foglio unto con uno scarabocchio di Vito: «pagato». Nel paese oltre la discesa, dicono, la carta di Vito vale ancora qualcosa.",
+  "en": "A greasy sheet of paper with Vito's scrawl: “paid”. In the village beyond the descent, they say, Vito's paper is still worth something."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z4-statale.fav:122",
+  "it": "Un uomo largo, affabile come sa esserlo chi tiene il coltello dalla parte del manico. Ti chiama «amico» prima ancora di sapere come ti chiami.",
+  "en": "A broad man, affable as only a man holding the knife by the handle can be. He calls you “friend” before he even knows your name."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z4-statale.fav:123",
+  "it": "Vito è seduto a terra contro la sbarra, il tubo lontano dalla mano. Respira, ma non si alza.",
+  "en": "Vito is sitting on the ground against the barrier, the pipe far from his hand. He's breathing, but he doesn't get up."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Vito",
+  "dove": "z4-statale.fav:126",
+  "it": "Respira storto, seduto contro la sbarra, una mano sulle costole. Non ti guarda. «Hai vinto tu. Va', che qui non c'è più niente da prendere.»",
+  "en": "He breathes raggedly, sitting against the barrier, a hand on his ribs. He doesn't look at you. “You've won. Go on, there's nothing left here to take.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Vito",
+  "dove": "z4-statale.fav:127",
+  "it": "Non si alza. «Tu.» Lo dice come si dice il nome di un cane che ha morso. «Hai tirato fuori un ferro vuoto, e io ti ho detto calma, calma, come a un bambino.» Si passa una mano sulla faccia. «Lo racconto, adesso, a chi passa. Lo racconto bene.» Una pausa. «La sbarra è su. Passa, e non fermarti.»",
+  "en": "He doesn't get up. “You.” He says it the way you'd say the name of a dog that has bitten someone. “You pulled an empty gun, and I said easy, easy, the way you do to a child.” He passes a hand over his face. “I tell it now, to whoever comes through. I tell it well.” A pause. “The barrier's up. Go through, and don't stop.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Vito",
+  "dove": "z4-statale.fav:128",
+  "it": "«Tu.» Non si alza. «La sbarra è su. Passa, e non fermarti.»",
+  "en": "“You.” He doesn't get up. “The barrier's up. Go through, and don't stop.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Vito",
+  "dove": "z4-statale.fav:129",
+  "it": "«Adesso vuoi parlare?» Stringe il tubo. «Paga, e forse ci ripenso.»",
+  "en": "“Now you want to talk?” He grips the pipe. “Pay, and maybe I'll think again.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Vito",
+  "dove": "z4-statale.fav:130",
+  "it": "«Strada privata, amico. La mia.» Batte il tubo sul bancone, due colpi, senza cattiveria. «Si paga il pedaggio: qualcosa di buono, e passi. Sennò, dietrofront.»",
+  "en": "“Private road, friend. Mine.” He raps the pipe on the counter, twice, without malice. “There's a toll to pay: something good, and you go through. Otherwise, about turn.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Vito",
+  "dove": "z4-statale.fav:131",
+  "it": "«L'amico mio. La sbarra è su, per te: passa quando vuoi.»",
+  "en": "“My friend. The barrier's up, for you: go through whenever you like.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z4-statale.fav:133",
+  "it": "Ti do la stecca di sigarette.",
+  "en": "I'll give you the carton of cigarettes."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z4-statale.fav:134",
+  "it": "Ti do la tanica di benzina.",
+  "en": "I'll give you the jerrycan of petrol."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z4-statale.fav:135",
+  "it": "Ti lascio tre d'acqua.",
+  "en": "I'll leave you three water."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z4-statale.fav:136",
+  "it": "Cosa c'è, oltre il casello?",
+  "en": "What's beyond the tollbooth?"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z4-statale.fav:137",
+  "it": "Niente, per ora.",
+  "en": "Nothing, for now."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Vito",
+  "dove": "z4-statale.fav:139",
+  "it": "Soppesa quello che gli dai, poi solleva la sbarra quel tanto che basta. «Affare fatto.» Scarabocchia un foglio e lo lascia sul bancone. «Il LASCIAPASSARE, se lo vuoi: agli altri dici che hai già pagato.»",
+  "en": "He weighs what you give him, then lifts the barrier just enough. “It's a deal.” He scrawls on a sheet of paper and leaves it on the counter. “The PERMIT, if you want it: you tell the others you've already paid.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z4-statale.fav:140",
+  "it": "Grazie.",
+  "en": "Thanks."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Vito",
+  "dove": "z4-statale.fav:142",
+  "it": "«Il paese? Gente ancora ce n'è: l'osteria, il mercato. Ciro ti spenna, ma onesto.» Si fa serio un istante. «Oltre le colline, no. Dicono che al guado ci sta uno che rimanda indietro tutti. Io là non ci vado: non ci guadagno niente.»",
+  "en": "“The village? There are still people there: the tavern, the market. Ciro will fleece you, but he's honest about it.” He turns serious for a moment. “Beyond the hills, no. They say at the ford there's a man who turns everyone back. I don't go there: there's nothing in it for me.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Vito",
+  "dove": "z4-statale.fav:143",
+  "it": "«Il paese, sì. Ci arrivi, se paghi.» Alza le spalle. «Il resto non è merce mia.»",
+  "en": "“The village, yes. You'll get there, if you pay.” He shrugs. “The rest isn't mine to sell.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z4-statale.fav:144",
+  "it": "Torniamo a noi.",
+  "en": "Back to business."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z4-statale.fav:147",
+  "it": "Infili la chiave inglese sui bulloni arrugginiti e fai leva: cedono uno a uno, con uno stridìo. La grata si apre sul buio del sottopasso.",
+  "en": "You fit the spanner on the rusted bolts and lean on it: they give one by one, with a screech. The grate opens onto the dark of the underpass."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z4-statale.fav:148",
+  "it": "La grata è già aperta.",
+  "en": "The grate is already open."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z4-statale.fav:150",
+  "it": "Una grata di ferro chiude il sottopasso. È avvitata, ma la ruggine la rende debole: ci vorrebbe un attrezzo per far leva.",
+  "en": "An iron grate closes off the underpass. It's bolted on, but the rust has made it weak: you'd need a tool to lever it."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z4-statale.fav:154",
+  "it": "Cali la chiave inglese di traverso. Vito incassa, ringhia, ti viene addosso.",
+  "en": "You bring the spanner down sideways. Vito takes it, snarls, comes at you."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z4-statale.fav:155",
+  "it": "Affondi il coltello dove puoi. Lui è grosso e non molla.",
+  "en": "You sink the knife in wherever you can. He's big and he doesn't let go."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z4-statale.fav:156",
+  "it": "Lo colpisci a mani nude: è come picchiare un muro che picchia a sua volta.",
+  "en": "You hit him with your bare hands: it's like punching a wall that punches back."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z4-statale.fav:157",
+  "it": "Vito è a terra. La strada è libera.",
+  "en": "Vito is down. The road is clear."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z4-statale.fav:161",
+  "it": "Vito cala il tubo di ferro. Senti le costole protestare.",
+  "en": "Vito brings the iron pipe down. You feel your ribs protest."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z4-statale.fav:162",
+  "it": "Un colpo ti prende in pieno: il sapore del ferro in bocca.",
+  "en": "A blow catches you full on: the taste of iron in your mouth."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z4-statale.fav:164",
+  "it": "Vito arretra contro la sbarra, la schiena che scivola giù. «…e va'. Va' pure, allora.» Non si rialza. La strada è aperta, e ti è costata.",
+  "en": "Vito backs into the barrier, his back sliding down it. “…so go. Go on, then.” He doesn't get up again. The road is open, and it's cost you."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z4-statale.fav:168",
+  "it": "Tiri fuori la pistola e gliela punti in faccia. Vito non sa che è scarica: per un attimo lo legge nei tuoi occhi, poi alza le mani piano e solleva la sbarra. «Calma, calma. Passa. Passa pure.» Mentre passi, ti fissa la faccia per ricordarsela.",
+  "en": "You pull out the pistol and point it in his face. Vito doesn't know it's empty: for a moment he reads it in your eyes, then slowly raises his hands and lifts the barrier. “Easy, easy. Go through. Go on through.” As you pass, he stares at your face so as to remember it."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z4-statale.fav:169",
+  "it": "La sbarra è già su. Inutile fare il duro adesso.",
+  "en": "The barrier's already up. No point playing the hard man now."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z4-statale.fav:170",
+  "it": "Minacciare Vito a mani vuote è il modo più rapido per prenderle.",
+  "en": "Threatening Vito empty-handed is the quickest way to take a beating."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z4-statale.fav:173",
+  "it": "Vito si alza e appoggia una mano sulla sbarra. «Di là non si passa gratis. Lo sai come funziona.»",
+  "en": "Vito gets up and rests a hand on the barrier. “Nobody goes that way for free. You know how it works.”"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z4-statale.fav:178",
+  "it": "Apri la scatola, prendi quel che serve. Il dolore si allenta, le forze tornano un poco.",
+  "en": "You open the box, take what you need. The pain eases, your strength comes back a little."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z4-statale.fav:179",
+  "it": "Stai abbastanza in forze. Sprecare le medicine adesso sarebbe stupido: c'è chi potrebbe averne più bisogno.",
+  "en": "You're strong enough. Wasting the medicine now would be stupid: someone else might need it more."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z4-statale.fav:180",
+  "it": "Non hai medicine con cui curarti.",
+  "en": "You have no medicine to treat yourself with."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z4-statale.fav:189",
+  "it": "Una donna sui cinquant'anni, tutta tendini dentro una camicia da uomo. Una scarpa slacciata, che non si china ad allacciare. Guarda la statale, non te.",
+  "en": "A woman of about fifty, all sinew inside a man's shirt. One shoe untied, and she doesn't bend to tie it. She is watching the main road, not you."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z4-statale.fav:190",
+  "it": "Una donna sui cinquant'anni, tutta tendini dentro una camicia da uomo. La scarpa, adesso, è allacciata, e ha il colore di chi ha mangiato.",
+  "en": "A woman of about fifty, all sinew inside a man's shirt. The shoe is tied now, and she has the colour of someone who has eaten."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Imma",
+  "dove": "z4-statale.fav:193",
+  "it": "Mastica con calma, il piatto tra i gomiti. «Per oggi ho detto abbastanza. Se vuoi sapere del paese, chiedi a Rosaria.»",
+  "en": "She chews slowly, the plate between her elbows. “I've said enough for today. If you want to know about the village, ask Rosaria.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Imma",
+  "dove": "z4-statale.fav:194",
+  "it": "«Allora?» Aspetta, le mani sulle ginocchia.",
+  "en": "“Well?” She waits, hands on her knees."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Imma",
+  "dove": "z4-statale.fav:195",
+  "it": "Ti guarda lo zaino prima della faccia, e capisce. «Tu non ne hai. Si vede da come cammini.» Quasi si scusa.",
+  "en": "She looks at your pack before your face, and understands. “You haven't got any. I can tell by the way you walk.” She almost apologises."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Imma",
+  "dove": "z4-statale.fav:196",
+  "it": "Non alza subito la testa. «Non ti chiedo l'acqua: in paese qualcuno ne dà sempre. Mi serve da mangiare.» Poi ti guarda, e vede come ti tieni lo stomaco. «Sì, lo so. Anche tu.»",
+  "en": "She doesn't raise her head straight away. “I'm not asking you for water: in the village someone always gives some. What I need is food.” Then she looks at you, and sees how you're holding your stomach. “Yes, I know. You too.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Imma",
+  "dove": "z4-statale.fav:197",
+  "it": "Non alza subito la testa. «Non ti chiedo l'acqua: in paese qualcuno ne dà sempre. Mi serve da mangiare.» Ti guarda, senza chiedere scusa. «Sono tre giorni che mi tengo in piedi con la saliva.»",
+  "en": "She doesn't raise her head straight away. “I'm not asking you for water: in the village someone always gives some. What I need is food.” She looks at you, without apologising. “For three days I've been keeping myself on my feet with spit.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z4-statale.fav:199",
+  "it": "Tieni, mangia.",
+  "en": "Here, eat."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z4-statale.fav:200",
+  "it": "È l'ultimo che ho. Tieni.",
+  "en": "It's the last I've got. Here."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z4-statale.fav:201",
+  "it": "Chi sei?",
+  "en": "Who are you?"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z4-statale.fav:202",
+  "it": "Com'è il paese?",
+  "en": "What's the village like?"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z4-statale.fav:203",
+  "it": "Non posso. Mi dispiace.",
+  "en": "I can't. I'm sorry."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z4-statale.fav:204",
+  "it": "Il vicolo di cui parlavi…",
+  "en": "The alley you were talking about…"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z4-statale.fav:205",
+  "it": "Ti lascio stare.",
+  "en": "I'll leave you be."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Imma",
+  "dove": "z4-statale.fav:207",
+  "it": "Prende quello che le dai con tutte e due le mani e mangia come si mangia dopo tre giorni: guardando solo ciò che ha davanti. Poi si china, finalmente, e allaccia la scarpa. «Alla Rosaria ci arrivo prima di te.» Raccoglie il sacchetto. «Non so dirti cosa le racconterò. Ma per ora ho la bocca piena.»",
+  "en": "She takes what you give her with both hands and eats the way you eat after three days: looking only at what's in front of her. Then she bends down, at last, and ties her shoe. “I'll reach Rosaria before you do.” She picks up her bag. “I can't tell you what I'll tell her. But for now my mouth's full.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z4-statale.fav:208",
+  "it": "…",
+  "en": "…"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Imma",
+  "dove": "z4-statale.fav:210",
+  "it": "È un boccone, e lo sa. Ne mangia metà, per farlo durare, e l'altra metà se la mette in tasca. Si china ad allacciare la scarpa. «Alla Rosaria ci arrivo prima di te.» Ti guarda, una volta sola. «L'ultimo non lo dà quasi nessuno. Quello, in paese, si viene a sapere.»",
+  "en": "It's a mouthful, and she knows it. She eats half, to make it last, and puts the other half in her pocket. She bends to tie her shoe. “I'll reach Rosaria before you do.” She looks at you, just once. “Hardly anyone gives away their last. That gets known, in the village.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Imma",
+  "dove": "z4-statale.fav:213",
+  "it": "«Lo so.» Non è un rimprovero. «Lo dicono tutti, e quasi tutti hanno ragione.» Torna a guardare la statale. Se ci ripensi, è qui.",
+  "en": "“I know.” It isn't a reproach. “Everyone says so, and nearly everyone's right.” She goes back to watching the main road. If you change your mind, she's here."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Imma",
+  "dove": "z4-statale.fav:216",
+  "it": "«Imma. Sono di giù, dal vicolo dietro la piazzetta.» Muove il mento verso la conca di tetti. «Sono andata a vedere se oltre il casello c'era ancora qualcosa. C'è la statale.» Ti guarda la bisaccia, la tanica. «Tu vai dall'altra parte, o torni. Non si capisce.»",
+  "en": "“Imma. I'm from down there, the alley behind the little square.” She juts her chin towards the basin of rooftops. “I went to see if there was still anything past the tollbooth. There's the main road.” She looks at your satchel, your jerrycan. “You're going the other way, or you're going back. I can't tell.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z4-statale.fav:217",
+  "it": "E il casello?",
+  "en": "And the tollbooth?"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Imma",
+  "dove": "z4-statale.fav:220",
+  "it": "«Vito.» Lo dice come si dice il tempo. «All'andata guardava altrove. Al ritorno mi ha preso il pane che mi restava e mi ha chiamata sorella.»",
+  "en": "“Vito.” She says it the way you'd mention the weather. “On the way out he looked the other way. On the way back he took the bread I had left and called me sister.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Imma",
+  "dove": "z4-statale.fav:223",
+  "it": "«Il paese tiene.» Conta sulle dita. «Rosaria ti mette a sedere, se arrivi pulito. Se arrivi con qualcosa addosso, ti serve in piedi: la statale parla più in fretta di chi la cammina.» Una pausa. «E il ragazzo della piazzetta ti chiederà di portarlo via. Digli di sì o di no, ma subito. Ha già aspettato abbastanza per tre.»",
+  "en": "“The village is holding out.” She counts on her fingers. “Rosaria will sit you down, if you arrive clean. If you arrive with something on you, she'll serve you standing: the main road talks faster than the people walking it.” A pause. “And the boy in the little square will ask you to take him away. Tell him yes or no, but straight away. He's already waited long enough for three.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Imma",
+  "dove": "z4-statale.fav:226",
+  "it": "«Pasquale? Quello con la febbre.» Posa il cucchiaio. «Non l'ho mai sentito lamentarsi. È questo che mi fa paura.»",
+  "en": "“Pasquale? The one with the fever.” She puts down her spoon. “I've never heard him complain. That's what frightens me.”"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z4-statale.fav:235",
+  "it": "Ti fermi dove la strada cambia voce. La mano va da sola alla tasca del biglietto, e lì resta.",
+  "en": "You stop where the road changes voice. Your hand goes by itself to the pocket with the note, and stays there."
+ }
+]

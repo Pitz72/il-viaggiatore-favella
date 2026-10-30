@@ -10,13 +10,15 @@
 //  Tastiera: le frecce da un medaglione all'altro (su e giù fra le
 //  famiglie), Inizio e Fine; Esc chiude. Un medaglione solo ha il fuoco
 //  (tabindex mobile), e il fuoco non disegna il riquadro del browser.
+//  I testi nella lingua di adesso: il catalogo li ha nelle due (gioco/trofei.ts).
 // ====================================================================
 import { useEffect, useMemo, useRef, useState } from "react";
 import { scalaTesto } from "../lib/accessibilita";
 import { useOpzioni } from "../lib/useOpzioni";
 import { ascoltaTrofei, deposito, depositoOra, type Deposito } from "../lib/trofei";
 import { dataLeggibile } from "../lib/salvataggi";
-import { FAMIGLIE, TROFEI, type Famiglia, type Trofeo } from "./trofei";
+import { lingua, tr } from "../lib/lingua";
+import { testiTrofeo, titoloFamiglia, TROFEI, type Famiglia, type Trofeo } from "./trofei";
 import { useDialogo } from "./useDialogo";
 import "./trofei.css";
 
@@ -37,7 +39,9 @@ export const SEGNI: Record<Famiglia, string> = {
 const RIGHE: Famiglia[][] = [["finali"], ["fini"], ["gesti"], ["modi"], ["sfide", "collezione"]];
 const DELLA = (f: Famiglia) => TROFEI.filter((t) => t.famiglia === f);
 const GRIGLIA: Trofeo[][] = RIGHE.map((r) => r.flatMap(DELLA));
-const TITOLO = Object.fromEntries(FAMIGLIE.map((f) => [f.id, f.titolo])) as Record<Famiglia, string>;
+/** I testi di un trofeo e il titolo di una famiglia, nella lingua di adesso. */
+const testi = (t: Trofeo) => testiTrofeo(t, lingua());
+const titolo = (f: Famiglia) => titoloFamiglia(f, lingua());
 
 export function Medaglione({ famiglia, vinto, accento, grande = false }: { famiglia: Famiglia; vinto: boolean; accento: string; grande?: boolean }) {
   return (
@@ -79,6 +83,7 @@ export default function PaginaTrofei({ base, accento = "#f0b77e", onChiudi }: Pr
     GRIGLIA.forEach((riga, r) => riga.forEach((t, c) => { if (t.id === ultimo) setScelto([r, c]); }));
   }, [dep]);
   const t = GRIGLIA[scelto[0]][scelto[1]];
+  const tt = testi(t);
   const quando = vinti[t.id];
 
   const griglia = useRef<HTMLDivElement>(null);
@@ -104,11 +109,11 @@ export default function PaginaTrofei({ base, accento = "#f0b77e", onChiudi }: Pr
     mosse[e.key]();
   };
 
-  const conto = useMemo(() => (dep ? `${quanti} di ${TROFEI.length}` : "…"), [dep, quanti]);
+  const conto = useMemo(() => (dep ? tr(`${quanti} di ${TROFEI.length}`, `${quanti} of ${TROFEI.length}`) : "…"), [dep, quanti, opz.lingua]);
 
   return (
     // le frecce valgono in tutto il pannello: appena aperto, il fuoco è sul pannello e non ancora su un medaglione
-    <div ref={dialogo} tabIndex={-1} role="dialog" aria-modal="true" aria-label="Trofei" onKeyDown={tasti}
+    <div ref={dialogo} tabIndex={-1} role="dialog" aria-modal="true" aria-label={tr("Trofei", "Trophies")} onKeyDown={tasti}
       style={{ ["--tr-acc" as string]: accento, outline: "none", fontSize: base * scalaTesto(opz), position: "absolute", inset: 0, zIndex: 70,
         display: "flex", alignItems: "center", justifyContent: "center",
         background: "rgba(4,4,8,.74)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", animation: "kf-launch .3s ease both", pointerEvents: "auto" }}
@@ -119,34 +124,35 @@ export default function PaginaTrofei({ base, accento = "#f0b77e", onChiudi }: Pr
           background: "linear-gradient(180deg, rgba(20,18,24,.97), rgba(10,10,14,.98))", border: "1px solid rgba(255,255,255,.08)", boxShadow: "0 2em 6em rgba(0,0,0,.6)" }}>
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: "1.5em" }}>
           <div>
-            <p style={{ margin: 0, fontFamily: MONO, fontSize: ".85em", letterSpacing: ".3em", textTransform: "uppercase", color: accento }}>la collezione</p>
-            <h2 style={{ margin: ".2em 0 0", fontFamily: SERIF, fontWeight: 500, fontSize: "2em", color: "#f4ece0", letterSpacing: "-.01em" }}>Trofei</h2>
+            <p style={{ margin: 0, fontFamily: MONO, fontSize: ".85em", letterSpacing: ".3em", textTransform: "uppercase", color: accento }}>{tr("la collezione", "the collection")}</p>
+            <h2 style={{ margin: ".2em 0 0", fontFamily: SERIF, fontWeight: 500, fontSize: "2em", color: "#f4ece0", letterSpacing: "-.01em" }}>{tr("Trofei", "Trophies")}</h2>
           </div>
           <div style={{ flex: 1, maxWidth: "22em", marginBottom: ".45em" }}>
             <p className="tr-conto" style={{ margin: 0, fontFamily: MONO, fontSize: ".85em", letterSpacing: ".12em", color: "#ece5da", textAlign: "right" }}>{conto}</p>
-            <div className="tr-barra" role="progressbar" aria-label="Trofei vinti" aria-valuemin={0} aria-valuemax={TROFEI.length} aria-valuenow={quanti}>
+            <div className="tr-barra" role="progressbar" aria-label={tr("Trofei vinti", "Trophies won")} aria-valuemin={0} aria-valuemax={TROFEI.length} aria-valuenow={quanti}>
               <div style={{ width: `${(quanti / TROFEI.length) * 100}%` }} />
             </div>
           </div>
-          <button type="button" className="opz-bottone tr-chiudi" onClick={onChiudi} aria-label="Chiudi i trofei">chiudi <b>Esc</b></button>
+          <button type="button" className="opz-bottone tr-chiudi" onClick={onChiudi} aria-label={tr("Chiudi i trofei", "Close trophies")}>{tr("chiudi", "close")} <b>Esc</b></button>
         </div>
 
         <div style={{ marginTop: "1.2em", flex: 1, minHeight: 0, display: "grid", gridTemplateColumns: "1fr 22em", columnGap: "2.6em" }}>
-          <div ref={griglia} className="tr-griglia" role="grid" aria-label="I trofei, per famiglia">
+          <div ref={griglia} className="tr-griglia" role="grid" aria-label={tr("I trofei, per famiglia", "Trophies, by family")}>
             {GRIGLIA.map((riga, r) => (
               <div key={r} role="row" className="tr-riga">
                 {RIGHE[r].map((f) => (
                   <div key={f} className="tr-famiglia" style={{ flex: DELLA(f).length }}>
-                    <p className="tr-titolo">{TITOLO[f]}</p>
+                    <p className="tr-titolo">{titolo(f)}</p>
                     <div className="tr-medaglie">
                       {DELLA(f).map((x) => {
                         const c = riga.indexOf(x);
                         const v = !!vinti[x.id];
                         const su = scelto[0] === r && scelto[1] === c;
+                        const xt = testi(x);
                         return (
                           <button key={x.id} type="button" role="gridcell" data-pos={`${r}-${c}`} tabIndex={su ? 0 : -1}
                             className={"tr-medaglia" + (v ? " tr-vinto" : "")} aria-current={su ? "true" : undefined}
-                            aria-label={v ? `${x.nome}, vinto` : `Trofeo nascosto: ${x.accenno}`}
+                            aria-label={v ? tr(`${xt.nome}, vinto`, `${xt.nome}, won`) : tr(`Trofeo nascosto: ${xt.accenno}`, `Hidden trophy: ${xt.accenno}`)}
                             onClick={() => vai(r, c)} onMouseEnter={() => setScelto([r, c])}>
                             <Medaglione famiglia={x.famiglia} vinto={v} accento={accento} />
                           </button>
@@ -161,25 +167,25 @@ export default function PaginaTrofei({ base, accento = "#f0b77e", onChiudi }: Pr
 
           <div className="tr-dettaglio" aria-live="polite">
             <Medaglione famiglia={t.famiglia} vinto={!!quando} accento={accento} grande />
-            <p className="tr-famiglia-nome">{TITOLO[t.famiglia]}</p>
+            <p className="tr-famiglia-nome">{titolo(t.famiglia)}</p>
             {quando ? (
               <>
-                <h3 className="tr-nome">{t.nome}</h3>
-                <p className="tr-frase">{t.frase}</p>
-                <p className="tr-quando">vinto il {dataLeggibile(quando)}</p>
+                <h3 className="tr-nome">{tt.nome}</h3>
+                <p className="tr-frase">{tt.frase}</p>
+                <p className="tr-quando">{tr("vinto il", "won on")} {dataLeggibile(quando)}</p>
               </>
             ) : (
               <>
-                <h3 className="tr-nome tr-coperto">Trofeo nascosto</h3>
-                <p className="tr-frase tr-accenno">{t.accenno}</p>
+                <h3 className="tr-nome tr-coperto">{tr("Trofeo nascosto", "Hidden trophy")}</h3>
+                <p className="tr-frase tr-accenno">{tt.accenno}</p>
               </>
             )}
           </div>
         </div>
 
         <div style={{ marginTop: "1em", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1em", flexShrink: 0 }}>
-          <span className="tr-nota">Un trofeo si vince una volta sola, e resta anche ricominciando.</span>
-          <span className="tr-nota" style={{ textAlign: "right" }}>← → ↑ ↓ scegli · Esc chiude</span>
+          <span className="tr-nota">{tr("Un trofeo si vince una volta sola, e resta anche ricominciando.", "A trophy is won only once, and stays even when you start again.")}</span>
+          <span className="tr-nota" style={{ textAlign: "right" }}>{tr("← → ↑ ↓ scegli · Esc chiude", "← → ↑ ↓ choose · Esc closes")}</span>
         </div>
       </div>
     </div>

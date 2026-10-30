@@ -19,14 +19,22 @@
 //  Desktop: file veri in Documenti/Il Viaggiatore/Salvataggi (IPC col processo
 //  principale, scrittura atomica e copia di riserva). Browser: localStorage,
 //  con esportazione/importazione di file.
+//  Ciò che si mostra (i nomi dei posti, le date, il tempo di gioco, gli errori)
+//  è nella lingua di adesso (lib/lingua.ts); i file restano gli stessi.
 // ====================================================================
 import type { Blocco } from "../gioco/testo";
 import type { PartitaSalvata } from "./favellaRuntime";
 import type { Sfide } from "../gioco/trofei";
 import { VERSIONE } from "./versione";
-import { AUTOMATICI, nomeDi, postoValido, prossimoAutomatico, pulisciNome, type Posto } from "./posti";
+import { lingua, tr } from "./lingua";
+import { AUTOMATICI, durataLeggibile as durataIn, nomeDi as nomeDiIn, postoValido, prossimoAutomatico, pulisciNome, type Posto } from "./posti";
 
-export { RAPIDO, AUTOMATICI, genere, nomeDi, nuovoPosto, durataLeggibile, LUNGHEZZA_NOME, type Posto, type Genere } from "./posti";
+export { RAPIDO, AUTOMATICI, genere, nuovoPosto, LUNGHEZZA_NOME, type Posto, type Genere } from "./posti";
+
+/** Come si chiama, per chi gioca, il salvataggio di un posto: nella lingua di adesso (lib/posti.ts, nomeDi). */
+export const nomeDi = (posto: Posto, nome?: string, luogo?: string): string => nomeDiIn(posto, nome, luogo, lingua());
+/** Il tempo di gioco a parole brevi, nella lingua di adesso (lib/posti.ts, durataLeggibile). */
+export const durataLeggibile = (ms: number | undefined): string => durataIn(ms, lingua());
 
 export const FORMATO = "il-viaggiatore/salvataggio";
 
@@ -107,20 +115,21 @@ function diarioValido(grezzo: unknown): Salvataggio["diario"] {
 export function valida(grezzo: unknown): Salvataggio {
   const s = grezzo as Partial<Salvataggio>;
   if (!s || typeof s !== "object" || s.formato !== FORMATO) {
-    throw new SalvataggioNonValido("Non è un salvataggio del Viaggiatore.");
+    throw new SalvataggioNonValido(tr("Non è un salvataggio del Viaggiatore.", "This is not an Il Viaggiatore save."));
   }
   if (typeof s.versioneFormato !== "number" || s.versioneFormato < 1) {
-    throw new SalvataggioNonValido("Il file è danneggiato: manca la versione del formato.");
+    throw new SalvataggioNonValido(tr("Il file è danneggiato: manca la versione del formato.", "The file is damaged: the format version is missing."));
   }
   if (s.versioneFormato > VERSIONE.formatoSalvataggi) {
-    throw new SalvataggioNonValido(`Salvato con una versione più recente del gioco (${s.gioco ?? "?"}): aggiorna Il Viaggiatore per aprirlo.`);
+    throw new SalvataggioNonValido(tr(`Salvato con una versione più recente del gioco (${s.gioco ?? "?"}): aggiorna Il Viaggiatore per aprirlo.`,
+      `Saved with a newer version of the game (${s.gioco ?? "?"}): update Il Viaggiatore to open it.`));
   }
   const p = s.partita;
   if (!p || !Array.isArray(p.comandi) || p.comandi.some((c) => typeof c !== "string") || typeof p.impronta !== "string") {
-    throw new SalvataggioNonValido("Il file è danneggiato: la partita non è leggibile.");
+    throw new SalvataggioNonValido(tr("Il file è danneggiato: la partita non è leggibile.", "The file is damaged: the game cannot be read."));
   }
   if (!s.riassunto || typeof s.riassunto.luogo !== "string") {
-    throw new SalvataggioNonValido("Il file è danneggiato: manca il riassunto.");
+    throw new SalvataggioNonValido(tr("Il file è danneggiato: manca il riassunto.", "The file is damaged: the summary is missing."));
   }
   // i campi facoltativi della 1.26: un valore guasto si toglie, il salvataggio resta buono
   const nome = pulisciNome(s.nome);
@@ -140,7 +149,7 @@ export function valida(grezzo: unknown): Salvataggio {
 
 export const leggiTesto = (testo: string): Salvataggio => {
   let dati: unknown;
-  try { dati = JSON.parse(testo); } catch { throw new SalvataggioNonValido("Il file non è leggibile (JSON non valido)."); }
+  try { dati = JSON.parse(testo); } catch { throw new SalvataggioNonValido(tr("Il file non è leggibile (JSON non valido).", "The file cannot be read (invalid JSON).")); }
   return valida(dati);
 };
 
@@ -173,7 +182,8 @@ const web = {
   leggi(p: Posto): string | null { try { return localStorage.getItem(PREFISSO + p); } catch { return null; } },
   scrivi(p: Posto, t: string) {
     try { localStorage.setItem(PREFISSO + p, t); }
-    catch { throw new Error("Il browser non ha più spazio per i salvataggi: eliminane qualcuno, o esportalo in un file."); }
+    catch { throw new Error(tr("Il browser non ha più spazio per i salvataggi: eliminane qualcuno, o esportalo in un file.",
+      "The browser has no more room for saves: delete some, or export them to a file.")); }
   },
   elimina(p: Posto) { try { localStorage.removeItem(PREFISSO + p); } catch { /* niente */ } },
 };
@@ -201,7 +211,7 @@ export async function leggi(posto: Posto): Promise<VoceTaccuino | null> {
 }
 
 export async function scrivi(posto: Posto, s: Salvataggio): Promise<void> {
-  if (!postoValido(posto)) throw new Error(`Posto di salvataggio sconosciuto: ${posto}`);
+  if (!postoValido(posto)) throw new Error(tr(`Posto di salvataggio sconosciuto: ${posto}`, `Unknown save slot: ${posto}`));
   const testo = JSON.stringify({ ...s, posto }, null, 1);
   const d = desktop();
   if (d) await d.scrivi(posto, testo);
@@ -224,7 +234,7 @@ export async function elimina(posto: Posto): Promise<void> {
 }
 
 export const nomeFile = (s: Salvataggio) =>
-  `il-viaggiatore-${(s.nome || s.riassunto.luogo).toLowerCase().replace(/[^a-zà-ù0-9]+/gi, "-").replace(/^-|-$/g, "")}-turno-${s.riassunto.turno}.viaggiatore`;
+  `il-viaggiatore-${(s.nome || s.riassunto.luogo).toLowerCase().replace(/[^a-zà-ù0-9]+/gi, "-").replace(/^-|-$/g, "")}-${tr("turno", "turn")}-${s.riassunto.turno}.viaggiatore`;
 
 export async function esporta(posto: Posto, s: Salvataggio): Promise<boolean> {
   const d = desktop();
@@ -312,9 +322,11 @@ export function componi(posto: Posto, partita: PartitaSalvata, riassunto: Riassu
 }
 
 const MESI = ["gen", "feb", "mar", "apr", "mag", "giu", "lug", "ago", "set", "ott", "nov", "dic"];
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+/** Una data da leggere, nella lingua di adesso: «30 ott 2026, 21:14», «30 October 2026, 21:14». */
 export function dataLeggibile(iso: string): string {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return "";
   const hh = String(d.getHours()).padStart(2, "0"), mm = String(d.getMinutes()).padStart(2, "0");
-  return `${d.getDate()} ${MESI[d.getMonth()]} ${d.getFullYear()}, ${hh}:${mm}`;
+  return `${d.getDate()} ${(lingua() === "en" ? MONTHS : MESI)[d.getMonth()]} ${d.getFullYear()}, ${hh}:${mm}`;
 }

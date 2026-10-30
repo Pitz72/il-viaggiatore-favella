@@ -110,7 +110,10 @@ export type TipoSuono = "carta" | "timbro" | "tasto" | "soffio" | "tonfo" | "pas
 export interface Evento { t: number; tipo: TipoSuono; vol?: number; terreno?: Terreno; piede?: 0 | 1 }
 
 const LETTERE_ARRIVI = [0.7, 1.8, 2.9, 4.0];
-export const BIGLIETTO = { arriva: 6.7, scrive: 7.25, perCarattere: 0.034, testo: ["NON È IL CASO", "DI TORNARE."] };
+/** Il biglietto in stampatello. I tasti suonano sulle lettere italiane (`testo`); in inglese (`testoEn`, la frase della
+ *  traduzione del gioco) la mano va un poco più svelta e finisce nello stesso istante (scene/lettere.ts). */
+export const BIGLIETTO = { arriva: 6.7, scrive: 7.25, perCarattere: 0.034, testo: ["NON È IL CASO", "DI TORNARE."],
+  testoEn: ["THERE'S NO POINT", "COMING BACK."] };
 
 function eventiBase(): Evento[] {
   const e: Evento[] = [];

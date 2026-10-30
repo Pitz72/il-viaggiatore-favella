@@ -1,0 +1,402 @@
+[
+ {
+  "tipo": "descrizione",
+  "dove": "z3-invaso.fav:20",
+  "it": "Il fondo dell'invaso, una piana di fango secco spaccata in lastre che scricchiolano sotto i passi. Il sale acceca, l'aria sa di minerale. A NORD la diga sbarra l'orizzonte; a SUD un fondale dove qualcuno raspa; a OVEST la carcassa di un'auto insabbiata. A EST la sterrata risale verso la piana.",
+  "en": "The floor of the reservoir, a dry mudflat cracked into slabs that crunch underfoot. The salt is blinding, the air smells of minerals. NORTH, the dam bars the horizon; SOUTH, a lakebed where someone is scraping; WEST, the carcass of a car sunk in the sand. EAST, the dirt track climbs back towards the plain."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z3-invaso.fav:23",
+  "it": "Lo sbarramento: una parete di cemento striata di calcare, alta come un palazzo di dieci piani. Al piede, un vecchio gruppo di POMPA a mano pesca ancora nell'acqua bassa, ma quell'acqua è veleno salato. IOLE ci sta accanto, china sul meccanismo. (PARLA CON Iole.) A NORD il casotto dove vive; a OVEST la condotta scende verso la statale. A SUD si torna nella conca.",
+  "en": "The dam: a wall of concrete streaked with lime, as tall as a ten-storey building. At its foot, an old hand PUMP still draws from the low water, but that water is salt poison. IOLE stands beside it, bent over the mechanism. (TALK TO Iole.) NORTH, the hut where she lives; WEST, the culvert runs down towards the main road. SOUTH, back to the basin."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z3-invaso.fav:24",
+  "it": "Lo sbarramento: una parete di cemento striata di calcare, alta come un palazzo di dieci piani. Al piede, la POMPA a mano col tuo filtro legato alla bocca: adesso quello che tira su si lascia bere, se non hai pretese. (ATTINGI, se la tanica si svuota.) IOLE ci sta accanto e controlla le guarnizioni. (PARLA CON Iole.) A NORD il casotto dove vive; a OVEST la condotta scende verso la statale. A SUD si torna nella conca.",
+  "en": "The dam: a wall of concrete streaked with lime, as tall as a ten-storey building. At its foot, the hand PUMP with your filter tied over its mouth: what it brings up now can be drunk, if you're not fussy. (DRAW WATER if the jerrycan runs dry.) IOLE stands beside it, checking the seals. (TALK TO Iole.) NORTH, the hut where she lives; WEST, the culvert runs down towards the main road. SOUTH, back to the basin."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z3-invaso.fav:27",
+  "it": "Una stanza sola, tenuta in ordine come una cappella. Una branda, un fornello spento, gli attrezzi appesi a un chiodo. Si torna a SUD.",
+  "en": "A single room, kept tidy like a chapel. A camp bed, a cold stove, the tools hung on a nail. Back SOUTH."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z3-invaso.fav:30",
+  "it": "Pozze salmastre, lucide e ferme, che ingannano la sete. ROCCO raspa il sale a mani nude, le labbra spaccate in croste bianche. (Volendo, BEVI SALMASTRA: Rocco lo fa.) A NORD la conca, a SUD una torre di presa in mezzo al fango.",
+  "en": "Brackish pools, glossy and still, that fool your thirst. ROCCO scrapes at the salt with his bare hands, his lips split into white crusts. (If you want, DRINK BRACKISH: Rocco does.) NORTH, the basin; SOUTH, an intake tower in the middle of the mud."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z3-invaso.fav:33",
+  "it": "La carcassa di un'utilitaria insabbiata fino agli assali, le portiere spalancate, il bagagliaio aperto. A EST si torna nella conca.",
+  "en": "The carcass of a small car sunk in sand to the axles, the doors wide open, the boot open. EAST, back to the basin."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z3-invaso.fav:36",
+  "it": "Una torretta di presa che un tempo pescava al largo del bacino, ora circondata da fango secco. Una scala di ferro arrugginita porta in cima. Si torna a NORD, sul fondale.",
+  "en": "A small intake tower that once drew water far out in the reservoir, now ringed by dry mud. A rusted iron ladder leads to the top. Back NORTH, to the lakebed."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z3-invaso.fav:39",
+  "it": "Una galleria di scarico in leggera discesa; in fondo, lontano, trema il riverbero della statale. Di qui si lascia l'invaso, a OVEST, ma non con la tanica vuota.",
+  "en": "An outflow tunnel sloping gently down; at the far end, a long way off, the glare of the main road trembles. This is the way out of the reservoir, WEST, but not with an empty jerrycan."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z3-invaso.fav:51",
+  "it": "Una pompa a stantuffo, arrugginita ma ancora viva. Tira su acqua salmastra dal fondo della diga: a berla così, è una morte lenta.",
+  "en": "A plunger pump, rusty but still alive. It brings up brackish water from the bottom of the dam: drink it like that and it's a slow death."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z3-invaso.fav:52",
+  "it": "La pompa a stantuffo, col tuo filtro legato alla bocca. Adesso tira su acqua che si beve, anche se sa di ferro.",
+  "en": "The plunger pump, with your filter tied over its mouth. Now it brings up water you can drink, even if it tastes of iron."
+ },
+ {
+  "tipo": "posto",
+  "dove": "z3-invaso.fav:57",
+  "it": "Nel bagagliaio, un FILTRO di tela e carbone.",
+  "en": "In the boot, a FILTER of cloth and charcoal."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z3-invaso.fav:58",
+  "it": "Una calza di tela gonfia di carbone tritato e sabbia. Toglie il torbido e parte del sale, ma da sola non basta a togliere il veleno: ci vuole anche il trattamento.",
+  "en": "A cloth sock stuffed with crushed charcoal and sand. It takes out the murk and some of the salt, but on its own it won't take out the poison: the water needs treating as well."
+ },
+ {
+  "tipo": "posto",
+  "dove": "z3-invaso.fav:63",
+  "it": "Su una mensola, un tubetto di PASTIGLIE.",
+  "en": "On a shelf, a tube of TABLETS."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z3-invaso.fav:64",
+  "it": "Pastiglie di cloro in un tubetto di alluminio ammaccato. Una manciata. Rendono potabile l'acqua già filtrata.",
+  "en": "Chlorine tablets in a dented aluminium tube. A handful. They make water that has been filtered safe to drink."
+ },
+ {
+  "tipo": "posto",
+  "dove": "z3-invaso.fav:69",
+  "it": "In un angolo, una DAMIGIANA di vetro impagliato, vuota, che aspetta acqua buona da anni.",
+  "en": "In a corner, a straw-covered glass DEMIJOHN, empty, that has been waiting years for good water."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z3-invaso.fav:70",
+  "it": "Una damigiana da dieci litri, vetro verde dentro la sua veste di paglia. Vuota pesa poco; piena, è acqua per giorni.",
+  "en": "A ten-litre demijohn, green glass inside its coat of straw. Empty, it weighs little; full, it's water for days."
+ },
+ {
+  "tipo": "posto",
+  "dove": "z3-invaso.fav:75",
+  "it": "Sul cruscotto, un paio di OCCHIALI da sole.",
+  "en": "On the dashboard, a pair of SUNGLASSES."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z3-invaso.fav:76",
+  "it": "Occhiali da sole da quattro soldi, una lente rigata. Contro il riverbero del sale, bastano.",
+  "en": "Cheap sunglasses, one lens scratched. Against the glare off the salt, they'll do."
+ },
+ {
+  "tipo": "posto",
+  "dove": "z3-invaso.fav:81",
+  "it": "In fondo al bagagliaio, una BATTERIA d'auto, pesante.",
+  "en": "At the back of the boot, a car BATTERY, heavy."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z3-invaso.fav:82",
+  "it": "Una batteria d'auto, pesante e ingombrante. Inutile a piedi; ma c'è chi la prende ancora, per scambio.",
+  "en": "A car battery, heavy and awkward. Useless on foot; but some people still take one, in trade."
+ },
+ {
+  "tipo": "posto",
+  "dove": "z3-invaso.fav:87",
+  "it": "Sul sedile sfondato, un DIARIO smangiato dall'umido.",
+  "en": "On the burst seat, a DIARY eaten away by damp."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z3-invaso.fav:88",
+  "it": "Il diario di chi ha fatto questa strada prima di te. Le ultime pagine contano i litri, giorno per giorno, a matita. Poi i numeri smettono.",
+  "en": "The diary of someone who took this road before you. The last pages count the litres, day by day, in pencil. Then the numbers stop."
+ },
+ {
+  "tipo": "posto",
+  "dove": "z3-invaso.fav:93",
+  "it": "In cima alla scala qualcuno ha dimenticato una BORSA di tela robusta.",
+  "en": "At the top of the ladder someone has left behind a sturdy canvas BAG."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z3-invaso.fav:94",
+  "it": "Una borsa di tela militare, le cuciture ancora salde. Roba che si baratta volentieri.",
+  "en": "An army canvas bag, the seams still sound. The kind of thing that trades easily."
+ },
+ {
+  "tipo": "posto",
+  "dove": "z3-invaso.fav:99",
+  "it": "Tra le incrostazioni si staccano CRISTALLI di sale grosso.",
+  "en": "Among the crusts, CRYSTALS of coarse salt are coming loose."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z3-invaso.fav:100",
+  "it": "Cristalli di sale grosso, duri e netti. Sulla strada il sale è moneta: c'è chi lo conserva, chi lo scambia.",
+  "en": "Crystals of coarse salt, hard and clean-edged. On the road salt is money: some keep it, some trade it."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z3-invaso.fav:105",
+  "it": "Una donna asciutta, l'età difficile da dire. Tiene una mano sul volano della pompa come si tiene la mano a chi sta male. Aspetta qualcosa: un'acqua, o una persona; non lo dice nemmeno a sé.",
+  "en": "A lean woman, her age hard to tell. She keeps a hand on the pump's flywheel the way you hold the hand of someone who is ill. She is waiting for something: water, or a person; she won't say, not even to herself."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Iole",
+  "dove": "z3-invaso.fav:108",
+  "it": "«Tutta quest'acqua, e non se ne beve un sorso.» Non alza gli occhi dal volano. «Cosa vuoi dalla mia pompa.»",
+  "en": "“All this water, and not a sip you can drink.” She doesn't look up from the flywheel. “What do you want with my pump.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Iole",
+  "dove": "z3-invaso.fav:109",
+  "it": "«Sei ancora qui. Quelli che hanno fretta di solito li ritrovo giù al fondale, a bere con Rocco.» Batte due colpi sul cilindro. «Dimmi.»",
+  "en": "“You're still here. The ones in a hurry I usually find down on the lakebed, drinking with Rocco.” She knocks twice on the cylinder. “Tell me.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z3-invaso.fav:111",
+  "it": "Ti lascio dell'acqua, ne hai bisogno anche tu.",
+  "en": "I'll leave you some water; you need it too."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z3-invaso.fav:112",
+  "it": "Ti lascio del cibo.",
+  "en": "I'll leave you some food."
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z3-invaso.fav:113",
+  "it": "Come si fa a bere, in questo posto?",
+  "en": "How does anyone drink, in this place?"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z3-invaso.fav:114",
+  "it": "Perché se n'è andata l'acqua?",
+  "en": "Why did the water go?"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z3-invaso.fav:115",
+  "it": "Niente, per ora.",
+  "en": "Nothing, for now."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Iole",
+  "dove": "z3-invaso.fav:117",
+  "it": "Mette da parte il dono senza guardarlo. «Il casotto è là dietro. Prendi quello che ti serve e fa' andare la pompa. Le pastiglie bastano per una volta. Dopo, col filtro solo, tiri su acqua che sa di ferro: si beve, non si ama.»",
+  "en": "She puts the gift aside without looking at it. “The hut's back there. Take what you need and get the pump going. The tablets are enough for one go. After that, with just the filter, you'll bring up water that tastes of iron: you drink it, you don't love it.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Iole",
+  "dove": "z3-invaso.fav:118",
+  "it": "Mette da parte il dono senza guardarlo. «La pompa la sai far andare, ormai. Il resto è pazienza.»",
+  "en": "She puts the gift aside without looking at it. “You know how to work the pump by now. The rest is patience.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z3-invaso.fav:119",
+  "it": "Grazie.",
+  "en": "Thanks."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Iole",
+  "dove": "z3-invaso.fav:123",
+  "it": "«Si filtra, poi si tratta. Il filtro lo monti tu: tela e carbone ce n'è là nella carcassa. Il trattamento sta in casa mia: pastiglie. Ma in casa mia non entra chi non conosco.»",
+  "en": "“You filter it, then you treat it. The filter you fit yourself: there's cloth and charcoal in that carcass over there. The treatment's in my house: tablets. But nobody I don't know comes into my house.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z3-invaso.fav:124",
+  "it": "Capito.",
+  "en": "Understood."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Iole",
+  "dove": "z3-invaso.fav:126",
+  "it": "«Non è crollato niente. Hanno solo chiuso un rubinetto lontano, un anno dopo l'altro, finché la valle ha smesso di valere l'acqua che costava.» Guarda il cemento. «Io sono rimasta a tenere caldo il posto, caso mai tornasse a scorrere.»",
+  "en": "“Nothing collapsed. They just turned off a tap somewhere far away, a year at a time, until the valley stopped being worth the water it cost.” She looks at the concrete. “I stayed on to keep the place warm, in case it ever flows again.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z3-invaso.fav:127",
+  "it": "E torna?",
+  "en": "And will it?"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z3-invaso.fav:128",
+  "it": "Mi dispiace.",
+  "en": "I'm sorry."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Iole",
+  "dove": "z3-invaso.fav:130",
+  "it": "«No.» Lo dice senza amarezza, come una cosa del tempo. «Ma aspettare è l'ultimo lavoro rimasto, e lo faccio bene.»",
+  "en": "“No.” She says it without bitterness, as you'd speak of the weather. “But waiting is the last job left, and I do it well.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z3-invaso.fav:131",
+  "it": "…",
+  "en": "…"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z3-invaso.fav:134",
+  "it": "Iole ti taglia la strada verso il casotto, senza scomporsi. «Casa mia no. Non ti conosco.»",
+  "en": "Iole cuts across your path to the hut, without fuss. “Not my house. I don't know you.”"
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z3-invaso.fav:138",
+  "it": "Leghi il filtro alla bocca della pompa e tiri lo stantuffo: viene su un'acqua torbida che si schiarisce nella tela. Ci sciogli una pastiglia, aspetti che il cloro lavori. Poi bevi a lungo, e riempi tanica e damigiana fino all'orlo. Per una volta, hai acqua da non contare.",
+  "en": "You tie the filter over the pump's mouth and pull the plunger: up comes cloudy water that clears in the cloth. You dissolve a tablet in it and wait for the chlorine to work. Then you drink for a long while, and fill the jerrycan and the demijohn to the brim. For once, you have water you don't need to count."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z3-invaso.fav:139",
+  "it": "Leghi il filtro alla bocca della pompa e tiri lo stantuffo: l'acqua si schiarisce nella tela. Ci sciogli una pastiglia, aspetti. Poi bevi a lungo e riempi la tanica fino all'orlo. Acqua vera, finalmente.",
+  "en": "You tie the filter over the pump's mouth and pull the plunger: the water clears in the cloth. You dissolve a tablet in it, and wait. Then you drink for a long while and fill the jerrycan to the brim. Real water, at last."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z3-invaso.fav:140",
+  "it": "Le pastiglie sono lì per terra: raccoglile, prima.",
+  "en": "The tablets are there on the ground: pick them up first."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z3-invaso.fav:141",
+  "it": "Le pastiglie da sole non bastano: l'acqua della diga è troppo torbida e salata. Prima ci vuole un filtro.",
+  "en": "The tablets alone aren't enough: the water at the dam is too cloudy and salty. First you need a filter."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z3-invaso.fav:143",
+  "it": "Tiri lo stantuffo e lasci colare l'acqua nel filtro, adagio. Senza pastiglie sa di ferro e di sale, ma passa. Iole non alza gli occhi.",
+  "en": "You pull the plunger and let the water run through the filter, slowly. Without tablets it tastes of iron and salt, but it goes down. Iole doesn't look up."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z3-invaso.fav:144",
+  "it": "La tanica è ancora buona. Quest'acqua di ferro la tieni per quando servirà davvero.",
+  "en": "The jerrycan still holds enough. You keep this iron water for when it's really needed."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z3-invaso.fav:145",
+  "it": "Senza filtro né trattamento, la pompa tira su solo veleno salato.",
+  "en": "Without a filter or treatment, the pump brings up nothing but salt poison."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "z3-invaso.fav:150",
+  "it": "Un uomo cotto dal sole e dal sale, le labbra spaccate che parlano a fatica. Raccoglie cristalli come se fossero ancora soldi. Beve di nascosto dalle pozze, e si vede.",
+  "en": "A man baked by sun and salt, his split lips barely able to talk. He gathers crystals as if they were still money. He drinks from the pools on the sly, and it shows."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Rocco",
+  "dove": "z3-invaso.fav:153",
+  "it": "«Acqua? Qui non si chiede acqua.» Ride, e le croste delle labbra si aprono. «C'è il sale. Quello sì. Quello non finisce mai.»",
+  "en": "“Water? Nobody asks for water here.” He laughs, and the crusts on his lips split open. “There's salt. That there is. That never runs out.”"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z3-invaso.fav:154",
+  "it": "Quella pozza in fondo sembra più chiara: si beve?",
+  "en": "That pool at the far end looks clearer: can you drink it?"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z3-invaso.fav:155",
+  "it": "Stai bevendo dalle pozze, vero?",
+  "en": "You've been drinking from the pools, haven't you?"
+ },
+ {
+  "tipo": "opzione",
+  "dove": "z3-invaso.fav:156",
+  "it": "Tieniti il sale.",
+  "en": "Keep your salt."
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Rocco",
+  "dove": "z3-invaso.fav:158",
+  "it": "«Quella? Quella è buona.» Ti guarda di sottecchi, troppo svelto. «Più in là è meno salata, fidati. Bevi e cammini meglio.»",
+  "en": "“That one? That one's good.” He glances at you sideways, too quick. “Further out it's less salty, trust me. Drink and you'll walk better.”"
+ },
+ {
+  "tipo": "dialogo",
+  "chi": "Rocco",
+  "dove": "z3-invaso.fav:161",
+  "it": "Si passa la lingua sulle croste. «Una volta che cominci, non smetti. La sete dopo è peggio. Ma intanto è acqua, no?» Non aspetta risposta.",
+  "en": "He runs his tongue over the crusts. “Once you start, you don't stop. The thirst afterwards is worse. But for now it's water, isn't it?” He doesn't wait for an answer."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z3-invaso.fav:166",
+  "it": "Ti inginocchi e bevi a mani giunte dalla pozza. Per un attimo è sollievo. Poi il sale ti chiude la gola peggio di prima, e lo stomaco si torce in un crampo.",
+  "en": "You kneel and drink from the pool out of cupped hands. For a moment it's relief. Then the salt closes your throat worse than before, and your stomach twists into a cramp."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z3-invaso.fav:167",
+  "it": "Non c'è acqua salmastra qui a portata di mano.",
+  "en": "There's no brackish water to hand here."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z3-invaso.fav:170",
+  "it": "Il riverbero del sale ti cuoce gli occhi; la gola si secca solo a stare qui.",
+  "en": "The glare off the salt burns your eyes; your throat dries out just from standing here."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z3-invaso.fav:173",
+  "it": "La condotta scende verso la statale, ma di là c'è una traversata peggiore di quella alle spalle. Con la tanica com'è adesso, non arrivi a metà. Fa' prima funzionare la pompa.",
+  "en": "The culvert runs down towards the main road, but beyond it lies a crossing worse than the one behind you. With the jerrycan as it is now, you won't make it halfway. Get the pump working first."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z3-invaso.fav:174",
+  "it": "Hai fatto funzionare la pompa, ma ti sei già bevuto mezza tanica. Riempila alla pompa (ATTINGI), prima di scendere.",
+  "en": "You've got the pump working, but you've already drunk half the jerrycan. Fill it at the pump (DRAW WATER) before you go down."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "z3-invaso.fav:180",
+  "it": "Ti cali nella condotta con la tanica piena e pesante d'acqua vera. L'invaso morto resta dietro, bianco e fermo. Davanti, la statale, e chi la tiene.",
+  "en": "You lower yourself into the culvert with the jerrycan full and heavy with real water. The dead reservoir stays behind, white and still. Ahead, the main road, and whoever holds it."
+ }
+]

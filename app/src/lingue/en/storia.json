@@ -1,0 +1,50 @@
+[
+ {
+  "tipo": "descrizione",
+  "dove": "il-viaggiatore.fav:57",
+  "it": "Una tanica da dieci litri, ammaccata ma a tenuta. La tua vita, in pratica.",
+  "en": "A ten-litre jerrycan, dented but watertight. Your life, practically."
+ },
+ {
+  "tipo": "descrizione",
+  "dove": "il-viaggiatore.fav:63",
+  "it": "L'ultimo biglietto arrivato da casa, consumato sulle pieghe. Le lettere di prima le scriveva tua moglie, fitte, con le notizie del bambino in fondo. Questo è in stampatello, di una mano che non riconosci, e dice una cosa sola: «Non è il caso di tornare.» Nessuna firma.",
+  "en": "The last note that came from home, worn along the folds. The letters before it were your wife's, closely written, with news of the boy at the bottom. This one is in block capitals, in a hand you don't recognise, and says one thing only: “There's no point coming back.” No signature."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "il-viaggiatore.fav:79",
+  "it": "Qui non c'è niente da cui attingere.",
+  "en": "There's nothing here to draw water from."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "il-viaggiatore.fav:80",
+  "it": "Alzi le mani, poi le riabbassi. Non è questa la cosa con cui prendertela.",
+  "en": "You raise your hands, then lower them again. This isn't the thing to take it out on."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "il-viaggiatore.fav:81",
+  "it": "Nessuno qui ti ha fatto niente. La minaccia ti resta in gola.",
+  "en": "Nobody here has done anything to you. The threat sticks in your throat."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "il-viaggiatore.fav:91",
+  "it": "Abbassi la canna. Onofrio non te l'ha dato per questo.",
+  "en": "You lower the barrel. Onofrio didn't give it to you for this."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "il-viaggiatore.fav:92",
+  "it": "Premi il grilletto: un clic secco, e niente. La pistola è scarica, e lo sapevi: serve a farsi credere.",
+  "en": "You pull the trigger: a dry click, and nothing. The pistol isn't loaded, and you knew it: it's there to be believed."
+ },
+ {
+  "tipo": "messaggio",
+  "dove": "il-viaggiatore.fav:93",
+  "it": "Non hai niente che spari.",
+  "en": "You have nothing that shoots."
+ }
+]

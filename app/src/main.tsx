@@ -5,6 +5,7 @@ import App from "./App";
 import "./index.css";
 import "./accessibilita.css";
 import "./lib/accessibilita";
+import "./lib/lingua";
 
 // PRIMA del primo render: robustezza DOM contro lettura/traduzione (vedi
 // domSafetyPatch.ts). Stesso accorgimento del sito principale.

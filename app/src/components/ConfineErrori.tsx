@@ -10,10 +10,12 @@
 //  promesse rifiutate) non fanno uno schermo d'errore: il gioco può continuare, e
 //  spesso sono innocui (un play() dell'audio rifiutato, un ResizeObserver). Ma si
 //  scrivono nel registro tecnico (registraErroriGlobali), perché se qualcosa va
-//  storto se ne trovi traccia.
+//  storto se ne trovi traccia. Il messaggio è nella lingua di adesso; il
+//  registro tecnico resta in italiano.
 // ====================================================================
 import { Component, type ErrorInfo, type ReactNode } from "react";
 import { annota } from "../lib/desktop";
+import { tr } from "../lib/lingua";
 
 interface Props { onTorna: () => void; children: ReactNode }
 interface Stato { errore: Error | null }
@@ -76,10 +78,11 @@ export default class ConfineErrori extends Component<Props, Stato> {
       <div role="alert" style={{ position: "fixed", inset: 0, zIndex: 100, background: "#07070a", color: "#e9e2d6", display: "flex", flexDirection: "column",
         alignItems: "center", justifyContent: "center", gap: 14, padding: "0 8vw", textAlign: "center" }}>
         <h1 style={{ margin: 0, fontFamily: "'Lora', Georgia, serif", fontWeight: 500, fontSize: "clamp(24px, 2.4vw, 40px)", color: "#f4ece0" }}>
-          Qualcosa si è inceppato.
+          {tr("Qualcosa si è inceppato.", "Something has jammed.")}
         </h1>
         <p style={{ margin: 0, maxWidth: "36rem", fontFamily: "'Lora', Georgia, serif", fontStyle: "italic", fontSize: "clamp(16px, 1.3vw, 22px)", lineHeight: 1.55, color: "rgba(230,223,210,.78)" }}>
-          La schermata non si è potuta disegnare. Il viaggio salvato non è toccato: torna all'intro e riprendi da lì.
+          {tr("La schermata non si è potuta disegnare. Il viaggio salvato non è toccato: torna all'intro e riprendi da lì.",
+            "This screen could not be drawn. Your saved journey is untouched: go back to the intro and pick up from there.")}
         </p>
         <p style={{ margin: 0, maxWidth: "44rem", fontFamily: "'Source Code Pro', ui-monospace, monospace", fontSize: 12.5, color: "rgba(200,208,220,.72)", overflowWrap: "anywhere" }}>
           {errore.message || String(errore)}
@@ -87,7 +90,7 @@ export default class ConfineErrori extends Component<Props, Stato> {
         <button autoFocus onClick={this.props.onTorna}
           style={{ marginTop: 10, cursor: "pointer", fontFamily: "'Source Code Pro', ui-monospace, monospace", fontSize: 13, letterSpacing: ".16em", textTransform: "uppercase",
             color: "#e6e0d6", border: "1px solid rgba(255,255,255,.32)", background: "rgba(10,10,14,.5)", borderRadius: 999, padding: "10px 20px" }}>
-          ← torna all'intro
+          ← {tr("torna all'intro", "back to the intro")}
         </button>
       </div>
     );

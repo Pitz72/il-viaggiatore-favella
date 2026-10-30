@@ -14,13 +14,15 @@
 //
 //  Nomi e accenni sono quelli rivisti con Simone il 21/10/2026 (§7.3).
 //  L'accenno è ciò che si legge prima di vincerlo; la frase, dopo.
+//  Ogni testo c'è nelle due lingue: `nome`, `accenno` e `frase` sono
+//  l'italiano (quello che leggono i collaudi), `en` l'inglese. Quale mostrare
+//  lo sceglie chi mostra, con la lingua di adesso (testiTrofeo, titoloFamiglia).
 // ====================================================================
 
 export type Famiglia = "finali" | "fini" | "gesti" | "modi" | "sfide" | "collezione";
 
-export interface Trofeo {
-  id: string;
-  famiglia: Famiglia;
+/** I testi di un trofeo, in una lingua. */
+export interface TestiTrofeo {
   nome: string;
   /** prima di vincerlo: dove guardare, non che cosa fare */
   accenno: string;
@@ -28,55 +30,102 @@ export interface Trofeo {
   frase: string;
 }
 
-export const FAMIGLIE: readonly { id: Famiglia; titolo: string }[] = [
-  { id: "finali", titolo: "I finali" },
-  { id: "fini", titolo: "Lungo la strada" },
-  { id: "gesti", titolo: "I gesti" },
-  { id: "modi", titolo: "I modi di arrivare" },
-  { id: "sfide", titolo: "Le sfide" },
-  { id: "collezione", titolo: "La collezione" },
+/** Un trofeo: i campi di TestiTrofeo sono in italiano, `en` li ha in inglese. */
+export interface Trofeo extends TestiTrofeo {
+  id: string;
+  famiglia: Famiglia;
+  en: TestiTrofeo;
+}
+
+export const FAMIGLIE: readonly { id: Famiglia; titolo: string; en: { titolo: string } }[] = [
+  { id: "finali", titolo: "I finali", en: { titolo: "The endings" } },
+  { id: "fini", titolo: "Lungo la strada", en: { titolo: "Along the road" } },
+  { id: "gesti", titolo: "I gesti", en: { titolo: "Deeds" } },
+  { id: "modi", titolo: "I modi di arrivare", en: { titolo: "Ways of arriving" } },
+  { id: "sfide", titolo: "Le sfide", en: { titolo: "The challenges" } },
+  { id: "collezione", titolo: "La collezione", en: { titolo: "The collection" } },
 ];
 
-const T = (famiglia: Famiglia, id: string, nome: string, accenno: string, frase: string): Trofeo => ({ id, famiglia, nome, accenno, frase });
+const T = (famiglia: Famiglia, id: string, nome: string, accenno: string, frase: string, [nomeEn, accennoEn, fraseEn]: [string, string, string]): Trofeo =>
+  ({ id, famiglia, nome, accenno, frase, en: { nome: nomeEn, accenno: accennoEn, frase: fraseEn } });
 
 export const TROFEI: readonly Trofeo[] = [
   // i sei finali della storia
-  T("finali", "qualcuno-lo-porti-via", "Qualcuno lo porti via", "Un finale: non da solo", "Hai lasciato la casa a Cosimo e sei ripartito con Peppe accanto."),
-  T("finali", "il-cavallo-di-legno", "Il cavallo di legno", "Un finale: qualcosa da posare", "Hai posato il cavallo di legno sulla croce più piccola."),
-  T("finali", "quello-che-era-suo", "Quello che era suo", "Un finale: qualcosa da restituire", "Hai infilato la fede di lei nel nodo della croce più grande."),
-  T("finali", "le-mani-vuote", "Le mani vuote", "Un finale: senza niente in mano", "Sei arrivato a casa senza niente di loro da posarci."),
-  T("finali", "sopra-il-corpo", "Sopra il corpo", "Un finale, al guado", "Al guado hai sparato a Cosimo, e la casa è rimasta a te."),
-  T("finali", "nessuno-da-chiamare", "Nessuno da chiamare", "Un finale, al guado, dopo uno sparo", "Hai sparato a Cosimo davanti a Peppe, e Peppe è corso via."),
+  T("finali", "qualcuno-lo-porti-via", "Qualcuno lo porti via", "Un finale: non da solo", "Hai lasciato la casa a Cosimo e sei ripartito con Peppe accanto.",
+    ["Someone you take away", "An ending: not alone", "You left the house to Cosimo and set off again with Peppe beside you."]),
+  T("finali", "il-cavallo-di-legno", "Il cavallo di legno", "Un finale: qualcosa da posare", "Hai posato il cavallo di legno sulla croce più piccola.",
+    ["The wooden horse", "An ending: something to lay down", "You set the wooden horse on the smaller cross."]),
+  T("finali", "quello-che-era-suo", "Quello che era suo", "Un finale: qualcosa da restituire", "Hai infilato la fede di lei nel nodo della croce più grande.",
+    ["What was hers", "An ending: something to give back", "You slipped her wedding ring into the knot of the larger cross."]),
+  T("finali", "le-mani-vuote", "Le mani vuote", "Un finale: senza niente in mano", "Sei arrivato a casa senza niente di loro da posarci.",
+    ["Empty-handed", "An ending: with nothing in your hands", "You came home with nothing of theirs to lay there."]),
+  T("finali", "sopra-il-corpo", "Sopra il corpo", "Un finale, al guado", "Al guado hai sparato a Cosimo, e la casa è rimasta a te.",
+    ["Over the body", "An ending, at the ford", "At the ford you shot Cosimo, and the house was left to you."]),
+  T("finali", "nessuno-da-chiamare", "Nessuno da chiamare", "Un finale, al guado, dopo uno sparo", "Hai sparato a Cosimo davanti a Peppe, e Peppe è corso via.",
+    ["No one to call", "An ending, at the ford, after a shot", "You shot Cosimo in front of Peppe, and Peppe ran away."]),
   // le tre fini lungo la strada
-  T("fini", "i-sassi-che-scottano", "I sassi che scottano", "Lungo la strada", "La sete ti ha fermato prima di casa."),
-  T("fini", "senza-la-forza", "Senza la forza", "Lungo la strada", "La fame ti ha fermato lungo la strada."),
-  T("fini", "il-viaggio-finisce-qui", "Il viaggio finisce qui", "Lungo la strada", "Le ferite ti hanno fermato lungo la strada."),
+  T("fini", "i-sassi-che-scottano", "I sassi che scottano", "Lungo la strada", "La sete ti ha fermato prima di casa.",
+    ["Scorching stones", "Along the road", "Thirst stopped you before home."]),
+  T("fini", "senza-la-forza", "Senza la forza", "Lungo la strada", "La fame ti ha fermato lungo la strada.",
+    ["Without the strength", "Along the road", "Hunger stopped you on the road."]),
+  T("fini", "il-viaggio-finisce-qui", "Il viaggio finisce qui", "Lungo la strada", "Le ferite ti hanno fermato lungo la strada.",
+    ["The journey ends here", "Along the road", "Your wounds stopped you on the road."]),
   // i dieci gesti: gli stessi «che cosa hai fatto a chi» della barra laterale
-  T("gesti", "senza-un-grazie", "Senza un grazie", "Qualcuno al pozzo", "Hai lasciato da mangiare a Saverio, al pozzo."),
-  T("gesti", "qualcosa-del-tuo", "Qualcosa del tuo", "Qualcuno alla diga", "Hai lasciato qualcosa del tuo a Iole, alla diga."),
-  T("gesti", "si-beve-non-si-ama", "Si beve, non si ama", "Qualcosa alla diga", "Hai legato il filtro alla pompa della diga."),
-  T("gesti", "affare-fatto", "Affare fatto", "Qualcuno al casello", "Hai pagato a Vito il passaggio del casello."),
-  T("gesti", "la-pistola-scarica", "La pistola scarica", "Qualcuno al casello", "Hai puntato a Vito una pistola scarica, e lui ha alzato la sbarra."),
-  T("gesti", "contro-la-sbarra", "Contro la sbarra", "Qualcuno al casello", "Hai lasciato Vito a terra, contro la sbarra."),
-  T("gesti", "per-chi-passera-dopo", "Per chi passerà dopo", "Qualcuno in osteria", "Hai lasciato dell'acqua a Rosaria, per chi passerà dopo di te."),
-  T("gesti", "qualcosa-di-quella-casa", "Qualcosa di quella casa", "Qualcuno sulle colline", "Hai mostrato a Onofrio qualcosa di quella casa."),
-  T("gesti", "la-scarpa-allacciata", "La scarpa allacciata", "Qualcuno sulla discesa", "Hai dato da mangiare a Imma, sulla discesa."),
-  T("gesti", "la-febbre-rotta", "La febbre rotta", "Qualcuno nel vicolo", "Hai curato Pasquale con le tue medicine."),
+  T("gesti", "senza-un-grazie", "Senza un grazie", "Qualcuno al pozzo", "Hai lasciato da mangiare a Saverio, al pozzo.",
+    ["Without a thank-you", "Someone at the well", "You left Saverio something to eat, at the well."]),
+  T("gesti", "qualcosa-del-tuo", "Qualcosa del tuo", "Qualcuno alla diga", "Hai lasciato qualcosa del tuo a Iole, alla diga.",
+    ["Something of yours", "Someone at the dam", "You left Iole something of yours, at the dam."]),
+  T("gesti", "si-beve-non-si-ama", "Si beve, non si ama", "Qualcosa alla diga", "Hai legato il filtro alla pompa della diga.",
+    ["You drink it, you don't love it", "Something at the dam", "You tied the filter to the pump at the dam."]),
+  T("gesti", "affare-fatto", "Affare fatto", "Qualcuno al casello", "Hai pagato a Vito il passaggio del casello.",
+    ["It's a deal", "Someone at the tollbooth", "You paid Vito to get through the tollbooth."]),
+  T("gesti", "la-pistola-scarica", "La pistola scarica", "Qualcuno al casello", "Hai puntato a Vito una pistola scarica, e lui ha alzato la sbarra.",
+    ["The empty gun", "Someone at the tollbooth", "You pointed an empty pistol at Vito, and he lifted the barrier."]),
+  T("gesti", "contro-la-sbarra", "Contro la sbarra", "Qualcuno al casello", "Hai lasciato Vito a terra, contro la sbarra.",
+    ["Against the barrier", "Someone at the tollbooth", "You left Vito on the ground, against the barrier."]),
+  T("gesti", "per-chi-passera-dopo", "Per chi passerà dopo", "Qualcuno in osteria", "Hai lasciato dell'acqua a Rosaria, per chi passerà dopo di te.",
+    ["For whoever comes after", "Someone at the tavern", "You left Rosaria some water, for whoever comes by after you."]),
+  T("gesti", "qualcosa-di-quella-casa", "Qualcosa di quella casa", "Qualcuno sulle colline", "Hai mostrato a Onofrio qualcosa di quella casa.",
+    ["Something from that house", "Someone in the hills", "You showed Onofrio something from that house."]),
+  T("gesti", "la-scarpa-allacciata", "La scarpa allacciata", "Qualcuno sulla discesa", "Hai dato da mangiare a Imma, sulla discesa.",
+    ["The shoe tied", "Someone on the descent", "You gave Imma something to eat, on the descent."]),
+  T("gesti", "la-febbre-rotta", "La febbre rotta", "Qualcuno nel vicolo", "Hai curato Pasquale con le tue medicine.",
+    ["The fever broken", "Someone in the alley", "You treated Pasquale with your medicine."]),
   // i sei modi di arrivare
-  T("modi", "mani-pulite", "Mani pulite", "Arrivare in un certo modo", "Sei arrivato a casa senza sangue sulle mani."),
-  T("modi", "la-lettera", "La lettera", "Al guado, una via", "Al guado Cosimo ha riconosciuto la sua lettera, e si è fatto da parte."),
-  T("modi", "il-fucile-posato", "Il fucile posato", "Al guado, un'altra via", "Al guado hai posato il fucile, e Cosimo si è fatto da parte."),
-  T("modi", "chi-arrivava-di-la", "Chi arrivava di là", "Al guado, la via più lunga", "Al guado sei rimasto fermo con Cosimo, finché si è fatto da parte."),
-  T("modi", "quello-che-lasciava-l-acqua", "Quello che lasciava l'acqua", "Quello che si dice di te", "La voce di ciò che lasciavi per strada è arrivata prima di te."),
-  T("modi", "detto-il-vero", "Detto il vero", "Una domanda di Peppe", "A Peppe che ti chiedeva del sangue hai detto la verità."),
+  T("modi", "mani-pulite", "Mani pulite", "Arrivare in un certo modo", "Sei arrivato a casa senza sangue sulle mani.",
+    ["Clean hands", "Arriving a certain way", "You came home with no blood on your hands."]),
+  T("modi", "la-lettera", "La lettera", "Al guado, una via", "Al guado Cosimo ha riconosciuto la sua lettera, e si è fatto da parte.",
+    ["The letter", "At the ford, one way", "At the ford Cosimo recognised his letter, and stepped aside."]),
+  T("modi", "il-fucile-posato", "Il fucile posato", "Al guado, un'altra via", "Al guado hai posato il fucile, e Cosimo si è fatto da parte.",
+    ["The shotgun laid down", "At the ford, another way", "At the ford you laid down the shotgun, and Cosimo stepped aside."]),
+  T("modi", "chi-arrivava-di-la", "Chi arrivava di là", "Al guado, la via più lunga", "Al guado sei rimasto fermo con Cosimo, finché si è fatto da parte.",
+    ["Who'd reach the other side", "At the ford, the longest way", "At the ford you kept still with Cosimo, until he stepped aside."]),
+  T("modi", "quello-che-lasciava-l-acqua", "Quello che lasciava l'acqua", "Quello che si dice di te", "La voce di ciò che lasciavi per strada è arrivata prima di te.",
+    ["The one who left water", "What they say about you", "Word of what you left along the road got there before you."]),
+  T("modi", "detto-il-vero", "Detto il vero", "Una domanda di Peppe", "A Peppe che ti chiedeva del sangue hai detto la verità.",
+    ["The truth told", "A question from Peppe", "When Peppe asked you about the blood, you told him the truth."]),
   // le tre sfide, ciascuna su un finale della storia
-  T("sfide", "senza-voltarti", "Senza voltarti", "Una sfida", "Sei arrivato a un finale senza mai tornare indietro."),
-  T("sfide", "tutto-a-parole", "Tutto a parole", "Una sfida", "Sei arrivato a un finale scrivendo ogni comando."),
-  T("sfide", "tutto-a-pulsanti", "Tutto a pulsanti", "Una sfida", "Sei arrivato a un finale coi soli pulsanti."),
+  T("sfide", "senza-voltarti", "Senza voltarti", "Una sfida", "Sei arrivato a un finale senza mai tornare indietro.",
+    ["Without looking back", "A challenge", "You reached an ending without ever going back."]),
+  T("sfide", "tutto-a-parole", "Tutto a parole", "Una sfida", "Sei arrivato a un finale scrivendo ogni comando.",
+    ["All in words", "A challenge", "You reached an ending typing every command."]),
+  T("sfide", "tutto-a-pulsanti", "Tutto a pulsanti", "Una sfida", "Sei arrivato a un finale coi soli pulsanti.",
+    ["All by buttons", "A challenge", "You reached an ending with the buttons alone."]),
   // la collezione
-  T("collezione", "tutte-le-strade", "Tutte le strade", "Tutti i finali", "Hai visto i sei finali della storia."),
-  T("collezione", "il-viaggiatore", "Il viaggiatore", "Tutto", "Hai vinto tutti gli altri trofei."),
+  T("collezione", "tutte-le-strade", "Tutte le strade", "Tutti i finali", "Hai visto i sei finali della storia.",
+    ["All the roads", "All the endings", "You have seen all six endings of the story."]),
+  T("collezione", "il-viaggiatore", "Il viaggiatore", "Tutto", "Hai vinto tutti gli altri trofei.",
+    ["The traveller", "Everything", "You have won every other trophy."]),
 ];
+
+/** I testi di un trofeo nella lingua data. Qui niente import: chi mostra passa la lingua di adesso (lib/lingua.ts, lingua()). */
+export const testiTrofeo = (t: Trofeo, lingua: "it" | "en"): TestiTrofeo => (lingua === "en" ? t.en : t);
+
+/** Il titolo di una famiglia nella lingua data. */
+export const titoloFamiglia = (f: Famiglia, lingua: "it" | "en"): string => {
+  const x = FAMIGLIE.find((y) => y.id === f);
+  return x ? (lingua === "en" ? x.en.titolo : x.titolo) : f;
+};
 
 export const PER_ID: ReadonlyMap<string, Trofeo> = new Map(TROFEI.map((t) => [t.id, t]));
 

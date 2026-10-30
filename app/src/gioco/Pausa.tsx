@@ -7,6 +7,7 @@
 // ====================================================================
 import { scalaTesto } from "../lib/accessibilita";
 import { useOpzioni } from "../lib/useOpzioni";
+import { tr } from "../lib/lingua";
 import { useRef } from "react";
 import { useDialogo } from "./useDialogo";
 import VociMenu, { type VoceMenu } from "./VociMenu";
@@ -38,25 +39,25 @@ export default function Pausa({ accento, coperta, puoSalvare, onRiprendi, onSalv
   const dialogo = useDialogo<HTMLDivElement>(onRiprendi, () => copertaRef.current);
 
   const voci: VoceMenu[] = [
-    { id: "riprendi", etichetta: "Riprendi", tasto: "Esc", principale: true, azione: onRiprendi },
-    { id: "salva", etichetta: "Salva", disabilitata: !puoSalvare, azione: onSalva },
-    { id: "carica", etichetta: "Carica", azione: onCarica },
-    { id: "trofei", etichetta: "Trofei", azione: onTrofei },
-    { id: "opzioni", etichetta: "Opzioni", azione: onOpzioni },
-    { id: "guida", etichetta: "Come si gioca", azione: onGuida },
-    { id: "menu", etichetta: "Torna al menu d'avvio", azione: onMenu },
-    ...(onEsci ? [{ id: "esci", etichetta: "Esci dal gioco", azione: onEsci }] : []),
+    { id: "riprendi", etichetta: tr("Riprendi", "Resume"), tasto: "Esc", principale: true, azione: onRiprendi },
+    { id: "salva", etichetta: tr("Salva", "Save"), disabilitata: !puoSalvare, azione: onSalva },
+    { id: "carica", etichetta: tr("Carica", "Load"), azione: onCarica },
+    { id: "trofei", etichetta: tr("Trofei", "Trophies"), azione: onTrofei },
+    { id: "opzioni", etichetta: tr("Opzioni", "Options"), azione: onOpzioni },
+    { id: "guida", etichetta: tr("Come si gioca", "How to play"), azione: onGuida },
+    { id: "menu", etichetta: tr("Torna al menu d'avvio", "Back to the main menu"), azione: onMenu },
+    ...(onEsci ? [{ id: "esci", etichetta: tr("Esci dal gioco", "Quit the game"), azione: onEsci }] : []),
   ];
 
   return (
-    <div ref={dialogo} tabIndex={-1} role="dialog" aria-modal="true" aria-label="In pausa"
+    <div ref={dialogo} tabIndex={-1} role="dialog" aria-modal="true" aria-label={tr("In pausa", "Paused")}
       style={{ outline: "none", fontSize: 15 * scalaTesto(opz), position: "absolute", inset: 0, zIndex: 65, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
         background: "radial-gradient(60% 70% at 50% 50%, rgba(6,5,10,.9) 0%, rgba(6,5,10,.82) 60%, rgba(6,5,10,.7) 100%)",
         backdropFilter: "blur(5px)", WebkitBackdropFilter: "blur(5px)", animation: "kf-launch .25s ease both", pointerEvents: "auto" }}>
-      <p style={{ margin: 0, fontFamily: MONO, fontSize: ".75em", letterSpacing: ".34em", textTransform: "uppercase", color: accento }}>il viaggio si ferma</p>
-      <h2 style={{ margin: ".25em 0 .9em", fontFamily: SERIF, fontWeight: 500, fontSize: "2.4em", color: "#f4ece0", letterSpacing: "-.01em" }}>In pausa</h2>
-      <VociMenu voci={voci} etichetta="La pausa" accento={accento} coperto={coperta} />
-      <p className="mv-nota" style={{ margin: "1.8em 0 0", fontFamily: MONO, fontSize: ".72em", letterSpacing: ".14em", color: "rgba(214,224,238,.42)" }}>↑↓ scegli · Invio conferma · Esc riprende</p>
+      <p style={{ margin: 0, fontFamily: MONO, fontSize: ".75em", letterSpacing: ".34em", textTransform: "uppercase", color: accento }}>{tr("il viaggio si ferma", "the journey stops")}</p>
+      <h2 style={{ margin: ".25em 0 .9em", fontFamily: SERIF, fontWeight: 500, fontSize: "2.4em", color: "#f4ece0", letterSpacing: "-.01em" }}>{tr("In pausa", "Paused")}</h2>
+      <VociMenu voci={voci} etichetta={tr("La pausa", "Pause")} accento={accento} coperto={coperta} />
+      <p className="mv-nota" style={{ margin: "1.8em 0 0", fontFamily: MONO, fontSize: ".72em", letterSpacing: ".14em", color: "rgba(214,224,238,.42)" }}>{tr("↑↓ scegli · Invio conferma · Esc riprende", "↑↓ choose · Enter confirms · Esc resumes")}</p>
     </div>
   );
 }

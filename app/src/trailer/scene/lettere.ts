@@ -15,18 +15,26 @@ import { camera, pulviscolo, type C2D } from "../pittura";
 import { carta, scriviLettera, scriviRiga } from "../scritta";
 import { campoLento, creaTela, ctxDi, fbmPeriodico, hexRgb, perlin, riempi, RES_TELE, type Tela } from "../texture";
 import { FONT } from "../font";
+import { inglese } from "../../lib/lingua";
 
+// le date e l'intestazione si scrivono a ogni fotogramma, nella lingua di adesso (`en`: la stessa data in inglese)
 export const POSIZIONI_LETTERE = [
-  { x: 720, y: 470, r: -0.13, d: "14 marzo" },
-  { x: 1140, y: 505, r: 0.09, d: "2 maggio" },
-  { x: 860, y: 600, r: -0.04, d: "19 luglio" },
-  { x: 1210, y: 400, r: 0.16, d: "11 ottobre" },
+  { x: 720, y: 470, r: -0.13, d: "14 marzo", en: "14 March" },
+  { x: 1140, y: 505, r: 0.09, d: "2 maggio", en: "2 May" },
+  { x: 860, y: 600, r: -0.04, d: "19 luglio", en: "19 July" },
+  { x: 1210, y: 400, r: 0.16, d: "11 ottobre", en: "11 October" },
 ];
+
+/** L'ultimo posto di una scrittura a macchina del biglietto (ogni riga ne lascia quattro vuoti dopo di sé). */
+const ultimoPosto = (righe: readonly string[]) => righe.reduce((n, r) => n + r.length, 0) + 4 * (righe.length - 1) - 1;
+/** In inglese la frase è più lunga: la mano va più svelta, così l'ultima lettera arriva quando arriva quella italiana. */
+const PASSO_EN = BIGLIETTO.perCarattere * ultimoPosto(BIGLIETTO.testo) / ultimoPosto(BIGLIETTO.testoEn);
 
 const FW = 520, FH = 350, RES = RES_TELE;
 const RES_SCRITTURA = 1.5;                           // la geometria delle righe (corpo, interlinea) è pensata su fogli di FW·1,5 × FH·1,5
 const BW = 430, BH = 190;
 const LARGO_MANO = 300;                              // quanto è larga la prima riga del biglietto (px): il corpo si ricava da qui
+const LARGO_MANO_EN = 340;                           // in inglese la prima riga ha più lettere: un poco più larga, perché non rimpiccioliscano troppo
 
 interface StatoLettere { tavolo: Tela; fogli: Tela[]; inchiostri: Tela[]; biglietto: Tela; busta: Tela; penna: Tela; macchia: Tela; maschera: Tela }
 
@@ -216,6 +224,7 @@ function foglio(ctx: C2D, tela: Tela, w: number, h: number, x: number, y: number
 // --------------------------------------------------------------------
 export function disegnaLettere(ctx: C2D, t: number, c: Cache) {
   const a = c.lettere as StatoLettere;
+  const en = inglese();
   // la macchina avanza: 1,0 → 1,1 in 9,6 s, e con lei si muove anche il legno (le giunture delle assi
   // scorrono quanto la busta e le lettere: lo sguardo «entra» nel tavolo). A 1,0 la tela copre
   // esattamente il quadro e poi può solo ingrandire: i bordi restano coperti.
@@ -275,8 +284,8 @@ export function disegnaLettere(ctx: C2D, t: number, c: Cache) {
     ctx.globalAlpha = clamp(scr * 3);
     ctx.fillStyle = "rgba(30,44,86,.88)";
     ctx.font = `italic 500 24px ${FONT.serif}`;
-    ctx.textAlign = "right"; ctx.fillText(p.d, 480, 52);
-    ctx.textAlign = "left"; ctx.fillText("Caro mio,", 46, 72);
+    ctx.textAlign = "right"; ctx.fillText(en ? p.en : p.d, 480, 52);
+    ctx.textAlign = "left"; ctx.fillText(en ? "My dear," : "Caro mio,", 46, 72);
     ctx.globalAlpha = 1;
     ctx.restore();
   });
@@ -290,18 +299,19 @@ export function disegnaLettere(ctx: C2D, t: number, c: Cache) {
     ctx.translate(bx, by); ctx.rotate(br);
     ctx.fillStyle = "#15171c";
     // il corpo si ricava dalla larghezza della prima riga: anche col carattere di ripiego il biglietto resta della stessa mole
+    const testo = en ? BIGLIETTO.testoEn : BIGLIETTO.testo, passo = en ? PASSO_EN : BIGLIETTO.perCarattere;
     ctx.font = `400 100px ${FONT.mano}`;
-    const corpo = Math.min(64, LARGO_MANO * 100 / Math.max(1, ctx.measureText(BIGLIETTO.testo[0]).width));
+    const corpo = Math.min(64, (en ? LARGO_MANO_EN : LARGO_MANO) * 100 / Math.max(1, ctx.measureText(testo[0]).width));
     ctx.font = `400 ${corpo.toFixed(1)}px ${FONT.mano}`;
     ctx.lineWidth = corpo * 0.024; ctx.lineJoin = "round"; ctx.strokeStyle = "#15171c";   // il pennarello: il tratto pieno, un filo più grosso del carattere
     ctx.textBaseline = "middle";
     let n = 0;
-    BIGLIETTO.testo.forEach((riga, ri) => {
+    testo.forEach((riga, ri) => {
       const r = rng(40 + ri);
       const SP = 1.2;                                                 // il respiro fra una lettera e l'altra
       let x = -(ctx.measureText(riga).width + riga.length * SP) / 2;
       for (const ch of riga) {
-        const tc = BIGLIETTO.scrive + n * BIGLIETTO.perCarattere;
+        const tc = BIGLIETTO.scrive + n * passo;
         const w = ctx.measureText(ch).width;
         const dy = (r() - 0.5) * 3.2, rot = (r() - 0.5) * 0.07, forza = 0.86 + r() * 0.14;
         if (t >= tc) {

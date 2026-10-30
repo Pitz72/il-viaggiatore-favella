@@ -9,6 +9,7 @@
 //  file: chiede soltanto, e la copia la fa qui, dall'elenco.
 // ====================================================================
 const { app, dialog, shell } = require("electron");
+const { tr } = require("./lingua.cjs");
 const fs = require("node:fs");
 const path = require("node:path");
 const registro = require("./registro.cjs");
@@ -33,9 +34,9 @@ async function copiaAlbum(web, dove) {
 function registra(web, finestra) {
   gestisci("colonna:salva", async () => {
     const scelta = await dialog.showOpenDialog(finestra(), {
-      title: "Dove salvare la colonna sonora",
+      title: tr("Dove salvare la colonna sonora", "Where to save the soundtrack"),
       defaultPath: app.getPath("music"),
-      buttonLabel: "Salva qui",
+      buttonLabel: tr("Salva qui", "Save here"),
       properties: ["openDirectory", "createDirectory"],
     });
     if (scelta.canceled || !scelta.filePaths[0]) return null;
