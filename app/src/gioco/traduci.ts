@@ -19,7 +19,7 @@
 //  Ciò che non si ritrova resta in italiano (il collaudo collaudo/traduzione.py
 //  pretende che lungo i percorsi non succeda). I nomi di luoghi, cose e persone
 //  (pulsanti, mappa, parole che si toccano) li dà nome().
-//  Niente React e niente import di runtime oltre ai cataloghi: il collaudo lo
+//  Niente React; di runtime soltanto i cataloghi e testo.ts: il collaudo lo
 //  prova in Node (app/scripts/traduci-node.mjs).
 // ====================================================================
 import storia from "../lingue/en/storia.json";
@@ -32,7 +32,7 @@ import z5 from "../lingue/en/z5.json";
 import z6 from "../lingue/en/z6.json";
 import z7 from "../lingue/en/z7.json";
 import nomiEn from "../lingue/en/nomi.json";
-import type { Blocco } from "./testo";
+import { analizza, spezza, type Blocco } from "./testo";
 
 export interface VoceCatalogo { tipo: string; chi?: string; dove?: string; it: string; en: string }
 export const CATALOGHI: Record<string, VoceCatalogo[]> = { storia, sistemi, z1, z2, z3, z4, z5, z6, z7 };
@@ -366,3 +366,22 @@ export const VOCI_EN: Record<string, string> = {
 };
 export const gestoInglese = (k: string): string => GESTI_EN[k] ?? "";
 export const vocediTeInglese = (k: string): string => VOCI_EN[k] ?? k;
+
+// --------------------------------------------------------------------
+//  Le strade che il testo nomina («Parola per parola», trofei.ts)
+// --------------------------------------------------------------------
+//  In inglese la sfida vuole che ogni strada nominata dal testo si prenda
+//  toccando la sua parola (NORTH, BAR…), non la rosa dei venti; dove il testo
+//  tace (la discesa, la salita, la sterrata) la rosa è la sola via. Il testo è
+//  quello del luogo, come lo ridice «guarda».
+const senzaArticolo = (s: string) => s.replace(/^(il|lo|la|i|gli|le|un|uno|una)\s+/i, "").replace(/^(l'|un')/i, "").toLowerCase();
+
+/** Le parole da toccare di un testo del motore, mostrato in inglese, col nome italiano che conoscono i pulsanti. */
+export const paroleDaToccare = (testo: string): string[] => analizza(testo).filter((b) => b.tipo === "prosa")
+  .flatMap((b) => spezza(inInglese(b.testo)).filter((p) => p.k === "chiave").map((p) => chiaveItaliana(p.s.toLowerCase())));
+
+/** Il testo, in inglese, nomina questa strada con una parola da toccare? Per la direzione o per il luogo dove porta. */
+export function nominaLaStrada(testo: string, dir: string, verso: string): boolean {
+  const parole = paroleDaToccare(testo);
+  return parole.includes(dir) || parole.includes(senzaArticolo(verso));
+}

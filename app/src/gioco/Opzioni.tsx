@@ -18,8 +18,8 @@ import { useEffect, useRef, useState } from "react";
 import { useDialogo } from "./useDialogo";
 import { useOpzioni } from "../lib/useOpzioni";
 import { ascoltaTrofei, azzeraTrofei, deposito } from "../lib/trofei";
-import { TROFEI } from "./trofei";
-import { ACCESSIBILE, altaAccessibilita, comandiEffettivi, NON_ACCESSIBILE, ripristinaOpzioni, type ModoComandi, type ModoVoce, type Opzioni, type Qualita } from "../lib/opzioni";
+import { trofeiDellaLingua } from "./trofei";
+import { ACCESSIBILE, altaAccessibilita, comandiEffettivi, NON_ACCESSIBILE, opzioni, ripristinaOpzioni, type ModoComandi, type ModoVoce, type Opzioni, type Qualita } from "../lib/opzioni";
 import { in_, tr, type Bilingue } from "../lib/lingua";
 import { cercaAggiornamenti, dimensioneFinestra, impostaSchermoIntero, seguiFinestra, statoFinestra, statoSchermoIntero, type StatoFinestra } from "../lib/desktop";
 import "./opzioni.css";
@@ -86,7 +86,7 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
   const [trofeiVinti, setTrofeiVinti] = useState<number | null>(null);
   useEffect(() => {
     let vivo = true;
-    const conta = (v: Record<string, string>) => vivo && setTrofeiVinti(TROFEI.filter((t) => v[t.id]).length);
+    const conta = (v: Record<string, string>) => vivo && setTrofeiVinti(trofeiDellaLingua(opzioni().lingua).filter((t) => v[t.id]).length);
     deposito().then((d) => conta(d.vinti)).catch(() => {});
     const smetti = ascoltaTrofei((d) => conta(d.vinti));
     return () => { vivo = false; smetti(); };
@@ -242,8 +242,8 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
                   </span>
                   <span className="opz-spiega" style={stileSpiega}>
                     {trofeiVinti === null ? "" : trofeiVinti
-                      ? tr(`Ne hai vinti ${trofeiVinti} di ${TROFEI.length}. Azzerarli li rimette tutti da vincere; i salvataggi restano.`,
-                        `You have won ${trofeiVinti} of ${TROFEI.length}. Resetting puts them all back up for grabs; your saves stay.`)
+                      ? tr(`Ne hai vinti ${trofeiVinti} di ${trofeiDellaLingua(o.lingua).length}. Azzerarli li rimette tutti da vincere; i salvataggi restano.`,
+                        `You have won ${trofeiVinti} of ${trofeiDellaLingua(o.lingua).length}. Resetting puts them all back up for grabs; your saves stay.`)
                       : tr("Nessun trofeo vinto, per ora.", "No trophies won, for now.")}
                   </span>
                 </div>

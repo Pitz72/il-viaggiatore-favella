@@ -16,7 +16,10 @@ Questo collaudo controlla:
      battute riga per riga);
   5. le righe a lato dello schermo (testo.ts, GESTI e VOCI) hanno la loro traduzione (traduci.ts);
   6. come gioca chi sceglie l'inglese, coi soli pulsanti: il giocatore a caso di pulsanti.py (--esplora), da ogni zona,
-     e ogni riga che il motore gli stampa (anche le risposte del motore che i percorsi non toccano) si traduce.
+     e ogni riga che il motore gli stampa (anche le risposte del motore che i percorsi non toccano) si traduce;
+  7. le strade nominate («Parola per parola», il trofeo dell'inglese): lungo i dodici percorsi, a ogni spostamento, se il
+     testo italiano del luogo nomina quella strada con una parola da toccare, la nomina anche l'inglese, e la parola
+     inglese porta proprio a quell'uscita (traduci.ts, nominaLaStrada: la stessa regola del gioco).
 
 Uso:  python traduzione.py      (esce con 1 se qualcosa non va; serve `npm ci --prefix app`)
 """
@@ -88,6 +91,30 @@ def testi_a_pulsanti(n=3, t=160, seme=3):
         ui.chiudi()
         pulsanti.nuovo_ponte = originale
     return stampati, scelte
+
+
+def spostamenti(comandi):
+    """Ogni spostamento di un percorso, col testo del luogo come lo ridice «guarda» (senza giocarlo) e l'uscita presa."""
+    import trofei
+    p = trofei.nuovo_ponte()
+    m = p._mondo
+    out = []
+    for c in comandi:
+        if m.stato_partita != "in_corso":
+            break
+        if not m.dialogo_attivo:
+            v = m.variabili
+            if v.get("sete", 0) >= 5 and v.get("acqua", 0) >= 1:
+                p.fav_step("bevi")
+            if v.get("fame", 0) >= 6 and v.get("cibo", 0) >= 1:
+                p.fav_step("mangia qualcosa")
+        st = json.loads(p.fav_stato())
+        u = [x for x in (st.get("exits") or []) if x["dir"] == c.strip().lower()]
+        if u and not st.get("dialog"):
+            out.append({"testo": json.loads(p.fav_anteprima("guarda")).get("testo", ""), "dir": u[0]["dir"],
+                        "verso": u[0]["verso"], "stanza": st["room"]})
+        p.fav_step(c)
+    return out
 
 
 def main():
@@ -172,6 +199,17 @@ def main():
                      | {"risposta «%s»" % x["it"] for x in rp["scelte"] if x["en"] is None})
     esito(not senza_p, "coi soli pulsanti, un giocatore a caso da ogni zona (%d righe, %d risposte): ognuna si traduce"
           % (sum(len(t) for t in rp["testi"]), len(set(scelte_p))), senza_p)
+    # 7. le strade nominate, per «Parola per parola»
+    import percorsi
+    passi = [x for n in percorsi.PERCORSI for x in spostamenti(percorsi.comandi(n))]
+    rs = json.loads(subprocess.run(["node", TRADUCI_NODE], input=json.dumps({"passi": passi}),
+                                   capture_output=True, text=True, encoding="utf-8").stdout)["passi"]
+    perse = sorted({"%s → %s (%s): parole inglesi %s" % (x["stanza"], x["dir"], x["verso"], r["parole"])
+                    for x, r in zip(passi, rs) if r["it"] and not r["en"]})
+    taciute = sorted({"%s → %s" % (x["stanza"], x["dir"]) for x, r in zip(passi, rs) if not r["it"] and not r["en"]})
+    esito(not perse, "lungo i percorsi %d spostamenti: ogni strada che il testo italiano nomina la nomina anche l'inglese, con "
+          "una parola che porta lì (dove il testo tace, %d passaggi, la rosa dei venti non fa cadere «Parola per parola»: %s)"
+          % (len(passi), len(taciute), "; ".join(taciute)), perse)
     rimaste = sorted({"%s «%s»" % (x["blocco"]["tipo"], x["mostrato"]["testo"][:90]) for t in r["testi"] for x in t
                       if x["en"] and x["blocco"]["tipo"] != "comando" and "«" in x["mostrato"].get("testo", "")})
     esito(not rimaste, "nessuna riga tradotta mostra ancora caporali italiani", rimaste)

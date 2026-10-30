@@ -5,6 +5,9 @@
 //  nomi: [nome…]} e scrive, per ogni testo, i blocchi del diario con la loro
 //  traduzione (null se non si ritrova); per ogni risposta e ogni nome, lo
 //  stesso. I cataloghi sono quelli veri del gioco (src/lingue/en/).
+//  Con `passi: [{testo, dir, verso}…]` dice, per ogni spostamento, se nel testo
+//  inglese del luogo (quello di «look») c'è una parola da toccare che porta a
+//  quell'uscita: il trofeo «Parola per parola» si vince solo se sì.
 //  Serve a collaudo/traduzione.py.
 // ====================================================================
 import fs from "node:fs";
@@ -31,8 +34,14 @@ try {
 } finally {
   fs.rmSync(tmp, { recursive: true, force: true });
 }
-const { analizza, GESTI, VOCI } = moduli.testo;
-const { traduciTesto, traduciBlocco, nome, GESTI_EN, VOCI_EN } = moduli.traduci;
+const { analizza, spezza, GESTI, VOCI } = moduli.testo;
+// come azioni.ts: «La piazza» → «piazza»; e le parole da toccare del testo italiano, com'è (per confrontarlo con l'inglese)
+const senzaArticolo = (s) => s.replace(/^(il|lo|la|i|gli|le|un|uno|una)\s+/i, "").replace(/^(l'|un')/i, "").toLowerCase();
+const nominaInItaliano = (testo, dir, verso) => {
+  const parole = analizza(testo).filter((b) => b.tipo === "prosa").flatMap((b) => spezza(b.testo).filter((p) => p.k === "chiave").map((p) => p.s.toLowerCase()));
+  return parole.includes(dir) || parole.includes(senzaArticolo(verso));
+};
+const { traduciTesto, traduciBlocco, nome, paroleDaToccare, nominaLaStrada, GESTI_EN, VOCI_EN } = moduli.traduci;
 
 const input = JSON.parse(fs.readFileSync(0, "utf8"));
 process.stdout.write(JSON.stringify({
@@ -43,6 +52,8 @@ process.stdout.write(JSON.stringify({
   })),
   scelte: (input.scelte ?? []).map((o) => ({ it: o, en: traduciTesto(o) })),
   nomi: (input.nomi ?? []).map((n) => ({ it: n, en: nome(n) !== n ? nome(n) : null })),
+  passi: (input.passi ?? []).map((x) => ({ en: nominaLaStrada(x.testo, x.dir, x.verso ?? ""), it: nominaInItaliano(x.testo, x.dir, x.verso ?? ""),
+    parole: paroleDaToccare(x.testo) })),
   // le righe a lato dello schermo: le chiavi delle tabelle italiane e di quelle inglesi
   lato: { gesti: [Object.keys(GESTI).sort(), Object.keys(GESTI_EN).sort()], voci: [Object.keys(VOCI).sort(), Object.keys(VOCI_EN).sort()] },
 }));

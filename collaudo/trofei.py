@@ -14,7 +14,9 @@ Che cosa si pretende:
   · ogni riga «FINALE —» e ogni «perdi» dei .fav ha il suo trofeo, e uno solo; ogni
     gesto del ponte ha il suo; ogni via del riconoscimento al guado ha il suo;
   · le sfide: tornare indietro (ANNULLA) toglie «Senza voltarti», un comando dato con
-    un pulsante toglie «Tutto a parole», uno scritto toglie «Tutto a pulsanti»;
+    un pulsante toglie «Tutto a parole», uno scritto toglie «Tutto a pulsanti»; in inglese,
+    una strada nominata dal testo presa dalla rosa toglie «Parola per parola», e giocare in
+    italiano anche (le partite scritte sono in italiano);
   · tutte le partite di fila, coi trofei che si accumulano: ogni trofeo è vinto da
     almeno una partita, «Tutte le strade» arriva col sesto finale diverso e «Il
     viaggiatore» con l'ultimo trofeo che mancava, una volta sola.
@@ -74,7 +76,8 @@ class Regole:
         self.proc.wait(timeout=10)
 
 
-SCRITTE = dict(scritto=True, toccato=False, indietro=False)
+# le partite scritte sono in italiano: «Parola per parola», la sfida dell'inglese, vi cade
+SCRITTE = dict(scritto=True, toccato=False, indietro=False, italiano=True, fuoriTesto=False)
 
 
 def gioca(comandi, giro=None, limite=None, bevi=True, mangia=True, sfide=None):
@@ -126,8 +129,13 @@ _AL_CASELLO = percorsi.Z1_Z4[:percorsi.Z1_Z4.index("parla con Vito")]
 
 PARTITE = {n: dict(comandi=percorsi.comandi(n)) for n in percorsi.PERCORSI}
 # B_cavallo come la gioca pulsanti.py, coi soli pulsanti; C_fede mescolando; D_vuoto con un passo disfatto
-PARTITE["B_cavallo"]["sfide"] = dict(scritto=False, toccato=True, indietro=False)
-PARTITE["C_fede"]["sfide"] = dict(scritto=True, toccato=True, indietro=False)
+PARTITE["B_cavallo"]["sfide"] = dict(scritto=False, toccato=True, indietro=False, italiano=True, fuoriTesto=False)
+PARTITE["C_fede"]["sfide"] = dict(scritto=True, toccato=True, indietro=False, italiano=True, fuoriTesto=False)
+# G_posato in inglese, coi pulsanti, prendendo dal testo ogni strada che il testo nomina (collaudo/traduzione.py prova che
+# lungo i percorsi ogni strada nominata in italiano lo è anche in inglese, e che la parola porta a quell'uscita)
+PARTITE["G_parola"] = dict(comandi=percorsi.comandi("G_posato"), sfide=dict(scritto=False, toccato=True, indietro=False, italiano=False, fuoriTesto=False))
+# e in inglese, ma con una strada nominata presa dalla rosa dei venti: la sfida cade
+PARTITE["H_rosa"] = dict(comandi=percorsi.comandi("H_veglia"), sfide=dict(scritto=False, toccato=True, indietro=False, italiano=False, fuoriTesto=True))
 PARTITE["D_vuoto"]["comandi"] = ["nord", "annulla"] + percorsi.comandi("D_vuoto")
 PARTITE.update({
     "sete": dict(comandi=[], giro=["nord", "sud"], bevi=False, limite=200),
@@ -154,6 +162,8 @@ ATTESI = {
     "E_fucile": TUTTA | SCRITTA | {"sopra-il-corpo"},
     "F_fucile_pep": TUTTA | SCRITTA | {"nessuno-da-chiamare"},
     "G_posato": TUTTA | PULITE | SCRITTA | {"il-cavallo-di-legno", "il-fucile-posato"},
+    "G_parola": TUTTA | PULITE | {"senza-voltarti", "tutto-a-pulsanti", "parola-per-parola", "il-cavallo-di-legno", "il-fucile-posato"},
+    "H_rosa": TUTTA | {"senza-voltarti", "tutto-a-pulsanti", "il-cavallo-di-legno", "chi-arrivava-di-la"},
     "H_veglia": TUTTA | SCRITTA | {"il-cavallo-di-legno", "chi-arrivava-di-la"},
     "I_imma": TUTTA | PULITE | SCRITTA | {"quello-che-era-suo", "la-lettera", "la-scarpa-allacciata", "quello-che-lasciava-l-acqua"},
     "J_imma_sangue": TUTTA | SCRITTA | {"il-cavallo-di-legno", "chi-arrivava-di-la", "la-scarpa-allacciata", "quello-che-lasciava-l-acqua"},
@@ -167,7 +177,7 @@ ATTESI = {
 }
 
 # Il momento di ciascun trofeo: all'ultimo turno, oppure al turno di un comando (con chi si parla, se conta).
-ALLA_FINE = {"mani-pulite", "senza-voltarti", "tutto-a-parole", "tutto-a-pulsanti", "tutte-le-strade", "il-viaggiatore"}
+ALLA_FINE = {"mani-pulite", "senza-voltarti", "tutto-a-parole", "tutto-a-pulsanti", "parola-per-parola", "tutte-le-strade", "il-viaggiatore"}
 MOMENTO = {
     "senza-un-grazie": lambda c, chi: chi == "saverio" and c == "cibo",
     "qualcosa-del-tuo": lambda c, chi: chi == "iole" and c == "dell'acqua",
@@ -204,10 +214,13 @@ def main():
         famiglie = {f["id"] for f in cat["famiglie"]}
 
         # ── il catalogo ─────────────────────────────────────────────────────
-        prova("trenta trofei, id e nomi tutti diversi, ognuno in una famiglia che c'è",
-              len(trofei) == 30 and len(set(ids)) == 30 and len({t["nome"] for t in trofei}) == 30
-              and all(t["famiglia"] in famiglie and t["accenno"] and t["frase"] for t in trofei),
-              f"{len(trofei)} trofei, {len(set(ids))} id")
+        solo_in = cat["solo_in"]
+        prova("trentuno trofei (trenta per lingua: «Tutto a parole» in italiano, «Parola per parola» in inglese), id e nomi "
+              "tutti diversi, ognuno in una famiglia che c'è",
+              len(trofei) == 31 and len(set(ids)) == 31 and len({t["nome"] for t in trofei}) == 31
+              and solo_in == {"tutto-a-parole": "it", "parola-per-parola": "en"}
+              and all(t["famiglia"] in famiglie and t["accenno"] and t["frase"] and t["en"]["nome"] for t in trofei),
+              f"{len(trofei)} trofei, {len(set(ids))} id, solo in {solo_in}")
         prova("ogni famiglia ha almeno un trofeo", famiglie == {t["famiglia"] for t in trofei})
         dichiarati = finali_dichiarati()
         finali = [msg for esito, msg in dichiarati if msg.startswith("FINALE")]
@@ -281,8 +294,10 @@ def main():
         prova("«Tutte le strade» arriva col sesto finale diverso, all'ultimo turno di quella partita",
               dove.get("tutte-le-strade", [(None, None)])[0][0] == sesto
               and dove["tutte-le-strade"][0][1] == len(giocate[sesto][0]) - 1, str(dove.get("tutte-le-strade")))
-        ultimo_mancante = max((v[0] for i, v in dove.items() if i != "il-viaggiatore"),
-                              key=lambda nk: (list(giocate).index(nk[0]), nk[1]))
+        # per la collezione le due sfide di una lingua sola valgono l'una l'altra: conta la prima vinta delle due
+        ordine = lambda nk: (list(giocate).index(nk[0]), nk[1])
+        lingua = min((dove[i][0] for i in solo_in if i in dove), key=ordine)
+        ultimo_mancante = max([v[0] for i, v in dove.items() if i != "il-viaggiatore" and i not in solo_in] + [lingua], key=ordine)
         prova("«Il viaggiatore» arriva con l'ultimo trofeo che mancava, una volta sola",
               dove.get("il-viaggiatore") == [ultimo_mancante], f"{dove.get('il-viaggiatore')} invece di {ultimo_mancante}")
     finally:

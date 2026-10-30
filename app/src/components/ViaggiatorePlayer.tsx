@@ -65,7 +65,7 @@ import Pausa from "../gioco/Pausa";
 import { useOpzioni } from "../lib/useOpzioni";
 import { comandiEffettivi } from "../lib/opzioni";
 import { tr } from "../lib/lingua";
-import { chiaveItaliana, comandoInglese, etichettaInglese, gestoInglese, inInglese, nome, traduciBlocco, vocediTeInglese } from "../gioco/traduci";
+import { chiaveItaliana, comandoInglese, etichettaInglese, gestoInglese, inInglese, nome, nominaLaStrada, traduciBlocco, vocediTeInglese } from "../gioco/traduci";
 import { cartaNellaLingua } from "../gioco/Mappa";
 import { movimentoRidotto } from "../lib/accessibilita";
 import PaginaTrofei from "../gioco/PaginaTrofei";
@@ -89,8 +89,8 @@ const MAGGIORI = ["Saverio", "Iole", "Vito", "Rosaria", "Onofrio"];
 interface Voce { id: number; cmd?: string; blocchi: Blocco[]; stati?: Record<string, string>; nuova?: boolean }
 type Menu = Cosa | null;
 /** `annullabile`: dopo la mossa il pulsante ↶ annulla potrà disfarla (non se il dialogo continua o la partita finisce);
- *  `daRiga`: il comando è stato scritto, non toccato (per le sfide dei trofei) */
-type Richiesta = { cmd: string; etichetta: string; conferma: DatiConferma; annullabile: boolean; daRiga: boolean } | null;
+ *  `daRiga`: il comando è stato scritto, non toccato (per le sfide dei trofei); `daTesto`: viene da una parola del diario */
+type Richiesta = { cmd: string; etichetta: string; conferma: DatiConferma; annullabile: boolean; daRiga: boolean; daTesto: boolean } | null;
 const SENZA_AZIONI: AzioniContesto = { soli: [], bersagli: [] };
 /** Dopo la voce del finale, un respiro prima di andare avanti (ms). */
 const DOPO_LA_VOCE = 2500;
@@ -413,12 +413,25 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
     return cmd;
   };
 
-  const esegui = (cmd: string, etichetta?: string, daRiga = false) => {
+  /** Una strada che il testo del luogo nomina, presa invece dalla rosa dei venti: in inglese «Parola per parola» cade.
+   *  Si chiede solo finché la sfida è viva (in italiano lo è già caduta). */
+  const stradaFuoriTesto = (cmd: string, daTesto: boolean) => {
+    const s = sfide.current;
+    if (daTesto || s.fuoriTesto || s.italiano || mondo.dialog || !sessione.current) return false;
+    const u = (mondo.exits ?? []).find((x) => x.dir === cmd.trim().toLowerCase());
+    return !!u && nominaLaStrada(sessione.current.anteprima("guarda").testo, u.dir, u.verso);
+  };
+
+  const esegui = (cmd: string, etichetta?: string, daRiga = false, daTesto = false) => {
     if (finita || !sessione.current) return;
     // le sfide: ANNULLA (che disfa davvero qualcosa) è tornare indietro; ogni altro comando è scritto o toccato
     const annullo = !mondo.dialog && /^(annulla|disfa)$/i.test(cmd) && (mondo.undo ?? 0) > 0;
+    const fuoriTesto = stradaFuoriTesto(cmd, daTesto);
     sfide.current = annullo ? { ...sfide.current, indietro: true }
       : daRiga ? { ...sfide.current, scritto: true } : { ...sfide.current, toccato: true };
+    // «Parola per parola» è dell'inglese: un comando dato in italiano la fa cadere, come una strada presa fuori dal testo
+    if (!enRef.current) sfide.current = { ...sfide.current, italiano: true };
+    if (fuoriTesto) sfide.current = { ...sfide.current, fuoriTesto: true };
     setBozza(""); chiudiPannelli();
     setNonSalvati((n) => n + 1);
     storia.current = [...storia.current.filter((x) => x !== cmd), cmd].slice(-60);
@@ -428,7 +441,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
 
   /** Prima di una scelta che costa il motore dice cosa farebbe (senza farlo): se si
    *  perde qualcosa, si chiede conferma. Tutto il resto parte subito. */
-  const manda = (grezzo: string, etichetta?: string, daRiga = false) => {
+  const manda = (grezzo: string, etichetta?: string, daRiga = false, daTesto = false) => {
     const cmd = grezzo.trim();
     if (!cmd || finita || !sessione.current || richiesta) return;
     voce.ferma();   // anche un comando dato col mouse zittisce la voce: non parli sopra una scelta nuova
@@ -438,13 +451,13 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
       if (c) {
         setBozza(""); chiudiPannelli();
         // ANNULLA disfa un turno intero: dentro un dialogo che continua, o a partita chiusa, il pulsante non c'è
-        setRichiesta({ cmd, etichetta: etichettaDi(cmd, etichetta), conferma: c, annullabile: !antep.dialogo && antep.esito === "in_corso", daRiga });
+        setRichiesta({ cmd, etichetta: etichettaDi(cmd, etichetta), conferma: c, annullabile: !antep.dialogo && antep.esito === "in_corso", daRiga, daTesto });
         return;
       }
     }
-    esegui(cmd, etichetta, daRiga);
+    esegui(cmd, etichetta, daRiga, daTesto);
   };
-  const confermaSi = () => { const r = richiesta; setRichiesta(null); if (r) esegui(r.cmd, r.etichetta, r.daRiga); };
+  const confermaSi = () => { const r = richiesta; setRichiesta(null); if (r) esegui(r.cmd, r.etichetta, r.daRiga, r.daTesto); };
   const confermaNo = () => { setRichiesta(null); rimettiFuoco(); };
 
   // la mappa c'è finché la mappa è in bisaccia: se la lasci, il suo pulsante se ne va con lei. Appena c'è, il foglio e la sua
@@ -734,7 +747,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
   // apre il suo menu). Nelle voci passate, ciò che non c'è più resta solo evidenziato.
   const chiaveViva = (k: string): ((el: HTMLElement) => void) | null => {
     const uscita = (mondo.exits ?? []).find((u) => u.dir === k || senzaArticolo(u.verso) === k);
-    if (uscita) return () => manda(uscita.dir);
+    if (uscita) return () => manda(uscita.dir, undefined, false, true);   // una strada presa dal testo
     const qui = (mondo.present ?? []).find((p) => p.id === k || senzaArticolo(p.nome) === k);
     if (qui) return (el) => apriCosa({ tipo: "qui", id: qui.id, nome: qui.nome, persona: qui.persona, prendibile: qui.prendibile }, el);
     const con = mondo.inventory.find((n) => senzaArticolo(n) === k);

@@ -25,8 +25,8 @@ export const tr = (it: string, en: string): string => (opzioni().lingua === "en"
 export type Bilingue = { it: string; en: string };
 export const in_ = (t: Bilingue): string => t[opzioni().lingua];
 
-/** Il titolo del gioco, così come compare nelle pagine. Per ora uno solo in tutte e due le lingue (il nome
- *  dell'applicazione non cambia: sviluppo/diario, «la lingua inglese»). */
+/** Il titolo del gioco, così come compare nelle pagine: uno solo in tutte e due le lingue, senza sottotitoli inglesi
+ *  (Simone, 30/10/2026: il nome dell'applicazione e del gioco non cambia). */
 export const TITOLO: Bilingue = { it: "Il Viaggiatore", en: "Il Viaggiatore" };
 
 // La lingua della pagina: il lettore di schermo pronuncia il diario con la voce giusta.

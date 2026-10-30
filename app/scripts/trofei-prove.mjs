@@ -49,11 +49,15 @@ let prove = 0;
 const ok = (nome) => { prove++; console.log(`ok  ${nome}`); };
 
 // ── le sfide ────────────────────────────────────────────────────────────────
-assert.deepEqual(R.sfideNuove("v-abc"), { id: "v-abc", scritto: false, toccato: false, indietro: false });
-assert.deepEqual(R.pulisciSfide(undefined, "v-nuovo"), { id: "v-nuovo", scritto: true, toccato: true, indietro: true });
-assert.deepEqual(R.pulisciSfide({ id: "Ã¨ strano!", scritto: false }, "v-nuovo"), { id: "v-nuovo", scritto: true, toccato: true, indietro: true });
-assert.deepEqual(R.pulisciSfide({ id: "v-buono", scritto: true, toccato: false, indietro: false }, "x"), { id: "v-buono", scritto: true, toccato: false, indietro: false });
-assert.deepEqual(R.pulisciSfide({ id: "v-buono", scritto: "sì" }, "x"), { id: "v-buono", scritto: true, toccato: true, indietro: true }, "un valore guasto rompe quella sfida");
+const ROTTE = { scritto: true, toccato: true, indietro: true, italiano: true, fuoriTesto: true };
+assert.deepEqual(R.sfideNuove("v-abc"), { id: "v-abc", scritto: false, toccato: false, indietro: false, italiano: false, fuoriTesto: false });
+assert.deepEqual(R.pulisciSfide(undefined, "v-nuovo"), { id: "v-nuovo", ...ROTTE });
+assert.deepEqual(R.pulisciSfide({ id: "Ã¨ strano!", scritto: false }, "v-nuovo"), { id: "v-nuovo", ...ROTTE });
+assert.deepEqual(R.pulisciSfide({ id: "v-buono", scritto: true, toccato: false, indietro: false, italiano: false, fuoriTesto: false }, "x"),
+  { id: "v-buono", scritto: true, toccato: false, indietro: false, italiano: false, fuoriTesto: false });
+assert.deepEqual(R.pulisciSfide({ id: "v-buono", scritto: true, toccato: false, indietro: false }, "x"),
+  { id: "v-buono", scritto: true, toccato: false, indietro: false, italiano: true, fuoriTesto: true }, "un salvataggio di prima della 1.40: «Parola per parola» rotta");
+assert.deepEqual(R.pulisciSfide({ id: "v-buono", scritto: "sì" }, "x"), { id: "v-buono", ...ROTTE }, "un valore guasto rompe quella sfida");
 ok("le sfide di un salvataggio: senza (prima della 1.30) o guaste, rotte; buone, com'erano");
 
 const salvate = { id: "v-uno", scritto: true, toccato: false, indietro: false };
@@ -91,6 +95,19 @@ assert.ok(!vinti({ testo: "Non hai più la forza di rialzarti.\nLa fame ti ha fe
   "una morte non è un finale della storia");
 ok("le sfide valgono solo su un finale della storia, e si rompono come devono");
 
+// «Parola per parola»: solo in inglese (nessun comando dato in italiano) e senza strade nominate prese dalla rosa
+const sfEn = (italiano, fuoriTesto) => ({ id: "v-t", scritto: false, toccato: true, indietro: false, italiano, fuoriTesto });
+assert.ok(vinti({ ...finaleA, sfide: sfEn(false, false) }).includes("parola-per-parola"));
+assert.ok(!vinti({ ...finaleA, sfide: sfEn(true, false) }).includes("parola-per-parola"), "un comando in italiano la fa cadere");
+assert.ok(!vinti({ ...finaleA, sfide: sfEn(false, true) }).includes("parola-per-parola"), "una strada nominata presa dalla rosa pure");
+assert.ok(!vinti({ ...finaleA, sfide: sf(false, true, false) }).includes("parola-per-parola"), "sfide senza le due righe (un collaudo vecchio): no");
+assert.ok(!vinti({ testo: "Bevi.", sfide: sfEn(false, false) }).includes("parola-per-parola"), "solo su un finale della storia");
+const it = R.trofeiDellaLingua("it").map((t) => t.id), en = R.trofeiDellaLingua("en").map((t) => t.id);
+assert.equal(R.TROFEI.length, 31);
+assert.ok(it.length === 30 && en.length === 30, "trenta per lingua");
+assert.ok(it.includes("tutto-a-parole") && !it.includes("parola-per-parola") && en.includes("parola-per-parola") && !en.includes("tutto-a-parole"));
+ok("«Parola per parola» (solo in inglese): si vince e si rompe come deve; trenta trofei per lingua");
+
 assert.deepEqual(vinti({ gesti: { Saverio: ["cibo"] } }), ["senza-un-grazie"]);
 assert.deepEqual(vinti({ gesti: { Saverio: ["cibo"] } }, ["senza-un-grazie"]), [], "un trofeo vinto non torna");
 assert.deepEqual(vinti({ gesti: { Nessuno: ["niente"] }, stati: { "stato del riconoscimento": "nessuno" } }), [], "gesti e stati che non sono trofei non contano");
@@ -103,7 +120,12 @@ const tutti = R.TROFEI.map((t) => t.id).filter((i) => !["il-viaggiatore", "detto
 v = vinti({ stati: { "stato del sapere di peppe": "vero" } }, tutti);
 assert.deepEqual(v, ["detto-il-vero", "il-viaggiatore"], "con l'ultimo che mancava, «Il viaggiatore»");
 assert.ok(!vinti({ stati: { "stato del sapere di peppe": "vero" } }, tutti.slice(1)).includes("il-viaggiatore"), "se ne manca uno, no");
-ok("la collezione: «Tutte le strade» col sesto finale, «Il viaggiatore» con l'ultimo trofeo");
+const senzaLaSfidaItaliana = tutti.filter((i) => i !== "tutto-a-parole");
+assert.deepEqual(vinti({ stati: { "stato del sapere di peppe": "vero" } }, senzaLaSfidaItaliana), ["detto-il-vero", "il-viaggiatore"],
+  "con «Parola per parola» al posto di «Tutto a parole», la collezione è la stessa");
+assert.ok(!vinti({ stati: { "stato del sapere di peppe": "vero" } }, tutti.filter((i) => !R.SOLO_IN[i])).includes("il-viaggiatore"),
+  "senza nessuna delle due sfide di una lingua sola, no");
+ok("la collezione: «Tutte le strade» col sesto finale, «Il viaggiatore» con l'ultimo trofeo, l'una o l'altra sfida di lingua");
 
 // ── il deposito ────────────────────────────────────────────────────────────
 const p = D.pulisciDeposito({ vinti: { "le-mani-vuote": "2026-10-21T03:00:00.000Z", "non-esiste": "2026-10-21T03:00:00.000Z", "la-lettera": "ieri", "affare-fatto": 7 },

@@ -17,6 +17,11 @@
 //  Ogni testo c'è nelle due lingue: `nome`, `accenno` e `frase` sono
 //  l'italiano (quello che leggono i collaudi), `en` l'inglese. Quale mostrare
 //  lo sceglie chi mostra, con la lingua di adesso (testiTrofeo, titoloFamiglia).
+//  Due sfide sono di una lingua sola (SOLO_IN): «Tutto a parole» vuole il
+//  parser, che capisce l'italiano; in inglese, dove si gioca coi pulsanti, al
+//  suo posto c'è «Parola per parola» (ogni strada che il testo nomina, presa dal
+//  testo). Ogni lingua ne mostra trenta (trofeiDellaLingua), e per la
+//  collezione l'una vale l'altra.
 // ====================================================================
 
 export type Famiglia = "finali" | "fini" | "gesti" | "modi" | "sfide" | "collezione";
@@ -111,11 +116,16 @@ export const TROFEI: readonly Trofeo[] = [
     ["All in words", "A challenge", "You reached an ending typing every command."]),
   T("sfide", "tutto-a-pulsanti", "Tutto a pulsanti", "Una sfida", "Sei arrivato a un finale coi soli pulsanti.",
     ["All by buttons", "A challenge", "You reached an ending with the buttons alone."]),
+  // solo in inglese: il posto di «Tutto a parole», che vuole il parser italiano
+  T("sfide", "parola-per-parola", "Parola per parola", "Una sfida, solo in inglese",
+    "Sei arrivato a un finale in inglese, prendendo dal testo ogni strada che il testo nominava.",
+    ["Word by Word", "A challenge, in English only", "You reached an ending in English, taking from the text every way the text named."]),
   // la collezione
   T("collezione", "tutte-le-strade", "Tutte le strade", "Tutti i finali", "Hai visto i sei finali della storia.",
     ["All the roads", "All the endings", "You have seen all six endings of the story."]),
   T("collezione", "il-viaggiatore", "Il viaggiatore", "Tutto", "Hai vinto tutti gli altri trofei.",
-    ["The traveller", "Everything", "You have won every other trophy."]),
+    // il nome del gioco non si traduce (Simone, 30/10/2026): nemmeno quello del trofeo che lo ripete
+    ["Il viaggiatore", "Everything", "You have won every other trophy."]),
 ];
 
 /** I testi di un trofeo nella lingua data. Qui niente import: chi mostra passa la lingua di adesso (lib/lingua.ts, lingua()). */
@@ -129,6 +139,11 @@ export const titoloFamiglia = (f: Famiglia, lingua: "it" | "en"): string => {
 
 export const PER_ID: ReadonlyMap<string, Trofeo> = new Map(TROFEI.map((t) => [t.id, t]));
 
+/** Le sfide di una lingua sola: «Tutto a parole» vuole il parser (italiano), «Parola per parola» è il suo posto in inglese. */
+export const SOLO_IN: Readonly<Record<string, "it" | "en">> = { "tutto-a-parole": "it", "parola-per-parola": "en" };
+/** I trofei che una lingua mostra: trenta, ciascuna con la sua sfida. */
+export const trofeiDellaLingua = (lingua: "it" | "en"): readonly Trofeo[] => TROFEI.filter((t) => (SOLO_IN[t.id] ?? lingua) === lingua);
+
 // ── le sfide della partita ───────────────────────────────────────────────────
 /** Le sfide di una partita, che viaggiano nei salvataggi (campo `sfide`): continuare un viaggio non le rompe,
  *  tornare indietro sì. `id` riconosce la partita da un salvataggio all'altro (il punto più lontano raggiunto
@@ -141,18 +156,23 @@ export interface Sfide {
   toccato: boolean;
   /** è tornata indietro: un ANNULLA, o il caricamento di un punto prima del più lontano raggiunto */
   indietro: boolean;
+  /** almeno un comando dato giocando in italiano (Parola per parola è una sfida dell'inglese) */
+  italiano: boolean;
+  /** almeno una strada che il testo nominava presa altrove (la rosa dei venti) invece che dalla parola del testo */
+  fuoriTesto: boolean;
 }
 
 /** Un viaggio che comincia: nessuna sfida rotta. */
-export const sfideNuove = (id: string): Sfide => ({ id, scritto: false, toccato: false, indietro: false });
+export const sfideNuove = (id: string): Sfide => ({ id, scritto: false, toccato: false, indietro: false, italiano: false, fuoriTesto: false });
 
 /** Le sfide lette da un salvataggio. Un salvataggio senza (fino alla 1.29) o guasto: tutte rotte, perché di quella
  *  partita non si sa com'è andata (i trofei contano da questa versione in poi). */
 export function pulisciSfide(x: unknown, idDiRiserva: string): Sfide {
   const d = (x && typeof x === "object" ? x : null) as Record<string, unknown> | null;
-  if (!d || typeof d.id !== "string" || !/^[0-9a-z-]{4,40}$/.test(d.id)) return { id: idDiRiserva, scritto: true, toccato: true, indietro: true };
+  if (!d || typeof d.id !== "string" || !/^[0-9a-z-]{4,40}$/.test(d.id)) return { id: idDiRiserva, scritto: true, toccato: true, indietro: true, italiano: true, fuoriTesto: true };
+  // una sfida che il salvataggio non dice (italiano e fuoriTesto, fino alla 1.39) è rotta come una guasta
   const b = (v: unknown) => (typeof v === "boolean" ? v : true);
-  return { id: d.id, scritto: b(d.scritto), toccato: b(d.toccato), indietro: b(d.indietro) };
+  return { id: d.id, scritto: b(d.scritto), toccato: b(d.toccato), indietro: b(d.indietro), italiano: b(d.italiano), fuoriTesto: b(d.fuoriTesto) };
 }
 
 /** Le sfide di un salvataggio che si carica. Tornare a un punto (quanti comandi) prima del più lontano che quel viaggio
@@ -209,7 +229,9 @@ export const GESTI_TROFEI: Readonly<Record<string, string>> = {
 const RICONOSCIMENTO: Readonly<Record<string, string>> = { lettera: "la-lettera", fucile: "il-fucile-posato", veglia: "chi-arrivava-di-la" };
 
 const SEI_FINALI = FINALI.map(([, id]) => id);
-const TUTTI_GLI_ALTRI = TROFEI.map((t) => t.id).filter((id) => id !== "il-viaggiatore");
+// per la collezione le due sfide di una lingua sola valgono l'una l'altra
+const TUTTI_GLI_ALTRI = TROFEI.map((t) => t.id).filter((id) => id !== "il-viaggiatore" && !SOLO_IN[id]);
+const UNA_DELLE_DUE = Object.keys(SOLO_IN);
 
 /** Il finale della storia raggiunto in questo turno (l'id del suo trofeo), o null. */
 export function finaleDelTurno(testo: string): string | null {
@@ -233,6 +255,8 @@ export function trofeiDelTurno(t: Turno, vinti: ReadonlySet<string>): string[] {
     if (!t.sfide.indietro) prendi("senza-voltarti");
     if (t.sfide.scritto && !t.sfide.toccato) prendi("tutto-a-parole");
     if (t.sfide.toccato && !t.sfide.scritto) prendi("tutto-a-pulsanti");
+    // solo chi ha giocato tutto in inglese, e non ha mai preso altrove una strada che il testo nominava
+    if (t.sfide.italiano === false && t.sfide.fuoriTesto === false) prendi("parola-per-parola");
   }
   // una fine lungo la strada
   if (t.esito === "persa") prendi(FINI.find(([frase]) => t.testo.includes(frase))?.[1]);
@@ -246,7 +270,7 @@ export function trofeiDelTurno(t: Turno, vinti: ReadonlySet<string>): string[] {
   // la collezione: contano anche quelli presi adesso
   const ha = (id: string) => vinti.has(id) || presi.has(id);
   if (SEI_FINALI.every(ha)) prendi("tutte-le-strade");
-  if (TUTTI_GLI_ALTRI.every(ha)) prendi("il-viaggiatore");
+  if (TUTTI_GLI_ALTRI.every(ha) && UNA_DELLE_DUE.some(ha)) prendi("il-viaggiatore");
 
   return TROFEI.map((x) => x.id).filter((id) => presi.has(id));
 }

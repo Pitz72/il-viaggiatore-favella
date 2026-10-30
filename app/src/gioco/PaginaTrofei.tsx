@@ -18,7 +18,7 @@ import { useOpzioni } from "../lib/useOpzioni";
 import { ascoltaTrofei, deposito, depositoOra, type Deposito } from "../lib/trofei";
 import { dataLeggibile } from "../lib/salvataggi";
 import { lingua, tr } from "../lib/lingua";
-import { testiTrofeo, titoloFamiglia, TROFEI, type Famiglia, type Trofeo } from "./trofei";
+import { testiTrofeo, titoloFamiglia, trofeiDellaLingua, type Famiglia, type Trofeo } from "./trofei";
 import { useDialogo } from "./useDialogo";
 import "./trofei.css";
 
@@ -37,8 +37,10 @@ export const SEGNI: Record<Famiglia, string> = {
 
 // le righe dei medaglioni: una per famiglia, le sfide e la collezione insieme (così tutto sta in vista)
 const RIGHE: Famiglia[][] = [["finali"], ["fini"], ["gesti"], ["modi"], ["sfide", "collezione"]];
-const DELLA = (f: Famiglia) => TROFEI.filter((t) => t.famiglia === f);
-const GRIGLIA: Trofeo[][] = RIGHE.map((r) => r.flatMap(DELLA));
+// i trenta di una lingua: ciascuna ha la sua sfida (in italiano «Tutto a parole», in inglese «Parola per parola»), al
+// suo stesso posto nella riga delle sfide
+const della = (lingua: "it" | "en") => (f: Famiglia) => trofeiDellaLingua(lingua).filter((t) => t.famiglia === f);
+const grigliaDi = (lingua: "it" | "en"): Trofeo[][] => RIGHE.map((r) => r.flatMap(della(lingua)));
 /** I testi di un trofeo e il titolo di una famiglia, nella lingua di adesso. */
 const testi = (t: Trofeo) => testiTrofeo(t, lingua());
 const titolo = (f: Famiglia) => titoloFamiglia(f, lingua());
@@ -61,6 +63,9 @@ interface Props {
 
 export default function PaginaTrofei({ base, accento = "#f0b77e", onChiudi }: Props) {
   const [opz] = useOpzioni();
+  const DELLA = useMemo(() => della(opz.lingua), [opz.lingua]);
+  const GRIGLIA = useMemo(() => grigliaDi(opz.lingua), [opz.lingua]);
+  const TUTTI = useMemo(() => trofeiDellaLingua(opz.lingua), [opz.lingua]);
   const dialogo = useDialogo<HTMLDivElement>(onChiudi);
   const [dep, setDep] = useState<Deposito | null>(depositoOra());
   useEffect(() => {
@@ -70,7 +75,7 @@ export default function PaginaTrofei({ base, accento = "#f0b77e", onChiudi }: Pr
     return () => { vivo = false; smetti(); };
   }, []);
   const vinti = dep?.vinti ?? {};
-  const quanti = TROFEI.filter((t) => vinti[t.id]).length;
+  const quanti = TUTTI.filter((t) => vinti[t.id]).length;
 
   // il trofeo scelto: all'apertura il primo vinto più di recente, se no il primo
   const [scelto, setScelto] = useState<[number, number]>([0, 0]);
@@ -109,7 +114,7 @@ export default function PaginaTrofei({ base, accento = "#f0b77e", onChiudi }: Pr
     mosse[e.key]();
   };
 
-  const conto = useMemo(() => (dep ? tr(`${quanti} di ${TROFEI.length}`, `${quanti} of ${TROFEI.length}`) : "…"), [dep, quanti, opz.lingua]);
+  const conto = useMemo(() => (dep ? tr(`${quanti} di ${TUTTI.length}`, `${quanti} of ${TUTTI.length}`) : "…"), [dep, quanti, opz.lingua, TUTTI]);
 
   return (
     // le frecce valgono in tutto il pannello: appena aperto, il fuoco è sul pannello e non ancora su un medaglione
@@ -129,8 +134,8 @@ export default function PaginaTrofei({ base, accento = "#f0b77e", onChiudi }: Pr
           </div>
           <div style={{ flex: 1, maxWidth: "22em", marginBottom: ".45em" }}>
             <p className="tr-conto" style={{ margin: 0, fontFamily: MONO, fontSize: ".85em", letterSpacing: ".12em", color: "#ece5da", textAlign: "right" }}>{conto}</p>
-            <div className="tr-barra" role="progressbar" aria-label={tr("Trofei vinti", "Trophies won")} aria-valuemin={0} aria-valuemax={TROFEI.length} aria-valuenow={quanti}>
-              <div style={{ width: `${(quanti / TROFEI.length) * 100}%` }} />
+            <div className="tr-barra" role="progressbar" aria-label={tr("Trofei vinti", "Trophies won")} aria-valuemin={0} aria-valuemax={TUTTI.length} aria-valuenow={quanti}>
+              <div style={{ width: `${(quanti / TUTTI.length) * 100}%` }} />
             </div>
           </div>
           <button type="button" className="opz-bottone tr-chiudi" onClick={onChiudi} aria-label={tr("Chiudi i trofei", "Close trophies")}>{tr("chiudi", "close")} <b>Esc</b></button>

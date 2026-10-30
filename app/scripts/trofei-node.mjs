@@ -34,7 +34,7 @@ for await (const riga of righe) {
   if (!riga.trim()) continue;
   const domanda = JSON.parse(riga);
   if (domanda.catalogo) {
-    process.stdout.write(JSON.stringify({ trofei: T.TROFEI, famiglie: T.FAMIGLIE, finali: T.FINALI, fini: T.FINI, gesti: T.GESTI_TROFEI }) + "\n");
+    process.stdout.write(JSON.stringify({ trofei: T.TROFEI, famiglie: T.FAMIGLIE, finali: T.FINALI, fini: T.FINI, gesti: T.GESTI_TROFEI, solo_in: T.SOLO_IN }) + "\n");
     continue;
   }
   const vinti = new Set(domanda.vinti ?? []);
