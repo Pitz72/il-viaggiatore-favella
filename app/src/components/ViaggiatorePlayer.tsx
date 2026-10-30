@@ -67,7 +67,7 @@ import { movimentoRidotto } from "../lib/accessibilita";
 import PaginaTrofei from "../gioco/PaginaTrofei";
 import Mappa from "../gioco/Mappa";
 import { preparaInAnticipo } from "../gioco/stampa";
-import { tavolaDi, voltoDi } from "../gioco/immagini";
+import { statiDelleImmagini, tavolaDi, voltoDi } from "../gioco/immagini";
 import { PER_ID, sfideCaricate, sfideNuove, trofeiDelTurno, type Sfide } from "../gioco/trofei";
 import { ascoltaTrofei, deposito, nuovoViaggio, piuLontano, segnaLontano, vinci } from "../lib/trofei";
 import { suonaTrofeo } from "../gioco/suonoTrofeo";
@@ -78,9 +78,10 @@ const VUOTO: StatoMondo = { inventory: [], counters: {}, room: null, roomId: nul
 const ZORDER: ZoneKey[] = ["z1", "z2", "z3", "z4", "z5", "z6", "z7"];
 const MAGGIORI = ["Saverio", "Iole", "Vito", "Rosaria", "Onofrio"];
 
-/** Una voce del diario. `stati`: gli stati della storia subito dopo il suo turno (solo in memoria, non nei salvataggi): i volti
- *  e le tavole restano com'erano allora (Imma ancora digiuna, la foto ancora storta), anche quando la storia va avanti. */
-interface Voce { id: number; cmd?: string; blocchi: Blocco[]; stati?: Record<string, string> }
+/** Una voce del diario. `stati`: gli stati che cambiano un volto o una tavola, subito dopo il suo turno (anche nei
+ *  salvataggi): i volti e le tavole restano com'erano allora (Imma ancora digiuna, la foto ancora storta), anche quando la
+ *  storia va avanti. `nuova`: nata in questa sessione, non ricaricata; solo lì il gesto della foto si anima. */
+interface Voce { id: number; cmd?: string; blocchi: Blocco[]; stati?: Record<string, string>; nuova?: boolean }
 type Menu = Cosa | null;
 /** `annullabile`: dopo la mossa il pulsante ↶ annulla potrà disfarla (non se il dialogo continua o la partita finisce);
  *  `daRiga`: il comando è stato scritto, non toccato (per le sfide dei trofei) */
@@ -286,8 +287,9 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
         sessione.current = s;
         const e = s.boot();
         const primi = analizza(e.text);
-        setVoci([{ id: contatore.current++, blocchi: primi }]);
-        setMondo(s.stato());
+        const inizio = s.stato();
+        setVoci([{ id: contatore.current++, blocchi: primi, stati: statiDelleImmagini(inizio.stati) }]);
+        setMondo(inizio);
         setCarta(s.mappa());
         setCamminaDa(performance.now());
         if (carica) riprendi(carica);
@@ -327,8 +329,8 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
   const applica = (etichetta: string, e: TurnoEsito) => {
     nuovoTurno();
     const blocchi = analizza(e.text);
-    const statiDopo = sessione.current?.stato().stati;
-    setVoci((v) => [...v, { id: contatore.current++, cmd: etichetta, blocchi, stati: statiDopo }]);
+    const statiDopo = statiDelleImmagini(sessione.current?.stato().stati);
+    setVoci((v) => [...v, { id: contatore.current++, cmd: etichetta, blocchi, stati: statiDopo, nuova: true }]);
     daiVoce(blocchi);
     const nuovi = blocchi.flatMap((b) => (b.tipo === "battuta" ? [b.chi] : []));
     if (nuovi.length) setIncontrati((p) => Array.from(new Set([...p, ...nuovi])));
@@ -529,7 +531,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
     if (!s) throw new Error("La partita non è ancora pronta.");
     const partita = s.salva();
     const dati = componi(posto, partita, riassunto(s.stato()), {
-      voci: voci.map(({ cmd, blocchi }) => ({ cmd, blocchi })), incontrati, storia: storia.current,
+      voci: voci.map(({ cmd, blocchi, stati }) => ({ cmd, blocchi, ...(stati ? { stati } : {}) })), incontrati, storia: storia.current,
     }, { nome, miniatura: miniatura(), tempoMs: tempo.current, sfide: sfide.current });
     await scrivi(posto, dati);
     segnaLontano(sfide.current.id, partita.comandi.length).catch(() => {});
@@ -584,9 +586,11 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
     annota("info", `partita caricata: ${dati.posto}, ${esito.comandi} comandi in ${Math.round(performance.now() - t0)} ms`);
     nuovoTurno();
     const ripresa = [...note, ...analizza(esito.text)];
+    // le voci di un salvataggio di prima della 1.38 non hanno i loro stati: si fermano a quelli di adesso, e non cambiano più
+    const adesso = statiDelleImmagini(nuovoMondo.stati);
     setVoci([
-      ...dati.diario.voci.map((v) => ({ id: contatore.current++, cmd: v.cmd, blocchi: v.blocchi })),
-      { id: contatore.current++, blocchi: ripresa },
+      ...dati.diario.voci.map((v) => ({ id: contatore.current++, cmd: v.cmd, blocchi: v.blocchi, stati: v.stati ?? adesso })),
+      { id: contatore.current++, blocchi: ripresa, stati: adesso },
     ]);
     daiVoce(ripresa);
     eraMappa.current = nuovoMondo.inventory.some((o) => senzaArticolo(o) === "mappa");
@@ -671,7 +675,9 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
   const annulla = () => { if (puoAnnullare) manda("annulla", "annulla"); };
 
   const tasto = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") scritto(bozza);
+    // il keydown di Invio si ferma qui: se no il keypress dello stesso Invio attiverebbe il pulsante che una conferma appena
+    // aperta mette a fuoco («No, ci ripenso»), e una risposta che costa non si confermerebbe mai da tastiera
+    if (e.key === "Enter") { e.preventDefault(); scritto(bozza); }
     else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z" && !bozza) { e.preventDefault(); annulla(); }
     else if (e.key === "ArrowUp" || e.key === "ArrowDown") {
       const s = storia.current;
@@ -725,16 +731,18 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
     return <button key={i} type="button" className="vg-chiave vg-chiave-tasto" onClick={(e) => vai(e.currentTarget)}>{k}</button>;
   };
 
-  const prosa = (testo: string, chiaveBlocco: string, attiva: boolean, stati?: Record<string, string>) => {
+  const prosa = (testo: string, chiaveBlocco: string, attiva: boolean, stati?: Record<string, string>, nuova?: boolean) => {
     const pezzi = spezza(testo);
     const aiuti = pezzi.filter((p) => p.k === "aiuto");
-    // un oggetto della memoria descritto: la sua tavola, accanto al testo (la foto storta finché non la raddrizzi)
+    // un oggetto della memoria descritto: la sua tavola, accanto al testo (la foto storta finché non la raddrizzi; il gesto si
+    // anima solo nel turno in cui lo fai, non in un diario ricaricato)
     const tavola = tavolaDi(testo);
     const storta = tavola?.id === "foto" && !tavola.raddrizza && (stati ?? mondo.stati)?.["stato della foto"] === "storta";
     return (
-      <div key={chiaveBlocco}>
+      <div key={chiaveBlocco} className={tavola ? "vg-con-tavola" : undefined}>
         {tavola && (
-          <figure className={"vg-tavola" + (storta ? " vg-storta" : "") + (tavola.raddrizza ? " vg-raddrizza" : "")} aria-hidden="true">
+          <figure className={"vg-tavola" + (storta ? " vg-storta" : "") + (tavola.raddrizza && nuova ? " vg-raddrizza" : "")}
+            data-oggetto={tavola.id} aria-hidden="true">
             <img src={tavola.src} alt="" draggable={false} />
           </figure>
         )}
@@ -749,10 +757,10 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
     );
   };
 
-  const blocco = (b: Blocco, k: string, attiva: boolean, stati?: Record<string, string>) => {
+  const blocco = (b: Blocco, k: string, attiva: boolean, stati?: Record<string, string>, nuova?: boolean) => {
     switch (b.tipo) {
       case "stanza": return <h3 key={k} className="vg-stanza"><span>{b.titolo}</span></h3>;
-      case "prosa": return prosa(b.testo, k, attiva, stati);
+      case "prosa": return prosa(b.testo, k, attiva, stati, nuova);
       case "battuta": {
         const volto = voltoDi(b.chi, stati ?? mondo.stati);
         return (
@@ -869,7 +877,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
               {voci.map((v, i) => (
                 <section key={v.id} className={"vg-voce" + (i < ultima ? " vg-passata" : "")}>
                   {v.cmd && <p className="vg-comando"><span>›</span> {v.cmd}</p>}
-                  {v.blocchi.map((b, j) => blocco(b, `${v.id}-${j}`, i === ultima, v.stati))}
+                  {v.blocchi.map((b, j) => blocco(b, `${v.id}-${j}`, i === ultima, v.stati, v.nuova))}
                 </section>
               ))}
               {finita && (

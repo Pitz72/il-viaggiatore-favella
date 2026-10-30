@@ -228,9 +228,11 @@ export default function Mappa({ base, accento = "#f0b77e", carta, visitate, qui,
         </ul>
 
         <div style={{ marginTop: ".9em", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1.4em", flexShrink: 0 }}>
-          {/* la legenda, con gli stessi segni del foglio (il mirino di «sei qui», l'anello pieno del luogo che si vede) */}
+          {/* la legenda, con gli stessi segni del foglio: l'anello della tappa pieno o tratteggiato, il mirino di «sei qui», il
+              tondo vuoto del luogo che si vede, il tratteggio della strada */}
           <div className="mp-legenda" aria-hidden="true">
-            <span><svg viewBox="-10 -10 20 20"><circle className="mp-l-filo" r="7.5" strokeWidth="1.2" strokeDasharray="3 2.5" /><circle className="mp-l-filo" r="3.2" strokeWidth="1" /></svg>tappa del viaggio</span>
+            <span><svg viewBox="-10 -10 20 20"><circle className="mp-l-filo" r="7.5" strokeWidth="1.8" /><circle className="mp-l-pieno" r="3" /></svg>tappa raggiunta</span>
+            <span><svg viewBox="-10 -10 20 20"><circle className="mp-l-filo" r="7.5" strokeWidth="1.2" strokeDasharray="3 2.5" /><circle className="mp-l-filo" r="3.2" strokeWidth="1" /></svg>tappa da raggiungere</span>
             <span><svg viewBox="-10 -10 20 20"><path className="mp-l-filo" strokeWidth="1.4" d={MIRINO.map(([x0, y0, x1, y1]) => `M${x0} ${y0}L${x1} ${y1}`).join("")} /><circle className="mp-l-rosso" r="5" /></svg>sei qui</span>
             <span><svg viewBox="-10 -10 20 20"><circle className="mp-l-pieno" r="4" /></svg>ci sei stato</span>
             <span><svg viewBox="-10 -10 20 20"><circle className="mp-l-filo" r="3.6" strokeWidth="1.3" /></svg>si vede, non ci sei stato</span>

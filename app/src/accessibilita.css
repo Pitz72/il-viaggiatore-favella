@@ -18,6 +18,8 @@
   transition-duration: 0.001ms !important;
   scroll-behavior: auto !important;
 }
+/* la foto raddrizzata: subito dritta, senza il mezzo secondo d'attesa ancora storta e poi lo scatto */
+[data-movimento="ridotto"] .vg-raddrizza img { animation: none; }
 
 /* ── CARATTERE: Atkinson Hyperlegible al posto di Lora, Sora e Source Code Pro, ovunque si legge ─────────── */
 [data-carattere="atkinson"] :is(.vg, .mv-voci, .mv-nota, [role="dialog"], [role="alertdialog"]),

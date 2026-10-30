@@ -280,6 +280,8 @@ button.vg-chiave-tasto:hover, button.vg-chiave-tasto:focus-visible { border-bott
 
 /* nelle risposte di un dialogo: il volto di chi ti sta parlando, più grande, accanto alle tue parole */
 .vg-risposte-volto { position: relative; padding-left: 94px; min-height: 84px; }
+/* con la plancia vale il suo minimo (più su): entrare e uscire da un dialogo non sposta il diario */
+.vg-risposte-volto.vg-risposte-plancia { min-height: 132px; }
 .vg-risposte-volto::before {
   content: ""; position: absolute; left: 4px; top: 4px; width: 72px; height: 72px;
   background: var(--volto) center / cover no-repeat, #0b0a0e; animation: vg-volto .5s ease both;
@@ -302,10 +304,12 @@ button.vg-chiave-tasto:hover, button.vg-chiave-tasto:focus-visible { border-bott
 .vg-passata .vg-tavola img { filter: saturate(.75) brightness(.85); transition: filter .6s ease; }
 .vg-passata:hover .vg-tavola img { filter: none; }
 @keyframes vg-tavola { from { opacity: 0; transform: translateY(8px) scale(.97); } to { opacity: 1; transform: none; } }
-/* la foto storta alla parete, finché non la raddrizzi; e il gesto, quando lo fai */
-.vg-storta img { transform: rotate(-7deg); }
+/* due oggetti nella stessa voce («esamina tanica e biglietto»): ogni tavola accanto al suo testo, una sotto l'altra */
+.vg-con-tavola ~ .vg-con-tavola { clear: right; }
+/* la foto storta alla parete, finché non la raddrizzi; e il gesto, quando lo fai. Il disegno ha la cornice già inclinata di
+   circa 4,5° (antiorari): dritta vuol dire i lati a piombo, storta 7° in più. (La superficie del gioco è sempre 1280×720,
+   scalata: la tavola non ha bisogno di una disposizione per gli schermi stretti.) */
+.vg-tavola[data-oggetto="foto"] img { transform: rotate(4.5deg); }
+.vg-tavola.vg-storta img { transform: rotate(-2.5deg); }
 .vg-raddrizza img { animation: vg-raddrizza 1.6s cubic-bezier(.3,.7,.2,1) .5s both; }
-@keyframes vg-raddrizza { from { transform: rotate(-7deg); } to { transform: none; } }
-@media (max-width: 640px) {
-  .vg-tavola { float: none; width: 150px; margin: 4px auto 8px; shape-outside: none; }
-}
+@keyframes vg-raddrizza { from { transform: rotate(-2.5deg); } to { transform: rotate(4.5deg); } }

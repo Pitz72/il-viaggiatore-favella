@@ -214,12 +214,17 @@ prova("ogni gesto è di una persona della storia (un personaggio dichiarato nei 
 #    riconosce dall'inizio di una descrizione che sta davvero nei .fav, e ogni immagine c'è
 # ---------------------------------------------------------------------------
 _imm = io.open(os.path.join(RADICE, "app", "src", "gioco", "immagini.ts"), encoding="utf-8").read()
-_volti = dict(re.findall(r'(\w+): "([\w-]+)"', re.search(r"const VOLTI[^{]*\{(.*?)\};", _imm, re.S).group(1)))
-_tavole = re.findall(r'\{ id: "(\w+)", incipit: "((?:[^"\\]|\\.)+)" \}', _imm)
+_blocco_volti = re.search(r"const VOLTI[^{]*\{(.*?)\};", _imm, re.S).group(1)
+_blocco_tavole = re.search(r"const TAVOLE[^=]*=\s*\[(.*?)\];", _imm, re.S).group(1)
+_volti = dict(re.findall(r'(\w+): "([\w-]+)"', _blocco_volti))
+_tavole = re.findall(r'\{ id: "(\w+)", incipit: "((?:[^"\\]|\\.)+)" \}', _blocco_tavole)
+prova(f"il collaudo legge ogni voce di VOLTI ({len(_volti)}) e di TAVOLE ({len(_tavole)}): nessuna scritta in un'altra forma",
+      len(_volti) == len(re.findall(r":\s*[\"']", _blocco_volti)) and len(_tavole) == len(re.findall(r"\bid\s*:", _blocco_tavole)))
 _cartella = os.path.join(RADICE, "app", "public", "immagini")
 prova(f"i volti ({len(_volti)}) sono tutti di persone della storia", bool(_volti) and set(_volti) <= set(persone),
       str(sorted(set(_volti) - set(persone))))
-_file = [f"ritratti/{f}.webp" for f in _volti.values()] + ["ritratti/imma-sfamata.webp", "ritratti/pasquale-guarito.webp"]
+# le varianti si leggono da immagini.ts (ogni ritratti/<nome>.webp scritto per esteso), non si ricopiano qui
+_file = [f"ritratti/{f}.webp" for f in sorted(set(_volti.values()) | set(re.findall(r"ritratti/([\w-]+)\.webp", _imm)))]
 _file += [f"oggetti/{i}.webp" for i, _ in _tavole]
 prova(f"ogni immagine dei volti e delle tavole c'è ({len(set(_file))} file in app/public/immagini)",
       all(os.path.isfile(os.path.join(_cartella, f)) for f in _file), str([f for f in _file if not os.path.isfile(os.path.join(_cartella, f))]))

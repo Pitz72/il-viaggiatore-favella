@@ -13,7 +13,9 @@
 //  testuale, qualunque parola si scriva per esaminare.
 // ====================================================================
 
-const BASE = `${import.meta.env.BASE_URL}immagini/`;
+// Assoluto, come la base di Pyodide (lib/favellaRuntime.ts): con `base: './'` un url() relativo dentro la variabile --volto
+// si risolverebbe rispetto al foglio di stile (assets/), non alla pagina, e il volto delle risposte non si caricherebbe.
+const BASE = new URL(`${import.meta.env.BASE_URL}immagini/`, document.baseURI).href;
 
 /** Chi ha un ritratto: il nome come lo stampa il motore → il file. */
 const VOLTI: Readonly<Record<string, string>> = {
@@ -28,6 +30,12 @@ export function voltoDi(chi: string, stati?: Readonly<Record<string, string>>): 
   if (f === "imma" && stati?.["stato di imma"] && stati["stato di imma"] !== "digiuna") return `${BASE}ritratti/imma-sfamata.webp`;
   if (f === "pasquale" && stati?.["stato di pasquale"] === "curato") return `${BASE}ritratti/pasquale-guarito.webp`;
   return `${BASE}ritratti/${f}.webp`;
+}
+
+/** Gli stati che cambiano un volto o una tavola: il diario ricorda, per ogni voce, solo questi (anche nei salvataggi). */
+const STATI_DELLE_IMMAGINI = ["stato di imma", "stato di pasquale", "stato della foto"] as const;
+export function statiDelleImmagini(stati?: Readonly<Record<string, string>>): Record<string, string> | undefined {
+  return stati ? Object.fromEntries(STATI_DELLE_IMMAGINI.flatMap((k) => (typeof stati[k] === "string" ? [[k, stati[k]]] : []))) : undefined;
 }
 
 /** Gli oggetti illustrati e l'inizio della loro descrizione (prototipo/*.fav), come il motore la stampa. La foto ha anche il

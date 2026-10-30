@@ -30,7 +30,9 @@ export { RAPIDO, AUTOMATICI, genere, nomeDi, nuovoPosto, durataLeggibile, LUNGHE
 
 export const FORMATO = "il-viaggiatore/salvataggio";
 
-export interface VoceSalvata { cmd?: string; blocchi: Blocco[] }
+/** `stati`: gli stati che cambiano un volto o una tavola, dopo quel turno (dalla 1.38; facoltativo: i salvataggi di prima non
+ *  li hanno, e le versioni di prima li ignorano). */
+export interface VoceSalvata { cmd?: string; blocchi: Blocco[]; stati?: Record<string, string> }
 
 export interface Riassunto {
   luogo: string;
@@ -93,8 +95,11 @@ function diarioValido(grezzo: unknown): Salvataggio["diario"] {
   const stringhe = (x: unknown) => (Array.isArray(x) ? x.filter((v): v is string => typeof v === "string") : []);
   const voci: VoceSalvata[] = (Array.isArray(d.voci) ? d.voci : []).flatMap((v: unknown) => {
     if (!v || typeof v !== "object") return [];
-    const { cmd, blocchi } = v as { cmd?: unknown; blocchi?: unknown };
-    return [{ ...(typeof cmd === "string" ? { cmd } : {}), blocchi: Array.isArray(blocchi) ? blocchi.filter(bloccoValido) : [] }];
+    const { cmd, blocchi, stati } = v as { cmd?: unknown; blocchi?: unknown; stati?: unknown };
+    const st = stati && typeof stati === "object" && !Array.isArray(stati)
+      ? Object.fromEntries(Object.entries(stati).filter(([, x]) => typeof x === "string")) as Record<string, string> : null;
+    return [{ ...(typeof cmd === "string" ? { cmd } : {}), blocchi: Array.isArray(blocchi) ? blocchi.filter(bloccoValido) : [],
+      ...(st ? { stati: st } : {}) }];
   });
   return { voci, incontrati: stringhe(d.incontrati), storia: stringhe(d.storia) };
 }

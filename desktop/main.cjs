@@ -56,6 +56,7 @@ const TIPI = {
   ".ico": "image/x-icon",
   ".svg": "image/svg+xml",
   ".jpg": "image/jpeg",
+  ".webp": "image/webp",
 };
 
 // Serve i file di desktop/web. Supporta le richieste a intervalli (Range):

@@ -98,6 +98,12 @@ def main():
         print(__doc__)
         return 2
     ritratti, oggetti = sys.argv[1], sys.argv[2]
+    # prima di scrivere qualunque cosa: tutti gli originali ci sono? (se no, app/public/immagini resterebbe mezza rifatta)
+    mancano = [p for p in [os.path.join(ritratti, f"ritratto-{n}.jpg") for n in RITRATTI]
+               + [os.path.join(oggetti, f"oggetto-{n}.jpg") for n in OGGETTI] if not os.path.isfile(p)]
+    if mancano:
+        print("Mancano gli originali (non ho scritto nulla):\n  " + "\n  ".join(mancano), file=sys.stderr)
+        return 2
     totale = 0
     for n in RITRATTI:
         totale += ritratto(ritratti, n)
