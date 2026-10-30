@@ -110,9 +110,9 @@ lago che la carta dà ancora pieno. Non porta da nessuna parte e non costa un tu
 con lei, e ritorna se la riprendi: quello che hai visitato resta in ogni caso. Con il contrasto alto la stampa non c'è:
 carta bianca e inchiostro nero.
 
-**I volti e gli oggetti.** Chi parla ha il suo volto, un cammeo tondo accanto alla battuta e più grande accanto alle
-risposte; i quattordici personaggi, più due momenti (Imma dopo aver mangiato, Pasquale guarito). Il protagonista non ha
-volto, né la sua famiglia. Otto oggetti della memoria (la foto, il biglietto, la tanica, il diario, la fede, il
+**I volti e gli oggetti.** Chi parla ha il suo volto, un cammeo tondo accanto alla sua battuta; i quattordici personaggi,
+più due momenti (Imma dopo aver mangiato, Pasquale guarito). Il protagonista non ha volto, né la sua famiglia: accanto
+alle risposte di un dialogo, che sono le sue, c'è il viandante dei panorami, fermo sull'orizzonte nella luce della zona. Otto oggetti della memoria (la foto, il biglietto, la tanica, il diario, la fede, il
 cavalluccio, il santino, la lettera di Cosimo) hanno la loro tavola: quando li esamini compare a destra del testo, che le
 gira attorno, come in un libro illustrato; la foto della casa è storta alla parete finché non la raddrizzi. Valgono anche
 nell'avventura testuale, e tornando indietro nel testo restano com'erano allora. Sono generati con Nano Banana Pro 2.1 di Google, in
