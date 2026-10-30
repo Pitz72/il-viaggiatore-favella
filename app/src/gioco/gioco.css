@@ -184,11 +184,6 @@ span.vg-oggetto.vg-informa, span.vg-oggetto.vg-informa:hover { display: block; b
 .vg-voci li::after { content: "»"; margin-left: 3px; opacity: .5; }
 .vg-pip i { display: inline-block; width: 12px; height: 5px; margin-left: 3px; border-radius: 2px; background: rgba(255,255,255,.1); }
 .vg-pip i.on { background: var(--acc); box-shadow: 0 0 6px var(--acc); }
-.vg-cammino { display: flex; align-items: center; gap: 5px; }
-.vg-cammino span { flex: 1; height: 4px; border-radius: 3px; background: rgba(255,255,255,.1); transition: all .5s ease; }
-.vg-cammino span.fatto { background: var(--z); opacity: .55; }
-.vg-cammino span.ora { height: 6px; background: var(--z); box-shadow: 0 0 10px var(--z); }
-.vg-cammino-nome { margin: 8px 0 0; font-style: italic; font-size: 13px; color: rgba(230,223,210,.68); }
 
 .vg-bottone { cursor: pointer; font-family: 'Source Code Pro', monospace; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: #e6e0d6;
   border: 1px solid rgba(255,255,255,.2); background: rgba(10,10,14,.5); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border-radius: 999px; padding: 8px 14px; transition: border-color .2s; }

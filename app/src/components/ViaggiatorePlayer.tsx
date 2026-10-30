@@ -964,14 +964,6 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
               {Object.keys(VOCI).filter((k) => (mondo.voci ?? []).includes(k)).map((k) => <li key={k}>{VOCI[k]}</li>)}
             </ul>
           </>)}
-
-          <p className="vg-sezione">il cammino</p>
-          <div className="vg-cammino">
-            {ZORDER.map((zk, i) => (
-              <span key={zk} className={i < zi ? "fatto" : i === zi ? "ora" : ""} style={{ ["--z" as string]: ZONE_THEME[zk].accent } as React.CSSProperties} />
-            ))}
-          </div>
-          <p className="vg-cammino-nome">{zi >= 0 ? ZONE_THEME[zona].nome : "—"}</p>
         </aside>
       </div>
 

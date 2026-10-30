@@ -65,7 +65,7 @@
 [data-testo="grande"] .vg-oggetto { font-size: 14px; }
 [data-testo="grande"] .vg-fiducie li { font-size: 15px; }
 [data-testo="grande"] .vg-gesti { font-size: 13px; }
-[data-testo="grande"] .vg-voci li, [data-testo="grande"] .vg-cammino-nome { font-size: 14px; }
+[data-testo="grande"] .vg-voci li { font-size: 14px; }
 [data-testo="grande"] .vg-scorta span { font-size: 12px; }
 
 /* ── CONTRASTO ALTO: testi pieni su fondi pieni, niente velature né sfocature, bordi netti ──────────────── */
@@ -79,7 +79,7 @@
 [data-contrasto="alto"] .vg-aiuto { color: #f0eadf; }
 [data-contrasto="alto"] .vg-stanza { color: #f5f5f5; }
 [data-contrasto="alto"] .vg-stanza::after { background: rgba(255, 255, 255, .5); }
-[data-contrasto="alto"] :is(.vg-etichetta, .vg-sezione span, .vg-metro-stato, .vg-scorta span, .vg-gesti, .vg-voci li, .vg-cammino-nome,
+[data-contrasto="alto"] :is(.vg-etichetta, .vg-sezione span, .vg-metro-stato, .vg-scorta span, .vg-gesti, .vg-voci li,
   .vg-pannello-testa span, .vg-pannello-nota, .vg-conf-quota, .vg-conf-dopo, .vg-conf-nota, .vg-carica-msg, .vg-carica-nota) { color: #ece6db; }
 [data-contrasto="alto"] .vg-input input::placeholder { color: #d8d2c6; }
 [data-contrasto="alto"] .vg-comandi { background: #08080b; border-top-color: rgba(255, 255, 255, .35); }
