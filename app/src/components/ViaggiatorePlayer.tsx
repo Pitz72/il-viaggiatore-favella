@@ -67,6 +67,7 @@ import { movimentoRidotto } from "../lib/accessibilita";
 import PaginaTrofei from "../gioco/PaginaTrofei";
 import Mappa from "../gioco/Mappa";
 import { preparaInAnticipo } from "../gioco/stampa";
+import { tavolaDi, voltoDi } from "../gioco/immagini";
 import { PER_ID, sfideCaricate, sfideNuove, trofeiDelTurno, type Sfide } from "../gioco/trofei";
 import { ascoltaTrofei, deposito, nuovoViaggio, piuLontano, segnaLontano, vinci } from "../lib/trofei";
 import { suonaTrofeo } from "../gioco/suonoTrofeo";
@@ -77,7 +78,9 @@ const VUOTO: StatoMondo = { inventory: [], counters: {}, room: null, roomId: nul
 const ZORDER: ZoneKey[] = ["z1", "z2", "z3", "z4", "z5", "z6", "z7"];
 const MAGGIORI = ["Saverio", "Iole", "Vito", "Rosaria", "Onofrio"];
 
-interface Voce { id: number; cmd?: string; blocchi: Blocco[] }
+/** Una voce del diario. `stati`: gli stati della storia subito dopo il suo turno (solo in memoria, non nei salvataggi): i volti
+ *  e le tavole restano com'erano allora (Imma ancora digiuna, la foto ancora storta), anche quando la storia va avanti. */
+interface Voce { id: number; cmd?: string; blocchi: Blocco[]; stati?: Record<string, string> }
 type Menu = Cosa | null;
 /** `annullabile`: dopo la mossa il pulsante ↶ annulla potrà disfarla (non se il dialogo continua o la partita finisce);
  *  `daRiga`: il comando è stato scritto, non toccato (per le sfide dei trofei) */
@@ -324,7 +327,8 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
   const applica = (etichetta: string, e: TurnoEsito) => {
     nuovoTurno();
     const blocchi = analizza(e.text);
-    setVoci((v) => [...v, { id: contatore.current++, cmd: etichetta, blocchi }]);
+    const statiDopo = sessione.current?.stato().stati;
+    setVoci((v) => [...v, { id: contatore.current++, cmd: etichetta, blocchi, stati: statiDopo }]);
     daiVoce(blocchi);
     const nuovi = blocchi.flatMap((b) => (b.tipo === "battuta" ? [b.chi] : []));
     if (nuovi.length) setIncontrati((p) => Array.from(new Set([...p, ...nuovi])));
@@ -721,11 +725,19 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
     return <button key={i} type="button" className="vg-chiave vg-chiave-tasto" onClick={(e) => vai(e.currentTarget)}>{k}</button>;
   };
 
-  const prosa = (testo: string, chiaveBlocco: string, attiva: boolean) => {
+  const prosa = (testo: string, chiaveBlocco: string, attiva: boolean, stati?: Record<string, string>) => {
     const pezzi = spezza(testo);
     const aiuti = pezzi.filter((p) => p.k === "aiuto");
+    // un oggetto della memoria descritto: la sua tavola, accanto al testo (la foto storta finché non la raddrizzi)
+    const tavola = tavolaDi(testo);
+    const storta = tavola?.id === "foto" && !tavola.raddrizza && (stati ?? mondo.stati)?.["stato della foto"] === "storta";
     return (
       <div key={chiaveBlocco}>
+        {tavola && (
+          <figure className={"vg-tavola" + (storta ? " vg-storta" : "") + (tavola.raddrizza ? " vg-raddrizza" : "")} aria-hidden="true">
+            <img src={tavola.src} alt="" draggable={false} />
+          </figure>
+        )}
         <p className="vg-prosa">
           {pezzi.filter((p) => p.k !== "aiuto").map((p, i) =>
             p.k === "chiave" ? chiave(p.s, i, attiva) : <span key={i}>{p.s}</span>)}
@@ -737,16 +749,20 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
     );
   };
 
-  const blocco = (b: Blocco, k: string, attiva: boolean) => {
+  const blocco = (b: Blocco, k: string, attiva: boolean, stati?: Record<string, string>) => {
     switch (b.tipo) {
       case "stanza": return <h3 key={k} className="vg-stanza"><span>{b.titolo}</span></h3>;
-      case "prosa": return prosa(b.testo, k, attiva);
-      case "battuta": return (
-        <div key={k} className="vg-battuta">
-          <span className="vg-chi">{b.chi}</span>
-          <p className="vg-prosa">{b.testo}</p>
-        </div>
-      );
+      case "prosa": return prosa(b.testo, k, attiva, stati);
+      case "battuta": {
+        const volto = voltoDi(b.chi, stati ?? mondo.stati);
+        return (
+          <div key={k} className={"vg-battuta" + (volto ? " vg-con-volto" : "")}>
+            {volto && <img className="vg-volto" src={volto} alt="" aria-hidden="true" draggable={false} />}
+            <span className="vg-chi">{b.chi}</span>
+            <p className="vg-prosa">{b.testo}</p>
+          </div>
+        );
+      }
       case "corpo": return <p key={k} className="vg-sensazione"><span aria-hidden="true">●</span> {b.testo}</p>;
       case "sistema": return <p key={k} className="vg-sistema">{b.testo}</p>;
       default: return null;
@@ -853,7 +869,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
               {voci.map((v, i) => (
                 <section key={v.id} className={"vg-voce" + (i < ultima ? " vg-passata" : "")}>
                   {v.cmd && <p className="vg-comando"><span>›</span> {v.cmd}</p>}
-                  {v.blocchi.map((b, j) => blocco(b, `${v.id}-${j}`, i === ultima))}
+                  {v.blocchi.map((b, j) => blocco(b, `${v.id}-${j}`, i === ultima, v.stati))}
                 </section>
               ))}
               {finita && (
@@ -870,7 +886,8 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
           {!finita && (
             <div className="vg-comandi" ref={comandiRef}>
               {mondo.dialog && mondo.dialog.opzioni.length > 0 && (
-                <div className={"vg-risposte" + (conPulsanti ? " vg-risposte-plancia" : "")}>
+                <div className={"vg-risposte" + (conPulsanti ? " vg-risposte-plancia" : "") + (voltoDi(mondo.dialog.chi) ? " vg-risposte-volto" : "")}
+                  style={voltoDi(mondo.dialog.chi) ? ({ ["--volto" as string]: `url("${voltoDi(mondo.dialog.chi, mondo.stati)}")` } as React.CSSProperties) : undefined}>
                   <p className="vg-sopratitolo">rispondi a {mondo.dialog.chi}</p>
                   <div className="vg-risposte-lista">
                     {mondo.dialog.opzioni.map((o, i) => conPulsanti ? (
@@ -955,7 +972,10 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
             <ul className="vg-fiducie">
               {fiducie.map((f) => (
                 <li key={f.n}>
-                  <span>{f.n}</span>
+                  <span className="vg-incontrato">
+                    {voltoDi(f.n) && <img className="vg-volto-piccolo" src={voltoDi(f.n, mondo.stati)!} alt="" aria-hidden="true" draggable={false} />}
+                    {f.n}
+                  </span>
                   {f.v !== null && <span className="vg-pip" role="img" aria-label={`fiducia ${f.v} su 5`}>{[1, 2, 3, 4, 5].map((i) => <i key={i} className={i <= f.v! ? "on" : ""} />)}</span>}
                   {righeGesti(f.n).length > 0 && <small className="vg-gesti">{righeGesti(f.n).join(" · ")}</small>}
                 </li>

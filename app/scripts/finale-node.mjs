@@ -74,8 +74,8 @@ prova("presenza: zero fuori, uno dentro, rampe", () => {
 
 // ── i crediti ────────────────────────────────────────────────────────
 const VOCI_DEL_CARTELLO = ["Il Viaggiatore", "Storia, testi, musica dell'intro, grafica", "Musiche delle zone", "Voci",
-  "Imma, Rosaria, Tore e Vito", "Codice", "Motore", "Componenti", "Marchi"];
-prova("le righe del vecchio cartello d'avvio, tutte e nell'ordine", () => {
+  "Imma, Rosaria, Tore e Vito", "Ritratti e oggetti", "Codice", "Motore", "Componenti", "Marchi"];
+prova("le righe del vecchio cartello d'avvio (più i ritratti, dalla 1.38), tutte e nell'ordine", () => {
   assert.deepEqual(C.CREDITI.map(([che]) => che), VOCI_DEL_CARTELLO);
 });
 prova("l'attribuzione delle voci ElevenLabs c'è", () => {

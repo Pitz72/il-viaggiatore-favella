@@ -261,3 +261,51 @@ button.vg-chiave-tasto:hover, button.vg-chiave-tasto:focus-visible { border-bott
 .vg-conf-nota { margin: 14px 0 0; text-align: right; font-style: italic; font-size: 12.5px; color: rgba(230,223,210,.66); }
 /* il cartiglio (Cartiglio.tsx): entra dall'alto, resta, svanisce */
 @keyframes vg-cartiglio { 0% { opacity: 0; transform: translate(-50%, -6px); } 8%, 82% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, 0); } }
+
+/* ── i volti e le tavole (gioco/immagini.ts) ─────────────────────────────────────────────────────────────────────
+   Il volto di chi parla, un cammeo tondo con un filo dell'accento della zona e un anello di buio che lo stacca;
+   la tavola di un oggetto della memoria, a destra del testo come in un libro illustrato, che sfuma nel fondo. */
+.vg-voce { display: flow-root; }
+.vg-con-volto { display: grid; grid-template-columns: 46px 1fr; column-gap: 14px; align-items: start; }
+.vg-con-volto .vg-volto { grid-row: 1 / span 2; }
+.vg-con-volto .vg-chi, .vg-con-volto .vg-prosa { grid-column: 2; }
+.vg-volto, .vg-volto-piccolo, .vg-risposte-volto::before {
+  border-radius: 50%; object-fit: cover; background: #0b0a0e;
+  box-shadow: 0 0 0 2px #0b0a0e, 0 0 0 3.2px color-mix(in srgb, var(--acc) 72%, transparent), 0 6px 18px rgba(0,0,0,.55);
+}
+.vg-volto { width: 46px; height: 46px; margin-top: 2px; animation: vg-volto .6s ease both; }
+.vg-passata .vg-volto { filter: saturate(.7) brightness(.86); transition: filter .6s ease; }
+.vg-passata:hover .vg-volto { filter: none; }
+@keyframes vg-volto { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: none; } }
+
+/* nelle risposte di un dialogo: il volto di chi ti sta parlando, più grande, accanto alle tue parole */
+.vg-risposte-volto { position: relative; padding-left: 94px; min-height: 84px; }
+.vg-risposte-volto::before {
+  content: ""; position: absolute; left: 4px; top: 4px; width: 72px; height: 72px;
+  background: var(--volto) center / cover no-repeat, #0b0a0e; animation: vg-volto .5s ease both;
+}
+
+/* in «chi hai incontrato» */
+.vg-incontrato { display: inline-flex; align-items: center; gap: 10px; }
+.vg-volto-piccolo { width: 26px; height: 26px; box-shadow: 0 0 0 1.5px #0b0a0e, 0 0 0 2.5px color-mix(in srgb, var(--acc) 55%, transparent); }
+
+/* la tavola: un oggetto della memoria, a destra del testo; il testo le gira attorno */
+.vg-tavola {
+  float: right; width: 180px; aspect-ratio: 1; margin: 2px -6px 10px 22px; shape-outside: circle(47%);
+  pointer-events: none; animation: vg-tavola .9s cubic-bezier(.2,.7,.2,1) both;
+}
+.vg-tavola img {
+  display: block; width: 100%; height: 100%; object-fit: contain; user-select: none;
+  -webkit-mask-image: radial-gradient(closest-side, #000 66%, transparent 100%); mask-image: radial-gradient(closest-side, #000 66%, transparent 100%);
+  filter: drop-shadow(0 10px 22px rgba(0,0,0,.35));
+}
+.vg-passata .vg-tavola img { filter: saturate(.75) brightness(.85); transition: filter .6s ease; }
+.vg-passata:hover .vg-tavola img { filter: none; }
+@keyframes vg-tavola { from { opacity: 0; transform: translateY(8px) scale(.97); } to { opacity: 1; transform: none; } }
+/* la foto storta alla parete, finché non la raddrizzi; e il gesto, quando lo fai */
+.vg-storta img { transform: rotate(-7deg); }
+.vg-raddrizza img { animation: vg-raddrizza 1.6s cubic-bezier(.3,.7,.2,1) .5s both; }
+@keyframes vg-raddrizza { from { transform: rotate(-7deg); } to { transform: none; } }
+@media (max-width: 640px) {
+  .vg-tavola { float: none; width: 150px; margin: 4px auto 8px; shape-outside: none; }
+}

@@ -20,6 +20,8 @@ prosa. Tre prove:
   6. l'avviso d'apertura dice, parola per parola, quello che l'autore ha scritto.
   7. ogni gesto che il ponte sa mostrare («che cosa hai fatto a chi») ha la sua riga a lato dello
      schermo, e l'interfaccia non ne ha di troppo; le righe sono una riga sola, di una persona della storia.
+  8. i volti e le tavole (app/src/gioco/immagini.ts): ogni volto è di una persona della storia, ogni tavola si
+     riconosce dall'inizio di un testo che sta nei .fav parola per parola, ogni immagine c'è.
 
 Uso:  python testo.py      (esce con 1 se una prova fallisce; serve `npm ci --prefix app`)
 """
@@ -206,6 +208,25 @@ prova("ogni riga di gesto è una riga sola, in minuscolo e senza punto finale (s
 dichiarati = {chi for chi, _, _ in _ponte._GESTI}
 prova("ogni gesto è di una persona della storia (un personaggio dichiarato nei .fav)",
       dichiarati <= set(persone), str(sorted(dichiarati - set(persone))))
+
+# ---------------------------------------------------------------------------
+# 8. i volti e le tavole (app/src/gioco/immagini.ts): chi ha un ritratto è una persona della storia, ogni tavola si
+#    riconosce dall'inizio di una descrizione che sta davvero nei .fav, e ogni immagine c'è
+# ---------------------------------------------------------------------------
+_imm = io.open(os.path.join(RADICE, "app", "src", "gioco", "immagini.ts"), encoding="utf-8").read()
+_volti = dict(re.findall(r'(\w+): "([\w-]+)"', re.search(r"const VOLTI[^{]*\{(.*?)\};", _imm, re.S).group(1)))
+_tavole = re.findall(r'\{ id: "(\w+)", incipit: "((?:[^"\\]|\\.)+)" \}', _imm)
+_cartella = os.path.join(RADICE, "app", "public", "immagini")
+prova(f"i volti ({len(_volti)}) sono tutti di persone della storia", bool(_volti) and set(_volti) <= set(persone),
+      str(sorted(set(_volti) - set(persone))))
+_file = [f"ritratti/{f}.webp" for f in _volti.values()] + ["ritratti/imma-sfamata.webp", "ritratti/pasquale-guarito.webp"]
+_file += [f"oggetti/{i}.webp" for i, _ in _tavole]
+prova(f"ogni immagine dei volti e delle tavole c'è ({len(set(_file))} file in app/public/immagini)",
+      all(os.path.isfile(os.path.join(_cartella, f)) for f in _file), str([f for f in _file if not os.path.isfile(os.path.join(_cartella, f))]))
+prova(f"ogni tavola ({len(_tavole)}) comincia come un testo dei .fav, parola per parola",
+      bool(_tavole) and all(f'"{inc}' in FAV for _, inc in _tavole), str([inc for _, inc in _tavole if f'"{inc}' not in FAV]))
+prova("le varianti dei volti leggono stati che esistono (Imma digiuna, Pasquale curato, la foto storta)",
+      all(r in FAV for r in ("Lo stato di Imma è digiuna.", "lo stato di Pasquale è curato", "Lo stato della foto è storta.")))
 
 print("TUTTO OK" if all(esiti) else "CI SONO FALLIMENTI")
 sys.exit(0 if all(esiti) else 1)

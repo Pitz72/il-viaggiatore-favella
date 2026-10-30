@@ -17,6 +17,7 @@ export const CREDITI: [string, string][] = [
   ["Musiche delle zone", "The Runtimers · generate con Lyria 3.5 (Google) · fuori dalla licenza libera"],
   ["Voci", "doppiaggio con sintesi vocale Google Gemini TTS (CC BY-SA 4.0)"],
   ["Imma, Rosaria, Tore e Vito", "voci ElevenLabs · elevenlabs.io · solo uso non commerciale, fuori dalla licenza libera"],
+  ["Ritratti e oggetti", "illustrazioni generate con Nano Banana Pro 2.1 (Google) in Google Flow (CC BY-SA 4.0)"],
   ["Codice", "MIT"],
   ["Motore", "FAVELLA 1 · MIT"],
   ["Componenti", "Pyodide (MPL-2.0) · Lark, React, Electron (MIT) · caratteri Inter, Lora, Sora, Source Code Pro, Covered By Your Grace, Atkinson Hyperlegible Next (SIL OFL 1.1)"],
