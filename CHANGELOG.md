@@ -8,6 +8,25 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+### Aggiunto
+- **Il gioco in inglese.** Il racconto intero (le descrizioni, le battute, le risposte, i finali, i fili del viaggio),
+  i nomi dei luoghi, delle cose e delle persone, e tutta l'interfaccia: menu, pausa, opzioni, taccuino, trofei, guida,
+  mappa, conferme, trailer, avviso e titoli di coda. Il titolo resta «Il Viaggiatore». Il motore e i `.fav` non cambiano:
+  il gioco fa girare la storia in italiano e ne traduce il testo quando lo mostra, così le partite, i salvataggi, la voce
+  e i trofei restano gli stessi, e la lingua si cambia anche a partita aperta (il diario intero cambia lingua).
+- **La prima finestra: la lingua.** Al primo avvio (e una volta a chi giocava già), prima dei loghi, si scelgono il testo
+  (italiano o inglese) e la voce (il doppiaggio italiano, nessuna voce, o il lettore di schermo); la finestra dice che la
+  voce recitata in inglese arriverà presto. Il testo parte dalla lingua del sistema. Le due scelte si cambiano poi in
+  qualunque momento nelle opzioni (Generale → Lingua; Audio → Voce del gioco).
+- **«Nessuna voce»**, accanto a voce recitata e lettore di schermo: si legge soltanto, in silenzio.
+
+### Cambiato
+- **In inglese si gioca coi pulsanti.** Il parser capisce l'italiano: nelle opzioni «avventura testuale» non si sceglie,
+  e la guida parla soltanto dei pulsanti. Chi l'aveva scelta la ritrova tornando all'italiano.
+- **«Ripristina le opzioni di base» non tocca la lingua e la voce**: sono le risposte alla prima finestra.
+- Sul desktop i dialoghi del sistema (esporta e apri un salvataggio, dove salvare la colonna sonora) seguono la lingua.
+- La pagina dichiara la sua lingua (`lang`): il lettore di schermo pronuncia il diario inglese in inglese.
+
 ## [1.39.0] - 2026-10-30
 
 ### Cambiato

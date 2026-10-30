@@ -82,8 +82,16 @@ sua, «La mano sa ancora la forma» di The Runtimers; poi il menu d'avvio. Dopo 
 qualunque la ferma (il testo resta), **F2** ridice l'ultimo testo, e le risposte di un dialogo le legge il narratore
 quando ti fermi sopra col mouse o le raggiungi con la tastiera, ma mai sopra chi sta parlando: la risposta del
 personaggio non si interrompe. Nelle **opzioni** (dal menu d'avvio e dalla pausa) si
-sceglie fra voce recitata e *lettore di schermo* (nessuna voce del gioco: il diario si annuncia al
-tuo lettore). Con la voce recitata anche il trailer ha la voce del narratore, e la musica gli scende sotto.
+sceglie fra voce recitata, *nessuna voce* (si legge in silenzio) e *lettore di schermo* (nessuna voce del gioco: il diario
+si annuncia al tuo lettore). Con la voce recitata anche il trailer ha la voce del narratore, e la musica gli scende sotto.
+
+**La lingua.** Al primo avvio, prima dei loghi, una finestra chiede la lingua del testo (italiano o inglese) e la voce
+(il doppiaggio italiano, nessuna voce, o il lettore di schermo); la voce recitata in inglese arriverà più avanti. Tutte e due
+si cambiano quando si vuole, nelle opzioni. In inglese è tradotto tutto: il racconto, i nomi, l'interfaccia, il trailer e i
+titoli di coda; il titolo resta *Il Viaggiatore*. Si gioca coi pulsanti: il parser capisce soltanto l'italiano. Il motore e i
+`.fav` restano in italiano: il gioco ne traduce il testo quando lo mostra (`app/src/gioco/traduci.ts`, coi cataloghi di
+`app/src/lingue/en/`, che si rifanno e si controllano con `strumenti/traduzione.py`), così partite, salvataggi, voce e trofei
+sono gli stessi nelle due lingue, e la lingua si cambia anche a partita aperta.
 
 **I comandi.** Due modi, a scelta nelle opzioni (scheda Generale). *Pulsanti*, com'è all'inizio: niente riga da
 scrivere, si gioca con la plancia, che ha tre zone che non si spostano: *andare*, con le uscite a rosa dei venti (nord in
