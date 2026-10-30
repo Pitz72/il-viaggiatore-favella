@@ -8,6 +8,8 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.40.0] - 2026-10-30
+
 ### Aggiunto
 - **Il gioco in inglese.** Il racconto intero (le descrizioni, le battute, le risposte, i finali, i fili del viaggio),
   i nomi dei luoghi, delle cose e delle persone, e tutta l'interfaccia: menu, pausa, opzioni, taccuino, trofei, guida,
@@ -19,11 +21,17 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
   voce recitata in inglese arriverà presto. Il testo parte dalla lingua del sistema. Le due scelte si cambiano poi in
   qualunque momento nelle opzioni (Generale → Lingua; Audio → Voce del gioco).
 - **«Nessuna voce»**, accanto a voce recitata e lettore di schermo: si legge soltanto, in silenzio.
+- **Un trofeo dell'inglese: «Parola per parola»** (*Word by Word*). Prende il posto di «Tutto a parole», che vuole il
+  parser italiano: si vince arrivando a un finale giocando tutto in inglese e prendendo dal testo, toccando la sua parola
+  (NORTH, BAR…), ogni strada che il testo nomina; dove il testo tace si va con la rosa dei venti. Ogni lingua mostra i suoi
+  trenta trofei, e per «Il viaggiatore» (la collezione) l'una sfida vale l'altra.
 
 ### Cambiato
 - **In inglese si gioca coi pulsanti.** Il parser capisce l'italiano: nelle opzioni «avventura testuale» non si sceglie,
   e la guida parla soltanto dei pulsanti. Chi l'aveva scelta la ritrova tornando all'italiano.
 - **«Ripristina le opzioni di base» non tocca la lingua e la voce**: sono le risposte alla prima finestra.
+- **Il nome resta «Il Viaggiatore»** in tutte e due le lingue, senza sottotitoli inglesi; anche il trofeo della collezione
+  si chiama «Il viaggiatore» in inglese.
 - Sul desktop i dialoghi del sistema (esporta e apri un salvataggio, dove salvare la colonna sonora) seguono la lingua.
 - La pagina dichiara la sua lingua (`lang`): il lettore di schermo pronuncia il diario inglese in inglese.
 
