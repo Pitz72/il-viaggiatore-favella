@@ -97,12 +97,18 @@ parla del modo scelto. (Fino alla 1.36 c'era anche *pulsanti e parole*, la riga 
 
 **La mappa.** Nella casa di Acquaviva, su un mobile, c'è la mappa della provincia: serve a passare il margine e, da
 quando la prendi, ha il suo pulsante nella riga di servizio (o il tasto M; nell'avventura testuale, la parola «mappa»
-scritta). Si apre come una carta piegata in tre che si spiega, con un fruscio di carta, e mostra un foglio con le strade
-segnate a penna. Le tappe del viaggio ci sono fin dall'inizio (le sette zone e Acquamorta, col loro nome); le strade
-no: si fanno camminando. Il foglio si riempie: i luoghi in cui sei stato, uniti dal tragitto, ognuno nel colore della sua
-zona; dove sei adesso, in rosso; i luoghi che da lì si vedono, solo accennati, col nome. Non porta da nessuna parte e non
-costa un turno. Se la lasci, il pulsante se ne va con lei, e ritorna se la riprendi: quello che hai visitato resta in
-ogni caso.
+scritta). Si apre come una carta piegata in tre che si spiega, con un fruscio di carta: è una **carta fisica** della
+provincia, stampata prima della secca, con le tinte del rilievo (la pianura verde verso il mare, le colline ocra e brune
+a ovest), le curve di livello, il torrente che passa al guado, il mare a nord-est, e il lago dell'invaso ancora pieno
+dietro la sua diga. Sopra la stampa, la mano: le tappe del viaggio ci sono fin dall'inizio (le sette zone e Acquamorta,
+col loro nome); le strade no, si fanno camminando, ognuna col tratto della sua classe (la statale a doppio filo con
+l'anima gialla, la provinciale bianca, le strade dei paesi, le sterrate della piana, le tracce sul fondo dell'invaso, la
+mulattiera e i sentieri delle colline). I luoghi non stanno su una griglia ma ogni strada va dove dice la sua uscita: a
+ovest è a ovest. Il foglio si riempie: i luoghi in cui sei stato, uniti dal tragitto; dove sei adesso, in rosso e a
+mirino; i luoghi che da lì si vedono, solo accennati, col nome. Quando arrivi all'invaso, la mano tratteggia il sale sul
+lago che la carta dà ancora pieno. Non porta da nessuna parte e non costa un turno. Se la lasci, il pulsante se ne va
+con lei, e ritorna se la riprendi: quello che hai visitato resta in ogni caso. Con il contrasto alto la stampa non c'è:
+carta bianca e inchiostro nero.
 
 **Le opzioni.** Il modo dei comandi; schermo intero o finestra, ricordati da un lancio all'altro, e la dimensione della finestra; la qualità
 della grafica (automatica, alta, media, bassa); i volumi (generale, musica, voce, effetti), che cambiano dal vivo; stereo

@@ -8,6 +8,27 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+### Aggiunto
+- **La mappa è una carta fisica.** Sotto la mano c'è ora la stampa della provincia, com'era prima della secca: le tinte del
+  rilievo (la pianura verde verso il mare, le colline ocra e brune a ovest) con l'ombra da nord-ovest e le curve di
+  livello, il Torrente Morto che passa al guado, il mare a nord-est con la rosa dei venti, la ferrovia da cui si è arrivati,
+  il lago dell'invaso ancora pieno dietro la sua diga, e un cartiglio («Carta fisica della provincia»). Il rilievo è un
+  modello ancorato alle tappe, non un disegno: se l'avventura cambiasse, la carta la seguirebbe. Nessuna strada è
+  stampata. Si prepara una volta, in momenti liberi, appena la mappa è in bisaccia: aprirla non costa niente.
+- **Il sale sul lago.** Quando arrivi all'invaso, la mano tratteggia il lago che la carta dà ancora pieno.
+
+### Cambiato
+- **I luoghi non stanno più su una griglia.** Le colonne sono larghe nella piana e strette nei paesi, la carta ondeggia,
+  ogni luogo si scosta un poco; ma ogni strada resta entro 12 gradi dal verso della sua uscita e l'ordine da ovest a est e
+  da nord a sud non cambia mai: ciò che la plancia dice a ovest, sulla carta è a ovest.
+- **Le strade sono tracciati a mano**, ciascuno col tratto della sua classe, che si scopre percorrendolo: la statale a
+  doppio filo con l'anima gialla, la provinciale bianca, le strade dei paesi, le sterrate della piana, le tracce sul fondo
+  dell'invaso, la mulattiera e i sentieri delle colline. Il tratteggio vuol dire soltanto «non ci sei stato»; quello che
+  parte da dove sei è pieno d'inchiostro.
+- **I segni**: dove sei, un disco rosso con quattro tacche a mirino (si riconosce anche senza il colore); gli anelli delle
+  tappe tracciati a mano. Spariscono le macchie di colore delle zone. Ogni nome ha un lato fisso e non salta da
+  un'apertura all'altra. Per il lettore di schermo, le tappe dicono anche da che parte stanno.
+
 ## [1.37.1] - 2026-10-30
 
 ### Rimosso
