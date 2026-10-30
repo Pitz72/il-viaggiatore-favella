@@ -9,7 +9,7 @@ Questo indice si rigenera da sé (`node strumenti/diario.mjs indice`).
 
 | Data | Tipo | Versione | Voce |
 |---|---|---|---|
-| 2026-10-30 | sessione | 1.38.0 | [Le risposte sono nostre: il viandante accanto alle risposte, i volti più grandi](diario/2026-10-30-le-risposte-sono-nostre-il-viandante-accanto-alle-risposte-i.md) — Simone ha guardato i ritratti della 1.38.0 e ha posto due note: «nelle scelte di dialogo non ha senso che ci sia il |
+| 2026-10-30 | sessione | 1.39.0 | [Le risposte sono nostre: il viandante accanto alle risposte, i volti più grandi](diario/2026-10-30-le-risposte-sono-nostre-il-viandante-accanto-alle-risposte-i.md) — Simone ha guardato i ritratti della 1.38.0 e ha posto due note: «nelle scelte di dialogo non ha senso che ci sia il |
 | 2026-10-30 | sessione | 1.38.0 | [I volti e le tavole: i personaggi e gli oggetti della memoria](diario/2026-10-30-i-volti-e-le-tavole-i-personaggi-e-gli-oggetti-della-memoria.md) — Fino a qui l'unico oggetto che si vedeva era la mappa. Simone ha proposto di far generare i ritratti di tutti i |
 | 2026-10-30 | sessione | 1.38.0 | [La mappa fisica: il rilievo, le acque e le strade a penna](diario/2026-10-30-la-mappa-fisica-il-rilievo-le-acque-e-le-strade-a-penna.md) — Simone ha chiesto di provare a rendere la mappa meno rigida e più vera, «pur rispettando lo schema delle direzioni, per |
 | 2026-10-30 | decisione | 1.37.1 | [Il cammino in basso a destra se ne va](diario/2026-10-30-il-cammino-in-basso-a-destra-se-ne-va.md) — Un tester ha detto a Simone che le sette barrette in fondo alla colonna di destra («il cammino») disorientano: sembrano una |

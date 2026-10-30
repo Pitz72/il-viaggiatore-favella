@@ -3,7 +3,7 @@ data: 2026-10-30
 ora: "11:05"
 titolo: "Le risposte sono nostre: il viandante accanto alle risposte, i volti più grandi"
 tipo: sessione
-versione: 1.38.0
+versione: 1.39.0
 ---
 
 # Le risposte sono nostre: il viandante accanto alle risposte, i volti più grandi

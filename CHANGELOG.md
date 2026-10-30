@@ -8,6 +8,8 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.39.0] - 2026-10-30
+
 ### Cambiato
 - **Accanto alle risposte di un dialogo ci sei tu**, non chi ti sta parlando: le risposte sono tue. Il protagonista resta
   senza volto; il suo ritratto è il viandante dei panorami, fermo sull'orizzonte nella luce della zona in cui ti trovi.
