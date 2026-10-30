@@ -38,9 +38,16 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 - **I segni**: dove sei, un disco rosso con quattro tacche a mirino (si riconosce anche senza il colore); gli anelli delle
   tappe tracciati a mano. Spariscono le macchie di colore delle zone. Ogni nome ha un lato fisso e non salta da
   un'apertura all'altra. Per il lettore di schermo, le tappe dicono anche da che parte stanno e se le hai raggiunte.
-- **La legenda della mappa** usa gli stessi segni del foglio (il mirino di «sei qui», l'anello pieno di ciò che si vede) e
-  spiega il tratteggio delle strade; l'anello di una tappa è tratteggiato finché non la raggiungi, pieno dopo, così si
-  distingue anche col contrasto alto.
+- **La legenda della mappa** usa gli stessi segni del foglio (la tappa raggiunta e quella da raggiungere, il mirino di «sei
+  qui», il tondo di ciò che si vede) e spiega il tratteggio delle strade; l'anello di una tappa è tratteggiato finché non
+  la raggiungi, pieno dopo, così si distingue anche col contrasto alto.
+- I salvataggi ricordano, per ogni voce del diario, gli stati che cambiano un volto o una tavola: ricaricando, Imma è ancora
+  digiuna e la foto ancora storta dove lo erano. I salvataggi di prima si leggono come sempre.
+
+### Corretto
+- **Nell'avventura testuale, Invio su una risposta che costa** (uno scambio, un dono, una svolta) apriva la conferma e la
+  richiudeva subito con «No, ci ripenso»: la scelta spariva senza traccia, e da tastiera non si poteva fare. Ora la
+  conferma resta aperta.
 
 ## [1.37.1] - 2026-10-30
 

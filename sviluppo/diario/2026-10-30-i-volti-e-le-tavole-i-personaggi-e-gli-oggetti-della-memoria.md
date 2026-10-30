@@ -38,11 +38,14 @@ schede, niente immagini che coprono il testo.
   - il **volto** accanto alla battuta, un cammeo tondo con un filo dell'accento della zona e un anello di buio che lo
     stacca dal fondo; più grande accanto alle risposte di un dialogo; piccolo in «chi hai incontrato»;
   - la **tavola** a destra del testo, che le gira attorno (`shape-outside` a cerchio) come in un libro illustrato, sfumata
-    nel fondo con una maschera radiale; sul telefono si centra sopra il testo;
+    nel fondo con una maschera radiale; due tavole nello stesso turno si mettono una sotto l'altra, ciascuna accanto al suo
+    testo;
   - la **foto storta**: alla parete è inclinata di 7 gradi, e quando la raddrizzi la tavola si raddrizza davvero, in un
-    secondo e mezzo;
-  - **il diario resta fedele**: ogni voce ricorda gli stati del momento, così tornando indietro Imma è ancora digiuna e la
-    foto ancora storta (solo in memoria: i salvataggi non cambiano);
+    secondo e mezzo (il disegno ha la cornice già inclinata di 4,5°: dritta vuol dire a piombo); il gesto si anima solo nel
+    turno in cui lo fai, non in un diario ricaricato;
+  - **il diario resta fedele**: ogni voce ricorda gli stati del momento che cambiano un'immagine (tre: la foto, Imma,
+    Pasquale), così tornando indietro Imma è ancora digiuna e la foto ancora storta; anche nei salvataggi, con un campo
+    facoltativo (le voci dei salvataggi di prima si fermano agli stati del caricamento);
   - col movimento ridotto niente entrate e niente gesto: la foto è storta o dritta e basta. Le immagini sono decorative
     (`aria-hidden`): il lettore di schermo legge il testo, che dice già tutto.
 - **La mappa, coi revisori** (lo stesso giro): la stampa ora c'è dal primo istante se era pronta (prima rifaceva la
@@ -53,6 +56,17 @@ schede, niente immagini che coprono il testo.
   sfumature erano indistinguibili), la legenda usa gli stessi segni del foglio, il luogo che si vede ha il filo più scuro
   (3:1 anche sulle fasce scure della montagna), il lettore di schermo sente quali tappe hai raggiunto e i nomi del Torrente
   Morto e della Serra Alta.
+
+- **Una seconda revisione, sui volti e sulle tavole** (tre revisori indipendenti, ogni segnalazione verificata da un
+  quarto che provava a smentirla, quasi sempre nel browser): 17 conferme, 3 smentite. Le più serie: nella build il volto
+  grande accanto alle risposte non si caricava (un url() relativo dentro la variabile `--volto` si risolve rispetto al
+  foglio di stile in `assets/`, non alla pagina; in sviluppo non si vedeva), ora la base delle immagini è assoluta come
+  quella di Pyodide; il volto toglieva alla plancia la sua altezza minima, e il diario saltava entrando in un dialogo; la
+  disposizione «stretta» della tavola guardava la finestra, ma il gioco è una superficie fissa di 1280×720 scalata (via);
+  la versione desktop non conosceva il tipo `.webp`; il collaudo leggeva le voci di `immagini.ts` senza contarle.
+  Fuori dal lavoro di oggi, ma trovato lì: nell'avventura testuale **Invio su una risposta che costa** apriva la conferma e
+  il keypress dello stesso Invio la chiudeva subito con «No» (il fuoco ci era appena arrivato). Ora il keydown di Invio
+  si ferma nella riga.
 
 ## Decisioni
 - **Il protagonista non ha volto, né la sua famiglia** — perché: il viaggiatore è chi gioca, e moglie e figlio esistono
@@ -75,6 +89,9 @@ schede, niente immagini che coprono il testo.
 - `app/scripts/finale-node.mjs`: la riga dei crediti «Ritratti e oggetti», al suo posto.
 - In una partita vera, a 1600×900 e a 430×900: il biglietto alla stazione, Nunzio al bar (il volto nella battuta e
   accanto alle risposte), la foto storta e poi raddrizzata, la tanica. Nessun errore in console.
+- Dopo la seconda revisione, sulla **build di produzione** servita in statico: il volto delle risposte si carica
+  (nessun 404); dopo F5 e F9 la foto esaminata resta storta e quella raddrizzata è dritta, senza rifare il gesto. Nella
+  modalità a parole, «1» e Invio sullo scambio con Nunzio lasciano la conferma aperta, col fuoco su «No».
 
 ## Questioni aperte
 - **Da sentire dal tester** se le tavole aiutano o distraggono, e se i volti in piccolo si riconoscono.
