@@ -61,7 +61,7 @@ for await (const riga of righe) {
     const ms = performance.now() - t0;
     const mappa = (m) => Object.fromEntries(m);
     process.stdout.write(JSON.stringify({
-      posti: mappa(d.posti), k: mappa(d.k), ritiri: d.ritiri, griglia: d.griglia, storture: d.storture, ms,
+      posti: mappa(d.posti), piegata: mappa(F.grigliaPiegata(carta, zonaDi)), k: mappa(d.k), ritiri: d.ritiri, griglia: d.griglia, storture: d.storture, ms,
       tracciati: [...d.tracciati.values()].map((t) => ({ a: t.a, b: t.b, classe: t.classe, scala: t.scala, campioni: t.campioni, d: t.d })),
       lati: { tappe: mappa(d.lati.tappe), luoghi: mappa(d.lati.luoghi), qui: mappa(d.lati.qui) },
       costanti: { FOGLIO: F.FOGLIO, IRREGOLARE: F.IRREGOLARE, RAGGIO: F.RAGGIO, RAGGIO_QUI: F.RAGGIO_QUI, RAGGIO_TAPPA: F.RAGGIO_TAPPA },

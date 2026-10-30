@@ -13,12 +13,15 @@
 import { useEffect, useState } from "react";
 import type { Carta } from "../lib/favellaRuntime";
 import { ancoreTerreno, disposizione, type AncoreTerreno } from "./foglio";
-import { VERSIONE_TERRENO, cantiere, isolinee, nelLago, pixel, rivaX, type Terreno } from "./terreno";
+import { SERRA_ALTA, VERSIONE_TERRENO, cantiere, isolinee, nelLago, pixel, rivaX, type Terreno } from "./terreno";
 
 const W = 1092, H = 481;
 export interface Stampa { url: string; sale: string | null }
 
 const memoria = new Map<string, Promise<Stampa>>();
+/** Le stampe già pronte, da leggere subito: una mappa che si apre con la stampa in memoria la mostra dal primo istante. */
+const pronte = new Map<string, Stampa>();
+const chiaveDi = (a: AncoreTerreno, scala: number) => `${a.firma}#${VERSIONE_TERRENO}#${scala}`;
 const quandoLibero = (f: () => void) => {
   const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
   if (w.requestIdleCallback) w.requestIdleCallback(f, { timeout: 1500 });
@@ -47,6 +50,7 @@ async function dipingi(a: AncoreTerreno, scala: number): Promise<{ t: Terreno; t
   const c = cantiere(a), t = c.t;
   for (let j = 0; j < t.ny; j += 10) { c.righe(j, Math.min(t.ny, j + 10)); await respiro(); }
   c.finisci();
+  await respiro();
   const tela = document.createElement("canvas");
   tela.width = Math.round(W * scala); tela.height = Math.round(H * scala);
   const g = tela.getContext("2d")!;
@@ -56,14 +60,20 @@ async function dipingi(a: AncoreTerreno, scala: number): Promise<{ t: Terreno; t
   g.putImageData(img, 0, 0);
   g.scale(scala, scala);
   g.lineCap = "round"; g.lineJoin = "round";
-  const terra = (x: number, y: number) => !nelLago(t, x, y) && x < rivaX(y) - 1;
+  // la riva, una volta per riga della griglia (isolinee la chiede al centro di ogni cella, e dipende solo da y)
+  const rive = Float64Array.from({ length: t.ny }, (_, j) => rivaX(j * t.passo + t.passo / 2));
+  const riva = (y: number) => rive[Math.min(t.ny - 1, Math.max(0, Math.floor(y / t.passo)))];
+  const terra = (x: number, y: number) => x < riva(y) - 1 && !nelLago(t, x, y);
   // le curve di livello: ogni 100 m, più marcate a 500 e a 1000; mai sull'acqua
   for (let q = 100; q <= 1100; q += 100) {
     const maestra = q % 500 === 0;
     segmenti(g, isolinee(t, t.quote, q, terra), maestra ? "rgba(122,80,45,.6)" : "rgba(122,80,45,.4)", maestra ? 0.95 : 0.6);
+    if (q % 300 === 0) await respiro();
   }
+  await respiro();
   // il mare: linee parallele alla riva, sempre più rade; la riva
-  for (const [q, a] of [[-3, 0.55], [-8, 0.42], [-15, 0.3], [-26, 0.2], [-42, 0.1]] as const) segmenti(g, isolinee(t, t.quote, q, (x, y) => x > rivaX(y) - 2), `rgba(47,95,134,${a})`, 0.5);
+  for (const [q, a] of [[-3, 0.55], [-8, 0.42], [-15, 0.3], [-26, 0.2], [-42, 0.1]] as const) segmenti(g, isolinee(t, t.quote, q, (x, y) => x > riva(y) - 2), `rgba(47,95,134,${a})`, 0.5);
+  await respiro();
   g.beginPath();
   for (let y = -2; y <= 264; y += 1.5) { const x = rivaX(y); if (y === -2) g.moveTo(x, y); else g.lineTo(x, y); }
   g.strokeStyle = "rgba(40,86,130,.85)"; g.lineWidth = 0.8; g.stroke();
@@ -74,6 +84,7 @@ async function dipingi(a: AncoreTerreno, scala: number): Promise<{ t: Terreno; t
     segmenti(g, isolinee(t, t.lago, 0.1, sud), "rgba(52,96,140,.35)", 0.5);
     segmenti(g, isolinee(t, t.lago, 0.22, sud), "rgba(52,96,140,.2)", 0.5);
   }
+  await respiro();
   // il torrente: il greto chiaro soltanto vicino al guado, poi il filo d'acqua, sottile, che si allarga verso valle
   const G = t.guado ?? { x: 0, y: 0 };
   for (let i = 0; i < t.fiume.length - 1; i++) {
@@ -131,57 +142,77 @@ async function dipingi(a: AncoreTerreno, scala: number): Promise<{ t: Terreno; t
     const a = tratto[0], b = tratto[tratto.length - 1], ang = Math.atan2(b.y - a.y, b.x - a.x);
     scrivi("Torrente Morto", (a.x + b.x) / 2 - Math.sin(ang) * 7, (a.y + b.y) / 2 - 7 * Math.cos(ang), "italic 9.5px Lora, Georgia, serif", "rgba(36,82,122,.85)", 0.6, ang);
   }
-  scrivi("SERRA ALTA", 640, 222, "9px Lora, Georgia, serif", "rgba(110,74,44,.75)", 2.7);
+  scrivi("SERRA ALTA", SERRA_ALTA.x, SERRA_ALTA.y + 7, "9px Lora, Georgia, serif", "rgba(110,74,44,.75)", 2.7);
   return { t, tela };
 }
 
-/** Il sale: un tratteggio d'inchiostro a 30° dentro il contorno del lago, trasparente fuori. */
+/** Il sale: un tratteggio d'inchiostro a 30° esattamente dentro il lago della stampa (la stessa prova dei suoi pixel),
+ *  trasparente fuori. */
 function sale(t: Terreno, scala: number): HTMLCanvasElement | null {
   if (!t.diga) return null;
   const tela = document.createElement("canvas");
   tela.width = Math.round(W * scala); tela.height = Math.round(H * scala);
   const g = tela.getContext("2d")!;
-  g.scale(scala, scala);
-  g.beginPath();
-  for (let j = 0; j < t.ny - 1; j++) for (let i = 0; i < t.nx - 1; i++) {
-    const x = i * t.passo, y = j * t.passo;
-    if (nelLago(t, x + t.passo / 2, y + t.passo / 2)) g.rect(x - 0.3, y - 0.3, t.passo + 0.6, t.passo + 0.6);
-  }
-  g.clip();
+  g.save(); g.scale(scala, scala);
   g.strokeStyle = "rgba(45,34,22,.32)"; g.lineWidth = 0.8;
   const k = Math.tan(Math.PI / 6);
   g.beginPath();
-  for (let c = -H; c < W + H; c += 7) { g.moveTo(c, H); g.lineTo(c + H / k, 0); }
-  g.stroke();
+  for (let c = -H / k; c < W; c += 7) { g.moveTo(c, H); g.lineTo(c + H / k, 0); }
+  g.stroke(); g.restore();
+  // la maschera: opaca dove la stampa dipinge il lago, pixel per pixel; il tratteggio resta solo lì
+  const maschera = g.createImageData(tela.width, tela.height), m = maschera.data;
+  for (let py = 0; py < tela.height; py++) {
+    const y = (py + 0.5) / scala;
+    if (y <= t.diga.y + 1) continue;
+    for (let px = 0; px < tela.width; px++) if (nelLago(t, (px + 0.5) / scala, y)) m[(py * tela.width + px) * 4 + 3] = 255;
+  }
+  const forma = document.createElement("canvas");
+  forma.width = tela.width; forma.height = tela.height;
+  forma.getContext("2d")!.putImageData(maschera, 0, 0);
+  g.globalCompositeOperation = "destination-in";
+  g.drawImage(forma, 0, 0);
   return tela;
 }
 
 /** La stampa per questi ancoraggi e questa scala: dalla memoria, o preparata in un momento libero. */
 export function preparaStampa(a: AncoreTerreno, scala: number): Promise<Stampa> {
-  const chiave = `${a.firma}#${VERSIONE_TERRENO}#${scala}`;
+  const chiave = chiaveDi(a, scala);
   let p = memoria.get(chiave);
   if (!p) {
     p = new Promise<Stampa>((ok, ko) => quandoLibero(() => {
-      dipingi(a, scala).then(({ t, tela }) => {
+      dipingi(a, scala).then(async ({ t, tela }) => {
+        await respiro();
         const s = sale(t, scala);
-        return Promise.all([comeUrl(tela), s ? comeUrl(s) : Promise.resolve(null)]).then(([url, sl]) => ok({ url, sale: sl }));
+        const [url, sl] = await Promise.all([comeUrl(tela), s ? comeUrl(s) : Promise.resolve(null)]);
+        pronte.set(chiave, { url, sale: sl });
+        ok({ url, sale: sl });
       }).catch(ko);
     }));
+    // un errore (la memoria, una tela che non si apre) non resta per tutta la sessione: la prossima volta si riprova
+    p.catch(() => memoria.delete(chiave));
     memoria.set(chiave, p);
   }
   return p;
 }
 
-/** La stampa, quando è pronta (null prima, o se non serve: contrasto alto, carta senza tappe). */
-export function useStampa(a: AncoreTerreno | null, scala: number): Stampa | null {
-  const [stampa, setStampa] = useState<Stampa | null>(null);
+/** La stampa (null finché non è pronta, o se non serve: contrasto alto, carta senza tappe) e se è arrivata a mappa già
+ *  aperta: solo allora entra con una dissolvenza, una volta. Pronta da prima, c'è dal primo istante. */
+export function useStampa(a: AncoreTerreno | null, scala: number): { stampa: Stampa | null; tardiva: boolean } {
+  const [stampa, setStampa] = useState<Stampa | null>(() => (a ? pronte.get(chiaveDi(a, scala)) ?? null : null));
+  const [tardiva, setTardiva] = useState(false);
   useEffect(() => {
     if (!a) { setStampa(null); return; }
-    let vivo = true;
-    preparaStampa(a, scala).then((s) => { if (vivo) setStampa(s); }, (e) => console.warn("La stampa della mappa non si è potuta preparare:", e));
-    return () => { vivo = false; };
+    const gia = pronte.get(chiaveDi(a, scala));
+    if (gia) { setStampa(gia); return; }
+    let vivo = true, t = 0;
+    preparaStampa(a, scala).then((s) => {
+      if (!vivo) return;
+      setStampa(s); setTardiva(true);
+      t = window.setTimeout(() => setTardiva(false), 400);
+    }, (e) => console.warn("La stampa della mappa non si è potuta preparare:", e));
+    return () => { vivo = false; window.clearTimeout(t); };
   }, [a, scala]);
-  return stampa;
+  return { stampa, tardiva };
 }
 
 /** I pixel per unità della stampa: due con la grafica «alta», o «automatica» su uno schermo fitto; se no uno. */

@@ -71,9 +71,14 @@ export default function Mappa({ base, accento = "#f0b77e", carta, visitate, qui,
 
   const f = useMemo(() => foglio(carta, visitate, qui, (id) => ROOM_ZONE[id]), [carta, visitate, qui]);
   // la stampa fisica (stampa.ts): pronta da prima, di solito; se no arriva con una dissolvenza. Con il contrasto alto non c'è.
+  // Il cartiglio e quello che la carta dice a voce seguono la stampa: senza, è la mappa e basta.
   const alto = opz.contrasto === "alto";
   const ancore = useMemo(() => (alto ? null : ancoreTerreno(disposizione(carta, (id) => ROOM_ZONE[id]))), [carta, alto]);
-  const stampa = useStampa(ancore, scalaStampa(opz.qualita));
+  const { stampa, tardiva } = useStampa(ancore, scalaStampa(opz.qualita));
+  const faseArrivo = useRef<string | null>(null);
+  if (!tardiva) faseArrivo.current = null;
+  else faseArrivo.current ??= fase;
+  const dissolvi = tardiva && faseArrivo.current === fase;
   const conSale = !!stampa?.sale && f.tappe.some((t) => t.zona === "z3" && t.raggiunta);
   const d = useMemo(() => descrizione(f), [f]);
   const zonaQui = qui ? ROOM_ZONE[qui] : undefined;
@@ -82,9 +87,9 @@ export default function Mappa({ base, accento = "#f0b77e", carta, visitate, qui,
   /** Il disegno del foglio. Durante l'apertura se ne vedono tre copie, ciascuna con la sua piega (le definizioni dei filtri stanno fuori, una volta sola). */
   const disegno = (
     <svg viewBox={`0 0 ${f.larghezza} ${f.altezza}`} width="100%" role={fase === "apre" ? undefined : "img"} aria-hidden={fase === "apre" ? true : undefined}
-      aria-label={`${alto ? "La mappa" : "La carta fisica della provincia"}. Sei a ${d.qui ?? "un luogo sconosciuto"}. Luoghi in cui sei stato: ${d.visti.length + (d.qui ? 1 : 0)}.`}>
+      aria-label={`${stampa ? "La carta fisica della provincia" : "La mappa"}. Sei a ${d.qui ?? "un luogo sconosciuto"}. Luoghi in cui sei stato: ${d.visti.length + (d.qui ? 1 : 0)}.`}>
       <rect className="mp-carta-fondo" width={f.larghezza} height={f.altezza} />
-      {stampa && <image className="mp-stampa" href={stampa.url} width={f.larghezza} height={f.altezza} preserveAspectRatio="none" />}
+      {stampa && <image className={"mp-stampa" + (dissolvi ? " mp-tardiva" : "")} href={stampa.url} width={f.larghezza} height={f.altezza} preserveAspectRatio="none" />}
       <rect className="mp-carta-grana" width={f.larghezza} height={f.altezza} filter="url(#mp-grana)" />
       {/* le pieghe della carta: in tre per il lungo, in due per il largo */}
       <g className="mp-pieghe" aria-hidden="true">
@@ -94,7 +99,7 @@ export default function Mappa({ base, accento = "#f0b77e", carta, visitate, qui,
       <rect className="mp-carta-bordo" width={f.larghezza} height={f.altezza} fill="url(#mp-bordo)" />
 
       {/* il cartiglio della carta stampata */}
-      {!alto && (
+      {stampa && (
         <g className="mp-cartiglio" aria-hidden="true">
           <rect x={CARTIGLIO.x0} y={CARTIGLIO.y0} width={CARTIGLIO.x1 - CARTIGLIO.x0} height={CARTIGLIO.y1 - CARTIGLIO.y0} />
           <rect className="mp-cartiglio-filo" x={CARTIGLIO.x0 + 3} y={CARTIGLIO.y0 + 3} width={CARTIGLIO.x1 - CARTIGLIO.x0 - 6} height={CARTIGLIO.y1 - CARTIGLIO.y0 - 6} />
@@ -218,16 +223,18 @@ export default function Mappa({ base, accento = "#f0b77e", carta, visitate, qui,
           {d.tappe.length > 0 && <li>Le tappe del viaggio: {d.tappe.join("; ")}.</li>}
           {d.visti.length > 0 && <li>Ci sei già stato: {d.visti.join(", ")}.</li>}
           {d.noti.length > 0 && <li>Da lì si vedono, ma non ci sei stato: {d.noti.join(", ")}.</li>}
-          {!alto && <li>La carta è fisica, stampata prima della secca: colline a ovest, pianura a est, il lago dove ora c'è l'invaso, un torrente
-            che passa al guado, il mare a nord-est.{conSale ? " Sul lago hai segnato a penna il sale." : ""}</li>}
+          {stampa && <li>La carta è fisica, stampata prima della secca: colline a ovest, con la Serra Alta, pianura a est, il lago dove ora c'è
+            l'invaso, il Torrente Morto che passa al guado, il mare a nord-est.{conSale ? " Sul lago hai segnato a penna il sale." : ""}</li>}
         </ul>
 
         <div style={{ marginTop: ".9em", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1.4em", flexShrink: 0 }}>
+          {/* la legenda, con gli stessi segni del foglio (il mirino di «sei qui», l'anello pieno del luogo che si vede) */}
           <div className="mp-legenda" aria-hidden="true">
-            <span className="mp-l-tappa">tappa del viaggio</span>
-            <span className="mp-l-qui">sei qui</span>
-            <span className="mp-l-visto">ci sei stato</span>
-            <span className="mp-l-noto">si vede, non ci sei stato</span>
+            <span><svg viewBox="-10 -10 20 20"><circle className="mp-l-filo" r="7.5" strokeWidth="1.2" strokeDasharray="3 2.5" /><circle className="mp-l-filo" r="3.2" strokeWidth="1" /></svg>tappa del viaggio</span>
+            <span><svg viewBox="-10 -10 20 20"><path className="mp-l-filo" strokeWidth="1.4" d={MIRINO.map(([x0, y0, x1, y1]) => `M${x0} ${y0}L${x1} ${y1}`).join("")} /><circle className="mp-l-rosso" r="5" /></svg>sei qui</span>
+            <span><svg viewBox="-10 -10 20 20"><circle className="mp-l-pieno" r="4" /></svg>ci sei stato</span>
+            <span><svg viewBox="-10 -10 20 20"><circle className="mp-l-filo" r="3.6" strokeWidth="1.3" /></svg>si vede, non ci sei stato</span>
+            <span><svg viewBox="-10 -10 20 20"><path className="mp-l-filo" strokeWidth="1.5" strokeDasharray="2.4 4" strokeLinecap="round" d="M-9 0H9" /></svg>strada non ancora percorsa</span>
           </div>
           <span className="mp-nota" style={{ textAlign: "right" }}>M o Esc chiudono</span>
         </div>

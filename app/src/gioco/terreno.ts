@@ -29,6 +29,8 @@ const W = 1092, H = 481;
 export const PASSO = 4;
 /** Il livello del lago, in metri. */
 export const LIVELLO = 150;
+/** Il centro della Serra Alta, il rilievo più alto fra le colline e la piana: la stampa ci scrive il nome. */
+export const SERRA_ALTA = { x: 500, y: 215 } as const;
 
 type P = { x: number; y: number };
 const clamp = (x: number, a = 0, b = 1) => (x < a ? a : x > b ? b : x);
@@ -193,7 +195,7 @@ export function cantiere(a: AncoreTerreno): { t: Terreno; righe: (j0: number, j1
     const fy = fiumeY(x);
     if (y < fy) e += (190 - 0.17 * x) * smooth(0, 70, fy - y) * clamp(1 - x / 900);
     // 6. i rilievi delle zone vuote: la Serra Alta, il Colle Nudo, le alture a nord
-    e += 230 * Math.exp(-(((x - 500) / 130) ** 2 + ((y - 215) / 44) ** 2));
+    e += 230 * Math.exp(-(((x - SERRA_ALTA.x) / 130) ** 2 + ((y - SERRA_ALTA.y) / 44) ** 2));
     e += 120 * Math.exp(-(((x - 770) / 90) ** 2 + ((y - 205) / 36) ** 2));
     e += 90 * Math.exp(-(((x - 640) / 160) ** 2 + ((y - 40) / 40) ** 2));
     // 7. il crinale fra la piana e l'invaso, obliquo (da nord-est a sud-ovest)

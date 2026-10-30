@@ -12,7 +12,7 @@
 .mp-carta-grana { opacity: .55; mix-blend-mode: multiply; }
 
 /* la stampa fisica (stampa.ts): arriva con una dissolvenza, se non era già pronta; il cartiglio; il sale della mano */
-.mp-stampa { animation: mp-stampa-arriva .25s ease-out both; }
+.mp-tardiva { animation: mp-stampa-arriva .25s ease-out both; }
 @keyframes mp-stampa-arriva { from { opacity: 0; } to { opacity: 1; } }
 .mp-cartiglio rect { fill: #e6dcc0; fill-opacity: .92; stroke: #5a4632; stroke-width: .7; stroke-opacity: .8; }
 .mp-cartiglio rect.mp-cartiglio-filo { fill: none; stroke-width: .4; }
@@ -36,10 +36,11 @@
 .mp-battuta.mp-sterrata, .mp-battuta.mp-traccia, .mp-battuta.mp-mulattiera { stroke-width: 1.6; }
 .mp-battuta.mp-sentiero { stroke-width: 1.2; }
 
-/* le tappe: un anello tracciato a mano attorno al luogo centrale e il nome in maiuscoletto; non ancora raggiunta, più tenue */
-.mp-anello { fill: none; stroke: var(--inchiostro-tenue); stroke-width: 1.4; stroke-linecap: round; }
+/* le tappe: un anello tracciato a mano attorno al luogo centrale e il nome in maiuscoletto. Non ancora raggiunta, l'anello è
+   tratteggiato e sottile, come le strade non percorse: si distingue anche senza le sfumature (contrasto alto) */
+.mp-anello { fill: none; stroke: var(--inchiostro-tenue); stroke-width: 1.2; stroke-linecap: round; stroke-dasharray: 3 2.5; }
 .mp-cuore { fill: none; stroke: var(--inchiostro-tenue); stroke-width: 1; }
-.mp-raggiunta .mp-anello { stroke: var(--inchiostro); stroke-width: 1.6; }
+.mp-raggiunta .mp-anello { stroke: var(--inchiostro); stroke-width: 1.8; stroke-dasharray: none; }
 .mp-nome-tappa {
   font-family: 'Lora', Georgia, serif; font-weight: 600; letter-spacing: .12em; fill: var(--inchiostro-tenue);
   paint-order: stroke; stroke: var(--carta); stroke-width: 3.2px; stroke-linejoin: round;
@@ -47,7 +48,7 @@
 .mp-raggiunta .mp-nome-tappa { fill: var(--inchiostro); }
 
 .mp-segno { fill: var(--inchiostro); stroke: none; }
-.mp-noto .mp-segno { fill: var(--carta); stroke: var(--inchiostro-tenue); stroke-width: 1.3; }
+.mp-noto .mp-segno { fill: var(--carta); stroke: var(--accennata); stroke-width: 1.3; }
 .mp-qui .mp-segno { fill: var(--rosso); stroke: var(--carta); stroke-width: 1.8; }
 .mp-mirino { fill: none; stroke: var(--inchiostro); stroke-width: 1.4; stroke-linecap: butt; }
 .mp-alone { fill: none; stroke: var(--rosso); stroke-width: 1.6; transform-box: fill-box; transform-origin: center; animation: mp-respiro 2.4s ease-out infinite; }
@@ -74,11 +75,10 @@
 
 .mp-legenda { display: flex; flex-wrap: wrap; align-items: center; gap: .4em 1.6em; }
 .mp-legenda > span { display: inline-flex; align-items: center; gap: .55em; }
-.mp-legenda > span::before { content: ""; width: .75em; height: .75em; border-radius: 50%; box-sizing: border-box; }
-.mp-l-tappa::before { border: 1.5px solid rgba(233, 223, 201, .85); width: .9em !important; height: .9em !important; }
-.mp-l-qui::before { background: #d4493a; }
-.mp-l-visto::before { background: #e9dfc9; }
-.mp-l-noto::before { border: 1px dashed rgba(233, 223, 201, .75); }
+.mp-legenda svg { width: 1.15em; height: 1.15em; flex-shrink: 0; overflow: visible; }
+.mp-legenda .mp-l-pieno { fill: #e9dfc9; }
+.mp-legenda .mp-l-filo { fill: none; stroke: #e9dfc9; }
+.mp-legenda .mp-l-rosso { fill: #c43a2c; stroke: #e9dfc9; stroke-width: 1.4; }
 
 /* contrasto alto: carta bianca, inchiostro nero, niente grana; la statale e la provinciale a doppio filo nero */
 [data-contrasto="alto"] .mp-carta { --carta: #fff; --carta-bordo: #fff; --inchiostro: #000; --inchiostro-tenue: #1a1a1a; --rosso: #b00000;
@@ -120,4 +120,4 @@
 @keyframes mp-ombra-dx { from { opacity: .75; } to { opacity: 0; } }
 
 /* col movimento ridotto la stampa compare e basta */
-[data-movimento="ridotto"] .mp-stampa { animation: none; }
+[data-movimento="ridotto"] .mp-tardiva { animation: none; }

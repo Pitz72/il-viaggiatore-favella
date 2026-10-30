@@ -580,6 +580,12 @@ export function disposizione(carta: Carta, zonaDi?: (luogo: string) => string | 
   return ultima;
 }
 
+/** La griglia piegata da sola (tutti i luoghi a k = 0): il collaudo misura da lì quanto la carta se ne scosta. */
+export function grigliaPiegata(carta: Carta, zonaDi?: (luogo: string) => string | undefined): Map<string, Punto> {
+  const nodi: Nodo[] = carta.luoghi.filter((l) => l.x !== null && l.y !== null).map((l) => ({ id: l.id, x: l.x!, y: l.y! }));
+  return disponi(nodi, carta.strade, zonaDi, new Map(nodi.map((n) => [n.id, 0])));
+}
+
 // ── gli ancoraggi della stampa ───────────────────────────────────────────────
 /** I punti a cui si ancora il terreno della stampa (terreno.ts): soltanto le tappe e i punti di mezzo fra due tappe (la
  *  sella delle colline fra il pianoro e il guado, il crinale fra la piana e l'invaso), più ciò che il racconto mette
@@ -677,7 +683,7 @@ export function postoNome(l: { cx: number; cy: number; lato: Lato; scosta?: numb
 export function descrizione(f: Foglio): { qui: string | null; tappe: string[]; visti: string[]; noti: string[] } {
   return {
     qui: f.luoghi.find((l) => l.stato === "qui")?.nome ?? null,
-    tappe: f.tappe.map((t) => (t.verso ? `${t.nome}, ${t.verso}` : t.nome)),
+    tappe: f.tappe.map((t) => `${t.nome}${t.raggiunta ? ", raggiunta" : ""}${t.verso ? `, ${t.verso}` : ""}`),
     visti: f.luoghi.filter((l) => l.stato === "visto").map((l) => l.nome),
     noti: f.luoghi.filter((l) => l.stato === "noto").map((l) => l.nome),
   };

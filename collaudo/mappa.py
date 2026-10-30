@@ -258,8 +258,9 @@ def verifica_disposizione(f, carta):
     k = sorted(d["k"].values())
     liberi = sum(1 for v in k if v == 1)
     controlla("disposizione · la carta resta irregolare: almeno tre luoghi su quattro liberi di scostarsi", liberi >= 0.75 * len(k), f"{liberi} su {len(k)}")
-    scarti = [math.hypot(d["posti"][l["id"]]["cx"] - (52 + l["x"] * 76), d["posti"][l["id"]]["cy"] - (34 + l["y"] * 37.5)) for l in carta["luoghi"] if l["x"] is not None]
-    controlla("disposizione · non è la griglia: in media un luogo si scosta di almeno 5 unità", sum(scarti) / len(scarti) >= 5, f"{sum(scarti) / len(scarti):.1f}")
+    # lo scarto dalla griglia piegata, non da quella uniforme: il ritmo delle colonne da solo darebbe già qualche unità
+    scarti = [math.hypot(d["posti"][i]["cx"] - p["cx"], d["posti"][i]["cy"] - p["cy"]) for i, p in d["piegata"].items()]
+    controlla("disposizione · non è la griglia: in media un luogo si scosta di almeno 5 unità dalla griglia piegata", sum(scarti) / len(scarti) >= 5, f"{sum(scarti) / len(scarti):.1f}")
     controlla("disposizione · si calcola in meno di mezzo secondo", d["ms"] < 500, f"{d['ms']:.0f} ms")
     altro = Foglio()
     try:
