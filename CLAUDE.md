@@ -68,8 +68,9 @@ lavoro riprende solo su richiesta di Simone.
 - **Niente segreti nel repository**: né password, chiavi o token, né le cartelle `_SEGRETI` dei siti. Deploy, release e modifiche
   agli altri repository solo se Simone lo dice, un passo per volta; mai `git push --force`.
 - **Gli altri repository sono di Simone** e si toccano solo su sua richiesta: `Pitz72/FAVELLA1` (il motore e il sito
-  favella.eu in `landingpage/`), `Ecosystem-Runtime` (ramo principale `master`), `SimonePizziWebSite`. I caricamenti sui siti
-  hanno credenziali che stanno sul suo computer.
+  favella.eu in `landingpage/`), `Ecosystem-Runtime` (ramo principale `master`), `SimonePizziWebSite`. **I caricamenti sui siti
+  non sono più da fare** (Simone, 31 ottobre 2026): favella.eu ed Ecosystem sono già aggiornati; l'articolo su
+  simonepizzi.runtimeradio.it lo cura lui. Le credenziali dei siti stanno comunque sul suo computer.
 
 ## Come si lavora con Simone
 

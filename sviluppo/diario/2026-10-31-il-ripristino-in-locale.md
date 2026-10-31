@@ -63,7 +63,10 @@ stabilizza**; la chiusura delle cose aperte (`sviluppo/PROSSIMI-PASSI.md`) spett
   *perché* (una voce per sessione); il registro dice *dove* sta ogni cosa e se ha copie. Uniti, il diario si riempirebbe di
   tabelle di percorsi e il registro non si leggerebbe più a colpo d'occhio. I percorsi dei materiali stanno nel registro e
   `CLAUDE.md` rimanda lì, perché due elenchi si disallineano.
-- **Di tutto il resto non si fa niente qui** (i tre caricamenti sui siti, il workflow «Pagine», i rami vecchi, la voce inglese) —
+- **I caricamenti sui siti non sono più da fare** — perché: Simone sapeva già che favella.eu ed Ecosystem erano aggiornati (la
+  verifica online, fatta su sua richiesta, lo ha confermato) e l'articolo su simonepizzi.runtimeradio.it lo cura lui. Tolto da
+  «Aperto» in `PROSSIMI-PASSI.md`, messo in «Non si fa».
+- **Di tutto il resto non si fa niente qui** (il workflow «Pagine», i rami vecchi, la voce inglese) —
   perché: Simone ha limitato la sessione al ripristino; ogni deploy e ogni release resta una sua decisione esplicita.
 
 ## Verifiche

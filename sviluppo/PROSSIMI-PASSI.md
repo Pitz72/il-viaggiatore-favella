@@ -7,15 +7,8 @@
 
 ## Aperto
 
-Ciò che resta aspetta Simone: sono sue decisioni, o un caricamento che richiede le credenziali del sito, che stanno sul suo
-computer e non nel repository.
+Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti non sono più da fare (vedi «Non si fa»).
 
-- **L'articolo su simonepizzi.runtimeradio.it**: `esegui.py` con `scripts/server-tools/aggiorna_articolo_viaggiatore_inglese.php`
-  (SimonePizziWebSite, commit `65d9260`: il clone locale `SITI-WEB\SimonePizziWebSite` è già lì), prima in anteprima e poi con
-  `--applica`. Visto dal browser il 31 ottobre: i tre articoli pubblici su Il Viaggiatore non hanno la sezione sull'inglese, e
-  quello del 23 ottobre dice ancora che c'è una versione web nel browser, ferma alla 1.23.0. L'articolo che lo script deve
-  toccare è **programmato**, quindi da fuori non si vede: se sia già stato aggiornato lo dice solo l'amministrazione del sito,
-  oppure l'anteprima dello script (che il 31 ottobre non è stata lanciata).
 - **La voce recitata in inglese** (la prima finestra dice che arriverà) e **la rilettura della traduzione da parte di un
   madrelingua**.
 - **La copia su GitHub Pages** è ferma alla 1.23.0, solo in italiano: non si offre più da nessuna parte ma resta in linea per
@@ -86,6 +79,9 @@ computer e non nel repository.
 
 ## Non si fa
 
+- **I caricamenti sui siti** (favella.eu, Ecosystem, l'articolo su simonepizzi.runtimeradio.it): non sono più da fare. favella.eu
+  ed Ecosystem erano già aggiornati (guardati online il 31 ottobre 2026); l'articolo su simonepizzi.runtimeradio.it lo cura
+  Simone, che sa dove sta e come si aggiorna. Decisione di Simone, 31 ottobre 2026.
 - **Un'eco di Imma alla soglia.** Vive in paese: un'eco ad Acquamorta sarebbe forzata
   (decisione 11 di `06-ramificazione.md`).
 - **Il suolo della terra e la mappa a 2× (4K).** Il suolo «cotto» ha una riga di tessera per ogni riga dello schermo
