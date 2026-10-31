@@ -56,6 +56,9 @@ lavoro riprende solo su richiesta di Simone.
 - **Il testo italiano ha la sua traduzione.** Motore e `.fav` restano in italiano; l'inglese sta nei cataloghi
   `app/src/lingue/en/`. Se un testo italiano cambia: `python strumenti/traduzione.py`, tradurre ciò che manca,
   `python strumenti/traduzione.py controlla`; il collaudo `collaudo/traduzione.py` lo pretende.
+- **Il titolo non si traduce** (Simone, 30–31 ottobre 2026): il gioco si chiama «Il Viaggiatore» in italiano e in inglese, come
+  titolo e come marchio, senza sottotitoli (`TITOLO` in `app/src/lib/lingua.ts`). Una cosa è il titolo, un'altra la parola
+  comune: nel racconto «viandante» si traduce *traveller*. Quando si rivede l'inglese, non lo si «corregge» in *The Traveller*.
 - **Italiano per documenti, diario e commit** (`tipo(ambito): frase`, come nella storia di git).
 - **Fuori da git per scelta**, perché pesanti o non rigenerabili: i master del doppiaggio (`doppiaggio/master/`), gli originali
   di immagini (Google Flow) e brani (Lyria), i video. Stanno sul computer di Simone; una sessione cloud non li vede e non li salva.

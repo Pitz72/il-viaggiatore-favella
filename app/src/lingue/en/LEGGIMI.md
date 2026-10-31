@@ -50,6 +50,9 @@ così:
   niente americanismi.
 - **I nomi propri restano**: le persone (Nunzio, Rosaria, Cosimo…) e i luoghi (Acquaviva, Acquamorta, Serra Alta,
   Torrente Morto). «zia Concetta» → «Aunt Concetta». La Secca (la grande siccità) → «the Drought».
+- **Il titolo non si traduce.** Il gioco si chiama «Il Viaggiatore» anche in inglese, come titolo e come marchio, senza
+  sottotitoli (`TITOLO` in `app/src/lib/lingua.ts`). Il titolo è una cosa, la parola comune un'altra: nel racconto
+  «viandante» → *traveller* (minuscolo, tradotto). Il trofeo della collezione si chiama «Il viaggiatore» anche in inglese.
 - **Le scorte**: «Hai [acqua] d'acqua e [cibo] di cibo.» → «You have [acqua] water and [cibo] food.»; «3 d'acqua»
   → «3 water».
 
