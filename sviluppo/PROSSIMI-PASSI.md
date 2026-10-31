@@ -10,9 +10,9 @@
 Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti non sono più da fare (vedi «Non si fa»).
 
 - **La voce recitata in inglese** (la prima finestra dice che arriverà).
-- **Cercare su GitHub le skill** per la narrativa, il linguaggio, gli schemi da LLM e l'antifiligrana testuale (Simone,
-  31 ottobre 2026). La verifica dell'inglese e la skill `verifica-traduzione` sono finite: ora si può fare. Prima va chiarito
-  con Simone che cosa intende per «antifiligrana testuale» (caratteri invisibili? altro?).
+- **Le skill e la filigrana di Claude: da analizzare in futuro** (Simone, 31 ottobre 2026). La ricerca di skill su GitHub e
+  la questione della filigrana nel testo si riprendono più avanti; i fatti verificati e la decisione sono nel diario del
+  31 ottobre («La verifica dell'inglese…») e nella memoria. Nessuna skill trovata è stata installata.
 - **La copia su GitHub Pages** è ferma alla 1.23.0, solo in italiano: non si offre più da nessuna parte ma resta in linea per
   non rompere i link. Il workflow «Pagine» (manuale) la rifarebbe: se lanciato oggi pubblicherebbe di nuovo il gioco nel
   browser, contro la scelta della 1.40.0.
@@ -29,6 +29,15 @@ Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti 
   contro calchi dall'italiano e schemi da LLM; corrette 52 voci nei cataloghi (non ancora rilasciate: CHANGELOG, «Non
   rilasciato»). Il titolo «Il Viaggiatore» non si traduce, e la regola ora sta in `CLAUDE.md` e nel `LEGGIMI` della
   traduzione.
+- **La ricerca su GitHub delle skill** per narrativa, linguaggio e schemi da LLM (31 ottobre 2026, richiesta di Simone).
+  Trovate, lette solo le schede e non i `SKILL.md`: `blader/humanizer` e `hardikpandya/stop-slop` (le due che Simone ha già
+  installate), `haowjy/creative-writing-skills` (Apache-2.0, molto completa, ma con un setup pesante e un agente che può
+  usare un altro fornitore di modelli), `Calliope-Editor/writing-skills` (MIT, 13 skill di sola diagnosi), e due altre
+  skill di schemi da LLM non aperte (`jalaalrd/anti-ai-slop-writing`, `skyzer/deslop-the-copy`). Per la qualità di una
+  traduzione e per la prosa italiana non c'è niente di meglio di `verifica-traduzione` e `prosa-italiana`. **Non cercati né
+  installati strumenti per togliere la filigrana di Claude**: vedi il diario del 31 ottobre. **Nessuna skill è stata
+  installata**: Simone ha detto di no (31 ottobre 2026); di `Calliope-Editor/writing-skills` sono stati letti soltanto i
+  metadati del repository.
 - **La skill `verifica-traduzione`** (31 ottobre 2026, M13 del registro): verifica le traduzioni cercando calchi dall'italiano,
   falsi amici e schemi da LLM, valida per qualsiasi coppia italiano→inglese. Sta in `~\.claude\skills\` (la usa Claude, quindi
   anche in *Il Relitto Silente*) e in `strumenti/skill/verifica-traduzione/` (la copia su GitHub): le due cartelle restano uguali.
