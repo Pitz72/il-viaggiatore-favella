@@ -1,6 +1,6 @@
 # Integrazione continua: a ogni push e pull request.
 #
-#  1. versioni coerenti (strumenti/versione.mjs verifica);
+#  1. versioni coerenti (strumenti/versione.mjs verifica), diario e registro dei materiali in ordine;
 #  2. collaudo dell'avventura: compilazione, i nove finali, le prove mirate,
 #     i salvataggi (salva → ricarica → stato identico);
 #  3. pacchetti desktop Windows e Linux costruiti e AUTOVERIFICATI (il gioco
@@ -37,6 +37,8 @@ jobs:
         run: node strumenti/versione.mjs verifica
       - name: Diario di sviluppo ben formato
         run: node strumenti/diario.mjs verifica
+      - name: Registro dei materiali in ordine
+        run: node strumenti/diario.mjs registro
       - name: Prove del processo principale (registro, IPC) e della data
         run: |
           node desktop/prove.cjs

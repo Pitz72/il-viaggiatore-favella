@@ -3,7 +3,7 @@
 | File | Cosa fa |
 |---|---|
 | `versione.mjs` | le versioni del gioco (regole in `sviluppo/VERSIONI.md`): `mostra`, `verifica`, `prepara`, `note` |
-| `diario.mjs` | il diario di sviluppo: `nuovo "Titolo"`, `indice`, `verifica` |
+| `diario.mjs` | il diario di sviluppo: `nuovo "Titolo"`, `indice`, `verifica`; e `registro [file]`, che controlla `sviluppo/REGISTRO.md` (la CI lo esegue) |
 | `mappa-narrativa.py` | la memoria della storia ricavata dai `.fav` → `sviluppo/mappa-narrativa.md` |
 | `doppiaggio.py` | i testi da doppiare, ricavati dai `.fav`: `stato` (parti, parole e minuti per voce), `blocchi [--voce servizio]` (scrive `doppiaggio/blocchi/` e `doppiaggio/manifest.json`: un blocco per voce su tutto il gioco), `da-fare` (ciò che manca, pronto da generare); vedi `doppiaggio/LEGGIMI.md` |
 | `doppiaggio-riconosci.py` | dice a quale blocco corrisponde ogni WAV scaricato da AI Studio o da ElevenLabs |

@@ -43,6 +43,10 @@ stabilizza**; la chiusura delle cose aperte (`sviluppo/PROSSIMI-PASSI.md`) spett
 - **Il registro `sviluppo/REGISTRO.md`**, nuovo, su richiesta di Simone: dove sta ogni materiale (con ID `M01`…), che copie e
   backup ha, che cosa è stato spostato, copiato o perso, e il registro dei movimenti. Ci sono già dentro tutti i movimenti di
   questa sessione. In `CLAUDE.md` è diventato **regola assoluta**, insieme a memoria e diario.
+- **Il controllo del registro nella CI**, su richiesta di Simone: `node strumenti/diario.mjs registro [file]` (nuovo passo
+  «Registro dei materiali in ordine» in `.github/workflows/ci.yml`). Controlla ID unici e senza buchi, stati ammessi, date vere e
+  dal più recente, ID citati che esistono, link che portano a un file, niente segreti né percorsi di credenziali. Non può
+  controllare che il contenuto sia vero.
 
 ## Decisioni
 - **I WebP di `app/public/immagini/` non si rigenerano dagli originali ritrovati** — perché: rifatti con `immagini.py` risultano
@@ -70,6 +74,10 @@ stabilizza**; la chiusura delle cose aperte (`sviluppo/PROSSIMI-PASSI.md`) spett
 - `npm ci` in `app/` e `desktop/`, `node desktop/prepara.mjs` e `npm run autoverifica` in `desktop/`: «AUTOVERIFICA SUPERATA».
   Il gioco parte anche dal server di sviluppo (prima finestra «Lingua · Language»), senza errori in console.
 - Backup del 22 ottobre: tutte le 1.380 voci del suo elenco presenti (0 mancanti, 0 file vuoti).
+- Controllo del registro: sul registro vero passa (12 materiali, 12 movimenti); un banco di prova, fuori dal repository, lo
+  lancia su 2 registri giusti e su 12 sbagliati (ID ripetuto, buco negli ID, stato non ammesso, data impossibile, data fuori
+  ordine, ID inesistente, link rotto, una colonna in meno, intervallo al contrario, cella vuota, segreto, file mancante): 14
+  esiti su 14 come previsto. Al primo lancio ha trovato davvero una riga sbagliata (una data scritta a parole), poi corretta.
 
 ## Questioni aperte
 - **Che cosa non si è ritrovato**: `grafica/anteprima.png` (nessun file del repository lo usa), `_backup/`, `_pubblicazione/`,

@@ -36,7 +36,8 @@ lavoro riprende solo su richiesta di Simone.
   trova, se è stata spostata, copiata, rinominata, cancellata o ritrovata, che backup ne esistono, dove stanno e quando si sono
   verificati. Ogni file o cartella creato, copiato, spostato, rinominato, cancellato o perso, e ogni backup fatto o scaduto,
   vuol dire **una riga nel registro**. Se non è scritto lì, per la prossima sessione non c'è. Nel registro niente segreti e
-  nessun percorso di credenziali: il repository è pubblico.
+  nessun percorso di credenziali: il repository è pubblico. La CI controlla che il registro sia in ordine
+  (`node strumenti/diario.mjs registro`); prima del commit lo si lancia anche a mano.
 - **`main` è sempre l'ultimissimo stato di lavoro** (decisione di Simone, 31 ottobre 2026). A fine sessione ciò che è fatto e
   verificato si porta su `main` (fast-forward, mai forzando), con la memoria aggiornata; un clone fresco di `main` deve bastare
   a riprendere. Il rilascio resta sempre manuale: Actions → Rilascio → Run workflow.

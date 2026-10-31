@@ -17,6 +17,9 @@
   una cosa o quante copie ha, la riga del materiale. Si scrive **come si è verificato** (SHA-256, conteggio, a occhio) e la voce di
   diario che racconta il resto.
 - Ciò che qui non è scritto, per la prossima sessione non c'è.
+- **La CI controlla che il file sia in ordine** (`node strumenti/diario.mjs registro`): ID dei materiali unici e senza buchi, stati
+  fra quelli ammessi, date vere e dal più recente (quando il giorno non si sa: `AAAA-MM-GG → AAAA-MM-GG`), ID citati che
+  esistono, link che portano a un file, niente segreti. Non controlla che il contenuto sia vero: quello resta a chi lo scrive.
 
 ## Dove sta cosa
 
@@ -44,6 +47,7 @@
 | Data | ID | Che cosa è successo | Da → a | Verifica | Diario |
 |---|---|---|---|---|---|
 | 2026-10-31 | M01 | Pubblicati su `main` i commit del ripristino e di questo registro | clone → GitHub | fast-forward; `main` locale = `origin/main` | [Il ripristino in locale](diario/2026-10-31-il-ripristino-in-locale.md) |
+| 2026-10-31 | — | Aggiunto il controllo del registro alla CI: `node strumenti/diario.mjs registro` (richiesta di Simone) | — | provato su un registro giusto e su dodici sbagliati (ID doppi o con buchi, stato, data, ordine, ID inesistente, link rotto, colonne, intervallo, cella vuota, segreto, file mancante) | [Il ripristino in locale](diario/2026-10-31-il-ripristino-in-locale.md) |
 | 2026-10-31 | — | Creato questo registro e la regola assoluta in `CLAUDE.md` (richiesta di Simone) | — | — | [Il ripristino in locale](diario/2026-10-31-il-ripristino-in-locale.md) |
 | 2026-10-31 | M08 | **Copiati** (non spostati) i 27 file di memoria e il transcript | `~\.claude\projects\…SVILUPPO-VIDEOGIOCHI-Il-Viaggiatore\` → `…\IlViaggiatore-originali\memoria-claude-2026-10-23\` | 28 file, 22,2 MB | [Il ripristino in locale](diario/2026-10-31-il-ripristino-in-locale.md) |
 | 2026-10-31 | M06, M07 | **Copiati** (non spostati) gli originali di Flow, **rinominati** per `immagini.py`, e quelli di Lyria | `C:\Users\Utente\Downloads\` → `…\IlViaggiatore-originali\` | SHA-256 32 su 32; `immagini.py` rifà i 24 WebP (1 identico byte per byte, gli altri quasi uguali) | [Il ripristino in locale](diario/2026-10-31-il-ripristino-in-locale.md) |
@@ -51,6 +55,6 @@
 | 2026-10-31 | M01 | **Clonato** il repository nella cartella locale, che era vuota | GitHub → `C:\Users\Utente\Documents\GitHub\IlViaggiatore` | `main` a `c77e55a`, tag `v1.40.0`, 259 commit, albero pulito | [Il ripristino in locale](diario/2026-10-31-il-ripristino-in-locale.md) |
 | 2026-10-31 | M11, M12 | **Cercati** i materiali persi (nomi su tutti i dischi, `~\.claude`, Cestino, cloud sincronizzati): trovati M02–M08, non trovato M12; la cartella originale non è nel Cestino | — | indici dei nomi di `F:`, `G:`, `H:`, `J:` e `C:\Users\Utente`; Cestino letto voce per voce | [Il ripristino in locale](diario/2026-10-31-il-ripristino-in-locale.md) |
 | 2026-10-30 | M06 | **Scaricati** da Flow gli originali dei ritratti e degli oggetti | Flow → `Downloads\IMMAGINI\` e `Downloads\` | date dei file (07:54–08:58) | [I volti e le tavole](diario/2026-10-30-i-volti-e-le-tavole-i-personaggi-e-gli-oggetti-della-memoria.md) |
-| tra il 23 e il 31 ottobre | M11 | **Cancellata** la cartella locale di sviluppo, dopo che tutto era su GitHub; il lavoro è proseguito in sessioni cloud (data esatta non nota) | — | riferito da Simone; non era nel Cestino | [La memoria del progetto sta nel repository](diario/2026-10-31-la-memoria-del-progetto-sta-nel-repository.md) |
+| 2026-10-23 → 2026-10-31 | M11 | **Cancellata** la cartella locale di sviluppo, dopo che tutto era su GitHub; il lavoro è proseguito in sessioni cloud (data esatta non nota) | — | riferito da Simone; non era nel Cestino | [La memoria del progetto sta nel repository](diario/2026-10-31-la-memoria-del-progetto-sta-nel-repository.md) |
 | 2026-10-22 | M02–M05 | **Spostati** fuori dalla cartella locale i materiali non pubblicabili o pesanti: copia con SHA-256, poi cancellati dalla cartella locale (fonte: le note di memoria vecchie, M08) | cartella locale → `F:\Backup\Il Viaggiatore - 2026-10-22\` | 1.380 file; esistenti tutti, controllato il 2026-10-31 | — |
 | 2026-10-21 | M07 | **Scaricati** da Lyria gli 8 MP3 (08:30–14:41) | Lyria → `Downloads\` | date dei file | [La colonna sonora](diario/2026-10-21-la-colonna-sonora-la-musica-delle-zone-e-il-menu-extra.md), [La canzone dei titoli di coda](diario/2026-10-21-la-canzone-dei-titoli-di-coda.md) |
