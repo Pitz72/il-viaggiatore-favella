@@ -76,7 +76,8 @@ Quasi tutto aspetta Simone, perché le credenziali dei siti stanno sul suo compu
 - **Il ripristino in locale** (31 ottobre 2026, diario «Il ripristino in locale»): il progetto è di nuovo in
   `C:\Users\Utente\Documents\GitHub\IlViaggiatore`, uguale a `main`, collaudi e autoverifica del desktop verdi. Dal backup del 22
   ottobre sono tornati `doppiaggio/master/`, `video/`, `.claude/launch.json` e i due appunti di passaggio (SHA-256 verificati);
-  gli originali di Flow e Lyria stanno in `Documents\SVILUPPO\VIDEOGIOCHI\IlViaggiatore-originali\` (vedi `CLAUDE.md`). Il ramo
+  gli originali di Flow e Lyria stanno in `Documents\SVILUPPO\VIDEOGIOCHI\IlViaggiatore-originali\` (dove sta ogni cosa e che
+  copie ha: `sviluppo/REGISTRO.md`, nuovo, regola assoluta in `CLAUDE.md`). Il ramo
   `main` «di troppo» di Ecosystem-Runtime non c'è più: il 31 ottobre il remoto aveva solo `master` e un ramo `claude/…`.
 
 ## Non si fa

@@ -11,9 +11,10 @@ Leggere, in quest'ordine, e poi dare a Simone lo stato del progetto:
 
 1. [`sviluppo/PROSSIMI-PASSI.md`](sviluppo/PROSSIMI-PASSI.md) — **lo stato vivo**: che cosa è aperto, che cosa è chiuso, che cosa di proposito non si fa.
 2. [`sviluppo/DIARIO.md`](sviluppo/DIARIO.md) — l'indice del diario; la voce in cima dice come è finita l'ultima sessione.
-3. [`CHANGELOG.md`](CHANGELOG.md) (la testa) e `versione.json` — a che versione siamo.
-4. [`README.md`](README.md) — com'è fatto il gioco e il repository.
-5. Solo se serve: [`sviluppo/VERSIONI.md`](sviluppo/VERSIONI.md) (le regole dei numeri), [`collaudo/LEGGIMI.md`](collaudo/LEGGIMI.md)
+3. [`sviluppo/REGISTRO.md`](sviluppo/REGISTRO.md) — **dove sta ogni cosa**: materiali, copie e backup, che cosa è stato spostato o perso.
+4. [`CHANGELOG.md`](CHANGELOG.md) (la testa) e `versione.json` — a che versione siamo.
+5. [`README.md`](README.md) — com'è fatto il gioco e il repository.
+6. Solo se serve: [`sviluppo/VERSIONI.md`](sviluppo/VERSIONI.md) (le regole dei numeri), [`collaudo/LEGGIMI.md`](collaudo/LEGGIMI.md)
    (i collaudi), `pre-produzione/` (il perché di storia, sistemi, interfaccia, doppiaggio, musiche), `motore/LEGGIMI.md`,
    `app/src/lingue/en/LEGGIMI.md` (la traduzione inglese).
 
@@ -28,6 +29,14 @@ lavoro riprende solo su richiesta di Simone.
 
 ## Regole che valgono sempre
 
+- **REGOLA ASSOLUTA: niente si fa senza lasciarne traccia** (Simone, 31 ottobre 2026). Tre cose si tengono sempre aggiornate,
+  **nella stessa sessione in cui il lavoro si fa e prima di chiuderla**: (1) la memoria: questo file, `sviluppo/PROSSIMI-PASSI.md`
+  e la memoria automatica di Claude, quando c'è; (2) il **diario** indicizzato, `sviluppo/DIARIO.md` con le voci in
+  `sviluppo/diario/`: che cosa si è fatto e perché; (3) il **registro**, `sviluppo/REGISTRO.md`: dove sta ogni cosa e dove si
+  trova, se è stata spostata, copiata, rinominata, cancellata o ritrovata, che backup ne esistono, dove stanno e quando si sono
+  verificati. Ogni file o cartella creato, copiato, spostato, rinominato, cancellato o perso, e ogni backup fatto o scaduto,
+  vuol dire **una riga nel registro**. Se non è scritto lì, per la prossima sessione non c'è. Nel registro niente segreti e
+  nessun percorso di credenziali: il repository è pubblico.
 - **`main` è sempre l'ultimissimo stato di lavoro** (decisione di Simone, 31 ottobre 2026). A fine sessione ciò che è fatto e
   verificato si porta su `main` (fast-forward, mai forzando), con la memoria aggiornata; un clone fresco di `main` deve bastare
   a riprendere. Il rilascio resta sempre manuale: Actions → Rilascio → Run workflow.
@@ -35,7 +44,8 @@ lavoro riprende solo su richiesta di Simone.
   le sessioni cloud non vedono i materiali fuori da git né le credenziali dei siti, e continuare lì è stato un errore (la
   memoria locale è andata persa). GitHub è il backup: si spinge spesso.
 - **Chiudere una sessione** vuol dire: una voce di diario (`node strumenti/diario.mjs nuovo "Titolo" --tipo sessione`),
-  `sviluppo/PROSSIMI-PASSI.md` aggiornato se qualcosa si è aperto o chiuso, `CHANGELOG.md` se il gioco è cambiato, commit e push.
+  `sviluppo/REGISTRO.md` aggiornato (ogni materiale e ogni movimento della sessione), `sviluppo/PROSSIMI-PASSI.md` aggiornato se
+  qualcosa si è aperto o chiuso, `CHANGELOG.md` se il gioco è cambiato, commit e push.
 - **Un solo stato vivo.** Le cose da fare e quelle chiuse stanno in `PROSSIMI-PASSI.md`; qui non si ricopiano, perché due
   elenchi si disallineano.
 - **Il motore non si tocca qui.** `motore/` è FAVELLA 1.5.0: se serve cambiarlo, si cambia nel repository di FAVELLA 1
@@ -48,19 +58,12 @@ lavoro riprende solo su richiesta di Simone.
 - **Italiano per documenti, diario e commit** (`tipo(ambito): frase`, come nella storia di git).
 - **Fuori da git per scelta**, perché pesanti o non rigenerabili: i master del doppiaggio (`doppiaggio/master/`), gli originali
   di immagini (Google Flow) e brani (Lyria), i video. Stanno sul computer di Simone; una sessione cloud non li vede e non li salva.
-  Dove sono (ripristino del 31 ottobre 2026, diario «Il ripristino in locale»):
-  - `doppiaggio/master/`, `video/` (senza la schermata di Ecosystem, che non è del gioco), `.claude/launch.json`,
-    `RIPRENDI-QUI-chiusura.md`, `PROMPT-chiusura-e-doppiaggio.md`: nel clone, tutti ignorati da git; copiati dal backup
-    `F:\Backup\Il Viaggiatore - 2026-10-22` (stato del 22 ottobre), che resta com'è.
-  - Gli originali: `C:\Users\Utente\Documents\SVILUPPO\VIDEOGIOCHI\IlViaggiatore-originali\`, con `flow-ritratti/` e
-    `flow-oggetti/` (già chiamati `ritratto-<nome>.jpg` e `oggetto-<nome>.jpg`, per `strumenti/immagini.py`), `lyria/` (per
-    `strumenti/colonna-sonora.py album`), `LEGGIMI.txt` e `CORRISPONDENZA.txt`; i file di Flow e di Lyria stanno anche in
-    `Downloads`.
-  - **Non rigenerare `app/public/immagini/` da quegli originali**: i WebP rifatti sono quasi uguali ma non identici (i file ritrovati
-    non sono bit per bit quelli lavorati nel 2026-10-30). Valgono i WebP del repository. I brani in `app/public/colonna-sonora/`
-    hanno già l'audio identico a quello di Lyria.
-  - `memoria-claude-2026-10-23/`, nella stessa cartella: le note di memoria della vecchia sessione locale e il suo transcript.
-    Sono appunti privati e il repository è pubblico: **non vanno nel repository**.
+  **Dove stanno, che copie e backup hanno: [`sviluppo/REGISTRO.md`](sviluppo/REGISTRO.md)** (M02–M08; ripristino del 31 ottobre
+  2026). Due avvertimenti che non vanno perduti:
+  - **Non rigenerare `app/public/immagini/` dagli originali di Flow ritrovati**: i WebP rifatti sono quasi uguali ma non
+    identici (quei file non sono bit per bit quelli lavorati il 30 ottobre 2026). Valgono i WebP del repository.
+  - Le note di memoria della vecchia sessione locale sono appunti privati e il repository è pubblico: **non vanno nel
+    repository**.
 - **Niente segreti nel repository**: né password, chiavi o token, né le cartelle `_SEGRETI` dei siti. Deploy, release e modifiche
   agli altri repository solo se Simone lo dice, un passo per volta; mai `git push --force`.
 - **Gli altri repository sono di Simone** e si toccano solo su sua richiesta: `Pitz72/FAVELLA1` (il motore e il sito

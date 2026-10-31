@@ -40,6 +40,9 @@ stabilizza**; la chiusura delle cose aperte (`sviluppo/PROSSIMI-PASSI.md`) spett
 - **Le regole di lavoro con Simone** che il repository non registrava sono passate in `CLAUDE.md` (lingua, questionario, via
   libera, testi detti e testi d'interfaccia, partite giocate, trappole di Windows) insieme ai percorsi dei materiali fuori da git.
 - `sviluppo/PROSSIMI-PASSI.md` allineato a ciò che si è trovato (vedi sotto).
+- **Il registro `sviluppo/REGISTRO.md`**, nuovo, su richiesta di Simone: dove sta ogni materiale (con ID `M01`…), che copie e
+  backup ha, che cosa è stato spostato, copiato o perso, e il registro dei movimenti. Ci sono già dentro tutti i movimenti di
+  questa sessione. In `CLAUDE.md` è diventato **regola assoluta**, insieme a memoria e diario.
 
 ## Decisioni
 - **I WebP di `app/public/immagini/` non si rigenerano dagli originali ritrovati** — perché: rifatti con `immagini.py` risultano
@@ -52,6 +55,10 @@ stabilizza**; la chiusura delle cose aperte (`sviluppo/PROSSIMI-PASSI.md`) spett
 - **Le note di memoria vecchie restano fuori dal repository** — perché: contengono appunti privati (per esempio su altri
   repository) e il repository è pubblico. Ciò che serve alla prossima sessione sta in `CLAUDE.md`, in `PROSSIMI-PASSI.md` e nel
   diario.
+- **Il diario di sessione e il registro dei materiali sono due file distinti** — perché: il diario racconta *che cosa* si è fatto e
+  *perché* (una voce per sessione); il registro dice *dove* sta ogni cosa e se ha copie. Uniti, il diario si riempirebbe di
+  tabelle di percorsi e il registro non si leggerebbe più a colpo d'occhio. I percorsi dei materiali stanno nel registro e
+  `CLAUDE.md` rimanda lì, perché due elenchi si disallineano.
 - **Di tutto il resto non si fa niente qui** (i tre caricamenti sui siti, il workflow «Pagine», i rami vecchi, la voce inglese) —
   perché: Simone ha limitato la sessione al ripristino; ogni deploy e ogni release resta una sua decisione esplicita.
 

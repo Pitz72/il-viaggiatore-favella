@@ -316,6 +316,8 @@ salva e ricarica, e prova la voce (una parte per ogni voce, la traccia del trail
 - **Diario di sviluppo**: [`sviluppo/DIARIO.md`](sviluppo/DIARIO.md), una voce per
   sessione, decisione o problema, col perché delle scelte.
   `node strumenti/diario.mjs nuovo "Titolo" --tipo decisione`.
+- **Registro dei materiali**: [`sviluppo/REGISTRO.md`](sviluppo/REGISTRO.md), dove sta ogni cosa che sta fuori da git, che
+  copie e backup ha, che cosa è stato spostato o perso.
 - **Mappa narrativa**: `python strumenti/mappa-narrativa.py` rilegge i `.fav` e scrive
   [`sviluppo/mappa-narrativa.md`](sviluppo/mappa-narrativa.md): quali variabili e quali cose
   portano una scelta da una zona all'altra, e da che cosa dipende ogni finale.
