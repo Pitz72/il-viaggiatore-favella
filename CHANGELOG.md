@@ -8,7 +8,7 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
-## [1.40.0] - 2026-10-30
+## [1.40.0] - 2026-10-31
 
 ### Aggiunto
 - **Il gioco in inglese.** Il racconto intero (le descrizioni, le battute, le risposte, i finali, i fili del viaggio),
