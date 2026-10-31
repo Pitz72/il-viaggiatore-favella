@@ -1,7 +1,7 @@
 # Prossimi passi
 
 > **Lo stato vivo del progetto.** *Il Viaggiatore* è concluso come storia (definitiva dalla 1.12.0) e il lavoro riprende solo
-> su richiesta di Simone. Ultima versione: **1.40.0**, 31 ottobre 2026. Questo file tiene il conto di che cosa è aperto, di
+> su richiesta di Simone. Ultima versione: **1.40.1**, 31 ottobre 2026. Questo file tiene il conto di che cosa è aperto, di
 > che cosa si è chiuso e di che cosa, di proposito, non si fa; **si aggiorna a ogni sessione** (vedi [`CLAUDE.md`](../CLAUDE.md)).
 > (Com'era prima, fermo alla 1.7.0: nella storia di git.)
 
@@ -26,8 +26,8 @@ Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti 
 ## Chiuso
 
 - **La verifica dell'inglese** (31 ottobre 2026, [`verifica-inglese.md`](verifica-inglese.md)): letti tutti i 494 testi inglesi
-  contro calchi dall'italiano e schemi da LLM; corrette 52 voci nei cataloghi (non ancora rilasciate: CHANGELOG, «Non
-  rilasciato»). Il titolo «Il Viaggiatore» non si traduce, e la regola ora sta in `CLAUDE.md` e nel `LEGGIMI` della
+  contro calchi dall'italiano e schemi da LLM; corrette 52 voci nei cataloghi (rilasciate nella 1.40.1, workflow
+  «Rilascio» riuscito). Il titolo «Il Viaggiatore» non si traduce, e la regola ora sta in `CLAUDE.md` e nel `LEGGIMI` della
   traduzione.
 - **La ricerca su GitHub delle skill** per narrativa, linguaggio e schemi da LLM (31 ottobre 2026, richiesta di Simone).
   Trovate, lette solo le schede e non i `SKILL.md`: `blader/humanizer` e `hardikpandya/stop-slop` (le due che Simone ha già

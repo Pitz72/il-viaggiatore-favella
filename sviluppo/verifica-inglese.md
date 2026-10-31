@@ -3,7 +3,7 @@
 > 31 ottobre 2026, versione 1.40.0. Rapporto di una lettura integrale della traduzione inglese
 > (`app/src/lingue/en/`): 494 voci, circa 11.700 parole. **Si verifica solo l'inglese** (ordine di Simone): l'italiano è servito
 > unicamente come riferimento per riconoscere un calco; non è stato valutato e non se ne propone nessuna modifica.
-> **Applicate il 31 ottobre 2026** (ordine di Simone: «correggi tutto quello che hai trovato secondo il piano»): 52 voci nei
+> **Applicate il 31 ottobre 2026 e rilasciate nella 1.40.1** (ordine di Simone: «correggi tutto quello che hai trovato secondo il piano»): 52 voci nei
 > cataloghi, solo nel campo `en`. D1 e D5 sono state applicate; D2, D3, D4 e D6 sono state chiuse lasciando il testo com'è.
 
 ## Esito in breve

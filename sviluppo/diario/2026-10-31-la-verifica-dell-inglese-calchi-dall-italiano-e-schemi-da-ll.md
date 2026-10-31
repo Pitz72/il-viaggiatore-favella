@@ -3,7 +3,7 @@ data: 2026-10-31
 ora: "19:09"
 titolo: "La verifica dell'inglese: calchi dall'italiano e schemi da LLM"
 tipo: sessione
-versione: 1.40.0
+versione: 1.40.1
 ---
 
 # La verifica dell'inglese: calchi dall'italiano e schemi da LLM
@@ -22,6 +22,7 @@ Il gioco è in inglese dalla 1.40.0, tradotto da Claude. Mancava un controllo su
 - **La skill `verifica-traduzione`** (`SKILL.md`, `scripts/scansione.py`, `references/calchi-italiano-inglese.md`, `references/rapporto-modello.md`): il metodo di questa verifica, scritto per valere con qualsiasi coppia italiano→inglese e per altri progetti (*Il Relitto Silente*). Installata in `~\.claude\skills\verifica-traduzione\` e copiata in `strumenti/skill/verifica-traduzione/`; riga nel `LEGGIMI` degli strumenti e M13 nel registro.
 - **La filigrana di Claude.** Simone ha spiegato che per «antifiligrana testuale» intende lo schema statistico di scelte di parole che Claude lascerebbe nel testo, e che non tollera che l'uso dell'AI, da lui sempre dichiarato, sia certificato da sistemi esterni come se fosse una colpa. Non lo sapevo (le mie conoscenze arrivano a giugno): cercato, è documentato. Anthropic scrive nella sua pagina di supporto («How Claude marks AI-generated content») che i modelli inseriscono nel testo una filigrana impercettibile, che viaggia col testo copiato e può resistere a qualche modifica; nella tabella dei modelli (letta tramite un riassunto, non a occhio) compaiono anche Sonnet 5.5 e Opus 5.5. La pagina non dice che sia statistica (lo dicono le fonti secondarie, che la fanno derivare da SynthID-Text), non indica nessuna opzione per spegnerla, e dice che il rilevamento è un segnale e non una prova di paternità. Il rilevamento del testo è in anteprima privata per autorità, media, ricercatori, scuole e aziende tenute a verificare: non c'è uno strumento pubblico.
 - **La ricerca su GitHub**: skill per narrativa, linguaggio, schemi da LLM e traduzioni (vedi `PROSSIMI-PASSI.md`, «Chiuso»). Lette le schede dei repository con lo strumento di lettura del web; **non scaricato né installato nulla**.
+- **Il rilascio 1.40.1** (Simone: «effettua il rilascio avviando la action»): `node strumenti/versione.mjs prepara patch` (1.40.0 → 1.40.1), collaudi `finali.py`, `mirate.py` e `salvataggi.py -n 16` verdi, commit `a84872e` «chore(versioni): 1.40.1», push, workflow «Rilascio» (run 41234355384, 6 minuti e 23 secondi, riuscito). Release «Latest» (né bozza né prerelease) con tag `v1.40.1` su `a84872e` e sette file: installer e portatile Windows, AppImage e .deb Linux, blockmap, `latest.yml` e `latest-linux.yml`.
 - Scritta la regola sul titolo in `CLAUDE.md`, in `app/src/lingue/en/LEGGIMI.md` e nella memoria automatica di Claude; aggiunta la voce «Corretto» al `CHANGELOG.md` sotto «Non rilasciato».
 
 ## Decisioni
@@ -32,7 +33,7 @@ Il gioco è in inglese dalla 1.40.0, tradotto da Claude. Mancava un controllo su
 - **La rilettura di un madrelingua esce dai passi aperti** — perché: Simone (a lavoro finito) ha detto che non è una priorità e che la farà se potrà; ora sta in «Non si fa» di `PROSSIMI-PASSI.md`. Le correzioni restano di Claude, non di un orecchio inglese.
 - **Non cerco né installo strumenti per togliere o aggirare la filigrana** — perché: è un meccanismo di Anthropic legato a un obbligo europeo (AI Act, art. 50), non mi sembra giusto che sia Claude ad aiutare a smontarlo, e una skill comunque non potrebbe spegnerlo (la marcatura è applicata dal modello mentre scrive). Decisione di Claude, detta a Simone con le ragioni; le sue ragioni (usa l'AI in modo dichiarato) non sono messe in dubbio. Restano valide la trasparenza sull'uso dell'AI, che il progetto già pratica, e il fatto che per Anthropic una marcatura non prova la paternità. La ricerca di skill sullo stile (narrativa, linguaggio, schemi da LLM) invece è lecita e fatta.
 - **L'italiano non si valuta** — perché: ordine di Simone («SOLO l'inglese»).
-- **Nessun cambio di versione** — perché: la modifica entra in «Non rilasciato»; il rilascio resta manuale.
+- **Versione patch, 1.40.1** — perché: correzioni di testo sono PATCH secondo `sviluppo/VERSIONI.md`; il rilascio, sempre manuale, l'ha ordinato Simone.
 
 ## Verifiche
 - `python strumenti/traduzione.py controlla`: 0 errori, 0 avvisi.
@@ -43,9 +44,10 @@ Il gioco è in inglese dalla 1.40.0, tradotto da Claude. Mancava un controllo su
 - Prima della scrittura: 54 sostituzioni su 52 voci, ognuna con la vecchia stringa presente una sola volta; `git diff` mostra una riga cambiata per voce, 52 in tutto.
 - La skill: struttura validata con `quick_validate` di skill-creator («Skill is valid!»). Lo script `scansione.py` provato sui nove cataloghi dopo le correzioni (6 trattini «FINALE», 3 *quietly*, 0 contrasti, 0 americanismi, 0 caratteri invisibili) e sul testo di prima (`e43a671`): segnala 6 delle 52 voci corrette (*practically*, due dislocazioni, tre *quietly*), cioè circa un decimo. Per questo la skill dice che il lavoro vero è la lettura. Le due copie hanno SHA-256 uguale, 4 file su 4.
 - **Non** ho fatto il ciclo di prove con subagenti e baseline di skill-creator né l'ottimizzazione della descrizione: la skill è fatta di giudizio e il suo unico pezzo verificabile (lo script) è provato su dati veri.
-- I collaudi del gioco non sono stati rilanciati dopo la skill: non è cambiato nulla nel gioco.
+- Rilascio: `versione.mjs verifica` coerente (gioco 1.40.1, motore 1.5.0, formato salvataggi 1); `finali.py` 9 finali su 9, `mirate.py` TUTTE OK, `salvataggi.py -n 16` 16 partite e 20 salvataggi ricaricati; poi il workflow ha rifatto da sé il collaudo completo e l'autoverifica dei pacchetti Windows e Linux. Release letta con `gh release view`: pubblicata, «Latest», sette file; tag, `origin/main` e `HEAD` sullo stesso commit `a84872e`; i nomi dei file sono quelli della 1.40.0 salvo il numero di versione. L'installer Windows e l'AppImage già installati si aggiornano da soli.
+- I link di favella.eu ed Ecosystem puntano ancora alla v1.40.0, che esiste: non c'è nulla da caricare (decisione di Simone, 31 ottobre).
 
 ## Questioni aperte
 - Nessuna skill trovata su GitHub è stata installata: Simone, dopo aver detto sì, ha fermato l'installazione («Non installare, scusami»). Di `Calliope-Editor/writing-skills` sono stati letti con `gh api` soltanto i metadati (MIT, commit `2fad031`, 13 `SKILL.md` più alcuni documenti); nessun file è stato scaricato né scritto sul disco, e `~\.claude\skills\` non è cambiata.
 - I testi inglesi del gioco (cataloghi `en`) e le 52 correzioni sono stati scritti da Claude dopo il 2 agosto 2026: per la pagina di Anthropic possono portare la filigrana. Se Simone vuole una dichiarazione esplicita dell'uso dell'AI nel gioco (README, titoli di coda), è una sua scelta.
-- Le correzioni e il rapporto sono su `main` (commit `d053516`, `2794bb4`, `077b525`); la skill e le tracce successive no, finché Simone non dice di pubblicarle.
+- Tutto il lavoro di questa sessione è su `main` e le correzioni dell'inglese sono nella release 1.40.1; resta soltanto il commit che porta queste ultime tracce.
