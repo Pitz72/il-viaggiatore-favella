@@ -9,24 +9,26 @@
 
 Quasi tutto aspetta Simone, perché le credenziali dei siti stanno sul suo computer e non nel repository.
 
-- **favella.eu**: `npm run deploy` in `landingpage/` del repository FAVELLA1 (sito 2.14.0, commit `6e53f2c`). Finché non è
-  caricato, il README (che dice che la versione nel browser non c'è più nemmeno su favella.eu) descrive il sito del repository,
-  non quello in linea.
-- **Ecosystem**: `python _SEGRETI/deploy.py upload`, poi `audit` e `rm` dei tre file tolti (sito 0.32.0, commit `3d8c034`,
-  ramo `master`).
+- **favella.eu**: `npm run deploy` in `landingpage/` del repository FAVELLA1 (sito 2.14.0, commit `6e53f2c`, che il 31 ottobre
+  è la testa di `main` sul remoto). FAVELLA1 **non ha un clone locale**: va clonato prima. Finché non è caricato, il README (che
+  dice che la versione nel browser non c'è più nemmeno su favella.eu) descrive il sito del repository, non quello in linea.
+- **Ecosystem**: `python _SEGRETI/deploy.py upload`, poi `audit` e `rm` dei tre file tolti (sito 0.32.0). Il clone locale è
+  `Documents\GitHub\SITI-WEB\ECOSYSTEM`, ramo `master` a `79caf55` (uguale a `origin/master` il 31 ottobre; `3d8c034`, citato
+  prima, è un suo antenato).
 - **L'articolo su simonepizzi.runtimeradio.it**: `esegui.py` con `scripts/server-tools/aggiorna_articolo_viaggiatore_inglese.php`
-  (SimonePizziWebSite, commit `65d9260`), prima in anteprima e poi con `--applica`.
-- **Ecosystem-Runtime ha un ramo `main` di troppo** (il principale è `master`), allo stesso commit: da cancellare a mano.
+  (SimonePizziWebSite, commit `65d9260`: il clone locale `SITI-WEB\SimonePizziWebSite` è già lì), prima in anteprima e poi con
+  `--applica`.
 - **La voce recitata in inglese** (la prima finestra dice che arriverà) e **la rilettura della traduzione da parte di un
   madrelingua**.
 - **La copia su GitHub Pages** è ferma alla 1.23.0, solo in italiano: non si offre più da nessuna parte ma resta in linea per
   non rompere i link. Il workflow «Pagine» (manuale) la rifarebbe: se lanciato oggi pubblicherebbe di nuovo il gioco nel
   browser, contro la scelta della 1.40.0.
-- **Ripristinare il progetto in locale** (`C:\Users\Utente\Documents\GitHub\IlViaggiatore`) con un Claude Code locale, e
-  cercare nei backup (`F:\Backup` e altrove) la memoria di lavoro di prima del passaggio su GitHub (appunti di sessione,
-  `.claude/`, `RIPRENDI-QUI*.md`, `PROMPT-*.md`) e i materiali fuori da git (master del doppiaggio, originali di immagini e
-  brani, video). Ciò che serve si porta in file tracciati (una voce di diario basta). Se non si trova, si ricostruisce dal
-  repository e si chiude lo sviluppo con quello che c'è.
+- **Rami remoti vecchi**: `claude/amazing-mccarthy-8bigiy`, `claude/blissful-wright-qjgutj`, `claude/vigilant-feynman-d7d9kq`
+  di questo repository sono già tutti contenuti in `main` (0 commit in avanti, verificato il 31 ottobre): si possono cancellare,
+  ma solo su ordine di Simone.
+- **Una routine di backup per ciò che sta fuori da git**, proposta e non attuata. Oggi hanno **una sola copia**: i master del
+  doppiaggio e i video (su `F:`, nello stesso computer), gli originali di Flow, la memoria vecchia e il suo transcript (sul
+  disco `C:`). Una seconda copia fuori dal computer (OneDrive e Proton Drive sono già sul PC) la decide Simone.
 
 ## Chiuso
 
@@ -71,6 +73,11 @@ Quasi tutto aspetta Simone, perché le credenziali dei siti stanno sul suo compu
   viandante accanto alle risposte.
 - **L'inglese** (1.40.0): il gioco intero in inglese (494 testi e 85 nomi in `app/src/lingue/en/`, controllati da
   `collaudo/traduzione.py`), la prima finestra della lingua, il trofeo «Parola per parola»; e il gioco solo da scaricare.
+- **Il ripristino in locale** (31 ottobre 2026, diario «Il ripristino in locale»): il progetto è di nuovo in
+  `C:\Users\Utente\Documents\GitHub\IlViaggiatore`, uguale a `main`, collaudi e autoverifica del desktop verdi. Dal backup del 22
+  ottobre sono tornati `doppiaggio/master/`, `video/`, `.claude/launch.json` e i due appunti di passaggio (SHA-256 verificati);
+  gli originali di Flow e Lyria stanno in `Documents\SVILUPPO\VIDEOGIOCHI\IlViaggiatore-originali\` (vedi `CLAUDE.md`). Il ramo
+  `main` «di troppo» di Ecosystem-Runtime non c'è più: il 31 ottobre il remoto aveva solo `master` e un ramo `claude/…`.
 
 ## Non si fa
 
