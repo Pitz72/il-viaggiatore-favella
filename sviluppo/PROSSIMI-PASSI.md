@@ -9,7 +9,12 @@
 
 Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti non sono più da fare (vedi «Non si fa»).
 
-- **La voce recitata in inglese** (la prima finestra dice che arriverà).
+- **La voce recitata in inglese** (la prima finestra dice che arriverà). **In corso** (31 ottobre 2026, diario «Il doppiaggio
+  inglese: il narratore in sei blocchi»): i testi di Enzo sono pronti in `doppiaggio/en/` (sei blocchi di narrazione, le scelte
+  del giocatore, il trailer; prompt della voce: Enzo, britannico neutro), tutti e otto consegnati a Simone in chat il 31 ottobre.
+  Simone li genera in AI Studio; aspettano i suoi WAV (e la durata del primo, per tarare il ritmo dell'inglese).
+  Poi: taglio e controllo parte per parte (`doppiaggio-taglia.py` va adattato all'inglese), banco, integrazione nell'app. Kira e i
+  quattordici personaggi in inglese non sono decisi.
 - **Le skill e la filigrana di Claude: da analizzare in futuro** (Simone, 31 ottobre 2026). La ricerca di skill su GitHub e
   la questione della filigrana nel testo si riprendono più avanti; i fatti verificati e la decisione sono nel diario del
   31 ottobre («La verifica dell'inglese…») e nella memoria. Nessuna skill trovata è stata installata.

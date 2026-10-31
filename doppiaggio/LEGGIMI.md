@@ -12,6 +12,7 @@ mano: se un testo cambia, si rigenera il blocco.
 | `master/` | i WAV scaricati da AI Studio, come escono (circa 48 KB al secondo), e le parti tagliate | **no** (`.gitignore`) |
 | `voci.md` | le descrizioni delle voci da incollare in AI Studio | sì |
 | `banco.json` | il resoconto del banco della voce: per ogni blocco la loudness prima e dopo, il guadagno, il picco, il peso | sì |
+| `en/` | **il doppiaggio inglese** del narratore (blocchi, manifest, controllo, prompt della voce, documentazione di Gemini 3.8 Flash TTS): vedi `en/LEGGIMI.md` | sì |
 | `../app/public/voce/` | ciò che il gioco suona: un file Opus per parte (`<id>.opus`) e `indice.json` (id → durata in ms, il testo di ogni parte, le cartelle a parte); `elevenlabs/`, col suo indice, ha le voci di Imma, Rosaria, Tore e Vito, escluse dalla licenza libera; `trailer.opus` e `trailer.json` la voce del trailer | sì |
 
 ## Una voce per volta

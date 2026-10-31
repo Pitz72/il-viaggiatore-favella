@@ -1,0 +1,291 @@
+{
+ "nota": "I testi del trailer iniziale (88,5 s) in inglese, letti da Enzo in modo narrativo ed enfatico. Stessi id, toni, finestre e ancore dell'italiano (doppiaggio/trailer.json): la scaletta e la musica non cambiano. Il testo inglese è quello che compare sullo schermo nel trailer inglese (app/src/components/Trailer.tsx, app/src/trailer/zone.ts, scaletta.ts), con i numeri scritti a lettere e le maiuscole come enfasi. Dove sta ogni testo: campo «fonte».",
+ "toni": {
+  "solenne": "solemn, slow, weighty",
+  "enfatico": "emphatic, dramatic, building",
+  "sospeso": "hushed, questioning, suspended",
+  "secco": "crisp, clipped, punchy"
+ },
+ "parti": [
+  {
+   "id": "biglietto",
+   "testo": "There's no point coming back.",
+   "tono": "solenne",
+   "da": 6.7,
+   "a": 9.6,
+   "fonte": "il biglietto in stampatello: la frase della scaletta (BIGLIETTO.testoEn, app/src/trailer/scaletta.ts), che nel trailer dice «no point» e non «no need» come la nota di Z1",
+   "nota": "il biglietto in stampatello; si scrive a 7,25 s e finisce a 8,2"
+  },
+  {
+   "id": "alba1",
+   "testo": "A man returns home.",
+   "tono": "solenne",
+   "da": 10.6,
+   "a": 16.9,
+   "fonte": "Trailer.tsx, alba1"
+  },
+  {
+   "id": "alba2",
+   "testo": "ON FOOT.",
+   "tono": "enfatico",
+   "da": 12.3,
+   "a": 16.9,
+   "fonte": "Trailer.tsx, alba2: «On foot.»; maiuscole = enfasi"
+  },
+  {
+   "id": "terra",
+   "testo": "Across a land the water has emptied.",
+   "tono": "solenne",
+   "da": 18.3,
+   "a": 22.4,
+   "fonte": "Trailer.tsx, terra: le due righe sono una frase"
+  },
+  {
+   "id": "secca",
+   "testo": "The DROUGHT. Ten years without rain.",
+   "tono": "enfatico",
+   "da": 22.6,
+   "a": 25.1,
+   "fonte": "Trailer.tsx, secca",
+   "nota": "il timbro «la secca» cade a 22,6 s"
+  },
+  {
+   "id": "domanda",
+   "testo": "What are you going back to — and what will be left of you when you get there?",
+   "tono": "sospeso",
+   "da": 27.2,
+   "a": 32.9,
+   "fonte": "Trailer.tsx, dom1 e dom2",
+   "nota": "sullo schermo sono due righe: la prima a 27,2 s, la seconda a 28,7 s"
+  },
+  {
+   "id": "mappa",
+   "testo": "Seven stages home.",
+   "tono": "solenne",
+   "da": 33.6,
+   "a": 36.1,
+   "fonte": "Trailer.tsx, mappa"
+  },
+  {
+   "id": "tappa1",
+   "testo": "Acquaviva.",
+   "tono": "secco",
+   "da": 35.2,
+   "a": 36.9,
+   "fonte": "zone.ts, ZONE[0].en.n",
+   "nota": "le sette tappe compaiono ogni 1,72 s: 35,2 · 36,9 · 38,6 · 40,4 · 42,1 · 43,8 · 45,5"
+  },
+  {
+   "id": "tappa2",
+   "testo": "The plain.",
+   "tono": "secco",
+   "da": 36.9,
+   "a": 38.6,
+   "fonte": "zone.ts"
+  },
+  {
+   "id": "tappa3",
+   "testo": "The dead reservoir.",
+   "tono": "secco",
+   "da": 38.6,
+   "a": 40.4,
+   "fonte": "zone.ts"
+  },
+  {
+   "id": "tappa4",
+   "testo": "The main road.",
+   "tono": "secco",
+   "da": 40.4,
+   "a": 42.1,
+   "fonte": "zone.ts"
+  },
+  {
+   "id": "tappa5",
+   "testo": "The village.",
+   "tono": "secco",
+   "da": 42.1,
+   "a": 43.8,
+   "fonte": "zone.ts"
+  },
+  {
+   "id": "tappa6",
+   "testo": "The hills.",
+   "tono": "secco",
+   "da": 43.8,
+   "a": 45.5,
+   "fonte": "zone.ts"
+  },
+  {
+   "id": "tappa7",
+   "testo": "The ford.",
+   "tono": "secco",
+   "da": 45.5,
+   "a": 47.2,
+   "fonte": "zone.ts",
+   "nota": "a 47,2 s la rotta arriva a casa"
+  },
+  {
+   "id": "cinque",
+   "testo": "Five ways to live in a DYING world.",
+   "tono": "solenne",
+   "da": 49.3,
+   "a": 52.4,
+   "fonte": "Trailer.tsx, cinque"
+  },
+  {
+   "id": "modo1",
+   "testo": "Guarding.",
+   "tono": "secco",
+   "da": 52.3,
+   "a": 59.6,
+   "fonte": "Trailer.tsx, CINQUE: Saverio, verbo.en",
+   "nota": "Saverio, il pozzo. I cinque segni compaiono a 52,3 · 52,7 · 53,1 · 53,6 · 54,0 s e restano fino a 59,6: la voce può dirli un po' dopo, con più calma"
+  },
+  {
+   "id": "modo2",
+   "testo": "Waiting.",
+   "tono": "secco",
+   "da": 52.3,
+   "a": 59.6,
+   "fonte": "Trailer.tsx, CINQUE: Iole",
+   "nota": "Iole, la diga"
+  },
+  {
+   "id": "modo3",
+   "testo": "Preying.",
+   "tono": "secco",
+   "da": 52.3,
+   "a": 59.6,
+   "fonte": "Trailer.tsx, CINQUE: Vito",
+   "nota": "Vito, il casello"
+  },
+  {
+   "id": "modo4",
+   "testo": "Staying.",
+   "tono": "secco",
+   "da": 52.3,
+   "a": 59.6,
+   "fonte": "Trailer.tsx, CINQUE: Rosaria",
+   "nota": "Rosaria, l'osteria"
+  },
+  {
+   "id": "modo5",
+   "testo": "Giving up.",
+   "tono": "secco",
+   "da": 52.3,
+   "a": 59.6,
+   "fonte": "Trailer.tsx, CINQUE: Onofrio",
+   "nota": "Onofrio, la grotta"
+  },
+  {
+   "id": "guado1",
+   "testo": "And at the ford, waiting for you,",
+   "tono": "sospeso",
+   "da": 61.8,
+   "a": 64.0,
+   "fonte": "Trailer.tsx, guado1"
+  },
+  {
+   "id": "guado2",
+   "testo": "your BROTHER.",
+   "tono": "enfatico",
+   "da": 64.0,
+   "a": 67.5,
+   "aggancia": 64.0,
+   "fonte": "Trailer.tsx, guado2; maiuscole = enfasi",
+   "nota": "deve cadere esattamente sul colpo grave del brano (63,99 s)"
+  },
+  {
+   "id": "regola1",
+   "testo": "Thirst is the backbone.",
+   "tono": "secco",
+   "da": 67.86,
+   "a": 69.6,
+   "fonte": "zone.ts, REGOLE[0].en",
+   "nota": "cinque regole, una ogni 1,84 s a partire da 67,8"
+  },
+  {
+   "id": "regola2",
+   "testo": "Water is the currency.",
+   "tono": "secco",
+   "da": 69.7,
+   "a": 71.44,
+   "fonte": "zone.ts, REGOLE[1].en"
+  },
+  {
+   "id": "regola3",
+   "testo": "Trust opens doors.",
+   "tono": "secco",
+   "da": 71.54,
+   "a": 73.28,
+   "fonte": "zone.ts, REGOLE[2].en"
+  },
+  {
+   "id": "regola4",
+   "testo": "Violence costs. And it's avoidable.",
+   "tono": "secco",
+   "da": 73.38,
+   "a": 75.12,
+   "fonte": "zone.ts, REGOLE[3].en"
+  },
+  {
+   "id": "regola5",
+   "testo": "Choices follow you to the very end.",
+   "tono": "secco",
+   "da": 75.22,
+   "a": 77.0,
+   "fonte": "zone.ts, REGOLE[4].en"
+  },
+  {
+   "id": "numeri1",
+   "testo": "Seven stages.",
+   "tono": "secco",
+   "da": 77.0,
+   "a": 81.8,
+   "fonte": "Trailer.tsx, STATS: 7 stages (a lettere)",
+   "nota": "i numeri: 7 tappe · 39 luoghi · 14 personaggi · 6 finali"
+  },
+  {
+   "id": "numeri2",
+   "testo": "Thirty-nine places.",
+   "tono": "secco",
+   "da": 77.0,
+   "a": 81.8,
+   "fonte": "Trailer.tsx, STATS: 39 places (a lettere)"
+  },
+  {
+   "id": "numeri3",
+   "testo": "Fourteen characters.",
+   "tono": "secco",
+   "da": 77.0,
+   "a": 81.8,
+   "fonte": "Trailer.tsx, STATS: 14 characters (a lettere)"
+  },
+  {
+   "id": "numeri4",
+   "testo": "Six endings.",
+   "tono": "secco",
+   "da": 77.0,
+   "a": 81.8,
+   "fonte": "Trailer.tsx, STATS: 6 endings (a lettere)"
+  },
+  {
+   "id": "tagline",
+   "testo": "An Italian text adventure, written and played on the real engine.",
+   "tono": "sospeso",
+   "da": 78.9,
+   "a": 81.7,
+   "fonte": "Trailer.tsx, numeritag"
+  },
+  {
+   "id": "titolo",
+   "testo": "Il Viaggiatore.",
+   "tono": "enfatico",
+   "da": 82.3,
+   "a": 88.5,
+   "aggancia": 82.3,
+   "fonte": "il titolo non si traduce (CLAUDE.md)",
+   "nota": "il titolo compare a 82,3 s, con un colpo"
+  }
+ ]
+}
