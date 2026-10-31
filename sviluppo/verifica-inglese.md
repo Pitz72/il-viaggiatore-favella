@@ -15,8 +15,8 @@
   lettera, dislocazioni («Pensaci, a cosa torni»), qualche falso amico.
 - **48 voci su 494** (meno del 10%) hanno una proposta: **1** errore di grammatica, **15** calchi che un lettore inglese nota,
   **32** ritocchi di finezza. Più **6 decisioni** che spettano a Simone.
-- Le proposte sono di Claude, non di un madrelingua: la rilettura da parte di un madrelingua resta aperta in
-  [`PROSSIMI-PASSI.md`](PROSSIMI-PASSI.md) e questo rapporto non la sostituisce.
+- Le proposte sono di Claude, non di un madrelingua. La rilettura di un madrelingua non è una priorità (Simone, 31 ottobre
+  2026): la farà lui, se potrà.
 
 ## Come è stato fatto
 

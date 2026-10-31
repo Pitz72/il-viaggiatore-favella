@@ -9,13 +9,10 @@
 
 Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti non sono più da fare (vedi «Non si fa»).
 
-- **La voce recitata in inglese** (la prima finestra dice che arriverà) e **la rilettura della traduzione da parte di un
-  madrelingua**.
-- **Una skill che verifichi le traduzioni** (calchi dall'italiano e schemi da LLM), da ricavare da questa verifica se il
-  responso è buono, scritta valida per qualsiasi coppia italiano→inglese per riusarla in altri progetti, come *Il Relitto Silente*
-  (Simone, 31 ottobre 2026).
+- **La voce recitata in inglese** (la prima finestra dice che arriverà).
 - **Cercare su GitHub le skill** per la narrativa, il linguaggio, gli schemi da LLM e l'antifiligrana testuale (Simone,
-  31 ottobre 2026): **da fare solo dopo** la verifica dell'inglese e la skill qui sopra.
+  31 ottobre 2026). La verifica dell'inglese e la skill `verifica-traduzione` sono finite: ora si può fare. Prima va chiarito
+  con Simone che cosa intende per «antifiligrana testuale» (caratteri invisibili? altro?).
 - **La copia su GitHub Pages** è ferma alla 1.23.0, solo in italiano: non si offre più da nessuna parte ma resta in linea per
   non rompere i link. Il workflow «Pagine» (manuale) la rifarebbe: se lanciato oggi pubblicherebbe di nuovo il gioco nel
   browser, contro la scelta della 1.40.0.
@@ -31,7 +28,10 @@ Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti 
 - **La verifica dell'inglese** (31 ottobre 2026, [`verifica-inglese.md`](verifica-inglese.md)): letti tutti i 494 testi inglesi
   contro calchi dall'italiano e schemi da LLM; corrette 52 voci nei cataloghi (non ancora rilasciate: CHANGELOG, «Non
   rilasciato»). Il titolo «Il Viaggiatore» non si traduce, e la regola ora sta in `CLAUDE.md` e nel `LEGGIMI` della
-  traduzione. La rilettura di un madrelingua resta aperta qui sopra.
+  traduzione.
+- **La skill `verifica-traduzione`** (31 ottobre 2026, M13 del registro): verifica le traduzioni cercando calchi dall'italiano,
+  falsi amici e schemi da LLM, valida per qualsiasi coppia italiano→inglese. Sta in `~\.claude\skills\` (la usa Claude, quindi
+  anche in *Il Relitto Silente*) e in `strumenti/skill/verifica-traduzione/` (la copia su GitHub): le due cartelle restano uguali.
 - **Il progetto di ramificazione** (`pre-produzione/06-ramificazione.md`, §8): la mappa delle
   ramificazioni, le conseguenze a distanza (da 2 a 13), le varianti di testo per stato, le
   chiusure che raccolgono il viaggio e «chi hai incontrato» (1.12.0).
@@ -88,6 +88,8 @@ Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti 
 
 ## Non si fa
 
+- **La rilettura della traduzione inglese da parte di un madrelingua**: non è una priorità (Simone, 31 ottobre 2026); la
+  farà lui, se potrà. Non va riproposta fra i passi aperti.
 - **I caricamenti sui siti** (favella.eu, Ecosystem, l'articolo su simonepizzi.runtimeradio.it): non sono più da fare. favella.eu
   ed Ecosystem erano già aggiornati (guardati online il 31 ottobre 2026); l'articolo su simonepizzi.runtimeradio.it lo cura
   Simone, che sa dove sta e come si aggiorna. Decisione di Simone, 31 ottobre 2026.
