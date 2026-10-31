@@ -40,6 +40,10 @@ traduzione inglese c'è, se documenti e README sono allineati, se le memorie sta
   con la sessione o con la cartella, e il repository è l'unica cosa che resta.
 - **Un solo stato vivo, `PROSSIMI-PASSI.md`; `CLAUDE.md` tiene le regole e l'ordine di lettura, non l'elenco delle cose** —
   perché: due elenchi si disallineano, ed è già successo.
+- **`main` è sempre l'ultimissimo stato di lavoro, e lo sviluppo torna in locale** — perché: Simone, a fine sessione: la
+  repository deve essere «all'ultimissimo stato di lavoro», e continuare lo sviluppo su cloud è stato un errore (la memoria
+  locale è andata persa, e i materiali fuori da git e le credenziali dei siti stanno sul suo computer). `main` è stato portato
+  avanti a questa sessione (fast-forward, senza forzare); il prompt per ripristinare il progetto in locale è stato scritto a parte.
 - **`.gitignore` non toccato** — perché: escludere gli appunti locali era una scelta di Simone. Quello che serve alla prossima
   sessione va in `PROSSIMI-PASSI.md` o nel diario, che sono tracciati.
 

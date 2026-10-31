@@ -28,8 +28,12 @@ lavoro riprende solo su richiesta di Simone.
 
 ## Regole che valgono sempre
 
-- **Si lavora su GitHub.** Si sviluppa sul ramo che la sessione indica; `main` si porta avanti solo col sì di Simone
-  (la 1.40.0 è stata un fast-forward del ramo su `main`). Il rilascio è sempre manuale: Actions → Rilascio → Run workflow.
+- **`main` è sempre l'ultimissimo stato di lavoro** (decisione di Simone, 31 ottobre 2026). A fine sessione ciò che è fatto e
+  verificato si porta su `main` (fast-forward, mai forzando), con la memoria aggiornata; un clone fresco di `main` deve bastare
+  a riprendere. Il rilascio resta sempre manuale: Actions → Rilascio → Run workflow.
+- **Dove si sviluppa.** Dal 31 ottobre 2026 lo sviluppo torna **in locale**, in `C:\Users\Utente\Documents\GitHub\IlViaggiatore`:
+  le sessioni cloud non vedono i materiali fuori da git né le credenziali dei siti, e continuare lì è stato un errore (la
+  memoria locale è andata persa). GitHub è il backup: si spinge spesso.
 - **Chiudere una sessione** vuol dire: una voce di diario (`node strumenti/diario.mjs nuovo "Titolo" --tipo sessione`),
   `sviluppo/PROSSIMI-PASSI.md` aggiornato se qualcosa si è aperto o chiuso, `CHANGELOG.md` se il gioco è cambiato, commit e push.
 - **Un solo stato vivo.** Le cose da fare e quelle chiuse stanno in `PROSSIMI-PASSI.md`; qui non si ricopiano, perché due

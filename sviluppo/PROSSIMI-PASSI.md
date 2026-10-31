@@ -22,9 +22,11 @@ Quasi tutto aspetta Simone, perché le credenziali dei siti stanno sul suo compu
 - **La copia su GitHub Pages** è ferma alla 1.23.0, solo in italiano: non si offre più da nessuna parte ma resta in linea per
   non rompere i link. Il workflow «Pagine» (manuale) la rifarebbe: se lanciato oggi pubblicherebbe di nuovo il gioco nel
   browser, contro la scelta della 1.40.0.
-- **La memoria di lavoro di prima del passaggio su GitHub** (appunti di sessione, `.claude/`, `RIPRENDI-QUI*.md`,
-  `PROMPT-*.md`) non è nel repository. Se una copia sta in `F:\Backup`, una sessione cloud non può leggerla: Simone ne porta
-  ciò che serve in un file tracciato (una voce di diario basta).
+- **Ripristinare il progetto in locale** (`C:\Users\Utente\Documents\GitHub\IlViaggiatore`) con un Claude Code locale, e
+  cercare nei backup (`F:\Backup` e altrove) la memoria di lavoro di prima del passaggio su GitHub (appunti di sessione,
+  `.claude/`, `RIPRENDI-QUI*.md`, `PROMPT-*.md`) e i materiali fuori da git (master del doppiaggio, originali di immagini e
+  brani, video). Ciò che serve si porta in file tracciati (una voce di diario basta). Se non si trova, si ricostruisce dal
+  repository e si chiude lo sviluppo con quello che c'è.
 
 ## Chiuso
 
