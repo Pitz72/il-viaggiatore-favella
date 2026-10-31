@@ -33,13 +33,13 @@
   "tipo": "descrizione",
   "dove": "z2-piana.fav:39",
   "it": "Una serra dai vetri opachi di salsedine. Tra i filari secchi, le casse di conserve aperte. Del cane, solo le impronte nella polvere. Si torna a NORD.",
-  "en": "A greenhouse, its glass clouded with salt. Among the dry rows, the crates of preserves, open. Of the dog, only its prints in the dust. Back NORTH."
+  "en": "A greenhouse, its glass clouded with salt. Among the dry rows, the crates of preserves, open. Of the dog, only pawprints in the dust. Back NORTH."
  },
  {
   "tipo": "descrizione",
   "dove": "z2-piana.fav:40",
   "it": "Una serra dai vetri opachi di salsedine. Tra i filari secchi, le casse di conserve aperte, e il CANE steso su un fianco accanto a quelle che difendeva. Si torna a NORD.",
-  "en": "A greenhouse, its glass clouded with salt. Among the dry rows, the crates of preserves, open, and the DOG lying on its side beside the ones it was defending. Back NORTH."
+  "en": "A greenhouse, its glass clouded with salt. Among the dry rows, the crates of preserves, open, and the DOG lying on its side beside the crates it was defending. Back NORTH."
  },
  {
   "tipo": "descrizione",
@@ -116,7 +116,7 @@
   "chi": "Saverio",
   "dove": "z2-piana.fav:72",
   "it": "«Acqua.» Stavolta non sputa. Accenna alla corda con il mento. «Cala piano, la corda è vecchia. Quel che viene su è tuo.»",
-  "en": "“Water.” This time he doesn't spit. He points his chin at the rope. “Let it down slowly, the rope's old. Whatever comes up is yours.”"
+  "en": "“Water.” This time he doesn't spit. He jerks his chin at the rope. “Let it down slowly, the rope's old. Whatever comes up is yours.”"
  },
  {
   "tipo": "opzione",
@@ -140,7 +140,7 @@
   "tipo": "messaggio",
   "dove": "z2-piana.fav:79",
   "it": "Il pozzo ormai dà solo fango. Finché la tanica tiene, non vale la pena di aspettare il fondo.",
-  "en": "The well gives only mud now. While the jerrycan lasts, it isn't worth waiting for the bottom."
+  "en": "The well gives only mud now. While the jerrycan still has water, it isn't worth waiting for the bottom to clear."
  },
  {
   "tipo": "messaggio",
@@ -188,13 +188,13 @@
   "tipo": "messaggio",
   "dove": "z2-piana.fav:100",
   "it": "Non hai niente da lanciargli. Il cane lo sente, e ringhia più forte.",
-  "en": "You have nothing to throw it. The dog senses it, and snarls louder."
+  "en": "You have nothing to throw to it. The dog senses it, and snarls louder."
  },
  {
   "tipo": "messaggio",
   "dove": "z2-piana.fav:101",
   "it": "Non c'è niente da gettare, o nessuno a cui interessi.",
-  "en": "There's nothing to throw, or nobody it would interest."
+  "en": "There's nothing to throw, and no one to care."
  },
  {
   "tipo": "messaggio",
@@ -230,6 +230,6 @@
   "tipo": "messaggio",
   "dove": "z2-piana.fav:119",
   "it": "Ti fermi sul crinale. Davanti, l'invaso morto luccica di sale fino all'orizzonte. Acquaviva è alle spalle, la piana è attraversata. Si scende a OVEST, nella conca.",
-  "en": "You stop on the ridge. Ahead, the dead reservoir glitters with salt to the horizon. Acquaviva is behind you, the plain is crossed. The way down is WEST, into the basin."
+  "en": "You stop on the ridge. Ahead, the dead reservoir glitters with salt to the horizon. Acquaviva is behind you, and you have crossed the plain. The way down is WEST, into the basin."
  }
 ]

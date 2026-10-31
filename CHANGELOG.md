@@ -8,6 +8,13 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+### Corretto
+- **La traduzione inglese, riletta da cima a fondo** (52 voci su 494, nei cataloghi `app/src/lingue/en/`): meno calchi
+  dall'italiano e qualche errore di grammatica («You keep the food for when you need it», «Your life, in effect»,
+  «Leave me alone too»…). Il biglietto, la frase da cui parte il gioco, dice ora «There's no need to come back.». Il motore,
+  i `.fav`, i salvataggi e il doppiaggio non cambiano; il titolo resta «Il Viaggiatore» in entrambe le lingue. Il rapporto sta
+  in `sviluppo/verifica-inglese.md`.
+
 ## [1.40.0] - 2026-10-31
 
 ### Aggiunto

@@ -173,7 +173,7 @@
   "chi": "Vito",
   "dove": "z4-statale.fav:127",
   "it": "Non si alza. «Tu.» Lo dice come si dice il nome di un cane che ha morso. «Hai tirato fuori un ferro vuoto, e io ti ho detto calma, calma, come a un bambino.» Si passa una mano sulla faccia. «Lo racconto, adesso, a chi passa. Lo racconto bene.» Una pausa. «La sbarra è su. Passa, e non fermarti.»",
-  "en": "He doesn't get up. “You.” He says it the way you'd say the name of a dog that has bitten someone. “You pulled an empty gun, and I said easy, easy, the way you do to a child.” He passes a hand over his face. “I tell it now, to whoever comes through. I tell it well.” A pause. “The barrier's up. Go through, and don't stop.”"
+  "en": "He doesn't get up. “You.” He says it the way you'd say the name of a dog that has bitten someone. “You pulled an empty gun, and I said easy, easy, the way you do with a child.” He passes a hand over his face. “I tell it now, to whoever comes through. I tell it well.” A pause. “The barrier's up. Go through, and don't stop.”"
  },
  {
   "tipo": "dialogo",
@@ -318,7 +318,7 @@
   "tipo": "messaggio",
   "dove": "z4-statale.fav:162",
   "it": "Un colpo ti prende in pieno: il sapore del ferro in bocca.",
-  "en": "A blow catches you full on: the taste of iron in your mouth."
+  "en": "A blow catches you square on: the taste of iron in your mouth."
  },
  {
   "tipo": "messaggio",
@@ -475,7 +475,7 @@
   "chi": "Imma",
   "dove": "z4-statale.fav:210",
   "it": "È un boccone, e lo sa. Ne mangia metà, per farlo durare, e l'altra metà se la mette in tasca. Si china ad allacciare la scarpa. «Alla Rosaria ci arrivo prima di te.» Ti guarda, una volta sola. «L'ultimo non lo dà quasi nessuno. Quello, in paese, si viene a sapere.»",
-  "en": "It's a mouthful, and she knows it. She eats half, to make it last, and puts the other half in her pocket. She bends to tie her shoe. “I'll reach Rosaria before you do.” She looks at you, just once. “Hardly anyone gives away their last. That gets known, in the village.”"
+  "en": "It's only a mouthful, and she knows it. She eats half, to make it last, and puts the other half in her pocket. She bends to tie her shoe. “I'll reach Rosaria before you do.” She looks at you, just once. “Hardly anyone gives away their last. That gets known, in the village.”"
  },
  {
   "tipo": "dialogo",

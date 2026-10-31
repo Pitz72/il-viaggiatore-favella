@@ -27,13 +27,13 @@
   "tipo": "messaggio",
   "dove": "sistemi.fav:40",
   "it": "Nella tanica c'è un fondo solo: due sorsi non ci sono. Ne resta uno.",
-  "en": "The jerrycan is down to the last of it: there aren't two sips. There's one left."
+  "en": "The jerrycan is down to the last of it: there isn't enough for two sips. There's one left."
  },
  {
   "tipo": "messaggio",
   "dove": "sistemi.fav:43",
   "it": "Bevi a lungo, gli occhi chiusi, finché la tanica non cambia suono. Per un po' la sete tace.",
-  "en": "You drink long, eyes closed, until the jerrycan changes its sound. For a while the thirst falls silent."
+  "en": "You drink for a long while, eyes closed, until the jerrycan sounds different. For a while the thirst falls silent."
  },
  {
   "tipo": "messaggio",
@@ -45,7 +45,7 @@
   "tipo": "messaggio",
   "dove": "sistemi.fav:74",
   "it": "Non hai fame. Il cibo lo tieni per quando servirà.",
-  "en": "You're not hungry. You keep the food for when you'll need it."
+  "en": "You're not hungry. You keep the food for when you need it."
  },
  {
   "tipo": "messaggio",
@@ -57,7 +57,7 @@
   "tipo": "messaggio",
   "dove": "sistemi.fav:76",
   "it": "Non hai niente da mettere sotto i denti.",
-  "en": "You have nothing to get your teeth into."
+  "en": "You have nothing to sink your teeth into."
  },
  {
   "tipo": "messaggio",
@@ -75,13 +75,13 @@
   "tipo": "messaggio",
   "dove": "sistemi.fav:82",
   "it": "Mangi tutto quello che c'è da mangiare, senza fretta e senza sapore. Per il momento, lo stomaco è zitto.",
-  "en": "You eat everything there is to eat, without hurry and without taste. For the moment, your stomach keeps quiet."
+  "en": "You eat everything there is to eat, without hurrying, without tasting it. For the moment, your stomach keeps quiet."
  },
  {
   "tipo": "messaggio",
   "dove": "sistemi.fav:83",
   "it": "Non hai cibo per tre porzioni.",
-  "en": "You haven't enough food for three portions."
+  "en": "There isn't enough food for three portions."
  },
  {
   "tipo": "messaggio",

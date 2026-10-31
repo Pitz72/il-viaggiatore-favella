@@ -3,13 +3,13 @@
   "tipo": "descrizione",
   "dove": "il-viaggiatore.fav:57",
   "it": "Una tanica da dieci litri, ammaccata ma a tenuta. La tua vita, in pratica.",
-  "en": "A ten-litre jerrycan, dented but watertight. Your life, practically."
+  "en": "A ten-litre jerrycan, dented but watertight. Your life, in effect."
  },
  {
   "tipo": "descrizione",
   "dove": "il-viaggiatore.fav:63",
   "it": "L'ultimo biglietto arrivato da casa, consumato sulle pieghe. Le lettere di prima le scriveva tua moglie, fitte, con le notizie del bambino in fondo. Questo è in stampatello, di una mano che non riconosci, e dice una cosa sola: «Non è il caso di tornare.» Nessuna firma.",
-  "en": "The last note that came from home, worn along the folds. The letters before it were your wife's, closely written, with news of the boy at the bottom. This one is in block capitals, in a hand you don't recognise, and says one thing only: “There's no point coming back.” No signature."
+  "en": "The last note that came from home, worn along the folds. The letters before it were your wife's, closely written, with news of the boy at the bottom. This one is in block capitals, in a hand you don't recognise, and says one thing only: “There's no need to come back.” No signature."
  },
  {
   "tipo": "messaggio",
@@ -39,12 +39,12 @@
   "tipo": "messaggio",
   "dove": "il-viaggiatore.fav:92",
   "it": "Premi il grilletto: un clic secco, e niente. La pistola è scarica, e lo sapevi: serve a farsi credere.",
-  "en": "You pull the trigger: a dry click, and nothing. The pistol isn't loaded, and you knew it: it's there to be believed."
+  "en": "You pull the trigger: a dry click, and nothing. The pistol isn't loaded, and you knew it: its only job is to be believed."
  },
  {
   "tipo": "messaggio",
   "dove": "il-viaggiatore.fav:93",
   "it": "Non hai niente che spari.",
-  "en": "You have nothing that shoots."
+  "en": "You have nothing to shoot with."
  }
 ]

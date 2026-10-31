@@ -125,7 +125,7 @@
   "tipo": "opzione",
   "dove": "z6-colline.fav:84",
   "it": "Lasciami stare anche tu.",
-  "en": "You leave me alone too."
+  "en": "Leave me alone too."
  },
  {
   "tipo": "dialogo",
@@ -251,28 +251,28 @@
   "chi": "Tore",
   "dove": "z6-colline.fav:119",
   "it": "«Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire di lasciarti passare.» Conta una pecora. «Ha mandato a dire anche il resto.» Studia da che parte vieni. «Ho formaggio, se hai da scambiare. Acqua, magari: di quella, quassù, se ne beve poca.»",
-  "en": "“Nobody comes up here any more, and yet you do. Rosaria sent word to let you through.” He counts a sheep. “She sent word of the rest as well.” He studies the way you've come. “I've got cheese, if you've got anything to trade. Water, maybe: up here there's little of that to drink.”"
+  "en": "“Nobody comes up here any more, and yet you do. Rosaria sent word to let you through.” He counts a sheep. “She sent word of the rest as well.” He studies the direction you've come from. “I've got cheese, if you've got anything to trade. Water, maybe: up here there's little of that to drink.”"
  },
  {
   "tipo": "dialogo",
   "chi": "Tore",
   "dove": "z6-colline.fav:120",
   "it": "«Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire di lasciarti passare.» Conta una pecora, e quasi sorride. «Ha mandato a dire anche che al casello hai tirato fuori un ferro vuoto, e che l'altro ha fatto calma, calma.» Studia da che parte vieni. «Quassù i ferri vuoti non li tiriamo fuori. Ma ho formaggio, se hai da scambiare. Acqua, magari.»",
-  "en": "“Nobody comes up here any more, and yet you do. Rosaria sent word to let you through.” He counts a sheep, and almost smiles. “She also sent word that at the tollbooth you pulled out an empty gun, and the other man said easy, easy.” He studies the way you've come. “Up here we don't pull out empty guns. But I've got cheese, if you've got anything to trade. Water, maybe.”"
+  "en": "“Nobody comes up here any more, and yet you do. Rosaria sent word to let you through.” He counts a sheep, and almost smiles. “She also sent word that at the tollbooth you pulled out an empty gun, and the other man said easy, easy.” He studies the direction you've come from. “Up here we don't pull out empty guns. But I've got cheese, if you've got anything to trade. Water, maybe.”"
  },
  {
   "tipo": "dialogo",
   "chi": "Tore",
   "dove": "z6-colline.fav:121",
   "it": "«Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire che lasci qualcosa a chi resta.» Studia da che parte vieni. «Gente così, quassù, si ferma poco. Ho formaggio, se hai da scambiare. Acqua, magari: di quella, quassù, se ne beve poca.»",
-  "en": "“Nobody comes up here any more, and yet you do. Rosaria sent word that you leave something for those who stay.” He studies the way you've come. “People like that seldom stop up here. I've got cheese, if you've got anything to trade. Water, maybe: up here there's little of that to drink.”"
+  "en": "“Nobody comes up here any more, and yet you do. Rosaria sent word that you leave something for those who stay.” He studies the direction you've come from. “People like that seldom stop up here. I've got cheese, if you've got anything to trade. Water, maybe: up here there's little of that to drink.”"
  },
  {
   "tipo": "dialogo",
   "chi": "Tore",
   "dove": "z6-colline.fav:122",
   "it": "«Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire che sei uno a posto.» Studia da che parte vieni. «Ho formaggio, se hai da scambiare. Acqua, magari: di quella, quassù, se ne beve poca.»",
-  "en": "“Nobody comes up here any more, and yet you do. Rosaria sent word that you're all right.” He studies the way you've come. “I've got cheese, if you've got anything to trade. Water, maybe: up here there's little of that to drink.”"
+  "en": "“Nobody comes up here any more, and yet you do. Rosaria sent word that you're all right.” He studies the direction you've come from. “I've got cheese, if you've got anything to trade. Water, maybe: up here there's little of that to drink.”"
  },
  {
   "tipo": "opzione",
@@ -341,7 +341,7 @@
   "tipo": "messaggio",
   "dove": "z6-colline.fav:143",
   "it": "Peppe si ferma a riprendere fiato e guarda giù, verso il greto. «È là, casa tua?» Non rispondi. «Mi hai detto del male che hai fatto.» Lo dice piano, senza accusa. «Se là devi farne ancora, dimmelo prima. Io resto indietro, ma voglio saperlo.»",
-  "en": "Peppe stops to catch his breath and looks down, towards the riverbed. “Is that your house, down there?” You don't answer. “You told me about the harm you've done.” He says it quietly, without accusation. “If there's more of it to do down there, tell me first. I'll stay back, but I want to know.”"
+  "en": "Peppe stops to catch his breath and looks down, towards the riverbed. “Is that your house, down there?” You don't answer. “You told me about the harm you've done.” He says it softly, without accusation. “If there's more of it to do down there, tell me first. I'll stay back, but I want to know.”"
  },
  {
   "tipo": "messaggio",

@@ -81,13 +81,13 @@
   "tipo": "descrizione",
   "dove": "z3-invaso.fav:64",
   "it": "Pastiglie di cloro in un tubetto di alluminio ammaccato. Una manciata. Rendono potabile l'acqua già filtrata.",
-  "en": "Chlorine tablets in a dented aluminium tube. A handful. They make water that has been filtered safe to drink."
+  "en": "Chlorine tablets in a dented aluminium tube. A handful. They make filtered water safe to drink."
  },
  {
   "tipo": "posto",
   "dove": "z3-invaso.fav:69",
   "it": "In un angolo, una DAMIGIANA di vetro impagliato, vuota, che aspetta acqua buona da anni.",
-  "en": "In a corner, a straw-covered glass DEMIJOHN, empty, that has been waiting years for good water."
+  "en": "In a corner, a straw-covered glass DEMIJOHN, empty, that has been waiting for good water for years."
  },
  {
   "tipo": "descrizione",
@@ -123,7 +123,7 @@
   "tipo": "posto",
   "dove": "z3-invaso.fav:87",
   "it": "Sul sedile sfondato, un DIARIO smangiato dall'umido.",
-  "en": "On the burst seat, a DIARY eaten away by damp."
+  "en": "On the caved-in seat, a DIARY eaten away by damp."
  },
  {
   "tipo": "descrizione",
@@ -153,7 +153,7 @@
   "tipo": "descrizione",
   "dove": "z3-invaso.fav:100",
   "it": "Cristalli di sale grosso, duri e netti. Sulla strada il sale è moneta: c'è chi lo conserva, chi lo scambia.",
-  "en": "Crystals of coarse salt, hard and clean-edged. On the road salt is money: some keep it, some trade it."
+  "en": "Crystals of coarse salt, hard and clean-edged. On the road, salt is money: some keep it, some trade it."
  },
  {
   "tipo": "descrizione",
@@ -230,7 +230,7 @@
   "chi": "Iole",
   "dove": "z3-invaso.fav:123",
   "it": "«Si filtra, poi si tratta. Il filtro lo monti tu: tela e carbone ce n'è là nella carcassa. Il trattamento sta in casa mia: pastiglie. Ma in casa mia non entra chi non conosco.»",
-  "en": "“You filter it, then you treat it. The filter you fit yourself: there's cloth and charcoal in that carcass over there. The treatment's in my house: tablets. But nobody I don't know comes into my house.”"
+  "en": "“You filter it, then you treat it. The filter you fit yourself: there's cloth and charcoal in that carcass over there. The treatment's in my house: tablets. But I don't let anyone I don't know into my house.”"
  },
  {
   "tipo": "opzione",
@@ -329,7 +329,7 @@
   "chi": "Rocco",
   "dove": "z3-invaso.fav:153",
   "it": "«Acqua? Qui non si chiede acqua.» Ride, e le croste delle labbra si aprono. «C'è il sale. Quello sì. Quello non finisce mai.»",
-  "en": "“Water? Nobody asks for water here.” He laughs, and the crusts on his lips split open. “There's salt. That there is. That never runs out.”"
+  "en": "“Water? Nobody asks for water here.” He laughs, and the crusts on his lips split open. “There's salt. That, yes. That never runs out.”"
  },
  {
   "tipo": "opzione",
@@ -367,7 +367,7 @@
   "tipo": "messaggio",
   "dove": "z3-invaso.fav:166",
   "it": "Ti inginocchi e bevi a mani giunte dalla pozza. Per un attimo è sollievo. Poi il sale ti chiude la gola peggio di prima, e lo stomaco si torce in un crampo.",
-  "en": "You kneel and drink from the pool out of cupped hands. For a moment it's relief. Then the salt closes your throat worse than before, and your stomach twists into a cramp."
+  "en": "You kneel and drink from the pool with cupped hands. For a moment it's relief. Then the salt closes your throat worse than before, and your stomach twists into a cramp."
  },
  {
   "tipo": "messaggio",

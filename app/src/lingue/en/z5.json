@@ -119,14 +119,14 @@
   "chi": "Rosaria",
   "dove": "z5-paese.fav:109",
   "it": "Si siede di fianco, la schiena alla finestra. «Da mangiare e da bere, qui, si dà a tutti. La fiducia no: quella si guadagna.» Con un cenno indica Imma, che mastica senza guardare. «Ma c'è chi ha parlato bene di te, e si sente.»",
-  "en": "She sits down beside you, her back to the window. “Food and drink, here, we give to everyone. Trust, no: that has to be earned.” With a nod she points to Imma, who chews without looking up. “But someone has spoken well of you, and it shows.”"
+  "en": "She sits down beside you, her back to the window. “Food and drink, here, we give to everyone. Trust is another matter: that has to be earned.” With a nod she points to Imma, who chews without looking up. “But someone has spoken well of you, and it shows.”"
  },
  {
   "tipo": "dialogo",
   "chi": "Rosaria",
   "dove": "z5-paese.fav:110",
   "it": "Non si siede nemmeno adesso. «Da mangiare e da bere, qui, si dà a tutti. La fiducia no: quella si guadagna.»",
-  "en": "She doesn't sit down, not even now. “Food and drink, here, we give to everyone. Trust, no: that has to be earned.”"
+  "en": "She doesn't sit down, not even now. “Food and drink, here, we give to everyone. Trust is another matter: that has to be earned.”"
  },
  {
   "tipo": "dialogo",
@@ -146,7 +146,7 @@
   "tipo": "opzione",
   "dove": "z5-paese.fav:114",
   "it": "Ti lascio dell'acqua, per l'ospitalità.",
-  "en": "I'll leave you some water, for the hospitality."
+  "en": "I'll leave you some water, for your hospitality."
  },
  {
   "tipo": "opzione",
@@ -184,7 +184,7 @@
   "chi": "Rosaria",
   "dove": "z5-paese.fav:123",
   "it": "Abbassa la voce. «Acquamorta è vuota, ormai. Tranne uno. Dicono sia rimasto a tenere il paese, o quel che ne resta, e che non lasci entrare nessuno. Chi è andato via, per lui, è come morto.» Ti guarda. «Tu di là vieni, eh? Pensaci, a cosa torni.»",
-  "en": "She lowers her voice. “Acquamorta is empty now. Except for one. They say he stayed to hold the village, or what's left of it, and that he lets nobody in. Anyone who went away, to him, is as good as dead.” She looks at you. “That's where you come from, eh? Think about it, what you're going back to.”"
+  "en": "She lowers her voice. “Acquamorta is empty now. Except for one. They say he stayed to hold the village, or what's left of it, and that he lets nobody in. Anyone who went away, to him, is as good as dead.” She looks at you. “That's where you come from, eh? Think about what you're going back to.”"
  },
  {
   "tipo": "opzione",
@@ -230,7 +230,7 @@
   "chi": "Rosaria",
   "dove": "z5-paese.fav:135",
   "it": "Scrive in fretta su un foglio, lo piega e lo affida a un ragazzo che sale al pianoro. «Quando arrivi, lassù sanno già chi sei.» Poi: «E mangia, prima di salire. Lassù non ti invita nessuno.»",
-  "en": "She writes quickly on a sheet of paper, folds it and hands it to a boy who is going up to the plateau. “When you get there, up there they'll already know who you are.” Then: “And eat before you go up. Up there, nobody will ask you in.”"
+  "en": "She writes quickly on a sheet of paper, folds it and hands it to a boy who is going up to the plateau. “When you get there, they'll already know who you are.” Then: “And eat before you go up. Up there, nobody will ask you in.”"
  },
  {
   "tipo": "opzione",
@@ -260,13 +260,13 @@
   "tipo": "messaggio",
   "dove": "z5-paese.fav:146",
   "it": "Rosaria ti mette davanti un bicchiere d'acqua e una scodella di legumi, come a chiunque passi di qui. In fondo, due uomini scesi dalla statale smettono di parlare quando entri. Dal tavolo della finestra, Imma posa il cucchiaio. «Quello lì mi ha dato da mangiare, sulla discesa.» Lo dice a nessuno, e lo dice forte. I due uomini ricominciano a parlare, più piano. Rosaria ripiega lo straccio, ti guarda le mani a lungo, e alla fine si siede.",
-  "en": "Rosaria sets a glass of water and a bowl of beans in front of you, as she would for anyone passing through. At the back, two men down from the main road stop talking when you come in. At the window table, Imma puts down her spoon. “That one there gave me food, on the descent.” She says it to no one, and she says it loud. The two men start talking again, more quietly. Rosaria folds the cloth, looks at your hands for a long time, and in the end sits down."
+  "en": "Rosaria sets a glass of water and a bowl of beans in front of you, as she would for anyone passing through. At the back, two men down from the main road stop talking when you come in. At the window table, Imma puts down her spoon. “That one there gave me food, on the descent.” She says it to no one, and she says it loudly. The two men start talking again, more softly. Rosaria folds the cloth, looks at your hands for a long time, and in the end sits down."
  },
  {
   "tipo": "messaggio",
   "dove": "z5-paese.fav:147",
   "it": "Rosaria ti mette davanti un bicchiere d'acqua fresca prima ancora che tu apra bocca, e una scodella di legumi. Dal tavolo della finestra Imma ti fa un cenno col mento, e Rosaria, passandoti il pane, lo vede. «Mi ha detto della discesa.» Non aggiunge altro. La scodella, a guardarla, è più piena di come la riempie per gli altri.",
-  "en": "Rosaria sets a glass of cool water in front of you before you've even opened your mouth, and a bowl of beans. From the window table Imma gives you a nod of the chin, and Rosaria, passing you the bread, sees it. “She told me about the descent.” She adds nothing else. The bowl, when you look at it, is fuller than she fills it for the others."
+  "en": "Rosaria sets a glass of cool water in front of you before you've even opened your mouth, and a bowl of beans. From the window table Imma jerks her chin at you, and Rosaria, passing you the bread, sees it. “She told me about the descent.” She adds nothing. The bowl, when you look at it, is fuller than she fills it for the others."
  },
  {
   "tipo": "messaggio",
@@ -310,7 +310,7 @@
   "chi": "Concetta",
   "dove": "z5-paese.fav:163",
   "it": "«Due, sì. Tu te ne andasti, col treno, e non tornasti più. L'altro restò. Cosimo.» Mastica il nome come pane vecchio. «Cosimo restò, e si chiuse. Dopo che… no. Dopo non ricordo. C'è stata una disgrazia, in quella casa, ma il quando mi sfugge.»",
-  "en": "“Two, yes. You went away, on the train, and never came back. The other one stayed. Cosimo.” She chews the name like stale bread. “Cosimo stayed, and shut himself away. After… no. After that I don't remember. There was a tragedy, in that house, but the when of it escapes me.”"
+  "en": "“Two, yes. You went away, on the train, and never came back. The other one stayed. Cosimo.” She chews the name like stale bread. “Cosimo stayed, and shut himself away. After… no. After that I don't remember. There was a tragedy, in that house, but when it happened escapes me.”"
  },
  {
   "tipo": "opzione",
@@ -323,7 +323,7 @@
   "chi": "Concetta",
   "dove": "z5-paese.fav:167",
   "it": "Scuote la testa piano. «Non me lo far dire, che poi sbaglio e ti faccio male per niente. Vacci, e guardala tu, la casa.» Ti spinge verso il davanzale. «Pìgliati il cavallo di legno. Era vostro.»",
-  "en": "She shakes her head slowly. “Don't make me say it, I'll get it wrong and hurt you for nothing. Go there, and look at it yourself, the house.” She nudges you towards the windowsill. “Take the wooden horse. It belonged to you two.”"
+  "en": "She shakes her head slowly. “Don't make me say it, I'll get it wrong and hurt you for nothing. Go there and see the house for yourself.” She nudges you towards the windowsill. “Take the wooden horse. It belonged to you two.”"
  },
  {
   "tipo": "dialogo",
@@ -336,7 +336,7 @@
   "tipo": "descrizione",
   "dove": "z5-paese.fav:176",
   "it": "Un uomo giovane invecchiato dalla febbre, il sudore che gli incolla i capelli. Non chiede: gli brucia troppo l'orgoglio, anche adesso.",
-  "en": "A young man aged by fever, the sweat gluing his hair down. He doesn't ask: his pride burns too much, even now."
+  "en": "A young man aged by fever, the sweat gluing his hair down. He doesn't ask: his pride stings too much, even now."
  },
  {
   "tipo": "descrizione",
@@ -510,7 +510,7 @@
   "chi": "Ciro",
   "dove": "z5-paese.fav:233",
   "it": "«Avanti, che anche il tempo è merce.» (Hai [acqua] d'acqua e [cibo] di cibo.)",
-  "en": "“Come on, time's merchandise too.” (You have [acqua] water and [cibo] food.)"
+  "en": "“Come on, time's a commodity too.” (You have [acqua] water and [cibo] food.)"
  },
  {
   "tipo": "dialogo",
@@ -664,7 +664,7 @@
   "tipo": "messaggio",
   "dove": "z5-paese.fav:265",
   "it": "Ciro ti vede entrare e non nasconde il sorriso. «Quello della pistola.» Lo dice ai banchi, e i banchi ridono piano. «Vito è passato a raccontarla: gliel'hai puntata in faccia, ed era scarica. Dice che l'ha capito da come la tenevi, come una cosa che si porta, non come una che si usa.» Conta qualcosa sul banco, senza guardarti. «Qui da me puoi puntare quello che vuoi. Io guardo le mani, e se hanno acqua.»",
-  "en": "Ciro sees you come in and doesn't hide his smile. “The one with the pistol.” He says it to the stalls, and the stalls laugh quietly. “Vito came by to tell it: you pointed it in his face, and it wasn't loaded. He says he could tell from the way you held it, like something you carry, not something you use.” He counts something out on the stall, without looking at you. “At my stall you can point whatever you like. I look at hands, and whether they've got water.”"
+  "en": "Ciro sees you come in and doesn't hide his smile. “The one with the pistol.” He says it to the stalls, and the stalls laugh under their breath. “Vito came by to tell it: you pointed it in his face, and it wasn't loaded. He says he could tell from the way you held it, like something you carry, not something you use.” He counts something out on the stall, without looking at you. “At my stall you can point whatever you like. I look at hands, and whether they've got water.”"
  },
  {
   "tipo": "messaggio",

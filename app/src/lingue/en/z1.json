@@ -3,7 +3,7 @@
   "tipo": "descrizione",
   "dove": "z1-acquaviva.fav:8",
   "it": "La stazione di Acquaviva. I binari finiscono qui, mangiati dalla gramigna; un cartello arrugginito promette treni che non passano da anni. È da qui che parti, a piedi. In tasca hai l'ultimo biglietto arrivato da casa. Le lettere di prima le scriveva tua moglie, fitte, con le notizie del bambino in fondo; questo è in stampatello, senza firma, e dice una cosa sola: «Non è il caso di tornare.» Sei tornato lo stesso. (ESAMINA IL BIGLIETTO per rileggerlo.) A NORD la piazza. (Quando il corpo lo chiede: BEVI per la sete, MANGIA per la fame; STATO per vederti addosso.)",
-  "en": "Acquaviva station. The tracks end here, eaten by couch grass; a rusted sign promises trains that haven't come through in years. This is where you set out, on foot. In your pocket is the last note that came from home. The letters before it were your wife's, closely written, with news of the boy at the bottom; this one is in block capitals, unsigned, and says one thing only: “There's no point coming back.” You've come back anyway. (EXAMINE the NOTE to read it again.) NORTH, the square. (When your body asks: DRINK for thirst, EAT for hunger; STATUS to take stock of yourself.)"
+  "en": "Acquaviva station. The tracks end here, eaten by couch grass; a rusted sign promises trains that haven't come through in years. This is where you set out, on foot. In your pocket is the last note that came from home. The letters before it were your wife's, closely written, with news of the boy at the bottom; this one is in block capitals, unsigned, and says one thing only: “There's no need to come back.” You've come back anyway. (EXAMINE the NOTE to read it again.) NORTH, the square. (When your body asks: DRINK for thirst, EAT for hunger; STATUS to take stock of yourself.)"
  },
  {
   "tipo": "descrizione",
@@ -33,7 +33,7 @@
   "tipo": "descrizione",
   "dove": "z1-acquaviva.fav:21",
   "it": "Dove finiscono le case comincia il bianco. La strada esce a OVEST, nella piana che frigge sotto il sole. Si torna a EST, in piazza.",
-  "en": "Where the houses end, the white begins. The road leaves to the WEST, into the plain frying under the sun. Back EAST, to the square."
+  "en": "Where the houses end, the white begins. The road heads out WEST, into the plain frying under the sun. Back EAST, to the square."
  },
  {
   "tipo": "posto",
@@ -93,7 +93,7 @@
   "tipo": "messaggio",
   "dove": "z1-acquaviva.fav:57",
   "it": "La lasci al suo chiodo. Non è roba tua, e non è roba da portare in viaggio.",
-  "en": "You leave it on its nail. It isn't yours, and it isn't a thing to carry on the road."
+  "en": "You leave it on its nail. It isn't yours, and it isn't something to carry on the road."
  },
  {
   "tipo": "descrizione",
@@ -113,7 +113,7 @@
   "chi": "Nunzio",
   "dove": "z1-acquaviva.fav:68",
   "it": "«Acqua non ne ho da regalare, di questi tempi. Ma qualcosa per la strada lo trovo, se hai da scambiare.» (Hai [acqua] d'acqua e [cibo] di cibo.)",
-  "en": "“I've no water to give away, not these days. But I can find you something for the road, if you've something to trade.” (You have [acqua] water and [cibo] food.)"
+  "en": "“I've no water to give away, not these days. But I can find you something for the road, if you've got something to trade.” (You have [acqua] water and [cibo] food.)"
  },
  {
   "tipo": "opzione",
@@ -176,7 +176,7 @@
   "chi": "Nunzio",
   "dove": "z1-acquaviva.fav:83",
   "it": "«Le casse vuote, nel retro. Portale giù in cantina e un bicchiere te lo verso.» Quando risali hai la schiena rotta e un fondo d'acqua in più nella tanica. (Ora hai [acqua] d'acqua.)",
-  "en": "“The empty crates, out the back. Carry them down to the cellar and I'll pour you a glass.” When you come up again, your back is in pieces and there's an inch more water in the jerrycan. (Now you have [acqua] water.)"
+  "en": "“The empty crates, out the back. Carry them down to the cellar and I'll pour you a glass.” When you come up again, your back is wrecked and there's an inch more water in the jerrycan. (Now you have [acqua] water.)"
  },
  {
   "tipo": "dialogo",
@@ -201,7 +201,7 @@
   "tipo": "messaggio",
   "dove": "z1-acquaviva.fav:93",
   "it": "Senza una mappa, là fuori è solo perdersi. Cerca in giro prima di partire.",
-  "en": "Without a map, out there you'll only get lost. Look around before you set off."
+  "en": "Out there without a map, you'll only get lost. Look around before you set off."
  },
  {
   "tipo": "messaggio",
