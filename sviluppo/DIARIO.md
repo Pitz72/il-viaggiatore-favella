@@ -9,6 +9,7 @@ Questo indice si rigenera da sé (`node strumenti/diario.mjs indice`).
 
 | Data | Tipo | Versione | Voce |
 |---|---|---|---|
+| 2026-10-31 | sessione | 1.40.0 | [Parola per parola, il nome che resta, e il gioco solo da scaricare](diario/2026-10-31-parola-per-parola-il-nome-che-resta-e-il-gioco-solo-da-scari.md) — Uscita la 1.40.0, il gioco anche in inglese, con un trofeo che c'è solo in inglese, «Parola per parola», al posto di |
 | 2026-10-30 | sessione | 1.39.0 | [La lingua inglese: la prima finestra, il racconto tradotto, il nome che resta](diario/2026-10-30-la-lingua-inglese-la-prima-finestra-il-racconto-tradotto-il-.md) — Il gioco si può giocare in inglese: una finestra prima dei loghi chiede la lingua del testo e la voce, e in inglese il |
 | 2026-10-30 | sessione | 1.39.0 | [Le risposte sono nostre: il viandante accanto alle risposte, i volti più grandi](diario/2026-10-30-le-risposte-sono-nostre-il-viandante-accanto-alle-risposte-i.md) — Simone ha guardato i ritratti della 1.38.0 e ha posto due note: «nelle scelte di dialogo non ha senso che ci sia il |
 | 2026-10-30 | sessione | 1.38.0 | [I volti e le tavole: i personaggi e gli oggetti della memoria](diario/2026-10-30-i-volti-e-le-tavole-i-personaggi-e-gli-oggetti-della-memoria.md) — Fino a qui l'unico oggetto che si vedeva era la mappa. Simone ha proposto di far generare i ritratti di tutti i |
