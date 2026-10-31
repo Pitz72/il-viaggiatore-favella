@@ -7,17 +7,15 @@
 
 ## Aperto
 
-Quasi tutto aspetta Simone, perché le credenziali dei siti stanno sul suo computer e non nel repository.
+Ciò che resta aspetta Simone: sono sue decisioni, o un caricamento che richiede le credenziali del sito, che stanno sul suo
+computer e non nel repository.
 
-- **favella.eu**: `npm run deploy` in `landingpage/` del repository FAVELLA1 (sito 2.14.0, commit `6e53f2c`, che il 31 ottobre
-  è la testa di `main` sul remoto). FAVELLA1 **non ha un clone locale**: va clonato prima. Finché non è caricato, il README (che
-  dice che la versione nel browser non c'è più nemmeno su favella.eu) descrive il sito del repository, non quello in linea.
-- **Ecosystem**: `python _SEGRETI/deploy.py upload`, poi `audit` e `rm` dei tre file tolti (sito 0.32.0). Il clone locale è
-  `Documents\GitHub\SITI-WEB\ECOSYSTEM`, ramo `master` a `79caf55` (uguale a `origin/master` il 31 ottobre; `3d8c034`, citato
-  prima, è un suo antenato).
 - **L'articolo su simonepizzi.runtimeradio.it**: `esegui.py` con `scripts/server-tools/aggiorna_articolo_viaggiatore_inglese.php`
   (SimonePizziWebSite, commit `65d9260`: il clone locale `SITI-WEB\SimonePizziWebSite` è già lì), prima in anteprima e poi con
-  `--applica`.
+  `--applica`. Visto dal browser il 31 ottobre: i tre articoli pubblici su Il Viaggiatore non hanno la sezione sull'inglese, e
+  quello del 23 ottobre dice ancora che c'è una versione web nel browser, ferma alla 1.23.0. L'articolo che lo script deve
+  toccare è **programmato**, quindi da fuori non si vede: se sia già stato aggiornato lo dice solo l'amministrazione del sito,
+  oppure l'anteprima dello script (che il 31 ottobre non è stata lanciata).
 - **La voce recitata in inglese** (la prima finestra dice che arriverà) e **la rilettura della traduzione da parte di un
   madrelingua**.
 - **La copia su GitHub Pages** è ferma alla 1.23.0, solo in italiano: non si offre più da nessuna parte ma resta in linea per
@@ -79,6 +77,12 @@ Quasi tutto aspetta Simone, perché le credenziali dei siti stanno sul suo compu
   gli originali di Flow e Lyria stanno in `Documents\SVILUPPO\VIDEOGIOCHI\IlViaggiatore-originali\` (dove sta ogni cosa e che
   copie ha: `sviluppo/REGISTRO.md`, nuovo, regola assoluta in `CLAUDE.md`). Il ramo
   `main` «di troppo» di Ecosystem-Runtime non c'è più: il 31 ottobre il remoto aveva solo `master` e un ramo `claude/…`.
+- **favella.eu ed Ecosystem sono già aggiornati** (guardati online dal browser il 31 ottobre 2026; la voce «Aperto» che li dava
+  da caricare era superata). favella.eu: la Galleria mostra «Windows e Linux · 1.40.0 · italiano e inglese», senza «Gioca nel
+  browser», e le novità hanno «Il Viaggiatore 1.40: anche in inglese, e solo da scaricare». Ecosystem: la scheda è alla 1.40.0 col
+  capitolo «In inglese · in lavorazione», «Il gioco da scaricare», i quattro download alla v1.40.0 e la notizia del 31 ottobre; i
+  tre file tolti (`v123-crediti`, `v123-titolo`, `v123-voce`) rispondono 404 e quello che resta risponde 200. Non si è trovato in
+  pagina il numero di versione dei due siti (2.14.0 e 0.32.0).
 
 ## Non si fa
 

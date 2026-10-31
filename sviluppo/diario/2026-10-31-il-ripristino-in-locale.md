@@ -74,6 +74,10 @@ stabilizza**; la chiusura delle cose aperte (`sviluppo/PROSSIMI-PASSI.md`) spett
 - `npm ci` in `app/` e `desktop/`, `node desktop/prepara.mjs` e `npm run autoverifica` in `desktop/`: «AUTOVERIFICA SUPERATA».
   Il gioco parte anche dal server di sviluppo (prima finestra «Lingua · Language»), senza errori in console.
 - Backup del 22 ottobre: tutte le 1.380 voci del suo elenco presenti (0 mancanti, 0 file vuoti).
+- **I tre siti guardati online** col browser integrato, su richiesta di Simone: favella.eu ed Ecosystem **sono già aggiornati**
+  (Galleria e novità alla 1.40; scheda con il capitolo sull'inglese e i download alla v1.40.0; tre file tolti che danno 404). Per
+  l'articolo su simonepizzi.runtimeradio.it non si può dire: quelli pubblici non hanno la sezione sull'inglese, ma lo script
+  tocca un articolo programmato che da fuori non si vede. `PROSSIMI-PASSI.md` corretto di conseguenza.
 - Controllo del registro: sul registro vero passa (12 materiali, 12 movimenti); un banco di prova, fuori dal repository, lo
   lancia su 2 registri giusti e su 12 sbagliati (ID ripetuto, buco negli ID, stato non ammesso, data impossibile, data fuori
   ordine, ID inesistente, link rotto, una colonna in meno, intervallo al contrario, cella vuota, segreto, file mancante): 14
