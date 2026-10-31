@@ -37,7 +37,11 @@ trailer, circa un'ora di parlato); si ascolta con la *voce recitata*, oppure si 
 > gioco distribuibile.
 
 > **Il Viaggiatore è concluso.** La storia è definitiva dalla 1.12.0 e il motore è FAVELLA 1.5.0 dalla 1.14.0; dalla
-> 1.19.0 alla 1.23.0 il gioco ha avuto il **doppiaggio** (la storia e le regole non cambiano). Il repository resta aperto,
+> 1.19.0 alla 1.23.0 il gioco ha avuto il **doppiaggio** (la storia e le regole non cambiano), e dalla 1.24.0 alla 1.40.0 si è
+> completato come gioco da scaricare: opzioni, taccuino, trofei, la musica di ogni zona, la sequenza finale, la mappa, i volti
+> e le tavole, e la **lingua inglese**. Lo stato vivo e ciò che resta aperto stanno in
+> [`sviluppo/PROSSIMI-PASSI.md`](sviluppo/PROSSIMI-PASSI.md); la memoria del progetto, per chi riprende il lavoro, in
+> [`CLAUDE.md`](CLAUDE.md). Il repository resta aperto,
 > con le sue licenze (MIT per il codice, CC BY-SA 4.0 per storia, testi, musica, voci e grafica, con le eccezioni dette in
 > [Licenze](#licenze)): per **studiare** come una storia lunga diventa
 > un gioco in FAVELLA 1 e, per chi ama FAVELLA 1, per **estenderlo**: nuove zone, nuovi personaggi,
@@ -209,14 +213,15 @@ di GitHub per i pacchetti.
 |---|---|
 | `prototipo/` | **l'avventura**: `il-viaggiatore.fav` (radice) + `sistemi.fav` + le sette zone `z1…z7` |
 | `motore/` | il motore FAVELLA 1.5.0 (Python), vedi `motore/LEGGIMI.md` |
-| `app/` | l'app React: loghi animati, avviso, trailer (canvas procedurale + colonna sonora + voce), gioco, guida «come si gioca», sequenza finale e titoli di coda (`src/finale/`); in `app/public/voce/` la voce del doppiaggio, un file Opus per parte |
+| `app/` | l'app React: loghi animati, avviso, trailer (canvas procedurale + colonna sonora + voce), gioco, guida «come si gioca», sequenza finale e titoli di coda (`src/finale/`); in `app/public/voce/` la voce del doppiaggio, un file Opus per parte; in `app/src/lingue/en/` la traduzione inglese |
 | `doppiaggio/` | il doppiaggio: i testi per le voci ricavati dai `.fav`, il manifest delle parti, le voci scelte, il resoconto del banco; vedi `doppiaggio/LEGGIMI.md` |
 | `desktop/` | il guscio Electron per Windows e Linux |
-| `collaudo/` | i quattordici collaudi automatici: i nove finali, le prove mirate, i salvataggi, le scorte, il ponte dell'interfaccia, i fili del viaggio, le giocate, il testo, le conferme, i pulsanti, la voce del doppiaggio, i trofei, la musica, l'esploratore |
-| `pre-produzione/` | i documenti di progetto: visione, sistemi, mappa, oggetti, personaggi, ramificazione |
+| `collaudo/` | i sedici collaudi automatici: i nove finali, le prove mirate, i salvataggi, le scorte, il ponte dell'interfaccia, i fili del viaggio, le giocate, il testo, le conferme, i pulsanti, la mappa, la voce del doppiaggio, la traduzione inglese, i trofei, la musica, l'esploratore |
+| `pre-produzione/` | gli undici documenti di progetto: visione, sistemi, mappa, oggetti, personaggi, ramificazione, intro e trailer, doppiaggio, opzioni, menu e pausa, musiche, sequenza finale |
 | `grafica/` | l'icona (SVG), il banner del README e gli script che rasterizzano l'icona; in `grafica/branding/` le immagini promozionali (16:9, 21:9, 4:3, quadrata, locandina, anteprima di GitHub), vedi il suo `LEGGIMI.md` |
-| `sviluppo/` | le regole delle versioni e il diario di sviluppo |
-| `strumenti/` | gli strumenti delle versioni, del diario, della mappa narrativa, del trailer e del doppiaggio ([elenco](strumenti/LEGGIMI.md)) |
+| `sviluppo/` | le regole delle versioni, il diario di sviluppo, i prossimi passi (lo stato vivo del progetto) e la mappa narrativa |
+| `strumenti/` | gli strumenti delle versioni, del diario, della mappa narrativa, del trailer, del doppiaggio, della traduzione e delle immagini ([elenco](strumenti/LEGGIMI.md)) |
+| `CLAUDE.md` | la memoria del progetto: che cosa leggere per riprendere il lavoro, e le regole che valgono sempre |
 
 Il motore è quello vero, in Python: nell'app gira dentro il browser con
 [Pyodide](https://pyodide.org) (WebAssembly), incluso nel progetto insieme a
@@ -279,15 +284,17 @@ python fili.py          # i fili del viaggio (sangue, generosità) e chi se ne r
 python giocate.py       # ciò che hanno trovato le partite giocate a mano
 python testo.py         # il testo del motore e della storia come lo distingue l'interfaccia
 python conferme.py      # quali scelte chiedono conferma
-python pulsanti.py      # i sei finali giocati senza tastiera, coi soli pulsanti
+python pulsanti.py      # i finali, le tre morti e le partite al casello giocati senza tastiera, coi soli pulsanti
+python mappa.py         # la mappa: tappe, luoghi visitati e strade, a ogni passo di tre viaggi interi
 python doppiaggio.py    # ogni testo che il gioco dice ha la sua voce, e il trailer la sua traccia
+python traduzione.py    # la traduzione inglese è completa e regge il testo vero del motore
 python trofei.py        # ogni partita vince i suoi trofei, al momento giusto; tutti e trenta si possono vincere
 python musica.py        # un brano per zona, giri senza cuciture, l'album e il suo ZIP
 python esploratore.py   # 100 partite a caso che cercano i punti in cui il gioco si rompe
 ```
 
-Sono quattordici ([che cosa fa ciascuno](collaudo/LEGGIMI.md)); `testo.py`, `conferme.py`, `pulsanti.py`,
-`doppiaggio.py`, `trofei.py` e `musica.py` servono `npm ci --prefix app`. La CI li esegue tutti: l'esploratore in un giro corto (`-n 5 -t 150`) che non
+Sono sedici ([che cosa fa ciascuno](collaudo/LEGGIMI.md)); `testo.py`, `conferme.py`, `pulsanti.py`, `mappa.py`,
+`doppiaggio.py`, `traduzione.py`, `trofei.py` e `musica.py` servono `npm ci --prefix app`. La CI li esegue tutti: l'esploratore in un giro corto (`-n 5 -t 150`) che non
 blocca, il giro intero (qualche minuto) si lancia a mano. Del processo principale desktop e della data delle
 versioni, che non hanno bisogno di Electron, si occupano `node desktop/prove.cjs` e `node strumenti/prova-data.mjs`.
 

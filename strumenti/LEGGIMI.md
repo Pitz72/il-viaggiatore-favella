@@ -25,6 +25,8 @@
 | `immagini.py` | **i volti e gli oggetti**: dagli originali generati in Google Flow (fuori da git) alle immagini del gioco, `app/public/immagini/`: i ritratti ritagliati sul volto alla stessa scala (384×384), gli oggetti ritagliati attorno al loro ingombro (512×512), lo sfondo riportato al nero-inchiostro del gioco, WebP: `python strumenti/immagini.py <ritratti> <oggetti>` |
 | `locandine.cjs` | **le immagini promozionali**: dipinge la key art (`app/src/locandine/`, la pagina di sviluppo `app/locandine.html`) in tutti i formati e la scrive in `grafica/branding/` (JPEG 4:4:4) e, dal 21:9, la copertina del README `grafica/banner.jpg`: `desktop/node_modules/.bin/electron strumenti/locandine.cjs [--formati 16x9,locandina] [--png]` (server di sviluppo su 5200); vedi `grafica/branding/LEGGIMI.md` |
 | `gioca.py` | **il banco di gioco**: giocare a mano, e misurare l'equilibrio (qui sotto) |
+| `traduzione.py` | **la traduzione inglese**: ricava dai `.fav` i testi che il giocatore legge e li scrive nei cataloghi `app/src/lingue/en/` (`<zona>.json`, `nomi.json`), tenendo le traduzioni dei testi che non sono cambiati; `stato` (il conto), `controlla [zona…]` (le regole su ogni traduzione: segnaposto, condizioni, a capo, niente caporali); vedi `app/src/lingue/en/LEGGIMI.md` |
+| `data-locale.mjs`, `prova-data.mjs` | la data di oggi nel fuso di chi lavora (non in UTC), che `versione.mjs` usa per datare il CHANGELOG; e la sua prova |
 
 ## Il banco di gioco (`gioca.py`)
 

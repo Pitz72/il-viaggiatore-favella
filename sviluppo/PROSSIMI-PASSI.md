@@ -1,10 +1,30 @@
 # Prossimi passi
 
-> **Archivio.** Il Viaggiatore è concluso con la 1.14.0 (15 ottobre 2026) e rifinito fino alla 1.18.2 (20 ottobre):
-> la storia è definitiva dalla 1.12.0, e da allora si sono aggiunti solo i loghi d'apertura, il motore 1.5.0 e rifiniture. Non c'è un
-> elenco da cui ripartire. Questo file tiene il conto di
-> che cosa si è chiuso e di che cosa, di proposito, non si fa. (Com'era prima, fermo alla 1.7.0:
-> nella storia di git.)
+> **Lo stato vivo del progetto.** *Il Viaggiatore* è concluso come storia (definitiva dalla 1.12.0) e il lavoro riprende solo
+> su richiesta di Simone. Ultima versione: **1.40.0**, 31 ottobre 2026. Questo file tiene il conto di che cosa è aperto, di
+> che cosa si è chiuso e di che cosa, di proposito, non si fa; **si aggiorna a ogni sessione** (vedi [`CLAUDE.md`](../CLAUDE.md)).
+> (Com'era prima, fermo alla 1.7.0: nella storia di git.)
+
+## Aperto
+
+Quasi tutto aspetta Simone, perché le credenziali dei siti stanno sul suo computer e non nel repository.
+
+- **favella.eu**: `npm run deploy` in `landingpage/` del repository FAVELLA1 (sito 2.14.0, commit `6e53f2c`). Finché non è
+  caricato, il README (che dice che la versione nel browser non c'è più nemmeno su favella.eu) descrive il sito del repository,
+  non quello in linea.
+- **Ecosystem**: `python _SEGRETI/deploy.py upload`, poi `audit` e `rm` dei tre file tolti (sito 0.32.0, commit `3d8c034`,
+  ramo `master`).
+- **L'articolo su simonepizzi.runtimeradio.it**: `esegui.py` con `scripts/server-tools/aggiorna_articolo_viaggiatore_inglese.php`
+  (SimonePizziWebSite, commit `65d9260`), prima in anteprima e poi con `--applica`.
+- **Ecosystem-Runtime ha un ramo `main` di troppo** (il principale è `master`), allo stesso commit: da cancellare a mano.
+- **La voce recitata in inglese** (la prima finestra dice che arriverà) e **la rilettura della traduzione da parte di un
+  madrelingua**.
+- **La copia su GitHub Pages** è ferma alla 1.23.0, solo in italiano: non si offre più da nessuna parte ma resta in linea per
+  non rompere i link. Il workflow «Pagine» (manuale) la rifarebbe: se lanciato oggi pubblicherebbe di nuovo il gioco nel
+  browser, contro la scelta della 1.40.0.
+- **La memoria di lavoro di prima del passaggio su GitHub** (appunti di sessione, `.claude/`, `RIPRENDI-QUI*.md`,
+  `PROMPT-*.md`) non è nel repository. Se una copia sta in `F:\Backup`, una sessione cloud non può leggerla: Simone ne porta
+  ciò che serve in un file tracciato (una voce di diario basta).
 
 ## Chiuso
 
@@ -17,7 +37,6 @@
   Se mai servisse cambiarlo, si cambia nel repository di FAVELLA 1 (con i suoi test) e si ricopia.
 - **La storia:** Imma sulla discesa (1.7.0); le dichiarazioni doppie di `z2-piana.fav` ridotte a
   una con i sinonimi (1.10.0).
-
 - **I due MP4 in `video/`** (non versionati) rigirati con la grafica nuova, fotogramma per
   fotogramma dal trailer vero (`strumenti/esporta-trailer.cjs`, 7 ottobre 2026).
 - **Il tasto «esci»** nella barra di gioco e nella schermata finale, oltre che nel menu (1.13.0).
@@ -35,16 +54,21 @@
   dalla 1.16.2 alla 1.18.2 e rilasciato come **v1.18.2**, 20 ottobre 2026): le rifiniture, la luce e la pellicola,
   il suono, la materia (sale, crepe, scrittura, biglietto a mano con Covered By Your Grace), la nitidezza a 4K, le
   ultime rifiniture ai tempi e alla schermata d'avvio. Il comportamento non è cambiato (solo Esc).
-
-## Pianificato
-
-- **Il doppiaggio totale con sintesi vocale** (discusso il 20 ottobre 2026; nessun piano scritto, nessun codice):
-  un audiogioco recitato e accessibile, narrazione e dialoghi con le voci dei personaggi; Simone passa i testi a un
-  servizio TTS (Gemini) e produce file WAV che entrano nel pacchetto, ascoltati senza internet; due modalità a scelta
-  (voce recitata o lettore di schermo, per non avere il doppio audio con il diario che oggi è una regione viva); la
-  voce si ferma al primo tasto. Da definire: l'elenco dei testi da doppiare (circa 11.400 parole nei `.fav`, 76 minuti
-  se si registrasse tutto), come si trattano i testi con variabili e condizioni, i termini d'uso del servizio rispetto
-  alla CC BY-SA. Parte solo su ordine di Simone, con un piano in `pre-produzione/08-doppiaggio-tts.md`.
+- **Il doppiaggio totale con sintesi vocale** (piano `pre-produzione/08-doppiaggio-tts.md`, 1.19.0 – 1.23.0): ogni testo del
+  gioco, il trailer compreso, ha la sua voce (circa un'ora di parlato), a scelta fra voce recitata e lettore di schermo. Le voci
+  di Imma, Rosaria, Tore e Vito (ElevenLabs, piano gratuito) sono escluse dalla licenza libera, per decisione di Simone.
+  Rilasciato come v1.23.0.
+- **Il gioco confezionato come un prodotto** (piano `pre-produzione/09-opzioni-menu-pausa.md`, 1.24.0 – 1.30.1): opzioni e
+  volumi veri, menu d'avvio in colonna e pausa, taccuino dei salvataggi, schermo, finestra e qualità della grafica, alta
+  accessibilità, i modi dei comandi, trenta trofei, le verifiche finali.
+- **La musica e la chiusura** (1.31.0 – 1.34.0): un brano per zona e l'album da scaricare (menu Extra), la sequenza finale
+  coi titoli di coda e la canzone, le immagini promozionali.
+- **La plancia e la mappa** (1.35.0 – 1.38.0): la plancia dei pulsanti, i due soli modi dei comandi (pulsanti e avventura
+  testuale), la mappa come carta fisica che si riempie camminando.
+- **I volti e le tavole** (1.38.0 – 1.39.0): i ritratti dei personaggi, le tavole degli otto oggetti della memoria, il
+  viandante accanto alle risposte.
+- **L'inglese** (1.40.0): il gioco intero in inglese (494 testi e 85 nomi in `app/src/lingue/en/`, controllati da
+  `collaudo/traduzione.py`), la prima finestra della lingua, il trofeo «Parola per parola»; e il gioco solo da scaricare.
 
 ## Non si fa
 
@@ -63,7 +87,7 @@
 
 ## Se qualcuno riprende il lavoro
 
-Si parte da `README.md`, da `sviluppo/VERSIONI.md` (le regole dei numeri), da
-`collaudo/LEGGIMI.md` (gli undici collaudi: ogni modifica ai `.fav` li deve lasciare verdi) e da
+Si parte da `CLAUDE.md`, da `README.md`, da `sviluppo/VERSIONI.md` (le regole dei numeri), da
+`collaudo/LEGGIMI.md` (i sedici collaudi: ogni modifica ai `.fav` li deve lasciare verdi) e da
 `pre-produzione/06-ramificazione.md` (il perché di ogni filo). Ogni modifica ai `.fav` cambia
 l'impronta dei salvataggi: è una versione minor, o major se si ristruttura una zona.

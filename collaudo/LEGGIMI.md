@@ -1,6 +1,6 @@
 # Collaudo del Viaggiatore
 
-Quattordici collaudi, tutti sul motore del progetto (`../motore`) e sull'avventura
+Sedici collaudi, tutti sul motore del progetto (`../motore`) e sull'avventura
 in `../prototipo`. Ognuno esce con codice 1 se trova un problema. Le trascrizioni
 finiscono in `esiti/` (si possono cancellare: si rigenerano).
 
