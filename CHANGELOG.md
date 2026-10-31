@@ -8,6 +8,8 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.40.1] - 2026-10-31
+
 ### Corretto
 - **La traduzione inglese, riletta da cima a fondo** (52 voci su 494, nei cataloghi `app/src/lingue/en/`): meno calchi
   dall'italiano e qualche errore di grammatica («You keep the food for when you need it», «Your life, in effect»,
