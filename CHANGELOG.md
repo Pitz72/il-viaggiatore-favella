@@ -8,6 +8,14 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+### Aggiunto
+- **La voce inglese del narratore.** In inglese il narratore ha ora la sua voce: Enzo, in inglese britannico, con tutta la
+  narrazione (descrizioni, posti, messaggi, finali, il biglietto e le targhe), le scelte di dialogo del giocatore e il
+  trailer, circa tre quarti d'ora di parlato (Google Gemini TTS, come la voce italiana). Nelle opzioni e nella prima finestra la
+  voce ha un modo nuovo, **inglese**, che segue il testo finché non lo si sceglie: in inglese parla il solo narratore, le altre
+  voci (la voce di servizio e i personaggi) restano per ora quelle italiane, finché non saranno registrate anche in inglese.
+  Il racconto, i `.fav`, i salvataggi e la voce italiana non cambiano.
+
 ## [1.40.1] - 2026-10-31
 
 ### Corretto

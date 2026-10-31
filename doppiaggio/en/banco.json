@@ -1,0 +1,106 @@
+{
+ "parametri": {
+  "bersaglio_lufs": -23.0,
+  "picco_max_dbfs": -1.5,
+  "picco_dopo_dbfs": -0.5,
+  "silenzio_dbfs": -45.0,
+  "testa_s": 0.04,
+  "coda_s": 0.08,
+  "opus": "32k mono, VBR"
+ },
+ "totale": {
+  "parti": 532,
+  "parti_a_parte": 0,
+  "minuti": 43.3,
+  "minuti_a_parte": 0.0,
+  "mb": 10.12,
+  "mb_a_parte": 0.0
+ },
+ "blocchi": {
+  "narratore-a": {
+   "voce": "narratore",
+   "parti": 80,
+   "lufs_prima": -21.3,
+   "guadagno_db": -1.7,
+   "parti_alzate_di_meno": 0,
+   "al_massimo_db_in_meno": 0.0,
+   "secondi": 405.5,
+   "lufs_dopo": -23.3,
+   "picco_vero_dbtp": -2.4,
+   "kb": 1559
+  },
+  "narratore-b": {
+   "voce": "narratore",
+   "parti": 69,
+   "lufs_prima": -22.2,
+   "guadagno_db": -0.8,
+   "parti_alzate_di_meno": 0,
+   "al_massimo_db_in_meno": 0.0,
+   "secondi": 423.6,
+   "lufs_dopo": -23.5,
+   "picco_vero_dbtp": -1.4,
+   "kb": 1636
+  },
+  "narratore-c": {
+   "voce": "narratore",
+   "parti": 83,
+   "lufs_prima": -22.7,
+   "guadagno_db": -0.3,
+   "parti_alzate_di_meno": 0,
+   "al_massimo_db_in_meno": 0.0,
+   "secondi": 395.5,
+   "ricodificate_piu_piano": 1,
+   "lufs_dopo": -23.5,
+   "picco_vero_dbtp": -1.1,
+   "kb": 1544
+  },
+  "narratore-d": {
+   "voce": "narratore",
+   "parti": 74,
+   "lufs_prima": -21.5,
+   "guadagno_db": -1.5,
+   "parti_alzate_di_meno": 0,
+   "al_massimo_db_in_meno": 0.0,
+   "secondi": 414.8,
+   "lufs_dopo": -23.5,
+   "picco_vero_dbtp": -1.1,
+   "kb": 1586
+  },
+  "narratore-e": {
+   "voce": "narratore",
+   "parti": 81,
+   "lufs_prima": -21.0,
+   "guadagno_db": -2.0,
+   "parti_alzate_di_meno": 0,
+   "al_massimo_db_in_meno": 0.0,
+   "secondi": 409.3,
+   "lufs_dopo": -23.5,
+   "picco_vero_dbtp": -2.7,
+   "kb": 1583
+  },
+  "narratore-f": {
+   "voce": "narratore",
+   "parti": 64,
+   "lufs_prima": -22.9,
+   "guadagno_db": -0.1,
+   "parti_alzate_di_meno": 2,
+   "al_massimo_db_in_meno": 0.2,
+   "secondi": 447.3,
+   "lufs_dopo": -23.4,
+   "picco_vero_dbtp": -1.1,
+   "kb": 1679
+  },
+  "scelte": {
+   "voce": "narratore",
+   "parti": 81,
+   "lufs_prima": -21.8,
+   "guadagno_db": -1.2,
+   "parti_alzate_di_meno": 0,
+   "al_massimo_db_in_meno": 0.0,
+   "secondi": 100.6,
+   "lufs_dopo": -23.3,
+   "picco_vero_dbtp": -1.8,
+   "kb": 401
+  }
+ }
+}

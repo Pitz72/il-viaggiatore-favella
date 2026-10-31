@@ -29,6 +29,7 @@ cose e le risposte. La sete è la spina dorsale, l'acqua è la moneta, le scelte
 Il gioco si apre con i loghi animati (e sonori) di Runtime Multimedia e di FAVELLA 1, un avviso e un trailer di 88 secondi con la sua colonna sonora originale.
 **Il racconto ha una voce:** è doppiato per intero con la sintesi vocale (il narratore, i personaggi, i suggerimenti e il
 trailer, circa un'ora di parlato); si ascolta con la *voce recitata*, oppure si lascia leggere al proprio lettore di schermo.
+In inglese il narratore ha anche la sua voce inglese (le altre voci arriveranno).
 
 > **Che cos'è questo progetto.** Questo gioco, nato come demo del linguaggio di
 > programmazione e motore di narrativa interattiva Favella1, è stato generato con un
@@ -82,11 +83,13 @@ sua, «La mano sa ancora la forma» di The Runtimers; poi il menu d'avvio. Dopo 
 qualunque la ferma (il testo resta), **F2** ridice l'ultimo testo, e le risposte di un dialogo le legge il narratore
 quando ti fermi sopra col mouse o le raggiungi con la tastiera, ma mai sopra chi sta parlando: la risposta del
 personaggio non si interrompe. Nelle **opzioni** (dal menu d'avvio e dalla pausa) si
-sceglie fra voce recitata, *nessuna voce* (si legge in silenzio) e *lettore di schermo* (nessuna voce del gioco: il diario
-si annuncia al tuo lettore). Con la voce recitata anche il trailer ha la voce del narratore, e la musica gli scende sotto.
+sceglie fra voce recitata (italiana), *voce inglese* (il narratore parla in inglese, con una voce britannica; le altre voci,
+per ora, restano quelle italiane), *nessuna voce* (si legge in silenzio) e *lettore di schermo* (nessuna voce del gioco: il diario
+si annuncia al tuo lettore). Con una voce del gioco anche il trailer ha la voce del narratore, nella lingua scelta, e la musica gli scende sotto.
 
 **La lingua.** Al primo avvio, prima dei loghi, una finestra chiede la lingua del testo (italiano o inglese) e la voce
-(il doppiaggio italiano, nessuna voce, o il lettore di schermo); la voce recitata in inglese arriverà più avanti. Tutte e due
+(il doppiaggio italiano o quello inglese, nessuna voce, o il lettore di schermo); in inglese parla per ora il solo narratore,
+le altre voci arriveranno più avanti. Tutte e due
 si cambiano quando si vuole, nelle opzioni. In inglese è tradotto tutto: il racconto, i nomi, l'interfaccia, il trailer e i
 titoli di coda; il titolo resta *Il Viaggiatore*. Si gioca coi pulsanti: il parser capisce soltanto l'italiano. Il motore e i
 `.fav` restano in italiano: il gioco ne traduce il testo quando lo mostra (`app/src/gioco/traduci.ts`, coi cataloghi di

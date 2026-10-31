@@ -159,20 +159,33 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--misura", action="store_true", help="misura soltanto, non scrive niente")
     ap.add_argument("--bersaglio", type=float, default=BERSAGLIO, help="LUFS per blocco (predefinito %(default)s)")
+    ap.add_argument("--lingua", choices=["it", "en"], default="it",
+                    help="en: il narratore inglese (doppiaggio/en/manifest.json, parti in master/clip/en-<blocco>/, "
+                         "file in app/public/voce/en/, resoconto in doppiaggio/en/banco.json); il trailer inglese ha la sua "
+                         "traccia (doppiaggio-trailer.py --lingua en)")
     a = ap.parse_args()
     sys.stdout.reconfigure(encoding="utf-8")
+    en = a.lingua == "en"
+    global USCITA, RESOCONTO, A_PARTE
+    if en:
+        USCITA = os.path.join(USCITA, "en")
+        RESOCONTO = os.path.join(DOPPIAGGIO, "en", "banco.json")
+        A_PARTE = ()
+        os.makedirs(USCITA, exist_ok=True)
 
-    with open(os.path.join(DOPPIAGGIO, "manifest.json"), encoding="utf-8") as f:
+    with open(os.path.join(DOPPIAGGIO, "en" if en else "", "manifest.json"), encoding="utf-8") as f:
         man = json.load(f)
 
     # 1-2. le parti di ogni blocco, rifilate
     blocchi = {}
     for nome, b in man["blocchi"].items():
-        if not b.get("generato"):
+        if en and nome == "trailer":
+            continue   # la voce del trailer inglese è una traccia sola, fatta dalle sue clip
+        if not en and not b.get("generato"):
             raise SystemExit("blocco %s: non ancora generato" % nome)
         parti = []
         for i in b["parti"]:
-            p = os.path.join(CLIP, nome, i + ".wav")
+            p = os.path.join(CLIP, ("en-" if en else "") + nome, i + ".wav")
             if not os.path.exists(p):
                 raise SystemExit("manca la parte tagliata %s" % os.path.relpath(p, RADICE))
             x, sr = leggi_wav(p)
@@ -198,7 +211,7 @@ def main():
             if g < guadagno - 0.05:
                 limitate.append(round(guadagno - g, 1))
             parti[k] = (i, y * 10 ** (g / 20), sr)
-        resoconto[nome] = {"voce": man["blocchi"][nome]["voce"], "parti": len(parti),
+        resoconto[nome] = {"voce": man["blocchi"][nome].get("voce", "narratore"), "parti": len(parti),
                            "lufs_prima": round(lufs, 1), "guadagno_db": round(guadagno, 1),
                            "parti_alzate_di_meno": len(limitate),
                            "al_massimo_db_in_meno": max(limitate) if limitate else 0.0,
@@ -233,7 +246,8 @@ def main():
 
     # i file che non sono più di nessuna parte se ne vanno: la cartella è l'indice (solo i file col nome di
     # una parte, otto cifre esadecimali: trailer.opus è di strumenti/doppiaggio-trailer.py e resta)
-    for cartella, ids in ((USCITA, indice), (A_PARTE_CARTELLA, indice_a_parte)):
+    # (in inglese solo la cartella inglese: mai la cartella a parte dell'italiano)
+    for cartella, ids in ((USCITA, indice),) if en else ((USCITA, indice), (A_PARTE_CARTELLA, indice_a_parte)):
         for f in os.listdir(cartella):
             if re.fullmatch(r"[0-9a-f]{8}" + re.escape(ESTENSIONE), f) and f[:-len(ESTENSIONE)] not in ids:
                 os.remove(os.path.join(cartella, f))
@@ -245,11 +259,18 @@ def main():
 
     # il testo di ogni parte (anche di quelle a parte e del trailer): l'app ritrova le parti dal testo
     # che il motore stampa, spezzato e normalizzato come in doppiaggio.py (app/src/gioco/parti.ts)
-    testi = {i: [man["unita"][i]["voce"], man["unita"][i]["testo"]] for i in list(indice) + list(indice_a_parte)}
-    scrivi(os.path.join(USCITA, "indice.json"),
-           {"formato": 1, "estensione": ESTENSIONE, "parti": indice, "cartelle": [A_PARTE_DIR], "testi": testi})
-    scrivi(os.path.join(A_PARTE_CARTELLA, "indice.json"),
-           {"formato": 1, "estensione": ESTENSIONE, "parti": indice_a_parte, "licenza": LICENZA_A_PARTE})
+    if en:
+        # le parti inglesi si ritrovano dall'id italiano della parte (il diario resta in italiano): l'indice dice,
+        # per ogni parte italiana del narratore, la sua registrazione inglese
+        scrivi(os.path.join(USCITA, "indice.json"),
+               {"formato": 1, "estensione": ESTENSIONE, "lingua": "en", "parti": indice,
+                "corrispondenze": {ii: ei for ii, ei in man["corrispondenze"].items() if ei in indice}})
+    else:
+        testi = {i: [man["unita"][i]["voce"], man["unita"][i]["testo"]] for i in list(indice) + list(indice_a_parte)}
+        scrivi(os.path.join(USCITA, "indice.json"),
+               {"formato": 1, "estensione": ESTENSIONE, "parti": indice, "cartelle": [A_PARTE_DIR], "testi": testi})
+        scrivi(os.path.join(A_PARTE_CARTELLA, "indice.json"),
+               {"formato": 1, "estensione": ESTENSIONE, "parti": indice_a_parte, "licenza": LICENZA_A_PARTE})
 
     # 5. di nuovo la loudness, sui file codificati
     for nome, parti in blocchi.items():
@@ -259,11 +280,15 @@ def main():
         resoconto[nome].update({"lufs_dopo": round(lufs, 1), "picco_vero_dbtp": picco,
                                 "kb": round(sum(os.path.getsize(p) for p in file) / 1024)})
     peso = lambda c: sum(os.path.getsize(os.path.join(c, f)) for f in os.listdir(c) if f.endswith(ESTENSIONE))
-    totale = {"parti": len(indice) + len(indice_a_parte), "parti_a_parte": len(indice_a_parte),
-              "minuti": round((sum(indice.values()) + sum(indice_a_parte.values())) / 60000, 1),
-              "minuti_a_parte": round(sum(indice_a_parte.values()) / 60000, 1),
-              "mb": round((peso(USCITA) + peso(A_PARTE_CARTELLA)) / 1048576, 2),
-              "mb_a_parte": round(peso(A_PARTE_CARTELLA) / 1048576, 2)}
+    if en:   # in inglese: solo le parti del narratore, nella cartella inglese (il trailer ha la sua traccia)
+        totale = {"parti": len(indice), "parti_a_parte": 0, "minuti": round(sum(indice.values()) / 60000, 1),
+                  "minuti_a_parte": 0.0, "mb": round(peso(USCITA) / 1048576, 2), "mb_a_parte": 0.0}
+    else:
+        totale = {"parti": len(indice) + len(indice_a_parte), "parti_a_parte": len(indice_a_parte),
+                  "minuti": round((sum(indice.values()) + sum(indice_a_parte.values())) / 60000, 1),
+                  "minuti_a_parte": round(sum(indice_a_parte.values()) / 60000, 1),
+                  "mb": round((peso(USCITA) + peso(A_PARTE_CARTELLA)) / 1048576, 2),
+                  "mb_a_parte": round(peso(A_PARTE_CARTELLA) / 1048576, 2)}
     with open(RESOCONTO, "w", encoding="utf-8", newline="\n") as f:
         json.dump({"parametri": {"bersaglio_lufs": a.bersaglio, "picco_max_dbfs": PICCO_MAX,
                                  "picco_dopo_dbfs": PICCO_DOPO, "silenzio_dbfs": SILENZIO, "testa_s": TESTA, "coda_s": CODA,

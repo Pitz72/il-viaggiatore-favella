@@ -318,10 +318,24 @@ def scrivi(r, tutto, blocchi, esiti):
         for campo in ("tono", "da", "a", "aggancia"):
             if campo in u:
                 unita[i][campo] = u[campo]
+    # Il gioco tiene il diario in italiano e ritrova le parti dal testo italiano (parti.ts): la voce inglese si
+    # aggancia agli id ITALIANI. Per ogni parte italiana del narratore, la sua registrazione inglese.
+    it_unita = tutto["unita"]
+    corrispondenze = OrderedDict()
+    for i, u in r["unita"].items():
+        if u["categoria"] == "trailer":
+            continue   # il trailer ha la sua traccia
+        for ti in u["italiano"]:
+            ii = D.impronta(VOCE, ti)
+            if ii not in it_unita or it_unita[ii]["voce"] != VOCE:
+                raise SystemExit("la parte italiana «%s» non è una parte del narratore" % ti)
+            corrispondenze[ii] = i
+        unita[i]["italiano_ids"] = [D.impronta(VOCE, ti) for ti in u["italiano"]]
     manifest = {
         "lingua": "en", "voce": "Enzo (britannico neutro)",
         "blocchi": OrderedDict((n, {"minuti_stimati": round(minuti(r, ids), 1), "parti": ids}) for n, ids in blocchi.items()),
         "unita": unita,
+        "corrispondenze": corrispondenze,
         "stringhe": r["stringhe"],
     }
     with open(os.path.join(USCITA, "manifest.json"), "w", encoding="utf-8", newline="\n") as fh:

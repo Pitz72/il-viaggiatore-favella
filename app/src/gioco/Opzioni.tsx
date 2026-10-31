@@ -19,7 +19,7 @@ import { useDialogo } from "./useDialogo";
 import { useOpzioni } from "../lib/useOpzioni";
 import { ascoltaTrofei, azzeraTrofei, deposito } from "../lib/trofei";
 import { trofeiDellaLingua } from "./trofei";
-import { ACCESSIBILE, altaAccessibilita, comandiEffettivi, NON_ACCESSIBILE, opzioni, ripristinaOpzioni, type ModoComandi, type ModoVoce, type Opzioni, type Qualita } from "../lib/opzioni";
+import { ACCESSIBILE, altaAccessibilita, comandiEffettivi, conVoce, NON_ACCESSIBILE, opzioni, ripristinaOpzioni, type ModoComandi, type ModoVoce, type Opzioni, type Qualita } from "../lib/opzioni";
 import { in_, tr, type Bilingue } from "../lib/lingua";
 import { cercaAggiornamenti, dimensioneFinestra, impostaSchermoIntero, seguiFinestra, statoFinestra, statoSchermoIntero, type StatoFinestra } from "../lib/desktop";
 import "./opzioni.css";
@@ -55,7 +55,9 @@ const SOLO_PULSANTI = "In English you play with the buttons: the text parser und
 
 const SPIEGA_VOCE: Record<ModoVoce, Bilingue> = {
   recitata: { it: "Il gioco ti legge il racconto con le voci del doppiaggio. La voce si ferma al primo tasto; F2 ridice l'ultimo testo; le risposte di un dialogo si sentono passandoci sopra.",
-    en: "The game reads you the story with the Italian voice cast. The voice stops at the first key; F2 repeats the last text; the replies in a conversation are heard when you hover over them. English voice acting is coming soon." },
+    en: "The game reads you the story with the Italian voice cast. The voice stops at the first key; F2 repeats the last text; the replies in a conversation are heard when you hover over them." },
+  inglese: { it: "Il narratore parla in inglese; le altre voci (quella di servizio e i personaggi) restano per ora quelle italiane, finché non saranno registrate anche in inglese. La voce si ferma al primo tasto; F2 ridice l'ultimo testo; le risposte di un dialogo si sentono passandoci sopra.",
+    en: "The narrator speaks English; the other voices (the service voice and the characters) are still the Italian ones for now, until they are recorded in English too. The voice stops at the first key; F2 repeats the last text; the replies in a conversation are heard when you hover over them." },
   nessuna: { it: "Nessuna voce del gioco: si legge soltanto, in silenzio.", en: "No game voice: text only, in silence." },
   lettore: { it: "Nessuna voce del gioco: se usi un lettore di schermo, è lui a leggerti il diario, riga per riga.",
     en: "No game voice: if you use a screen reader, it reads you the journal, line by line." },
@@ -336,9 +338,9 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
               </section>
               <section aria-label={tr("Ascolto", "Listening")}>
               <h3 className="opz-sezione" style={stileSezione}>{tr("Ascolto", "Listening")}</h3>
-              {riga(tr("Voce del gioco", "Game voice"), "voce", [["recitata", tr("italiana", "Italian")], ["nessuna", tr("nessuna", "none")], ["lettore", tr("lettore di schermo", "screen reader")]],
+              {riga(tr("Voce del gioco", "Game voice"), "voce", [["recitata", tr("italiana", "Italian")], ["inglese", tr("inglese", "English")], ["nessuna", tr("nessuna", "none")], ["lettore", tr("lettore di schermo", "screen reader")]],
                 in_(SPIEGA_VOCE[o.voce]),
-                onRiascolta && o.voce === "recitata" && (
+                onRiascolta && conVoce(o) && (
                   <button type="button" className="opz-bottone" onClick={onRiascolta} style={{ ...stileBottone, marginLeft: ".6em", padding: ".45em .9em" }}>↻ {tr("riascolta", "replay")}</button>
                 ))}
               {riga(tr("Suono", "Sound"), "mono", [[false, "stereo"], [true, "mono"]], tr("Mono: i due canali insieme, per chi sente da un orecchio solo.", "Mono: both channels together, for those who hear with one ear only."))}

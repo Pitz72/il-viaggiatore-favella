@@ -9,12 +9,14 @@
 
 Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti non sono più da fare (vedi «Non si fa»).
 
-- **La voce recitata in inglese** (la prima finestra dice che arriverà). **In corso** (31 ottobre 2026, diario «Il doppiaggio
-  inglese: il narratore in sei blocchi»): i testi di Enzo sono pronti in `doppiaggio/en/` (sei blocchi di narrazione, le scelte
-  del giocatore, il trailer; prompt della voce: Enzo, britannico neutro), tutti e otto consegnati a Simone in chat il 31 ottobre.
-  Simone li genera in AI Studio; aspettano i suoi WAV (e la durata del primo, per tarare il ritmo dell'inglese).
-  Poi: taglio e controllo parte per parte (`doppiaggio-taglia.py` va adattato all'inglese), banco, integrazione nell'app. Kira e i
-  quattordici personaggi in inglese non sono decisi.
+- **La voce recitata in inglese**: **il narratore è fatto** (31 ottobre – 1° novembre 2026, diari «Il doppiaggio inglese: il narratore in sei
+  blocchi» e «La voce inglese del narratore: taglio, banco e integrazione nel gioco»): 532 parti (narrazione e scelte) e il trailer, tagliati,
+  controllati, nel banco (`app/public/voce/en/`) e nel gioco (modo di voce «inglese», che per ora lascia in italiano le altre voci). Restano:
+  - **rigenerare le scelte inglesi con calma** (il modello le ha lette in fretta: 35 su 81 sopra le 5 parole al secondo);
+  - **ascoltare** il narratore inglese sul gioco desktop (non l'ho potuto fare) e dire che cosa rifare;
+  - **la voce di servizio (Kira) e i quattordici personaggi in inglese**, poi il banco e i collaudi per loro;
+  - confermare le tre scelte mie (il modo «inglese» con le altre voci italiane, la voce che segue il testo nella prima finestra, il tetto del
+    peso a 40 MB) e, quando Simone lo dice, il rilascio (una minor, 1.41.0).
 - **Le skill e la filigrana di Claude: da analizzare in futuro** (Simone, 31 ottobre 2026). La ricerca di skill su GitHub e
   la questione della filigrana nel testo si riprendono più avanti; i fatti verificati e la decisione sono nel diario del
   31 ottobre («La verifica dell'inglese…») e nella memoria. Nessuna skill trovata è stata installata.

@@ -9,6 +9,13 @@
 //  Le cartelle che l'indice nomina («cartelle»: public/voce/elevenlabs/, le voci
 //  escluse dalla licenza libera) hanno un indice loro e si aggiungono.
 //
+//  La voce inglese (public/voce/en/, strumenti/doppiaggio-banco.py --lingua en) è
+//  per ora il solo narratore. Il diario resta in italiano e le parti si ritrovano
+//  dal testo italiano (parti.ts): l'indice inglese dice, per ogni parte italiana
+//  del narratore, la sua registrazione inglese. Col modo «inglese» una parte che
+//  ha la registrazione inglese suona quella; tutte le altre (la voce di servizio,
+//  i personaggi) suonano ancora in italiano, finché non saranno registrate.
+//
 //  Le risposte di dialogo si leggono in ANTEPRIMA (quando ci si ferma sopra):
 //  un'anteprima non interrompe mai il turno che parla (il personaggio che
 //  risponde, il narratore), ne prende il posto solo un'altra anteprima, e F2
@@ -21,6 +28,7 @@
 // ====================================================================
 import { tabella, type Tabella, type Testi } from "./parti";
 import { canale } from "../lib/suono";
+import { opzioni } from "../lib/opzioni";
 
 const BASE = `${import.meta.env.BASE_URL}voce/`;
 /** secondi di silenzio fra due frasi della stessa riga, e fra due righe */
@@ -28,7 +36,11 @@ export const PAUSA_FRASE = 0.3;
 export const PAUSA_RIGA = 0.55;
 const MEMORIA = 120;   // parti decodificate tenute in memoria
 
-interface Indice { estensione: string; parti: Record<string, number>; testi?: Testi; cartelle?: string[] }
+interface Indice {
+  estensione: string; parti: Record<string, number>; testi?: Testi; cartelle?: string[];
+  /** solo nell'indice inglese: id della parte italiana del narratore → id della sua registrazione inglese */
+  corrispondenze?: Record<string, string>;
+}
 
 /** Una parte da dire, con la pausa che la precede. */
 export interface Parte { id: string; pausa: number }
@@ -37,6 +49,7 @@ class Voce {
   private ctx: AudioContext | null = null;
   private uscita: GainNode | null = null;
   private dove = new Map<string, string>();          // id → URL del file
+  private inglese = new Map<string, string>();       // id della parte italiana del narratore → URL della registrazione inglese
   private testi: Testi = {};
   private buffer = new Map<string, Promise<AudioBuffer | null>>();
   private suonano: AudioBufferSourceNode[] = [];
@@ -59,6 +72,11 @@ class Voce {
             const altro = await this.leggiIndice(`${BASE}${c}/indice.json`);
             for (const id of Object.keys(altro?.parti ?? {})) this.dove.set(id, `${BASE}${c}/${id}${altro!.estensione}`);
           }
+          // la voce inglese, se il pacchetto la contiene (senza, il modo «inglese» suona le voci italiane)
+          const en = await this.leggiIndice(`${BASE}en/indice.json`);
+          for (const [it, e] of Object.entries(en?.corrispondenze ?? {})) {
+            if (en!.parti[e] !== undefined) this.inglese.set(it, `${BASE}en/${e}${en!.estensione}`);
+          }
           this.testi = principale.testi ?? {};
           return tabella(this.testi);
         } catch {
@@ -80,8 +98,14 @@ class Voce {
     }
   }
 
+  /** Il file da suonare per una parte (l'id è quello della parte italiana): la registrazione inglese se il modo è «inglese» e
+   *  c'è, se no quella italiana. */
+  private url(id: string): string | undefined {
+    return (opzioni().voce === "inglese" ? this.inglese.get(id) : undefined) ?? this.dove.get(id);
+  }
+
   /** C'è il file di questa parte? (Le parti mute, o solo locali e assenti, non ce l'hanno.) */
-  ha(id: string) { return this.dove.has(id); }
+  ha(id: string) { return this.url(id) !== undefined; }
 
   /** Il testo di una parte, per chi la legge invece della voce. */
   testoDi(id: string) { return this.testi[id]?.[1] ?? ""; }
@@ -105,15 +129,16 @@ class Voce {
   }
 
   private carica(id: string): Promise<AudioBuffer | null> {
-    let p = this.buffer.get(id);
+    const url = this.url(id);
+    const chiave = url ?? id;   // si ricorda per file, non per parte: cambiando voce a partita in corso non si suona quella di prima
+    let p = this.buffer.get(chiave);
     if (!p) {
-      const url = this.dove.get(id);
       const ctx = this.contesto();
       p = url
         ? fetch(url).then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(String(r.status)))))
           .then((dati) => ctx.decodeAudioData(dati)).catch(() => null)
         : Promise.resolve(null);
-      this.buffer.set(id, p);
+      this.buffer.set(chiave, p);
       if (this.buffer.size > MEMORIA) this.buffer.delete(this.buffer.keys().next().value!);
     }
     return p;
@@ -131,7 +156,7 @@ class Voce {
 
   private suona(parti: Parte[], anteprima: boolean) {
     this.ferma();
-    const fila = parti.filter((p) => this.dove.has(p.id));
+    const fila = parti.filter((p) => this.ha(p.id));
     if (!fila.length) return;
     if (!anteprima) this.ultima = fila;
     this.inAnteprima = anteprima;

@@ -15,9 +15,13 @@
 //  inglese i comandi sono soltanto i pulsanti: il parser capisce l'italiano.
 // ====================================================================
 
-/** La voce del gioco: il doppiaggio italiano, nessuna voce, o nessuna voce e il diario letto dal lettore di schermo. */
-export type ModoVoce = "recitata" | "nessuna" | "lettore";
-export const MODI_VOCE: readonly ModoVoce[] = ["recitata", "nessuna", "lettore"];
+/** La voce del gioco: il doppiaggio italiano, il doppiaggio inglese (per ora il solo narratore: le altre voci restano
+ *  quelle italiane finché non sono registrate anche in inglese), nessuna voce, o nessuna voce e il diario letto dal
+ *  lettore di schermo. */
+export type ModoVoce = "recitata" | "inglese" | "nessuna" | "lettore";
+export const MODI_VOCE: readonly ModoVoce[] = ["recitata", "inglese", "nessuna", "lettore"];
+/** Con una voce del gioco (italiana o inglese) il diario non si annuncia: parla il doppiaggio. */
+export const conVoce = (o: Pick<Opzioni, "voce">): boolean => o.voce === "recitata" || o.voce === "inglese";
 /** La lingua dei testi: del racconto e dell'interfaccia. Il motore e i comandi restano in italiano. */
 export type Lingua = "it" | "en";
 export const LINGUE: readonly Lingua[] = ["it", "en"];
@@ -36,7 +40,7 @@ export interface Opzioni {
   linguaScelta: boolean;
   /** pulsanti (niente riga da scrivere), o parole (l'avventura testuale pura: niente pulsanti) */
   comandi: ModoComandi;
-  /** la voce del gioco: il doppiaggio (italiano), nessuna voce, o il lettore di schermo che legge il diario */
+  /** la voce del gioco: il doppiaggio (italiano o inglese), nessuna voce, o il lettore di schermo che legge il diario */
   voce: ModoVoce;
   /** il volume generale, da 0 a 1: moltiplica i tre canali */
   volume: number;

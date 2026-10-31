@@ -92,3 +92,20 @@ Si fa una fase per volta; a fine fase si mostra il risultato e si aspetta il via
 6. ~~**I documenti** (3.6)~~ **fatto il 20/10/2026:** README (la voce, i tasti, le voci e i loro diritti, i dodici collaudi), `LICENSE-CONTENUTI.md` (le voci del doppiaggio sono contenuti CC BY-SA come i testi che leggono), le guide di `doppiaggio/`, `strumenti/` e `collaudo/`, il foglio dei tempi del trailer, il CHANGELOG e il diario a ogni fase.
 7. ~~**I quattro di ElevenLabs nel gioco**~~ **fatto il 20/10/2026 (1.23.0):** distribuiti fuori dalla licenza libera (decisione 6, aggiornamento); in più, su richiesta di Simone, il **cartello delle licenze e dei crediti** dopo i loghi e prima dell'avviso (`app/src/components/Crediti.tsx`), e il README rivisto.
 8. **Il rilascio:** solo su ordine di Simone. Se un giorno si vuole togliere il rischio: rifare i quattro con Gemini o con ElevenLabs a pagamento, tagliarli (`doppiaggio-taglia.py --controlla`), toglierli da `A_PARTE` in `strumenti/doppiaggio-banco.py`, rifare il banco e aggiornare licenze e cartello.
+
+## 6. La voce inglese del narratore (31 ottobre – 1 novembre 2026)
+
+Dopo la 1.40.0 (il gioco in inglese) la voce recitata in inglese si fa per gradi: **prima il solo narratore** (Enzo, inglese britannico),
+poi la voce di servizio, poi i personaggi. Il metodo, i testi e le decisioni stanno in `doppiaggio/en/LEGGIMI.md` e nel diario del 31 ottobre
+e del 1° novembre; qui ciò che riguarda il gioco:
+
+- **Il diario resta in italiano e le parti si ritrovano dal testo italiano** (`parti.ts` non cambia): la voce inglese si aggancia agli id
+  italiani. `app/public/voce/en/indice.json` dice, per ogni parte italiana del narratore (narrazione e scelte, 532), la sua registrazione inglese
+  (`corrispondenze`); le parti inglesi sono `app/public/voce/en/<id>.opus`, con lo stesso banco dell'italiano (−23 LUFS per blocco, Opus mono 32 kbit/s).
+- **Un modo di voce nuovo, «inglese»** (`ModoVoce`, `lib/opzioni.ts`): quando è scelto, una parte con la registrazione inglese suona quella; tutte le altre
+  (voce di servizio, personaggi) suonano ancora in italiano finché non saranno registrate. Il modo «italiana» non cambia. Nella prima finestra la voce
+  segue il testo (testo inglese → voce inglese) finché chi gioca non la sceglie.
+- **Il trailer ha la sua traccia inglese** (`voce/en/trailer.opus` e `trailer.json`, `strumenti/doppiaggio-trailer.py --lingua en`), con le stesse finestre e le
+  stesse ancore dell'italiano; la sceglie il modo della voce al momento di mostrare il trailer.
+- **Il collaudo** (`collaudo/doppiaggio.py`, sezione 9) controlla la voce inglese come l'italiana: ogni parte ha il suo audio e nessuno è scaduto, ogni parte
+  italiana del narratore ha la sua registrazione, i file sono Ogg Opus veri, il volume, il trailer; il tetto del peso della voce, italiana e inglese insieme, è 40 MB (era 25 con la sola italiana).

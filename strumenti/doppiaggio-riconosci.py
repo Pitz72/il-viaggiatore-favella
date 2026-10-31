@@ -37,14 +37,26 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("wav", nargs="+")
     ap.add_argument("--voce", help="confronta solo con i blocchi di questa voce (narratore, servizio…)")
+    ap.add_argument("--lingua", choices=["it", "en"], default="it",
+                    help="en: i blocchi inglesi di doppiaggio/en/manifest.json (il trailer, dove ogni tono ha il suo WAV, "
+                         "si confronta tono per tono: trailer-solenne, trailer-enfatico…)")
     a = ap.parse_args()
     sys.stdout.reconfigure(encoding="utf-8")
     tg = carica_taglia()
-    with open(os.path.join(CARTELLA, "manifest.json"), encoding="utf-8") as f:
+    en = a.lingua == "en"
+    if en:
+        tg.LINGUA = "en"
+    with open(os.path.join(CARTELLA, "en" if en else "", "manifest.json"), encoding="utf-8") as f:
         man = json.load(f)
     blocchi = {}
     for nome, b in man["blocchi"].items():
-        if a.voce and not (nome == a.voce or nome.startswith(a.voce + "-") or b["voce"] == a.voce):
+        if a.voce and not (nome == a.voce or nome.startswith(a.voce + "-") or b.get("voce", "narratore") == a.voce):
+            continue
+        if en and nome == "trailer":   # un WAV per tono: si riconosce ogni gruppo da sé
+            toni = list(dict.fromkeys(man["unita"][i]["tono"] for i in b["parti"]))
+            for tono in toni:
+                toks = [g for i in b["parti"] if man["unita"][i]["tono"] == tono for g in tg.gettoni(man["unita"][i]["testo"])]
+                blocchi["trailer-" + tono] = (toks, 0.0)
             continue
         toks = [g for i in b["parti"] for g in tg.gettoni(man["unita"][i]["testo"])]
         blocchi[nome] = (toks, b["minuti_stimati"])

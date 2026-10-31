@@ -1,0 +1,183 @@
+{
+ "formato": 1,
+ "lingua": "en",
+ "durata": 88.5,
+ "file": "trailer.opus",
+ "frasi": [
+  {
+   "id": "biglietto",
+   "unita": "ff009aa5",
+   "da": 6.7,
+   "a": 9.5
+  },
+  {
+   "id": "alba1",
+   "unita": "334ee8b7",
+   "da": 10.6,
+   "a": 12.69
+  },
+  {
+   "id": "alba2",
+   "unita": "a0431fc0",
+   "da": 12.84,
+   "a": 13.77
+  },
+  {
+   "id": "terra",
+   "unita": "6feda575",
+   "da": 18.3,
+   "a": 21.73
+  },
+  {
+   "id": "secca",
+   "unita": "720c8d44",
+   "da": 22.6,
+   "a": 25.129
+  },
+  {
+   "id": "domanda",
+   "unita": "0c2a141d",
+   "da": 27.2,
+   "a": 31.12
+  },
+  {
+   "id": "mappa",
+   "unita": "a7e4980f",
+   "da": 33.6,
+   "a": 35.46
+  },
+  {
+   "id": "tappa1",
+   "unita": "709d33bc",
+   "da": 35.61,
+   "a": 36.45
+  },
+  {
+   "id": "tappa2",
+   "unita": "d3142ff7",
+   "da": 36.9,
+   "a": 37.53
+  },
+  {
+   "id": "tappa3",
+   "unita": "8d6a28a0",
+   "da": 38.6,
+   "a": 39.71
+  },
+  {
+   "id": "tappa4",
+   "unita": "d95d3baf",
+   "da": 40.4,
+   "a": 41.19
+  },
+  {
+   "id": "tappa5",
+   "unita": "841a1e09",
+   "da": 42.1,
+   "a": 42.79
+  },
+  {
+   "id": "tappa6",
+   "unita": "e5cca77b",
+   "da": 43.8,
+   "a": 44.59
+  },
+  {
+   "id": "tappa7",
+   "unita": "9ef09df2",
+   "da": 45.5,
+   "a": 46.17
+  },
+  {
+   "id": "cinque",
+   "unita": "5a4103b1",
+   "da": 49.3,
+   "a": 52.528
+  },
+  {
+   "id": "modo1",
+   "unita": "2433e0dd",
+   "da": 52.678,
+   "a": 53.278
+  },
+  {
+   "id": "modo2",
+   "unita": "cb86cf75",
+   "da": 53.428,
+   "a": 53.968
+  },
+  {
+   "id": "modo3",
+   "unita": "0ed69ff8",
+   "da": 54.118,
+   "a": 54.728
+  },
+  {
+   "id": "modo4",
+   "unita": "05cc27bb",
+   "da": 54.878,
+   "a": 55.538
+  },
+  {
+   "id": "modo5",
+   "unita": "6f46fd28",
+   "da": 55.688,
+   "a": 56.238
+  },
+  {
+   "id": "guado1",
+   "unita": "bdd30ea9",
+   "da": 61.799,
+   "a": 63.85
+  },
+  {
+   "id": "guado2",
+   "unita": "15ad5f95",
+   "da": 64.0,
+   "a": 64.87
+  },
+  {
+   "id": "regola1",
+   "unita": "55a1fb5f",
+   "da": 67.86,
+   "a": 69.02
+  },
+  {
+   "id": "regola2",
+   "unita": "97dc9740",
+   "da": 69.7,
+   "a": 70.994
+  },
+  {
+   "id": "regola3",
+   "unita": "f8fbb03e",
+   "da": 71.54,
+   "a": 72.785
+  },
+  {
+   "id": "regola4",
+   "unita": "118e1ddf",
+   "da": 73.38,
+   "a": 75.603
+  },
+  {
+   "id": "regola5",
+   "unita": "04c45cba",
+   "da": 75.753,
+   "a": 77.892
+  },
+  {
+   "id": "titolo",
+   "unita": "4c67a577",
+   "da": 82.3,
+   "a": 83.43
+  }
+ ],
+ "escluse": [
+  "numeri1",
+  "numeri2",
+  "numeri3",
+  "numeri4",
+  "tagline"
+ ]
+}

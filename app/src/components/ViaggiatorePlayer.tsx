@@ -63,7 +63,7 @@ import { voce, PAUSA_FRASE, PAUSA_RIGA, type Parte } from "../gioco/voce";
 import PannelloOpzioni from "../gioco/Opzioni";
 import Pausa from "../gioco/Pausa";
 import { useOpzioni } from "../lib/useOpzioni";
-import { comandiEffettivi } from "../lib/opzioni";
+import { comandiEffettivi, conVoce } from "../lib/opzioni";
 import { tr } from "../lib/lingua";
 import { chiaveItaliana, comandoInglese, etichettaInglese, gestoInglese, inInglese, nome, nominaLaStrada, traduciBlocco, vocediTeInglese } from "../gioco/traduci";
 import { cartaNellaLingua } from "../gioco/Mappa";
@@ -192,7 +192,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
   const [annuncio, setAnnuncio] = useState({ n: 0, testo: "" });
   const tabVoce = useRef<Tabella | null>(null);
   const daDire = useRef<Blocco[] | null>(null);   // il primo testo, se arriva prima dell'indice della voce
-  const recitata = opz.voce === "recitata";
+  const recitata = conVoce(opz);   // una voce del gioco, italiana o inglese: il diario non annuncia
   const recitataRef = useRef(recitata);
   recitataRef.current = recitata;
 

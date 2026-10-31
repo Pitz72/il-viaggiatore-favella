@@ -24,6 +24,7 @@ Uso:  python strumenti/doppiaggio-trailer.py           (scrive)
       python strumenti/doppiaggio-trailer.py --prova   (stampa la scaletta, non scrive)
 """
 import argparse
+import hashlib
 import importlib.util
 import json
 import os
@@ -103,17 +104,39 @@ def a_tempo(x, fattore):
     return np.frombuffer(p.stdout, dtype="<f8").copy()
 
 
+def parti_del_trailer_inglese():
+    """Le parti del trailer inglese, come le dà il manifest italiano: id, testo, finestra, aggancio, id dell'unità
+    (doppiaggio/en/trailer.json, in ordine di scaletta; l'id è quello di strumenti/doppiaggio-inglese.py)."""
+    with open(os.path.join(B.DOPPIAGGIO, "en", "trailer.json"), encoding="utf-8") as f:
+        tj = json.load(f)
+    return [{**{k: p[k] for k in ("id", "testo", "tono", "da", "a") + (("aggancia",) if "aggancia" in p else ())},
+             "unita": hashlib.sha1(("en-narratore-trailer\n" + p["testo"]).encode("utf-8")).hexdigest()[:8]}
+            for p in tj["parti"]]
+
+
 def main():
+    global BLOCCO, USCITA, SCALETTA
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--prova", action="store_true")
+    ap.add_argument("--lingua", choices=["it", "en"], default="it",
+                    help="en: il trailer inglese (clip in master/clip/en-trailer/, testi da doppiaggio/en/trailer.json), "
+                         "scritto in app/public/voce/en/trailer.opus e trailer.json")
     a = ap.parse_args()
     sys.stdout.reconfigure(encoding="utf-8")
-    with open(os.path.join(B.DOPPIAGGIO, "manifest.json"), encoding="utf-8") as f:
-        man = json.load(f)
+    en = a.lingua == "en"
+    if en:
+        BLOCCO = "en-trailer"
+        USCITA = os.path.join(B.USCITA, "en", "trailer.opus")
+        SCALETTA = os.path.join(B.USCITA, "en", "trailer.json")
+        os.makedirs(os.path.dirname(USCITA), exist_ok=True)
+        parti_trailer = parti_del_trailer_inglese()
+    else:
+        with open(os.path.join(B.DOPPIAGGIO, "manifest.json"), encoding="utf-8") as f:
+            parti_trailer = json.load(f)["trailer"]
 
     # 1-3. le frasi, rifilate e con le pause accorciate; la velocità che serve a starci
     frasi = []
-    for p in man["trailer"]:
+    for p in parti_trailer:
         if p["id"] in ESCLUSE:
             continue
         x, sr = B.leggi_wav(os.path.join(B.CLIP, BLOCCO, p["unita"] + ".wav"))
@@ -179,7 +202,7 @@ def main():
         raise SystemExit(p.stderr.decode("utf-8", "replace"))
     dopo, picco = B.ebur128(["-i", USCITA])
     with open(SCALETTA, "w", encoding="utf-8", newline="\n") as f:
-        json.dump({"formato": 1, "durata": DURATA, "file": os.path.basename(USCITA),
+        json.dump({"formato": 1, **({"lingua": "en"} if en else {}), "durata": DURATA, "file": os.path.basename(USCITA),
                    "frasi": [{"id": fr["id"], "unita": fr["unita"], "da": fr["inizio"], "a": fr["fine"]} for fr in frasi],
                    "escluse": sorted(ESCLUSE)},
                   f, ensure_ascii=False, indent=1)

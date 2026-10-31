@@ -13,6 +13,9 @@ c'è soltanto Enzo: la voce di servizio (Kira) e i quattordici personaggi in ing
 | `controllo.md` | le verifiche, i conti, **ciò che non è di Enzo** (suggerimenti e personaggi) e la **tabella italiano ↔ inglese di ogni parte di Enzo** |
 | `voci.md` | il prompt della voce (campo accanto alla voce, identico in ogni generazione) |
 | `gemini-tts.md` | la documentazione di Gemini 3.8 Flash TTS letta il 31 ottobre 2026 |
+| `banco.json` | il resoconto del banco della voce inglese (`python strumenti/doppiaggio-banco.py --lingua en`): per ogni blocco la loudness prima e dopo, il guadagno, il picco, il peso |
+| `../master/en-grezzi/` | i WAV scaricati da AI Studio (non si versionano), con le loro trascrizioni in `trascrizioni/`; `../master/clip/en-<blocco>/` le parti tagliate |
+| `../../app/public/voce/en/` | ciò che il gioco suona in inglese: un file Opus per parte, `indice.json` (id della parte → durata; **corrispondenze**: id della parte italiana del narratore → registrazione inglese), `trailer.opus` e `trailer.json` |
 
 Tutto, tranne `trailer.json`, `voci.md` e `gemini-tts.md`, lo scrive `python strumenti/doppiaggio-inglese.py blocchi`: non si ritocca
 a mano. `python strumenti/doppiaggio-inglese.py stato` fa le verifiche senza scrivere. Se un catalogo inglese
@@ -46,13 +49,23 @@ tornano con l'iniziale maiuscola, gli a capo diventano spazi. I testi con segnap
 
 L'ordine: narratore-a … -f, poi `scelte`, poi `trailer`.
 
-## Che cosa resta
+## Che cosa è fatto, che cosa resta
 
-- **Le generazioni** (Simone) e poi il **taglio e il controllo parte per parte**: `strumenti/doppiaggio-taglia.py` è fatto per
-  l'italiano (riconoscimento in italiano, numeri in italiano, legge `../generati/` e `../manifest.json`) e va adattato all'inglese.
-- Il **banco** (`strumenti/doppiaggio-banco.py`) e l'**app** (`app/src/gioco/parti.ts` ritrova le parti dal testo italiano stampato):
-  oggi non conoscono una voce inglese. È il lavoro che segue, quando i WAV ci sono.
-- Kira e i personaggi in inglese: non decisi.
+Fatto il 31 ottobre – 1° novembre 2026: i blocchi sono stati generati da Simone (11 WAV, uno doppio), riconosciuti
+(`doppiaggio-riconosci.py --lingua en`), tagliati e controllati parte per parte (`doppiaggio-taglia.py en-narratore-a` … `en-scelte`,
+`en-trailer`: 532 parti di Enzo e 33 del trailer, tutte trovate, tutte controllate da sole), passati al banco
+(`doppiaggio-banco.py --lingua en`: 532 parti, 43,3 minuti, 10,1 MB) e al trailer
+(`doppiaggio-trailer.py --lingua en`), e il gioco le suona col modo di voce «inglese» (`app/src/gioco/voce.ts`). Il collaudo è la sezione 9 di
+`collaudo/doppiaggio.py`.
+
+- **Se un testo inglese cambia** (un catalogo di `app/src/lingue/en/`): cambia l'id della sua parte e il collaudo lo dice. Si rigenera quel
+  testo (`doppiaggio-inglese.py blocchi` e `da-fare` per Gemini), si taglia, si rifà il banco.
+- **Le scelte del giocatore sono da rigenerare**: il modello le ha lette in fretta (mediana 4,8 parole al secondo contro 3,3 della narrazione e
+  delle scelte italiane; 35 su 81 sopra le 5). Il collaudo lo dice con una riga e per ora le accetta (limite 7,5).
+- **Il «long pause» letto ad alta voce**: in quattro blocchi su sei (b, d, e, f) il modello ha pronunciato il tag fra una parte e l'altra, fino a 30 volte
+  in un blocco. Il taglio lo lascia fuori da tutte le parti e il controllo di ogni parte non lo trova dentro; in generazioni nuove conviene
+  guardare il rapporto (`master/clip/en-<blocco>/rapporto.txt`).
+- **Kira e i personaggi in inglese**: non registrati. Finché non lo sono, col modo «inglese» suonano in italiano.
 
 ## Da sapere (trovato preparando i blocchi)
 

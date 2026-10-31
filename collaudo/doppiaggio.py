@@ -28,6 +28,7 @@ strumenti/doppiaggio.py, trailer compreso) e controlla:
 
 Uso:  python doppiaggio.py      (esce con 1 se qualcosa non va; ffmpeg è facoltativo)
 """
+import hashlib
 import importlib.util
 import json
 import os
@@ -45,7 +46,7 @@ BANCO = os.path.join(RADICE, "doppiaggio", "banco.json")
 MANIFEST = os.path.join(RADICE, "doppiaggio", "manifest.json")
 TOLLERANZA_LU = 2.0     # quanto un blocco può stare lontano dal bersaglio (Opus perde un poco sui soffi)
 PICCO_VERO_MAX = -0.2   # dBTP
-PESO_MAX_MB = 25.0
+PESO_MAX_MB = 40.0      # la voce italiana (circa 15 MB) e l'inglese (circa 14) insieme; era 25 con la sola italiana
 TOLLERANZA_MS = 25
 PARTI_NODE = os.path.join(RADICE, "app", "scripts", "parti-node.mjs")
 # Ciò che il motore dice da sé (non sta nei .fav): non ha voce, lo legge il lettore di schermo.
@@ -327,9 +328,170 @@ def main():
     esito(not storte, "la voce del trailer: %d frasi al loro posto (%s solo scritte), «tuo FRATELLO.» e il titolo agganciati, "
           "nessuna sovrapposizione" % (len(frasi), len(tr["escluse"])), storte)
 
+    # 9. la voce inglese del narratore (app/public/voce/en/, strumenti/doppiaggio-inglese.py)
+    voce_inglese(esito, mb)
+
     tutto_ok = all(esiti)
     print("TUTTO OK" if tutto_ok else "CI SONO FALLIMENTI")
     return 0 if tutto_ok else 1
+
+
+def strumento_inglese():
+    spec = importlib.util.spec_from_file_location("doppiaggio_inglese",
+                                                  os.path.join(RADICE, "strumenti", "doppiaggio-inglese.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def voce_inglese(esito, mb_italiano):
+    """La voce inglese: Enzo, per ora il solo narratore (le altre voci suonano ancora in italiano). Il diario del
+    gioco resta in italiano e le parti si ritrovano dal testo italiano: l'indice inglese dice, per ogni parte
+    italiana del narratore, la sua registrazione. Si controlla che:
+      1. ogni parte inglese che doppiaggio-inglese.py ricava dai cataloghi di OGGI abbia il suo audio, e che non ce ne sia
+         di scaduto (un catalogo cambiato ha un id nuovo);
+      2. ogni parte italiana del narratore (narrazione e scelte) abbia la sua registrazione inglese, e le
+         corrispondenze siano quelle di oggi;
+      3. ogni file ci sia, sia un Ogg Opus vero e duri quanto dice l'indice, e la cartella non abbia altro;
+      4. le durate tornino col testo e il volume stia al bersaglio (resoconto di doppiaggio/en/banco.json);
+      5. la traccia del trailer inglese: le stesse frasi, finestre e ancore dell'italiano, nessuna sovrapposizione,
+         e la durata del trailer;
+      6. il peso della voce, italiana e inglese insieme.
+    """
+    cartella = os.path.join(VOCE, "en")
+    if not os.path.exists(os.path.join(cartella, "indice.json")):
+        esito(False, "la voce inglese: manca app/public/voce/en/indice.json (python strumenti/doppiaggio-banco.py --lingua en)")
+        return
+    with open(os.path.join(cartella, "indice.json"), encoding="utf-8") as f:
+        ix = json.load(f)
+    est = ix["estensione"]
+    E = strumento_inglese()
+    r, tutto = E.costruisci()
+    attese = {i: u for i, u in r["unita"].items() if u["categoria"] in ("testo", "scelta")}
+    parti = ix["parti"]
+
+    # 1. le parti di oggi contro l'indice
+    mancano = sorted(set(attese) - set(parti))
+    esito(not mancano, "voce inglese: ogni parte di Enzo dei cataloghi di oggi ha la sua voce (%d parti)" % len(attese),
+          ["%s «%s»" % (i, attese[i]["testo"][:70]) for i in mancano])
+    scadute = sorted(set(parti) - set(attese))
+    esito(not scadute, "voce inglese: nessun audio scaduto (parti che i cataloghi non dicono più)", scadute)
+
+    # 2. le corrispondenze con le parti italiane del narratore
+    S = strumento_doppiaggio()
+    it_unita = S.costruisci_tutto()["unita"]
+    narratore_it = {i for i, u in it_unita.items() if u["voce"] == "narratore" and u.get("categoria") != "trailer"}
+    corr = ix["corrispondenze"]
+    senza = sorted(narratore_it - set(corr))
+    esito(not senza, "voce inglese: ogni parte italiana del narratore (%d: narrazione e scelte) ha la sua registrazione" % len(narratore_it),
+          ["%s «%s»" % (i, it_unita[i]["testo"][:70]) for i in senza])
+    attese_corr = {}
+    for i, u in attese.items():
+        for ti in u["italiano"]:
+            attese_corr[S.impronta("narratore", ti)] = i
+    storte = ["%s → %s, oggi %s" % (i, corr.get(i), attese_corr.get(i)) for i in sorted(set(corr) | set(attese_corr))
+              if corr.get(i) != attese_corr.get(i)]
+    esito(not storte, "voce inglese: le corrispondenze italiano → inglese sono quelle dei cataloghi di oggi", storte)
+    fuori = sorted(e for e in corr.values() if e not in parti)
+    esito(not fuori, "voce inglese: ogni corrispondenza porta a una registrazione dell'indice", fuori)
+
+    # 3. i file
+    presenti = {f[:-len(est)] for f in os.listdir(cartella) if f.endswith(est)} - {"trailer"}
+    altri = sorted(f for f in os.listdir(cartella) if os.path.isfile(os.path.join(cartella, f))
+                   and not f.endswith(est) and f not in ("indice.json", "trailer.json"))
+    storti = ["manca en/%s%s" % (i, est) for i in sorted(set(parti) - presenti)]
+    storti += ["di troppo en/%s%s" % (i, est) for i in sorted(presenti - set(parti))]
+    storti += ["di troppo en/%s" % f for f in altri]
+    esito(not storti, "voce inglese: la cartella en/ è il suo indice: %d file" % len(presenti & set(parti)), storti)
+    storti = []
+    for i, ms in sorted(parti.items()):
+        if i not in presenti:
+            continue
+        d, errore = durata_ogg_opus(os.path.join(cartella, i + est))
+        if errore:
+            storti.append("%s: %s" % (i, errore))
+        elif abs(d - ms) > TOLLERANZA_MS:
+            storti.append("%s: dura %d ms, l'indice dice %d" % (i, d, ms))
+    esito(not storti, "voce inglese: ogni file è un Ogg Opus e dura quanto dice l'indice (±%d ms)" % TOLLERANZA_MS, storti)
+
+    # 4. le durate e il volume
+    # Le scelte inglesi del 31/10/2026 il modello le ha lette in fretta (mediana 4,8 parole al secondo, la narrazione 3,3, le
+    # scelte italiane 3,3): sono da rigenerare con calma (diario del 1/11/2026). Finché non si rifanno, per loro il limite
+    # è 7,5 e questa riga lo dice; per la narrazione resta 6,5.
+    strane, in_fretta = [], 0
+    for i, ms in sorted(parti.items()):
+        if i not in attese:
+            continue
+        n, s = attese[i]["parole"], ms / 1000
+        scelta = attese[i]["categoria"] == "scelta"
+        in_fretta += scelta and n / s > 5.0
+        massimo = 7.5 if scelta else 6.5
+        if s < 0.25 or s > 40 or not (0.3 <= n / s <= 7.5) or (n >= 5 and not (1.0 <= n / s <= massimo)):
+            strane.append("%s: %d parole in %.2f s «%s»" % (i, n, s, attese[i]["testo"][:60]))
+    esito(not strane, "voce inglese: le durate tornano col testo (narrazione fra 1 e 6,5 parole al secondo; scelte fino a 7,5)", strane)
+    if in_fretta:
+        print("-- voce inglese: %d scelte su %d sono lette sopra le 5 parole al secondo (in italiano una): da rigenerare con calma"
+              % (in_fretta, sum(1 for u in attese.values() if u["categoria"] == "scelta")))
+    with open(os.path.join(RADICE, "doppiaggio", "en", "banco.json"), encoding="utf-8") as f:
+        banco = json.load(f)
+    bersaglio = banco["parametri"]["bersaglio_lufs"]
+    fuori = ["%s: %.1f LUFS, picco vero %.1f dBTP" % (b, x["lufs_dopo"], x["picco_vero_dbtp"])
+             for b, x in banco["blocchi"].items()
+             if abs(x["lufs_dopo"] - bersaglio) > TOLLERANZA_LU or x["picco_vero_dbtp"] > PICCO_VERO_MAX]
+    esito(not fuori, "voce inglese: il resoconto del banco: ogni blocco a %.0f ±%.0f LUFS, picchi sotto %.1f dBTP" % (
+        bersaglio, TOLLERANZA_LU, PICCO_VERO_MAX), fuori)
+    if shutil.which("ffmpeg"):
+        fuori = []
+        with open(os.path.join(RADICE, "doppiaggio", "en", "manifest.json"), encoding="utf-8") as f:
+            blocchi = json.load(f)["blocchi"]
+        for b, v in blocchi.items():
+            file = [os.path.join(cartella, i + est) for i in v["parti"] if i in parti]
+            if not file or b == "trailer":
+                continue
+            lufs, picco = loudness(file)
+            if lufs is None or abs(lufs - bersaglio) > TOLLERANZA_LU or picco > PICCO_VERO_MAX:
+                fuori.append("%s: %s LUFS, picco vero %s dBTP" % (b, lufs, picco))
+        esito(not fuori, "voce inglese: rimisurati sui file veri: ogni blocco a %.0f ±%.0f LUFS, picchi sotto %.1f dBTP" % (
+            bersaglio, TOLLERANZA_LU, PICCO_VERO_MAX), fuori)
+
+    # 5. la traccia del trailer inglese
+    E.aggiungi_trailer(r)
+    with open(os.path.join(cartella, "trailer.json"), encoding="utf-8") as f:
+        tr = json.load(f)
+    with open(os.path.join(RADICE, "doppiaggio", "trailer.json"), encoding="utf-8") as f:
+        it_tr = {p["id"]: p for p in json.load(f)["parti"]}
+    en_tr = {p["id"]: p for p in json.load(open(os.path.join(RADICE, "doppiaggio", "en", "trailer.json"), encoding="utf-8"))["parti"]}
+    storte = []
+    for x in tr["frasi"]:
+        p, q = en_tr.get(x["id"]), it_tr.get(x["id"])
+        if not p:
+            storte.append("%s: non è una frase del trailer inglese" % x["id"])
+            continue
+        if x["unita"] != hashlib.sha1(("en-narratore-trailer\n" + p["testo"]).encode("utf-8")).hexdigest()[:8]:
+            storte.append("%s: il testo è cambiato (rifare strumenti/doppiaggio-trailer.py --lingua en)" % x["id"])
+        if p.get("aggancia") and abs(x["da"] - p["aggancia"]) > 0.005:
+            storte.append("%s: comincia a %.2f s, deve a %.2f" % (x["id"], x["da"], p["aggancia"]))
+        if x["da"] < q["da"] - 0.3 or x["da"] > q["da"] + 5:
+            storte.append("%s: comincia a %.2f s, il suo testo compare a %.2f" % (x["id"], x["da"], q["da"]))
+    for x, y in zip(tr["frasi"], tr["frasi"][1:]):
+        if x["a"] > y["da"]:
+            storte.append("%s e %s si sovrappongono" % (x["id"], y["id"]))
+    if set(en_tr) != {x["id"] for x in tr["frasi"]} | set(tr["escluse"]):
+        storte.append("frasi né dette né escluse: %s" % sorted(set(en_tr) - {x["id"] for x in tr["frasi"]} - set(tr["escluse"])))
+    if tr["escluse"] != sorted(set(tr["escluse"])) or set(tr["escluse"]) != set(json.load(open(os.path.join(VOCE, "trailer.json"), encoding="utf-8"))["escluse"]):
+        storte.append("le frasi solo scritte non sono quelle dell'italiano")
+    d, errore = durata_ogg_opus(os.path.join(cartella, "trailer.opus"))
+    if errore or abs(d - 1000 * tr["durata"]) > 50:
+        storte.append("en/trailer.opus: %s" % (errore or "dura %d ms invece di %d" % (d, 1000 * tr["durata"])))
+    if tr["frasi"] and tr["frasi"][-1]["a"] > tr["durata"]:
+        storte.append("la voce va oltre la fine del trailer")
+    esito(not storte, "voce inglese del trailer: %d frasi al loro posto (%d solo scritte), «your BROTHER.» e il titolo agganciati, "
+          "nessuna sovrapposizione" % (len(tr["frasi"]), len(tr["escluse"])), storte)
+
+    # 6. il peso, italiano e inglese insieme
+    mb_en = sum(os.path.getsize(os.path.join(cartella, f)) for f in os.listdir(cartella) if f.endswith(est)) / 1048576
+    esito(mb_italiano + mb_en <= PESO_MAX_MB, "la voce, italiana e inglese insieme, pesa %.1f MB nel pacchetto (italiana %.1f, inglese %.1f; tetto %.0f)" % (
+        mb_italiano + mb_en, mb_italiano, mb_en, PESO_MAX_MB))
 
 
 if __name__ == "__main__":

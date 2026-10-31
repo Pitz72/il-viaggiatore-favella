@@ -110,16 +110,18 @@ ok("ripristina riporta tutto come al primo avvio, ma non la lingua e la voce sce
 //     in inglese i comandi sono i pulsanti, e l'avventura testuale resta scelta per quando si torna all'italiano
 assert.equal(BASE.lingua, "it");
 assert.equal(BASE.linguaScelta, false);
-for (const v of ["recitata", "nessuna", "lettore"]) assert.equal(da({ "viaggiatore.opzioni": JSON.stringify({ voce: v }) }).voce, v);
-o = da({ "viaggiatore.opzioni": JSON.stringify({ lingua: "fr", linguaScelta: "sì", voce: "inglese" }) });
+for (const v of ["recitata", "inglese", "nessuna", "lettore"]) assert.equal(da({ "viaggiatore.opzioni": JSON.stringify({ voce: v }) }).voce, v);
+o = da({ "viaggiatore.opzioni": JSON.stringify({ lingua: "fr", linguaScelta: "sì", voce: "francese" }) });
 assert.deepEqual([o.lingua, o.linguaScelta, o.voce], ["it", false, "recitata"]);
+// una voce del gioco (italiana o inglese) tace il diario; le altre due no
+assert.deepEqual(["recitata", "inglese", "nessuna", "lettore"].map((voce) => O.conVoce({ voce })), [true, true, false, false]);
 o = da({ "viaggiatore.opzioni": JSON.stringify({ lingua: "en", linguaScelta: true, comandi: "parole" }) });
 assert.deepEqual([o.lingua, o.linguaScelta, o.comandi], ["en", true, "parole"]);
 assert.equal(O.comandiEffettivi(o), "pulsanti", "in inglese niente parser");
 assert.equal(O.comandiEffettivi({ ...o, lingua: "it" }), "parole", "in italiano torna la scelta di prima");
 o = da({ "viaggiatore.opzioni": JSON.stringify({ voce: "recitata", volume: 0.6 }) });
 assert.equal(o.linguaScelta, false, "chi giocava prima della 1.40 trova la finestra della lingua una volta");
-ok("la lingua, la voce in tre modi, e i comandi soltanto a pulsanti in inglese");
+ok("la lingua, la voce in quattro modi (italiana, inglese, nessuna, lettore), e i comandi soltanto a pulsanti in inglese");
 
 // 6b. l'alta accessibilità: l'interruttore accende e spegne le cinque righe, e se ne cambia una dice «personalizzata»
 da({});

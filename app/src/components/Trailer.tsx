@@ -341,10 +341,11 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
   }, []);
 
   // la colonna si crea subito, così il brano si precarica prima del tasto audio. La voce di Enzo si carica sempre:
-  // legge il trailer sopra la musica solo con la voce recitata (lib/opzioni.ts), e il modo si guarda dal vivo,
-  // così cambiarlo nelle opzioni del menu vale già per «rivedi il trailer»; i volumi li applica il bus sonoro
+  // legge il trailer sopra la musica solo con una voce del gioco (lib/opzioni.ts: conVoce), e il modo si guarda dal vivo,
+  // così cambiarlo nelle opzioni del menu vale già per «rivedi il trailer»; i volumi li applica il bus sonoro.
+  // La traccia è quella della voce scelta al momento di mostrare il trailer: con la voce inglese, quella in inglese (voce/en/).
   useEffect(() => {
-    const base = `${import.meta.env.BASE_URL}voce/`;
+    const base = `${import.meta.env.BASE_URL}voce/${opzioni().voce === "inglese" ? "en/" : ""}`;
     suono.current = new ColonnaSonora(branoIntro, { traccia: `${base}trailer.opus`, scaletta: `${base}trailer.json` });
     // Sul desktop l'audio parte da solo (Electron permette l'autoplay): il
     // trailer è il primo schermo del gioco, non una pagina web.

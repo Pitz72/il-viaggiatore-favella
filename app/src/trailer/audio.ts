@@ -25,7 +25,7 @@
 import { EVENTI, type Evento, type TipoSuono } from "./scaletta";
 import { rng } from "./tempo";
 import { canale, offline, uscita } from "../lib/suono";
-import { opzioni } from "../lib/opzioni";
+import { conVoce, opzioni } from "../lib/opzioni";
 
 const INTONATI: TipoSuono[] = ["rintocco", "tonfo"];
 const LIV_RUMORI_CON_BRANO = 0.55;
@@ -144,7 +144,7 @@ export class ColonnaSonora {
 
   /** Enzo parla? Con la voce recitata, oppure sempre per gli strumenti offline. */
   private get voceAttiva() {
-    return !!this.ac && (offline(this.ac) || opzioni().voce === "recitata");
+    return !!this.ac && (offline(this.ac) || conVoce(opzioni()));
   }
 
   /** Il livello della musica all'istante t: sotto mentre Enzo parla. */

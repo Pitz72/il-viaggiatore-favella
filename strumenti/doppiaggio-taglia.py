@@ -46,6 +46,11 @@ BANDA = 150         # quanto può scostarsi l'allineamento dalla diagonale, in p
 SOGLIA = 0.80       # somiglianza sotto cui una parte va riascoltata
 MODELLO = "medium"  # il modello di faster-whisper (in cache in ~/.cache/huggingface)
 FINESTRA = 0.6      # quanto lontano da dove whisper mette il confine si cerca un silenzio, in secondi
+LINGUA = "it"       # la lingua del parlato: «en» per i blocchi inglesi (doppiaggio/en/), scelta dal nome del blocco
+ETICHETTA = 0.12    # quanto parlato si lascia dopo la fine di una parte quando dopo c'è un «long pause» letto ad alta voce
+NUMERI_EN = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven",
+             "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"]
+DECINE_EN = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"]
 
 
 def impronta(voce, testo):
@@ -69,12 +74,20 @@ def gettoni(testo):
     le cifre diventano parole."""
     out = []
     for g in re.findall(r"[a-zà-ÿ]+|\d+", testo.lower()):
-        out.append(numero_in_parole(int(g)) if g.isdigit() and int(g) < 100 else g)
+        if g.isdigit() and int(g) < 100:
+            out += numero_in_parole(int(g)).split()   # in inglese «39» sono due gettoni, come «thirty-nine»
+        else:
+            out.append(g)
     return out
 
 
 def numero_in_parole(n):
-    """Da 0 a 99 in italiano («39» → «trentanove»): whisper scrive i numeri in cifre."""
+    """Da 0 a 99 nella lingua del parlato («39» → «trentanove», o «thirty nine»): whisper scrive i numeri in cifre."""
+    if LINGUA == "en":
+        if n < len(NUMERI_EN):
+            return NUMERI_EN[n]
+        d, u = divmod(n, 10)
+        return DECINE_EN[d] + ("" if u == 0 else " " + NUMERI_EN[u])
     if n < len(NUMERI):
         return NUMERI[n]
     decine = ["", "", "venti", "trenta", "quaranta", "cinquanta", "sessanta", "settanta", "ottanta", "novanta"]
@@ -146,7 +159,7 @@ def carica_modello():
 
 
 def riconosci(wav, da=0.0):
-    segmenti, _ = carica_modello().transcribe(wav, language="it", word_timestamps=True,
+    segmenti, _ = carica_modello().transcribe(wav, language=LINGUA, word_timestamps=True,
                                               condition_on_previous_text=False, vad_filter=True,
                                               vad_parameters=dict(min_silence_duration_ms=300, speech_pad_ms=120))
     return [(w.word.strip(), round(w.start + da, 3), round(w.end + da, 3)) for s in segmenti for w in s.words]
@@ -305,7 +318,7 @@ def controlla_le_parti(uscita, ok, solo_bordi=False):
             x["controllo"], x["in_piu"], x["sentito"] = 1.0, False, ""
             continue
         x["controllato"] = True
-        segmenti, _ = modello.transcribe(os.path.join(uscita, x["file"]), language="it",
+        segmenti, _ = modello.transcribe(os.path.join(uscita, x["file"]), language=LINGUA,
                                          condition_on_previous_text=False, vad_filter=False)
         sentito = " ".join(s.text.strip() for s in segmenti)
         atteso = "".join(gettoni(x["testo"]))
@@ -313,6 +326,40 @@ def controlla_le_parti(uscita, ok, solo_bordi=False):
         x["controllo"] = difflib.SequenceMatcher(None, atteso, trovato, autojunk=False).ratio()
         x["sentito"] = sentito
         x["in_piu"] = len(trovato) > len(atteso) * 1.25 + 3
+        # il tag di pausa letto ad alta voce, rimasto dentro la parte (succede ogni tanto: il modello lo pronuncia)
+        x["tag_dentro"] = bool(re.search(r"\blong,? pause\b", sentito.lower())) and "long pause" not in x["testo"].lower()
+        if x["tag_dentro"]:
+            x["in_piu"] = True
+
+
+def togli_le_etichette(R, testi):
+    """Il modello ogni tanto PRONUNCIA il tag di pausa: «long pause». Quelle due parole non sono di nessuna parte:
+    si tolgono dal riconoscimento (altrimenti rubano un «long» o un «pause» al testo) e si ricordano i loro
+    istanti, perché il taglio le lasci fuori. Ritorna (parole senza tag, [(inizio, fine, indice_wav)]).
+    Se un testo atteso contiene davvero «long pause» non si toglie niente."""
+    if any("long pause" in " ".join(gettoni(t)) for t in testi):
+        return R, []
+    pulite, tag, k = [], [], 0
+    while k < len(R):
+        if R[k][0] == "long" and k + 1 < len(R) and R[k + 1][0] == "pause" and R[k][3] == R[k + 1][3]:
+            tag.append((R[k][1], R[k + 1][2], R[k][3]))
+            k += 2
+        else:
+            pulite.append(R[k])
+            k += 1
+    return pulite, tag
+
+
+def taglio_con_etichetta(fine_a, inizio_b, tr, sil):
+    """(fine della parte A, inizio della parte B) quando fra le due il modello ha letto «long pause»: A finisce
+    dove comincia il silenzio dopo la sua ultima parola, B comincia dove finisce quello prima della sua prima
+    parola; il tag resta in mezzo, fuori da tutte e due."""
+    ini_tag, fin_tag = min(t[0] for t in tr), max(t[1] for t in tr)
+    dopo = [a for a, b in sil if fine_a - 0.3 <= a <= ini_tag]
+    fine = min((min(dopo) if dopo else fine_a) + ETICHETTA, ini_tag - 0.04)
+    prima = [b for a, b in sil if fin_tag - 0.1 <= b <= inizio_b + 0.3]
+    inizio = max((max(prima) if prima else inizio_b) - MARGINE, fin_tag + 0.04)
+    return max(fine, fine_a + 0.02), min(inizio, inizio_b - 0.02)
 
 
 def inizio_vero(sil, inizio):
@@ -346,8 +393,10 @@ def scrivi_wav(percorso, campioni, rate):
 
 
 def main():
+    global LINGUA
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("blocco")
+    ap.add_argument("blocco", help="un blocco del manifest italiano; «en-<blocco>» (en-narratore-a, en-scelte, en-trailer) "
+                                   "è un blocco inglese, da doppiaggio/en/manifest.json")
     ap.add_argument("wav", nargs="+")
     ap.add_argument("--da-file", help="le parti attese sono le righe di questo file (un blocco già "
                                       "generato, in doppiaggio/generati/), non quelle del manifest")
@@ -365,7 +414,11 @@ def main():
 
     da_file = a.da_file
     voce = a.voce
-    if not da_file:
+    manifest, nome = os.path.join(CARTELLA, "manifest.json"), a.blocco
+    if a.blocco.startswith("en-"):   # un blocco inglese: il parlato, il riconoscimento e i numeri sono inglesi
+        LINGUA = "en"
+        manifest, nome = os.path.join(CARTELLA, "en", "manifest.json"), a.blocco[3:]
+    if not da_file and LINGUA == "it":
         gen = os.path.join(CARTELLA, "generati", a.blocco + ".txt")
         if os.path.exists(gen):  # un blocco già generato: le parti attese sono quelle che sono state lette
             da_file = gen
@@ -378,9 +431,9 @@ def main():
             testi = [x for x in (testo_della_riga(r) for r in f) if x]
         ids = [impronta(voce or a.blocco, t) for t in testi]
     else:
-        with open(os.path.join(CARTELLA, "manifest.json"), encoding="utf-8") as f:
+        with open(manifest, encoding="utf-8") as f:
             man = json.load(f)
-        ids = man["blocchi"][a.blocco]["parti"]
+        ids = man["blocchi"][nome]["parti"]
         testi = [man["unita"][i]["testo"] for i in ids]
     uscita = a.uscita or os.path.join(CARTELLA, "master", "clip", a.blocco)
     os.makedirs(uscita, exist_ok=True)
@@ -394,13 +447,20 @@ def main():
             durate.append(wv.getnframes() / wv.getframerate())
         sil.append(silenzi(w))
 
-    # 2. l'allineamento
+    # 2. l'allineamento (i «long pause» letti ad alta voce si tolgono prima: vedi togli_le_etichette)
+    R, tag = togli_le_etichette(R, testi)
     E, parte_di = [], []
     for k, t in enumerate(testi):
         for g in gettoni(t):
             E.append(g)
             parte_di.append(k)
     abbina = allinea(E, [r[0] for r in R])
+    # una «long» o una «pause» sola, rimasta senza parola attesa a cui assomigli, è lo stesso tag mal riconosciuto
+    usate = {j for j in abbina if j is not None}
+    for j, r in enumerate(R):
+        if j not in usate and r[0] in ("long", "pause"):
+            tag.append((r[1], r[2], r[3]))
+    tag.sort()
 
     # 3. per ogni parte: dove comincia, dove finisce, quanto somiglia
     info = []
@@ -426,7 +486,12 @@ def main():
     ok = [x for x in info if not x.get("mancante")]
     for x, y in zip(ok, ok[1:]):
         if x["wav"] == y["wav"]:
-            x["taglio_fine"], y["taglio_inizio"] = punto_di_taglio(x["fine"], y["inizio"], sil[x["wav"]])
+            tr = [t for t in tag if t[2] == x["wav"] and t[0] >= x["fine"] - 0.25 and t[1] <= y["inizio"] + 0.25]
+            if tr:   # il modello ha letto «long pause» fra le due parti: il taglio lo lascia fuori da tutte e due
+                x["taglio_fine"], y["taglio_inizio"] = taglio_con_etichetta(x["fine"], y["inizio"], tr, sil[x["wav"]])
+                x["etichetta_dopo"] = True
+            else:
+                x["taglio_fine"], y["taglio_inizio"] = punto_di_taglio(x["fine"], y["inizio"], sil[x["wav"]])
     for x in ok:
         x["bordo"] = "taglio_inizio" not in x or "taglio_fine" not in x  # prima o ultima parte del WAV
         x.setdefault("taglio_inizio", inizio_vero(sil[x["wav"]], x["inizio"]))
@@ -473,9 +538,10 @@ def main():
         for x in ok:
             if x["controllo"] < 0.85 or x["in_piu"]:
                 righe.append("%3d  controllo %3d%%%s  attesa «%s»  nella parte tagliata si sente «%s»" % (
-                    x["k"] + 1, round(100 * x["controllo"]), "  (parole in più)" if x["in_piu"] else "",
+                    x["k"] + 1, round(100 * x["controllo"]),
+                    "  (parole in più%s)" % (": il tag «long pause» è rimasto dentro" if x.get("tag_dentro") else "") if x["in_piu"] else "",
                     x["testo"], x["sentito"]))
-    tag_letti = [r for r in R if r[0] in ("long", "pause")]
+    tag_letti = tag
     parole_attese = len(E)
     tempo_parlato = sum(x["fine"] - x["inizio"] for x in ok)
     riepilogo = [
@@ -484,7 +550,10 @@ def main():
         "WAV: %s (%s s)" % (", ".join(os.path.basename(w) for w in a.wav), ", ".join("%.1f" % d for d in durate)),
         ("%d parti non riconosciute da whisper ma assegnate ai tratti di parlato (da confermare: %s)" % (
             len(riempite), ", ".join(str(k + 1) for k in riempite[:3]) + ("…" if len(riempite) > 3 else ""))) if riempite else "",
-        "parole attese %d, riconosciute %d; parole «long»/«pause» sentite: %d" % (parole_attese, len(R), len(tag_letti)),
+        "parole attese %d, riconosciute %d; «long pause» letto ad alta voce dal modello: %d volte%s" % (
+            parole_attese, len(R), len(tag_letti),
+            " (tolto dal taglio: %s)" % ", ".join("parte %d" % (x["k"] + 1) for x in ok if x.get("etichetta_dopo"))
+            if tag_letti else ""),
         "pausa fra una parte e l'altra (ciò che <long pause> ha fatto davvero): mediana %.2f s, minima %.2f, massima %.2f" % (
             statistics.median(pause), min(pause), max(pause)) if pause else "",
         "ritmo mentre parla (pause escluse): %.0f parole al minuto" % (parole_attese / tempo_parlato * 60) if tempo_parlato else "",

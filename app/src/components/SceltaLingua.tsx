@@ -3,9 +3,10 @@
 // --------------------------------------------------------------------
 //  Si apre finché nessuno ha risposto (opzioni.linguaScelta): al primo
 //  avvio, e una volta a chi giocava prima della 1.40. Due gruppi di scelte,
-//  il testo (italiano, inglese) e la voce (il doppiaggio italiano, nessuna
-//  voce, il lettore di schermo), e una riga che dice che la voce inglese
-//  arriverà. «Continua» scrive le scelte e passa ai loghi; tutte si cambiano
+//  il testo (italiano, inglese) e la voce (il doppiaggio italiano, quello
+//  inglese, nessuna voce, il lettore di schermo), e una riga che dice che in
+//  inglese per ora parla il solo narratore. La voce segue il testo finché non
+//  la si sceglie. «Continua» scrive le scelte e passa ai loghi; tutte si cambiano
 //  poi dalle opzioni. Le parole della finestra seguono il testo scelto, i
 //  nomi dei gruppi stanno in tutte e due le lingue (chi arriva non sa ancora
 //  quale legge). Il testo parte dalla lingua del sistema.
@@ -29,12 +30,14 @@ const TESTI: readonly [Lingua, string][] = [["it", "Italiano"], ["en", "English"
 const VOCI: readonly [ModoVoce, Coppia, Coppia][] = [
   ["recitata", { it: "Italiano", en: "Italian" },
     { it: "Il racconto letto con le voci del doppiaggio: il narratore e i personaggi.", en: "The story read aloud by the Italian voice cast: the narrator and the characters." }],
+  ["inglese", { it: "Inglese", en: "English" },
+    { it: "Il narratore legge il racconto in inglese; le altre voci, per ora, restano quelle italiane.", en: "The narrator reads the story in English; the other voices are still the Italian ones, for now." }],
   ["nessuna", { it: "Nessuna voce", en: "No voice" },
     { it: "Si legge soltanto, in silenzio.", en: "Text only, in silence." }],
   ["lettore", { it: "Lettore di schermo", en: "Screen reader" },
     { it: "Nessuna voce del gioco: il tuo lettore di schermo legge il diario, riga per riga.", en: "No game voice: your screen reader reads the journal, line by line." }],
 ];
-const PRESTO: Coppia = { it: "Presto anche la voce recitata in inglese.", en: "English voice acting coming soon." };
+const PRESTO: Coppia = { it: "In inglese parla per ora il solo narratore: presto anche le altre voci.", en: "In English only the narrator speaks for now: the other voices are coming soon." };
 const CONTINUA: Coppia = { it: "continua", en: "continue" };
 const CAMBIA: Coppia = { it: "Si cambia quando vuoi, nelle opzioni.", en: "You can change this any time in the options." };
 
@@ -47,7 +50,18 @@ const delSistema = (): Lingua => {
 export default function SceltaLingua({ onFine }: { onFine: () => void }) {
   const [o] = useOpzioni();
   const [testo, setTesto] = useState<Lingua>(() => (opzioni().linguaScelta ? opzioni().lingua : delSistema()));
-  const [voce, setVoce] = useState<ModoVoce>(() => opzioni().voce);
+  // La voce segue il testo (inglese col testo inglese, italiana col testo italiano) finché chi gioca non la sceglie lui.
+  const [voce, setVoce] = useState<ModoVoce>(() => {
+    const v = opzioni().voce;
+    return !opzioni().linguaScelta && delSistema() === "en" && v === "recitata" ? "inglese" : v;
+  });
+  const voceScelta = useRef(false);
+  const scegliVoce = (v: ModoVoce) => { voceScelta.current = true; setVoce(v); };
+  const scegliTesto = (l: Lingua) => {
+    setTesto(l);
+    if (voceScelta.current) return;
+    setVoce((v) => (l === "en" && v === "recitata" ? "inglese" : l === "it" && v === "inglese" ? "recitata" : v));
+  };
   const fatto = useRef(false);
   const primo = useRef<HTMLButtonElement>(null);
   const t = (c: Coppia) => c[testo];
@@ -108,11 +122,11 @@ export default function SceltaLingua({ onFine }: { onFine: () => void }) {
 
         <div className="opz-riga" style={riga}>
           <span id="lingua-testo" className="opz-nome" style={nome}>Testo <span aria-hidden="true">·</span> <span lang="en">Text</span></span>
-          <div role="radiogroup" aria-labelledby="lingua-testo" onKeyDown={frecce(TESTI.map(([l]) => l), testo, setTesto)}
+          <div role="radiogroup" aria-labelledby="lingua-testo" onKeyDown={frecce(TESTI.map(([l]) => l), testo, scegliTesto)}
             style={{ display: "flex", flexWrap: "wrap", gap: ".6em" }}>
             {TESTI.map(([l, etichetta]) => (
               <button key={l} ref={l === testo ? primo : undefined} type="button" role="radio" lang={l} className="opz-valore"
-                aria-checked={testo === l} tabIndex={testo === l ? 0 : -1} onClick={() => setTesto(l)} style={pillola(testo === l)}>
+                aria-checked={testo === l} tabIndex={testo === l ? 0 : -1} onClick={() => scegliTesto(l)} style={pillola(testo === l)}>
                 {etichetta}
               </button>
             ))}
@@ -122,10 +136,10 @@ export default function SceltaLingua({ onFine }: { onFine: () => void }) {
         <div className="opz-riga" style={riga}>
           <span id="lingua-voce" className="opz-nome" style={nome}>Voce <span aria-hidden="true">·</span> <span lang="en">Voice</span></span>
           <div role="radiogroup" aria-labelledby="lingua-voce" aria-describedby="lingua-voce-spiega" lang={testo}
-            onKeyDown={frecce(VOCI.map(([v]) => v), voce, setVoce)} style={{ display: "flex", flexWrap: "wrap", gap: ".6em" }}>
+            onKeyDown={frecce(VOCI.map(([v]) => v), voce, scegliVoce)} style={{ display: "flex", flexWrap: "wrap", gap: ".6em" }}>
             {VOCI.map(([v, etichetta]) => (
               <button key={v} type="button" role="radio" className="opz-valore" aria-checked={voce === v} tabIndex={voce === v ? 0 : -1}
-                onClick={() => setVoce(v)} style={pillola(voce === v)}>
+                onClick={() => scegliVoce(v)} style={pillola(voce === v)}>
                 {t(etichetta)}
               </button>
             ))}
