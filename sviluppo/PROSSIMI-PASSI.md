@@ -9,6 +9,14 @@
 
 Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti non sono più da fare (vedi «Non si fa»).
 
+- **Prossima sessione: guidare Simone a creare la pagina del gioco su itch.io** (Simone, 1° novembre 2026: «Nella prossima mi dovrai
+  guidare sul come si crea una pagina su Itch.io»). Una guida passo per passo, che i passi sul sito li fa lui. Che cosa c'è già: lo zip
+  del gioco per il browser (HTML5) fra gli artefatti di ogni esecuzione del workflow «Pagine» (`Il-Viaggiatore-web.zip`, la versione
+  dell'ultima release); i quattro pacchetti desktop della release; le otto schermate di `pagine/schermate/` (1600 × 900, italiano e
+  inglese); la key art in `grafica/branding/` (copertina e banner da ritagliare nelle misure di itch.io); i testi della presentazione in
+  `pagine/index.html`, nelle due lingue. Da chiarire con lui: gioco nel browser, download o tutti e due; prezzo (gratis, «paga quanto
+  vuoi»); come le licenze delle voci ElevenLabs («solo uso non commerciale») pesano su donazioni o prezzo.
+
 - **Il doppiaggio è concluso** (Simone, 1° novembre 2026: «per questo lavoro del doppiaggio abbiamo finito»); i titoli di coda dicono ora tutte le voci, in italiano e in inglese (diario «Il controllo generale e i titoli di coda con tutte le voci»). **La voce recitata in inglese**: **il narratore, la voce di servizio (Kira) e tutti i quattordici personaggi sono fatti** (31 ottobre – 1° novembre 2026, diari «Il doppiaggio
   inglese: il narratore in sei blocchi», «La voce inglese del narratore: taglio, banco e integrazione nel gioco» e «Kira in inglese: taglio, banco
   e gioco», «I quattro personaggi di ElevenLabs in inglese: taglio, banco e gioco» e «Concetta, Iole e Onofrio in inglese»): 532 parti di Enzo
