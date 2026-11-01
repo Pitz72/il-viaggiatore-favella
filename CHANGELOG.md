@@ -8,6 +8,8 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.41.0] - 2026-11-01
+
 ### Aggiunto
 - **La voce inglese: il narratore, la voce di servizio e tutti i personaggi.** In inglese il narratore ha ora la sua voce: Enzo, in inglese
   britannico, con tutta la narrazione (descrizioni, posti, messaggi, finali, il biglietto e le targhe), le scelte di dialogo del
