@@ -24,6 +24,25 @@ la descrizione più « Delivery: <stile>.» (quattro toni, in `trailer.json`):
 | sospeso | hushed, questioning, suspended |
 | secco | crisp, clipped, punchy |
 
+## Kira (la voce di servizio)
+
+> Scelta mia del 1° novembre 2026, da confermare: **Kira, inglese britannico neutro**, come Enzo (il registro dei cataloghi è
+> britannico). La voce di libreria è la stessa dell'italiano. Il campo di stile resta **vuoto**.
+
+Kira dice **soltanto** i suggerimenti tra parentesi e i pezzi con i numeri delle scorte (120 parti); niente narrazione, niente battute,
+niente scelte del giocatore. Tre blocchi: `kira-suggerimenti`, `kira-numeri-a`, `kira-numeri-b` (i pezzi con numeri vengono a famiglie
+che si somigliano, e due famiglie che differiscono solo per la virgola o il punto finale sono in blocchi diversi).
+
+```
+A woman in her thirties with a neutral, clear, light mid-pitched voice, speaking neutral British English with no regional accent. She speaks briskly and evenly, friendly but flat, like a well-made audio guide or a game menu voice, with crisp consonants and no drama.
+```
+
+La versione lunga di riserva (la descrizione dell'italiano, riscritta per l'inglese):
+
+```
+A woman in her thirties speaking in English. Neutral, clear and light, mid-pitch, brisk and even pacing. Friendly but flat, like a well-made audio guide or a game menu voice. Crisp consonants, no drama, no emotion, neutral British English diction, no regional accent.
+```
+
 ## La versione lunga (di riserva)
 
 La descrizione dell'italiano (`../voci.md`) riscritta per l'inglese. Google sconsiglia i profili lunghi, ma questa è la voce con cui

@@ -66,7 +66,11 @@ Fatto il 31 ottobre – 1° novembre 2026: i blocchi sono stati generati da Simo
 - **Il «long pause» letto ad alta voce**: in quattro blocchi su sei (b, d, e, f) il modello ha pronunciato il tag fra una parte e l'altra, fino a 30 volte
   in un blocco. Il taglio lo lascia fuori da tutte le parti e il controllo di ogni parte non lo trova dentro; in generazioni nuove conviene
   guardare il rapporto (`master/clip/en-<blocco>/rapporto.txt`).
-- **Kira e i personaggi in inglese**: non registrati. Finché non lo sono, col modo «inglese» suonano in italiano.
+- **Kira (voce di servizio) in inglese**: i testi sono pronti, tre blocchi (`blocchi/kira-suggerimenti.txt`, `kira-numeri-a.txt`, `kira-numeri-b.txt`;
+  120 parti: 31 suggerimenti e 89 pezzi con i numeri delle scorte), con il prompt in `voci.md` e il controllo in `controllo.md` (sezione di Kira).
+  Il manifest li tiene a parte, nella chiave `servizio` (blocchi, parti, corrispondenze italiano → inglese). **Non ancora registrati**: il taglio, il
+  banco e il gioco non li conoscono ancora, e col modo «inglese» Kira suona in italiano.
+- **I personaggi in inglese**: non registrati. Finché non lo sono, col modo «inglese» suonano in italiano.
 
 ## Da sapere (trovato preparando i blocchi)
 

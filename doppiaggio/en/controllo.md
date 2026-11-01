@@ -982,3 +982,166 @@ Il trailer è a gruppi di tono: un blocco di parlato per gruppo, col suo stile a
 | 33 | secco | 77.0–81.8 | Sei finali. | Six endings. |
 
 Finestre in cui l'inglese è più fitto dell'italiano (la lettura potrebbe non starci): guado1 (3.2 parole/s contro 2.3 dell'italiano).
+
+# Controllo di Kira (voce di servizio) inglese
+
+> Stesso metodo del narratore. Kira dice **soltanto** i suggerimenti tra parentesi e i pezzi con i numeri delle scorte:
+> niente narrazione, niente battute di personaggi, niente scelte del giocatore.
+
+## Verifiche
+
+- **OK**: Kira: le parti inglesi risalgono, una per una, alle 120 parti italiane di Kira nel manifest italiano (né una in più né una in meno)
+- **OK**: Kira, suggerimenti tra parentesi: italiano 31, inglese 31
+- **OK**: Kira, pezzi con un numero: italiano 89, inglese 89
+- **OK**: Kira: ogni parte italiana ha in inglese una traduzione sola
+- **OK**: Kira: due parti italiane diverse non diventano la stessa parte inglese
+- **OK**: Kira: nessuna parte contiene parentesi, segnaposto, tag o virgolette
+- **OK**: Kira: nessuna parola in maiuscolo rimasta (sarebbe letta come enfasi)
+- **OK**: Kira: in ogni pezzo con un numero l'inglese e l'italiano dicono lo stesso valore
+- **OK**: Kira: nessuna sua parte è anche un testo di Enzo o di un personaggio
+- **OK**: Kira: i suggerimenti fra parentesi sono gli stessi dell'italiano: 45 e 45
+
+## I blocchi
+
+| Blocco | Parti | Parole | Minuti stimati |
+|---|---:|---:|---:|
+| kira-suggerimenti | 31 | 212 | 1.4 |
+| kira-numeri-a | 55 | 254 | 1.9 |
+| kira-numeri-b | 34 | 144 | 1.1 |
+
+I minuti usano le costanti dell'italiano per il servizio (220 parole al minuto, 0,8 s per parte).
+
+### kira-suggerimenti
+
+| n. | Zona | Italiano | Inglese (quello che legge Kira) |
+|---:|---|---|---|
+| 1 | sistemi | Bevi. | Drink. |
+| 2 | sistemi | Mangia. | Eat. |
+| 3 | sistemi | Mangia, se hai di che. | Eat, if you have anything. |
+| 4 | z1 | Esamina il biglietto per rileggerlo. | Examine the note to read it again. |
+| 5 | z1 | Quando il corpo lo chiede: bevi per la sete, mangia per la fame; stato per vederti addosso. | When your body asks: drink for thirst, eat for hunger; status to take stock of yourself. |
+| 6 | z1 | Parla con Nunzio per barattare. | Talk to Nunzio to barter. |
+| 7 | z2 | Parla con Saverio; poi attingi per prendere acqua. | Talk to Saverio; then draw water to take some. |
+| 8 | z2 | Se sei a secco, attingi: aspettando, il fondo dà ancora un poco. | If you're running dry, draw water: if you wait, the bottom still gives a little. |
+| 9 | z2 | Col cibo lo puoi distrarre: getta cibo. Oppure attacca il cane. | You can distract it with food: throw food. Or attack the dog. |
+| 10 | z3 | Parla con Iole. | Talk to Iole. |
+| 11 | z3 | Attingi, se la tanica si svuota. | Draw water if the jerrycan runs dry. |
+| 12 | z3 | Volendo, bevi salmastra: Rocco lo fa. | If you want, drink brackish: Rocco does. |
+| 13 | z3 | Attingi. | Draw water. |
+| 14 | z4 | Parla con Vito; oppure attacca Vito, se proprio. | Talk to Vito; or attack Vito, if you must. |
+| 15 | z4 | Parla con Imma. | Talk to Imma. |
+| 16 | z4 | Con questa in mano, minaccia chi ti sbarra la strada. | With this in hand, threaten whoever blocks your way. |
+| 17 | z4 | Curati. | Treat yourself. |
+| 18 | z5 | Parla con Peppe. | Talk to Peppe. |
+| 19 | z5 | Parla con Rosaria. | Talk to Rosaria. |
+| 20 | z5 | Parla con Ciro per scambiare. | Talk to Ciro to trade. |
+| 21 | z5 | Con le medicine giuste lo si può curare: usa le medicine su Pasquale. Oppure si tira dritto. | With the right medicine he can be cured: use the medicine on Pasquale. Or carry straight on. |
+| 22 | z5 | Parla con Concetta. | Talk to Concetta. |
+| 23 | z6 | Parla con Tore. | Talk to Tore. |
+| 24 | z6 | Parla con Onofrio. | Talk to Onofrio. |
+| 25 | z6 | Attingi per riempire la tanica. | Draw water to fill the jerrycan. |
+| 26 | z6 | Al guado: usa la lettera su Cosimo; col fucile, attacca Cosimo o lascia il fucile. | At the ford: use the letter on Cosimo; with the shotgun, attack Cosimo or drop the shotgun. |
+| 27 | z6 | Al guado: attacca Cosimo. Oppure posalo: lascia il fucile. | At the ford: attack Cosimo. Or put it down: drop the shotgun. |
+| 28 | z7 | Parla con Cosimo. | Talk to Cosimo. |
+| 29 | z7 | Per riprenderlo: prendi il fucile. | To pick it up again: take the shotgun. |
+| 30 | z7 | Aspetta con lui, oppure riprendi il fucile. | Wait with him, or take the shotgun back. |
+| 31 | z6 | Al guado: usa la lettera su Cosimo. | At the ford: use the letter on Cosimo. |
+
+### kira-numeri-a
+
+| n. | Zona | Italiano | Inglese (quello che legge Kira) |
+|---:|---|---|---|
+| 1 | z1 | Hai zero d'acqua, | You have zero water, |
+| 2 | z1 | Hai uno d'acqua, | You have one water, |
+| 3 | z1 | Hai due d'acqua, | You have two water, |
+| 4 | z1 | Hai tre d'acqua, | You have three water, |
+| 5 | z1 | Hai quattro d'acqua, | You have four water, |
+| 6 | z1 | Hai cinque d'acqua, | You have five water, |
+| 7 | z1 | Hai sei d'acqua, | You have six water, |
+| 8 | z1 | Hai sette d'acqua, | You have seven water, |
+| 9 | z1 | Hai otto d'acqua, | You have eight water, |
+| 10 | z1 | Hai nove d'acqua, | You have nine water, |
+| 11 | z1 | Hai dieci d'acqua, | You have ten water, |
+| 12 | z1 | Hai undici d'acqua, | You have eleven water, |
+| 13 | z1 | Hai dodici d'acqua, | You have twelve water, |
+| 14 | z1 | Hai tredici d'acqua, | You have thirteen water, |
+| 15 | z1 | Hai quattordici d'acqua, | You have fourteen water, |
+| 16 | z1 | Hai quindici d'acqua, | You have fifteen water, |
+| 17 | z1 | Hai sedici d'acqua, | You have sixteen water, |
+| 18 | z1 | Hai diciassette d'acqua, | You have seventeen water, |
+| 19 | z1 | Hai diciotto d'acqua, | You have eighteen water, |
+| 20 | z1 | Hai diciannove d'acqua, | You have nineteen water, |
+| 21 | z1 | Hai venti d'acqua, | You have twenty water, |
+| 22 | z1 | Ora hai zero di cibo. | Now you have zero food. |
+| 23 | z1 | Ora hai uno di cibo. | Now you have one food. |
+| 24 | z1 | Ora hai due di cibo. | Now you have two food. |
+| 25 | z1 | Ora hai tre di cibo. | Now you have three food. |
+| 26 | z1 | Ora hai quattro di cibo. | Now you have four food. |
+| 27 | z1 | Ora hai cinque di cibo. | Now you have five food. |
+| 28 | z1 | Ora hai sei di cibo. | Now you have six food. |
+| 29 | z1 | Ora hai sette di cibo. | Now you have seven food. |
+| 30 | z1 | Ora hai otto di cibo. | Now you have eight food. |
+| 31 | z1 | Ora hai nove di cibo. | Now you have nine food. |
+| 32 | z1 | Ora hai dieci di cibo. | Now you have ten food. |
+| 33 | z1 | Ora hai undici di cibo. | Now you have eleven food. |
+| 34 | z1 | Ora hai dodici di cibo. | Now you have twelve food. |
+| 35 | z5 | Ora hai zero d'acqua, | Now you have zero water, |
+| 36 | z5 | Ora hai uno d'acqua, | Now you have one water, |
+| 37 | z5 | Ora hai due d'acqua, | Now you have two water, |
+| 38 | z5 | Ora hai tre d'acqua, | Now you have three water, |
+| 39 | z5 | Ora hai quattro d'acqua, | Now you have four water, |
+| 40 | z5 | Ora hai cinque d'acqua, | Now you have five water, |
+| 41 | z5 | Ora hai sei d'acqua, | Now you have six water, |
+| 42 | z5 | Ora hai sette d'acqua, | Now you have seven water, |
+| 43 | z5 | Ora hai otto d'acqua, | Now you have eight water, |
+| 44 | z5 | Ora hai nove d'acqua, | Now you have nine water, |
+| 45 | z5 | Ora hai dieci d'acqua, | Now you have ten water, |
+| 46 | z5 | Ora hai undici d'acqua, | Now you have eleven water, |
+| 47 | z5 | Ora hai dodici d'acqua, | Now you have twelve water, |
+| 48 | z5 | Ora hai tredici d'acqua, | Now you have thirteen water, |
+| 49 | z5 | Ora hai quattordici d'acqua, | Now you have fourteen water, |
+| 50 | z5 | Ora hai quindici d'acqua, | Now you have fifteen water, |
+| 51 | z5 | Ora hai sedici d'acqua, | Now you have sixteen water, |
+| 52 | z5 | Ora hai diciassette d'acqua, | Now you have seventeen water, |
+| 53 | z5 | Ora hai diciotto d'acqua, | Now you have eighteen water, |
+| 54 | z5 | Ora hai diciannove d'acqua, | Now you have nineteen water, |
+| 55 | z5 | Ora hai venti d'acqua, | Now you have twenty water, |
+
+### kira-numeri-b
+
+| n. | Zona | Italiano | Inglese (quello che legge Kira) |
+|---:|---|---|---|
+| 1 | z1 | e zero di cibo. | and zero food. |
+| 2 | z1 | e uno di cibo. | and one food. |
+| 3 | z1 | e due di cibo. | and two food. |
+| 4 | z1 | e tre di cibo. | and three food. |
+| 5 | z1 | e quattro di cibo. | and four food. |
+| 6 | z1 | e cinque di cibo. | and five food. |
+| 7 | z1 | e sei di cibo. | and six food. |
+| 8 | z1 | e sette di cibo. | and seven food. |
+| 9 | z1 | e otto di cibo. | and eight food. |
+| 10 | z1 | e nove di cibo. | and nine food. |
+| 11 | z1 | e dieci di cibo. | and ten food. |
+| 12 | z1 | e undici di cibo. | and eleven food. |
+| 13 | z1 | e dodici di cibo. | and twelve food. |
+| 14 | z1 | Ora hai zero d'acqua. | Now you have zero water. |
+| 15 | z1 | Ora hai uno d'acqua. | Now you have one water. |
+| 16 | z1 | Ora hai due d'acqua. | Now you have two water. |
+| 17 | z1 | Ora hai tre d'acqua. | Now you have three water. |
+| 18 | z1 | Ora hai quattro d'acqua. | Now you have four water. |
+| 19 | z1 | Ora hai cinque d'acqua. | Now you have five water. |
+| 20 | z1 | Ora hai sei d'acqua. | Now you have six water. |
+| 21 | z1 | Ora hai sette d'acqua. | Now you have seven water. |
+| 22 | z1 | Ora hai otto d'acqua. | Now you have eight water. |
+| 23 | z1 | Ora hai nove d'acqua. | Now you have nine water. |
+| 24 | z1 | Ora hai dieci d'acqua. | Now you have ten water. |
+| 25 | z1 | Ora hai undici d'acqua. | Now you have eleven water. |
+| 26 | z1 | Ora hai dodici d'acqua. | Now you have twelve water. |
+| 27 | z1 | Ora hai tredici d'acqua. | Now you have thirteen water. |
+| 28 | z1 | Ora hai quattordici d'acqua. | Now you have fourteen water. |
+| 29 | z1 | Ora hai quindici d'acqua. | Now you have fifteen water. |
+| 30 | z1 | Ora hai sedici d'acqua. | Now you have sixteen water. |
+| 31 | z1 | Ora hai diciassette d'acqua. | Now you have seventeen water. |
+| 32 | z1 | Ora hai diciotto d'acqua. | Now you have eighteen water. |
+| 33 | z1 | Ora hai diciannove d'acqua. | Now you have nineteen water. |
+| 34 | z1 | Ora hai venti d'acqua. | Now you have twenty water. |

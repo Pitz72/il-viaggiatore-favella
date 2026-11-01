@@ -1,0 +1,55 @@
+You have zero water, <long pause>
+You have one water, <long pause>
+You have two water, <long pause>
+You have three water, <long pause>
+You have four water, <long pause>
+You have five water, <long pause>
+You have six water, <long pause>
+You have seven water, <long pause>
+You have eight water, <long pause>
+You have nine water, <long pause>
+You have ten water, <long pause>
+You have eleven water, <long pause>
+You have twelve water, <long pause>
+You have thirteen water, <long pause>
+You have fourteen water, <long pause>
+You have fifteen water, <long pause>
+You have sixteen water, <long pause>
+You have seventeen water, <long pause>
+You have eighteen water, <long pause>
+You have nineteen water, <long pause>
+You have twenty water, <long pause>
+Now you have zero food. <long pause>
+Now you have one food. <long pause>
+Now you have two food. <long pause>
+Now you have three food. <long pause>
+Now you have four food. <long pause>
+Now you have five food. <long pause>
+Now you have six food. <long pause>
+Now you have seven food. <long pause>
+Now you have eight food. <long pause>
+Now you have nine food. <long pause>
+Now you have ten food. <long pause>
+Now you have eleven food. <long pause>
+Now you have twelve food. <long pause>
+Now you have zero water, <long pause>
+Now you have one water, <long pause>
+Now you have two water, <long pause>
+Now you have three water, <long pause>
+Now you have four water, <long pause>
+Now you have five water, <long pause>
+Now you have six water, <long pause>
+Now you have seven water, <long pause>
+Now you have eight water, <long pause>
+Now you have nine water, <long pause>
+Now you have ten water, <long pause>
+Now you have eleven water, <long pause>
+Now you have twelve water, <long pause>
+Now you have thirteen water, <long pause>
+Now you have fourteen water, <long pause>
+Now you have fifteen water, <long pause>
+Now you have sixteen water, <long pause>
+Now you have seventeen water, <long pause>
+Now you have eighteen water, <long pause>
+Now you have nineteen water, <long pause>
+Now you have twenty water,

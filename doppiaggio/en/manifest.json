@@ -21618,5 +21618,3942 @@
     }
    ]
   }
- ]
+ ],
+ "servizio": {
+  "voce": "Kira (britannica neutra)",
+  "blocchi": {
+   "kira-suggerimenti": {
+    "minuti_stimati": 1.4,
+    "parti": [
+     "899e6af8",
+     "20613761",
+     "6508792b",
+     "cb996a4a",
+     "3dd0dc87",
+     "6ff0969d",
+     "377709a8",
+     "fc4e730b",
+     "d97795b6",
+     "ec1d85b8",
+     "b66a4146",
+     "dfc6fd9b",
+     "ae0ceaf3",
+     "afb58ddf",
+     "5db39262",
+     "1cef50e1",
+     "a070a1ec",
+     "77a7cc10",
+     "1780486c",
+     "6fa3c27f",
+     "09df8b40",
+     "d75621b6",
+     "32d7ba25",
+     "bbc1c303",
+     "9d276655",
+     "76c5cc1f",
+     "4816a28b",
+     "338a8551",
+     "33e126ed",
+     "2a0f792d",
+     "a666c26d"
+    ]
+   },
+   "kira-numeri-a": {
+    "minuti_stimati": 1.9,
+    "parti": [
+     "c7bf49f0",
+     "703d050a",
+     "2bc0583f",
+     "e615f499",
+     "ea4ab617",
+     "271365a3",
+     "70258c3a",
+     "66b0e0f1",
+     "9c5184fb",
+     "d93c37bf",
+     "ea268fba",
+     "8d1138e7",
+     "c27826c7",
+     "ddb8c7eb",
+     "57fa40a9",
+     "575ec3a6",
+     "16b9d0d4",
+     "aa477e80",
+     "3a225c89",
+     "ece7421a",
+     "1ac3f6e6",
+     "28fc562c",
+     "c2c0e722",
+     "c1eeb95d",
+     "2dc25d29",
+     "c7b07dc0",
+     "6028235f",
+     "d76a591e",
+     "542c594b",
+     "2862e374",
+     "b29888c0",
+     "8d7ff535",
+     "1cc5aaae",
+     "03144d4b",
+     "a18f50dd",
+     "b0254225",
+     "f21c3bc3",
+     "402f1c65",
+     "3a166bcb",
+     "66ed5882",
+     "5ba2bbfa",
+     "441d1359",
+     "4bdaa2fe",
+     "e2898a84",
+     "a7a03602",
+     "03f1b778",
+     "1936b92c",
+     "d6768806",
+     "b591d339",
+     "73544950",
+     "fb7f4150",
+     "6f240513",
+     "aeadd189",
+     "259e7dda",
+     "6c3d94ba"
+    ]
+   },
+   "kira-numeri-b": {
+    "minuti_stimati": 1.1,
+    "parti": [
+     "0c447df9",
+     "9a88f10f",
+     "f9110193",
+     "d80791ec",
+     "cfe933fa",
+     "149fe342",
+     "cae3e847",
+     "13e38a12",
+     "dc157385",
+     "7b3a83f2",
+     "8f28e4e6",
+     "5a55555e",
+     "09507ea0",
+     "86188384",
+     "c702a1c6",
+     "212c96a6",
+     "8b1f44da",
+     "52d9aa85",
+     "f03a4f59",
+     "60fe12cb",
+     "4c6f0908",
+     "86931f23",
+     "a4f12fe8",
+     "407cd500",
+     "98da3204",
+     "2abdef2b",
+     "a32e036f",
+     "9605e82b",
+     "1fcd1f39",
+     "7aa4ecd1",
+     "f3772281",
+     "6163ab5c",
+     "51c04473",
+     "949ce5b6"
+    ]
+   }
+  },
+  "unita": {
+   "899e6af8": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "sistemi",
+    "blocco": "kira-suggerimenti",
+    "testo": "Drink.",
+    "parole": 1,
+    "italiano": [
+     "Bevi."
+    ],
+    "fonti": [
+     {
+      "file": "sistemi.fav",
+      "riga": 102,
+      "tipo": "messaggio"
+     }
+    ],
+    "italiano_ids": [
+     "4884b19c"
+    ]
+   },
+   "20613761": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "sistemi",
+    "blocco": "kira-suggerimenti",
+    "testo": "Eat.",
+    "parole": 1,
+    "italiano": [
+     "Mangia."
+    ],
+    "fonti": [
+     {
+      "file": "sistemi.fav",
+      "riga": 105,
+      "tipo": "messaggio"
+     },
+     {
+      "file": "sistemi.fav",
+      "riga": 108,
+      "tipo": "messaggio"
+     }
+    ],
+    "italiano_ids": [
+     "c2287262"
+    ]
+   },
+   "6508792b": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "sistemi",
+    "blocco": "kira-suggerimenti",
+    "testo": "Eat, if you have anything.",
+    "parole": 5,
+    "italiano": [
+     "Mangia, se hai di che."
+    ],
+    "fonti": [
+     {
+      "file": "sistemi.fav",
+      "riga": 106,
+      "tipo": "messaggio"
+     }
+    ],
+    "italiano_ids": [
+     "ab6847ea"
+    ]
+   },
+   "cb996a4a": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z1",
+    "blocco": "kira-suggerimenti",
+    "testo": "Examine the note to read it again.",
+    "parole": 7,
+    "italiano": [
+     "Esamina il biglietto per rileggerlo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 8,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "30d5ba4a"
+    ]
+   },
+   "3dd0dc87": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z1",
+    "blocco": "kira-suggerimenti",
+    "testo": "When your body asks: drink for thirst, eat for hunger; status to take stock of yourself.",
+    "parole": 16,
+    "italiano": [
+     "Quando il corpo lo chiede: bevi per la sete, mangia per la fame; stato per vederti addosso."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 8,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "09e2e44d"
+    ]
+   },
+   "6ff0969d": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z1",
+    "blocco": "kira-suggerimenti",
+    "testo": "Talk to Nunzio to barter.",
+    "parole": 5,
+    "italiano": [
+     "Parla con Nunzio per barattare."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 14,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "5fa89eb4"
+    ]
+   },
+   "c7bf49f0": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "You have zero water,",
+    "parole": 4,
+    "italiano": [
+     "Hai zero d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "aa96cadd"
+    ],
+    "numero": "acqua",
+    "valore": 0
+   },
+   "703d050a": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "You have one water,",
+    "parole": 4,
+    "italiano": [
+     "Hai uno d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "397d5168"
+    ],
+    "numero": "acqua",
+    "valore": 1
+   },
+   "2bc0583f": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "You have two water,",
+    "parole": 4,
+    "italiano": [
+     "Hai due d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "88158ca5"
+    ],
+    "numero": "acqua",
+    "valore": 2
+   },
+   "e615f499": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "You have three water,",
+    "parole": 4,
+    "italiano": [
+     "Hai tre d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "44f5d7d8"
+    ],
+    "numero": "acqua",
+    "valore": 3
+   },
+   "ea4ab617": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "You have four water,",
+    "parole": 4,
+    "italiano": [
+     "Hai quattro d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "427aafce"
+    ],
+    "numero": "acqua",
+    "valore": 4
+   },
+   "271365a3": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "You have five water,",
+    "parole": 4,
+    "italiano": [
+     "Hai cinque d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "2a23a713"
+    ],
+    "numero": "acqua",
+    "valore": 5
+   },
+   "70258c3a": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "You have six water,",
+    "parole": 4,
+    "italiano": [
+     "Hai sei d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "02f2090a"
+    ],
+    "numero": "acqua",
+    "valore": 6
+   },
+   "66b0e0f1": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "You have seven water,",
+    "parole": 4,
+    "italiano": [
+     "Hai sette d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "10f0a9b4"
+    ],
+    "numero": "acqua",
+    "valore": 7
+   },
+   "9c5184fb": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "You have eight water,",
+    "parole": 4,
+    "italiano": [
+     "Hai otto d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "25e1e876"
+    ],
+    "numero": "acqua",
+    "valore": 8
+   },
+   "d93c37bf": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "You have nine water,",
+    "parole": 4,
+    "italiano": [
+     "Hai nove d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "3d7656d1"
+    ],
+    "numero": "acqua",
+    "valore": 9
+   },
+   "ea268fba": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "You have ten water,",
+    "parole": 4,
+    "italiano": [
+     "Hai dieci d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "9104cf3a"
+    ],
+    "numero": "acqua",
+    "valore": 10
+   },
+   "8d1138e7": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "You have eleven water,",
+    "parole": 4,
+    "italiano": [
+     "Hai undici d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "6eaf1410"
+    ],
+    "numero": "acqua",
+    "valore": 11
+   },
+   "c27826c7": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "You have twelve water,",
+    "parole": 4,
+    "italiano": [
+     "Hai dodici d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "eb6269d5"
+    ],
+    "numero": "acqua",
+    "valore": 12
+   },
+   "ddb8c7eb": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "You have thirteen water,",
+    "parole": 4,
+    "italiano": [
+     "Hai tredici d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "74932580"
+    ],
+    "numero": "acqua",
+    "valore": 13
+   },
+   "57fa40a9": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "You have fourteen water,",
+    "parole": 4,
+    "italiano": [
+     "Hai quattordici d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "f8c41127"
+    ],
+    "numero": "acqua",
+    "valore": 14
+   },
+   "575ec3a6": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "You have fifteen water,",
+    "parole": 4,
+    "italiano": [
+     "Hai quindici d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "b1fe04ac"
+    ],
+    "numero": "acqua",
+    "valore": 15
+   },
+   "16b9d0d4": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "You have sixteen water,",
+    "parole": 4,
+    "italiano": [
+     "Hai sedici d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "c10e8175"
+    ],
+    "numero": "acqua",
+    "valore": 16
+   },
+   "aa477e80": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "You have seventeen water,",
+    "parole": 4,
+    "italiano": [
+     "Hai diciassette d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "c06080ad"
+    ],
+    "numero": "acqua",
+    "valore": 17
+   },
+   "3a225c89": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "You have eighteen water,",
+    "parole": 4,
+    "italiano": [
+     "Hai diciotto d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "909649c3"
+    ],
+    "numero": "acqua",
+    "valore": 18
+   },
+   "ece7421a": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "You have nineteen water,",
+    "parole": 4,
+    "italiano": [
+     "Hai diciannove d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "ae2b62d8"
+    ],
+    "numero": "acqua",
+    "valore": 19
+   },
+   "1ac3f6e6": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "You have twenty water,",
+    "parole": 4,
+    "italiano": [
+     "Hai venti d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "ad9db3d0"
+    ],
+    "numero": "acqua",
+    "valore": 20
+   },
+   "0c447df9": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "and zero food.",
+    "parole": 3,
+    "italiano": [
+     "e zero di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "46e753b4"
+    ],
+    "numero": "cibo",
+    "valore": 0
+   },
+   "9a88f10f": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "and one food.",
+    "parole": 3,
+    "italiano": [
+     "e uno di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "bab89a45"
+    ],
+    "numero": "cibo",
+    "valore": 1
+   },
+   "f9110193": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "and two food.",
+    "parole": 3,
+    "italiano": [
+     "e due di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "4ff6d093"
+    ],
+    "numero": "cibo",
+    "valore": 2
+   },
+   "d80791ec": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "and three food.",
+    "parole": 3,
+    "italiano": [
+     "e tre di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "f4fc3faf"
+    ],
+    "numero": "cibo",
+    "valore": 3
+   },
+   "cfe933fa": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "and four food.",
+    "parole": 3,
+    "italiano": [
+     "e quattro di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "61152138"
+    ],
+    "numero": "cibo",
+    "valore": 4
+   },
+   "149fe342": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "and five food.",
+    "parole": 3,
+    "italiano": [
+     "e cinque di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "84c5ada8"
+    ],
+    "numero": "cibo",
+    "valore": 5
+   },
+   "cae3e847": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "and six food.",
+    "parole": 3,
+    "italiano": [
+     "e sei di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "d80abea7"
+    ],
+    "numero": "cibo",
+    "valore": 6
+   },
+   "13e38a12": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "and seven food.",
+    "parole": 3,
+    "italiano": [
+     "e sette di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "3ce8a179"
+    ],
+    "numero": "cibo",
+    "valore": 7
+   },
+   "dc157385": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "and eight food.",
+    "parole": 3,
+    "italiano": [
+     "e otto di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "1dea88cd"
+    ],
+    "numero": "cibo",
+    "valore": 8
+   },
+   "7b3a83f2": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "and nine food.",
+    "parole": 3,
+    "italiano": [
+     "e nove di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "8045220d"
+    ],
+    "numero": "cibo",
+    "valore": 9
+   },
+   "8f28e4e6": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "and ten food.",
+    "parole": 3,
+    "italiano": [
+     "e dieci di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "52585c9c"
+    ],
+    "numero": "cibo",
+    "valore": 10
+   },
+   "5a55555e": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "and eleven food.",
+    "parole": 3,
+    "italiano": [
+     "e undici di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "76b6c13c"
+    ],
+    "numero": "cibo",
+    "valore": 11
+   },
+   "09507ea0": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "and twelve food.",
+    "parole": 3,
+    "italiano": [
+     "e dodici di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "4b39b23c"
+    ],
+    "numero": "cibo",
+    "valore": 12
+   },
+   "86188384": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "Now you have zero water.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai zero d'acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 76,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 83,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 257,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "11cad964"
+    ],
+    "numero": "acqua",
+    "valore": 0
+   },
+   "c702a1c6": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "Now you have one water.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai uno d'acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 76,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 83,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 257,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "090dbc95"
+    ],
+    "numero": "acqua",
+    "valore": 1
+   },
+   "212c96a6": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "Now you have two water.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai due d'acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 76,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 83,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 257,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "547eb7c9"
+    ],
+    "numero": "acqua",
+    "valore": 2
+   },
+   "8b1f44da": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "Now you have three water.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai tre d'acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 76,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 83,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 257,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "e69c8fe2"
+    ],
+    "numero": "acqua",
+    "valore": 3
+   },
+   "52d9aa85": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "Now you have four water.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai quattro d'acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 76,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 83,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 257,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "f6c2ab72"
+    ],
+    "numero": "acqua",
+    "valore": 4
+   },
+   "f03a4f59": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "Now you have five water.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai cinque d'acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 76,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 83,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 257,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "861a967a"
+    ],
+    "numero": "acqua",
+    "valore": 5
+   },
+   "60fe12cb": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "Now you have six water.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai sei d'acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 76,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 83,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 257,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "41f9c4c0"
+    ],
+    "numero": "acqua",
+    "valore": 6
+   },
+   "4c6f0908": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "Now you have seven water.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai sette d'acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 76,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 83,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 257,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "89048c54"
+    ],
+    "numero": "acqua",
+    "valore": 7
+   },
+   "86931f23": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "Now you have eight water.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai otto d'acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 76,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 83,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 257,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "78a7b647"
+    ],
+    "numero": "acqua",
+    "valore": 8
+   },
+   "a4f12fe8": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "Now you have nine water.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai nove d'acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 76,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 83,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 257,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "60467537"
+    ],
+    "numero": "acqua",
+    "valore": 9
+   },
+   "407cd500": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "Now you have ten water.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai dieci d'acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 76,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 83,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 257,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "845927d7"
+    ],
+    "numero": "acqua",
+    "valore": 10
+   },
+   "98da3204": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "Now you have eleven water.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai undici d'acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 76,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 83,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 257,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "cff37d9a"
+    ],
+    "numero": "acqua",
+    "valore": 11
+   },
+   "2abdef2b": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "Now you have twelve water.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai dodici d'acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 76,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 83,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 257,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "e8ceaf5e"
+    ],
+    "numero": "acqua",
+    "valore": 12
+   },
+   "a32e036f": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "Now you have thirteen water.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai tredici d'acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 76,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 83,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 257,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "4dac45d1"
+    ],
+    "numero": "acqua",
+    "valore": 13
+   },
+   "9605e82b": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "Now you have fourteen water.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai quattordici d'acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 76,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 83,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 257,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "c8229d5f"
+    ],
+    "numero": "acqua",
+    "valore": 14
+   },
+   "1fcd1f39": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "Now you have fifteen water.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai quindici d'acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 76,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 83,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 257,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "18c29cd0"
+    ],
+    "numero": "acqua",
+    "valore": 15
+   },
+   "7aa4ecd1": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "Now you have sixteen water.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai sedici d'acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 76,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 83,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 257,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "2369f9c3"
+    ],
+    "numero": "acqua",
+    "valore": 16
+   },
+   "f3772281": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "Now you have seventeen water.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai diciassette d'acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 76,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 83,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 257,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "81efc0ff"
+    ],
+    "numero": "acqua",
+    "valore": 17
+   },
+   "6163ab5c": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "Now you have eighteen water.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai diciotto d'acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 76,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 83,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 257,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "1c05d87d"
+    ],
+    "numero": "acqua",
+    "valore": 18
+   },
+   "51c04473": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "Now you have nineteen water.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai diciannove d'acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 76,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 83,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 257,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "8fd8d43a"
+    ],
+    "numero": "acqua",
+    "valore": 19
+   },
+   "949ce5b6": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-b",
+    "testo": "Now you have twenty water.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai venti d'acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 76,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 83,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 257,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "d19d81d8"
+    ],
+    "numero": "acqua",
+    "valore": 20
+   },
+   "28fc562c": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have zero food.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai zero di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 80,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "a674f589"
+    ],
+    "numero": "cibo",
+    "valore": 0
+   },
+   "c2c0e722": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have one food.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai uno di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 80,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "f1b8e77f"
+    ],
+    "numero": "cibo",
+    "valore": 1
+   },
+   "c1eeb95d": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have two food.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai due di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 80,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "b57aecd2"
+    ],
+    "numero": "cibo",
+    "valore": 2
+   },
+   "2dc25d29": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have three food.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai tre di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 80,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "8ffa4d4e"
+    ],
+    "numero": "cibo",
+    "valore": 3
+   },
+   "c7b07dc0": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have four food.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai quattro di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 80,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "a8dd401f"
+    ],
+    "numero": "cibo",
+    "valore": 4
+   },
+   "6028235f": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have five food.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai cinque di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 80,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "c8ac63e0"
+    ],
+    "numero": "cibo",
+    "valore": 5
+   },
+   "d76a591e": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have six food.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai sei di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 80,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "597c3183"
+    ],
+    "numero": "cibo",
+    "valore": 6
+   },
+   "542c594b": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have seven food.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai sette di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 80,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "6dd29c5e"
+    ],
+    "numero": "cibo",
+    "valore": 7
+   },
+   "2862e374": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have eight food.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai otto di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 80,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "854fa91a"
+    ],
+    "numero": "cibo",
+    "valore": 8
+   },
+   "b29888c0": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have nine food.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai nove di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 80,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "c7b2a6bd"
+    ],
+    "numero": "cibo",
+    "valore": 9
+   },
+   "8d7ff535": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have ten food.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai dieci di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 80,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "86e54f1c"
+    ],
+    "numero": "cibo",
+    "valore": 10
+   },
+   "1cc5aaae": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have eleven food.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai undici di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 80,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "f2dcc00d"
+    ],
+    "numero": "cibo",
+    "valore": 11
+   },
+   "03144d4b": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z1",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have twelve food.",
+    "parole": 5,
+    "italiano": [
+     "Ora hai dodici di cibo."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 80,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "2a8fee14"
+    ],
+    "numero": "cibo",
+    "valore": 12
+   },
+   "377709a8": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z2",
+    "blocco": "kira-suggerimenti",
+    "testo": "Talk to Saverio; then draw water to take some.",
+    "parole": 9,
+    "italiano": [
+     "Parla con Saverio; poi attingi per prendere acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z2-piana.fav",
+      "riga": 34,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "d4a65b70"
+    ]
+   },
+   "fc4e730b": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z2",
+    "blocco": "kira-suggerimenti",
+    "testo": "If you're running dry, draw water: if you wait, the bottom still gives a little.",
+    "parole": 15,
+    "italiano": [
+     "Se sei a secco, attingi: aspettando, il fondo dà ancora un poco."
+    ],
+    "fonti": [
+     {
+      "file": "z2-piana.fav",
+      "riga": 35,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "e2828a08"
+    ]
+   },
+   "d97795b6": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z2",
+    "blocco": "kira-suggerimenti",
+    "testo": "You can distract it with food: throw food. Or attack the dog.",
+    "parole": 12,
+    "italiano": [
+     "Col cibo lo puoi distrarre: getta cibo. Oppure attacca il cane."
+    ],
+    "fonti": [
+     {
+      "file": "z2-piana.fav",
+      "riga": 38,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "0725357b"
+    ]
+   },
+   "ec1d85b8": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z3",
+    "blocco": "kira-suggerimenti",
+    "testo": "Talk to Iole.",
+    "parole": 3,
+    "italiano": [
+     "Parla con Iole."
+    ],
+    "fonti": [
+     {
+      "file": "z3-invaso.fav",
+      "riga": 23,
+      "tipo": "descrizione"
+     },
+     {
+      "file": "z3-invaso.fav",
+      "riga": 24,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "f44223b2"
+    ]
+   },
+   "b66a4146": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z3",
+    "blocco": "kira-suggerimenti",
+    "testo": "Draw water if the jerrycan runs dry.",
+    "parole": 7,
+    "italiano": [
+     "Attingi, se la tanica si svuota."
+    ],
+    "fonti": [
+     {
+      "file": "z3-invaso.fav",
+      "riga": 24,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "a5bb1bf9"
+    ]
+   },
+   "dfc6fd9b": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z3",
+    "blocco": "kira-suggerimenti",
+    "testo": "If you want, drink brackish: Rocco does.",
+    "parole": 7,
+    "italiano": [
+     "Volendo, bevi salmastra: Rocco lo fa."
+    ],
+    "fonti": [
+     {
+      "file": "z3-invaso.fav",
+      "riga": 30,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "fdfa20e4"
+    ]
+   },
+   "ae0ceaf3": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z3",
+    "blocco": "kira-suggerimenti",
+    "testo": "Draw water.",
+    "parole": 2,
+    "italiano": [
+     "Attingi."
+    ],
+    "fonti": [
+     {
+      "file": "z3-invaso.fav",
+      "riga": 174,
+      "tipo": "messaggio"
+     }
+    ],
+    "italiano_ids": [
+     "a3a51dd8"
+    ]
+   },
+   "afb58ddf": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z4",
+    "blocco": "kira-suggerimenti",
+    "testo": "Talk to Vito; or attack Vito, if you must.",
+    "parole": 9,
+    "italiano": [
+     "Parla con Vito; oppure attacca Vito, se proprio."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 43,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "d3dd07ea"
+    ]
+   },
+   "5db39262": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z4",
+    "blocco": "kira-suggerimenti",
+    "testo": "Talk to Imma.",
+    "parole": 3,
+    "italiano": [
+     "Parla con Imma."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 58,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "9c8da306"
+    ]
+   },
+   "1cef50e1": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z4",
+    "blocco": "kira-suggerimenti",
+    "testo": "With this in hand, threaten whoever blocks your way.",
+    "parole": 9,
+    "italiano": [
+     "Con questa in mano, minaccia chi ti sbarra la strada."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 77,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "a9c13ae6"
+    ]
+   },
+   "a070a1ec": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z4",
+    "blocco": "kira-suggerimenti",
+    "testo": "Treat yourself.",
+    "parole": 2,
+    "italiano": [
+     "Curati."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 108,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "5cfe6c51"
+    ]
+   },
+   "77a7cc10": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z5",
+    "blocco": "kira-suggerimenti",
+    "testo": "Talk to Peppe.",
+    "parole": 3,
+    "italiano": [
+     "Parla con Peppe."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 51,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "a7915978"
+    ]
+   },
+   "1780486c": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z5",
+    "blocco": "kira-suggerimenti",
+    "testo": "Talk to Rosaria.",
+    "parole": 3,
+    "italiano": [
+     "Parla con Rosaria."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 56,
+      "tipo": "descrizione"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 57,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "d90c501e"
+    ]
+   },
+   "6fa3c27f": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z5",
+    "blocco": "kira-suggerimenti",
+    "testo": "Talk to Ciro to trade.",
+    "parole": 5,
+    "italiano": [
+     "Parla con Ciro per scambiare."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 60,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "f1674c65"
+    ]
+   },
+   "09df8b40": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z5",
+    "blocco": "kira-suggerimenti",
+    "testo": "With the right medicine he can be cured: use the medicine on Pasquale. Or carry straight on.",
+    "parole": 17,
+    "italiano": [
+     "Con le medicine giuste lo si può curare: usa le medicine su Pasquale. Oppure si tira dritto."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 63,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "b240613b"
+    ]
+   },
+   "d75621b6": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z5",
+    "blocco": "kira-suggerimenti",
+    "testo": "Talk to Concetta.",
+    "parole": 3,
+    "italiano": [
+     "Parla con Concetta."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 67,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "f1eb51f2"
+    ]
+   },
+   "a18f50dd": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z5",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have zero water,",
+    "parole": 5,
+    "italiano": [
+     "Ora hai zero d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "c1135ec9"
+    ],
+    "numero": "acqua",
+    "valore": 0
+   },
+   "b0254225": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z5",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have one water,",
+    "parole": 5,
+    "italiano": [
+     "Ora hai uno d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "cda05c36"
+    ],
+    "numero": "acqua",
+    "valore": 1
+   },
+   "f21c3bc3": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z5",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have two water,",
+    "parole": 5,
+    "italiano": [
+     "Ora hai due d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "92a079e8"
+    ],
+    "numero": "acqua",
+    "valore": 2
+   },
+   "402f1c65": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z5",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have three water,",
+    "parole": 5,
+    "italiano": [
+     "Ora hai tre d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "6863a8b2"
+    ],
+    "numero": "acqua",
+    "valore": 3
+   },
+   "3a166bcb": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z5",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have four water,",
+    "parole": 5,
+    "italiano": [
+     "Ora hai quattro d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "0a76e709"
+    ],
+    "numero": "acqua",
+    "valore": 4
+   },
+   "66ed5882": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z5",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have five water,",
+    "parole": 5,
+    "italiano": [
+     "Ora hai cinque d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "eb72848f"
+    ],
+    "numero": "acqua",
+    "valore": 5
+   },
+   "5ba2bbfa": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z5",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have six water,",
+    "parole": 5,
+    "italiano": [
+     "Ora hai sei d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "20ca3b01"
+    ],
+    "numero": "acqua",
+    "valore": 6
+   },
+   "441d1359": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z5",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have seven water,",
+    "parole": 5,
+    "italiano": [
+     "Ora hai sette d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "6d07eef0"
+    ],
+    "numero": "acqua",
+    "valore": 7
+   },
+   "4bdaa2fe": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z5",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have eight water,",
+    "parole": 5,
+    "italiano": [
+     "Ora hai otto d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "c9a1d26b"
+    ],
+    "numero": "acqua",
+    "valore": 8
+   },
+   "e2898a84": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z5",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have nine water,",
+    "parole": 5,
+    "italiano": [
+     "Ora hai nove d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "eb68d89b"
+    ],
+    "numero": "acqua",
+    "valore": 9
+   },
+   "a7a03602": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z5",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have ten water,",
+    "parole": 5,
+    "italiano": [
+     "Ora hai dieci d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "7b7d0269"
+    ],
+    "numero": "acqua",
+    "valore": 10
+   },
+   "03f1b778": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z5",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have eleven water,",
+    "parole": 5,
+    "italiano": [
+     "Ora hai undici d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "c3e24102"
+    ],
+    "numero": "acqua",
+    "valore": 11
+   },
+   "1936b92c": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z5",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have twelve water,",
+    "parole": 5,
+    "italiano": [
+     "Ora hai dodici d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "c8a57d16"
+    ],
+    "numero": "acqua",
+    "valore": 12
+   },
+   "d6768806": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z5",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have thirteen water,",
+    "parole": 5,
+    "italiano": [
+     "Ora hai tredici d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "179d163a"
+    ],
+    "numero": "acqua",
+    "valore": 13
+   },
+   "b591d339": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z5",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have fourteen water,",
+    "parole": 5,
+    "italiano": [
+     "Ora hai quattordici d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "72d568d8"
+    ],
+    "numero": "acqua",
+    "valore": 14
+   },
+   "73544950": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z5",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have fifteen water,",
+    "parole": 5,
+    "italiano": [
+     "Ora hai quindici d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "7eccaab9"
+    ],
+    "numero": "acqua",
+    "valore": 15
+   },
+   "fb7f4150": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z5",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have sixteen water,",
+    "parole": 5,
+    "italiano": [
+     "Ora hai sedici d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "9fc441c5"
+    ],
+    "numero": "acqua",
+    "valore": 16
+   },
+   "6f240513": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z5",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have seventeen water,",
+    "parole": 5,
+    "italiano": [
+     "Ora hai diciassette d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "b8487f25"
+    ],
+    "numero": "acqua",
+    "valore": 17
+   },
+   "aeadd189": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z5",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have eighteen water,",
+    "parole": 5,
+    "italiano": [
+     "Ora hai diciotto d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "41511a15"
+    ],
+    "numero": "acqua",
+    "valore": 18
+   },
+   "259e7dda": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z5",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have nineteen water,",
+    "parole": 5,
+    "italiano": [
+     "Ora hai diciannove d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "b45519bf"
+    ],
+    "numero": "acqua",
+    "valore": 19
+   },
+   "6c3d94ba": {
+    "voce": "servizio",
+    "categoria": "numeri",
+    "zona": "z5",
+    "blocco": "kira-numeri-a",
+    "testo": "Now you have twenty water,",
+    "parole": 5,
+    "italiano": [
+     "Ora hai venti d'acqua,"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo"
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo"
+     }
+    ],
+    "italiano_ids": [
+     "05187a55"
+    ],
+    "numero": "acqua",
+    "valore": 20
+   },
+   "32d7ba25": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z6",
+    "blocco": "kira-suggerimenti",
+    "testo": "Talk to Tore.",
+    "parole": 3,
+    "italiano": [
+     "Parla con Tore."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 26,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "57726b8e"
+    ]
+   },
+   "bbc1c303": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z6",
+    "blocco": "kira-suggerimenti",
+    "testo": "Talk to Onofrio.",
+    "parole": 3,
+    "italiano": [
+     "Parla con Onofrio."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 29,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "fb091bb7"
+    ]
+   },
+   "9d276655": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z6",
+    "blocco": "kira-suggerimenti",
+    "testo": "Draw water to fill the jerrycan.",
+    "parole": 6,
+    "italiano": [
+     "Attingi per riempire la tanica."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 32,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "4fbec00b"
+    ]
+   },
+   "76c5cc1f": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z6",
+    "blocco": "kira-suggerimenti",
+    "testo": "At the ford: use the letter on Cosimo; with the shotgun, attack Cosimo or drop the shotgun.",
+    "parole": 17,
+    "italiano": [
+     "Al guado: usa la lettera su Cosimo; col fucile, attacca Cosimo o lascia il fucile."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 38,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "07ca1662"
+    ]
+   },
+   "a666c26d": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z6",
+    "blocco": "kira-suggerimenti",
+    "testo": "At the ford: use the letter on Cosimo.",
+    "parole": 8,
+    "italiano": [
+     "Al guado: usa la lettera su Cosimo."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 65,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "2b836af5"
+    ]
+   },
+   "4816a28b": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z6",
+    "blocco": "kira-suggerimenti",
+    "testo": "At the ford: attack Cosimo. Or put it down: drop the shotgun.",
+    "parole": 12,
+    "italiano": [
+     "Al guado: attacca Cosimo. Oppure posalo: lascia il fucile."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 69,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "f7ba7b46"
+    ]
+   },
+   "338a8551": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z7",
+    "blocco": "kira-suggerimenti",
+    "testo": "Talk to Cosimo.",
+    "parole": 3,
+    "italiano": [
+     "Parla con Cosimo."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 30,
+      "tipo": "descrizione"
+     }
+    ],
+    "italiano_ids": [
+     "9a89dfed"
+    ]
+   },
+   "33e126ed": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z7",
+    "blocco": "kira-suggerimenti",
+    "testo": "To pick it up again: take the shotgun.",
+    "parole": 8,
+    "italiano": [
+     "Per riprenderlo: prendi il fucile."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 90,
+      "tipo": "messaggio"
+     }
+    ],
+    "italiano_ids": [
+     "5b04534c"
+    ]
+   },
+   "2a0f792d": {
+    "voce": "servizio",
+    "categoria": "suggerimento",
+    "zona": "z7",
+    "blocco": "kira-suggerimenti",
+    "testo": "Wait with him, or take the shotgun back.",
+    "parole": 8,
+    "italiano": [
+     "Aspetta con lui, oppure riprendi il fucile."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 104,
+      "tipo": "messaggio"
+     },
+     {
+      "file": "z7-guado.fav",
+      "riga": 106,
+      "tipo": "messaggio"
+     }
+    ],
+    "italiano_ids": [
+     "4b812710"
+    ]
+   }
+  },
+  "corrispondenze": {
+   "4884b19c": "899e6af8",
+   "c2287262": "20613761",
+   "ab6847ea": "6508792b",
+   "30d5ba4a": "cb996a4a",
+   "09e2e44d": "3dd0dc87",
+   "5fa89eb4": "6ff0969d",
+   "aa96cadd": "c7bf49f0",
+   "397d5168": "703d050a",
+   "88158ca5": "2bc0583f",
+   "44f5d7d8": "e615f499",
+   "427aafce": "ea4ab617",
+   "2a23a713": "271365a3",
+   "02f2090a": "70258c3a",
+   "10f0a9b4": "66b0e0f1",
+   "25e1e876": "9c5184fb",
+   "3d7656d1": "d93c37bf",
+   "9104cf3a": "ea268fba",
+   "6eaf1410": "8d1138e7",
+   "eb6269d5": "c27826c7",
+   "74932580": "ddb8c7eb",
+   "f8c41127": "57fa40a9",
+   "b1fe04ac": "575ec3a6",
+   "c10e8175": "16b9d0d4",
+   "c06080ad": "aa477e80",
+   "909649c3": "3a225c89",
+   "ae2b62d8": "ece7421a",
+   "ad9db3d0": "1ac3f6e6",
+   "46e753b4": "0c447df9",
+   "bab89a45": "9a88f10f",
+   "4ff6d093": "f9110193",
+   "f4fc3faf": "d80791ec",
+   "61152138": "cfe933fa",
+   "84c5ada8": "149fe342",
+   "d80abea7": "cae3e847",
+   "3ce8a179": "13e38a12",
+   "1dea88cd": "dc157385",
+   "8045220d": "7b3a83f2",
+   "52585c9c": "8f28e4e6",
+   "76b6c13c": "5a55555e",
+   "4b39b23c": "09507ea0",
+   "11cad964": "86188384",
+   "090dbc95": "c702a1c6",
+   "547eb7c9": "212c96a6",
+   "e69c8fe2": "8b1f44da",
+   "f6c2ab72": "52d9aa85",
+   "861a967a": "f03a4f59",
+   "41f9c4c0": "60fe12cb",
+   "89048c54": "4c6f0908",
+   "78a7b647": "86931f23",
+   "60467537": "a4f12fe8",
+   "845927d7": "407cd500",
+   "cff37d9a": "98da3204",
+   "e8ceaf5e": "2abdef2b",
+   "4dac45d1": "a32e036f",
+   "c8229d5f": "9605e82b",
+   "18c29cd0": "1fcd1f39",
+   "2369f9c3": "7aa4ecd1",
+   "81efc0ff": "f3772281",
+   "1c05d87d": "6163ab5c",
+   "8fd8d43a": "51c04473",
+   "d19d81d8": "949ce5b6",
+   "a674f589": "28fc562c",
+   "f1b8e77f": "c2c0e722",
+   "b57aecd2": "c1eeb95d",
+   "8ffa4d4e": "2dc25d29",
+   "a8dd401f": "c7b07dc0",
+   "c8ac63e0": "6028235f",
+   "597c3183": "d76a591e",
+   "6dd29c5e": "542c594b",
+   "854fa91a": "2862e374",
+   "c7b2a6bd": "b29888c0",
+   "86e54f1c": "8d7ff535",
+   "f2dcc00d": "1cc5aaae",
+   "2a8fee14": "03144d4b",
+   "d4a65b70": "377709a8",
+   "e2828a08": "fc4e730b",
+   "0725357b": "d97795b6",
+   "f44223b2": "ec1d85b8",
+   "a5bb1bf9": "b66a4146",
+   "fdfa20e4": "dfc6fd9b",
+   "a3a51dd8": "ae0ceaf3",
+   "d3dd07ea": "afb58ddf",
+   "9c8da306": "5db39262",
+   "a9c13ae6": "1cef50e1",
+   "5cfe6c51": "a070a1ec",
+   "a7915978": "77a7cc10",
+   "d90c501e": "1780486c",
+   "f1674c65": "6fa3c27f",
+   "b240613b": "09df8b40",
+   "f1eb51f2": "d75621b6",
+   "c1135ec9": "a18f50dd",
+   "cda05c36": "b0254225",
+   "92a079e8": "f21c3bc3",
+   "6863a8b2": "402f1c65",
+   "0a76e709": "3a166bcb",
+   "eb72848f": "66ed5882",
+   "20ca3b01": "5ba2bbfa",
+   "6d07eef0": "441d1359",
+   "c9a1d26b": "4bdaa2fe",
+   "eb68d89b": "e2898a84",
+   "7b7d0269": "a7a03602",
+   "c3e24102": "03f1b778",
+   "c8a57d16": "1936b92c",
+   "179d163a": "d6768806",
+   "72d568d8": "b591d339",
+   "7eccaab9": "73544950",
+   "9fc441c5": "fb7f4150",
+   "b8487f25": "6f240513",
+   "41511a15": "aeadd189",
+   "b45519bf": "259e7dda",
+   "05187a55": "6c3d94ba",
+   "57726b8e": "32d7ba25",
+   "fb091bb7": "bbc1c303",
+   "4fbec00b": "9d276655",
+   "07ca1662": "76c5cc1f",
+   "2b836af5": "a666c26d",
+   "f7ba7b46": "4816a28b",
+   "9a89dfed": "338a8551",
+   "5b04534c": "33e126ed",
+   "4b812710": "2a0f792d"
+  }
+ }
 }

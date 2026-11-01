@@ -17,8 +17,12 @@ Scrive in doppiaggio/en/:
   blocchi/scelte.txt             le scelte di dialogo del giocatore (in prima persona), le legge Enzo
   blocchi/trailer.txt            il trailer, a gruppi di tono (legge doppiaggio/en/trailer.json, scritto a mano
                                  dai testi inglesi sullo schermo; stessi id, toni e finestre dell'italiano)
+  blocchi/kira-suggerimenti.txt  la voce di servizio (Kira): i suggerimenti tra parentesi
+  blocchi/kira-numeri-a.txt,     … e i pezzi con i numeri delle scorte («You have # water,»), a famiglie, in due
+         kira-numeri-b.txt       blocchi (i pezzi che differiscono solo per la punteggiatura finale non stanno insieme)
   manifest.json                 per ogni parte: id, testo inglese, testo italiano, da dove viene;
-                                 per ogni testo del gioco, la voce di ogni suo pezzo
+                                 per ogni testo del gioco, la voce di ogni suo pezzo; a parte (chiave «servizio»)
+                                 le parti di Kira con blocchi e corrispondenze italiano → inglese
   controllo.md                   i conti, le verifiche, ciò che NON è di Enzo, e la tabella
                                  italiano ↔ inglese di ogni parte di Enzo
 
@@ -48,6 +52,9 @@ USCITA = os.path.join(D.CARTELLA, "en")
 VIRGOLETTE = re.compile("\u201c([^\u201d]*)\u201d")
 MAX_MINUTI = 10.0   # scelto da Simone il 31/10/2026: sei blocchi sotto i 10 minuti (il tetto del servizio è circa 10,9)
 VOCE = "narratore"
+SERVIZIO = "servizio"   # la voce di servizio, Kira: i suggerimenti tra parentesi e i pezzi con i numeri
+NUMERI_EN = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve",
+             "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"]
 
 
 # ---------------------------------------------------------------------------------------
@@ -75,6 +82,57 @@ def parti_inglesi(tipo, parlante, en, attribuzione):
     return D.parti_di_una_stringa(tipo, parlante, convertito, attribuzione)
 
 
+def scomponi_dinamico_en(t):
+    """«You have [acqua] water and [cibo] food.» → i pezzi con un solo segnaposto ciascuno (come l'italiano, con «and»)."""
+    m = re.match(r"^(.*?\[\w+\][^\[\]]*?) and (\[\w+\].*)$", t)
+    return [m.group(1) + ",", "and " + m.group(2)] if m else [t]
+
+
+def riempi_en(pezzo):
+    """Un pezzo con un segnaposto → i suoi testi parlati in inglese, uno per valore (i valori dell'italiano)."""
+    m = re.search(r"\[(\w+)\]", pezzo)
+    if not m or m.group(1) not in D.VALORI:
+        return None
+    return [(v, pezzo.replace(m.group(0), NUMERI_EN[v])) for v in D.VALORI[m.group(1)]], m.group(1)
+
+
+def raccogli_kira(r, s, zona, ti, te):
+    """Le parti inglesi della voce di servizio, ciascuna con la sua parte italiana: un suggerimento tra
+    parentesi, o un pezzo con un numero (uno per valore, come in italiano). Entrano in r["kira"]."""
+    chiave = "%s:%d" % (s["file"], s["riga"])
+    if "[" in ti or "[" in te:
+        pi, pe = D.scomponi_dinamico(ti), scomponi_dinamico_en(te)
+        if len(pi) != len(pe):
+            r["problemi"].append("Kira: i pezzi con numeri non coincidono in %s: it %s, en %s" % (chiave, pi, pe))
+            return
+        coppie = list(zip(pi, pe))
+    else:
+        coppie = [(ti, te)]
+    fonte = {"file": s["file"], "riga": s["riga"], "tipo": s["tipo"]}
+    for xi, xe in coppie:
+        if "[" in xi or "[" in xe:
+            ri, re_ = D.riempi(xi), riempi_en(xe)
+            if ri is None or re_ is None or ri[1] != re_[1] or len(ri[0]) != len(re_[0]):
+                r["problemi"].append("Kira: segnaposto diversi in %s: «%s» / «%s»" % (chiave, xi, xe))
+                continue
+            if [v for v, _ in ri[0]] != [v for v, _ in re_[0]]:
+                r["problemi"].append("Kira: valori diversi in %s: «%s» / «%s»" % (chiave, xi, xe))
+                continue
+            voci = [(ei, ee, ri[1], v) for (v, ei), (_, ee) in zip(ri[0], re_[0])]
+        else:
+            voci = [(xi, xe, None, None)]
+        for ei, ee, nome, valore in voci:
+            i = D.impronta("en-" + SERVIZIO, ee)
+            u = r["kira"].setdefault(i, {"voce": SERVIZIO, "zona": zona, "testo": ee, "parole": D.parole(ee),
+                                         "fonti": [], "italiano": [], "tipi": set(), "numero": nome, "valore": valore})
+            u["tipi"].add(s["tipo"])
+            if ei not in u["italiano"]:
+                u["italiano"].append(ei)
+            if fonte not in u["fonti"]:
+                u["fonti"].append(fonte)
+            u["categoria"] = "numeri" if nome else "suggerimento"
+
+
 def voci_di(tipo, parti):
     """Le voci di una lista di parti; le scelte del giocatore le legge il narratore."""
     return [VOCE if tipo == "opzione" else v for v, _, _ in parti]
@@ -86,7 +144,7 @@ def costruisci():
     catalogo, conflitti = carica_cataloghi()
     zona_di = {nome: z for z, nome in D.ZONE.items()}
     r = {"unita": OrderedDict(), "altre": OrderedDict(), "stringhe": [], "problemi": [],
-         "conflitti": conflitti, "italiani": defaultdict(set), "dinamici": [],
+         "conflitti": conflitti, "italiani": defaultdict(set), "dinamici": [], "kira": OrderedDict(),
          "n_stringhe": len(tutto["stringhe"]), "caporali": [0, 0], "parentesi": [0, 0]}
     for s in tutto["stringhe"]:
         chiave = "%s:%d" % (s["file"], s["riga"])
@@ -112,6 +170,8 @@ def costruisci():
             continue
         pezzi = []
         for voce, (_, _, ti), (_, _, te) in zip(v_en, p_it, p_en):
+            if voce == SERVIZIO:
+                raccogli_kira(r, s, zona_di[s["file"]], ti, te)   # in più: Kira resta anche fra le «altre» voci qui sotto
             if voce == VOCE and "[" in te:
                 # come in italiano: un segnaposto che non si scompone in valori (la riga di STATO, i fili
                 # del viaggio) non è una parte: la compone il gioco
@@ -230,6 +290,86 @@ def aggiungi_trailer(r):
     return esiti
 
 
+def verifiche_kira(r, tutto):
+    """[(esito, descrizione)] per la voce di servizio: in inglese Kira dice tutto ciò che dice in italiano, e solo quello."""
+    out = []
+    ok = lambda cond, testo: out.append(("OK" if cond else "ERRORE", testo))
+    k = r["kira"]
+    it_k = {i: u for i, u in tutto["unita"].items() if u["voce"] == SERVIZIO}
+    derivati = defaultdict(set)   # id italiano → id inglesi
+    for i, u in k.items():
+        for ti in u["italiano"]:
+            derivati[D.impronta(SERVIZIO, ti)].add(i)
+    ok(set(derivati) == set(it_k), "Kira: le parti inglesi risalgono, una per una, alle %d parti italiane di Kira nel manifest italiano (né una in più né una in meno)%s" % (
+        len(it_k), "" if set(derivati) == set(it_k) else ": mancano %s, in più %s" % (sorted(set(it_k) - set(derivati))[:3], sorted(set(derivati) - set(it_k))[:3])))
+    for cat, nome in (("suggerimento", "suggerimenti tra parentesi"), ("numeri", "pezzi con un numero")):
+        n_it = sum(1 for u in it_k.values() if u.get("categoria") == cat)
+        n_en = sum(1 for u in k.values() if u["categoria"] == cat)
+        ok(n_it == n_en, "Kira, %s: italiano %d, inglese %d" % (nome, n_it, n_en))
+    doppie = [ti[:40] for ti, tt in derivati.items() if len(tt) > 1]
+    ok(not doppie, "Kira: ogni parte italiana ha in inglese una traduzione sola%s" % ("" if not doppie else ": " + "; ".join(doppie[:3])))
+    ripetute = [u["testo"][:40] for u in k.values() if len(u["italiano"]) > 1]
+    ok(not ripetute, "Kira: due parti italiane diverse non diventano la stessa parte inglese%s" % ("" if not ripetute else ": " + "; ".join(ripetute[:3])))
+    sporchi = [u["testo"][:40] for u in k.values() if re.search(r"[()\[\]<>«»“”\"]", u["testo"])]
+    ok(not sporchi, "Kira: nessuna parte contiene parentesi, segnaposto, tag o virgolette%s" % ("" if not sporchi else ": " + "; ".join(sporchi[:3])))
+    maiuscole = [u["testo"][:40] for u in k.values() if re.search(r"\b[A-Z]{2,}\b", u["testo"])]
+    ok(not maiuscole, "Kira: nessuna parola in maiuscolo rimasta (sarebbe letta come enfasi)%s" % ("" if not maiuscole else ": " + "; ".join(maiuscole[:3])))
+    # il numero detto in inglese è lo stesso valore del numero detto in italiano
+    storti = []
+    for u in k.values():
+        if u["numero"] is None:
+            continue
+        for ti in u["italiano"]:
+            if D.NUMERI[u["valore"]] not in ti.lower().split() or NUMERI_EN[u["valore"]] not in u["testo"].lower().split():
+                storti.append("%s / %s" % (u["testo"], ti))
+    ok(not storti, "Kira: in ogni pezzo con un numero l'inglese e l'italiano dicono lo stesso valore%s" % ("" if not storti else ": " + "; ".join(storti[:3])))
+    # niente che sia di Enzo o di un personaggio: nessun testo di Kira è anche un testo loro
+    altrui = {u["testo"] for u in r["unita"].values()} | {x["testo"] for x in r["altre"].values() if x["voce"] != SERVIZIO}
+    dentro = [u["testo"][:40] for u in k.values() if u["testo"] in altrui]
+    ok(not dentro, "Kira: nessuna sua parte è anche un testo di Enzo o di un personaggio%s" % ("" if not dentro else ": " + "; ".join(dentro[:3])))
+    # Kira dei cataloghi di oggi = le parti tra parentesi fuori dalle scelte: lo stesso numero di parentesi dell'italiano, contate da r
+    ok(r["parentesi"][0] == r["parentesi"][1], "Kira: i suggerimenti fra parentesi sono gli stessi dell'italiano: %d e %d" % tuple(r["parentesi"]))
+    return out
+
+
+def blocchi_kira(r):
+    """I blocchi di Kira: i suggerimenti (frasi, ciascuna diversa) e i pezzi con i numeri (le stesse sei parole che cambiano
+    numero, uno dopo l'altro): separati, perché i secondi si somigliano e Gemini salta ciò che prende per una ripetizione."""
+    out = OrderedDict()
+    sugg = [i for i, u in r["kira"].items() if u["categoria"] == "suggerimento"]
+    if sugg:
+        # un suggerimento che comincia come uno dei dodici appena detti (la stessa coppia dell'italiano, «Al guado: usa la
+        # lettera su Cosimo…») si rimanda in fondo: due righe vicine che si somigliano le salta, Gemini
+        messi, rimandati = [], []
+        for i in sugg:
+            vicini = messi[-12:]
+            if any(somiglianti([(a, r["kira"][a]), (i, r["kira"][i])]) for a in vicini):
+                rimandati.append(i)
+            else:
+                messi.append(i)
+        out["kira-suggerimenti"] = messi + rimandati
+    # I pezzi con numeri vengono a «famiglie» (lo stesso modello, il numero che cambia: «Now you have # water.»).
+    # Due famiglie che differiscono solo per la punteggiatura finale («…water.» / «…water,») stanno in blocchi diversi.
+    famiglie = OrderedDict()
+    for i, u in r["kira"].items():
+        if u["categoria"] != "numeri":
+            continue
+        modello = re.sub(r"\b(%s)\b" % "|".join(NUMERI_EN), "#", u["testo"])
+        famiglie.setdefault(modello, []).append(i)
+    blocchi = [[], []]
+    chiavi = [set(), set()]
+    for modello, ids in famiglie.items():
+        chiave = modello.rstrip(".,")
+        libere = [b for b in (0, 1) if chiave not in chiavi[b]]
+        b = min(libere, key=lambda x: (len(blocchi[x]), x))
+        blocchi[b] += ids
+        chiavi[b].add(chiave)
+    for b, ids in zip("ab", blocchi):
+        if ids:
+            out["kira-numeri-" + b] = ids
+    return out
+
+
 def somiglianti(lista, soglia=0.9):
     """Coppie di parti vicine nello stesso blocco in cui una comincia come l'altra: Gemini salta ciò che
     prende per una ripetizione (successe a Enzo e a Tore in italiano)."""
@@ -301,13 +441,59 @@ def minuti(r, ids):
     return sum(D.minuti_di(VOCE, r["unita"][i]["parole"]) for i in ids)
 
 
-def scrivi(r, tutto, blocchi, esiti):
+def minuti_kira(r, ids):
+    return sum(D.minuti_di(SERVIZIO, r["kira"][i]["parole"]) for i in ids)
+
+
+def manifest_kira(r, tutto, kira):
+    """La voce di servizio, a parte (le parti di Enzo restano dov'erano): blocchi, parti e corrispondenze
+    italiano → inglese. Il banco e il taglio la useranno quando Kira sarà registrata."""
+    for nome, ids in kira.items():
+        for i in ids:
+            r["kira"][i]["blocco"] = nome
+    unita, corrispondenze = OrderedDict(), OrderedDict()
+    for i, u in r["kira"].items():
+        unita[i] = {"voce": u["voce"], "categoria": u["categoria"], "zona": u["zona"], "blocco": u.get("blocco"),
+                    "testo": u["testo"], "parole": u["parole"], "italiano": u["italiano"], "fonti": u["fonti"],
+                    "italiano_ids": [D.impronta(SERVIZIO, ti) for ti in u["italiano"]]}
+        if u["numero"]:
+            unita[i]["numero"], unita[i]["valore"] = u["numero"], u["valore"]
+        for ti in u["italiano"]:
+            corrispondenze[D.impronta(SERVIZIO, ti)] = i
+    return OrderedDict([
+        ("voce", "Kira (britannica neutra)"),
+        ("blocchi", OrderedDict((n, {"minuti_stimati": round(minuti_kira(r, ids), 1), "parti": ids}) for n, ids in kira.items())),
+        ("unita", unita), ("corrispondenze", corrispondenze)])
+
+
+def testo_controllo_kira(r, kira, esiti):
+    L = ["", "# Controllo di Kira (voce di servizio) inglese", "",
+         "> Stesso metodo del narratore. Kira dice **soltanto** i suggerimenti tra parentesi e i pezzi con i numeri delle scorte:",
+         "> niente narrazione, niente battute di personaggi, niente scelte del giocatore.", "", "## Verifiche", ""]
+    L += ["- **%s**: %s" % e for e in esiti]
+    L += ["", "## I blocchi", "", "| Blocco | Parti | Parole | Minuti stimati |", "|---|---:|---:|---:|"]
+    for nome, ids in kira.items():
+        L.append("| %s | %d | %d | %.1f |" % (nome, len(ids), sum(r["kira"][i]["parole"] for i in ids), minuti_kira(r, ids)))
+    L += ["", "I minuti usano le costanti dell'italiano per il servizio (220 parole al minuto, 0,8 s per parte)."]
+    for nome, ids in kira.items():
+        L += ["", "### %s" % nome, "", "| n. | Zona | Italiano | Inglese (quello che legge Kira) |", "|---:|---|---|---|"]
+        for k, i in enumerate(ids, 1):
+            u = r["kira"][i]
+            L.append("| %d | %s | %s | %s |" % (k, u["zona"], cella(" / ".join(u["italiano"])), cella(u["testo"])))
+    L.append("")
+    return "\n".join(L)
+
+
+def scrivi(r, tutto, blocchi, esiti, kira=None, esiti_kira=None):
     os.makedirs(os.path.join(USCITA, "blocchi"), exist_ok=True)
     for f in glob.glob(os.path.join(USCITA, "blocchi", "*.txt")):
         os.remove(f)
     for nome, ids in blocchi.items():
         with open(os.path.join(USCITA, "blocchi", nome + ".txt"), "w", encoding="utf-8", newline="\n") as fh:
             fh.write(D.testo_del_blocco(r["unita"], ids, r.get("stili", {})))
+    for nome, ids in (kira or {}).items():
+        with open(os.path.join(USCITA, "blocchi", nome + ".txt"), "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(D.testo_del_blocco(r["kira"], ids, {}))
     unita = OrderedDict()
     for nome, ids in blocchi.items():
         for i in ids:
@@ -338,11 +524,15 @@ def scrivi(r, tutto, blocchi, esiti):
         "corrispondenze": corrispondenze,
         "stringhe": r["stringhe"],
     }
+    if kira:
+        manifest["servizio"] = manifest_kira(r, tutto, kira)
     with open(os.path.join(USCITA, "manifest.json"), "w", encoding="utf-8", newline="\n") as fh:
         json.dump(manifest, fh, ensure_ascii=False, indent=1)
         fh.write("\n")
     with open(os.path.join(USCITA, "controllo.md"), "w", encoding="utf-8", newline="\n") as fh:
         fh.write(testo_controllo(r, tutto, blocchi, esiti))
+        if kira:
+            fh.write(testo_controllo_kira(r, kira, esiti_kira or []))
 
 
 def cella(t):
@@ -412,18 +602,24 @@ def main():
     r, tutto = costruisci()
     esiti = verifiche(r, tutto)
     esiti += aggiungi_trailer(r)
-    for e in esiti:
+    esiti_kira = verifiche_kira(r, tutto)
+    for e in esiti + esiti_kira:
         print("%-7s %s" % e)
     blocchi = blocchi_di(r, a.max_minuti)
     for nome, ids in blocchi.items():
-        print("%-14s %3d parti %5d parole  %4.1f min" % (nome, len(ids), sum(r["unita"][i]["parole"] for i in ids), minuti(r, ids)))
+        print("%-18s %3d parti %5d parole  %4.1f min" % (nome, len(ids), sum(r["unita"][i]["parole"] for i in ids), minuti(r, ids)))
         sim = somiglianti([(i, r["unita"][i]) for i in ids])
         for x, y in sim:
             print("   ATTENZIONE parti che si somigliano: «%s» / «%s»" % (x[:60], y[:60]))
-    if any(e[0] != "OK" for e in esiti):
+    kira = blocchi_kira(r)
+    for nome, ids in kira.items():
+        print("%-18s %3d parti %5d parole  %4.1f min" % (nome, len(ids), sum(r["kira"][i]["parole"] for i in ids), minuti_kira(r, ids)))
+        for x, y in somiglianti([(i, r["kira"][i]) for i in ids]):
+            print("   ATTENZIONE parti che si somigliano: «%s» / «%s»" % (x[:60], y[:60]))
+    if any(e[0] != "OK" for e in esiti + esiti_kira):
         raise SystemExit("verifiche non superate: non scrivo niente")
     if a.comando == "blocchi":
-        scrivi(r, tutto, blocchi, esiti)
+        scrivi(r, tutto, blocchi, esiti, kira, esiti_kira)
         print("scritto doppiaggio/en/ (blocchi/, manifest.json, controllo.md)")
 
 
