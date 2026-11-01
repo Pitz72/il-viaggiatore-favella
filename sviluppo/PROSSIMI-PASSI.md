@@ -9,6 +9,13 @@
 
 Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti non sono più da fare (vedi «Non si fa»).
 
+- **I rimedi della revisione del codice** (1° novembre 2026, diario «La revisione totale del codice»): collaudi, build e
+  autoverifica verdi, nessun file di codice cambiato. Aspettano il via di Simone, in ordine: (1) **la domanda del motore che
+  risorge** dopo salva e carica (`ponte.py`: un sì/no di «ricomincia» lasciato cadere con ANNULLA torna, e un «s» per andare a
+  sud fa ripartire la partita da zero), rimedio nel ponte più un caso in `collaudo/salvataggi.py`; (2) **Electron 44.4.4 → 44.10.1**
+  (due avvisi «high»), poi una release; (3) **il workflow «Rilascio»**: permessi di scrittura solo al job della release e il
+  collaudo intero della CI; (4) **un trofeo che si può perdere** se due scritture del deposito partono insieme (`lib/trofei.ts`);
+  (5) le rifiniture minori elencate nel diario.
 - **Il doppiaggio è concluso** (Simone, 1° novembre 2026: «per questo lavoro del doppiaggio abbiamo finito»); i titoli di coda dicono ora tutte le voci, in italiano e in inglese (diario «Il controllo generale e i titoli di coda con tutte le voci»). **La voce recitata in inglese**: **il narratore, la voce di servizio (Kira) e tutti i quattordici personaggi sono fatti** (31 ottobre – 1° novembre 2026, diari «Il doppiaggio
   inglese: il narratore in sei blocchi», «La voce inglese del narratore: taglio, banco e integrazione nel gioco» e «Kira in inglese: taglio, banco
   e gioco», «I quattro personaggi di ElevenLabs in inglese: taglio, banco e gioco» e «Concetta, Iole e Onofrio in inglese»): 532 parti di Enzo
