@@ -17,8 +17,13 @@ Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti 
   - (chiuso il 1° novembre 2026: Simone ha ascoltato le scelte inglesi, che il modello ha letto in fretta ma delle quali «si capisce tutto», il
     trailer, «The plain.» e «Il Viaggiatore»: vanno bene, **le scelte non si rigenerano**; e ha ascoltato Kira mentre generava: «perfetti»);
   - **ascoltare** il narratore e Kira inglesi sul gioco desktop (io non posso) e dire che cosa rifare;
-  - **i quattordici personaggi in inglese**: voci, prompt, blocchi (come per Kira: i testi si ricavano dall'italiano, parte per parte), poi
-    taglio, banco e collaudi per loro;
+  - **i quattordici personaggi in inglese**, a partire da **Imma, Rosaria, Tore e Vito** (quelli fatti con ElevenLabs Eleven v4, di cui si
+    conoscono le voci; Simone li ha chiesti per primi il 1° novembre 2026, e ne ha contati tre: i documenti ne dicono quattro). **Pronti i
+    blocchi** (`doppiaggio/en/blocchi/imma.txt` … `vito.txt`, 69 parti, tag `[accento][tono]` per battuta) **e la prova di accento**
+    (`doppiaggio/en/prove/`, quattro file di sei battute di Vito; la documentazione di v4 è in `doppiaggio/en/eleven-v4.md`). Aspettano
+    Simone: generare le prove (stessa voce, stesse impostazioni), dire quale accento tiene, generare i quattro blocchi. Poi: taglio
+    (`en-imma` … da collegare alla chiave `personaggi` del manifest), banco (cartella inglese a parte, con la licenza ElevenLabs),
+    collaudi. Gli altri dieci (Gemini: voci di libreria da scegliere, prompt) non sono decisi;
   - **gli altri 39 «Generated Audio» in `Downloads`** (maggio – 30 ottobre, non nei master): che cosa sono, se vanno nel backup su F:;
   - confermare le scelte mie (Kira britannica neutra; il modo «inglese» con i personaggi ancora italiani; la voce che segue il testo nella
     prima finestra; il tetto del peso a 40 MB) e, quando Simone lo dice, il rilascio (una minor, 1.41.0).

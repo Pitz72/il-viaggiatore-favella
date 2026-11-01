@@ -20,11 +20,16 @@ Scrive in doppiaggio/en/:
   blocchi/kira-suggerimenti.txt  la voce di servizio (Kira): i suggerimenti tra parentesi
   blocchi/kira-numeri-a.txt,     … e i pezzi con i numeri delle scorte («You have # water,»), a famiglie, in due
          kira-numeri-b.txt       blocchi (i pezzi che differiscono solo per la punteggiatura finale non stanno insieme)
+  blocchi/imma.txt, rosaria.txt, tore.txt, vito.txt
+                                 i personaggi fatti con ElevenLabs in italiano (Eleven v4), in inglese: una battuta per
+                                 paragrafo, con in testa l'accento e il tono come tag fra parentesi quadre
   manifest.json                 per ogni parte: id, testo inglese, testo italiano, da dove viene;
-                                 per ogni testo del gioco, la voce di ogni suo pezzo; a parte (chiave «servizio»)
-                                 le parti di Kira con blocchi e corrispondenze italiano → inglese
+                                 per ogni testo del gioco, la voce di ogni suo pezzo; a parte (chiavi «servizio» e
+                                 «personaggi») le parti di Kira e dei personaggi con blocchi e corrispondenze
+                                 italiano → inglese
   controllo.md                   i conti, le verifiche, ciò che NON è di Enzo, e la tabella
-                                 italiano ↔ inglese di ogni parte di Enzo
+                                 italiano ↔ inglese di ogni parte di Enzo (poi quelle di Kira e dei personaggi)
+  prove/accento-*.txt            le prove di accento per Eleven v4 (stesse sei battute di Vito, un accento diverso)
 
 Il testo per la voce è derivato e non cambia il gioco: le parole in MAIUSCOLO (NORTH, EXAMINE…) si
 abbassano, i nomi dei personaggi tornano con l'iniziale maiuscola, gli a capo diventano spazi.
@@ -32,6 +37,8 @@ abbassano, i nomi dei personaggi tornano con l'iniziale maiuscola, gli a capo di
 Uso:  python strumenti/doppiaggio-inglese.py stato      (conti e verifiche, non scrive)
       python strumenti/doppiaggio-inglese.py blocchi    (verifica e scrive doppiaggio/en/)
       python strumenti/doppiaggio-inglese.py blocchi --max-minuti 9.5
+      python strumenti/doppiaggio-inglese.py blocchi --accento "strong Italian accent"   (o «nessuno»)
+      python strumenti/doppiaggio-inglese.py prove      (scrive solo doppiaggio/en/prove/)
 """
 import argparse
 import glob
@@ -53,6 +60,16 @@ VIRGOLETTE = re.compile("\u201c([^\u201d]*)\u201d")
 MAX_MINUTI = 10.0   # scelto da Simone il 31/10/2026: sei blocchi sotto i 10 minuti (il tetto del servizio è circa 10,9)
 VOCE = "narratore"
 SERVIZIO = "servizio"   # la voce di servizio, Kira: i suggerimenti tra parentesi e i pezzi con i numeri
+# I personaggi che in italiano sono stati fatti con ElevenLabs (Eleven v4): i primi a passare in inglese (Simone, 1/11/2026;
+# sono voci italiane, e in inglese possono avere un accento italiano). Gli altri dieci non sono decisi.
+PERSONAGGI = ("Imma", "Rosaria", "Tore", "Vito")
+# L'accento che si chiede a Eleven v4: un tag davanti a ogni battuta, prima del tono. Dalla prova di accento (vedi prove/);
+# None = nessun tag (la voce parla l'inglese «nativo», che è ciò che v4 fa da solo). Si cambia con --accento.
+ACCENTO = "Italian accent"
+# Le battute di Vito della prova di accento (posizioni nel suo blocco): stanco, minaccioso, affabile ×2, asciutto, spaventato
+PROVA_VITO = (0, 6, 7, 12, 15, 17)
+PROVE_ACCENTO = (("A", "nessuno", None), ("B", "light", "light Italian accent"),
+                 ("C", "italian", "Italian accent"), ("D", "strong", "strong Italian accent"))
 NUMERI_EN = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve",
              "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"]
 
@@ -145,6 +162,7 @@ def costruisci():
     zona_di = {nome: z for z, nome in D.ZONE.items()}
     r = {"unita": OrderedDict(), "altre": OrderedDict(), "stringhe": [], "problemi": [],
          "conflitti": conflitti, "italiani": defaultdict(set), "dinamici": [], "kira": OrderedDict(),
+         "personaggi": defaultdict(lambda: defaultdict(set)),   # voce → testo italiano → le traduzioni che ha nei cataloghi
          "n_stringhe": len(tutto["stringhe"]), "caporali": [0, 0], "parentesi": [0, 0]}
     for s in tutto["stringhe"]:
         chiave = "%s:%d" % (s["file"], s["riga"])
@@ -190,6 +208,8 @@ def costruisci():
                 r["italiani"][ti].add(te)
                 pezzi.append({"voce": voce, "id": i})
             else:
+                if voce != SERVIZIO:
+                    r["personaggi"][voce][ti].add(te)
                 k = (voce, te)
                 x = r["altre"].setdefault(k, {"voce": voce, "testo": te, "italiano": ti, "fonti": []})
                 if chiave not in x["fonti"]:
@@ -484,7 +504,132 @@ def testo_controllo_kira(r, kira, esiti):
     return "\n".join(L)
 
 
-def scrivi(r, tutto, blocchi, esiti, kira=None, esiti_kira=None):
+# ---------------------------------------------------------------------------------------
+# 4. I personaggi (Eleven v4)
+# ---------------------------------------------------------------------------------------
+
+def raccogli_personaggi(r, tutto):
+    """Le parti inglesi dei PERSONAGGI, una per ogni parte italiana, nell'ordine dell'italiano (quello delle registrazioni
+    ElevenLabs di oggi: l'ordine in cui compaiono nel gioco). Ritorna (unita, problemi): l'id inglese è l'impronta di
+    «en-<voce>» e del testo, come per Enzo e Kira."""
+    unita, problemi = OrderedDict(), []
+    for voce in PERSONAGGI:
+        mie = [(ii, u) for ii, u in tutto["unita"].items() if u["voce"] == voce]
+        if not mie:
+            problemi.append("%s: nessuna parte nel manifest italiano" % voce)
+        for ii, ui in mie:
+            ti = ui["testo"]
+            if D.impronta(voce, ti) != ii:
+                problemi.append("%s: l'id italiano di «%s» non è l'impronta del suo testo" % (voce, ti[:40]))
+                continue
+            traduzioni = r["personaggi"].get(voce, {}).get(ti, set())
+            if len(traduzioni) != 1:
+                problemi.append("%s: «%s» ha %d traduzioni nei cataloghi" % (voce, ti[:40], len(traduzioni)))
+                continue
+            te = next(iter(traduzioni))
+            i = D.impronta("en-" + D.slug(voce), te)
+            if i in unita:
+                problemi.append("%s: due parti italiane diventano la stessa parte inglese «%s»" % (voce, te[:40]))
+                continue
+            unita[i] = {"voce": voce, "categoria": ui.get("categoria", "testo"), "zona": ui["zona"], "blocco": D.slug(voce),
+                        "testo": te, "parole": D.parole(te), "italiano": [ti], "fonti": ui["fonti"],
+                        "italiano_ids": [ii], "tono": ui.get("tono") or "calmo"}
+    return unita, problemi
+
+
+def verifiche_personaggi(r, tutto, pers, problemi):
+    """[(esito, descrizione)] per i personaggi di ElevenLabs: in inglese ognuno dice ciò che dice in italiano, parte per parte."""
+    out = []
+    ok = lambda cond, testo: out.append(("OK" if cond else "ERRORE", testo))
+    stili = tutto.get("stili", {})
+    ok(not problemi, "Personaggi: ogni parte italiana di %s ha una traduzione sola nei cataloghi, e non ce ne sono due uguali%s" % (
+        ", ".join(PERSONAGGI), "" if not problemi else ": " + "; ".join(problemi[:3])))
+    for voce in PERSONAGGI:
+        n_it = sum(1 for u in tutto["unita"].values() if u["voce"] == voce)
+        n_en = sum(1 for u in pers.values() if u["voce"] == voce)
+        ok(n_it == n_en, "%s: parti italiane %d, inglesi %d" % (voce, n_it, n_en))
+    sporchi = [u["testo"][:40] for u in pers.values() if re.search(r"[()\[\]<>«»“”\"]", u["testo"])]
+    ok(not sporchi, "Personaggi: nessuna parte contiene parentesi, segnaposto, tag o virgolette%s" % ("" if not sporchi else ": " + "; ".join(sporchi[:3])))
+    maiuscole = [u["testo"][:40] for u in pers.values() if re.search(r"\b[A-Z]{2,}\b", u["testo"])]
+    ok(not maiuscole, "Personaggi: nessuna parola in maiuscolo (Eleven la leggerebbe come enfasi)%s" % ("" if not maiuscole else ": " + "; ".join(maiuscole[:3])))
+    senza_stile = sorted({u["tono"] for u in pers.values() if u["tono"] != "calmo" and u["tono"] not in stili})
+    ok(not senza_stile, "Personaggi: ogni tono ha il suo stile in toni.json%s" % ("" if not senza_stile else ": " + ", ".join(senza_stile)))
+    # i toni sono quelli dell'italiano: il manifest italiano li ha già, qui si controlla solo che non si siano persi
+    persi = [u["testo"][:40] for u in pers.values() if u["tono"] != (tutto["unita"][u["italiano_ids"][0]].get("tono") or "calmo")]
+    ok(not persi, "Personaggi: ogni parte inglese ha il tono della sua parte italiana%s" % ("" if not persi else ": " + "; ".join(persi[:3])))
+    return out
+
+
+def testo_eleven(unita, ids, stili, accento):
+    """Il blocco di un personaggio per Eleven v4: una battuta per paragrafo (una riga vuota fra l'una e l'altra), con in testa
+    l'accento e il tono come tag fra parentesi quadre («[Italian accent][dry, curt] Well?»), impilati come nelle guide di
+    ElevenLabs. Il tono «calmo» è il tono di base e non ha tag. Niente SSML (v4 non lo ha) e niente intestazioni: il file si
+    incolla intero."""
+    righe = []
+    for i in ids:
+        tono = unita[i].get("tono")
+        tag = ("[%s]" % accento if accento else "") + ("[%s]" % stili[tono] if tono and tono != "calmo" and tono in stili else "")
+        righe.append((tag + " " if tag else "") + unita[i]["testo"])
+    return "\n\n".join(righe) + "\n"
+
+
+def blocchi_personaggi(pers):
+    """{blocco: [id]}: un blocco per personaggio, intero (mai a metà: la voce cambierebbe)."""
+    return OrderedDict((D.slug(v), [i for i, u in pers.items() if u["voce"] == v]) for v in PERSONAGGI)
+
+
+def minuti_personaggio(pers, ids):
+    return sum(D.minuti_di(pers[i]["voce"], pers[i]["parole"]) for i in ids)
+
+
+def manifest_personaggi(pers, blocchi, accento):
+    """I personaggi, a parte (come Kira): blocchi, parti e corrispondenze italiano → inglese."""
+    corrispondenze = OrderedDict((u["italiano_ids"][0], i) for i, u in pers.items())
+    return OrderedDict([
+        ("voce", "Eleven v4: le voci italiane di %s, in inglese" % ", ".join(PERSONAGGI)),
+        ("accento", accento),
+        ("blocchi", OrderedDict((n, {"voce": pers[ids[0]]["voce"], "minuti_stimati": round(minuti_personaggio(pers, ids), 1),
+                                     "parti": ids}) for n, ids in blocchi.items())),
+        ("unita", pers), ("corrispondenze", corrispondenze)])
+
+
+def testo_controllo_personaggi(tutto, pers, blocchi, esiti, accento):
+    stili = tutto.get("stili", {})
+    L = ["", "# Controllo dei personaggi inglesi (Eleven v4)", "",
+         "> I personaggi che in italiano sono stati fatti con ElevenLabs, in inglese: stesse parti, stesso ordine, stessi toni.",
+         "> Accento chiesto a Eleven: **%s**." % (accento or "nessuno"), "", "## Verifiche", ""]
+    L += ["- **%s**: %s" % e for e in esiti]
+    L += ["", "## I blocchi", "", "| Blocco | Parti | Parole | Caratteri | Minuti stimati |", "|---|---:|---:|---:|---:|"]
+    for nome, ids in blocchi.items():
+        L.append("| %s | %d | %d | %d | %.1f |" % (nome, len(ids), sum(pers[i]["parole"] for i in ids),
+                                                    sum(len(pers[i]["testo"]) for i in ids), minuti_personaggio(pers, ids)))
+    for nome, ids in blocchi.items():
+        L += ["", "### %s" % nome, "", "| n. | Tono | Italiano | Inglese |", "|---:|---|---|---|"]
+        for k, i in enumerate(ids, 1):
+            u = pers[i]
+            L.append("| %d | %s | %s | %s |" % (k, "(base)" if u["tono"] == "calmo" else stili.get(u["tono"], u["tono"]),
+                                                cella(" / ".join(u["italiano"])), cella(u["testo"])))
+    L.append("")
+    return "\n".join(L)
+
+
+def scrivi_prove(tutto, pers, blocchi):
+    """Le prove di accento: le stesse sei battute di Vito (toni diversi), un accento diverso per file. Si generano tutte con la
+    stessa voce e le stesse impostazioni; ogni generazione varia un poco, quindi si ascolta anche la differenza fra due
+    riprese uguali."""
+    cartella = os.path.join(USCITA, "prove")
+    os.makedirs(cartella, exist_ok=True)
+    for f in glob.glob(os.path.join(cartella, "*.txt")):
+        os.remove(f)
+    vito = blocchi["vito"]
+    scelte = [vito[k] for k in PROVA_VITO]
+    for lettera, nome, accento in PROVE_ACCENTO:
+        with open(os.path.join(cartella, "accento-%s-%s.txt" % (lettera, nome)), "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(testo_eleven(pers, scelte, tutto.get("stili", {}), accento))
+    return sum(len(pers[i]["testo"]) for i in scelte)
+
+
+def scrivi(r, tutto, blocchi, esiti, kira=None, esiti_kira=None, pers=None, esiti_pers=None, accento=None):
     os.makedirs(os.path.join(USCITA, "blocchi"), exist_ok=True)
     for f in glob.glob(os.path.join(USCITA, "blocchi", "*.txt")):
         os.remove(f)
@@ -494,6 +639,10 @@ def scrivi(r, tutto, blocchi, esiti, kira=None, esiti_kira=None):
     for nome, ids in (kira or {}).items():
         with open(os.path.join(USCITA, "blocchi", nome + ".txt"), "w", encoding="utf-8", newline="\n") as fh:
             fh.write(D.testo_del_blocco(r["kira"], ids, {}))
+    blocchi_pers = blocchi_personaggi(pers) if pers else OrderedDict()
+    for nome, ids in blocchi_pers.items():
+        with open(os.path.join(USCITA, "blocchi", nome + ".txt"), "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(testo_eleven(pers, ids, tutto.get("stili", {}), accento))
     unita = OrderedDict()
     for nome, ids in blocchi.items():
         for i in ids:
@@ -526,6 +675,8 @@ def scrivi(r, tutto, blocchi, esiti, kira=None, esiti_kira=None):
     }
     if kira:
         manifest["servizio"] = manifest_kira(r, tutto, kira)
+    if pers:
+        manifest["personaggi"] = manifest_personaggi(pers, blocchi_pers, accento)
     with open(os.path.join(USCITA, "manifest.json"), "w", encoding="utf-8", newline="\n") as fh:
         json.dump(manifest, fh, ensure_ascii=False, indent=1)
         fh.write("\n")
@@ -533,6 +684,8 @@ def scrivi(r, tutto, blocchi, esiti, kira=None, esiti_kira=None):
         fh.write(testo_controllo(r, tutto, blocchi, esiti))
         if kira:
             fh.write(testo_controllo_kira(r, kira, esiti_kira or []))
+        if pers:
+            fh.write(testo_controllo_personaggi(tutto, pers, blocchi_pers, esiti_pers or [], accento))
 
 
 def cella(t):
@@ -595,15 +748,20 @@ def testo_controllo(r, tutto, blocchi, esiti):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("comando", choices=["stato", "blocchi"])
+    ap.add_argument("comando", choices=["stato", "blocchi", "prove"])
     ap.add_argument("--max-minuti", type=float, default=MAX_MINUTI, help="tetto di un blocco (predefinito %s)" % MAX_MINUTI)
+    ap.add_argument("--accento", default=ACCENTO or "nessuno",
+                    help="il tag d'accento davanti a ogni battuta dei personaggi di Eleven v4 (predefinito «%s»; «nessuno» = nessun tag)" % ACCENTO)
     a = ap.parse_args()
+    accento = None if a.accento.lower() in ("nessuno", "none", "") else a.accento
     sys.stdout.reconfigure(encoding="utf-8")
     r, tutto = costruisci()
     esiti = verifiche(r, tutto)
     esiti += aggiungi_trailer(r)
     esiti_kira = verifiche_kira(r, tutto)
-    for e in esiti + esiti_kira:
+    pers, problemi_pers = raccogli_personaggi(r, tutto)
+    esiti_pers = verifiche_personaggi(r, tutto, pers, problemi_pers)
+    for e in esiti + esiti_kira + esiti_pers:
         print("%-7s %s" % e)
     blocchi = blocchi_di(r, a.max_minuti)
     for nome, ids in blocchi.items():
@@ -616,11 +774,19 @@ def main():
         print("%-18s %3d parti %5d parole  %4.1f min" % (nome, len(ids), sum(r["kira"][i]["parole"] for i in ids), minuti_kira(r, ids)))
         for x, y in somiglianti([(i, r["kira"][i]) for i in ids]):
             print("   ATTENZIONE parti che si somigliano: «%s» / «%s»" % (x[:60], y[:60]))
-    if any(e[0] != "OK" for e in esiti + esiti_kira):
+    blocchi_pers = blocchi_personaggi(pers)
+    for nome, ids in blocchi_pers.items():
+        print("%-18s %3d parti %5d parole %5d caratteri  %4.1f min  (accento: %s)" % (
+            nome, len(ids), sum(pers[i]["parole"] for i in ids), sum(len(pers[i]["testo"]) for i in ids),
+            minuti_personaggio(pers, ids), accento or "nessuno"))
+    if any(e[0] != "OK" for e in esiti + esiti_kira + esiti_pers):
         raise SystemExit("verifiche non superate: non scrivo niente")
     if a.comando == "blocchi":
-        scrivi(r, tutto, blocchi, esiti, kira, esiti_kira)
+        scrivi(r, tutto, blocchi, esiti, kira, esiti_kira, pers, esiti_pers, accento)
         print("scritto doppiaggio/en/ (blocchi/, manifest.json, controllo.md)")
+    if a.comando in ("blocchi", "prove"):
+        n = scrivi_prove(tutto, pers, blocchi_pers)
+        print("scritto doppiaggio/en/prove/ (%d prove di %d caratteri)" % (len(PROVE_ACCENTO), n))
 
 
 if __name__ == "__main__":

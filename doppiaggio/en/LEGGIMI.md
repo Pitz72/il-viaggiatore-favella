@@ -1,7 +1,9 @@
 # Il doppiaggio inglese
 
 Il narratore del gioco in inglese (Enzo) e la voce di servizio (Kira), con Gemini 3.8 Flash TTS da Google AI Studio, a mano, come
-in italiano (`../LEGGIMI.md`). I quattordici personaggi in inglese non sono stati decisi.
+in italiano (`../LEGGIMI.md`). Dei quattordici personaggi, quattro (Imma, Rosaria, Tore, Vito: quelli che in italiano sono stati fatti
+con ElevenLabs, Eleven v4) hanno i blocchi inglesi pronti, con le loro voci italiane e un accento italiano da scegliere con una prova
+(`eleven-v4.md`); gli altri dieci non sono decisi.
 
 | File | Contenuto |
 |---|---|
@@ -9,6 +11,9 @@ in italiano (`../LEGGIMI.md`). I quattordici personaggi in inglese non sono stat
 | `blocchi/scelte.txt` | le **scelte di dialogo del giocatore** (81 frasi in prima persona), le legge Enzo; un blocco a parte |
 | `blocchi/kira-suggerimenti.txt`, `kira-numeri-a.txt`, `kira-numeri-b.txt` | **Kira**, la voce di servizio: i 31 suggerimenti tra parentesi e i 89 pezzi con i numeri delle scorte; tre blocchi (vedi sotto) |
 | `blocchi/trailer.txt` | il **trailer**, in gruppi di tono (`### tono — style: …`: un blocco di parlato per gruppo; le righe con `###` non si incollano) |
+| `blocchi/imma.txt`, `rosaria.txt`, `tore.txt`, `vito.txt` | i **personaggi di ElevenLabs** (Eleven v4): una battuta per paragrafo, in testa `[accento][tono]`; si incolla tutto il file (22, 15, 13 e 19 parti, 1.321, 1.180, 1.113 e 971 caratteri) |
+| `prove/accento-A-nessuno.txt` … `-D-strong.txt` | la **prova di accento**: sei battute di Vito, un accento diverso per file (vedi `eleven-v4.md`) |
+| `eleven-v4.md` | la documentazione di Eleven v4 letta il 1° novembre 2026: tag, accenti, punteggiatura, impostazioni; che cosa decide il progetto |
 | `trailer.json` | i testi del trailer inglese, scritti a mano dai testi sullo schermo (`app/src/components/Trailer.tsx`, `app/src/trailer/zone.ts`, `scaletta.ts`); stessi id, toni, finestre e ancore di `../trailer.json` |
 | `manifest.json` | per ogni parte: id, blocco, testo inglese, testo italiano da cui viene, da quale riga di quale `.fav`; per ogni testo del gioco, la voce di ogni suo pezzo; **Kira sta a parte, nella chiave `servizio`** (blocchi, parti, corrispondenze italiano → inglese) |
 | `controllo.md` | le verifiche, i conti, **ciò che non è di Enzo** (suggerimenti e personaggi) e la **tabella italiano ↔ inglese di ogni parte di Enzo** |
@@ -78,7 +83,15 @@ Fatto il 31 ottobre – 1° novembre 2026: i blocchi sono stati generati da Simo
   «long pause» mai letto ad alta voce, quattro sole righe sotto l'85% nel controllo di ognuna da sola, tutte di whisper e non della voce («Nunzio to barter» sentito «Nunzio Tabata», «Iole» sentito «you later», «Onofrio» sentito
   «an off-reel», «and eight food.» sentito «and eat food.», che con la frase vicina come suggerimento torna «eight»). Nel banco ogni blocco di
   Kira sta a −23 LUFS come Enzo (le registrazioni grezze stavano a −17: sei decibel in meno).
-- **I personaggi in inglese**: non registrati. Finché non lo sono, col modo «inglese» suonano in italiano.
+- **I personaggi in inglese**: non registrati. Finché non lo sono, col modo «inglese» suonano in italiano. **Imma, Rosaria, Tore e Vito**
+  (1° novembre 2026, su richiesta di Simone, che li vuole per primi perché ne conosce le voci di ElevenLabs): i blocchi sono pronti
+  (`blocchi/imma.txt` … `vito.txt`; 69 parti, tutte derivate dall'italiano parte per parte, stesso ordine e stessi toni, con sei
+  verifiche in `doppiaggio-inglese.py`) e stanno nel manifest, chiave `personaggi`, con le corrispondenze italiano → inglese come Kira.
+  Le voci sono italiane e in inglese v4 le fa parlare, di suo, senza accento italiano: per chiederlo c'è un tag (`[Italian accent]`,
+  impilato davanti al tono su ogni battuta) e **l'accento si sceglie con la prova** (`prove/`): finché Simone non l'ha ascoltata,
+  quello dei blocchi è il predefinito, `Italian accent`. Per cambiarlo: `python strumenti/doppiaggio-inglese.py blocchi --accento "strong Italian accent"`
+  (o `--accento nessuno`). Da fare dopo le registrazioni: il taglio (`doppiaggio-taglia.py en-imma` … conosce già i tag impilati;
+  va aggiunta la chiave `personaggi` come per Kira), il banco con la cartella `elevenlabs/` inglese e la licenza, e il collaudo.
 
 ## Da sapere (trovato preparando i blocchi)
 

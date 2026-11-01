@@ -25555,5 +25555,1806 @@
    "5b04534c": "33e126ed",
    "4b812710": "2a0f792d"
   }
+ },
+ "personaggi": {
+  "voce": "Eleven v4: le voci italiane di Imma, Rosaria, Tore, Vito, in inglese",
+  "accento": "Italian accent",
+  "blocchi": {
+   "imma": {
+    "voce": "Imma",
+    "minuti_stimati": 3.0,
+    "parti": [
+     "111b67d9",
+     "4ae5daef",
+     "00117ef7",
+     "e62913b9",
+     "b3b2b3a6",
+     "6bc8f7ba",
+     "b3a4eafb",
+     "44d0bab7",
+     "49e1e452",
+     "f49d1b76",
+     "a279f831",
+     "6f98b5df",
+     "7bc3ecfa",
+     "3b93093e",
+     "38a73703",
+     "5dec9c44",
+     "a1db081b",
+     "10a26af2",
+     "3f43e5d8",
+     "10115280",
+     "84a9f10b",
+     "10634de1"
+    ]
+   },
+   "rosaria": {
+    "voce": "Rosaria",
+    "minuti_stimati": 2.6,
+    "parti": [
+     "ac34f3e7",
+     "c59e1e0b",
+     "ba88988e",
+     "675afc21",
+     "838d861a",
+     "29763bc3",
+     "b937f7a4",
+     "fbf77879",
+     "bf2f4a1b",
+     "d58393ae",
+     "9194fced",
+     "6f36b394",
+     "2f85ba65",
+     "4ac05564",
+     "bc730edb"
+    ]
+   },
+   "tore": {
+    "voce": "Tore",
+    "minuti_stimati": 2.4,
+    "parti": [
+     "4ed302a4",
+     "832ee6fc",
+     "9f802493",
+     "1b99eed9",
+     "df7fbcfd",
+     "dbb76cd2",
+     "d7e01df9",
+     "9f9a4b7a",
+     "abc094ad",
+     "9ad99604",
+     "0733e3d8",
+     "20921e09",
+     "c42262a6"
+    ]
+   },
+   "vito": {
+    "voce": "Vito",
+    "minuti_stimati": 2.3,
+    "parti": [
+     "60cfcadf",
+     "2b9ac1ae",
+     "99ded0e1",
+     "bcf590a7",
+     "cc57033d",
+     "cdd2fd6f",
+     "831d2004",
+     "4790405f",
+     "a68781ed",
+     "40cfe6d7",
+     "d43d5b00",
+     "162826ef",
+     "d0d8351b",
+     "1f723e45",
+     "b5344809",
+     "ae68232a",
+     "711fdaac",
+     "20e3cc57",
+     "4866663f"
+    ]
+   }
+  },
+  "unita": {
+   "111b67d9": {
+    "voce": "Imma",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "imma",
+    "testo": "I've said enough for today. If you want to know about the village, ask Rosaria.",
+    "parole": 15,
+    "italiano": [
+     "Per oggi ho detto abbastanza. Se vuoi sapere del paese, chiedi a Rosaria."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 193,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "115e1b9c"
+    ],
+    "tono": "calmo"
+   },
+   "4ae5daef": {
+    "voce": "Imma",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "imma",
+    "testo": "Well?",
+    "parole": 1,
+    "italiano": [
+     "Allora?"
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 194,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "13616540"
+    ],
+    "tono": "asciutto"
+   },
+   "00117ef7": {
+    "voce": "Imma",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "imma",
+    "testo": "You haven't got any. I can tell by the way you walk.",
+    "parole": 12,
+    "italiano": [
+     "Tu non ne hai. Si vede da come cammini."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 195,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "a00095aa"
+    ],
+    "tono": "calmo"
+   },
+   "e62913b9": {
+    "voce": "Imma",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "imma",
+    "testo": "I'm not asking you for water: in the village someone always gives some. What I need is food.",
+    "parole": 18,
+    "italiano": [
+     "Non ti chiedo l'acqua: in paese qualcuno ne dà sempre. Mi serve da mangiare."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 196,
+      "tipo": "dialogo",
+      "parte": 1
+     },
+     {
+      "file": "z4-statale.fav",
+      "riga": 197,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "77218536"
+    ],
+    "tono": "asciutto"
+   },
+   "b3b2b3a6": {
+    "voce": "Imma",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "imma",
+    "testo": "Yes, I know. You too.",
+    "parole": 5,
+    "italiano": [
+     "Sì, lo so. Anche tu."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 196,
+      "tipo": "dialogo",
+      "parte": 3
+     }
+    ],
+    "italiano_ids": [
+     "ae5b5c3b"
+    ],
+    "tono": "calmo"
+   },
+   "6bc8f7ba": {
+    "voce": "Imma",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "imma",
+    "testo": "For three days I've been keeping myself on my feet with spit.",
+    "parole": 12,
+    "italiano": [
+     "Sono tre giorni che mi tengo in piedi con la saliva."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 197,
+      "tipo": "dialogo",
+      "parte": 3
+     }
+    ],
+    "italiano_ids": [
+     "a798c283"
+    ],
+    "tono": "stanco"
+   },
+   "b3a4eafb": {
+    "voce": "Imma",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "imma",
+    "testo": "I'll reach Rosaria before you do.",
+    "parole": 6,
+    "italiano": [
+     "Alla Rosaria ci arrivo prima di te."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 207,
+      "tipo": "dialogo",
+      "parte": 1
+     },
+     {
+      "file": "z4-statale.fav",
+      "riga": 210,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "8787b11e"
+    ],
+    "tono": "sollievo"
+   },
+   "44d0bab7": {
+    "voce": "Imma",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "imma",
+    "testo": "I can't tell you what I'll tell her. But for now my mouth's full.",
+    "parole": 14,
+    "italiano": [
+     "Non so dirti cosa le racconterò. Ma per ora ho la bocca piena."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 207,
+      "tipo": "dialogo",
+      "parte": 3
+     }
+    ],
+    "italiano_ids": [
+     "ee71086c"
+    ],
+    "tono": "sollievo"
+   },
+   "49e1e452": {
+    "voce": "Imma",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "imma",
+    "testo": "Hardly anyone gives away their last. That gets known, in the village.",
+    "parole": 12,
+    "italiano": [
+     "L'ultimo non lo dà quasi nessuno. Quello, in paese, si viene a sapere."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 210,
+      "tipo": "dialogo",
+      "parte": 3
+     }
+    ],
+    "italiano_ids": [
+     "db708b79"
+    ],
+    "tono": "grave"
+   },
+   "f49d1b76": {
+    "voce": "Imma",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "imma",
+    "testo": "I know.",
+    "parole": 2,
+    "italiano": [
+     "Lo so."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 213,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "fe65f3db"
+    ],
+    "tono": "calmo"
+   },
+   "a279f831": {
+    "voce": "Imma",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "imma",
+    "testo": "Everyone says so, and nearly everyone's right.",
+    "parole": 7,
+    "italiano": [
+     "Lo dicono tutti, e quasi tutti hanno ragione."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 213,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "09d2fea0"
+    ],
+    "tono": "amaro"
+   },
+   "6f98b5df": {
+    "voce": "Imma",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "imma",
+    "testo": "Imma. I'm from down there, the alley behind the little square.",
+    "parole": 11,
+    "italiano": [
+     "Imma. Sono di giù, dal vicolo dietro la piazzetta."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 216,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "7adaa04e"
+    ],
+    "tono": "asciutto"
+   },
+   "7bc3ecfa": {
+    "voce": "Imma",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "imma",
+    "testo": "I went to see if there was still anything past the tollbooth. There's the main road.",
+    "parole": 16,
+    "italiano": [
+     "Sono andata a vedere se oltre il casello c'era ancora qualcosa. C'è la statale."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 216,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "01aa56ba"
+    ],
+    "tono": "asciutto"
+   },
+   "3b93093e": {
+    "voce": "Imma",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "imma",
+    "testo": "You're going the other way, or you're going back. I can't tell.",
+    "parole": 12,
+    "italiano": [
+     "Tu vai dall'altra parte, o torni. Non si capisce."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 216,
+      "tipo": "dialogo",
+      "parte": 4
+     }
+    ],
+    "italiano_ids": [
+     "14a39599"
+    ],
+    "tono": "asciutto"
+   },
+   "38a73703": {
+    "voce": "Imma",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "imma",
+    "testo": "Vito.",
+    "parole": 1,
+    "italiano": [
+     "Vito."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 220,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "ca64783f"
+    ],
+    "tono": "asciutto"
+   },
+   "5dec9c44": {
+    "voce": "Imma",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "imma",
+    "testo": "On the way out he looked the other way. On the way back he took the bread I had left and called me sister.",
+    "parole": 24,
+    "italiano": [
+     "All'andata guardava altrove. Al ritorno mi ha preso il pane che mi restava e mi ha chiamata sorella."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 220,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "7c2bc16c"
+    ],
+    "tono": "amaro"
+   },
+   "a1db081b": {
+    "voce": "Imma",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "imma",
+    "testo": "The village is holding out.",
+    "parole": 5,
+    "italiano": [
+     "Il paese tiene."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 223,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "c0e792d2"
+    ],
+    "tono": "calmo"
+   },
+   "10a26af2": {
+    "voce": "Imma",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "imma",
+    "testo": "Rosaria will sit you down, if you arrive clean. If you arrive with something on you, she'll serve you standing: the main road talks faster than the people walking it.",
+    "parole": 30,
+    "italiano": [
+     "Rosaria ti mette a sedere, se arrivi pulito. Se arrivi con qualcosa addosso, ti serve in piedi: la statale parla più in fretta di chi la cammina."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 223,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "6fda15c2"
+    ],
+    "tono": "asciutto"
+   },
+   "3f43e5d8": {
+    "voce": "Imma",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "imma",
+    "testo": "And the boy in the little square will ask you to take him away. Tell him yes or no, but straight away. He's already waited long enough for three.",
+    "parole": 29,
+    "italiano": [
+     "E il ragazzo della piazzetta ti chiederà di portarlo via. Digli di sì o di no, ma subito. Ha già aspettato abbastanza per tre."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 223,
+      "tipo": "dialogo",
+      "parte": 4
+     }
+    ],
+    "italiano_ids": [
+     "05f32a56"
+    ],
+    "tono": "asciutto"
+   },
+   "10115280": {
+    "voce": "Imma",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "imma",
+    "testo": "Pasquale? The one with the fever.",
+    "parole": 6,
+    "italiano": [
+     "Pasquale? Quello con la febbre."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 226,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "96f2491b"
+    ],
+    "tono": "calmo"
+   },
+   "84a9f10b": {
+    "voce": "Imma",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "imma",
+    "testo": "I've never heard him complain. That's what frightens me.",
+    "parole": 9,
+    "italiano": [
+     "Non l'ho mai sentito lamentarsi. È questo che mi fa paura."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 226,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "c9db0fe8"
+    ],
+    "tono": "paura"
+   },
+   "10634de1": {
+    "voce": "Imma",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "imma",
+    "testo": "That one there gave me food, on the descent.",
+    "parole": 9,
+    "italiano": [
+     "Quello lì mi ha dato da mangiare, sulla discesa."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 146,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "73d8e821"
+    ],
+    "tono": "deciso"
+   },
+   "ac34f3e7": {
+    "voce": "Rosaria",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "rosaria",
+    "testo": "There you are. Sit down, I'll fill your glass.",
+    "parole": 9,
+    "italiano": [
+     "Eccoti. Siediti, che ti riempio il bicchiere."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 107,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "c3e4e174"
+    ],
+    "tono": "tenero"
+   },
+   "c59e1e0b": {
+    "voce": "Rosaria",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "rosaria",
+    "testo": "Food and drink, here, we give to everyone. Trust is another matter: that has to be earned.",
+    "parole": 17,
+    "italiano": [
+     "Da mangiare e da bere, qui, si dà a tutti. La fiducia no: quella si guadagna."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 109,
+      "tipo": "dialogo",
+      "parte": 1
+     },
+     {
+      "file": "z5-paese.fav",
+      "riga": 110,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "c0a4eb0a"
+    ],
+    "tono": "deciso"
+   },
+   "ba88988e": {
+    "voce": "Rosaria",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "rosaria",
+    "testo": "But someone has spoken well of you, and it shows.",
+    "parole": 10,
+    "italiano": [
+     "Ma c'è chi ha parlato bene di te, e si sente."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 109,
+      "tipo": "dialogo",
+      "parte": 3
+     }
+    ],
+    "italiano_ids": [
+     "86492b9e"
+    ],
+    "tono": "calmo"
+   },
+   "675afc21": {
+    "voce": "Rosaria",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "rosaria",
+    "testo": "Go on, then.",
+    "parole": 3,
+    "italiano": [
+     "Parla pure."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 111,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "88377b4f"
+    ],
+    "tono": "calmo"
+   },
+   "838d861a": {
+    "voce": "Rosaria",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "rosaria",
+    "testo": "Sit down, you're white with dust. In here you come in the way you'd come into someone else's house: with respect.",
+    "parole": 21,
+    "italiano": [
+     "Siediti, che sei bianco di polvere. Qui si entra come si entra in casa d'altri: con rispetto."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 112,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "1861c935"
+    ],
+    "tono": "calmo"
+   },
+   "29763bc3": {
+    "voce": "Rosaria",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "rosaria",
+    "testo": "Acquamorta is empty now. Except for one. They say he stayed to hold the village, or what's left of it, and that he lets nobody in. Anyone who went away, to him, is as good as dead.",
+    "parole": 37,
+    "italiano": [
+     "Acquamorta è vuota, ormai. Tranne uno. Dicono sia rimasto a tenere il paese, o quel che ne resta, e che non lasci entrare nessuno. Chi è andato via, per lui, è come morto."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 123,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "53aa3875"
+    ],
+    "tono": "grave"
+   },
+   "b937f7a4": {
+    "voce": "Rosaria",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "rosaria",
+    "testo": "That's where you come from, eh? Think about what you're going back to.",
+    "parole": 13,
+    "italiano": [
+     "Tu di là vieni, eh? Pensaci, a cosa torni."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 123,
+      "tipo": "dialogo",
+      "parte": 3
+     }
+    ],
+    "italiano_ids": [
+     "1c6fc8fe"
+    ],
+    "tono": "grave"
+   },
+   "fbf77879": {
+    "voce": "Rosaria",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "rosaria",
+    "testo": "I don't know, and those who know don't say.",
+    "parole": 9,
+    "italiano": [
+     "Non lo so, e chi lo sa non lo dice."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 127,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "041a0963"
+    ],
+    "tono": "asciutto"
+   },
+   "bf2f4a1b": {
+    "voce": "Rosaria",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "rosaria",
+    "testo": "Ask Concetta, in the courtyard. She knows all the families, even the ones that are gone.",
+    "parole": 16,
+    "italiano": [
+     "Chiedi a Concetta, nel cortile. Lei le famiglie le sa tutte, anche quelle che non ci sono più."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 127,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "5c07dd21"
+    ],
+    "tono": "calmo"
+   },
+   "d58393ae": {
+    "voce": "Rosaria",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "rosaria",
+    "testo": "Up that way, a stranger doesn't get through: there's Onofrio, and the shepherds, people who shoot before they ask. I'll write you a couple of lines, but first the village has to trust you. Get people to like you. Help someone, here.",
+    "parole": 42,
+    "italiano": [
+     "Su, da quelle parti, non si arriva da estranei: c'è Onofrio, e i pastori, gente che spara prima di chiedere. Ti do due righe mie, ma prima il paese deve fidarsi di te. Fatti voler bene. Aiuta qualcuno, qui."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 130,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "a7dbd261"
+    ],
+    "tono": "deciso"
+   },
+   "9194fced": {
+    "voce": "Rosaria",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "rosaria",
+    "testo": "You've earned it. A couple of lines from me, to the people up there.",
+    "parole": 14,
+    "italiano": [
+     "Te lo sei guadagnato. Due righe mie, a chi sta lassù."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 131,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "7a43f44f"
+    ],
+    "tono": "tenero"
+   },
+   "6f36b394": {
+    "voce": "Rosaria",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "rosaria",
+    "testo": "When you get there, they'll already know who you are.",
+    "parole": 10,
+    "italiano": [
+     "Quando arrivi, lassù sanno già chi sei."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 135,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "93bfa0d0"
+    ],
+    "tono": "deciso"
+   },
+   "2f85ba65": {
+    "voce": "Rosaria",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "rosaria",
+    "testo": "And eat before you go up. Up there, nobody will ask you in.",
+    "parole": 13,
+    "italiano": [
+     "E mangia, prima di salire. Lassù non ti invita nessuno."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 135,
+      "tipo": "dialogo",
+      "parte": 3
+     }
+    ],
+    "italiano_ids": [
+     "142244a7"
+    ],
+    "tono": "tenero"
+   },
+   "4ac05564": {
+    "voce": "Rosaria",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "rosaria",
+    "testo": "Without a word from me, you won't get up there.",
+    "parole": 10,
+    "italiano": [
+     "Senza una mia parola, lassù non ci arrivi."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 139,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "cf6e0303"
+    ],
+    "tono": "deciso"
+   },
+   "bc730edb": {
+    "voce": "Rosaria",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "rosaria",
+    "testo": "She told me about the descent.",
+    "parole": 6,
+    "italiano": [
+     "Mi ha detto della discesa."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 147,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "abea8989"
+    ],
+    "tono": "calmo"
+   },
+   "4ed302a4": {
+    "voce": "Tore",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "tore",
+    "testo": "What else?",
+    "parole": 2,
+    "italiano": [
+     "Che altro?"
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 118,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "138255b0"
+    ],
+    "tono": "asciutto"
+   },
+   "832ee6fc": {
+    "voce": "Tore",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "tore",
+    "testo": "Nobody comes up here any more, and yet you do. Rosaria sent word to let you through.",
+    "parole": 17,
+    "italiano": [
+     "Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire di lasciarti passare."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 119,
+      "tipo": "dialogo",
+      "parte": 0
+     },
+     {
+      "file": "z6-colline.fav",
+      "riga": 120,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "a690219d"
+    ],
+    "tono": "calmo"
+   },
+   "9f802493": {
+    "voce": "Tore",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "tore",
+    "testo": "She sent word of the rest as well.",
+    "parole": 8,
+    "italiano": [
+     "Ha mandato a dire anche il resto."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 119,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "2a21e690"
+    ],
+    "tono": "diffidente"
+   },
+   "1b99eed9": {
+    "voce": "Tore",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "tore",
+    "testo": "I've got cheese, if you've got anything to trade. Water, maybe: up here there's little of that to drink.",
+    "parole": 19,
+    "italiano": [
+     "Ho formaggio, se hai da scambiare. Acqua, magari: di quella, quassù, se ne beve poca."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 119,
+      "tipo": "dialogo",
+      "parte": 4
+     },
+     {
+      "file": "z6-colline.fav",
+      "riga": 122,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "7e4b4a5a"
+    ],
+    "tono": "calmo"
+   },
+   "df7fbcfd": {
+    "voce": "Tore",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "tore",
+    "testo": "She also sent word that at the tollbooth you pulled out an empty gun, and the other man said easy, easy.",
+    "parole": 21,
+    "italiano": [
+     "Ha mandato a dire anche che al casello hai tirato fuori un ferro vuoto, e che l'altro ha fatto calma, calma."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 120,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "ccf6423e"
+    ],
+    "tono": "canzonatorio"
+   },
+   "dbb76cd2": {
+    "voce": "Tore",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "tore",
+    "testo": "Up here we don't pull out empty guns. But I've got cheese, if you've got anything to trade. Water, maybe.",
+    "parole": 20,
+    "italiano": [
+     "Quassù i ferri vuoti non li tiriamo fuori. Ma ho formaggio, se hai da scambiare. Acqua, magari."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 120,
+      "tipo": "dialogo",
+      "parte": 4
+     }
+    ],
+    "italiano_ids": [
+     "5226cd05"
+    ],
+    "tono": "ironico"
+   },
+   "d7e01df9": {
+    "voce": "Tore",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "tore",
+    "testo": "Nobody comes up here any more, and yet you do. Rosaria sent word that you leave something for those who stay.",
+    "parole": 21,
+    "italiano": [
+     "Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire che lasci qualcosa a chi resta."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 121,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "febb9a69"
+    ],
+    "tono": "calmo"
+   },
+   "9f9a4b7a": {
+    "voce": "Tore",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "tore",
+    "testo": "People like that seldom stop up here. I've got cheese, if you've got anything to trade. Water, maybe: up here there's little of that to drink.",
+    "parole": 26,
+    "italiano": [
+     "Gente così, quassù, si ferma poco. Ho formaggio, se hai da scambiare. Acqua, magari: di quella, quassù, se ne beve poca."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 121,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "e11a4130"
+    ],
+    "tono": "calmo"
+   },
+   "abc094ad": {
+    "voce": "Tore",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "tore",
+    "testo": "Nobody comes up here any more, and yet you do. Rosaria sent word that you're all right.",
+    "parole": 17,
+    "italiano": [
+     "Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire che sei uno a posto."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 122,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "c7bd5b4a"
+    ],
+    "tono": "calmo"
+   },
+   "9ad99604": {
+    "voce": "Tore",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "tore",
+    "testo": "That'll walk with you for days.",
+    "parole": 6,
+    "italiano": [
+     "Roba che cammina con te per giorni."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 128,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "5db163f7"
+    ],
+    "tono": "calmo"
+   },
+   "0733e3d8": {
+    "voce": "Tore",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "tore",
+    "testo": "A man who lets nobody through. He's been there since the village died, guarding nothing.",
+    "parole": 15,
+    "italiano": [
+     "Uno che non lascia passare. Sta là da quando il paese è morto, a guardia di niente."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 131,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "8e21d1b9"
+    ],
+    "tono": "amaro"
+   },
+   "20921e09": {
+    "voce": "Tore",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "tore",
+    "testo": "Your brother, they say down in the village. I don't ask.",
+    "parole": 11,
+    "italiano": [
+     "Tuo fratello, dicono giù al paese. Io non chiedo."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 131,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "d5e57403"
+    ],
+    "tono": "asciutto"
+   },
+   "c42262a6": {
+    "voce": "Tore",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "tore",
+    "testo": "Onofrio doesn't talk to a living soul. To you, maybe, if you bring him something from your house. He's the only one who knows what really happened, down there.",
+    "parole": 29,
+    "italiano": [
+     "Onofrio non parla con anima viva. Con te, forse, se gli porti qualcosa di casa tua. È l'unico che sappia com'è andata davvero, laggiù."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 134,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "5240c0b1"
+    ],
+    "tono": "calmo"
+   },
+   "60cfcadf": {
+    "voce": "Vito",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "vito",
+    "testo": "You've won. Go on, there's nothing left here to take.",
+    "parole": 10,
+    "italiano": [
+     "Hai vinto tu. Va', che qui non c'è più niente da prendere."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 126,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "b413c9d2"
+    ],
+    "tono": "stanco"
+   },
+   "2b9ac1ae": {
+    "voce": "Vito",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "vito",
+    "testo": "You.",
+    "parole": 1,
+    "italiano": [
+     "Tu."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 127,
+      "tipo": "dialogo",
+      "parte": 1
+     },
+     {
+      "file": "z4-statale.fav",
+      "riga": 128,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "c7f39389"
+    ],
+    "tono": "rabbia trattenuta"
+   },
+   "99ded0e1": {
+    "voce": "Vito",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "vito",
+    "testo": "You pulled an empty gun, and I said easy, easy, the way you do with a child.",
+    "parole": 17,
+    "italiano": [
+     "Hai tirato fuori un ferro vuoto, e io ti ho detto calma, calma, come a un bambino."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 127,
+      "tipo": "dialogo",
+      "parte": 3
+     }
+    ],
+    "italiano_ids": [
+     "bff741b3"
+    ],
+    "tono": "rabbia trattenuta"
+   },
+   "bcf590a7": {
+    "voce": "Vito",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "vito",
+    "testo": "I tell it now, to whoever comes through. I tell it well.",
+    "parole": 12,
+    "italiano": [
+     "Lo racconto, adesso, a chi passa. Lo racconto bene."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 127,
+      "tipo": "dialogo",
+      "parte": 5
+     }
+    ],
+    "italiano_ids": [
+     "aff0ece4"
+    ],
+    "tono": "minaccioso"
+   },
+   "cc57033d": {
+    "voce": "Vito",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "vito",
+    "testo": "The barrier's up. Go through, and don't stop.",
+    "parole": 8,
+    "italiano": [
+     "La sbarra è su. Passa, e non fermarti."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 127,
+      "tipo": "dialogo",
+      "parte": 7
+     },
+     {
+      "file": "z4-statale.fav",
+      "riga": 128,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "ea796111"
+    ],
+    "tono": "asciutto"
+   },
+   "cdd2fd6f": {
+    "voce": "Vito",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "vito",
+    "testo": "Now you want to talk?",
+    "parole": 5,
+    "italiano": [
+     "Adesso vuoi parlare?"
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 129,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "d691950d"
+    ],
+    "tono": "minaccioso"
+   },
+   "831d2004": {
+    "voce": "Vito",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "vito",
+    "testo": "Pay, and maybe I'll think again.",
+    "parole": 6,
+    "italiano": [
+     "Paga, e forse ci ripenso."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 129,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "a536b9c8"
+    ],
+    "tono": "minaccioso"
+   },
+   "4790405f": {
+    "voce": "Vito",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "vito",
+    "testo": "Private road, friend. Mine.",
+    "parole": 4,
+    "italiano": [
+     "Strada privata, amico. La mia."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 130,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "89dd3162"
+    ],
+    "tono": "affabile"
+   },
+   "a68781ed": {
+    "voce": "Vito",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "vito",
+    "testo": "There's a toll to pay: something good, and you go through. Otherwise, about turn.",
+    "parole": 14,
+    "italiano": [
+     "Si paga il pedaggio: qualcosa di buono, e passi. Sennò, dietrofront."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 130,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "135a15f3"
+    ],
+    "tono": "affabile"
+   },
+   "40cfe6d7": {
+    "voce": "Vito",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "vito",
+    "testo": "My friend. The barrier's up, for you: go through whenever you like.",
+    "parole": 12,
+    "italiano": [
+     "L'amico mio. La sbarra è su, per te: passa quando vuoi."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 131,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "53dd0bb3"
+    ],
+    "tono": "affabile"
+   },
+   "d43d5b00": {
+    "voce": "Vito",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "vito",
+    "testo": "It's a deal.",
+    "parole": 3,
+    "italiano": [
+     "Affare fatto."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 139,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "2fa2de50"
+    ],
+    "tono": "affabile"
+   },
+   "162826ef": {
+    "voce": "Vito",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "vito",
+    "testo": "The permit, if you want it: you tell the others you've already paid.",
+    "parole": 13,
+    "italiano": [
+     "Il lasciapassare, se lo vuoi: agli altri dici che hai già pagato."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 139,
+      "tipo": "dialogo",
+      "parte": 3
+     }
+    ],
+    "italiano_ids": [
+     "233315bc"
+    ],
+    "tono": "affabile"
+   },
+   "d0d8351b": {
+    "voce": "Vito",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "vito",
+    "testo": "The village? There are still people there: the tavern, the market. Ciro will fleece you, but he's honest about it.",
+    "parole": 20,
+    "italiano": [
+     "Il paese? Gente ancora ce n'è: l'osteria, il mercato. Ciro ti spenna, ma onesto."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 142,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "a7b468a1"
+    ],
+    "tono": "affabile"
+   },
+   "1f723e45": {
+    "voce": "Vito",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "vito",
+    "testo": "Beyond the hills, no. They say at the ford there's a man who turns everyone back. I don't go there: there's nothing in it for me.",
+    "parole": 26,
+    "italiano": [
+     "Oltre le colline, no. Dicono che al guado ci sta uno che rimanda indietro tutti. Io là non ci vado: non ci guadagno niente."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 142,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "07b25122"
+    ],
+    "tono": "grave"
+   },
+   "b5344809": {
+    "voce": "Vito",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "vito",
+    "testo": "The village, yes. You'll get there, if you pay.",
+    "parole": 9,
+    "italiano": [
+     "Il paese, sì. Ci arrivi, se paghi."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 143,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "0c07766d"
+    ],
+    "tono": "asciutto"
+   },
+   "ae68232a": {
+    "voce": "Vito",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "vito",
+    "testo": "The rest isn't mine to sell.",
+    "parole": 6,
+    "italiano": [
+     "Il resto non è merce mia."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 143,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "6ac8527f"
+    ],
+    "tono": "asciutto"
+   },
+   "711fdaac": {
+    "voce": "Vito",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "vito",
+    "testo": "…so go. Go on, then.",
+    "parole": 5,
+    "italiano": [
+     "…e va'. Va' pure, allora."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 164,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "9f644639"
+    ],
+    "tono": "stanco"
+   },
+   "20e3cc57": {
+    "voce": "Vito",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "vito",
+    "testo": "Easy, easy. Go through. Go on through.",
+    "parole": 7,
+    "italiano": [
+     "Calma, calma. Passa. Passa pure."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 168,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "cf16de2f"
+    ],
+    "tono": "paura"
+   },
+   "4866663f": {
+    "voce": "Vito",
+    "categoria": "testo",
+    "zona": "z4",
+    "blocco": "vito",
+    "testo": "Nobody goes that way for free. You know how it works.",
+    "parole": 11,
+    "italiano": [
+     "Di là non si passa gratis. Lo sai come funziona."
+    ],
+    "fonti": [
+     {
+      "file": "z4-statale.fav",
+      "riga": 173,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "c91edc9b"
+    ],
+    "tono": "minaccioso"
+   }
+  },
+  "corrispondenze": {
+   "115e1b9c": "111b67d9",
+   "13616540": "4ae5daef",
+   "a00095aa": "00117ef7",
+   "77218536": "e62913b9",
+   "ae5b5c3b": "b3b2b3a6",
+   "a798c283": "6bc8f7ba",
+   "8787b11e": "b3a4eafb",
+   "ee71086c": "44d0bab7",
+   "db708b79": "49e1e452",
+   "fe65f3db": "f49d1b76",
+   "09d2fea0": "a279f831",
+   "7adaa04e": "6f98b5df",
+   "01aa56ba": "7bc3ecfa",
+   "14a39599": "3b93093e",
+   "ca64783f": "38a73703",
+   "7c2bc16c": "5dec9c44",
+   "c0e792d2": "a1db081b",
+   "6fda15c2": "10a26af2",
+   "05f32a56": "3f43e5d8",
+   "96f2491b": "10115280",
+   "c9db0fe8": "84a9f10b",
+   "73d8e821": "10634de1",
+   "c3e4e174": "ac34f3e7",
+   "c0a4eb0a": "c59e1e0b",
+   "86492b9e": "ba88988e",
+   "88377b4f": "675afc21",
+   "1861c935": "838d861a",
+   "53aa3875": "29763bc3",
+   "1c6fc8fe": "b937f7a4",
+   "041a0963": "fbf77879",
+   "5c07dd21": "bf2f4a1b",
+   "a7dbd261": "d58393ae",
+   "7a43f44f": "9194fced",
+   "93bfa0d0": "6f36b394",
+   "142244a7": "2f85ba65",
+   "cf6e0303": "4ac05564",
+   "abea8989": "bc730edb",
+   "138255b0": "4ed302a4",
+   "a690219d": "832ee6fc",
+   "2a21e690": "9f802493",
+   "7e4b4a5a": "1b99eed9",
+   "ccf6423e": "df7fbcfd",
+   "5226cd05": "dbb76cd2",
+   "febb9a69": "d7e01df9",
+   "e11a4130": "9f9a4b7a",
+   "c7bd5b4a": "abc094ad",
+   "5db163f7": "9ad99604",
+   "8e21d1b9": "0733e3d8",
+   "d5e57403": "20921e09",
+   "5240c0b1": "c42262a6",
+   "b413c9d2": "60cfcadf",
+   "c7f39389": "2b9ac1ae",
+   "bff741b3": "99ded0e1",
+   "aff0ece4": "bcf590a7",
+   "ea796111": "cc57033d",
+   "d691950d": "cdd2fd6f",
+   "a536b9c8": "831d2004",
+   "89dd3162": "4790405f",
+   "135a15f3": "a68781ed",
+   "53dd0bb3": "40cfe6d7",
+   "2fa2de50": "d43d5b00",
+   "233315bc": "162826ef",
+   "a7b468a1": "d0d8351b",
+   "07b25122": "1f723e45",
+   "0c07766d": "b5344809",
+   "6ac8527f": "ae68232a",
+   "9f644639": "711fdaac",
+   "cf16de2f": "20e3cc57",
+   "c91edc9b": "4866663f"
+  }
  }
 }

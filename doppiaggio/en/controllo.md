@@ -1145,3 +1145,118 @@ I minuti usano le costanti dell'italiano per il servizio (220 parole al minuto, 
 | 32 | z1 | Ora hai diciotto d'acqua. | Now you have eighteen water. |
 | 33 | z1 | Ora hai diciannove d'acqua. | Now you have nineteen water. |
 | 34 | z1 | Ora hai venti d'acqua. | Now you have twenty water. |
+
+# Controllo dei personaggi inglesi (Eleven v4)
+
+> I personaggi che in italiano sono stati fatti con ElevenLabs, in inglese: stesse parti, stesso ordine, stessi toni.
+> Accento chiesto a Eleven: **Italian accent**.
+
+## Verifiche
+
+- **OK**: Personaggi: ogni parte italiana di Imma, Rosaria, Tore, Vito ha una traduzione sola nei cataloghi, e non ce ne sono due uguali
+- **OK**: Imma: parti italiane 22, inglesi 22
+- **OK**: Rosaria: parti italiane 15, inglesi 15
+- **OK**: Tore: parti italiane 13, inglesi 13
+- **OK**: Vito: parti italiane 19, inglesi 19
+- **OK**: Personaggi: nessuna parte contiene parentesi, segnaposto, tag o virgolette
+- **OK**: Personaggi: nessuna parola in maiuscolo (Eleven la leggerebbe come enfasi)
+- **OK**: Personaggi: ogni tono ha il suo stile in toni.json
+- **OK**: Personaggi: ogni parte inglese ha il tono della sua parte italiana
+
+## I blocchi
+
+| Blocco | Parti | Parole | Caratteri | Minuti stimati |
+|---|---:|---:|---:|---:|
+| imma | 22 | 256 | 1321 | 3.0 |
+| rosaria | 15 | 230 | 1180 | 2.6 |
+| tore | 13 | 212 | 1113 | 2.4 |
+| vito | 19 | 189 | 971 | 2.3 |
+
+### imma
+
+| n. | Tono | Italiano | Inglese |
+|---:|---|---|---|
+| 1 | (base) | Per oggi ho detto abbastanza. Se vuoi sapere del paese, chiedi a Rosaria. | I've said enough for today. If you want to know about the village, ask Rosaria. |
+| 2 | dry, curt | Allora? | Well? |
+| 3 | (base) | Tu non ne hai. Si vede da come cammini. | You haven't got any. I can tell by the way you walk. |
+| 4 | dry, curt | Non ti chiedo l'acqua: in paese qualcuno ne dà sempre. Mi serve da mangiare. | I'm not asking you for water: in the village someone always gives some. What I need is food. |
+| 5 | (base) | Sì, lo so. Anche tu. | Yes, I know. You too. |
+| 6 | tired, weary | Sono tre giorni che mi tengo in piedi con la saliva. | For three days I've been keeping myself on my feet with spit. |
+| 7 | relieved, a little lighter | Alla Rosaria ci arrivo prima di te. | I'll reach Rosaria before you do. |
+| 8 | relieved, a little lighter | Non so dirti cosa le racconterò. Ma per ora ho la bocca piena. | I can't tell you what I'll tell her. But for now my mouth's full. |
+| 9 | grave, slow, weighing each word | L'ultimo non lo dà quasi nessuno. Quello, in paese, si viene a sapere. | Hardly anyone gives away their last. That gets known, in the village. |
+| 10 | (base) | Lo so. | I know. |
+| 11 | bitter, resigned | Lo dicono tutti, e quasi tutti hanno ragione. | Everyone says so, and nearly everyone's right. |
+| 12 | dry, curt | Imma. Sono di giù, dal vicolo dietro la piazzetta. | Imma. I'm from down there, the alley behind the little square. |
+| 13 | dry, curt | Sono andata a vedere se oltre il casello c'era ancora qualcosa. C'è la statale. | I went to see if there was still anything past the tollbooth. There's the main road. |
+| 14 | dry, curt | Tu vai dall'altra parte, o torni. Non si capisce. | You're going the other way, or you're going back. I can't tell. |
+| 15 | dry, curt | Vito. | Vito. |
+| 16 | bitter, resigned | All'andata guardava altrove. Al ritorno mi ha preso il pane che mi restava e mi ha chiamata sorella. | On the way out he looked the other way. On the way back he took the bread I had left and called me sister. |
+| 17 | (base) | Il paese tiene. | The village is holding out. |
+| 18 | dry, curt | Rosaria ti mette a sedere, se arrivi pulito. Se arrivi con qualcosa addosso, ti serve in piedi: la statale parla più in fretta di chi la cammina. | Rosaria will sit you down, if you arrive clean. If you arrive with something on you, she'll serve you standing: the main road talks faster than the people walking it. |
+| 19 | dry, curt | E il ragazzo della piazzetta ti chiederà di portarlo via. Digli di sì o di no, ma subito. Ha già aspettato abbastanza per tre. | And the boy in the little square will ask you to take him away. Tell him yes or no, but straight away. He's already waited long enough for three. |
+| 20 | (base) | Pasquale? Quello con la febbre. | Pasquale? The one with the fever. |
+| 21 | frightened, unsteady | Non l'ho mai sentito lamentarsi. È questo che mi fa paura. | I've never heard him complain. That's what frightens me. |
+| 22 | firm, resolute | Quello lì mi ha dato da mangiare, sulla discesa. | That one there gave me food, on the descent. |
+
+### rosaria
+
+| n. | Tono | Italiano | Inglese |
+|---:|---|---|---|
+| 1 | tender, gentle | Eccoti. Siediti, che ti riempio il bicchiere. | There you are. Sit down, I'll fill your glass. |
+| 2 | firm, resolute | Da mangiare e da bere, qui, si dà a tutti. La fiducia no: quella si guadagna. | Food and drink, here, we give to everyone. Trust is another matter: that has to be earned. |
+| 3 | (base) | Ma c'è chi ha parlato bene di te, e si sente. | But someone has spoken well of you, and it shows. |
+| 4 | (base) | Parla pure. | Go on, then. |
+| 5 | (base) | Siediti, che sei bianco di polvere. Qui si entra come si entra in casa d'altri: con rispetto. | Sit down, you're white with dust. In here you come in the way you'd come into someone else's house: with respect. |
+| 6 | grave, slow, weighing each word | Acquamorta è vuota, ormai. Tranne uno. Dicono sia rimasto a tenere il paese, o quel che ne resta, e che non lasci entrare nessuno. Chi è andato via, per lui, è come morto. | Acquamorta is empty now. Except for one. They say he stayed to hold the village, or what's left of it, and that he lets nobody in. Anyone who went away, to him, is as good as dead. |
+| 7 | grave, slow, weighing each word | Tu di là vieni, eh? Pensaci, a cosa torni. | That's where you come from, eh? Think about what you're going back to. |
+| 8 | dry, curt | Non lo so, e chi lo sa non lo dice. | I don't know, and those who know don't say. |
+| 9 | (base) | Chiedi a Concetta, nel cortile. Lei le famiglie le sa tutte, anche quelle che non ci sono più. | Ask Concetta, in the courtyard. She knows all the families, even the ones that are gone. |
+| 10 | firm, resolute | Su, da quelle parti, non si arriva da estranei: c'è Onofrio, e i pastori, gente che spara prima di chiedere. Ti do due righe mie, ma prima il paese deve fidarsi di te. Fatti voler bene. Aiuta qualcuno, qui. | Up that way, a stranger doesn't get through: there's Onofrio, and the shepherds, people who shoot before they ask. I'll write you a couple of lines, but first the village has to trust you. Get people to like you. Help someone, here. |
+| 11 | tender, gentle | Te lo sei guadagnato. Due righe mie, a chi sta lassù. | You've earned it. A couple of lines from me, to the people up there. |
+| 12 | firm, resolute | Quando arrivi, lassù sanno già chi sei. | When you get there, they'll already know who you are. |
+| 13 | tender, gentle | E mangia, prima di salire. Lassù non ti invita nessuno. | And eat before you go up. Up there, nobody will ask you in. |
+| 14 | firm, resolute | Senza una mia parola, lassù non ci arrivi. | Without a word from me, you won't get up there. |
+| 15 | (base) | Mi ha detto della discesa. | She told me about the descent. |
+
+### tore
+
+| n. | Tono | Italiano | Inglese |
+|---:|---|---|---|
+| 1 | dry, curt | Che altro? | What else? |
+| 2 | (base) | Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire di lasciarti passare. | Nobody comes up here any more, and yet you do. Rosaria sent word to let you through. |
+| 3 | wary, guarded | Ha mandato a dire anche il resto. | She sent word of the rest as well. |
+| 4 | (base) | Ho formaggio, se hai da scambiare. Acqua, magari: di quella, quassù, se ne beve poca. | I've got cheese, if you've got anything to trade. Water, maybe: up here there's little of that to drink. |
+| 5 | teasing, mocking | Ha mandato a dire anche che al casello hai tirato fuori un ferro vuoto, e che l'altro ha fatto calma, calma. | She also sent word that at the tollbooth you pulled out an empty gun, and the other man said easy, easy. |
+| 6 | wry, ironic | Quassù i ferri vuoti non li tiriamo fuori. Ma ho formaggio, se hai da scambiare. Acqua, magari. | Up here we don't pull out empty guns. But I've got cheese, if you've got anything to trade. Water, maybe. |
+| 7 | (base) | Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire che lasci qualcosa a chi resta. | Nobody comes up here any more, and yet you do. Rosaria sent word that you leave something for those who stay. |
+| 8 | (base) | Gente così, quassù, si ferma poco. Ho formaggio, se hai da scambiare. Acqua, magari: di quella, quassù, se ne beve poca. | People like that seldom stop up here. I've got cheese, if you've got anything to trade. Water, maybe: up here there's little of that to drink. |
+| 9 | (base) | Quassù non sale più nessuno, e tu invece sali. Rosaria ha mandato a dire che sei uno a posto. | Nobody comes up here any more, and yet you do. Rosaria sent word that you're all right. |
+| 10 | (base) | Roba che cammina con te per giorni. | That'll walk with you for days. |
+| 11 | bitter, resigned | Uno che non lascia passare. Sta là da quando il paese è morto, a guardia di niente. | A man who lets nobody through. He's been there since the village died, guarding nothing. |
+| 12 | dry, curt | Tuo fratello, dicono giù al paese. Io non chiedo. | Your brother, they say down in the village. I don't ask. |
+| 13 | (base) | Onofrio non parla con anima viva. Con te, forse, se gli porti qualcosa di casa tua. È l'unico che sappia com'è andata davvero, laggiù. | Onofrio doesn't talk to a living soul. To you, maybe, if you bring him something from your house. He's the only one who knows what really happened, down there. |
+
+### vito
+
+| n. | Tono | Italiano | Inglese |
+|---:|---|---|---|
+| 1 | tired, weary | Hai vinto tu. Va', che qui non c'è più niente da prendere. | You've won. Go on, there's nothing left here to take. |
+| 2 | tightly controlled anger | Tu. | You. |
+| 3 | tightly controlled anger | Hai tirato fuori un ferro vuoto, e io ti ho detto calma, calma, come a un bambino. | You pulled an empty gun, and I said easy, easy, the way you do with a child. |
+| 4 | quietly menacing | Lo racconto, adesso, a chi passa. Lo racconto bene. | I tell it now, to whoever comes through. I tell it well. |
+| 5 | dry, curt | La sbarra è su. Passa, e non fermarti. | The barrier's up. Go through, and don't stop. |
+| 6 | quietly menacing | Adesso vuoi parlare? | Now you want to talk? |
+| 7 | quietly menacing | Paga, e forse ci ripenso. | Pay, and maybe I'll think again. |
+| 8 | affable, friendly on the surface | Strada privata, amico. La mia. | Private road, friend. Mine. |
+| 9 | affable, friendly on the surface | Si paga il pedaggio: qualcosa di buono, e passi. Sennò, dietrofront. | There's a toll to pay: something good, and you go through. Otherwise, about turn. |
+| 10 | affable, friendly on the surface | L'amico mio. La sbarra è su, per te: passa quando vuoi. | My friend. The barrier's up, for you: go through whenever you like. |
+| 11 | affable, friendly on the surface | Affare fatto. | It's a deal. |
+| 12 | affable, friendly on the surface | Il lasciapassare, se lo vuoi: agli altri dici che hai già pagato. | The permit, if you want it: you tell the others you've already paid. |
+| 13 | affable, friendly on the surface | Il paese? Gente ancora ce n'è: l'osteria, il mercato. Ciro ti spenna, ma onesto. | The village? There are still people there: the tavern, the market. Ciro will fleece you, but he's honest about it. |
+| 14 | grave, slow, weighing each word | Oltre le colline, no. Dicono che al guado ci sta uno che rimanda indietro tutti. Io là non ci vado: non ci guadagno niente. | Beyond the hills, no. They say at the ford there's a man who turns everyone back. I don't go there: there's nothing in it for me. |
+| 15 | dry, curt | Il paese, sì. Ci arrivi, se paghi. | The village, yes. You'll get there, if you pay. |
+| 16 | dry, curt | Il resto non è merce mia. | The rest isn't mine to sell. |
+| 17 | tired, weary | …e va'. Va' pure, allora. | …so go. Go on, then. |
+| 18 | frightened, unsteady | Calma, calma. Passa. Passa pure. | Easy, easy. Go through. Go on through. |
+| 19 | quietly menacing | Di là non si passa gratis. Lo sai come funziona. | Nobody goes that way for free. You know how it works. |

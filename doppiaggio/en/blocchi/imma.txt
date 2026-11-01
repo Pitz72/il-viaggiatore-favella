@@ -1,0 +1,43 @@
+[Italian accent] I've said enough for today. If you want to know about the village, ask Rosaria.
+
+[Italian accent][dry, curt] Well?
+
+[Italian accent] You haven't got any. I can tell by the way you walk.
+
+[Italian accent][dry, curt] I'm not asking you for water: in the village someone always gives some. What I need is food.
+
+[Italian accent] Yes, I know. You too.
+
+[Italian accent][tired, weary] For three days I've been keeping myself on my feet with spit.
+
+[Italian accent][relieved, a little lighter] I'll reach Rosaria before you do.
+
+[Italian accent][relieved, a little lighter] I can't tell you what I'll tell her. But for now my mouth's full.
+
+[Italian accent][grave, slow, weighing each word] Hardly anyone gives away their last. That gets known, in the village.
+
+[Italian accent] I know.
+
+[Italian accent][bitter, resigned] Everyone says so, and nearly everyone's right.
+
+[Italian accent][dry, curt] Imma. I'm from down there, the alley behind the little square.
+
+[Italian accent][dry, curt] I went to see if there was still anything past the tollbooth. There's the main road.
+
+[Italian accent][dry, curt] You're going the other way, or you're going back. I can't tell.
+
+[Italian accent][dry, curt] Vito.
+
+[Italian accent][bitter, resigned] On the way out he looked the other way. On the way back he took the bread I had left and called me sister.
+
+[Italian accent] The village is holding out.
+
+[Italian accent][dry, curt] Rosaria will sit you down, if you arrive clean. If you arrive with something on you, she'll serve you standing: the main road talks faster than the people walking it.
+
+[Italian accent][dry, curt] And the boy in the little square will ask you to take him away. Tell him yes or no, but straight away. He's already waited long enough for three.
+
+[Italian accent] Pasquale? The one with the fever.
+
+[Italian accent][frightened, unsteady] I've never heard him complain. That's what frightens me.
+
+[Italian accent][firm, resolute] That one there gave me food, on the descent.
