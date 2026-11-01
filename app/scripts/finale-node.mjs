@@ -79,7 +79,7 @@ prova("le righe del vecchio cartello d'avvio (più i ritratti, dalla 1.38), tutt
   assert.deepEqual(C.CREDITI.map(([che]) => che), VOCI_DEL_CARTELLO);
 });
 prova("l'attribuzione delle voci ElevenLabs c'è", () => {
-  assert.ok(C.CREDITI.some(([che, chi]) => che.includes("Imma") && chi.includes("elevenlabs.io")));
+  assert.ok(C.CREDITI.some(([che, chi]) => che.includes("personaggi") && chi.includes("elevenlabs.io")));
 });
 prova("la canzone compare dopo le musiche delle zone, e solo se c'è", () => {
   const con = C.righeDeiTitoli(true), senza = C.righeDeiTitoli(false);
