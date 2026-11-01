@@ -61,10 +61,11 @@ CODA = 0.08            # secondi lasciati dopo: le code delle vocali si spengono
 DISSOLVENZA = 0.005    # secondi di dissolvenza ai bordi, contro i «clic»
 BITRATE = "32k"
 ESTENSIONE = ".opus"
-A_PARTE = ("imma", "rosaria", "tore", "vito")
-LICENZA_A_PARTE = ("Voci generate con ElevenLabs (elevenlabs.io) sul piano gratuito: escluse dalla licenza CC BY-SA "
-                   "del gioco, solo uso non commerciale; chi fa un'opera derivata o un uso commerciale le toglie o le "
-                   "sostituisce (LICENSE-CONTENUTI.md).")
+# in italiano: i quattro del 20/10/2026, e dal 1/11/2026 gli altri che Simone ha rifatto con ElevenLabs (Concetta resta a Gemini finché non ha la sua voce)
+A_PARTE = ("imma", "rosaria", "tore", "vito", "nunzio", "saverio", "iole", "rocco", "peppe", "ciro", "pasquale", "onofrio", "cosimo")
+LICENZA_A_PARTE = ("Voci generate con ElevenLabs (elevenlabs.io), in parte sul piano gratuito e in parte con un abbonamento: "
+                   "escluse dalla licenza CC BY-SA del gioco, solo uso non commerciale, finché i diritti dell'abbonamento non "
+                   "sono verificati; chi fa un'opera derivata o un uso commerciale le toglie o le sostituisce (LICENSE-CONTENUTI.md).")
 # In inglese i personaggi di ElevenLabs sono sette e non tutti dal piano gratuito (dal 1/11/2026 Simone ha un abbonamento): finché i
 # diritti dell'abbonamento non sono verificati nei termini di ElevenLabs, tutti nella stessa cartella e con la stessa esclusione.
 LICENZA_A_PARTE_EN = ("Voci generate con ElevenLabs (elevenlabs.io), in parte sul piano gratuito e in parte con un abbonamento: "

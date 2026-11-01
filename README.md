@@ -334,12 +334,12 @@ salva e ricarica, e prova la voce (una parte per ogni voce, la traccia del trail
 - **Motore FAVELLA 1** (`motore/`): MIT, © Simone (Pitz72), [motore/LICENSE](motore/LICENSE).
 - **Storia, testi, musica dell'intro, voci del doppiaggio, icona e grafica** (comprese le immagini promozionali di
   `grafica/branding/` e i ritratti e gli oggetti di `app/public/immagini/`, generati con Nano Banana Pro 2.1 di Google in
-  Google Flow): [CC BY-SA 4.0](LICENSE-CONTENUTI.md), tranne le musiche di The Runtimers e le voci di Imma, Rosaria, Tore e
-  Vito (qui sotto).
+  Google Flow): [CC BY-SA 4.0](LICENSE-CONTENUTI.md), tranne le musiche di The Runtimers e le voci dei personaggi
+  (qui sotto).
 - **Le musiche delle zone e la canzone dei titoli di coda** (`app/public/musica/`, `app/public/colonna-sonora/`): di
   The Runtimers, generate con Lyria 3.5 di Google, **escluse dalla licenza libera**; per il loro uso valgono i termini di
   Google per i contenuti generati con Lyria. Si ridistribuiscono come parte del gioco.
-- **Le voci di Imma, Rosaria, Tore e Vito** (`app/public/voce/elevenlabs/`) **e, in inglese, di tutti e quattordici i personaggi** (`app/public/voce/en/elevenlabs/`): fatte con [ElevenLabs](https://elevenlabs.io)
+- **Le voci dei personaggi**: in italiano tutti tranne Concetta (`app/public/voce/elevenlabs/`), in inglese tutti e quattordici (`app/public/voce/en/elevenlabs/`): fatte con [ElevenLabs](https://elevenlabs.io)
   sul piano gratuito, **escluse dalla licenza libera** e **solo per uso non commerciale**; chi fa un'opera derivata o un
   uso commerciale del gioco deve toglierle o sostituirle.
 - **I marchi** di Runtime Multimedia e di FAVELLA 1 (i loghi d'apertura, le immagini promozionali) restano dei
@@ -354,7 +354,7 @@ Il doppiaggio è fatto con la sintesi vocale, a partire dai testi del gioco:
 | il narratore (anche le scelte del giocatore e il trailer) | Google Gemini 3.8 Flash TTS | Enzo |
 | la voce di servizio (suggerimenti, numeri delle scorte) | Google Gemini 3.8 Flash TTS | Kira |
 | Nunzio, Saverio, Iole, Rocco, Peppe, Ciro, Pasquale, Concetta, Onofrio, Cosimo | Google Gemini 3.8 Flash TTS | voci della libreria di AI Studio |
-| Imma, Rosaria, Tore, Vito | ElevenLabs Eleven v4 · elevenlabs.io | Victoria, Valeria, Criss, Luigi: generate sul piano gratuito, distribuite **fuori dalla licenza libera, solo per uso non commerciale** (scelta dell'autore, che ne accetta il rischio) |
+| I personaggi (in italiano tutti tranne Concetta) | ElevenLabs Eleven v4 · elevenlabs.io | voci di libreria o disegnate (Victoria, Valeria, Criss, Luigi, Pierpaolo, Corrado Noventa e altre): generate in parte sul piano gratuito e in parte con un abbonamento, distribuite **fuori dalla licenza libera, solo per uso non commerciale** (scelta dell'autore, che ne accetta il rischio) |
 
 Google non rivendica la proprietà dell'audio generato, che però non è esclusivo; ogni clip porta la filigrana SynthID,
 che non si sente. Le stesse indicazioni sono nel gioco, nei titoli di coda (anche da Extra → Titoli di coda).

@@ -1,16 +1,13 @@
-### asciutto — style: dry, curt
-Altro? <long pause>
-Le casse vuote, nel retro. Portale giù in cantina e un bicchiere te lo verso.
+[dry, curt] Altro?
 
-### diffidente — style: wary, guarded
-Acqua non ne ho da regalare, di questi tempi. Ma qualcosa per la strada lo trovo, se hai da scambiare.
+[wary, guarded] Acqua non ne ho da regalare, di questi tempi. Ma qualcosa per la strada lo trovo, se hai da scambiare.
 
-### ironico — style: wry, ironic
-Oro per acqua. Ai miei tempi avrei riso. Tieni.
+[wry, ironic] Oro per acqua. Ai miei tempi avrei riso. Tieni.
 
-### calmo — style: calm, even
-Un po' di scorta secca. Ti costa un sorso, ma cammini meglio. <long pause>
+Un po' di scorta secca. Ti costa un sorso, ma cammini meglio.
+
+[dry, curt] Le casse vuote, nel retro. Portale giù in cantina e un bicchiere te lo verso.
+
 A ovest, oltre la piana, c'è l'invaso secco. Poi la statale, e un paese che resiste. Poi le colline: Acquamorta è dietro.
 
-### grave — style: grave, slow, weighing each word
-Ma serve una mappa, e acqua. Senza, non ci arrivi.
+[grave, slow, weighing each word] Ma serve una mappa, e acqua. Senza, non ci arrivi.

@@ -10,24 +10,25 @@
  },
  "totale": {
   "parti": 878,
-  "parti_a_parte": 69,
-  "minuti": 65.7,
-  "minuti_a_parte": 4.5,
-  "mb": 15.11,
-  "mb_a_parte": 1.07
+  "parti_a_parte": 185,
+  "minuti": 64.1,
+  "minuti_a_parte": 12.1,
+  "mb": 14.88,
+  "mb_a_parte": 2.86
  },
  "blocchi": {
   "ciro": {
    "voce": "Ciro",
    "parti": 11,
-   "lufs_prima": -19.7,
-   "guadagno_db": -3.3,
+   "lufs_prima": -22.2,
+   "guadagno_db": -0.8,
    "parti_alzate_di_meno": 0,
    "al_massimo_db_in_meno": 0.0,
-   "secondi": 37.0,
-   "lufs_dopo": -23.3,
-   "picco_vero_dbtp": -3.9,
-   "kb": 141
+   "secondi": 34.1,
+   "cartella": "elevenlabs",
+   "lufs_dopo": -23.2,
+   "picco_vero_dbtp": -4.5,
+   "kb": 142
   },
   "concetta": {
    "voce": "Concetta",
@@ -44,14 +45,15 @@
   "cosimo": {
    "voce": "Cosimo",
    "parti": 31,
-   "lufs_prima": -24.9,
-   "guadagno_db": 1.9,
-   "parti_alzate_di_meno": 1,
-   "al_massimo_db_in_meno": 0.2,
-   "secondi": 159.5,
-   "lufs_dopo": -23.8,
-   "picco_vero_dbtp": -1.6,
-   "kb": 611
+   "lufs_prima": -22.3,
+   "guadagno_db": -0.7,
+   "parti_alzate_di_meno": 0,
+   "al_massimo_db_in_meno": 0.0,
+   "secondi": 133.6,
+   "cartella": "elevenlabs",
+   "lufs_dopo": -23.5,
+   "picco_vero_dbtp": -2.0,
+   "kb": 537
   },
   "imma": {
    "voce": "Imma",
@@ -69,14 +71,15 @@
   "iole": {
    "voce": "Iole",
    "parti": 12,
-   "lufs_prima": -18.2,
-   "guadagno_db": -4.8,
+   "lufs_prima": -26.1,
+   "guadagno_db": 3.1,
    "parti_alzate_di_meno": 0,
    "al_massimo_db_in_meno": 0.0,
-   "secondi": 73.2,
-   "lufs_dopo": -23.2,
-   "picco_vero_dbtp": -5.2,
-   "kb": 268
+   "secondi": 56.0,
+   "cartella": "elevenlabs",
+   "lufs_dopo": -23.7,
+   "picco_vero_dbtp": -3.2,
+   "kb": 226
   },
   "narratore-a": {
    "voce": "narratore",
@@ -239,62 +242,67 @@
   "nunzio": {
    "voce": "Nunzio",
    "parti": 7,
-   "lufs_prima": -21.6,
-   "guadagno_db": -1.4,
+   "lufs_prima": -17.3,
+   "guadagno_db": -5.7,
    "parti_alzate_di_meno": 0,
    "al_massimo_db_in_meno": 0.0,
-   "secondi": 47.4,
-   "lufs_dopo": -23.2,
-   "picco_vero_dbtp": -3.6,
-   "kb": 176
+   "secondi": 36.2,
+   "cartella": "elevenlabs",
+   "lufs_dopo": -23.6,
+   "picco_vero_dbtp": -6.2,
+   "kb": 141
   },
   "onofrio": {
    "voce": "Onofrio",
    "parti": 21,
-   "lufs_prima": -28.8,
-   "guadagno_db": 5.8,
-   "parti_alzate_di_meno": 8,
-   "al_massimo_db_in_meno": 2.8,
-   "secondi": 114.7,
-   "lufs_dopo": -24.3,
-   "picco_vero_dbtp": -1.1,
-   "kb": 430
+   "lufs_prima": -21.3,
+   "guadagno_db": -1.7,
+   "parti_alzate_di_meno": 0,
+   "al_massimo_db_in_meno": 0.0,
+   "secondi": 98.1,
+   "cartella": "elevenlabs",
+   "lufs_dopo": -23.4,
+   "picco_vero_dbtp": -5.0,
+   "kb": 406
   },
   "pasquale": {
    "voce": "Pasquale",
    "parti": 4,
-   "lufs_prima": -23.4,
-   "guadagno_db": 0.4,
+   "lufs_prima": -19.0,
+   "guadagno_db": -4.0,
    "parti_alzate_di_meno": 0,
    "al_massimo_db_in_meno": 0.0,
-   "secondi": 17.8,
-   "lufs_dopo": -24.8,
-   "picco_vero_dbtp": -2.8,
-   "kb": 65
+   "secondi": 11.2,
+   "cartella": "elevenlabs",
+   "lufs_dopo": -23.7,
+   "picco_vero_dbtp": -7.3,
+   "kb": 44
   },
   "peppe": {
    "voce": "Peppe",
    "parti": 17,
-   "lufs_prima": -23.2,
-   "guadagno_db": 0.2,
-   "parti_alzate_di_meno": 2,
-   "al_massimo_db_in_meno": 0.6,
-   "secondi": 58.7,
-   "lufs_dopo": -23.6,
-   "picco_vero_dbtp": -1.3,
-   "kb": 220
+   "lufs_prima": -22.1,
+   "guadagno_db": -0.9,
+   "parti_alzate_di_meno": 0,
+   "al_massimo_db_in_meno": 0.0,
+   "secondi": 49.0,
+   "cartella": "elevenlabs",
+   "lufs_dopo": -23.1,
+   "picco_vero_dbtp": -2.1,
+   "kb": 201
   },
   "rocco": {
    "voce": "Rocco",
    "parti": 5,
-   "lufs_prima": -18.5,
-   "guadagno_db": -4.5,
+   "lufs_prima": -20.8,
+   "guadagno_db": -2.2,
    "parti_alzate_di_meno": 0,
    "al_massimo_db_in_meno": 0.0,
-   "secondi": 18.8,
-   "lufs_dopo": -23.4,
-   "picco_vero_dbtp": -5.4,
-   "kb": 71
+   "secondi": 15.7,
+   "cartella": "elevenlabs",
+   "lufs_dopo": -23.3,
+   "picco_vero_dbtp": -3.2,
+   "kb": 63
   },
   "rosaria": {
    "voce": "Rosaria",
@@ -312,14 +320,15 @@
   "saverio": {
    "voce": "Saverio",
    "parti": 8,
-   "lufs_prima": -22.5,
-   "guadagno_db": -0.5,
+   "lufs_prima": -16.9,
+   "guadagno_db": -6.1,
    "parti_alzate_di_meno": 0,
    "al_massimo_db_in_meno": 0.0,
-   "secondi": 24.8,
-   "lufs_dopo": -23.4,
-   "picco_vero_dbtp": -1.1,
-   "kb": 92
+   "secondi": 19.9,
+   "cartella": "elevenlabs",
+   "lufs_dopo": -23.3,
+   "picco_vero_dbtp": -6.1,
+   "kb": 79
   },
   "servizio": {
    "voce": "servizio",

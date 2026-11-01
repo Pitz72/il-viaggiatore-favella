@@ -1,38 +1,41 @@
-### asciutto — style: dry, curt
-Chiedi, finché ho voglia di rispondere. <long pause>
-Quella riga l'ha scritta Cosimo. Il perché chiedilo a lui. <long pause>
-Il guado. <long pause>
-Ho già dato. Quello che hai in mano è la tua scelta, ormai.
+[dry, curt] Chiedi, finché ho voglia di rispondere.
 
-### amaro — style: bitter, resigned
-Non scendo, non parlo, non prego più. Cosa vuoi da un vecchio rimasto. <long pause>
-Sei andato via per mandare i soldi. Per un po' sono arrivati, i soldi. Poi l'acqua se n'è andata, e i soldi non si bevono.
+[bitter, resigned] Non scendo, non parlo, non prego più. Cosa vuoi da un vecchio rimasto.
 
-### incerto — style: unsure, searching for the words
-Ma tu… Io ti conosco. Tu sei di quella casa.
+[unsure, searching for the words] Ma tu… Io ti conosco. Tu sei di quella casa.
 
-### tristezza — style: sad, subdued
-Il piccolo per primo, l'estate della febbre. Lei un mese dopo. Cosimo li ha messi sotto terra da solo, dietro la casa, e non ha voluto nessuno ad aiutarlo. <long pause>
-Quell'estate, qui, le medicine non le aveva nessuno. <long pause>
-L'ho messo io, nella cappella. Qualcuno doveva.
+[bitter, resigned] Sei andato via per mandare i soldi. Per un po' sono arrivati, i soldi. Poi l'acqua se n'è andata, e i soldi non si bevono.
 
-### calmo — style: calm, even
+[sad, subdued] Il piccolo per primo, l'estate della febbre. Lei un mese dopo. Cosimo li ha messi sotto terra da solo, dietro la casa, e non ha voluto nessuno ad aiutarlo.
+
 Giù al paese hai rimesso in piedi uno con la febbre, mi hanno detto.
 
-### grave — style: grave, slow, weighing each word
-Poi ne scrisse un'altra, di notte, e non la spedì. Ce l'ho io. Lui non sa che ce l'ho. <long pause>
-Al guado c'è Cosimo, e non ti lascia passare. Posso darti una cosa sola. <long pause>
-La lettera che non spedì: portagliela, e mettilo davanti a quello che ha scritto. O il fucile: e fattela tu, la strada. Scegli, e va'. <long pause>
-È là, piegata dentro il messale. Prendila tu: io non la tocco più. <long pause>
-Va'. E qualunque cosa fai al guado, falla guardandolo in faccia. <long pause>
-È là, carico. Prendilo tu: io non lo tocco più.
+[sad, subdued] Quell'estate, qui, le medicine non le aveva nessuno.
 
-### commosso — style: moved, voice catching
-Era del piccolo. Lo so perché glielo intagliai io.
+[dry, curt] Quella riga l'ha scritta Cosimo. Il perché chiedilo a lui.
 
-### deciso — style: firm, resolute
-Adesso ascolta. <long pause>
-Portami qualcosa di quella casa. Allora parliamo.
+[grave, slow, weighing each word] Poi ne scrisse un'altra, di notte, e non la spedì. Ce l'ho io. Lui non sa che ce l'ho.
 
-### diffidente — style: wary, guarded
-Ne sono passati, di quelli che chiedevano. Io non do niente a chi non so chi è.
+[moved, voice catching] Era del piccolo. Lo so perché glielo intagliai io.
+
+[firm, resolute] Adesso ascolta.
+
+[sad, subdued] L'ho messo io, nella cappella. Qualcuno doveva.
+
+[dry, curt] Il guado.
+
+[wary, guarded] Ne sono passati, di quelli che chiedevano. Io non do niente a chi non so chi è.
+
+[firm, resolute] Portami qualcosa di quella casa. Allora parliamo.
+
+[grave, slow, weighing each word] Al guado c'è Cosimo, e non ti lascia passare. Posso darti una cosa sola.
+
+[grave, slow, weighing each word] La lettera che non spedì: portagliela, e mettilo davanti a quello che ha scritto. O il fucile: e fattela tu, la strada. Scegli, e va'.
+
+[dry, curt] Ho già dato. Quello che hai in mano è la tua scelta, ormai.
+
+[grave, slow, weighing each word] È là, piegata dentro il messale. Prendila tu: io non la tocco più.
+
+[grave, slow, weighing each word] Va'. E qualunque cosa fai al guado, falla guardandolo in faccia.
+
+[grave, slow, weighing each word] È là, carico. Prendilo tu: io non lo tocco più.

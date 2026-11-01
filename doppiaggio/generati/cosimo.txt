@@ -1,52 +1,61 @@
-### calmo — style: calm, even
-Va' avanti tu. <long pause>
-Quello che lasciava l'acqua per strada. <long pause>
-Sei ancora capace di stare fermo. Almeno questo. <long pause>
-Rosaria ha mandato un ragazzo su dai pastori, e i pastori scendono al greto per le bestie. Così si sa. <long pause>
+Va' avanti tu.
+
+[moved, voice catching] Io arrivo. Dammi il tempo di ricordarmi la strada.
+
+[dry, curt] Hai altro da dirmi, o hai finito?
+
+[bitter, resigned] Lo sapevo, che saresti tornato. Quando non serve più a nessuno.
+
+[tightly controlled anger] E so anche come sei passato: la voce corre più svelta di te, su questa strada. Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi.
+
+[bitter, resigned] Dicono che per strada lasci l'acqua a chi è rimasto.
+
+[tightly controlled anger] A me non l'ha lasciata nessuno. Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi.
+
+[wry, ironic] Dicono che al casello hai puntato una pistola a uno che ti stava addosso, e che era scarica. Hai fatto la faccia giusta.
+
+[tightly controlled anger] Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi.
+
+[sad, subdued] Non sapevi.
+
+[sad, subdued] Quella riga te la scrissi io. Per dirti di non venire, che ero capace di tenere tutto in piedi. Bugia. L'altra lettera non te l'ho mandata.
+
+[grave, slow, weighing each word] Non sapevi perché io non te l'ho lasciato sapere. Questo non ti assolve. Assolve me, semmai, e non voglio.
+
+[firm, resolute] No.
+
+[firm, resolute] Di là ci sono loro. Tu di là ci entri solo se prima passi da me. In un modo o nell'altro.
+
+[moved, voice catching] Quella non doveva leggerla nessuno.
+
+[sad, subdued] Quello lo conosco. L'ho scritto per tenerti lontano, e non è bastato.
+
+[bitter, resigned] Bravo. Almeno uno di noi due finisce questa storia.
+
+[firm, resolute] O spari, o lo posi. Il resto sono chiacchiere.
+
+[dry, curt] Quella del casello.
+
+[dry, curt] Vito l'ha capito dopo. Io l'avevo capito prima che la tirassi fuori.
+
+[dry, curt] Scarica. Si vede da come la tieni.
+
+[bitter, resigned] Le stesse parole le dicevo io, a chi voleva passare. Non sono servite nemmeno a me.
+
+Quello che lasciava l'acqua per strada.
+
+[wary, guarded] E per strada? L'hai posato anche lì?
+
+[wary, guarded] Posarlo non basta. Che ne so io di chi sei diventato, per strada?
+
+[tender, gentle] Da ragazzi ci passavamo i pomeriggi, qui. A tirare sassi per vedere chi arrivava di là.
+
+[bitter, resigned] Chi alza le mani per strada non le posa per sempre al guado.
+
+Sei ancora capace di stare fermo. Almeno questo.
+
+[dry, curt] Di come sei passato, si è saputo anche qui.
+
+Rosaria ha mandato un ragazzo su dai pastori, e i pastori scendono al greto per le bestie. Così si sa.
+
 Lo so da tre giorni, che arrivavi. So anche dove hai lasciato l'acqua.
-
-### commosso — style: moved, voice catching
-Io arrivo. Dammi il tempo di ricordarmi la strada. <long pause>
-Quella non doveva leggerla nessuno.
-
-### asciutto — style: dry, curt
-Hai altro da dirmi, o hai finito? <long pause>
-Quella del casello. <long pause>
-Vito l'ha capito dopo. Io l'avevo capito prima che la tirassi fuori. <long pause>
-Scarica. Si vede da come la tieni. <long pause>
-Di come sei passato, si è saputo anche qui.
-
-### amaro — style: bitter, resigned
-Lo sapevo, che saresti tornato. Quando non serve più a nessuno. <long pause>
-Dicono che per strada lasci l'acqua a chi è rimasto. <long pause>
-Bravo. Almeno uno di noi due finisce questa storia. <long pause>
-Le stesse parole le dicevo io, a chi voleva passare. Non sono servite nemmeno a me. <long pause>
-Chi alza le mani per strada non le posa per sempre al guado.
-
-### rabbia trattenuta — style: tightly controlled anger
-E so anche come sei passato: la voce corre più svelta di te, su questa strada. Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi. <long pause>
-A me non l'ha lasciata nessuno. Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi. <long pause>
-Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi.
-
-### ironico — style: wry, ironic
-Dicono che al casello hai puntato una pistola a uno che ti stava addosso, e che era scarica. Hai fatto la faccia giusta.
-
-### tristezza — style: sad, subdued
-Non sapevi. <long pause>
-Quella riga te la scrissi io. Per dirti di non venire, che ero capace di tenere tutto in piedi. Bugia. L'altra lettera non te l'ho mandata. <long pause>
-Quello lo conosco. L'ho scritto per tenerti lontano, e non è bastato.
-
-### grave — style: grave, slow, weighing each word
-Non sapevi perché io non te l'ho lasciato sapere. Questo non ti assolve. Assolve me, semmai, e non voglio.
-
-### deciso — style: firm, resolute
-No. <long pause>
-Di là ci sono loro. Tu di là ci entri solo se prima passi da me. In un modo o nell'altro. <long pause>
-O spari, o lo posi. Il resto sono chiacchiere.
-
-### diffidente — style: wary, guarded
-E per strada? L'hai posato anche lì? <long pause>
-Posarlo non basta. Che ne so io di chi sei diventato, per strada?
-
-### tenero — style: tender, gentle
-Da ragazzi ci passavamo i pomeriggi, qui. A tirare sassi per vedere chi arrivava di là.

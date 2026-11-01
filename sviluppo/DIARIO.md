@@ -9,6 +9,7 @@ Questo indice si rigenera da sé (`node strumenti/diario.mjs indice`).
 
 | Data | Tipo | Versione | Voce |
 |---|---|---|---|
+| 2026-11-01 | sessione | 1.40.1 | [Le voci italiane dei personaggi rifatte con ElevenLabs](diario/2026-11-01-le-voci-italiane-dei-personaggi-rifatte-con-elevenlabs.md) — Dopo la stima dei crediti, Simone ha detto «sì, solo i personaggi»: le voci italiane di Gemini di nove personaggi su dieci sono rifatte con ElevenLabs, con la stessa voce che ognuno ha in inglese. |
 | 2026-11-01 | sessione | 1.40.1 | [Nunzio, Saverio, Rocco e Pasquale con le voci disegnate](diario/2026-11-01-nunzio-saverio-rocco-e-pasquale-con-le-voci-disegnate.md) — Con le voci disegnate e scelte da Simone, Nunzio, Saverio, Rocco e Pasquale parlano inglese nel gioco: **tutti e quattordici i personaggi sono in inglese** |
 | 2026-11-01 | sessione | 1.40.1 | [Ciro, Peppe e Cosimo in inglese con il connettore ElevenLabs](diario/2026-11-01-ciro-peppe-e-cosimo-in-inglese-con-il-connettore-elevenlabs.md) — Simone ha collegato il connettore ElevenLabs a Claude, ha approvato le voci candidate e ha detto «procedi»: per la prima volta **ho generato io l'audio**. |
 | 2026-11-01 | sessione | 1.40.1 | [Concetta, Iole e Onofrio in inglese: taglio, banco e gioco](diario/2026-11-01-concetta-iole-e-onofrio-in-inglese-taglio-banco-e-gioco.md) — I tre esperimenti di Simone con i crediti avanzati di ElevenLabs (una donna anziana, l'altra, un uomo anziano) sono diventati voci del gioco: Concetta, |

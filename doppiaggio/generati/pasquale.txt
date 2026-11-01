@@ -1,9 +1,7 @@
-### febbrile — style: weak and feverish, trying to sound fine
-Non sto male. <long pause>
-Passa pure, viandante. Non sei il primo che passa.
+[weak and feverish, trying to sound fine] Non sto male.
 
-### sollievo — style: relieved, a little lighter
-Sto meglio. Te lo devo.
+[weak and feverish, trying to sound fine] Passa pure, viandante. Non sei il primo che passa.
 
-### calmo — style: calm, even
-Rosaria l'ha già saputo. Qui le cose si sanno prima di sera.
+[recovered from the fever, relieved, a little lighter] Sto meglio. Te lo devo.
+
+[recovered from the fever, still pale] Rosaria l'ha già saputo. Qui le cose si sanno prima di sera.

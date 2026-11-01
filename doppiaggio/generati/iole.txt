@@ -1,23 +1,23 @@
-### amaro — style: bitter, resigned
-Tutta quest'acqua, e non se ne beve un sorso. <long pause>
-Non è crollato niente. Hanno solo chiuso un rubinetto lontano, un anno dopo l'altro, finché la valle ha smesso di valere l'acqua che costava.
+[bitter, resigned] Tutta quest'acqua, e non se ne beve un sorso.
 
-### diffidente — style: wary, guarded
-Cosa vuoi dalla mia pompa.
+[wary, guarded] Cosa vuoi dalla mia pompa.
 
-### ironico — style: wry, ironic
-Sei ancora qui. Quelli che hanno fretta di solito li ritrovo giù al fondale, a bere con Rocco.
+[wry, ironic] Sei ancora qui. Quelli che hanno fretta di solito li ritrovo giù al fondale, a bere con Rocco.
 
-### calmo — style: calm, even
-Dimmi. <long pause>
-Il casotto è là dietro. Prendi quello che ti serve e fa' andare la pompa. Le pastiglie bastano per una volta. Dopo, col filtro solo, tiri su acqua che sa di ferro: si beve, non si ama. <long pause>
-La pompa la sai far andare, ormai. Il resto è pazienza. <long pause>
-Si filtra, poi si tratta. Il filtro lo monti tu: tela e carbone ce n'è là nella carcassa. Il trattamento sta in casa mia: pastiglie. Ma in casa mia non entra chi non conosco. <long pause>
-No. <long pause>
+Dimmi.
+
+Il casotto è là dietro. Prendi quello che ti serve e fa' andare la pompa. Le pastiglie bastano per una volta. Dopo, col filtro solo, tiri su acqua che sa di ferro: si beve, non si ama.
+
+La pompa la sai far andare, ormai. Il resto è pazienza.
+
+Si filtra, poi si tratta. Il filtro lo monti tu: tela e carbone ce n'è là nella carcassa. Il trattamento sta in casa mia: pastiglie. Ma in casa mia non entra chi non conosco.
+
+[bitter, resigned] Non è crollato niente. Hanno solo chiuso un rubinetto lontano, un anno dopo l'altro, finché la valle ha smesso di valere l'acqua che costava.
+
+[sad, subdued] Io sono rimasta a tenere caldo il posto, caso mai tornasse a scorrere.
+
+No.
+
 Ma aspettare è l'ultimo lavoro rimasto, e lo faccio bene.
 
-### tristezza — style: sad, subdued
-Io sono rimasta a tenere caldo il posto, caso mai tornasse a scorrere.
-
-### deciso — style: firm, resolute
-Casa mia no. Non ti conosco.
+[firm, resolute] Casa mia no. Non ti conosco.

@@ -19,6 +19,10 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
   sceglie.
   Il racconto, i `.fav`, i salvataggi e la voce italiana non cambiano.
 
+### Cambiato
+- **Le voci italiane di nove personaggi sono rifatte con ElevenLabs** (Nunzio, Saverio, Iole, Rocco, Peppe, Ciro, Pasquale, Onofrio e Cosimo): le stesse battute, con la stessa voce che il personaggio ha in inglese,
+  al posto di quelle di Gemini. Concetta, per ora, resta a Gemini. Come le altre quattro di ElevenLabs, stanno in `app/public/voce/elevenlabs/`, fuori dalla licenza libera.
+
 ## [1.40.1] - 2026-10-31
 
 ### Corretto

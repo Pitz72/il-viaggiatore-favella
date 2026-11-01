@@ -1,20 +1,21 @@
-### affabile — style: affable, friendly on the surface
-Avanti, che anche il tempo è merce. <long pause>
-Tutto si scambia, niente si regala. <long pause>
-Acqua, cibo, o qualcosa di buono da rivendere. Tu cos'hai?
+[affable, friendly on the surface] Avanti, che anche il tempo è merce.
 
-### asciutto — style: dry, curt
-Affare.
+[affable, friendly on the surface] Tutto si scambia, niente si regala.
 
-### canzonatorio — style: teasing, mocking
-Carta di Vito? <long pause>
-Mi deve una tanica da due inverni. Questa la prendo per buona. <long pause>
-Quello della pistola. <long pause>
-Vito è passato a raccontarla: gliel'hai puntata in faccia, ed era scarica. Dice che l'ha capito da come la tenevi, come una cosa che si porta, non come una che si usa.
+[affable, friendly on the surface] Acqua, cibo, o qualcosa di buono da rivendere. Tu cos'hai?
 
-### ironico — style: wry, ironic
-Quello del casello. <long pause>
-Qui da me puoi puntare quello che vuoi. Io guardo le mani, e se hanno acqua.
+[dry, curt] Affare.
 
-### amaro — style: bitter, resigned
-Vito mi doveva una tanica da due inverni. Adesso chi me la rende?
+[teasing, mocking] Carta di Vito?
+
+[teasing, mocking] Mi deve una tanica da due inverni. Questa la prendo per buona.
+
+[wry, ironic] Quello del casello.
+
+[bitter, resigned] Vito mi doveva una tanica da due inverni. Adesso chi me la rende?
+
+[teasing, mocking] Quello della pistola.
+
+[teasing, mocking] Vito è passato a raccontarla: gliel'hai puntata in faccia, ed era scarica. Dice che l'ha capito da come la tenevi, come una cosa che si porta, non come una che si usa.
+
+[wry, ironic] Qui da me puoi puntare quello che vuoi. Io guardo le mani, e se hanno acqua.

@@ -32,6 +32,12 @@ riga come tag fra parentesi quadre.
 | Tore | **Criss** («Radio Podcast», clone professionale) | 20/10 (16:36), 70,8 s | 13 righe su 13, tutte verificate; sostituisce per intero l'audio Gemini (archiviato in `generati/archivio/tore-gemini.txt`, clip in `master/clip/tore-gemini/`); voce maschile, circa 120 Hz; nel nome del file: velocità 70, Stability 0, Similarity 0 (la velocità non ha effetto in v4: il ritmo è identico alle altre, circa 180 parole al minuto) |
 | Vito | **Luigi** («Mature, Hoarse and Balanced», clone professionale) | 20/10 (16:40), 61,1 s | 19 righe su 19, tutte verificate; sostituisce per intero l'audio Gemini (archiviato in `generati/archivio/vito-gemini.txt`, clip in `master/clip/vito-gemini/`); voce maschile, circa 130 Hz (Tore 120: non stanno mai nella stessa scena); Stability 50, Similarity 75; la parte 2 («Tu.») ha il taglio incerto: da ascoltare |
 
+### In italiano, rifatti il 1/11/2026 (al posto di Gemini)
+
+Nove personaggi, con la stessa voce dell'inglese (sotto), generati da Claude con il connettore ElevenLabs (`eleven_v4`, una ripresa, impostazioni predefinite; testo italiano con i tag di tono; Pasquale anche lo stato: malato, guarito).
+Il vecchio audio Gemini è archiviato in `doppiaggio/generati/archivio/<nome>-gemini.txt` e `doppiaggio/master/clip/<nome>-gemini/`. Costi in crediti: Nunzio 564, Saverio 384, Iole 1.005, Rocco 336, Peppe 1.163, Ciro 819, Pasquale 330, Onofrio 1.868, Cosimo 2.643 (9.112 in tutto).
+Parti e controllo: 7, 8, 12, 5, 17, 11, 4, 21 e 31, tutte sopra l'85% e senza parole in più. **Peppe**: Vittorio ha un accento milanese. **Concetta**: la voce inglese «Tosca - Mature, Whispery and Seductive» non si trova con il connettore (la ricerca dà solo «Tosca old&deep», un'altra voce): in attesa.
+
 ### In inglese (1/11/2026)
 
 Gli stessi quattro personaggi, con le stesse voci, in inglese: blocchi `doppiaggio/en/blocchi/imma.txt` … `vito.txt`, tag `[Italian accent][tono]` davanti a

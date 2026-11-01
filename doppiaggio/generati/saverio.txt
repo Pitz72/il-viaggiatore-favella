@@ -1,19 +1,15 @@
-### diffidente — style: wary, guarded
-Cosa vuoi. <long pause>
-Acqua.
+[wary, guarded] Cosa vuoi.
 
-### asciutto — style: dry, curt
-Tu. Il secchio sai dov'è. <long pause>
-Il pozzo. Una tanica, non di più: la corda è vecchia.
+[dry, curt] Tu. Il secchio sai dov'è.
 
-### amaro — style: bitter, resigned
-Tutti vogliono acqua. Portami un motivo per fidarmi, e ne parliamo.
+[dry, curt] Il pozzo. Una tanica, non di più: la corda è vecchia.
 
-### calmo — style: calm, even
+[wary, guarded] Acqua.
+
+[bitter, resigned] Tutti vogliono acqua. Portami un motivo per fidarmi, e ne parliamo.
+
 Cala piano, la corda è vecchia. Quel che viene su è tuo.
 
-### minaccioso — style: quietly menacing
-Giù le mani
+[quietly menacing] Giù le mani
 
-### deciso — style: firm, resolute
-Questo pozzo non è una fontana.
+[firm, resolute] Questo pozzo non è una fontana.

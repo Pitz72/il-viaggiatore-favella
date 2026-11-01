@@ -1,32 +1,33 @@
-### incerto — style: unsure, searching for the words
-Giù al mercato dicono che hai già fatto del male, per strada. <long pause>
-È là, casa tua?
+[unsure, searching for the words] Giù al mercato dicono che hai già fatto del male, per strada.
 
-### deciso — style: firm, resolute
-Io voglio saperlo da te, non da loro. <long pause>
-Se là devi farne ancora, dimmelo prima. Io resto indietro, ma voglio saperlo.
+[firm, resolute] Io voglio saperlo da te, non da loro.
 
-### ansioso — style: eager, anxious
-Tu vai a ovest, vero? Oltre le colline. <long pause>
-Portami con te. Qui si muore da fermi. Io cammino, non mi lamento, ti giuro.
+[eager, anxious] Tu vai a ovest, vero? Oltre le colline.
 
-### felice — style: happy, bright
-Allora si parte davvero? <long pause>
-Non te ne penti. Salutare non ho da salutare nessuno: sono pronto. Ti aspetto dove comincia la mulattiera.
+[eager, anxious] Portami con te. Qui si muore da fermi. Io cammino, non mi lamento, ti giuro.
 
-### tristezza — style: sad, subdued
-Ho capito. Stammi bene, viandante. <long pause>
-Sì. Sì, certo. Era una cosa da ragazzini.
+[happy, bright] Allora si parte davvero?
 
-### calmo — style: calm, even
-Allora lo sai com'è. <long pause>
-Mio padre diceva che chi lo dice subito fa meno paura di chi lo nasconde. Non so se è vero. Ma me l'hai detto. <long pause>
+[sad, subdued] Ho capito. Stammi bene, viandante.
+
+Allora lo sai com'è.
+
+Mio padre diceva che chi lo dice subito fa meno paura di chi lo nasconde. Non so se è vero. Ma me l'hai detto.
+
+[bitter, resigned] Ah.
+
+[bitter, resigned] Rosaria di queste cose non sbaglia mai. Ma va bene. Va bene così.
+
+[bitter, resigned] Almeno non mi hai detto una bugia.
+
+[happy, bright] Non te ne penti. Salutare non ho da salutare nessuno: sono pronto. Ti aspetto dove comincia la mulattiera.
+
+[sad, subdued] Sì. Sì, certo. Era una cosa da ragazzini.
+
+[unsure, searching for the words] È là, casa tua?
+
 Mi hai detto del male che hai fatto.
 
-### amaro — style: bitter, resigned
-Ah. <long pause>
-Rosaria di queste cose non sbaglia mai. Ma va bene. Va bene così. <long pause>
-Almeno non mi hai detto una bugia.
+[firm, resolute] Se là devi farne ancora, dimmelo prima. Io resto indietro, ma voglio saperlo.
 
-### rabbia trattenuta — style: tightly controlled anger
-Giù, ti ho chiesto una cosa, e mi hai detto di no. Io i conti li tengo.
+[tightly controlled anger] Giù, ti ho chiesto una cosa, e mi hai detto di no. Io i conti li tengo.
