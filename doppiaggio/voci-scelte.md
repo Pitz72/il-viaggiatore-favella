@@ -47,6 +47,9 @@ sono nel nome del file.
 | Concetta | **Tosca** («Mature, Whispery and Seductive», clone professionale) | 1/11, 08:23, 48,4 s | 8 parti su 8; velocità 0,81, Stability 34, Similarity 40; `[strong Italian accent]` (la sua scheda dice «a strong southern Italian regional flavour»); un esperimento di Simone con i crediti avanzati, poi tenuto |
 | Iole | **Elettra** («Mature actress», clone professionale) | 1/11, 08:26, 57,8 s | 12 parti su 12; velocità 0,84, Stability 71, Similarity 24; `[Italian accent]` |
 | Onofrio | **Nonno Ben** («Passionate grandfather», clone professionale) | 1/11, 08:52, 103,2 s | 21 parti su 21; velocità 0,7, Stability 81, Similarity 100; `[strong Italian accent]` («a thick southern Italian accent») |
+| Ciro | **Pierpaolo** («Voce italiana, matura ed espressiva. Influenza salernitana», libreria) | 1/11, circa 10:18, 38,4 s | 11 parti su 11; generato da Claude con il connettore, impostazioni predefinite (Stability 0,5); `[Italian accent]` |
+| Peppe | **Vittorio boy next door** (libreria; giovane, accento milanese) | 1/11, circa 10:18, 56,6 s | 17 parti su 17; connettore, impostazioni predefinite; `[Italian accent]` |
+| Cosimo | **Corrado Noventa** (libreria; mezza età, profondo e basso, drammatico) | 1/11, circa 10:19, 139,3 s | 31 parti su 31; connettore, impostazioni predefinite; `[Italian accent]`; scelta fra quattro candidate fatta da Claude |
 
 Le voci italiane in inglese si riconoscono «soprattutto nella pronuncia dei nomi» (Simone, 1/11/2026): l'accento chiesto è `Italian accent` (`strong Italian accent`
 per Concetta e Onofrio, le cui schede lo vogliono più marcato), la prova delle alternative (`doppiaggio/en/prove/`) non è stata fatta. I nomi dei file scaricati

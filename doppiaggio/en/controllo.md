@@ -1149,11 +1149,11 @@ I minuti usano le costanti dell'italiano per il servizio (220 parole al minuto, 
 # Controllo dei personaggi inglesi (Eleven v4)
 
 > I personaggi che in italiano sono stati fatti con ElevenLabs, in inglese: stesse parti, stesso ordine, stessi toni.
-> Accento chiesto a Eleven: imma **Italian accent**, rosaria **Italian accent**, tore **Italian accent**, vito **Italian accent**, concetta **strong Italian accent**, iole **Italian accent**, onofrio **strong Italian accent**.
+> Accento chiesto a Eleven: imma **Italian accent**, rosaria **Italian accent**, tore **Italian accent**, vito **Italian accent**, concetta **strong Italian accent**, iole **Italian accent**, onofrio **strong Italian accent**, ciro **Italian accent**, peppe **Italian accent**, cosimo **Italian accent**.
 
 ## Verifiche
 
-- **OK**: Personaggi: ogni parte italiana di Imma, Rosaria, Tore, Vito, Concetta, Iole, Onofrio ha una traduzione sola nei cataloghi, e non ce ne sono due uguali
+- **OK**: Personaggi: ogni parte italiana di Imma, Rosaria, Tore, Vito, Concetta, Iole, Onofrio, Ciro, Peppe, Cosimo ha una traduzione sola nei cataloghi, e non ce ne sono due uguali
 - **OK**: Imma: parti italiane 22, inglesi 22
 - **OK**: Rosaria: parti italiane 15, inglesi 15
 - **OK**: Tore: parti italiane 13, inglesi 13
@@ -1161,6 +1161,9 @@ I minuti usano le costanti dell'italiano per il servizio (220 parole al minuto, 
 - **OK**: Concetta: parti italiane 8, inglesi 8
 - **OK**: Iole: parti italiane 12, inglesi 12
 - **OK**: Onofrio: parti italiane 21, inglesi 21
+- **OK**: Ciro: parti italiane 11, inglesi 11
+- **OK**: Peppe: parti italiane 17, inglesi 17
+- **OK**: Cosimo: parti italiane 31, inglesi 31
 - **OK**: Personaggi: nessuna parte contiene parentesi, segnaposto, tag o virgolette
 - **OK**: Personaggi: nessuna parola in maiuscolo (Eleven la leggerebbe come enfasi)
 - **OK**: Personaggi: ogni tono ha il suo stile in toni.json
@@ -1177,6 +1180,9 @@ I minuti usano le costanti dell'italiano per il servizio (220 parole al minuto, 
 | concetta | 8 | 134 | 678 | 1.5 |
 | iole | 12 | 189 | 939 | 2.1 |
 | onofrio | 21 | 290 | 1448 | 3.3 |
+| ciro | 11 | 118 | 607 | 1.4 |
+| peppe | 17 | 197 | 992 | 2.3 |
+| cosimo | 31 | 452 | 2227 | 5.1 |
 
 ### imma
 
@@ -1322,3 +1328,77 @@ I minuti usano le costanti dell'italiano per il servizio (220 parole al minuto, 
 | 19 | grave, slow, weighing each word | È là, piegata dentro il messale. Prendila tu: io non la tocco più. | It's there, folded inside the missal. You take it: I won't touch it again. |
 | 20 | grave, slow, weighing each word | Va'. E qualunque cosa fai al guado, falla guardandolo in faccia. | Go. And whatever you do at the ford, do it looking him in the face. |
 | 21 | grave, slow, weighing each word | È là, carico. Prendilo tu: io non lo tocco più. | It's there, loaded. You take it: I won't touch it again. |
+
+### ciro
+
+| n. | Tono | Italiano | Inglese |
+|---:|---|---|---|
+| 1 | affable, friendly on the surface | Avanti, che anche il tempo è merce. | Come on, time's a commodity too. |
+| 2 | affable, friendly on the surface | Tutto si scambia, niente si regala. | Everything's traded, nothing's given away. |
+| 3 | affable, friendly on the surface | Acqua, cibo, o qualcosa di buono da rivendere. Tu cos'hai? | Water, food, or something good to sell on. What have you got? |
+| 4 | dry, curt | Affare. | Deal. |
+| 5 | teasing, mocking | Carta di Vito? | Vito's paper? |
+| 6 | teasing, mocking | Mi deve una tanica da due inverni. Questa la prendo per buona. | He's owed me a jerrycan for two winters. I'll take this as good. |
+| 7 | wry, ironic | Quello del casello. | The one from the tollbooth. |
+| 8 | bitter, resigned | Vito mi doveva una tanica da due inverni. Adesso chi me la rende? | Vito had owed me a jerrycan for two winters. Who's going to pay me back now? |
+| 9 | teasing, mocking | Quello della pistola. | The one with the pistol. |
+| 10 | teasing, mocking | Vito è passato a raccontarla: gliel'hai puntata in faccia, ed era scarica. Dice che l'ha capito da come la tenevi, come una cosa che si porta, non come una che si usa. | Vito came by to tell it: you pointed it in his face, and it wasn't loaded. He says he could tell from the way you held it, like something you carry, not something you use. |
+| 11 | wry, ironic | Qui da me puoi puntare quello che vuoi. Io guardo le mani, e se hanno acqua. | At my stall you can point whatever you like. I look at hands, and whether they've got water. |
+
+### peppe
+
+| n. | Tono | Italiano | Inglese |
+|---:|---|---|---|
+| 1 | unsure, searching for the words | Giù al mercato dicono che hai già fatto del male, per strada. | Down at the market they say you've already hurt someone, on the road. |
+| 2 | firm, resolute | Io voglio saperlo da te, non da loro. | I want to hear it from you, not from them. |
+| 3 | eager, anxious | Tu vai a ovest, vero? Oltre le colline. | You're going west, aren't you? Beyond the hills. |
+| 4 | eager, anxious | Portami con te. Qui si muore da fermi. Io cammino, non mi lamento, ti giuro. | Take me with you. Here you die standing still. I'll walk, I won't complain, I swear. |
+| 5 | happy, bright | Allora si parte davvero? | So we're really going? |
+| 6 | sad, subdued | Ho capito. Stammi bene, viandante. | I understand. Look after yourself, traveller. |
+| 7 | (base) | Allora lo sai com'è. | Then you know what it's like. |
+| 8 | (base) | Mio padre diceva che chi lo dice subito fa meno paura di chi lo nasconde. Non so se è vero. Ma me l'hai detto. | My father used to say the one who tells it straight away is less frightening than the one who hides it. I don't know if it's true. But you told me. |
+| 9 | bitter, resigned | Ah. | Ah. |
+| 10 | bitter, resigned | Rosaria di queste cose non sbaglia mai. Ma va bene. Va bene così. | Rosaria's never wrong about these things. But all right. That's all right. |
+| 11 | bitter, resigned | Almeno non mi hai detto una bugia. | At least you didn't lie to me. |
+| 12 | happy, bright | Non te ne penti. Salutare non ho da salutare nessuno: sono pronto. Ti aspetto dove comincia la mulattiera. | You won't be sorry. As for goodbyes, I've no one to say them to: I'm ready. I'll wait for you where the mule track starts. |
+| 13 | sad, subdued | Sì. Sì, certo. Era una cosa da ragazzini. | Yes. Yes, of course. It was a childish idea. |
+| 14 | unsure, searching for the words | È là, casa tua? | Is that your house, down there? |
+| 15 | (base) | Mi hai detto del male che hai fatto. | You told me about the harm you've done. |
+| 16 | firm, resolute | Se là devi farne ancora, dimmelo prima. Io resto indietro, ma voglio saperlo. | If there's more of it to do down there, tell me first. I'll stay back, but I want to know. |
+| 17 | tightly controlled anger | Giù, ti ho chiesto una cosa, e mi hai detto di no. Io i conti li tengo. | Back down there, I asked you something, and you told me no. I keep count. |
+
+### cosimo
+
+| n. | Tono | Italiano | Inglese |
+|---:|---|---|---|
+| 1 | (base) | Va' avanti tu. | You go on. |
+| 2 | moved, voice catching | Io arrivo. Dammi il tempo di ricordarmi la strada. | I'll be along. Give me time to remember the way. |
+| 3 | dry, curt | Hai altro da dirmi, o hai finito? | Anything else to say to me, or have you finished? |
+| 4 | bitter, resigned | Lo sapevo, che saresti tornato. Quando non serve più a nessuno. | I knew you'd come back. When it's no use to anyone any more. |
+| 5 | tightly controlled anger | E so anche come sei passato: la voce corre più svelta di te, su questa strada. Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi. | And I know how you came through, too: word travels faster than you do on this road. I stayed here, closing everyone's eyes. You were safe, far away. The ford is mine now, and you don't cross it. |
+| 6 | bitter, resigned | Dicono che per strada lasci l'acqua a chi è rimasto. | They say you leave water along the road for the ones who stayed. |
+| 7 | tightly controlled anger | A me non l'ha lasciata nessuno. Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi. | Nobody left any for me. I stayed here, closing everyone's eyes. You were safe, far away. The ford is mine now, and you don't cross it. |
+| 8 | wry, ironic | Dicono che al casello hai puntato una pistola a uno che ti stava addosso, e che era scarica. Hai fatto la faccia giusta. | They say at the tollbooth you pointed a pistol at a man who was leaning on you, and it was empty. You got the face right. |
+| 9 | tightly controlled anger | Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi. | I stayed here, closing everyone's eyes. You were safe, far away. The ford is mine now, and you don't cross it. |
+| 10 | sad, subdued | Non sapevi. | You didn't know. |
+| 11 | sad, subdued | Quella riga te la scrissi io. Per dirti di non venire, che ero capace di tenere tutto in piedi. Bugia. L'altra lettera non te l'ho mandata. | I wrote you that line. To tell you not to come, that I could hold everything together. A lie. The other letter I never sent you. |
+| 12 | grave, slow, weighing each word | Non sapevi perché io non te l'ho lasciato sapere. Questo non ti assolve. Assolve me, semmai, e non voglio. | You didn't know because I didn't let you know. That doesn't absolve you. It absolves me, if anything, and I don't want it. |
+| 13 | firm, resolute | No. | No. |
+| 14 | firm, resolute | Di là ci sono loro. Tu di là ci entri solo se prima passi da me. In un modo o nell'altro. | They're on the other side. You only go over there if you get past me first. One way or another. |
+| 15 | moved, voice catching | Quella non doveva leggerla nessuno. | Nobody was meant to read that. |
+| 16 | sad, subdued | Quello lo conosco. L'ho scritto per tenerti lontano, e non è bastato. | I know that one. I wrote it to keep you away, and it wasn't enough. |
+| 17 | bitter, resigned | Bravo. Almeno uno di noi due finisce questa storia. | Well done. At least one of us finishes this. |
+| 18 | firm, resolute | O spari, o lo posi. Il resto sono chiacchiere. | Either shoot or put it down. The rest is talk. |
+| 19 | dry, curt | Quella del casello. | The one from the tollbooth. |
+| 20 | dry, curt | Vito l'ha capito dopo. Io l'avevo capito prima che la tirassi fuori. | Vito worked it out afterwards. I'd worked it out before you drew it. |
+| 21 | dry, curt | Scarica. Si vede da come la tieni. | Empty. You can tell from the way you hold it. |
+| 22 | bitter, resigned | Le stesse parole le dicevo io, a chi voleva passare. Non sono servite nemmeno a me. | I used to say the same words to anyone who wanted to cross. They did me no good either. |
+| 23 | (base) | Quello che lasciava l'acqua per strada. | The one who left water along the road. |
+| 24 | wary, guarded | E per strada? L'hai posato anche lì? | And on the road? Did you put it down there too? |
+| 25 | wary, guarded | Posarlo non basta. Che ne so io di chi sei diventato, per strada? | Putting it down isn't enough. What do I know about who you've become, out on the road? |
+| 26 | tender, gentle | Da ragazzi ci passavamo i pomeriggi, qui. A tirare sassi per vedere chi arrivava di là. | When we were boys we spent our afternoons here. Throwing stones to see who'd reach the other side. |
+| 27 | bitter, resigned | Chi alza le mani per strada non le posa per sempre al guado. | A man who raises his hands on the road doesn't lay them down for good at the ford. |
+| 28 | (base) | Sei ancora capace di stare fermo. Almeno questo. | You still know how to keep still. That much, at least. |
+| 29 | dry, curt | Di come sei passato, si è saputo anche qui. | Word of how you came through got here too. |
+| 30 | (base) | Rosaria ha mandato un ragazzo su dai pastori, e i pastori scendono al greto per le bestie. Così si sa. | Rosaria sent a boy up to the shepherds, and the shepherds bring their animals down to the riverbed. That's how word gets round. |
+| 31 | (base) | Lo so da tre giorni, che arrivavi. So anche dove hai lasciato l'acqua. | I've known for three days that you were coming. I know where you left the water, too. |

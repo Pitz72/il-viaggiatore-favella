@@ -25557,7 +25557,7 @@
   }
  },
  "personaggi": {
-  "voce": "Eleven v4: le voci italiane di Imma, Rosaria, Tore, Vito, Concetta, Iole, Onofrio, in inglese",
+  "voce": "Eleven v4: le voci italiane di Imma, Rosaria, Tore, Vito, Concetta, Iole, Onofrio, Ciro, Peppe, Cosimo, in inglese",
   "accento_predefinito": "Italian accent",
   "blocchi": {
    "imma": {
@@ -25717,6 +25717,86 @@
      "281259b6",
      "ba8ed63b",
      "cac51d73"
+    ]
+   },
+   "ciro": {
+    "voce": "Ciro",
+    "accento": "Italian accent",
+    "minuti_stimati": 1.4,
+    "parti": [
+     "a0c3742b",
+     "49c245d1",
+     "9b09453c",
+     "0662d351",
+     "9cae23ba",
+     "449a6a93",
+     "1c6fcec5",
+     "831059a8",
+     "ec5ceccb",
+     "7da5b577",
+     "297fae21"
+    ]
+   },
+   "peppe": {
+    "voce": "Peppe",
+    "accento": "Italian accent",
+    "minuti_stimati": 2.3,
+    "parti": [
+     "fab940e8",
+     "21954337",
+     "618f93b1",
+     "ec29b1c5",
+     "57b6d94e",
+     "aa3402ea",
+     "3a6fc914",
+     "2c55a407",
+     "d0f90b0b",
+     "e32a69d8",
+     "d0f47cb9",
+     "11b94166",
+     "bdc03bb3",
+     "e73570c2",
+     "8d054ce1",
+     "9b98f55b",
+     "4393734d"
+    ]
+   },
+   "cosimo": {
+    "voce": "Cosimo",
+    "accento": "Italian accent",
+    "minuti_stimati": 5.1,
+    "parti": [
+     "cfb8d85f",
+     "6c340cb7",
+     "b39c564e",
+     "d0516864",
+     "3056e146",
+     "13b75e34",
+     "77c60c36",
+     "cb4b6813",
+     "fe7364ce",
+     "7277e096",
+     "e6fb94fa",
+     "862b5034",
+     "620965b2",
+     "98264b55",
+     "21e17968",
+     "83f3eb03",
+     "1daf4995",
+     "969b6b3a",
+     "06c238e8",
+     "2004ce8c",
+     "b2f6b7fc",
+     "054f149b",
+     "be6e6819",
+     "c2105c9b",
+     "c233e55d",
+     "8cb5203b",
+     "e9e9a6bd",
+     "f6a0a57b",
+     "eb1eb7c0",
+     "f575ed01",
+     "fe3a47b7"
     ]
    }
   },
@@ -28316,6 +28396,1411 @@
      "28514652"
     ],
     "tono": "grave"
+   },
+   "a0c3742b": {
+    "voce": "Ciro",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "ciro",
+    "testo": "Come on, time's a commodity too.",
+    "parole": 6,
+    "italiano": [
+     "Avanti, che anche il tempo è merce."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 233,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "b8bee090"
+    ],
+    "tono": "affabile"
+   },
+   "49c245d1": {
+    "voce": "Ciro",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "ciro",
+    "testo": "Everything's traded, nothing's given away.",
+    "parole": 5,
+    "italiano": [
+     "Tutto si scambia, niente si regala."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "01609c64"
+    ],
+    "tono": "affabile"
+   },
+   "9b09453c": {
+    "voce": "Ciro",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "ciro",
+    "testo": "Water, food, or something good to sell on. What have you got?",
+    "parole": 12,
+    "italiano": [
+     "Acqua, cibo, o qualcosa di buono da rivendere. Tu cos'hai?"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 234,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "f6af42cb"
+    ],
+    "tono": "affabile"
+   },
+   "0662d351": {
+    "voce": "Ciro",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "ciro",
+    "testo": "Deal.",
+    "parole": 1,
+    "italiano": [
+     "Affare."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 253,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "7ad2b6bd"
+    ],
+    "tono": "asciutto"
+   },
+   "9cae23ba": {
+    "voce": "Ciro",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "ciro",
+    "testo": "Vito's paper?",
+    "parole": 2,
+    "italiano": [
+     "Carta di Vito?"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "4f559a95"
+    ],
+    "tono": "canzonatorio"
+   },
+   "449a6a93": {
+    "voce": "Ciro",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "ciro",
+    "testo": "He's owed me a jerrycan for two winters. I'll take this as good.",
+    "parole": 13,
+    "italiano": [
+     "Mi deve una tanica da due inverni. Questa la prendo per buona."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 259,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "c910b9c2"
+    ],
+    "tono": "canzonatorio"
+   },
+   "1c6fcec5": {
+    "voce": "Ciro",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "ciro",
+    "testo": "The one from the tollbooth.",
+    "parole": 5,
+    "italiano": [
+     "Quello del casello."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 263,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "41d4553d"
+    ],
+    "tono": "ironico"
+   },
+   "831059a8": {
+    "voce": "Ciro",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "ciro",
+    "testo": "Vito had owed me a jerrycan for two winters. Who's going to pay me back now?",
+    "parole": 16,
+    "italiano": [
+     "Vito mi doveva una tanica da due inverni. Adesso chi me la rende?"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 263,
+      "tipo": "messaggio",
+      "parte": 3
+     }
+    ],
+    "italiano_ids": [
+     "23d9a4bd"
+    ],
+    "tono": "amaro"
+   },
+   "ec5ceccb": {
+    "voce": "Ciro",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "ciro",
+    "testo": "The one with the pistol.",
+    "parole": 5,
+    "italiano": [
+     "Quello della pistola."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 265,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "dacfff14"
+    ],
+    "tono": "canzonatorio"
+   },
+   "7da5b577": {
+    "voce": "Ciro",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "ciro",
+    "testo": "Vito came by to tell it: you pointed it in his face, and it wasn't loaded. He says he could tell from the way you held it, like something you carry, not something you use.",
+    "parole": 35,
+    "italiano": [
+     "Vito è passato a raccontarla: gliel'hai puntata in faccia, ed era scarica. Dice che l'ha capito da come la tenevi, come una cosa che si porta, non come una che si usa."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 265,
+      "tipo": "messaggio",
+      "parte": 3
+     }
+    ],
+    "italiano_ids": [
+     "8bb792e8"
+    ],
+    "tono": "canzonatorio"
+   },
+   "297fae21": {
+    "voce": "Ciro",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "ciro",
+    "testo": "At my stall you can point whatever you like. I look at hands, and whether they've got water.",
+    "parole": 18,
+    "italiano": [
+     "Qui da me puoi puntare quello che vuoi. Io guardo le mani, e se hanno acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 265,
+      "tipo": "messaggio",
+      "parte": 5
+     }
+    ],
+    "italiano_ids": [
+     "43263455"
+    ],
+    "tono": "ironico"
+   },
+   "fab940e8": {
+    "voce": "Peppe",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "peppe",
+    "testo": "Down at the market they say you've already hurt someone, on the road.",
+    "parole": 13,
+    "italiano": [
+     "Giù al mercato dicono che hai già fatto del male, per strada."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 196,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "f88bc4ce"
+    ],
+    "tono": "incerto"
+   },
+   "21954337": {
+    "voce": "Peppe",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "peppe",
+    "testo": "I want to hear it from you, not from them.",
+    "parole": 10,
+    "italiano": [
+     "Io voglio saperlo da te, non da loro."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 196,
+      "tipo": "dialogo",
+      "parte": 3
+     }
+    ],
+    "italiano_ids": [
+     "8ed1c71a"
+    ],
+    "tono": "deciso"
+   },
+   "618f93b1": {
+    "voce": "Peppe",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "peppe",
+    "testo": "You're going west, aren't you? Beyond the hills.",
+    "parole": 8,
+    "italiano": [
+     "Tu vai a ovest, vero? Oltre le colline."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 197,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "7bb49317"
+    ],
+    "tono": "ansioso"
+   },
+   "ec29b1c5": {
+    "voce": "Peppe",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "peppe",
+    "testo": "Take me with you. Here you die standing still. I'll walk, I won't complain, I swear.",
+    "parole": 16,
+    "italiano": [
+     "Portami con te. Qui si muore da fermi. Io cammino, non mi lamento, ti giuro."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 197,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "6ae4d014"
+    ],
+    "tono": "ansioso"
+   },
+   "57b6d94e": {
+    "voce": "Peppe",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "peppe",
+    "testo": "So we're really going?",
+    "parole": 4,
+    "italiano": [
+     "Allora si parte davvero?"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 198,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "bc016b42"
+    ],
+    "tono": "felice"
+   },
+   "aa3402ea": {
+    "voce": "Peppe",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "peppe",
+    "testo": "I understand. Look after yourself, traveller.",
+    "parole": 6,
+    "italiano": [
+     "Ho capito. Stammi bene, viandante."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 199,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "d41b19ee"
+    ],
+    "tono": "tristezza"
+   },
+   "3a6fc914": {
+    "voce": "Peppe",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "peppe",
+    "testo": "Then you know what it's like.",
+    "parole": 6,
+    "italiano": [
+     "Allora lo sai com'è."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 208,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "3c783442"
+    ],
+    "tono": "calmo"
+   },
+   "2c55a407": {
+    "voce": "Peppe",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "peppe",
+    "testo": "My father used to say the one who tells it straight away is less frightening than the one who hides it. I don't know if it's true. But you told me.",
+    "parole": 31,
+    "italiano": [
+     "Mio padre diceva che chi lo dice subito fa meno paura di chi lo nasconde. Non so se è vero. Ma me l'hai detto."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 208,
+      "tipo": "dialogo",
+      "parte": 3
+     }
+    ],
+    "italiano_ids": [
+     "5336eebf"
+    ],
+    "tono": "calmo"
+   },
+   "d0f90b0b": {
+    "voce": "Peppe",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "peppe",
+    "testo": "Ah.",
+    "parole": 1,
+    "italiano": [
+     "Ah."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 210,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "792aa5ff"
+    ],
+    "tono": "amaro"
+   },
+   "e32a69d8": {
+    "voce": "Peppe",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "peppe",
+    "testo": "Rosaria's never wrong about these things. But all right. That's all right.",
+    "parole": 12,
+    "italiano": [
+     "Rosaria di queste cose non sbaglia mai. Ma va bene. Va bene così."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 210,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "3a796f0a"
+    ],
+    "tono": "amaro"
+   },
+   "d0f47cb9": {
+    "voce": "Peppe",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "peppe",
+    "testo": "At least you didn't lie to me.",
+    "parole": 7,
+    "italiano": [
+     "Almeno non mi hai detto una bugia."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 212,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "3c8ba63f"
+    ],
+    "tono": "amaro"
+   },
+   "11b94166": {
+    "voce": "Peppe",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "peppe",
+    "testo": "You won't be sorry. As for goodbyes, I've no one to say them to: I'm ready. I'll wait for you where the mule track starts.",
+    "parole": 25,
+    "italiano": [
+     "Non te ne penti. Salutare non ho da salutare nessuno: sono pronto. Ti aspetto dove comincia la mulattiera."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 215,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "a0a7f7d9"
+    ],
+    "tono": "felice"
+   },
+   "bdc03bb3": {
+    "voce": "Peppe",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "peppe",
+    "testo": "Yes. Yes, of course. It was a childish idea.",
+    "parole": 9,
+    "italiano": [
+     "Sì. Sì, certo. Era una cosa da ragazzini."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 218,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "64d5d182"
+    ],
+    "tono": "tristezza"
+   },
+   "e73570c2": {
+    "voce": "Peppe",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "peppe",
+    "testo": "Is that your house, down there?",
+    "parole": 6,
+    "italiano": [
+     "È là, casa tua?"
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 142,
+      "tipo": "messaggio",
+      "parte": 1
+     },
+     {
+      "file": "z6-colline.fav",
+      "riga": 143,
+      "tipo": "messaggio",
+      "parte": 1
+     },
+     {
+      "file": "z6-colline.fav",
+      "riga": 144,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "a75694d0"
+    ],
+    "tono": "incerto"
+   },
+   "8d054ce1": {
+    "voce": "Peppe",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "peppe",
+    "testo": "You told me about the harm you've done.",
+    "parole": 8,
+    "italiano": [
+     "Mi hai detto del male che hai fatto."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 143,
+      "tipo": "messaggio",
+      "parte": 3
+     }
+    ],
+    "italiano_ids": [
+     "c6afb935"
+    ],
+    "tono": "calmo"
+   },
+   "9b98f55b": {
+    "voce": "Peppe",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "peppe",
+    "testo": "If there's more of it to do down there, tell me first. I'll stay back, but I want to know.",
+    "parole": 20,
+    "italiano": [
+     "Se là devi farne ancora, dimmelo prima. Io resto indietro, ma voglio saperlo."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 143,
+      "tipo": "messaggio",
+      "parte": 5
+     }
+    ],
+    "italiano_ids": [
+     "4a6e68e2"
+    ],
+    "tono": "deciso"
+   },
+   "4393734d": {
+    "voce": "Peppe",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "peppe",
+    "testo": "Back down there, I asked you something, and you told me no. I keep count.",
+    "parole": 15,
+    "italiano": [
+     "Giù, ti ho chiesto una cosa, e mi hai detto di no. Io i conti li tengo."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 144,
+      "tipo": "messaggio",
+      "parte": 3
+     }
+    ],
+    "italiano_ids": [
+     "92741a25"
+    ],
+    "tono": "rabbia trattenuta"
+   },
+   "cfb8d85f": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "You go on.",
+    "parole": 3,
+    "italiano": [
+     "Va' avanti tu."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 56,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "8dff9ef8"
+    ],
+    "tono": "calmo"
+   },
+   "6c340cb7": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "I'll be along. Give me time to remember the way.",
+    "parole": 10,
+    "italiano": [
+     "Io arrivo. Dammi il tempo di ricordarmi la strada."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 56,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "5cfc0f22"
+    ],
+    "tono": "commosso"
+   },
+   "b39c564e": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "Anything else to say to me, or have you finished?",
+    "parole": 10,
+    "italiano": [
+     "Hai altro da dirmi, o hai finito?"
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 57,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "7074a217"
+    ],
+    "tono": "asciutto"
+   },
+   "d0516864": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "I knew you'd come back. When it's no use to anyone any more.",
+    "parole": 13,
+    "italiano": [
+     "Lo sapevo, che saresti tornato. Quando non serve più a nessuno."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 59,
+      "tipo": "dialogo",
+      "parte": 0
+     },
+     {
+      "file": "z7-guado.fav",
+      "riga": 60,
+      "tipo": "dialogo",
+      "parte": 0
+     },
+     {
+      "file": "z7-guado.fav",
+      "riga": 61,
+      "tipo": "dialogo",
+      "parte": 0
+     },
+     {
+      "file": "z7-guado.fav",
+      "riga": 62,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "0168462f"
+    ],
+    "tono": "amaro"
+   },
+   "3056e146": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "And I know how you came through, too: word travels faster than you do on this road. I stayed here, closing everyone's eyes. You were safe, far away. The ford is mine now, and you don't cross it.",
+    "parole": 38,
+    "italiano": [
+     "E so anche come sei passato: la voce corre più svelta di te, su questa strada. Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 59,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "c99ae148"
+    ],
+    "tono": "rabbia trattenuta"
+   },
+   "13b75e34": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "They say you leave water along the road for the ones who stayed.",
+    "parole": 13,
+    "italiano": [
+     "Dicono che per strada lasci l'acqua a chi è rimasto."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 60,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "273d33ed"
+    ],
+    "tono": "amaro"
+   },
+   "77c60c36": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "Nobody left any for me. I stayed here, closing everyone's eyes. You were safe, far away. The ford is mine now, and you don't cross it.",
+    "parole": 26,
+    "italiano": [
+     "A me non l'ha lasciata nessuno. Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 60,
+      "tipo": "dialogo",
+      "parte": 4
+     }
+    ],
+    "italiano_ids": [
+     "edbe2361"
+    ],
+    "tono": "rabbia trattenuta"
+   },
+   "cb4b6813": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "They say at the tollbooth you pointed a pistol at a man who was leaning on you, and it was empty. You got the face right.",
+    "parole": 26,
+    "italiano": [
+     "Dicono che al casello hai puntato una pistola a uno che ti stava addosso, e che era scarica. Hai fatto la faccia giusta."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 61,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "f2f27119"
+    ],
+    "tono": "ironico"
+   },
+   "fe7364ce": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "I stayed here, closing everyone's eyes. You were safe, far away. The ford is mine now, and you don't cross it.",
+    "parole": 21,
+    "italiano": [
+     "Io sono rimasto a chiudere gli occhi a tutti, qui. Tu eri al sicuro, lontano. Adesso il guado è mio, e di qua non passi."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 61,
+      "tipo": "dialogo",
+      "parte": 4
+     },
+     {
+      "file": "z7-guado.fav",
+      "riga": 62,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "45f1fc97"
+    ],
+    "tono": "rabbia trattenuta"
+   },
+   "7277e096": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "You didn't know.",
+    "parole": 3,
+    "italiano": [
+     "Non sapevi."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 67,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "871a69ba"
+    ],
+    "tono": "tristezza"
+   },
+   "e6fb94fa": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "I wrote you that line. To tell you not to come, that I could hold everything together. A lie. The other letter I never sent you.",
+    "parole": 26,
+    "italiano": [
+     "Quella riga te la scrissi io. Per dirti di non venire, che ero capace di tenere tutto in piedi. Bugia. L'altra lettera non te l'ho mandata."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 67,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "bb2a0ebf"
+    ],
+    "tono": "tristezza"
+   },
+   "862b5034": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "You didn't know because I didn't let you know. That doesn't absolve you. It absolves me, if anything, and I don't want it.",
+    "parole": 23,
+    "italiano": [
+     "Non sapevi perché io non te l'ho lasciato sapere. Questo non ti assolve. Assolve me, semmai, e non voglio."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 67,
+      "tipo": "dialogo",
+      "parte": 4
+     }
+    ],
+    "italiano_ids": [
+     "966838c7"
+    ],
+    "tono": "grave"
+   },
+   "620965b2": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "No.",
+    "parole": 1,
+    "italiano": [
+     "No."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 70,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "67612a68"
+    ],
+    "tono": "deciso"
+   },
+   "98264b55": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "They're on the other side. You only go over there if you get past me first. One way or another.",
+    "parole": 20,
+    "italiano": [
+     "Di là ci sono loro. Tu di là ci entri solo se prima passi da me. In un modo o nell'altro."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 70,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "aa359148"
+    ],
+    "tono": "deciso"
+   },
+   "21e17968": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "Nobody was meant to read that.",
+    "parole": 6,
+    "italiano": [
+     "Quella non doveva leggerla nessuno."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 74,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "836b6a8c"
+    ],
+    "tono": "commosso"
+   },
+   "83f3eb03": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "I know that one. I wrote it to keep you away, and it wasn't enough.",
+    "parole": 15,
+    "italiano": [
+     "Quello lo conosco. L'ho scritto per tenerti lontano, e non è bastato."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 77,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "a78cba18"
+    ],
+    "tono": "tristezza"
+   },
+   "1daf4995": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "Well done. At least one of us finishes this.",
+    "parole": 9,
+    "italiano": [
+     "Bravo. Almeno uno di noi due finisce questa storia."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 81,
+      "tipo": "messaggio",
+      "parte": 1
+     },
+     {
+      "file": "z7-guado.fav",
+      "riga": 86,
+      "tipo": "messaggio",
+      "parte": 1
+     },
+     {
+      "file": "z7-guado.fav",
+      "riga": 89,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "5ead9887"
+    ],
+    "tono": "amaro"
+   },
+   "969b6b3a": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "Either shoot or put it down. The rest is talk.",
+    "parole": 10,
+    "italiano": [
+     "O spari, o lo posi. Il resto sono chiacchiere."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 93,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "1e82d93d"
+    ],
+    "tono": "deciso"
+   },
+   "06c238e8": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "The one from the tollbooth.",
+    "parole": 5,
+    "italiano": [
+     "Quella del casello."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 94,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "1da0e305"
+    ],
+    "tono": "asciutto"
+   },
+   "2004ce8c": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "Vito worked it out afterwards. I'd worked it out before you drew it.",
+    "parole": 13,
+    "italiano": [
+     "Vito l'ha capito dopo. Io l'avevo capito prima che la tirassi fuori."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 94,
+      "tipo": "messaggio",
+      "parte": 3
+     }
+    ],
+    "italiano_ids": [
+     "fc175199"
+    ],
+    "tono": "asciutto"
+   },
+   "b2f6b7fc": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "Empty. You can tell from the way you hold it.",
+    "parole": 10,
+    "italiano": [
+     "Scarica. Si vede da come la tieni."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 95,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "f4b5fa84"
+    ],
+    "tono": "asciutto"
+   },
+   "054f149b": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "I used to say the same words to anyone who wanted to cross. They did me no good either.",
+    "parole": 19,
+    "italiano": [
+     "Le stesse parole le dicevo io, a chi voleva passare. Non sono servite nemmeno a me."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 96,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "28148f3f"
+    ],
+    "tono": "amaro"
+   },
+   "be6e6819": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "The one who left water along the road.",
+    "parole": 8,
+    "italiano": [
+     "Quello che lasciava l'acqua per strada."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 102,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "9f7f7b29"
+    ],
+    "tono": "calmo"
+   },
+   "c2105c9b": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "And on the road? Did you put it down there too?",
+    "parole": 11,
+    "italiano": [
+     "E per strada? L'hai posato anche lì?"
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 104,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "002e5d8f"
+    ],
+    "tono": "diffidente"
+   },
+   "c233e55d": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "Putting it down isn't enough. What do I know about who you've become, out on the road?",
+    "parole": 17,
+    "italiano": [
+     "Posarlo non basta. Che ne so io di chi sei diventato, per strada?"
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 106,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "6036b514"
+    ],
+    "tono": "diffidente"
+   },
+   "8cb5203b": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "When we were boys we spent our afternoons here. Throwing stones to see who'd reach the other side.",
+    "parole": 18,
+    "italiano": [
+     "Da ragazzi ci passavamo i pomeriggi, qui. A tirare sassi per vedere chi arrivava di là."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 109,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "eb229220"
+    ],
+    "tono": "tenero"
+   },
+   "e9e9a6bd": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "A man who raises his hands on the road doesn't lay them down for good at the ford.",
+    "parole": 18,
+    "italiano": [
+     "Chi alza le mani per strada non le posa per sempre al guado."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 110,
+      "tipo": "messaggio",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "8dbfa723"
+    ],
+    "tono": "amaro"
+   },
+   "f6a0a57b": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "You still know how to keep still. That much, at least.",
+    "parole": 11,
+    "italiano": [
+     "Sei ancora capace di stare fermo. Almeno questo."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 112,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "11bbe6b8"
+    ],
+    "tono": "calmo"
+   },
+   "eb1eb7c0": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "Word of how you came through got here too.",
+    "parole": 9,
+    "italiano": [
+     "Di come sei passato, si è saputo anche qui."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 128,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "1eb2f558"
+    ],
+    "tono": "asciutto"
+   },
+   "f575ed01": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "Rosaria sent a boy up to the shepherds, and the shepherds bring their animals down to the riverbed. That's how word gets round.",
+    "parole": 23,
+    "italiano": [
+     "Rosaria ha mandato un ragazzo su dai pastori, e i pastori scendono al greto per le bestie. Così si sa."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 129,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "074faba7"
+    ],
+    "tono": "calmo"
+   },
+   "fe3a47b7": {
+    "voce": "Cosimo",
+    "categoria": "testo",
+    "zona": "z7",
+    "blocco": "cosimo",
+    "testo": "I've known for three days that you were coming. I know where you left the water, too.",
+    "parole": 17,
+    "italiano": [
+     "Lo so da tre giorni, che arrivavi. So anche dove hai lasciato l'acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z7-guado.fav",
+      "riga": 129,
+      "tipo": "messaggio",
+      "parte": 3
+     }
+    ],
+    "italiano_ids": [
+     "bf6c75ee"
+    ],
+    "tono": "calmo"
    }
   },
   "corrispondenze": {
@@ -28428,7 +29913,66 @@
    "f563170e": "35345f86",
    "9ac16dd7": "281259b6",
    "2596d613": "ba8ed63b",
-   "28514652": "cac51d73"
+   "28514652": "cac51d73",
+   "b8bee090": "a0c3742b",
+   "01609c64": "49c245d1",
+   "f6af42cb": "9b09453c",
+   "7ad2b6bd": "0662d351",
+   "4f559a95": "9cae23ba",
+   "c910b9c2": "449a6a93",
+   "41d4553d": "1c6fcec5",
+   "23d9a4bd": "831059a8",
+   "dacfff14": "ec5ceccb",
+   "8bb792e8": "7da5b577",
+   "43263455": "297fae21",
+   "f88bc4ce": "fab940e8",
+   "8ed1c71a": "21954337",
+   "7bb49317": "618f93b1",
+   "6ae4d014": "ec29b1c5",
+   "bc016b42": "57b6d94e",
+   "d41b19ee": "aa3402ea",
+   "3c783442": "3a6fc914",
+   "5336eebf": "2c55a407",
+   "792aa5ff": "d0f90b0b",
+   "3a796f0a": "e32a69d8",
+   "3c8ba63f": "d0f47cb9",
+   "a0a7f7d9": "11b94166",
+   "64d5d182": "bdc03bb3",
+   "a75694d0": "e73570c2",
+   "c6afb935": "8d054ce1",
+   "4a6e68e2": "9b98f55b",
+   "92741a25": "4393734d",
+   "8dff9ef8": "cfb8d85f",
+   "5cfc0f22": "6c340cb7",
+   "7074a217": "b39c564e",
+   "0168462f": "d0516864",
+   "c99ae148": "3056e146",
+   "273d33ed": "13b75e34",
+   "edbe2361": "77c60c36",
+   "f2f27119": "cb4b6813",
+   "45f1fc97": "fe7364ce",
+   "871a69ba": "7277e096",
+   "bb2a0ebf": "e6fb94fa",
+   "966838c7": "862b5034",
+   "67612a68": "620965b2",
+   "aa359148": "98264b55",
+   "836b6a8c": "21e17968",
+   "a78cba18": "83f3eb03",
+   "5ead9887": "1daf4995",
+   "1e82d93d": "969b6b3a",
+   "1da0e305": "06c238e8",
+   "fc175199": "2004ce8c",
+   "f4b5fa84": "b2f6b7fc",
+   "28148f3f": "054f149b",
+   "9f7f7b29": "be6e6819",
+   "002e5d8f": "c2105c9b",
+   "6036b514": "c233e55d",
+   "eb229220": "8cb5203b",
+   "8dbfa723": "e9e9a6bd",
+   "11bbe6b8": "f6a0a57b",
+   "1eb2f558": "eb1eb7c0",
+   "074faba7": "f575ed01",
+   "bf6c75ee": "fe3a47b7"
   }
  }
 }

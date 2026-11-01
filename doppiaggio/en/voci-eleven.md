@@ -1,4 +1,7 @@
-# Le voci ancora da scegliere in ElevenLabs (i sette personaggi rimasti)
+# Le voci da scegliere in ElevenLabs
+
+> **Stato al 1° novembre 2026:** Ciro (Pierpaolo), Peppe (Vittorio boy next door) e Cosimo (Corrado Noventa) sono fatti, generati da Claude con il connettore.
+> Restano **Nunzio, Saverio, Rocco e Pasquale**, per i quali non ho trovato voci italiane adatte in libreria. Le schede di tutti e sette restano qui sotto.
 
 > Preparato il 1° novembre 2026. Non ho accesso alla Voice Library né al tuo account: qui ci sono le **schede di ricerca** (che voce cercare, con
 > quali filtri e parole) e ciò che ogni blocco dice a Eleven v4 su età e stato. La scelta si fa a orecchio sul sito. Se mi incolli il nome e la

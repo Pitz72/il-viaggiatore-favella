@@ -53,13 +53,13 @@ il tema dell'intro). La copertina dell'album è il logo del gioco, sotto questa 
 
 ## Cosa NON copre: le voci di ElevenLabs
 
-Le voci di **Imma, Rosaria, Tore e Vito**, in italiano e in inglese, e quelle inglesi di **Concetta, Iole e Onofrio**
+Le voci di **Imma, Rosaria, Tore e Vito**, in italiano e in inglese, e quelle inglesi di **Concetta, Iole, Onofrio, Ciro, Peppe e Cosimo**
 (`app/public/voce/elevenlabs/` e `app/public/voce/en/elevenlabs/`), sono state generate con
 ElevenLabs (elevenlabs.io) sul piano gratuito, che non concede l'uso commerciale. **Non** sono
 coperte da questa licenza: si possono ridistribuire solo come parte di questo gioco e **solo per
 uso non commerciale**, citando elevenlabs.io. Un'opera derivata o un uso commerciale deve toglierle
 o sostituirle (il gioco funziona anche senza: quelle battute restano scritte). Le voci della
-libreria di ElevenLabs (Victoria, Valeria, Criss, Luigi, e per le tre nuove Tosca, Elettra, Nonno Ben) sono dei loro titolari.
+libreria di ElevenLabs (Victoria, Valeria, Criss, Luigi, e per le sei nuove Tosca, Elettra, Nonno Ben, Pierpaolo, Vittorio, Corrado Noventa) sono dei loro titolari.
 
 Dal 1° novembre 2026 l'autore ha un abbonamento a pagamento a ElevenLabs: le voci inglesi generate dopo l'acquisto potrebbero
 avere diritti più ampi di quelle del piano gratuito. Finché non si verifica nei termini di ElevenLabs, restano tutte nella

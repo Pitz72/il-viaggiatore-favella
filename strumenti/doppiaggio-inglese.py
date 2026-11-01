@@ -65,8 +65,9 @@ VOCE = "narratore"
 SERVIZIO = "servizio"   # la voce di servizio, Kira: i suggerimenti tra parentesi e i pezzi con i numeri
 # I personaggi che in italiano sono stati fatti con ElevenLabs (Eleven v4): i primi a passare in inglese (Simone, 1/11/2026;
 # sono voci italiane, e in inglese possono avere un accento italiano); dopo di loro Concetta, Iole e Onofrio (1/11/2026), che
-# Simone ha provato con i crediti avanzati. Gli altri sette non sono ancora fatti: Simone vuole farli tutti con ElevenLabs.
-PERSONAGGI = ("Imma", "Rosaria", "Tore", "Vito", "Concetta", "Iole", "Onofrio")
+# Simone ha provato con i crediti avanzati; poi Ciro, Peppe e Cosimo (1/11/2026, generati dal connettore ElevenLabs). Gli altri quattro (Nunzio,
+# Saverio, Rocco, Pasquale) non sono ancora fatti: Simone vuole farli tutti con ElevenLabs.
+PERSONAGGI = ("Imma", "Rosaria", "Tore", "Vito", "Concetta", "Iole", "Onofrio", "Ciro", "Peppe", "Cosimo")
 # L'accento che si chiede a Eleven v4: un tag davanti a ogni battuta, prima del tono. None = nessun tag (la voce parla l'inglese
 # «nativo», che è ciò che v4 fa da solo). ACCENTO è quello predefinito; ACCENTI quello dei personaggi che la loro scheda
 # (doppiaggio/voci.md) vuole più marcato. Con --accento si cambia per tutti.
