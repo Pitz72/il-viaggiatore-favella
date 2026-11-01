@@ -42,6 +42,8 @@ quella che il taglio controlla: ogni parte riconosciuta da sola e confrontata co
   collaudo non lo pretende. Se l'esperimento piace, Concetta si aggiunge a `PERSONAGGI` e si taglia come gli altri quattro.
   Subito dopo, su richiesta di Simone, lo stesso per Iole (la sola altra donna matura: 60 anni, la diga): `doppiaggio/en/prove/iole.txt`, 12 parti,
   `[Italian accent]` perché la sua scheda dice «un lieve accento del sud», come Imma e Rosaria.
+  E per Onofrio (80 anni, l'eremita della grotta; Simone chiedeva «un uomo anziano»): `doppiaggio/en/prove/onofrio.txt`, 21 parti, `[strong Italian accent]`
+  perché la sua scheda in `voci.md` dice «a thick southern Italian accent». Fatto prima che Simone lo chiedesse, dopo aver risposto alla sua domanda: una scelta mia.
 - Documenti: `CHANGELOG.md`, `LICENSE-CONTENUTI.md`, `README.md`, `pre-produzione/08-doppiaggio-tts.md`, `doppiaggio/en/LEGGIMI.md`,
   `doppiaggio/voci-scelte.md`, `strumenti/LEGGIMI.md`, `sviluppo/PROSSIMI-PASSI.md`, `sviluppo/REGISTRO.md`.
 
