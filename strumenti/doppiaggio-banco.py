@@ -20,7 +20,9 @@ I blocchi di A_PARTE (Imma, Rosaria, Tore e Vito, fatti con ElevenLabs sul piano
 app/public/voce/elevenlabs/, con un indice loro: sono distribuiti col gioco ma ESCLUSI dalla licenza
 CC BY-SA (solo uso non commerciale, «elevenlabs.io»: LICENSE-CONTENUTI.md). Scelta di Simone del
 20/10/2026, sera, accettando il rischio (piano 08, decisione 6). L'indice principale nomina le cartelle
-a parte («cartelle»), così l'app e i collaudi sanno dove cercare.
+a parte («cartelle»), così l'app e i collaudi sanno dove cercare. In inglese (--lingua en) è lo stesso: i
+quattro personaggi inglesi (chiave «personaggi» del manifest inglese) vanno in app/public/voce/en/elevenlabs/,
+con l'indice e la licenza loro, e l'indice inglese li nomina.
 
 Uso:  python strumenti/doppiaggio-banco.py            (tutto: scrive app/public/voce/ e doppiaggio/banco.json)
       python strumenti/doppiaggio-banco.py --misura   (solo la loudness di ogni blocco, non scrive niente)
@@ -166,11 +168,11 @@ def main():
     a = ap.parse_args()
     sys.stdout.reconfigure(encoding="utf-8")
     en = a.lingua == "en"
-    global USCITA, RESOCONTO, A_PARTE
-    if en:
+    global USCITA, RESOCONTO, A_PARTE_CARTELLA
+    if en:   # in inglese: la cartella a parte (le voci ElevenLabs) sta dentro la cartella inglese
         USCITA = os.path.join(USCITA, "en")
         RESOCONTO = os.path.join(DOPPIAGGIO, "en", "banco.json")
-        A_PARTE = ()
+        A_PARTE_CARTELLA = os.path.join(USCITA, A_PARTE_DIR)
         os.makedirs(USCITA, exist_ok=True)
 
     with open(os.path.join(DOPPIAGGIO, "en" if en else "", "manifest.json"), encoding="utf-8") as f:
@@ -180,6 +182,9 @@ def main():
     if en and "servizio" in man:   # Kira in inglese sta a parte nel manifest (chiave «servizio»): blocchi kira-*
         tutti.update({nome: dict(b, voce="servizio") for nome, b in man["servizio"]["blocchi"].items()})
         corrispondenze.update(man["servizio"]["corrispondenze"])
+    if en and "personaggi" in man:   # i personaggi di ElevenLabs in inglese: chiave «personaggi», blocchi imma, rosaria, tore, vito
+        tutti.update(man["personaggi"]["blocchi"])
+        corrispondenze.update(man["personaggi"]["corrispondenze"])
 
     # 1-2. le parti di ogni blocco, rifilate
     blocchi = {}
@@ -229,7 +234,8 @@ def main():
         return
 
     # 4. la codifica (in parallelo: un ffmpeg per parte)
-    os.makedirs(A_PARTE_CARTELLA, exist_ok=True)
+    if not en or any(n in A_PARTE for n in blocchi):
+        os.makedirs(A_PARTE_CARTELLA, exist_ok=True)
     lavori, indice, indice_a_parte, blocco_di = [], {}, {}, {}
     for nome, parti in blocchi.items():
         cartella = A_PARTE_CARTELLA if nome in A_PARTE else USCITA
@@ -251,8 +257,10 @@ def main():
 
     # i file che non sono più di nessuna parte se ne vanno: la cartella è l'indice (solo i file col nome di
     # una parte, otto cifre esadecimali: trailer.opus è di strumenti/doppiaggio-trailer.py e resta)
-    # (in inglese solo la cartella inglese: mai la cartella a parte dell'italiano)
-    for cartella, ids in ((USCITA, indice),) if en else ((USCITA, indice), (A_PARTE_CARTELLA, indice_a_parte)):
+    # (in inglese la cartella inglese e la sua cartella a parte: mai quelle dell'italiano)
+    for cartella, ids in ((USCITA, indice), (A_PARTE_CARTELLA, indice_a_parte)):
+        if not os.path.isdir(cartella):
+            continue
         for f in os.listdir(cartella):
             if re.fullmatch(r"[0-9a-f]{8}" + re.escape(ESTENSIONE), f) and f[:-len(ESTENSIONE)] not in ids:
                 os.remove(os.path.join(cartella, f))
@@ -267,9 +275,13 @@ def main():
     if en:
         # le parti inglesi si ritrovano dall'id italiano della parte (il diario resta in italiano): l'indice dice,
         # per ogni parte italiana del narratore, la sua registrazione inglese
-        scrivi(os.path.join(USCITA, "indice.json"),
-               {"formato": 1, "estensione": ESTENSIONE, "lingua": "en", "parti": indice,
-                "corrispondenze": {ii: ei for ii, ei in corrispondenze.items() if ei in indice}})
+        dati = {"formato": 1, "estensione": ESTENSIONE, "lingua": "en", "parti": indice,
+                "corrispondenze": {ii: ei for ii, ei in corrispondenze.items() if ei in indice or ei in indice_a_parte}}
+        if indice_a_parte:   # le voci ElevenLabs inglesi: cartella a parte, con la sua licenza
+            dati["cartelle"] = [A_PARTE_DIR]
+            scrivi(os.path.join(A_PARTE_CARTELLA, "indice.json"),
+                   {"formato": 1, "estensione": ESTENSIONE, "parti": indice_a_parte, "licenza": LICENZA_A_PARTE})
+        scrivi(os.path.join(USCITA, "indice.json"), dati)
     else:
         testi = {i: [man["unita"][i]["voce"], man["unita"][i]["testo"]] for i in list(indice) + list(indice_a_parte)}
         scrivi(os.path.join(USCITA, "indice.json"),
@@ -284,16 +296,13 @@ def main():
         lufs, picco = loudness_file(file)
         resoconto[nome].update({"lufs_dopo": round(lufs, 1), "picco_vero_dbtp": picco,
                                 "kb": round(sum(os.path.getsize(p) for p in file) / 1024)})
-    peso = lambda c: sum(os.path.getsize(os.path.join(c, f)) for f in os.listdir(c) if f.endswith(ESTENSIONE))
-    if en:   # in inglese: le parti del narratore e di Kira, nella cartella inglese (il trailer ha la sua traccia)
-        totale = {"parti": len(indice), "parti_a_parte": 0, "minuti": round(sum(indice.values()) / 60000, 1),
-                  "minuti_a_parte": 0.0, "mb": round(peso(USCITA) / 1048576, 2), "mb_a_parte": 0.0}
-    else:
-        totale = {"parti": len(indice) + len(indice_a_parte), "parti_a_parte": len(indice_a_parte),
-                  "minuti": round((sum(indice.values()) + sum(indice_a_parte.values())) / 60000, 1),
-                  "minuti_a_parte": round(sum(indice_a_parte.values()) / 60000, 1),
-                  "mb": round((peso(USCITA) + peso(A_PARTE_CARTELLA)) / 1048576, 2),
-                  "mb_a_parte": round(peso(A_PARTE_CARTELLA) / 1048576, 2)}
+    peso = lambda c: sum(os.path.getsize(os.path.join(c, f)) for f in os.listdir(c) if f.endswith(ESTENSIONE)) if os.path.isdir(c) else 0
+    # in inglese come in italiano: la cartella principale (narratore, Kira; il trailer ha la sua traccia) e quella a parte
+    totale = {"parti": len(indice) + len(indice_a_parte), "parti_a_parte": len(indice_a_parte),
+              "minuti": round((sum(indice.values()) + sum(indice_a_parte.values())) / 60000, 1),
+              "minuti_a_parte": round(sum(indice_a_parte.values()) / 60000, 1),
+              "mb": round((peso(USCITA) + peso(A_PARTE_CARTELLA)) / 1048576, 2),
+              "mb_a_parte": round(peso(A_PARTE_CARTELLA) / 1048576, 2)}
     with open(RESOCONTO, "w", encoding="utf-8", newline="\n") as f:
         json.dump({"parametri": {"bersaglio_lufs": a.bersaglio, "picco_max_dbfs": PICCO_MAX,
                                  "picco_dopo_dbfs": PICCO_DOPO, "silenzio_dbfs": SILENZIO, "testa_s": TESTA, "coda_s": CODA,

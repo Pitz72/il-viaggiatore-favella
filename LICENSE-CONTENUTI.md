@@ -53,7 +53,8 @@ il tema dell'intro). La copertina dell'album è il logo del gioco, sotto questa 
 
 ## Cosa NON copre: le voci di ElevenLabs
 
-Le voci di **Imma, Rosaria, Tore e Vito** (`app/public/voce/elevenlabs/`) sono state generate con
+Le voci di **Imma, Rosaria, Tore e Vito**, in italiano e in inglese (`app/public/voce/elevenlabs/` e
+`app/public/voce/en/elevenlabs/`), sono state generate con
 ElevenLabs (elevenlabs.io) sul piano gratuito, che non concede l'uso commerciale. **Non** sono
 coperte da questa licenza: si possono ridistribuire solo come parte di questo gioco e **solo per
 uso non commerciale**, citando elevenlabs.io. Un'opera derivata o un uso commerciale deve toglierle

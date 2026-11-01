@@ -10,12 +10,13 @@
 //  escluse dalla licenza libera) hanno un indice loro e si aggiungono.
 //
 //  La voce inglese (public/voce/en/, strumenti/doppiaggio-banco.py --lingua en) è
-//  per ora il narratore e la voce di servizio (Kira: suggerimenti e numeri delle
-//  scorte). Il diario resta in italiano e le parti si ritrovano dal testo italiano
-//  (parti.ts): l'indice inglese dice, per ogni parte italiana del narratore e di
-//  Kira, la sua registrazione inglese. Col modo «inglese» una parte che ha la
-//  registrazione inglese suona quella; tutte le altre (i personaggi) suonano ancora
-//  in italiano, finché non saranno registrate.
+//  per ora il narratore, la voce di servizio (Kira: suggerimenti e numeri delle
+//  scorte) e quattro personaggi (Imma, Rosaria, Tore, Vito: public/voce/en/elevenlabs/,
+//  con l'indice e la licenza loro). Il diario resta in italiano e le parti si ritrovano
+//  dal testo italiano (parti.ts): l'indice inglese dice, per ogni parte italiana di
+//  queste voci, la sua registrazione inglese. Col modo «inglese» una parte che ha la
+//  registrazione inglese suona quella; tutte le altre (gli altri dieci personaggi)
+//  suonano ancora in italiano, finché non saranno registrate.
 //
 //  Le risposte di dialogo si leggono in ANTEPRIMA (quando ci si ferma sopra):
 //  un'anteprima non interrompe mai il turno che parla (il personaggio che
@@ -39,7 +40,7 @@ const MEMORIA = 120;   // parti decodificate tenute in memoria
 
 interface Indice {
   estensione: string; parti: Record<string, number>; testi?: Testi; cartelle?: string[];
-  /** solo nell'indice inglese: id della parte italiana del narratore o di Kira → id della sua registrazione inglese */
+  /** solo nell'indice inglese: id della parte italiana (narratore, Kira, quattro personaggi) → id della sua registrazione inglese */
   corrispondenze?: Record<string, string>;
 }
 
@@ -50,7 +51,7 @@ class Voce {
   private ctx: AudioContext | null = null;
   private uscita: GainNode | null = null;
   private dove = new Map<string, string>();          // id → URL del file
-  private inglese = new Map<string, string>();       // id della parte italiana (narratore, Kira) → URL della registrazione inglese
+  private inglese = new Map<string, string>();       // id della parte italiana (narratore, Kira, quattro personaggi) → URL della registrazione inglese
   private testi: Testi = {};
   private buffer = new Map<string, Promise<AudioBuffer | null>>();
   private suonano: AudioBufferSourceNode[] = [];
@@ -74,9 +75,17 @@ class Voce {
             for (const id of Object.keys(altro?.parti ?? {})) this.dove.set(id, `${BASE}${c}/${id}${altro!.estensione}`);
           }
           // la voce inglese, se il pacchetto la contiene (senza, il modo «inglese» suona le voci italiane)
+          // (e, come l'italiano, le cartelle a parte che il suo indice nomina: en/elevenlabs/, le voci escluse dalla licenza libera)
           const en = await this.leggiIndice(`${BASE}en/indice.json`);
+          const doveEn = new Map<string, string>();   // id inglese → URL del file
+          for (const id of Object.keys(en?.parti ?? {})) doveEn.set(id, `${BASE}en/${id}${en!.estensione}`);
+          for (const c of en?.cartelle ?? []) {
+            const altro = await this.leggiIndice(`${BASE}en/${c}/indice.json`);
+            for (const id of Object.keys(altro?.parti ?? {})) doveEn.set(id, `${BASE}en/${c}/${id}${altro!.estensione}`);
+          }
           for (const [it, e] of Object.entries(en?.corrispondenze ?? {})) {
-            if (en!.parti[e] !== undefined) this.inglese.set(it, `${BASE}en/${e}${en!.estensione}`);
+            const url = doveEn.get(e);
+            if (url) this.inglese.set(it, url);
           }
           this.testi = principale.testi ?? {};
           return tabella(this.testi);

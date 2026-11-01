@@ -2,8 +2,7 @@
 
 Il narratore del gioco in inglese (Enzo) e la voce di servizio (Kira), con Gemini 3.8 Flash TTS da Google AI Studio, a mano, come
 in italiano (`../LEGGIMI.md`). Dei quattordici personaggi, quattro (Imma, Rosaria, Tore, Vito: quelli che in italiano sono stati fatti
-con ElevenLabs, Eleven v4) hanno i blocchi inglesi pronti, con le loro voci italiane e un accento italiano da scegliere con una prova
-(`eleven-v4.md`); gli altri dieci non sono decisi.
+con ElevenLabs, Eleven v4) sono fatti anche in inglese, con le loro voci italiane (`eleven-v4.md`); gli altri dieci non sono decisi.
 
 | File | Contenuto |
 |---|---|
@@ -21,7 +20,8 @@ con ElevenLabs, Eleven v4) hanno i blocchi inglesi pronti, con le loro voci ital
 | `gemini-tts.md` | la documentazione di Gemini 3.8 Flash TTS letta il 31 ottobre 2026 |
 | `banco.json` | il resoconto del banco della voce inglese (`python strumenti/doppiaggio-banco.py --lingua en`): per ogni blocco la loudness prima e dopo, il guadagno, il picco, il peso |
 | `../master/en-grezzi/` | i WAV scaricati da AI Studio (non si versionano), con le loro trascrizioni in `trascrizioni/`; `../master/clip/en-<blocco>/` le parti tagliate |
-| `../../app/public/voce/en/` | ciò che il gioco suona in inglese: un file Opus per parte, `indice.json` (id della parte → durata; **corrispondenze**: id della parte italiana del narratore e di Kira → registrazione inglese), `trailer.opus` e `trailer.json` |
+| `../master/en-grezzi/elevenlabs/` | i quattro MP3 scaricati da ElevenLabs il 1° novembre 2026 (`ElevenLabs_…_Luigi|Criss|Victoria|Valeria_…mp3`) e i WAV che ne ricava `ffmpeg` per il taglio (`vito.wav`, `tore.wav`, `imma.wav`, `rosaria.wav`); non si versionano |
+| `../../app/public/voce/en/` | ciò che il gioco suona in inglese: un file Opus per parte, `indice.json` (id della parte → durata; **corrispondenze**: id della parte italiana del narratore e di Kira → registrazione inglese), `trailer.opus` e `trailer.json`; `elevenlabs/`, con l'indice e la licenza loro, ha le 69 parti di Imma, Rosaria, Tore e Vito |
 
 Tutto, tranne `trailer.json`, `voci.md` e `gemini-tts.md`, lo scrive `python strumenti/doppiaggio-inglese.py blocchi`: non si ritocca
 a mano. `python strumenti/doppiaggio-inglese.py stato` fa le verifiche senza scrivere. Se un catalogo inglese
@@ -61,7 +61,7 @@ voce di libreria Kira, il prompt di Kira in `voci.md`).
 Fatto il 31 ottobre – 1° novembre 2026: i blocchi sono stati generati da Simone (11 WAV, uno doppio), riconosciuti
 (`doppiaggio-riconosci.py --lingua en`), tagliati e controllati parte per parte (`doppiaggio-taglia.py en-narratore-a` … `en-scelte`,
 `en-trailer`: 532 parti di Enzo e 33 del trailer, tutte trovate, tutte controllate da sole), passati al banco
-(`doppiaggio-banco.py --lingua en`: 532 parti, 43,3 minuti, 10,1 MB; con Kira, vedi sotto, 652 parti, 46,7 minuti, 10,9 MB) e al trailer
+(`doppiaggio-banco.py --lingua en`: 532 parti, 43,3 minuti, 10,1 MB; con Kira, vedi sotto, 652 parti, 46,7 minuti, 10,9 MB; con i quattro personaggi, 721 parti, 51,2 minuti, 12,0 MB) e al trailer
 (`doppiaggio-trailer.py --lingua en`), e il gioco le suona col modo di voce «inglese» (`app/src/gioco/voce.ts`). Il collaudo è la sezione 9 di
 `collaudo/doppiaggio.py`.
 
@@ -83,15 +83,18 @@ Fatto il 31 ottobre – 1° novembre 2026: i blocchi sono stati generati da Simo
   «long pause» mai letto ad alta voce, quattro sole righe sotto l'85% nel controllo di ognuna da sola, tutte di whisper e non della voce («Nunzio to barter» sentito «Nunzio Tabata», «Iole» sentito «you later», «Onofrio» sentito
   «an off-reel», «and eight food.» sentito «and eat food.», che con la frase vicina come suggerimento torna «eight»). Nel banco ogni blocco di
   Kira sta a −23 LUFS come Enzo (le registrazioni grezze stavano a −17: sei decibel in meno).
-- **I personaggi in inglese**: non registrati. Finché non lo sono, col modo «inglese» suonano in italiano. **Imma, Rosaria, Tore e Vito**
-  (1° novembre 2026, su richiesta di Simone, che li vuole per primi perché ne conosce le voci di ElevenLabs): i blocchi sono pronti
-  (`blocchi/imma.txt` … `vito.txt`; 69 parti, tutte derivate dall'italiano parte per parte, stesso ordine e stessi toni, con sei
-  verifiche in `doppiaggio-inglese.py`) e stanno nel manifest, chiave `personaggi`, con le corrispondenze italiano → inglese come Kira.
-  Le voci sono italiane e in inglese v4 le fa parlare, di suo, senza accento italiano: per chiederlo c'è un tag (`[Italian accent]`,
-  impilato davanti al tono su ogni battuta) e **l'accento si sceglie con la prova** (`prove/`): finché Simone non l'ha ascoltata,
-  quello dei blocchi è il predefinito, `Italian accent`. Per cambiarlo: `python strumenti/doppiaggio-inglese.py blocchi --accento "strong Italian accent"`
-  (o `--accento nessuno`). Da fare dopo le registrazioni: il taglio (`doppiaggio-taglia.py en-imma` … conosce già i tag impilati;
-  va aggiunta la chiave `personaggi` come per Kira), il banco con la cartella `elevenlabs/` inglese e la licenza, e il collaudo.
+- **I personaggi in inglese**: finora **Imma, Rosaria, Tore e Vito** (quelli che in italiano sono stati fatti con ElevenLabs, Eleven v4), con le loro voci
+  italiane (Victoria, Valeria, Criss, Luigi). Blocchi pronti il 1° novembre 2026 (`blocchi/imma.txt` … `vito.txt`: 69 parti derivate dall'italiano parte per
+  parte, stesso ordine e stessi toni, `[Italian accent][tono]` davanti a ogni battuta, nove verifiche in `doppiaggio-inglese.py`; manifest, chiave `personaggi`,
+  con le corrispondenze italiano → inglese come Kira). **Registrati da Simone lo stesso giorno, direttamente, saltando la prova di accento** (`prove/`, mai
+  generata): quattro MP3 di ElevenLabs (`../master/en-grezzi/elevenlabs/`, convertiti in WAV per il taglio), Eleven v4, Stability 50 / Similarity 75 tranne
+  Rosaria (75 / 75, velocità 0,96), Vito (velocità 0,86) e Tore (velocità 0,7, Stability 0, Similarity 0, come in italiano). Simone li ha ascoltati tutti:
+  «le voci sono italiane, si sente soprattutto nella pronuncia dei nomi»; nessuna anomalia fonetica. Tagliati e controllati parte per parte
+  (`doppiaggio-taglia.py en-imma` … `--controlla`): 69 parti su 69 trovate, controllo di ognuna da sola sopra l'85% e senza parole in più per tutte (nessun
+  tag letto ad alta voce, «long pause» non c'è in questo formato), pause fra le battute da 0,11 a 0,72 s. Nel banco (`doppiaggio-banco.py --lingua en`) vanno
+  in `app/public/voce/en/elevenlabs/`, con l'indice e la licenza loro (come in italiano), ognuno a −23 LUFS: Vito era a −26,2, la più piano, e s'è alzato
+  di 3,2 dB. Il gioco le suona col modo «inglese»: `voce.ts` legge anche le cartelle a parte dell'indice inglese. Gli altri dieci personaggi (Gemini) non sono
+  decisi; col modo «inglese» suonano in italiano.
 
 ## Da sapere (trovato preparando i blocchi)
 

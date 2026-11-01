@@ -9,12 +9,12 @@
   "opus": "32k mono, VBR"
  },
  "totale": {
-  "parti": 652,
-  "parti_a_parte": 0,
-  "minuti": 46.7,
-  "minuti_a_parte": 0.0,
-  "mb": 10.9,
-  "mb_a_parte": 0.0
+  "parti": 721,
+  "parti_a_parte": 69,
+  "minuti": 51.2,
+  "minuti_a_parte": 4.5,
+  "mb": 11.96,
+  "mb_a_parte": 1.06
  },
  "blocchi": {
   "narratore-a": {
@@ -137,6 +137,58 @@
    "lufs_dopo": -22.9,
    "picco_vero_dbtp": -6.5,
    "kb": 201
+  },
+  "imma": {
+   "voce": "Imma",
+   "parti": 22,
+   "lufs_prima": -18.8,
+   "guadagno_db": -4.2,
+   "parti_alzate_di_meno": 0,
+   "al_massimo_db_in_meno": 0.0,
+   "secondi": 75.8,
+   "cartella": "elevenlabs",
+   "lufs_dopo": -23.2,
+   "picco_vero_dbtp": -5.0,
+   "kb": 302
+  },
+  "rosaria": {
+   "voce": "Rosaria",
+   "parti": 15,
+   "lufs_prima": -20.9,
+   "guadagno_db": -2.1,
+   "parti_alzate_di_meno": 0,
+   "al_massimo_db_in_meno": 0.0,
+   "secondi": 71.2,
+   "cartella": "elevenlabs",
+   "lufs_dopo": -23.0,
+   "picco_vero_dbtp": -3.5,
+   "kb": 283
+  },
+  "tore": {
+   "voce": "Tore",
+   "parti": 13,
+   "lufs_prima": -18.4,
+   "guadagno_db": -4.6,
+   "parti_alzate_di_meno": 0,
+   "al_massimo_db_in_meno": 0.0,
+   "secondi": 65.8,
+   "cartella": "elevenlabs",
+   "lufs_dopo": -23.5,
+   "picco_vero_dbtp": -6.4,
+   "kb": 273
+  },
+  "vito": {
+   "voce": "Vito",
+   "parti": 19,
+   "lufs_prima": -26.2,
+   "guadagno_db": 3.2,
+   "parti_alzate_di_meno": 1,
+   "al_massimo_db_in_meno": 0.7,
+   "secondi": 56.8,
+   "cartella": "elevenlabs",
+   "lufs_dopo": -23.3,
+   "picco_vero_dbtp": -1.9,
+   "kb": 228
   }
  }
 }

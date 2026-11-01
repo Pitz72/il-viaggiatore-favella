@@ -435,6 +435,8 @@ def main():
             man = json.load(f)
         if nome.startswith("kira-") and "servizio" in man:   # Kira in inglese sta a parte, nella chiave «servizio»
             man = man["servizio"]
+        elif nome in man.get("personaggi", {}).get("blocchi", {}):   # i personaggi di ElevenLabs in inglese, nella chiave «personaggi»
+            man = man["personaggi"]
         ids = man["blocchi"][nome]["parti"]
         testi = [man["unita"][i]["testo"] for i in ids]
     uscita = a.uscita or os.path.join(CARTELLA, "master", "clip", a.blocco)

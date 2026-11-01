@@ -31,3 +31,19 @@ riga come tag fra parentesi quadre.
 | Rosaria | **Valeria** («Warm, Expressive, Authentic», clone professionale) | 20/10 (16:31), 74,6 s | 15 parti su 15, tutte verificate; impostazioni diverse da Imma: Stability 75, velocità 0,96, Similarity 75 |
 | Tore | **Criss** («Radio Podcast», clone professionale) | 20/10 (16:36), 70,8 s | 13 righe su 13, tutte verificate; sostituisce per intero l'audio Gemini (archiviato in `generati/archivio/tore-gemini.txt`, clip in `master/clip/tore-gemini/`); voce maschile, circa 120 Hz; nel nome del file: velocità 70, Stability 0, Similarity 0 (la velocità non ha effetto in v4: il ritmo è identico alle altre, circa 180 parole al minuto) |
 | Vito | **Luigi** («Mature, Hoarse and Balanced», clone professionale) | 20/10 (16:40), 61,1 s | 19 righe su 19, tutte verificate; sostituisce per intero l'audio Gemini (archiviato in `generati/archivio/vito-gemini.txt`, clip in `master/clip/vito-gemini/`); voce maschile, circa 130 Hz (Tore 120: non stanno mai nella stessa scena); Stability 50, Similarity 75; la parte 2 («Tu.») ha il taglio incerto: da ascoltare |
+
+### In inglese (1/11/2026)
+
+Gli stessi quattro personaggi, con le stesse voci, in inglese: blocchi `doppiaggio/en/blocchi/imma.txt` … `vito.txt`, tag `[Italian accent][tono]` davanti a
+ogni battuta (documentazione: `doppiaggio/en/eleven-v4.md`). Generati da Simone il 1° novembre 2026, scaricati in MP3 (44,1 kHz, mono, 128 kbit/s); le impostazioni
+sono nel nome del file.
+
+| Personaggio | Voce | Generato | Nota |
+|---|---|---|---|
+| Vito | **Luigi** | 1/11, 07:18, 62,1 s | 19 parti su 19; velocità 0,86, Stability 50, Similarity 75 |
+| Tore | **Criss** | 1/11, 07:21, 69,4 s | 13 parti su 13; velocità 0,7, Stability 0, Similarity 0 (come in italiano) |
+| Imma | **Victoria** («Elegant & Dark Aristocrat», clone professionale) | 1/11, 07:29, 82,5 s | 22 parti su 22; velocità 1, Stability 50, Similarity 75 |
+| Rosaria | **Valeria** | 1/11, 07:32, 75,3 s | 15 parti su 15; velocità 0,96, Stability 75, Similarity 75 |
+
+Le voci italiane in inglese si riconoscono «soprattutto nella pronuncia dei nomi» (Simone, 1/11/2026): l'accento chiesto è `Italian accent`, la prova delle
+alternative (`doppiaggio/en/prove/`) non è stata fatta.

@@ -124,7 +124,8 @@ byte: rifarlo non sporca git. I blocchi fatti sul piano gratuito di ElevenLabs (
 vanno in `voce/elevenlabs/`, con un indice loro che dice la licenza: sono distribuiti col gioco ma esclusi
 dalla licenza CC BY-SA, solo per uso non commerciale (scelta di Simone, che ne accetta il rischio:
 `LICENSE-CONTENUTI.md`, piano 08, decisione 6). Se un giorno si rifanno su un piano a pagamento o con Gemini,
-basta toglierli da `A_PARTE` in `strumenti/doppiaggio-banco.py` e rifare il banco.
+basta toglierli da `A_PARTE` in `strumenti/doppiaggio-banco.py` e rifare il banco. Lo stesso vale per i loro blocchi inglesi
+(`doppiaggio/en/`, voce inglese di Imma, Rosaria, Tore e Vito): `app/public/voce/en/elevenlabs/`, con un indice e una licenza loro.
 Il collaudo è `collaudo/doppiaggio.py`.
 
 ## Nel gioco

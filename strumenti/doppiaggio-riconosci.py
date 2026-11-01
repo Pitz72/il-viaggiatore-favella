@@ -53,6 +53,9 @@ def main():
     if en and "servizio" in man:   # Kira in inglese sta a parte nel manifest (chiave «servizio»): blocchi kira-*
         tutti.update(man["servizio"]["blocchi"])
         man["unita"] = {**man["unita"], **man["servizio"]["unita"]}
+    if en and "personaggi" in man:   # i personaggi di ElevenLabs in inglese stanno a parte (chiave «personaggi»): blocchi imma, rosaria, tore, vito
+        tutti.update(man["personaggi"]["blocchi"])
+        man["unita"] = {**man["unita"], **man["personaggi"]["unita"]}
     for nome, b in tutti.items():
         if a.voce and not (nome == a.voce or nome.startswith(a.voce + "-") or b.get("voce", "narratore") == a.voce):
             continue

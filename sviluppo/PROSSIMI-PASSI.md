@@ -9,23 +9,22 @@
 
 Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti non sono più da fare (vedi «Non si fa»).
 
-- **La voce recitata in inglese**: **il narratore e la voce di servizio (Kira) sono fatti** (31 ottobre – 1° novembre 2026, diari «Il doppiaggio
+- **La voce recitata in inglese**: **il narratore, la voce di servizio (Kira) e quattro personaggi sono fatti** (31 ottobre – 1° novembre 2026, diari «Il doppiaggio
   inglese: il narratore in sei blocchi», «La voce inglese del narratore: taglio, banco e integrazione nel gioco» e «Kira in inglese: taglio, banco
-  e gioco»): 532 parti di Enzo (narrazione e scelte), il trailer e 120 parti di Kira (31 suggerimenti e 89 pezzi coi numeri delle scorte),
-  tagliati, controllati, nel banco (`app/public/voce/en/`, 652 parti, 25,6 MB con l'italiano) e nel gioco (modo di voce «inglese», che per ora
-  lascia in italiano i personaggi). Restano:
+  e gioco» e «I quattro personaggi di ElevenLabs in inglese»): 532 parti di Enzo (narrazione e scelte), il trailer, 120 parti di Kira (31
+  suggerimenti e 89 pezzi coi numeri delle scorte) e 69 di quattro personaggi,
+  tagliati, controllati, nel banco (`app/public/voce/en/`, 721 parti, 26,7 MB con l'italiano) e nel gioco (modo di voce «inglese», che per ora
+  lascia in italiano gli altri dieci personaggi). Restano:
   - (chiuso il 1° novembre 2026: Simone ha ascoltato le scelte inglesi, che il modello ha letto in fretta ma delle quali «si capisce tutto», il
     trailer, «The plain.» e «Il Viaggiatore»: vanno bene, **le scelte non si rigenerano**; e ha ascoltato Kira mentre generava: «perfetti»);
   - **ascoltare** il narratore e Kira inglesi sul gioco desktop (io non posso) e dire che cosa rifare;
-  - **i quattordici personaggi in inglese**, a partire da **Imma, Rosaria, Tore e Vito** (quelli fatti con ElevenLabs Eleven v4, di cui si
-    conoscono le voci; Simone li ha chiesti per primi il 1° novembre 2026, e ne ha contati tre: i documenti ne dicono quattro). **Pronti i
-    blocchi** (`doppiaggio/en/blocchi/imma.txt` … `vito.txt`, 69 parti, tag `[accento][tono]` per battuta) **e la prova di accento**
-    (`doppiaggio/en/prove/`, quattro file di sei battute di Vito; la documentazione di v4 è in `doppiaggio/en/eleven-v4.md`). Aspettano
-    Simone: generare le prove (stessa voce, stesse impostazioni), dire quale accento tiene, generare i quattro blocchi. Poi: taglio
-    (`en-imma` … da collegare alla chiave `personaggi` del manifest), banco (cartella inglese a parte, con la licenza ElevenLabs),
-    collaudi. Gli altri dieci (Gemini: voci di libreria da scegliere, prompt) non sono decisi;
+  - **i quattordici personaggi in inglese**: **fatti Imma, Rosaria, Tore e Vito** (quelli di ElevenLabs Eleven v4; Simone li ha chiesti per primi il
+    1° novembre 2026 e li ha registrati lo stesso giorno, saltando la prova di accento: ne contava tre, i documenti ne dicono quattro e sono quattro). 69
+    parti, tagliate e controllate (tutte sopra l'85%, nessun tag letto), nel banco (`app/public/voce/en/elevenlabs/`, −23 LUFS) e nel gioco (modo
+    «inglese»); la voce, italiana e inglese insieme, pesa 26,7 MB. Il resto va **ascoltato** nel gioco desktop (io non posso). Gli altri **dieci**
+    (Gemini: voci di libreria da scegliere, prompt, blocchi derivati dall'italiano, come per Kira) non sono decisi;
   - **gli altri 39 «Generated Audio» in `Downloads`** (maggio – 30 ottobre, non nei master): che cosa sono, se vanno nel backup su F:;
-  - confermare le scelte mie (Kira britannica neutra; il modo «inglese» con i personaggi ancora italiani; la voce che segue il testo nella
+  - confermare le scelte mie (Kira britannica neutra; il modo «inglese» con dieci personaggi ancora italiani; il tag `Italian accent` dei quattro, che non è stato confrontato con altri; la voce che segue il testo nella
     prima finestra; il tetto del peso a 40 MB) e, quando Simone lo dice, il rilascio (una minor, 1.41.0).
 - **Le skill e la filigrana di Claude: da analizzare in futuro** (Simone, 31 ottobre 2026). La ricerca di skill su GitHub e
   la questione della filigrana nel testo si riprendono più avanti; i fatti verificati e la decisione sono nel diario del

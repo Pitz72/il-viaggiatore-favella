@@ -84,23 +84,37 @@ async function provaLaVoce(testoAvvio: string, nota: (r: string) => void): Promi
   } catch (e) {
     ok = false; nota(`KO voce del trailer: ${e instanceof Error ? e.message : e}`);
   }
-  // la voce inglese (il narratore e Kira): l'indice con le corrispondenze, una parte decodificata davvero,
-  // la traccia del trailer inglese
+  // la voce inglese (il narratore, Kira e quattro personaggi): l'indice con le corrispondenze, una parte decodificata davvero
+  // per cartella (la principale e quelle a parte), la traccia del trailer inglese
   try {
     const re = await fetch(`${base}en/indice.json`);
     if (!re.ok) { ok = false; nota(`KO voce inglese: indice HTTP ${re.status}`); return ok; }
-    const en = await re.json() as { estensione: string; parti: Record<string, number>; corrispondenze: Record<string, string> };
-    const [id, ms] = Object.entries(en.parti)[0];
-    const b = await ctx.decodeAudioData(await (await fetch(`${base}en/${id}${en.estensione}`)).arrayBuffer());
-    const orfane = Object.values(en.corrispondenze).filter((e) => en.parti[e] === undefined).length;
+    const en = await re.json() as { estensione: string; parti: Record<string, number>; corrispondenze: Record<string, string>; cartelle?: string[] };
+    const tutte = new Map<string, { url: string; ms: number }>();
+    for (const [i, ms] of Object.entries(en.parti)) tutte.set(i, { url: `${base}en/${i}${en.estensione}`, ms });
+    const primeDiOgni: { id: string; url: string; ms: number }[] = [{ id: Object.keys(en.parti)[0], url: `${base}en/${Object.keys(en.parti)[0]}${en.estensione}`, ms: Object.values(en.parti)[0] }];
+    for (const c of en.cartelle ?? []) {
+      const ra = await fetch(`${base}en/${c}/indice.json`);
+      if (!ra.ok) { ok = false; nota(`KO voce inglese: indice di ${c}/ HTTP ${ra.status}`); return ok; }
+      const altro = await ra.json() as { estensione: string; parti: Record<string, number> };
+      for (const [i, ms] of Object.entries(altro.parti)) tutte.set(i, { url: `${base}en/${c}/${i}${altro.estensione}`, ms });
+      const [i0, ms0] = Object.entries(altro.parti)[0];
+      primeDiOgni.push({ id: i0, url: `${base}en/${c}/${i0}${altro.estensione}`, ms: ms0 });
+    }
+    const orfane = Object.values(en.corrispondenze).filter((e) => !tutte.has(e)).length;
     const senzaItaliano = Object.keys(en.corrispondenze).filter((i) => !dove.has(i)).length;
-    if (Math.abs(b.duration * 1000 - ms) > 60) { ok = false; nota(`KO voce inglese: ${id} dura ${Math.round(b.duration * 1000)} ms, l'indice ${ms}`); }
+    let storta = "";
+    for (const p of primeDiOgni) {
+      const b = await ctx.decodeAudioData(await (await fetch(p.url)).arrayBuffer());
+      if (Math.abs(b.duration * 1000 - p.ms) > 60) { storta = `${p.id} dura ${Math.round(b.duration * 1000)} ms, l'indice ${p.ms}`; break; }
+    }
+    if (storta) { ok = false; nota(`KO voce inglese: ${storta}`); }
     else if (orfane || senzaItaliano) { ok = false; nota(`KO voce inglese: ${orfane} corrispondenze senza registrazione, ${senzaItaliano} senza parte italiana`); }
     else {
       const sc = await (await fetch(`${base}en/trailer.json`)).json() as { durata: number; file: string; frasi: unknown[] };
       const t = await ctx.decodeAudioData(await (await fetch(`${base}en/${sc.file}`)).arrayBuffer());
       if (Math.abs(t.duration - sc.durata) > 0.1) { ok = false; nota(`KO voce inglese del trailer: dura ${t.duration.toFixed(2)} s invece di ${sc.durata}`); }
-      else nota(`ok voce inglese: ${Object.keys(en.parti).length} parti per ${Object.keys(en.corrispondenze).length} parti italiane del narratore e di Kira, trailer di ${sc.frasi.length} frasi`);
+      else nota(`ok voce inglese: ${tutte.size} parti (${primeDiOgni.length} cartelle) per ${Object.keys(en.corrispondenze).length} parti italiane del narratore, di Kira e dei personaggi, trailer di ${sc.frasi.length} frasi`);
     }
   } catch (e) {
     ok = false; nota(`KO voce inglese: ${e instanceof Error ? e.message : e}`);

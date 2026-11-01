@@ -328,7 +328,7 @@ def main():
     esito(not storte, "la voce del trailer: %d frasi al loro posto (%s solo scritte), «tuo FRATELLO.» e il titolo agganciati, "
           "nessuna sovrapposizione" % (len(frasi), len(tr["escluse"])), storte)
 
-    # 9. la voce inglese, del narratore e di Kira (app/public/voce/en/, strumenti/doppiaggio-inglese.py)
+    # 9. la voce inglese, del narratore, di Kira e di quattro personaggi (app/public/voce/en/, strumenti/doppiaggio-inglese.py)
     voce_inglese(esito, mb)
 
     tutto_ok = all(esiti)
@@ -345,14 +345,15 @@ def strumento_inglese():
 
 
 def voce_inglese(esito, mb_italiano):
-    """La voce inglese: Enzo, il narratore, e Kira, la voce di servizio (i personaggi suonano ancora in italiano). Il
+    """La voce inglese: Enzo, il narratore, Kira, la voce di servizio, e quattro personaggi (Imma, Rosaria, Tore e Vito, di
+    ElevenLabs, in en/elevenlabs/ con l'indice e la licenza loro); gli altri dieci personaggi suonano ancora in italiano. Il
     diario del gioco resta in italiano e le parti si ritrovano dal testo italiano: l'indice inglese dice, per ogni parte
-    italiana del narratore e di Kira, la sua registrazione. Si controlla che:
+    italiana di queste voci, la sua registrazione. Si controlla che:
       1. ogni parte inglese che doppiaggio-inglese.py ricava dai cataloghi di OGGI abbia il suo audio, e che non ce ne sia
          di scaduto (un catalogo cambiato ha un id nuovo);
-      2. ogni parte italiana del narratore (narrazione e scelte) e di Kira (suggerimenti e pezzi coi numeri) abbia la sua
-         registrazione inglese, e le corrispondenze siano quelle di oggi;
-      3. ogni file ci sia, sia un Ogg Opus vero e duri quanto dice l'indice, e la cartella non abbia altro;
+      2. ogni parte italiana del narratore (narrazione e scelte), di Kira (suggerimenti e pezzi coi numeri) e dei quattro
+         personaggi abbia la sua registrazione inglese, e le corrispondenze siano quelle di oggi;
+      3. ogni file ci sia, sia un Ogg Opus vero e duri quanto dice l'indice, e le cartelle non abbiano altro;
       4. le durate tornino col testo e il volume stia al bersaglio (resoconto di doppiaggio/en/banco.json);
       5. la traccia del trailer inglese: le stesse frasi, finestre e ancore dell'italiano, nessuna sovrapposizione,
          e la durata del trailer;
@@ -369,21 +370,38 @@ def voce_inglese(esito, mb_italiano):
     r, tutto = E.costruisci()
     enzo = {i: u for i, u in r["unita"].items() if u["categoria"] in ("testo", "scelta")}
     kira = dict(r["kira"])   # le parti di Kira (suggerimenti e pezzi coi numeri), con la loro parte italiana
-    attese = {**enzo, **kira}
+    pers, problemi_pers = E.raccogli_personaggi(r, tutto)   # Imma, Rosaria, Tore e Vito, una parte inglese per parte italiana
+    esito(not problemi_pers, "voce inglese: i personaggi (%s) hanno una traduzione sola per parte italiana" % ", ".join(E.PERSONAGGI),
+          problemi_pers)
+    attese = {**enzo, **kira, **pers}
     parti = ix["parti"]
+    # le voci di ElevenLabs inglesi: cartella a parte, che l'indice nomina, con l'indice e la licenza loro
+    a_parte = {}
+    cartella_a = None
+    for c in ix.get("cartelle", []):
+        cartella_a = os.path.join(cartella, c)
+        with open(os.path.join(cartella_a, "indice.json"), encoding="utf-8") as f:
+            ix_a = json.load(f)
+        esito("licenza" in ix_a and "ElevenLabs" in ix_a["licenza"] and ix_a["estensione"] == est,
+              "voce inglese: la cartella a parte %s/ dice la sua licenza" % c)
+        a_parte = ix_a["parti"]
+    tutte = {**parti, **a_parte}   # id inglese -> durata, di entrambe le cartelle
+    dove = {**{i: cartella for i in parti}, **{i: cartella_a for i in a_parte}}
 
     # 1. le parti di oggi contro l'indice
-    mancano = sorted(set(attese) - set(parti))
-    esito(not mancano, "voce inglese: ogni parte dei cataloghi di oggi ha la sua voce (%d di Enzo, %d di Kira)" % (len(enzo), len(kira)),
-          ["%s «%s»" % (i, attese[i]["testo"][:70]) for i in mancano])
-    scadute = sorted(set(parti) - set(attese))
+    mancano = sorted(set(attese) - set(tutte))
+    esito(not mancano, "voce inglese: ogni parte dei cataloghi di oggi ha la sua voce (%d di Enzo, %d di Kira, %d dei personaggi)" % (
+        len(enzo), len(kira), len(pers)), ["%s «%s»" % (i, attese[i]["testo"][:70]) for i in mancano])
+    scadute = sorted(set(tutte) - set(attese))
     esito(not scadute, "voce inglese: nessun audio scaduto (parti che i cataloghi non dicono più)", scadute)
+    esito(set(a_parte) == set(pers), "voce inglese: nella cartella a parte ci sono i personaggi, e solo loro (%d parti)" % len(a_parte))
 
     # 2. le corrispondenze con le parti italiane del narratore
     S = strumento_doppiaggio()
     it_unita = S.costruisci_tutto()["unita"]
     narratore_it = {i for i, u in it_unita.items() if u["voce"] == "narratore" and u.get("categoria") != "trailer"}
     kira_it = {i for i, u in it_unita.items() if u["voce"] == "servizio"}
+    pers_it = {i for i, u in it_unita.items() if u["voce"] in E.PERSONAGGI}
     corr = ix["corrispondenze"]
     senza = sorted(narratore_it - set(corr))
     esito(not senza, "voce inglese: ogni parte italiana del narratore (%d: narrazione e scelte) ha la sua registrazione" % len(narratore_it),
@@ -391,15 +409,20 @@ def voce_inglese(esito, mb_italiano):
     senza = sorted(kira_it - set(corr))
     esito(not senza, "voce inglese: ogni parte italiana di Kira (%d: suggerimenti e pezzi coi numeri) ha la sua registrazione" % len(kira_it),
           ["%s «%s»" % (i, it_unita[i]["testo"][:70]) for i in senza])
+    senza = sorted(pers_it - set(corr))
+    esito(not senza, "voce inglese: ogni parte italiana dei quattro personaggi (%d) ha la sua registrazione" % len(pers_it),
+          ["%s «%s»" % (i, it_unita[i]["testo"][:70]) for i in senza])
     attese_corr = {}
     for voce_it, gruppo in (("narratore", enzo), ("servizio", kira)):
         for i, u in gruppo.items():
             for ti in u["italiano"]:
                 attese_corr[S.impronta(voce_it, ti)] = i
+    for i, u in pers.items():
+        attese_corr[u["italiano_ids"][0]] = i
     storte = ["%s → %s, oggi %s" % (i, corr.get(i), attese_corr.get(i)) for i in sorted(set(corr) | set(attese_corr))
               if corr.get(i) != attese_corr.get(i)]
     esito(not storte, "voce inglese: le corrispondenze italiano → inglese sono quelle dei cataloghi di oggi", storte)
-    fuori = sorted(e for e in corr.values() if e not in parti)
+    fuori = sorted(e for e in corr.values() if e not in tutte)
     esito(not fuori, "voce inglese: ogni corrispondenza porta a una registrazione dell'indice", fuori)
 
     # 3. i file
@@ -409,12 +432,22 @@ def voce_inglese(esito, mb_italiano):
     storti = ["manca en/%s%s" % (i, est) for i in sorted(set(parti) - presenti)]
     storti += ["di troppo en/%s%s" % (i, est) for i in sorted(presenti - set(parti))]
     storti += ["di troppo en/%s" % f for f in altri]
-    esito(not storti, "voce inglese: la cartella en/ è il suo indice: %d file" % len(presenti & set(parti)), storti)
+    if cartella_a:
+        presenti_a = {f[:-len(est)] for f in os.listdir(cartella_a) if f.endswith(est)}
+        altri_a = sorted(f for f in os.listdir(cartella_a) if os.path.isfile(os.path.join(cartella_a, f))
+                         and not f.endswith(est) and f != "indice.json")
+        storti += ["manca en/elevenlabs/%s%s" % (i, est) for i in sorted(set(a_parte) - presenti_a)]
+        storti += ["di troppo en/elevenlabs/%s%s" % (i, est) for i in sorted(presenti_a - set(a_parte))]
+        storti += ["di troppo en/elevenlabs/%s" % f for f in altri_a]
+        presenti = presenti | presenti_a
+    altre_cartelle = sorted(f for f in os.listdir(cartella) if os.path.isdir(os.path.join(cartella, f)) and f not in ix.get("cartelle", []))
+    storti += ["cartella di troppo en/%s" % f for f in altre_cartelle]
+    esito(not storti, "voce inglese: le cartelle en/ ed en/elevenlabs/ sono i loro indici: %d file" % len(presenti & set(tutte)), storti)
     storti = []
-    for i, ms in sorted(parti.items()):
+    for i, ms in sorted(tutte.items()):
         if i not in presenti:
             continue
-        d, errore = durata_ogg_opus(os.path.join(cartella, i + est))
+        d, errore = durata_ogg_opus(os.path.join(dove[i], i + est))
         if errore:
             storti.append("%s: %s" % (i, errore))
         elif abs(d - ms) > TOLLERANZA_MS:
@@ -426,7 +459,7 @@ def voce_inglese(esito, mb_italiano):
     # scelte italiane 3,3). Simone le ha ascoltate il 1/11/2026: «si capisce tutto», non si rigenerano (diario del 1/11/2026).
     # Per loro il limite è 7,5 e la riga qui sotto ne dice il numero; per la narrazione resta 6,5.
     strane, in_fretta = [], 0
-    for i, ms in sorted(parti.items()):
+    for i, ms in sorted(tutte.items()):
         if i not in attese:
             continue
         n, s = attese[i]["parole"], ms / 1000
@@ -451,9 +484,9 @@ def voce_inglese(esito, mb_italiano):
         fuori = []
         with open(os.path.join(RADICE, "doppiaggio", "en", "manifest.json"), encoding="utf-8") as f:
             man_en = json.load(f)
-        blocchi = {**man_en["blocchi"], **man_en["servizio"]["blocchi"]}
+        blocchi = {**man_en["blocchi"], **man_en["servizio"]["blocchi"], **man_en["personaggi"]["blocchi"]}
         for b, v in blocchi.items():
-            file = [os.path.join(cartella, i + est) for i in v["parti"] if i in parti]
+            file = [os.path.join(dove[i], i + est) for i in v["parti"] if i in tutte]
             if not file or b == "trailer":
                 continue
             lufs, picco = loudness(file)
@@ -497,7 +530,7 @@ def voce_inglese(esito, mb_italiano):
           "nessuna sovrapposizione" % (len(tr["frasi"]), len(tr["escluse"])), storte)
 
     # 6. il peso, italiano e inglese insieme
-    mb_en = sum(os.path.getsize(os.path.join(cartella, f)) for f in os.listdir(cartella) if f.endswith(est)) / 1048576
+    mb_en = sum(os.path.getsize(os.path.join(c, f)) for c in {cartella, cartella_a} if c for f in os.listdir(c) if f.endswith(est)) / 1048576
     esito(mb_italiano + mb_en <= PESO_MAX_MB, "la voce, italiana e inglese insieme, pesa %.1f MB nel pacchetto (italiana %.1f, inglese %.1f; tetto %.0f)" % (
         mb_italiano + mb_en, mb_italiano, mb_en, PESO_MAX_MB))
 
