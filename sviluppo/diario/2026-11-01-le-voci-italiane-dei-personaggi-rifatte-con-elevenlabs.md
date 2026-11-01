@@ -9,8 +9,8 @@ versione: 1.40.1
 # Le voci italiane dei personaggi rifatte con ElevenLabs
 
 ## In breve
-Dopo la stima dei crediti, Simone ha detto «sì, solo i personaggi»: le voci italiane di Gemini di nove personaggi su dieci sono rifatte con ElevenLabs, con la stessa voce che ognuno ha in inglese.
-Concetta resta a Gemini, perché la voce inglese che Simone aveva scelto («Tosca - Mature, Whispery and Seductive») non si trova con il connettore.
+Dopo la stima dei crediti, Simone ha detto «sì, solo i personaggi»: le voci italiane di Gemini di i nove personaggi sono rifatte con ElevenLabs, con la stessa voce che ognuno ha in inglese.
+Concetta, dopo, con «Tosca old&deep» (la voce inglese «Tosca - Mature, Whispery and Seductive» non si trova con il connettore): **tutti e quattordici i personaggi sono ora ElevenLabs, in italiano e in inglese**.
 
 ## Contesto
 Stima fatta il 1° novembre 2026: rifare tutto il doppiaggio con ElevenLabs costa circa 101.500 crediti (un credito per carattere, qualunque modello); le dieci voci italiane dei personaggi di Gemini 9.883. Simone, a metà
@@ -29,7 +29,7 @@ giornata: «ora come ora ho 17.877 crediti». Il narratore Enzo e Kira hanno gi�
 
 ## Decisioni
 - **Peppe con Vittorio anche in italiano** — la voce è la stessa dell'inglese, ma ha un accento milanese: un ragazzo del sud con accento milanese. Da ascoltare; se stona si cambia voce (1.163 crediti).
-- **Concetta in attesa** — non uso «Tosca old&deep» al posto di «Tosca - Mature, Whispery and Seductive»: sono due voci diverse. Serve che Simone aggiunga la voce a My Voices (così la vedo) o mi dica l'identificativo.
+- **Concetta con «Tosca old&deep»** — la voce inglese di Concetta («Tosca - Mature, Whispery and Seductive», che Simone aveva usato a mano nell'app: velocità 0,81, Stability 34, Similarity 40) il connettore non la trova. Simone ha detto «vai di Tosca anche in italiano» e ho usato l'unica Tosca che trovo, «Tosca old&deep» (donna italiana anziana, profonda, calma): **non è la stessa voce dell'inglese**. 826 crediti, 8 parti su 8. Se all'ascolto non va, si rifà con la voce giusta (aggiunta a My Voices) o la genera Simone nell'app.
 - **Una ripresa a testa** — come per l'inglese.
 
 ## Verifiche

@@ -53,7 +53,7 @@ il tema dell'intro). La copertina dell'album è il logo del gioco, sotto questa 
 
 ## Cosa NON copre: le voci di ElevenLabs
 
-Le voci dei **personaggi** (in italiano tutti tranne Concetta, che resta a Gemini; in inglese tutti)
+Le voci dei **quattordici personaggi**, in italiano e in inglese
 (`app/public/voce/elevenlabs/` e `app/public/voce/en/elevenlabs/`), sono state generate con
 ElevenLabs (elevenlabs.io) sul piano gratuito, che non concede l'uso commerciale. **Non** sono
 coperte da questa licenza: si possono ridistribuire solo come parte di questo gioco e **solo per

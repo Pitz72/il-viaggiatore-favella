@@ -36,7 +36,7 @@ riga come tag fra parentesi quadre.
 
 Nove personaggi, con la stessa voce dell'inglese (sotto), generati da Claude con il connettore ElevenLabs (`eleven_v4`, una ripresa, impostazioni predefinite; testo italiano con i tag di tono; Pasquale anche lo stato: malato, guarito).
 Il vecchio audio Gemini è archiviato in `doppiaggio/generati/archivio/<nome>-gemini.txt` e `doppiaggio/master/clip/<nome>-gemini/`. Costi in crediti: Nunzio 564, Saverio 384, Iole 1.005, Rocco 336, Peppe 1.163, Ciro 819, Pasquale 330, Onofrio 1.868, Cosimo 2.643 (9.112 in tutto).
-Parti e controllo: 7, 8, 12, 5, 17, 11, 4, 21 e 31, tutte sopra l'85% e senza parole in più. **Peppe**: Vittorio ha un accento milanese. **Concetta**: la voce inglese «Tosca - Mature, Whispery and Seductive» non si trova con il connettore (la ricerca dà solo «Tosca old&deep», un'altra voce): in attesa.
+Parti e controllo: 7, 8, 12, 5, 17, 11, 4, 21 e 31, tutte sopra l'85% e senza parole in più. **Peppe**: Vittorio ha un accento milanese. **Concetta**: la voce inglese «Tosca - Mature, Whispery and Seductive» non si trova con il connettore (la ricerca dà solo «Tosca old&deep», un'altra voce); Simone ha detto «vai di Tosca anche in italiano» e ho usato **Tosca old&deep** (fNmw…, 826 crediti, 48,4 s, 8 parti su 8): **non è la stessa voce dell'inglese**, da ascoltare.
 
 ### In inglese (1/11/2026)
 
