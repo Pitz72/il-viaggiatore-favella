@@ -9,13 +9,16 @@
 
 Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti non sono più da fare (vedi «Non si fa»).
 
-- **Prossima sessione: guidare Simone a creare la pagina del gioco su itch.io** (Simone, 1° novembre 2026: «Nella prossima mi dovrai
-  guidare sul come si crea una pagina su Itch.io»). Una guida passo per passo, che i passi sul sito li fa lui. Che cosa c'è già: lo zip
-  del gioco per il browser (HTML5) fra gli artefatti di ogni esecuzione del workflow «Pagine» (`Il-Viaggiatore-web.zip`, la versione
-  dell'ultima release); i quattro pacchetti desktop della release; le otto schermate di `pagine/schermate/` (1600 × 900, italiano e
-  inglese); la key art in `grafica/branding/` (copertina e banner da ritagliare nelle misure di itch.io); i testi della presentazione in
-  `pagine/index.html`, nelle due lingue. Da chiarire con lui: gioco nel browser, download o tutti e due; prezzo (gratis, «paga quanto
-  vuoi»); come le licenze delle voci ElevenLabs («solo uso non commerciale») pesano su donazioni o prezzo.
+- **La pagina del gioco su itch.io: in corso, in pausa** (Simone, 1° novembre 2026, sera: «mettimi in pausa questa sessione. Ci
+  ritorniamo presto da questa domanda. La linea va troppo male»). **Deciso** (a questionario): su itch.io i quattro pacchetti da
+  scaricare e, nella descrizione, il collegamento al gioco nel browser su GitHub Pages (lo zip HTML5 ha 1.839 file, itch.io ne
+  accetta 1.000); nessun pagamento (le voci ElevenLabs sono «solo uso non commerciale»); pagina in italiano e inglese; resta in
+  bozza e la pubblica Simone. **Pronti** in [`grafica/itch/`](../grafica/itch/LEGGIMI.md): copertina, banner, descrizione da
+  incollare e la scheda con tutti i campi. **Si riprende dalla domanda rimasta senza risposta**: i pacchetti li scarica Claude in
+  `C:\Users\Utente\Downloads\Il-Viaggiatore-itch` (circa 760 MB) o Simone; quali schermate (inglesi, italiane, tutte e otto); la
+  frase breve (due lingue, solo inglese, solo italiano). Poi la guida passo per passo: Simone lavora nel suo browser (il browser
+  integrato si ferma alla verifica contro i bot di itch.io, e il suo Chrome non ha l'estensione Claude) e manda le schermate.
+  Diario: «La pagina su itch.io: decisioni e materiali (in pausa)».
 
 - **Il doppiaggio è concluso** (Simone, 1° novembre 2026: «per questo lavoro del doppiaggio abbiamo finito»); i titoli di coda dicono ora tutte le voci, in italiano e in inglese (diario «Il controllo generale e i titoli di coda con tutte le voci»). **La voce recitata in inglese**: **il narratore, la voce di servizio (Kira) e tutti i quattordici personaggi sono fatti** (31 ottobre – 1° novembre 2026, diari «Il doppiaggio
   inglese: il narratore in sei blocchi», «La voce inglese del narratore: taglio, banco e integrazione nel gioco» e «Kira in inglese: taglio, banco
