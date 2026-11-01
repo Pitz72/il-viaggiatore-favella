@@ -9,12 +9,12 @@
   "opus": "32k mono, VBR"
  },
  "totale": {
-  "parti": 721,
-  "parti_a_parte": 69,
-  "minuti": 51.2,
-  "minuti_a_parte": 4.5,
-  "mb": 11.96,
-  "mb_a_parte": 1.06
+  "parti": 762,
+  "parti_a_parte": 110,
+  "minuti": 54.4,
+  "minuti_a_parte": 7.8,
+  "mb": 12.74,
+  "mb_a_parte": 1.84
  },
  "blocchi": {
   "narratore-a": {
@@ -189,6 +189,45 @@
    "lufs_dopo": -23.3,
    "picco_vero_dbtp": -1.9,
    "kb": 228
+  },
+  "concetta": {
+   "voce": "Concetta",
+   "parti": 8,
+   "lufs_prima": -25.1,
+   "guadagno_db": 2.1,
+   "parti_alzate_di_meno": 0,
+   "al_massimo_db_in_meno": 0.0,
+   "secondi": 45.9,
+   "cartella": "elevenlabs",
+   "lufs_dopo": -24.3,
+   "picco_vero_dbtp": -3.0,
+   "kb": 183
+  },
+  "iole": {
+   "voce": "Iole",
+   "parti": 12,
+   "lufs_prima": -25.2,
+   "guadagno_db": 2.2,
+   "parti_alzate_di_meno": 1,
+   "al_massimo_db_in_meno": 0.7,
+   "secondi": 54.3,
+   "cartella": "elevenlabs",
+   "lufs_dopo": -23.7,
+   "picco_vero_dbtp": -1.9,
+   "kb": 221
+  },
+  "onofrio": {
+   "voce": "Onofrio",
+   "parti": 21,
+   "lufs_prima": -21.6,
+   "guadagno_db": -1.4,
+   "parti_alzate_di_meno": 0,
+   "al_massimo_db_in_meno": 0.0,
+   "secondi": 96.2,
+   "cartella": "elevenlabs",
+   "lufs_dopo": -23.4,
+   "picco_vero_dbtp": -4.1,
+   "kb": 391
   }
  }
 }

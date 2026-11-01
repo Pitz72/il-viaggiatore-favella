@@ -25557,11 +25557,12 @@
   }
  },
  "personaggi": {
-  "voce": "Eleven v4: le voci italiane di Imma, Rosaria, Tore, Vito, in inglese",
-  "accento": "Italian accent",
+  "voce": "Eleven v4: le voci italiane di Imma, Rosaria, Tore, Vito, Concetta, Iole, Onofrio, in inglese",
+  "accento_predefinito": "Italian accent",
   "blocchi": {
    "imma": {
     "voce": "Imma",
+    "accento": "Italian accent",
     "minuti_stimati": 3.0,
     "parti": [
      "111b67d9",
@@ -25590,6 +25591,7 @@
    },
    "rosaria": {
     "voce": "Rosaria",
+    "accento": "Italian accent",
     "minuti_stimati": 2.6,
     "parti": [
      "ac34f3e7",
@@ -25611,6 +25613,7 @@
    },
    "tore": {
     "voce": "Tore",
+    "accento": "Italian accent",
     "minuti_stimati": 2.4,
     "parti": [
      "4ed302a4",
@@ -25630,6 +25633,7 @@
    },
    "vito": {
     "voce": "Vito",
+    "accento": "Italian accent",
     "minuti_stimati": 2.3,
     "parti": [
      "60cfcadf",
@@ -25651,6 +25655,68 @@
      "711fdaac",
      "20e3cc57",
      "4866663f"
+    ]
+   },
+   "concetta": {
+    "voce": "Concetta",
+    "accento": "strong Italian accent",
+    "minuti_stimati": 1.5,
+    "parti": [
+     "978e81d3",
+     "f40033e6",
+     "a8bba561",
+     "faaee66e",
+     "2d70dbe0",
+     "efa59539",
+     "662be608",
+     "4b5aca4d"
+    ]
+   },
+   "iole": {
+    "voce": "Iole",
+    "accento": "Italian accent",
+    "minuti_stimati": 2.1,
+    "parti": [
+     "e79b6b1f",
+     "16f09738",
+     "440ca09e",
+     "583f2e2b",
+     "395d85fb",
+     "43cb479c",
+     "b5628d9a",
+     "0c57679e",
+     "58bf0bac",
+     "fe95c1f9",
+     "cdc1fe71",
+     "57b3a50c"
+    ]
+   },
+   "onofrio": {
+    "voce": "Onofrio",
+    "accento": "strong Italian accent",
+    "minuti_stimati": 3.3,
+    "parti": [
+     "02c01237",
+     "c80515a7",
+     "3b7db4aa",
+     "ccd32272",
+     "86ba97fb",
+     "e868fba1",
+     "b2ee7bfb",
+     "30d5eb7d",
+     "df9d2a44",
+     "b6043447",
+     "745e98f4",
+     "0eada740",
+     "85ca42a3",
+     "37dc0ca2",
+     "d1e28de5",
+     "8f51a266",
+     "8835298a",
+     "35345f86",
+     "281259b6",
+     "ba8ed63b",
+     "cac51d73"
     ]
    }
   },
@@ -27283,6 +27349,973 @@
      "c91edc9b"
     ],
     "tono": "minaccioso"
+   },
+   "978e81d3": {
+    "voce": "Concetta",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "concetta",
+    "testo": "You… But you're one of the… Wait.",
+    "parole": 7,
+    "italiano": [
+     "Tu… Ma tu sei dei… Aspetta."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 158,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "8229108e"
+    ],
+    "tono": "incerto"
+   },
+   "f40033e6": {
+    "voce": "Concetta",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "concetta",
+    "testo": "The house at the end, in Acquamorta. There were two boys. Which of the two are you?",
+    "parole": 17,
+    "italiano": [
+     "La casa in fondo, ad Acquamorta. Due maschi, c'erano. Tu quale dei due?"
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 158,
+      "tipo": "dialogo",
+      "parte": 3
+     }
+    ],
+    "italiano_ids": [
+     "44c56127"
+    ],
+    "tono": "incerto"
+   },
+   "a8bba561": {
+    "voce": "Concetta",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "concetta",
+    "testo": "Two, yes. You went away, on the train, and never came back. The other one stayed. Cosimo.",
+    "parole": 17,
+    "italiano": [
+     "Due, sì. Tu te ne andasti, col treno, e non tornasti più. L'altro restò. Cosimo."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 163,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "02259fa6"
+    ],
+    "tono": "tristezza"
+   },
+   "faaee66e": {
+    "voce": "Concetta",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "concetta",
+    "testo": "Cosimo stayed, and shut himself away. After… No. After that I don't remember. There was a tragedy, in that house, but when it happened escapes me.",
+    "parole": 26,
+    "italiano": [
+     "Cosimo restò, e si chiuse. Dopo che… No. Dopo non ricordo. C'è stata una disgrazia, in quella casa, ma il quando mi sfugge."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 163,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "3e5c2e65"
+    ],
+    "tono": "incerto"
+   },
+   "2d70dbe0": {
+    "voce": "Concetta",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "concetta",
+    "testo": "Don't make me say it, I'll get it wrong and hurt you for nothing. Go there and see the house for yourself.",
+    "parole": 22,
+    "italiano": [
+     "Non me lo far dire, che poi sbaglio e ti faccio male per niente. Vacci, e guardala tu, la casa."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 167,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "87001611"
+    ],
+    "tono": "tenero"
+   },
+   "efa59539": {
+    "voce": "Concetta",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "concetta",
+    "testo": "Take the wooden horse. It belonged to you two.",
+    "parole": 9,
+    "italiano": [
+     "Pìgliati il cavallo di legno. Era vostro."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 167,
+      "tipo": "dialogo",
+      "parte": 3
+     }
+    ],
+    "italiano_ids": [
+     "f53de897"
+    ],
+    "tono": "tenero"
+   },
+   "662be608": {
+    "voce": "Concetta",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "concetta",
+    "testo": "Take it. I've kept it since the house was shut up. One of you two used to sleep with it, but which one I couldn't tell you.",
+    "parole": 27,
+    "italiano": [
+     "Pìgliatelo. Lo tenevo io, da quando la casa si è chiusa. Uno di voi due ci dormiva insieme, ma quale non te lo so dire."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 170,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "cc0ea5ff"
+    ],
+    "tono": "tenero"
+   },
+   "4b5aca4d": {
+    "voce": "Concetta",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "concetta",
+    "testo": "Take that horse home. Houses want their things back.",
+    "parole": 9,
+    "italiano": [
+     "Portatelo a casa, quel cavallo. Le case vogliono indietro le loro cose."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 170,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "ab069e93"
+    ],
+    "tono": "tenero"
+   },
+   "e79b6b1f": {
+    "voce": "Iole",
+    "categoria": "testo",
+    "zona": "z3",
+    "blocco": "iole",
+    "testo": "All this water, and not a sip you can drink.",
+    "parole": 10,
+    "italiano": [
+     "Tutta quest'acqua, e non se ne beve un sorso."
+    ],
+    "fonti": [
+     {
+      "file": "z3-invaso.fav",
+      "riga": 108,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "f6f15ca5"
+    ],
+    "tono": "amaro"
+   },
+   "16f09738": {
+    "voce": "Iole",
+    "categoria": "testo",
+    "zona": "z3",
+    "blocco": "iole",
+    "testo": "What do you want with my pump.",
+    "parole": 7,
+    "italiano": [
+     "Cosa vuoi dalla mia pompa."
+    ],
+    "fonti": [
+     {
+      "file": "z3-invaso.fav",
+      "riga": 108,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "7f9bcecb"
+    ],
+    "tono": "diffidente"
+   },
+   "440ca09e": {
+    "voce": "Iole",
+    "categoria": "testo",
+    "zona": "z3",
+    "blocco": "iole",
+    "testo": "You're still here. The ones in a hurry I usually find down on the lakebed, drinking with Rocco.",
+    "parole": 18,
+    "italiano": [
+     "Sei ancora qui. Quelli che hanno fretta di solito li ritrovo giù al fondale, a bere con Rocco."
+    ],
+    "fonti": [
+     {
+      "file": "z3-invaso.fav",
+      "riga": 109,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "6dff4e38"
+    ],
+    "tono": "ironico"
+   },
+   "583f2e2b": {
+    "voce": "Iole",
+    "categoria": "testo",
+    "zona": "z3",
+    "blocco": "iole",
+    "testo": "Tell me.",
+    "parole": 2,
+    "italiano": [
+     "Dimmi."
+    ],
+    "fonti": [
+     {
+      "file": "z3-invaso.fav",
+      "riga": 109,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "826e9e51"
+    ],
+    "tono": "calmo"
+   },
+   "395d85fb": {
+    "voce": "Iole",
+    "categoria": "testo",
+    "zona": "z3",
+    "blocco": "iole",
+    "testo": "The hut's back there. Take what you need and get the pump going. The tablets are enough for one go. After that, with just the filter, you'll bring up water that tastes of iron: you drink it, you don't love it.",
+    "parole": 41,
+    "italiano": [
+     "Il casotto è là dietro. Prendi quello che ti serve e fa' andare la pompa. Le pastiglie bastano per una volta. Dopo, col filtro solo, tiri su acqua che sa di ferro: si beve, non si ama."
+    ],
+    "fonti": [
+     {
+      "file": "z3-invaso.fav",
+      "riga": 117,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "071b80b7"
+    ],
+    "tono": "calmo"
+   },
+   "43cb479c": {
+    "voce": "Iole",
+    "categoria": "testo",
+    "zona": "z3",
+    "blocco": "iole",
+    "testo": "You know how to work the pump by now. The rest is patience.",
+    "parole": 13,
+    "italiano": [
+     "La pompa la sai far andare, ormai. Il resto è pazienza."
+    ],
+    "fonti": [
+     {
+      "file": "z3-invaso.fav",
+      "riga": 118,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "0e09ff23"
+    ],
+    "tono": "calmo"
+   },
+   "b5628d9a": {
+    "voce": "Iole",
+    "categoria": "testo",
+    "zona": "z3",
+    "blocco": "iole",
+    "testo": "You filter it, then you treat it. The filter you fit yourself: there's cloth and charcoal in that carcass over there. The treatment's in my house: tablets. But I don't let anyone I don't know into my house.",
+    "parole": 38,
+    "italiano": [
+     "Si filtra, poi si tratta. Il filtro lo monti tu: tela e carbone ce n'è là nella carcassa. Il trattamento sta in casa mia: pastiglie. Ma in casa mia non entra chi non conosco."
+    ],
+    "fonti": [
+     {
+      "file": "z3-invaso.fav",
+      "riga": 123,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "a232b87a"
+    ],
+    "tono": "calmo"
+   },
+   "0c57679e": {
+    "voce": "Iole",
+    "categoria": "testo",
+    "zona": "z3",
+    "blocco": "iole",
+    "testo": "Nothing collapsed. They just turned off a tap somewhere far away, a year at a time, until the valley stopped being worth the water it cost.",
+    "parole": 26,
+    "italiano": [
+     "Non è crollato niente. Hanno solo chiuso un rubinetto lontano, un anno dopo l'altro, finché la valle ha smesso di valere l'acqua che costava."
+    ],
+    "fonti": [
+     {
+      "file": "z3-invaso.fav",
+      "riga": 126,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "1b4f6625"
+    ],
+    "tono": "amaro"
+   },
+   "58bf0bac": {
+    "voce": "Iole",
+    "categoria": "testo",
+    "zona": "z3",
+    "blocco": "iole",
+    "testo": "I stayed on to keep the place warm, in case it ever flows again.",
+    "parole": 14,
+    "italiano": [
+     "Io sono rimasta a tenere caldo il posto, caso mai tornasse a scorrere."
+    ],
+    "fonti": [
+     {
+      "file": "z3-invaso.fav",
+      "riga": 126,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "23ea08c7"
+    ],
+    "tono": "tristezza"
+   },
+   "fe95c1f9": {
+    "voce": "Iole",
+    "categoria": "testo",
+    "zona": "z3",
+    "blocco": "iole",
+    "testo": "No.",
+    "parole": 1,
+    "italiano": [
+     "No."
+    ],
+    "fonti": [
+     {
+      "file": "z3-invaso.fav",
+      "riga": 130,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "44b665d8"
+    ],
+    "tono": "calmo"
+   },
+   "cdc1fe71": {
+    "voce": "Iole",
+    "categoria": "testo",
+    "zona": "z3",
+    "blocco": "iole",
+    "testo": "But waiting is the last job left, and I do it well.",
+    "parole": 12,
+    "italiano": [
+     "Ma aspettare è l'ultimo lavoro rimasto, e lo faccio bene."
+    ],
+    "fonti": [
+     {
+      "file": "z3-invaso.fav",
+      "riga": 130,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "77465e37"
+    ],
+    "tono": "calmo"
+   },
+   "57b3a50c": {
+    "voce": "Iole",
+    "categoria": "testo",
+    "zona": "z3",
+    "blocco": "iole",
+    "testo": "Not my house. I don't know you.",
+    "parole": 7,
+    "italiano": [
+     "Casa mia no. Non ti conosco."
+    ],
+    "fonti": [
+     {
+      "file": "z3-invaso.fav",
+      "riga": 134,
+      "tipo": "messaggio",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "37f8a6b7"
+    ],
+    "tono": "deciso"
+   },
+   "02c01237": {
+    "voce": "Onofrio",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "onofrio",
+    "testo": "Ask, while I feel like answering.",
+    "parole": 6,
+    "italiano": [
+     "Chiedi, finché ho voglia di rispondere."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 77,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "535dce07"
+    ],
+    "tono": "asciutto"
+   },
+   "c80515a7": {
+    "voce": "Onofrio",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "onofrio",
+    "testo": "I don't go down, I don't talk, I don't pray any more. What do you want from an old man who stayed.",
+    "parole": 22,
+    "italiano": [
+     "Non scendo, non parlo, non prego più. Cosa vuoi da un vecchio rimasto."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 78,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "619da0fb"
+    ],
+    "tono": "amaro"
+   },
+   "3b7db4aa": {
+    "voce": "Onofrio",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "onofrio",
+    "testo": "But you… I know you. You're from that house.",
+    "parole": 9,
+    "italiano": [
+     "Ma tu… Io ti conosco. Tu sei di quella casa."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 78,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "0f8a2b97"
+    ],
+    "tono": "incerto"
+   },
+   "ccd32272": {
+    "voce": "Onofrio",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "onofrio",
+    "testo": "You went away to send money back. For a while it came, the money. Then the water went, and you can't drink money.",
+    "parole": 23,
+    "italiano": [
+     "Sei andato via per mandare i soldi. Per un po' sono arrivati, i soldi. Poi l'acqua se n'è andata, e i soldi non si bevono."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 86,
+      "tipo": "dialogo",
+      "parte": 0
+     },
+     {
+      "file": "z6-colline.fav",
+      "riga": 87,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "79e3c0f5"
+    ],
+    "tono": "amaro"
+   },
+   "86ba97fb": {
+    "voce": "Onofrio",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "onofrio",
+    "testo": "The little one first, the summer of the fever. Her a month later. Cosimo put them in the ground by himself, behind the house, and wouldn't have anyone help him.",
+    "parole": 30,
+    "italiano": [
+     "Il piccolo per primo, l'estate della febbre. Lei un mese dopo. Cosimo li ha messi sotto terra da solo, dietro la casa, e non ha voluto nessuno ad aiutarlo."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 86,
+      "tipo": "dialogo",
+      "parte": 2
+     },
+     {
+      "file": "z6-colline.fav",
+      "riga": 87,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "2e37e5ce"
+    ],
+    "tono": "tristezza"
+   },
+   "e868fba1": {
+    "voce": "Onofrio",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "onofrio",
+    "testo": "Down in the village you put a man with the fever back on his feet, I'm told.",
+    "parole": 17,
+    "italiano": [
+     "Giù al paese hai rimesso in piedi uno con la febbre, mi hanno detto."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 86,
+      "tipo": "dialogo",
+      "parte": 4
+     }
+    ],
+    "italiano_ids": [
+     "c704b5b4"
+    ],
+    "tono": "calmo"
+   },
+   "b2ee7bfb": {
+    "voce": "Onofrio",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "onofrio",
+    "testo": "That summer, here, nobody had medicine.",
+    "parole": 6,
+    "italiano": [
+     "Quell'estate, qui, le medicine non le aveva nessuno."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 86,
+      "tipo": "dialogo",
+      "parte": 6
+     }
+    ],
+    "italiano_ids": [
+     "4196b26c"
+    ],
+    "tono": "tristezza"
+   },
+   "30d5eb7d": {
+    "voce": "Onofrio",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "onofrio",
+    "testo": "Cosimo wrote that line. As for why, ask him.",
+    "parole": 9,
+    "italiano": [
+     "Quella riga l'ha scritta Cosimo. Il perché chiedilo a lui."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 91,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "6ce63943"
+    ],
+    "tono": "asciutto"
+   },
+   "df9d2a44": {
+    "voce": "Onofrio",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "onofrio",
+    "testo": "Then he wrote another one, at night, and didn't send it. I've got it. He doesn't know I've got it.",
+    "parole": 20,
+    "italiano": [
+     "Poi ne scrisse un'altra, di notte, e non la spedì. Ce l'ho io. Lui non sa che ce l'ho."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 91,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "03e9d1c8"
+    ],
+    "tono": "grave"
+   },
+   "b6043447": {
+    "voce": "Onofrio",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "onofrio",
+    "testo": "It was the little one's. I know because I carved it for him.",
+    "parole": 13,
+    "italiano": [
+     "Era del piccolo. Lo so perché glielo intagliai io."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 94,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "cbfbda7e"
+    ],
+    "tono": "commosso"
+   },
+   "745e98f4": {
+    "voce": "Onofrio",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "onofrio",
+    "testo": "Now listen.",
+    "parole": 2,
+    "italiano": [
+     "Adesso ascolta."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 94,
+      "tipo": "dialogo",
+      "parte": 3
+     },
+     {
+      "file": "z6-colline.fav",
+      "riga": 96,
+      "tipo": "dialogo",
+      "parte": 3
+     }
+    ],
+    "italiano_ids": [
+     "cbe79769"
+    ],
+    "tono": "deciso"
+   },
+   "0eada740": {
+    "voce": "Onofrio",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "onofrio",
+    "testo": "I put it there, in the chapel. Someone had to.",
+    "parole": 10,
+    "italiano": [
+     "L'ho messo io, nella cappella. Qualcuno doveva."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 96,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "9df13399"
+    ],
+    "tono": "tristezza"
+   },
+   "85ca42a3": {
+    "voce": "Onofrio",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "onofrio",
+    "testo": "The ford.",
+    "parole": 2,
+    "italiano": [
+     "Il guado."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 99,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "00c6adc1"
+    ],
+    "tono": "asciutto"
+   },
+   "37dc0ca2": {
+    "voce": "Onofrio",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "onofrio",
+    "testo": "Plenty have come through here asking. I don't give anything to someone I don't know.",
+    "parole": 15,
+    "italiano": [
+     "Ne sono passati, di quelli che chiedevano. Io non do niente a chi non so chi è."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 99,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "2c74c560"
+    ],
+    "tono": "diffidente"
+   },
+   "d1e28de5": {
+    "voce": "Onofrio",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "onofrio",
+    "testo": "Bring me something from that house. Then we'll talk.",
+    "parole": 9,
+    "italiano": [
+     "Portami qualcosa di quella casa. Allora parliamo."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 99,
+      "tipo": "dialogo",
+      "parte": 4
+     }
+    ],
+    "italiano_ids": [
+     "f59f4fbd"
+    ],
+    "tono": "deciso"
+   },
+   "8f51a266": {
+    "voce": "Onofrio",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "onofrio",
+    "testo": "Cosimo is at the ford, and he won't let you through. I can give you one thing only.",
+    "parole": 18,
+    "italiano": [
+     "Al guado c'è Cosimo, e non ti lascia passare. Posso darti una cosa sola."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 102,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "0d1a59d2"
+    ],
+    "tono": "grave"
+   },
+   "8835298a": {
+    "voce": "Onofrio",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "onofrio",
+    "testo": "The letter he never sent: take it to him, and put him in front of what he wrote. Or the shotgun: and clear the road yourself. Choose, and go.",
+    "parole": 29,
+    "italiano": [
+     "La lettera che non spedì: portagliela, e mettilo davanti a quello che ha scritto. O il fucile: e fattela tu, la strada. Scegli, e va'."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 102,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "994bc332"
+    ],
+    "tono": "grave"
+   },
+   "35345f86": {
+    "voce": "Onofrio",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "onofrio",
+    "testo": "I've already given. What you're holding is your choice, now.",
+    "parole": 10,
+    "italiano": [
+     "Ho già dato. Quello che hai in mano è la tua scelta, ormai."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 103,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "f563170e"
+    ],
+    "tono": "asciutto"
+   },
+   "281259b6": {
+    "voce": "Onofrio",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "onofrio",
+    "testo": "It's there, folded inside the missal. You take it: I won't touch it again.",
+    "parole": 14,
+    "italiano": [
+     "È là, piegata dentro il messale. Prendila tu: io non la tocco più."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 108,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "9ac16dd7"
+    ],
+    "tono": "grave"
+   },
+   "ba8ed63b": {
+    "voce": "Onofrio",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "onofrio",
+    "testo": "Go. And whatever you do at the ford, do it looking him in the face.",
+    "parole": 15,
+    "italiano": [
+     "Va'. E qualunque cosa fai al guado, falla guardandolo in faccia."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 108,
+      "tipo": "dialogo",
+      "parte": 3
+     },
+     {
+      "file": "z6-colline.fav",
+      "riga": 109,
+      "tipo": "dialogo",
+      "parte": 3
+     }
+    ],
+    "italiano_ids": [
+     "2596d613"
+    ],
+    "tono": "grave"
+   },
+   "cac51d73": {
+    "voce": "Onofrio",
+    "categoria": "testo",
+    "zona": "z6",
+    "blocco": "onofrio",
+    "testo": "It's there, loaded. You take it: I won't touch it again.",
+    "parole": 11,
+    "italiano": [
+     "È là, carico. Prendilo tu: io non lo tocco più."
+    ],
+    "fonti": [
+     {
+      "file": "z6-colline.fav",
+      "riga": 109,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "28514652"
+    ],
+    "tono": "grave"
    }
   },
   "corrispondenze": {
@@ -27354,7 +28387,48 @@
    "6ac8527f": "ae68232a",
    "9f644639": "711fdaac",
    "cf16de2f": "20e3cc57",
-   "c91edc9b": "4866663f"
+   "c91edc9b": "4866663f",
+   "8229108e": "978e81d3",
+   "44c56127": "f40033e6",
+   "02259fa6": "a8bba561",
+   "3e5c2e65": "faaee66e",
+   "87001611": "2d70dbe0",
+   "f53de897": "efa59539",
+   "cc0ea5ff": "662be608",
+   "ab069e93": "4b5aca4d",
+   "f6f15ca5": "e79b6b1f",
+   "7f9bcecb": "16f09738",
+   "6dff4e38": "440ca09e",
+   "826e9e51": "583f2e2b",
+   "071b80b7": "395d85fb",
+   "0e09ff23": "43cb479c",
+   "a232b87a": "b5628d9a",
+   "1b4f6625": "0c57679e",
+   "23ea08c7": "58bf0bac",
+   "44b665d8": "fe95c1f9",
+   "77465e37": "cdc1fe71",
+   "37f8a6b7": "57b3a50c",
+   "535dce07": "02c01237",
+   "619da0fb": "c80515a7",
+   "0f8a2b97": "3b7db4aa",
+   "79e3c0f5": "ccd32272",
+   "2e37e5ce": "86ba97fb",
+   "c704b5b4": "e868fba1",
+   "4196b26c": "b2ee7bfb",
+   "6ce63943": "30d5eb7d",
+   "03e9d1c8": "df9d2a44",
+   "cbfbda7e": "b6043447",
+   "cbe79769": "745e98f4",
+   "9df13399": "0eada740",
+   "00c6adc1": "85ca42a3",
+   "2c74c560": "37dc0ca2",
+   "f59f4fbd": "d1e28de5",
+   "0d1a59d2": "8f51a266",
+   "994bc332": "8835298a",
+   "f563170e": "35345f86",
+   "9ac16dd7": "281259b6",
+   "2596d613": "ba8ed63b",
+   "28514652": "cac51d73"
   }
  }
 }

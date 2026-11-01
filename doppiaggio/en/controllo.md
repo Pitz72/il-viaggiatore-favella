@@ -1149,15 +1149,18 @@ I minuti usano le costanti dell'italiano per il servizio (220 parole al minuto, 
 # Controllo dei personaggi inglesi (Eleven v4)
 
 > I personaggi che in italiano sono stati fatti con ElevenLabs, in inglese: stesse parti, stesso ordine, stessi toni.
-> Accento chiesto a Eleven: **Italian accent**.
+> Accento chiesto a Eleven: imma **Italian accent**, rosaria **Italian accent**, tore **Italian accent**, vito **Italian accent**, concetta **strong Italian accent**, iole **Italian accent**, onofrio **strong Italian accent**.
 
 ## Verifiche
 
-- **OK**: Personaggi: ogni parte italiana di Imma, Rosaria, Tore, Vito ha una traduzione sola nei cataloghi, e non ce ne sono due uguali
+- **OK**: Personaggi: ogni parte italiana di Imma, Rosaria, Tore, Vito, Concetta, Iole, Onofrio ha una traduzione sola nei cataloghi, e non ce ne sono due uguali
 - **OK**: Imma: parti italiane 22, inglesi 22
 - **OK**: Rosaria: parti italiane 15, inglesi 15
 - **OK**: Tore: parti italiane 13, inglesi 13
 - **OK**: Vito: parti italiane 19, inglesi 19
+- **OK**: Concetta: parti italiane 8, inglesi 8
+- **OK**: Iole: parti italiane 12, inglesi 12
+- **OK**: Onofrio: parti italiane 21, inglesi 21
 - **OK**: Personaggi: nessuna parte contiene parentesi, segnaposto, tag o virgolette
 - **OK**: Personaggi: nessuna parola in maiuscolo (Eleven la leggerebbe come enfasi)
 - **OK**: Personaggi: ogni tono ha il suo stile in toni.json
@@ -1171,6 +1174,9 @@ I minuti usano le costanti dell'italiano per il servizio (220 parole al minuto, 
 | rosaria | 15 | 230 | 1180 | 2.6 |
 | tore | 13 | 212 | 1113 | 2.4 |
 | vito | 19 | 189 | 971 | 2.3 |
+| concetta | 8 | 134 | 678 | 1.5 |
+| iole | 12 | 189 | 939 | 2.1 |
+| onofrio | 21 | 290 | 1448 | 3.3 |
 
 ### imma
 
@@ -1260,3 +1266,59 @@ I minuti usano le costanti dell'italiano per il servizio (220 parole al minuto, 
 | 17 | tired, weary | …e va'. Va' pure, allora. | …so go. Go on, then. |
 | 18 | frightened, unsteady | Calma, calma. Passa. Passa pure. | Easy, easy. Go through. Go on through. |
 | 19 | quietly menacing | Di là non si passa gratis. Lo sai come funziona. | Nobody goes that way for free. You know how it works. |
+
+### concetta
+
+| n. | Tono | Italiano | Inglese |
+|---:|---|---|---|
+| 1 | unsure, searching for the words | Tu… Ma tu sei dei… Aspetta. | You… But you're one of the… Wait. |
+| 2 | unsure, searching for the words | La casa in fondo, ad Acquamorta. Due maschi, c'erano. Tu quale dei due? | The house at the end, in Acquamorta. There were two boys. Which of the two are you? |
+| 3 | sad, subdued | Due, sì. Tu te ne andasti, col treno, e non tornasti più. L'altro restò. Cosimo. | Two, yes. You went away, on the train, and never came back. The other one stayed. Cosimo. |
+| 4 | unsure, searching for the words | Cosimo restò, e si chiuse. Dopo che… No. Dopo non ricordo. C'è stata una disgrazia, in quella casa, ma il quando mi sfugge. | Cosimo stayed, and shut himself away. After… No. After that I don't remember. There was a tragedy, in that house, but when it happened escapes me. |
+| 5 | tender, gentle | Non me lo far dire, che poi sbaglio e ti faccio male per niente. Vacci, e guardala tu, la casa. | Don't make me say it, I'll get it wrong and hurt you for nothing. Go there and see the house for yourself. |
+| 6 | tender, gentle | Pìgliati il cavallo di legno. Era vostro. | Take the wooden horse. It belonged to you two. |
+| 7 | tender, gentle | Pìgliatelo. Lo tenevo io, da quando la casa si è chiusa. Uno di voi due ci dormiva insieme, ma quale non te lo so dire. | Take it. I've kept it since the house was shut up. One of you two used to sleep with it, but which one I couldn't tell you. |
+| 8 | tender, gentle | Portatelo a casa, quel cavallo. Le case vogliono indietro le loro cose. | Take that horse home. Houses want their things back. |
+
+### iole
+
+| n. | Tono | Italiano | Inglese |
+|---:|---|---|---|
+| 1 | bitter, resigned | Tutta quest'acqua, e non se ne beve un sorso. | All this water, and not a sip you can drink. |
+| 2 | wary, guarded | Cosa vuoi dalla mia pompa. | What do you want with my pump. |
+| 3 | wry, ironic | Sei ancora qui. Quelli che hanno fretta di solito li ritrovo giù al fondale, a bere con Rocco. | You're still here. The ones in a hurry I usually find down on the lakebed, drinking with Rocco. |
+| 4 | (base) | Dimmi. | Tell me. |
+| 5 | (base) | Il casotto è là dietro. Prendi quello che ti serve e fa' andare la pompa. Le pastiglie bastano per una volta. Dopo, col filtro solo, tiri su acqua che sa di ferro: si beve, non si ama. | The hut's back there. Take what you need and get the pump going. The tablets are enough for one go. After that, with just the filter, you'll bring up water that tastes of iron: you drink it, you don't love it. |
+| 6 | (base) | La pompa la sai far andare, ormai. Il resto è pazienza. | You know how to work the pump by now. The rest is patience. |
+| 7 | (base) | Si filtra, poi si tratta. Il filtro lo monti tu: tela e carbone ce n'è là nella carcassa. Il trattamento sta in casa mia: pastiglie. Ma in casa mia non entra chi non conosco. | You filter it, then you treat it. The filter you fit yourself: there's cloth and charcoal in that carcass over there. The treatment's in my house: tablets. But I don't let anyone I don't know into my house. |
+| 8 | bitter, resigned | Non è crollato niente. Hanno solo chiuso un rubinetto lontano, un anno dopo l'altro, finché la valle ha smesso di valere l'acqua che costava. | Nothing collapsed. They just turned off a tap somewhere far away, a year at a time, until the valley stopped being worth the water it cost. |
+| 9 | sad, subdued | Io sono rimasta a tenere caldo il posto, caso mai tornasse a scorrere. | I stayed on to keep the place warm, in case it ever flows again. |
+| 10 | (base) | No. | No. |
+| 11 | (base) | Ma aspettare è l'ultimo lavoro rimasto, e lo faccio bene. | But waiting is the last job left, and I do it well. |
+| 12 | firm, resolute | Casa mia no. Non ti conosco. | Not my house. I don't know you. |
+
+### onofrio
+
+| n. | Tono | Italiano | Inglese |
+|---:|---|---|---|
+| 1 | dry, curt | Chiedi, finché ho voglia di rispondere. | Ask, while I feel like answering. |
+| 2 | bitter, resigned | Non scendo, non parlo, non prego più. Cosa vuoi da un vecchio rimasto. | I don't go down, I don't talk, I don't pray any more. What do you want from an old man who stayed. |
+| 3 | unsure, searching for the words | Ma tu… Io ti conosco. Tu sei di quella casa. | But you… I know you. You're from that house. |
+| 4 | bitter, resigned | Sei andato via per mandare i soldi. Per un po' sono arrivati, i soldi. Poi l'acqua se n'è andata, e i soldi non si bevono. | You went away to send money back. For a while it came, the money. Then the water went, and you can't drink money. |
+| 5 | sad, subdued | Il piccolo per primo, l'estate della febbre. Lei un mese dopo. Cosimo li ha messi sotto terra da solo, dietro la casa, e non ha voluto nessuno ad aiutarlo. | The little one first, the summer of the fever. Her a month later. Cosimo put them in the ground by himself, behind the house, and wouldn't have anyone help him. |
+| 6 | (base) | Giù al paese hai rimesso in piedi uno con la febbre, mi hanno detto. | Down in the village you put a man with the fever back on his feet, I'm told. |
+| 7 | sad, subdued | Quell'estate, qui, le medicine non le aveva nessuno. | That summer, here, nobody had medicine. |
+| 8 | dry, curt | Quella riga l'ha scritta Cosimo. Il perché chiedilo a lui. | Cosimo wrote that line. As for why, ask him. |
+| 9 | grave, slow, weighing each word | Poi ne scrisse un'altra, di notte, e non la spedì. Ce l'ho io. Lui non sa che ce l'ho. | Then he wrote another one, at night, and didn't send it. I've got it. He doesn't know I've got it. |
+| 10 | moved, voice catching | Era del piccolo. Lo so perché glielo intagliai io. | It was the little one's. I know because I carved it for him. |
+| 11 | firm, resolute | Adesso ascolta. | Now listen. |
+| 12 | sad, subdued | L'ho messo io, nella cappella. Qualcuno doveva. | I put it there, in the chapel. Someone had to. |
+| 13 | dry, curt | Il guado. | The ford. |
+| 14 | wary, guarded | Ne sono passati, di quelli che chiedevano. Io non do niente a chi non so chi è. | Plenty have come through here asking. I don't give anything to someone I don't know. |
+| 15 | firm, resolute | Portami qualcosa di quella casa. Allora parliamo. | Bring me something from that house. Then we'll talk. |
+| 16 | grave, slow, weighing each word | Al guado c'è Cosimo, e non ti lascia passare. Posso darti una cosa sola. | Cosimo is at the ford, and he won't let you through. I can give you one thing only. |
+| 17 | grave, slow, weighing each word | La lettera che non spedì: portagliela, e mettilo davanti a quello che ha scritto. O il fucile: e fattela tu, la strada. Scegli, e va'. | The letter he never sent: take it to him, and put him in front of what he wrote. Or the shotgun: and clear the road yourself. Choose, and go. |
+| 18 | dry, curt | Ho già dato. Quello che hai in mano è la tua scelta, ormai. | I've already given. What you're holding is your choice, now. |
+| 19 | grave, slow, weighing each word | È là, piegata dentro il messale. Prendila tu: io non la tocco più. | It's there, folded inside the missal. You take it: I won't touch it again. |
+| 20 | grave, slow, weighing each word | Va'. E qualunque cosa fai al guado, falla guardandolo in faccia. | Go. And whatever you do at the ford, do it looking him in the face. |
+| 21 | grave, slow, weighing each word | È là, carico. Prendilo tu: io non lo tocco più. | It's there, loaded. You take it: I won't touch it again. |

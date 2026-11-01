@@ -65,6 +65,11 @@ A_PARTE = ("imma", "rosaria", "tore", "vito")
 LICENZA_A_PARTE = ("Voci generate con ElevenLabs (elevenlabs.io) sul piano gratuito: escluse dalla licenza CC BY-SA "
                    "del gioco, solo uso non commerciale; chi fa un'opera derivata o un uso commerciale le toglie o le "
                    "sostituisce (LICENSE-CONTENUTI.md).")
+# In inglese i personaggi di ElevenLabs sono sette e non tutti dal piano gratuito (dal 1/11/2026 Simone ha un abbonamento): finché i
+# diritti dell'abbonamento non sono verificati nei termini di ElevenLabs, tutti nella stessa cartella e con la stessa esclusione.
+LICENZA_A_PARTE_EN = ("Voci generate con ElevenLabs (elevenlabs.io), in parte sul piano gratuito e in parte con un abbonamento: "
+                      "escluse dalla licenza CC BY-SA del gioco, solo uso non commerciale, finché i diritti dell'abbonamento non "
+                      "sono verificati; chi fa un'opera derivata o un uso commerciale le toglie o le sostituisce (LICENSE-CONTENUTI.md).")
 
 
 def leggi_wav(percorso):
@@ -168,7 +173,7 @@ def main():
     a = ap.parse_args()
     sys.stdout.reconfigure(encoding="utf-8")
     en = a.lingua == "en"
-    global USCITA, RESOCONTO, A_PARTE_CARTELLA
+    global USCITA, RESOCONTO, A_PARTE_CARTELLA, A_PARTE
     if en:   # in inglese: la cartella a parte (le voci ElevenLabs) sta dentro la cartella inglese
         USCITA = os.path.join(USCITA, "en")
         RESOCONTO = os.path.join(DOPPIAGGIO, "en", "banco.json")
@@ -178,6 +183,8 @@ def main():
     with open(os.path.join(DOPPIAGGIO, "en" if en else "", "manifest.json"), encoding="utf-8") as f:
         man = json.load(f)
     tutti = dict(man["blocchi"])
+    if en:   # i personaggi di ElevenLabs in inglese sono quelli del manifest inglese (chiave «personaggi»)
+        A_PARTE = tuple(man.get("personaggi", {}).get("blocchi", {}))
     corrispondenze = dict(man.get("corrispondenze", {}))
     if en and "servizio" in man:   # Kira in inglese sta a parte nel manifest (chiave «servizio»): blocchi kira-*
         tutti.update({nome: dict(b, voce="servizio") for nome, b in man["servizio"]["blocchi"].items()})
@@ -280,7 +287,7 @@ def main():
         if indice_a_parte:   # le voci ElevenLabs inglesi: cartella a parte, con la sua licenza
             dati["cartelle"] = [A_PARTE_DIR]
             scrivi(os.path.join(A_PARTE_CARTELLA, "indice.json"),
-                   {"formato": 1, "estensione": ESTENSIONE, "parti": indice_a_parte, "licenza": LICENZA_A_PARTE})
+                   {"formato": 1, "estensione": ESTENSIONE, "parti": indice_a_parte, "licenza": LICENZA_A_PARTE_EN})
         scrivi(os.path.join(USCITA, "indice.json"), dati)
     else:
         testi = {i: [man["unita"][i]["voce"], man["unita"][i]["testo"]] for i in list(indice) + list(indice_a_parte)}

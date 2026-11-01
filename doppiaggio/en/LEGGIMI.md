@@ -1,8 +1,10 @@
 # Il doppiaggio inglese
 
 Il narratore del gioco in inglese (Enzo) e la voce di servizio (Kira), con Gemini 3.8 Flash TTS da Google AI Studio, a mano, come
-in italiano (`../LEGGIMI.md`). Dei quattordici personaggi, quattro (Imma, Rosaria, Tore, Vito: quelli che in italiano sono stati fatti
-con ElevenLabs, Eleven v4) sono fatti anche in inglese, con le loro voci italiane (`eleven-v4.md`); gli altri dieci non sono decisi.
+in italiano (`../LEGGIMI.md`). Dei quattordici personaggi, sette (Imma, Rosaria, Tore, Vito, quelli che in italiano sono stati fatti
+con ElevenLabs, Eleven v4, e Concetta, Iole, Onofrio) sono fatti anche in inglese, con voci italiane di ElevenLabs (`eleven-v4.md`); gli altri sette
+(Nunzio, Saverio, Rocco, Pasquale, Peppe, Ciro, Cosimo) Simone vuole farli tutti con ElevenLabs, e poi, se avanzano crediti, rifare con ElevenLabs anche
+le voci italiane di Gemini (decisione del 1° novembre 2026, dopo l'acquisto di un abbonamento).
 
 | File | Contenuto |
 |---|---|
@@ -10,7 +12,7 @@ con ElevenLabs, Eleven v4) sono fatti anche in inglese, con le loro voci italian
 | `blocchi/scelte.txt` | le **scelte di dialogo del giocatore** (81 frasi in prima persona), le legge Enzo; un blocco a parte |
 | `blocchi/kira-suggerimenti.txt`, `kira-numeri-a.txt`, `kira-numeri-b.txt` | **Kira**, la voce di servizio: i 31 suggerimenti tra parentesi e i 89 pezzi con i numeri delle scorte; tre blocchi (vedi sotto) |
 | `blocchi/trailer.txt` | il **trailer**, in gruppi di tono (`### tono — style: …`: un blocco di parlato per gruppo; le righe con `###` non si incollano) |
-| `blocchi/imma.txt`, `rosaria.txt`, `tore.txt`, `vito.txt` | i **personaggi di ElevenLabs** (Eleven v4): una battuta per paragrafo, in testa `[accento][tono]`; si incolla tutto il file (22, 15, 13 e 19 parti, 1.321, 1.180, 1.113 e 971 caratteri) |
+| `blocchi/imma.txt`, `rosaria.txt`, `tore.txt`, `vito.txt`, `concetta.txt`, `iole.txt`, `onofrio.txt` | i **personaggi di ElevenLabs** (Eleven v4): una battuta per paragrafo, in testa `[accento][tono]`; si incolla tutto il file (22, 15, 13, 19, 8, 12 e 21 parti; 1.321, 1.180, 1.113, 971, 678, 939 e 1.448 caratteri) |
 | `prove/accento-A-nessuno.txt` … `-D-strong.txt` | la **prova di accento**: sei battute di Vito, un accento diverso per file (vedi `eleven-v4.md`) |
 | `eleven-v4.md` | la documentazione di Eleven v4 letta il 1° novembre 2026: tag, accenti, punteggiatura, impostazioni; che cosa decide il progetto |
 | `trailer.json` | i testi del trailer inglese, scritti a mano dai testi sullo schermo (`app/src/components/Trailer.tsx`, `app/src/trailer/zone.ts`, `scaletta.ts`); stessi id, toni, finestre e ancore di `../trailer.json` |
@@ -20,7 +22,7 @@ con ElevenLabs, Eleven v4) sono fatti anche in inglese, con le loro voci italian
 | `gemini-tts.md` | la documentazione di Gemini 3.8 Flash TTS letta il 31 ottobre 2026 |
 | `banco.json` | il resoconto del banco della voce inglese (`python strumenti/doppiaggio-banco.py --lingua en`): per ogni blocco la loudness prima e dopo, il guadagno, il picco, il peso |
 | `../master/en-grezzi/` | i WAV scaricati da AI Studio (non si versionano), con le loro trascrizioni in `trascrizioni/`; `../master/clip/en-<blocco>/` le parti tagliate |
-| `../master/en-grezzi/elevenlabs/` | i quattro MP3 scaricati da ElevenLabs il 1° novembre 2026 (`ElevenLabs_…_Luigi|Criss|Victoria|Valeria_…mp3`) e i WAV che ne ricava `ffmpeg` per il taglio (`vito.wav`, `tore.wav`, `imma.wav`, `rosaria.wav`); non si versionano |
+| `../master/en-grezzi/elevenlabs/` | i sette MP3 scaricati da ElevenLabs il 1° novembre 2026 (`ElevenLabs_…_Luigi|Criss|Victoria|Valeria|Tosca|Elettra|Nonno Ben_…mp3`) e i WAV che ne ricava `ffmpeg` per il taglio (`vito.wav`, `tore.wav`, `imma.wav`, `rosaria.wav`, `concetta.wav`, `iole.wav`, `onofrio.wav`); non si versionano |
 | `../../app/public/voce/en/` | ciò che il gioco suona in inglese: un file Opus per parte, `indice.json` (id della parte → durata; **corrispondenze**: id della parte italiana del narratore e di Kira → registrazione inglese), `trailer.opus` e `trailer.json`; `elevenlabs/`, con l'indice e la licenza loro, ha le 69 parti di Imma, Rosaria, Tore e Vito |
 
 Tutto, tranne `trailer.json`, `voci.md` e `gemini-tts.md`, lo scrive `python strumenti/doppiaggio-inglese.py blocchi`: non si ritocca
@@ -61,7 +63,7 @@ voce di libreria Kira, il prompt di Kira in `voci.md`).
 Fatto il 31 ottobre – 1° novembre 2026: i blocchi sono stati generati da Simone (11 WAV, uno doppio), riconosciuti
 (`doppiaggio-riconosci.py --lingua en`), tagliati e controllati parte per parte (`doppiaggio-taglia.py en-narratore-a` … `en-scelte`,
 `en-trailer`: 532 parti di Enzo e 33 del trailer, tutte trovate, tutte controllate da sole), passati al banco
-(`doppiaggio-banco.py --lingua en`: 532 parti, 43,3 minuti, 10,1 MB; con Kira, vedi sotto, 652 parti, 46,7 minuti, 10,9 MB; con i quattro personaggi, 721 parti, 51,2 minuti, 12,0 MB) e al trailer
+(`doppiaggio-banco.py --lingua en`: 532 parti, 43,3 minuti, 10,1 MB; con Kira, vedi sotto, 652 parti, 46,7 minuti, 10,9 MB; con i quattro personaggi, 721 parti, 51,2 minuti, 12,0 MB; con i sette, 762 parti, 54,4 minuti, 12,7 MB) e al trailer
 (`doppiaggio-trailer.py --lingua en`), e il gioco le suona col modo di voce «inglese» (`app/src/gioco/voce.ts`). Il collaudo è la sezione 9 di
 `collaudo/doppiaggio.py`.
 
@@ -93,8 +95,14 @@ Fatto il 31 ottobre – 1° novembre 2026: i blocchi sono stati generati da Simo
   (`doppiaggio-taglia.py en-imma` … `--controlla`): 69 parti su 69 trovate, controllo di ognuna da sola sopra l'85% e senza parole in più per tutte (nessun
   tag letto ad alta voce, «long pause» non c'è in questo formato), pause fra le battute da 0,11 a 0,72 s. Nel banco (`doppiaggio-banco.py --lingua en`) vanno
   in `app/public/voce/en/elevenlabs/`, con l'indice e la licenza loro (come in italiano), ognuno a −23 LUFS: Vito era a −26,2, la più piano, e s'è alzato
-  di 3,2 dB. Il gioco le suona col modo «inglese»: `voce.ts` legge anche le cartelle a parte dell'indice inglese. Gli altri dieci personaggi (Gemini) non sono
-  decisi; col modo «inglese» suonano in italiano.
+  di 3,2 dB. Il gioco le suona col modo «inglese»: `voce.ts` legge anche le cartelle a parte dell'indice inglese.
+  **Concetta, Iole e Onofrio** (1° novembre 2026, con i crediti avanzati, dopo averli chiesti Simone come esperimento: «un personaggio femminile anziano», «l'altra
+  anziana», «un uomo anziano»): i blocchi prima in `prove/<nome>.txt` (comando `personaggio`), poi tenuti e portati fra i `PERSONAGGI`; accento per personaggio
+  (`ACCENTI` in `doppiaggio-inglese.py`: `strong Italian accent` per Concetta e Onofrio, le cui schede in `voci.md` lo vogliono più marcato, `Italian accent` per
+  gli altri). Voci: Tosca (Concetta, velocità 0,81, Stability 34, Similarity 40), Elettra (Iole, 0,84 / 71 / 24), Nonno Ben (Onofrio, 0,7 / 81 / 100). Riconosciuti
+  in inglese (98–100%, in italiano 22–24%), tagliati e controllati: 8 su 8, 12 su 12, 21 su 21, ognuna sopra l'85% e senza parole in più. In tutto 110 parti di sette
+  personaggi nel banco (762 con Enzo e Kira). Gli altri sette personaggi (Gemini in italiano) suonano ancora in italiano col modo «inglese»; Simone vuole farli con
+  ElevenLabs.
 
 ## Da sapere (trovato preparando i blocchi)
 

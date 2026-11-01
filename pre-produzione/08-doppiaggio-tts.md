@@ -96,23 +96,23 @@ Si fa una fase per volta; a fine fase si mostra il risultato e si aspetta il via
 ## 6. La voce inglese del narratore (31 ottobre – 1 novembre 2026)
 
 Dopo la 1.40.0 (il gioco in inglese) la voce recitata in inglese si fa per gradi: **prima il narratore** (Enzo, inglese britannico),
-**poi la voce di servizio** (Kira, il 1° novembre 2026), poi i personaggi (il 1° novembre 2026 i quattro fatti con ElevenLabs: Imma, Rosaria, Tore e Vito). Il metodo, i testi e le decisioni stanno in `doppiaggio/en/LEGGIMI.md` e nel diario del 31 ottobre
+**poi la voce di servizio** (Kira, il 1° novembre 2026), poi i personaggi (il 1° novembre 2026 sette: i quattro fatti con ElevenLabs, Imma, Rosaria, Tore e Vito, e Concetta, Iole e Onofrio). Il metodo, i testi e le decisioni stanno in `doppiaggio/en/LEGGIMI.md` e nel diario del 31 ottobre
 e del 1° novembre; qui ciò che riguarda il gioco:
 
 - **Il diario resta in italiano e le parti si ritrovano dal testo italiano** (`parti.ts` non cambia): la voce inglese si aggancia agli id
-  italiani. `app/public/voce/en/indice.json` dice, per ogni parte italiana del narratore (narrazione e scelte, 532), di Kira (120) e dei quattro personaggi di ElevenLabs (69), la sua registrazione inglese
+  italiani. `app/public/voce/en/indice.json` dice, per ogni parte italiana del narratore (narrazione e scelte, 532), di Kira (120) e dei sette personaggi di ElevenLabs (110), la sua registrazione inglese
   (`corrispondenze`); le parti inglesi sono `app/public/voce/en/<id>.opus` (quelle dei personaggi in `app/public/voce/en/elevenlabs/`, con l'indice e la licenza loro, come in italiano), con lo stesso banco dell'italiano (−23 LUFS per blocco, Opus mono 32 kbit/s).
 - **Un modo di voce nuovo, «inglese»** (`ModoVoce`, `lib/opzioni.ts`): quando è scelto, una parte con la registrazione inglese suona quella; tutte le altre
-  (gli altri dieci personaggi) suonano ancora in italiano finché non saranno registrate. Il modo «italiana» non cambia. Nella prima finestra la voce
+  (gli altri sette personaggi) suonano ancora in italiano finché non saranno registrate. Il modo «italiana» non cambia. Nella prima finestra la voce
   segue il testo (testo inglese → voce inglese) finché chi gioca non la sceglie.
 - **Kira in inglese** (1° novembre 2026): 120 parti (31 suggerimenti e 89 pezzi coi numeri delle scorte) in tre blocchi, `doppiaggio/en/blocchi/kira-*.txt`;
   nel banco e nell'indice inglese insieme al narratore, quindi `voce.ts` non è cambiato: i numeri si ricompongono dai pezzi italiani (`parti.ts`) e
   ciascun pezzo italiano ha il suo inglese («Hai sei d'acqua,» → «You have five water,»; «e due di cibo.» → «and three food.»).
-- **Imma, Rosaria, Tore e Vito in inglese** (1° novembre 2026): 69 parti, le voci italiane di ElevenLabs (Victoria, Valeria, Criss, Luigi) che parlano
+- **Imma, Rosaria, Tore, Vito, Concetta, Iole e Onofrio in inglese** (1° novembre 2026): 110 parti (69 dei primi quattro e 41 degli altri tre), le voci italiane di ElevenLabs (Victoria, Valeria, Criss, Luigi) che parlano
   inglese; blocchi in `doppiaggio/en/blocchi/imma.txt` … `vito.txt` (Eleven v4: `[Italian accent][tono]` davanti a ogni battuta, stessi toni dell'italiano;
   la documentazione è in `doppiaggio/en/eleven-v4.md`). Nel banco e nell'indice inglese vanno in `voce/en/elevenlabs/`; `voce.ts` legge le cartelle a parte
   anche dell'indice inglese. Stessa licenza delle italiane: fuori dalla licenza libera, solo uso non commerciale.
 - **Il trailer ha la sua traccia inglese** (`voce/en/trailer.opus` e `trailer.json`, `strumenti/doppiaggio-trailer.py --lingua en`), con le stesse finestre e le
   stesse ancore dell'italiano; la sceglie il modo della voce al momento di mostrare il trailer.
 - **Il collaudo** (`collaudo/doppiaggio.py`, sezione 9) controlla la voce inglese come l'italiana: ogni parte ha il suo audio e nessuno è scaduto, ogni parte
-  italiana del narratore, di Kira e dei quattro personaggi ha la sua registrazione, i file sono Ogg Opus veri, il volume, il trailer; il tetto del peso della voce, italiana e inglese insieme, è 40 MB (era 25 con la sola italiana).
+  italiana del narratore, di Kira e dei sette personaggi ha la sua registrazione, i file sono Ogg Opus veri, il volume, il trailer; il tetto del peso della voce, italiana e inglese insieme, è 40 MB (era 25 con la sola italiana).

@@ -15,8 +15,8 @@
 //  inglese i comandi sono soltanto i pulsanti: il parser capisce l'italiano.
 // ====================================================================
 
-/** La voce del gioco: il doppiaggio italiano, il doppiaggio inglese (il narratore, la voce di servizio e quattro personaggi:
- *  gli altri dieci restano quelli italiani finché non sono registrati anche in inglese), nessuna voce, o nessuna voce e il diario letto dal
+/** La voce del gioco: il doppiaggio italiano, il doppiaggio inglese (il narratore, la voce di servizio e sette personaggi:
+ *  gli altri sette restano quelli italiani finché non sono registrati anche in inglese), nessuna voce, o nessuna voce e il diario letto dal
  *  lettore di schermo. */
 export type ModoVoce = "recitata" | "inglese" | "nessuna" | "lettore";
 export const MODI_VOCE: readonly ModoVoce[] = ["recitata", "inglese", "nessuna", "lettore"];

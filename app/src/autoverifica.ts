@@ -84,7 +84,7 @@ async function provaLaVoce(testoAvvio: string, nota: (r: string) => void): Promi
   } catch (e) {
     ok = false; nota(`KO voce del trailer: ${e instanceof Error ? e.message : e}`);
   }
-  // la voce inglese (il narratore, Kira e quattro personaggi): l'indice con le corrispondenze, una parte decodificata davvero
+  // la voce inglese (il narratore, Kira e sette personaggi): l'indice con le corrispondenze, una parte decodificata davvero
   // per cartella (la principale e quelle a parte), la traccia del trailer inglese
   try {
     const re = await fetch(`${base}en/indice.json`);

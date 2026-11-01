@@ -29,7 +29,7 @@ cose e le risposte. La sete è la spina dorsale, l'acqua è la moneta, le scelte
 Il gioco si apre con i loghi animati (e sonori) di Runtime Multimedia e di FAVELLA 1, un avviso e un trailer di 88 secondi con la sua colonna sonora originale.
 **Il racconto ha una voce:** è doppiato per intero con la sintesi vocale (il narratore, i personaggi, i suggerimenti e il
 trailer, circa un'ora di parlato); si ascolta con la *voce recitata*, oppure si lascia leggere al proprio lettore di schermo.
-In inglese parlano anche il narratore, la voce di servizio e quattro personaggi (Imma, Rosaria, Tore e Vito; gli altri arriveranno).
+In inglese parlano anche il narratore, la voce di servizio e sette personaggi (Imma, Rosaria, Tore, Vito, Concetta, Iole e Onofrio; gli altri arriveranno).
 
 > **Che cos'è questo progetto.** Questo gioco, nato come demo del linguaggio di
 > programmazione e motore di narrativa interattiva Favella1, è stato generato con un
@@ -83,13 +83,13 @@ sua, «La mano sa ancora la forma» di The Runtimers; poi il menu d'avvio. Dopo 
 qualunque la ferma (il testo resta), **F2** ridice l'ultimo testo, e le risposte di un dialogo le legge il narratore
 quando ti fermi sopra col mouse o le raggiungi con la tastiera, ma mai sopra chi sta parlando: la risposta del
 personaggio non si interrompe. Nelle **opzioni** (dal menu d'avvio e dalla pausa) si
-sceglie fra voce recitata (italiana), *voce inglese* (il narratore e la voce di servizio, cioè suggerimenti e scorte, parlano in inglese, con voci britanniche; Imma, Rosaria, Tore e Vito
-parlano inglese con le loro voci italiane; gli altri dieci personaggi, per ora, restano quelli italiani), *nessuna voce* (si legge in silenzio) e *lettore di schermo* (nessuna voce del gioco: il diario
+sceglie fra voce recitata (italiana), *voce inglese* (il narratore e la voce di servizio, cioè suggerimenti e scorte, parlano in inglese, con voci britanniche; Imma, Rosaria, Tore, Vito, Concetta, Iole e Onofrio
+parlano inglese con le loro voci italiane; gli altri sette personaggi, per ora, restano quelli italiani), *nessuna voce* (si legge in silenzio) e *lettore di schermo* (nessuna voce del gioco: il diario
 si annuncia al tuo lettore). Con una voce del gioco anche il trailer ha la voce del narratore, nella lingua scelta, e la musica gli scende sotto.
 
 **La lingua.** Al primo avvio, prima dei loghi, una finestra chiede la lingua del testo (italiano o inglese) e la voce
-(il doppiaggio italiano o quello inglese, nessuna voce, o il lettore di schermo); in inglese parlano per ora il narratore, la voce di servizio e quattro personaggi,
-gli altri dieci arriveranno più avanti. Tutte e due
+(il doppiaggio italiano o quello inglese, nessuna voce, o il lettore di schermo); in inglese parlano per ora il narratore, la voce di servizio e sette personaggi,
+gli altri sette arriveranno più avanti. Tutte e due
 si cambiano quando si vuole, nelle opzioni. In inglese è tradotto tutto: il racconto, i nomi, l'interfaccia, il trailer e i
 titoli di coda; il titolo resta *Il Viaggiatore*. Si gioca coi pulsanti: il parser capisce soltanto l'italiano. Il motore e i
 `.fav` restano in italiano: il gioco ne traduce il testo quando lo mostra (`app/src/gioco/traduci.ts`, coi cataloghi di
@@ -340,7 +340,7 @@ salva e ricarica, e prova la voce (una parte per ogni voce, la traccia del trail
 - **Le musiche delle zone e la canzone dei titoli di coda** (`app/public/musica/`, `app/public/colonna-sonora/`): di
   The Runtimers, generate con Lyria 3.5 di Google, **escluse dalla licenza libera**; per il loro uso valgono i termini di
   Google per i contenuti generati con Lyria. Si ridistribuiscono come parte del gioco.
-- **Le voci di Imma, Rosaria, Tore e Vito** (`app/public/voce/elevenlabs/` e, in inglese, `app/public/voce/en/elevenlabs/`): fatte con [ElevenLabs](https://elevenlabs.io)
+- **Le voci di Imma, Rosaria, Tore e Vito** (`app/public/voce/elevenlabs/`) **e, in inglese, di Imma, Rosaria, Tore, Vito, Concetta, Iole e Onofrio** (`app/public/voce/en/elevenlabs/`): fatte con [ElevenLabs](https://elevenlabs.io)
   sul piano gratuito, **escluse dalla licenza libera** e **solo per uso non commerciale**; chi fa un'opera derivata o un
   uso commerciale del gioco deve toglierle o sostituirle.
 - **I marchi** di Runtime Multimedia e di FAVELLA 1 (i loghi d'apertura, le immagini promozionali) restano dei

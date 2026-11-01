@@ -44,6 +44,10 @@ sono nel nome del file.
 | Tore | **Criss** | 1/11, 07:21, 69,4 s | 13 parti su 13; velocità 0,7, Stability 0, Similarity 0 (come in italiano) |
 | Imma | **Victoria** («Elegant & Dark Aristocrat», clone professionale) | 1/11, 07:29, 82,5 s | 22 parti su 22; velocità 1, Stability 50, Similarity 75 |
 | Rosaria | **Valeria** | 1/11, 07:32, 75,3 s | 15 parti su 15; velocità 0,96, Stability 75, Similarity 75 |
+| Concetta | **Tosca** («Mature, Whispery and Seductive», clone professionale) | 1/11, 08:23, 48,4 s | 8 parti su 8; velocità 0,81, Stability 34, Similarity 40; `[strong Italian accent]` (la sua scheda dice «a strong southern Italian regional flavour»); un esperimento di Simone con i crediti avanzati, poi tenuto |
+| Iole | **Elettra** («Mature actress», clone professionale) | 1/11, 08:26, 57,8 s | 12 parti su 12; velocità 0,84, Stability 71, Similarity 24; `[Italian accent]` |
+| Onofrio | **Nonno Ben** («Passionate grandfather», clone professionale) | 1/11, 08:52, 103,2 s | 21 parti su 21; velocità 0,7, Stability 81, Similarity 100; `[strong Italian accent]` («a thick southern Italian accent») |
 
-Le voci italiane in inglese si riconoscono «soprattutto nella pronuncia dei nomi» (Simone, 1/11/2026): l'accento chiesto è `Italian accent`, la prova delle
-alternative (`doppiaggio/en/prove/`) non è stata fatta.
+Le voci italiane in inglese si riconoscono «soprattutto nella pronuncia dei nomi» (Simone, 1/11/2026): l'accento chiesto è `Italian accent` (`strong Italian accent`
+per Concetta e Onofrio, le cui schede lo vogliono più marcato), la prova delle alternative (`doppiaggio/en/prove/`) non è stata fatta. I nomi dei file scaricati
+dicono le impostazioni di ogni generazione; il 1/11/2026 Simone ha comprato un abbonamento a pagamento a ElevenLabs, non so a che ora rispetto a queste generazioni (vedi `LICENSE-CONTENUTI.md`).

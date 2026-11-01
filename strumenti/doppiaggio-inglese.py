@@ -64,11 +64,23 @@ MAX_MINUTI = 10.0   # scelto da Simone il 31/10/2026: sei blocchi sotto i 10 min
 VOCE = "narratore"
 SERVIZIO = "servizio"   # la voce di servizio, Kira: i suggerimenti tra parentesi e i pezzi con i numeri
 # I personaggi che in italiano sono stati fatti con ElevenLabs (Eleven v4): i primi a passare in inglese (Simone, 1/11/2026;
-# sono voci italiane, e in inglese possono avere un accento italiano). Gli altri dieci non sono decisi.
-PERSONAGGI = ("Imma", "Rosaria", "Tore", "Vito")
-# L'accento che si chiede a Eleven v4: un tag davanti a ogni battuta, prima del tono. Dalla prova di accento (vedi prove/);
-# None = nessun tag (la voce parla l'inglese «nativo», che è ciò che v4 fa da solo). Si cambia con --accento.
+# sono voci italiane, e in inglese possono avere un accento italiano); dopo di loro Concetta, Iole e Onofrio (1/11/2026), che
+# Simone ha provato con i crediti avanzati. Gli altri sette non sono ancora fatti: Simone vuole farli tutti con ElevenLabs.
+PERSONAGGI = ("Imma", "Rosaria", "Tore", "Vito", "Concetta", "Iole", "Onofrio")
+# L'accento che si chiede a Eleven v4: un tag davanti a ogni battuta, prima del tono. None = nessun tag (la voce parla l'inglese
+# «nativo», che è ciò che v4 fa da solo). ACCENTO è quello predefinito; ACCENTI quello dei personaggi che la loro scheda
+# (doppiaggio/voci.md) vuole più marcato. Con --accento si cambia per tutti.
 ACCENTO = "Italian accent"
+ACCENTI = {"Concetta": "strong Italian accent", "Onofrio": "strong Italian accent"}
+
+
+def accento_di(voce, scelto=None):
+    """L'accento di un personaggio: quello scelto da riga di comando per tutti (None = nessuna scelta, "" = nessun tag), o il suo."""
+    if scelto is None:
+        return ACCENTI.get(voce, ACCENTO)
+    return scelto or None
+
+
 # Le battute di Vito della prova di accento (posizioni nel suo blocco): stanco, minaccioso, affabile ×2, asciutto, spaventato
 PROVA_VITO = (0, 6, 7, 12, 15, 17)
 PROVE_ACCENTO = (("A", "nessuno", None), ("B", "light", "light Italian accent"),
@@ -585,22 +597,23 @@ def minuti_personaggio(pers, ids):
     return sum(D.minuti_di(pers[i]["voce"], pers[i]["parole"]) for i in ids)
 
 
-def manifest_personaggi(pers, blocchi, accento):
+def manifest_personaggi(pers, blocchi, accenti):
     """I personaggi, a parte (come Kira): blocchi, parti e corrispondenze italiano → inglese."""
     corrispondenze = OrderedDict((u["italiano_ids"][0], i) for i, u in pers.items())
     return OrderedDict([
         ("voce", "Eleven v4: le voci italiane di %s, in inglese" % ", ".join(PERSONAGGI)),
-        ("accento", accento),
-        ("blocchi", OrderedDict((n, {"voce": pers[ids[0]]["voce"], "minuti_stimati": round(minuti_personaggio(pers, ids), 1),
+        ("accento_predefinito", ACCENTO),
+        ("blocchi", OrderedDict((n, {"voce": pers[ids[0]]["voce"], "accento": accenti[n],
+                                     "minuti_stimati": round(minuti_personaggio(pers, ids), 1),
                                      "parti": ids}) for n, ids in blocchi.items())),
         ("unita", pers), ("corrispondenze", corrispondenze)])
 
 
-def testo_controllo_personaggi(tutto, pers, blocchi, esiti, accento):
+def testo_controllo_personaggi(tutto, pers, blocchi, esiti, accenti):
     stili = tutto.get("stili", {})
     L = ["", "# Controllo dei personaggi inglesi (Eleven v4)", "",
          "> I personaggi che in italiano sono stati fatti con ElevenLabs, in inglese: stesse parti, stesso ordine, stessi toni.",
-         "> Accento chiesto a Eleven: **%s**." % (accento or "nessuno"), "", "## Verifiche", ""]
+         "> Accento chiesto a Eleven: " + ", ".join("%s **%s**" % (n, accenti[n] or "nessuno") for n in blocchi) + ".", "", "## Verifiche", ""]
     L += ["- **%s**: %s" % e for e in esiti]
     L += ["", "## I blocchi", "", "| Blocco | Parti | Parole | Caratteri | Minuti stimati |", "|---|---:|---:|---:|---:|"]
     for nome, ids in blocchi.items():
@@ -632,7 +645,7 @@ def scrivi_prove(tutto, pers, blocchi):
     return sum(len(pers[i]["testo"]) for i in scelte)
 
 
-def scrivi(r, tutto, blocchi, esiti, kira=None, esiti_kira=None, pers=None, esiti_pers=None, accento=None):
+def scrivi(r, tutto, blocchi, esiti, kira=None, esiti_kira=None, pers=None, esiti_pers=None, accenti=None):
     os.makedirs(os.path.join(USCITA, "blocchi"), exist_ok=True)
     for f in glob.glob(os.path.join(USCITA, "blocchi", "*.txt")):
         os.remove(f)
@@ -645,7 +658,7 @@ def scrivi(r, tutto, blocchi, esiti, kira=None, esiti_kira=None, pers=None, esit
     blocchi_pers = blocchi_personaggi(pers) if pers else OrderedDict()
     for nome, ids in blocchi_pers.items():
         with open(os.path.join(USCITA, "blocchi", nome + ".txt"), "w", encoding="utf-8", newline="\n") as fh:
-            fh.write(testo_eleven(pers, ids, tutto.get("stili", {}), accento))
+            fh.write(testo_eleven(pers, ids, tutto.get("stili", {}), accenti[nome]))
     unita = OrderedDict()
     for nome, ids in blocchi.items():
         for i in ids:
@@ -679,7 +692,7 @@ def scrivi(r, tutto, blocchi, esiti, kira=None, esiti_kira=None, pers=None, esit
     if kira:
         manifest["servizio"] = manifest_kira(r, tutto, kira)
     if pers:
-        manifest["personaggi"] = manifest_personaggi(pers, blocchi_pers, accento)
+        manifest["personaggi"] = manifest_personaggi(pers, blocchi_pers, accenti)
     with open(os.path.join(USCITA, "manifest.json"), "w", encoding="utf-8", newline="\n") as fh:
         json.dump(manifest, fh, ensure_ascii=False, indent=1)
         fh.write("\n")
@@ -688,7 +701,7 @@ def scrivi(r, tutto, blocchi, esiti, kira=None, esiti_kira=None, pers=None, esit
         if kira:
             fh.write(testo_controllo_kira(r, kira, esiti_kira or []))
         if pers:
-            fh.write(testo_controllo_personaggi(tutto, pers, blocchi_pers, esiti_pers or [], accento))
+            fh.write(testo_controllo_personaggi(tutto, pers, blocchi_pers, esiti_pers or [], accenti))
 
 
 def cella(t):
@@ -754,10 +767,11 @@ def main():
     ap.add_argument("comando", choices=["stato", "blocchi", "prove", "personaggio"])
     ap.add_argument("--max-minuti", type=float, default=MAX_MINUTI, help="tetto di un blocco (predefinito %s)" % MAX_MINUTI)
     ap.add_argument("--voce", help="con «personaggio»: il personaggio di cui scrivere il blocco inglese (Concetta…)")
-    ap.add_argument("--accento", default=ACCENTO or "nessuno",
-                    help="il tag d'accento davanti a ogni battuta dei personaggi di Eleven v4 (predefinito «%s»; «nessuno» = nessun tag)" % ACCENTO)
+    ap.add_argument("--accento", default=None,
+                    help="il tag d'accento davanti a ogni battuta dei personaggi di Eleven v4, uguale per tutti (predefinito: quello di "
+                         "ciascuno, «%s» o, per chi ha ACCENTI, il suo; «nessuno» = nessun tag)" % ACCENTO)
     a = ap.parse_args()
-    accento = None if a.accento.lower() in ("nessuno", "none", "") else a.accento
+    scelto = None if a.accento is None else ("" if a.accento.lower() in ("nessuno", "none", "") else a.accento)
     sys.stdout.reconfigure(encoding="utf-8")
     r, tutto = costruisci()
     if a.comando == "personaggio":   # un esperimento: il blocco di un personaggio che non è fra i PERSONAGGI, fuori dal manifest
@@ -772,9 +786,9 @@ def main():
         os.makedirs(os.path.join(USCITA, "prove"), exist_ok=True)
         percorso = os.path.join(USCITA, "prove", D.slug(voce) + ".txt")
         with open(percorso, "w", encoding="utf-8", newline="\n") as fh:
-            fh.write(testo_eleven(x, ids, tutto.get("stili", {}), accento))
+            fh.write(testo_eleven(x, ids, tutto.get("stili", {}), accento_di(voce, scelto)))
         print("scritto %s: %d parti, %d caratteri di testo, accento: %s" % (
-            os.path.relpath(percorso, RADICE), len(ids), sum(len(x[i]["testo"]) for i in ids), accento or "nessuno"))
+            os.path.relpath(percorso, RADICE), len(ids), sum(len(x[i]["testo"]) for i in ids), accento_di(voce, scelto) or "nessuno"))
         return
     esiti = verifiche(r, tutto)
     esiti += aggiungi_trailer(r)
@@ -795,14 +809,15 @@ def main():
         for x, y in somiglianti([(i, r["kira"][i]) for i in ids]):
             print("   ATTENZIONE parti che si somigliano: «%s» / «%s»" % (x[:60], y[:60]))
     blocchi_pers = blocchi_personaggi(pers)
+    accenti = {D.slug(v): accento_di(v, scelto) for v in PERSONAGGI}
     for nome, ids in blocchi_pers.items():
         print("%-18s %3d parti %5d parole %5d caratteri  %4.1f min  (accento: %s)" % (
             nome, len(ids), sum(pers[i]["parole"] for i in ids), sum(len(pers[i]["testo"]) for i in ids),
-            minuti_personaggio(pers, ids), accento or "nessuno"))
+            minuti_personaggio(pers, ids), accenti[nome] or "nessuno"))
     if any(e[0] != "OK" for e in esiti + esiti_kira + esiti_pers):
         raise SystemExit("verifiche non superate: non scrivo niente")
     if a.comando == "blocchi":
-        scrivi(r, tutto, blocchi, esiti, kira, esiti_kira, pers, esiti_pers, accento)
+        scrivi(r, tutto, blocchi, esiti, kira, esiti_kira, pers, esiti_pers, accenti)
         print("scritto doppiaggio/en/ (blocchi/, manifest.json, controllo.md)")
     if a.comando in ("blocchi", "prove"):
         n = scrivi_prove(tutto, pers, blocchi_pers)
