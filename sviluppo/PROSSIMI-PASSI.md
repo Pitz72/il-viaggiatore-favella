@@ -1,7 +1,7 @@
 # Prossimi passi
 
 > **Lo stato vivo del progetto.** *Il Viaggiatore* è concluso come storia (definitiva dalla 1.12.0) e il lavoro riprende solo
-> su richiesta di Simone. Ultima versione: **1.40.1**, 31 ottobre 2026. Questo file tiene il conto di che cosa è aperto, di
+> su richiesta di Simone. Ultima versione: **1.41.0**, 1° novembre 2026. Questo file tiene il conto di che cosa è aperto, di
 > che cosa si è chiuso e di che cosa, di proposito, non si fa; **si aggiorna a ogni sessione** (vedi [`CLAUDE.md`](../CLAUDE.md)).
 > (Com'era prima, fermo alla 1.7.0: nella storia di git.)
 
@@ -26,7 +26,7 @@ Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti 
     voci rifatte a pagamento potrebbero uscire dall'esclusione. Decide Simone;
   - **gli altri 39 «Generated Audio» in `Downloads`** (maggio – 30 ottobre, non nei master): che cosa sono, se vanno nel backup su F:;
   - confermare le scelte mie (Kira britannica neutra; le voci di Ciro (Pierpaolo), Peppe (Vittorio) e Cosimo (Corrado Noventa), scelte da me e mai ascoltate da Simone; il tag `Italian accent` (`strong` per Concetta e Onofrio), che non è stato confrontato con altri; la voce che segue il testo nella
-    prima finestra; il tetto del peso a 40 MB) e, quando Simone lo dice, il rilascio (una minor, 1.41.0).
+    prima finestra; il tetto del peso a 40 MB) (il rilascio è fatto: **1.41.0**, 1° novembre 2026, su ordine di Simone).
 - **Le skill e la filigrana di Claude: da analizzare in futuro** (Simone, 31 ottobre 2026). La ricerca di skill su GitHub e
   la questione della filigrana nel testo si riprendono più avanti; i fatti verificati e la decisione sono nel diario del
   31 ottobre («La verifica dell'inglese…») e nella memoria. Nessuna skill trovata è stata installata.
