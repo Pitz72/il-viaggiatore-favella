@@ -39,6 +39,10 @@ Simone: «le voci indicate vanno bene. Procedi». Per Cosimo le candidate erano 
 - **Le voci per Nunzio, Saverio, Rocco e Pasquale** — non trovate fra le italiane. Il Voice Design (`creative_design_voice`) le creerebbe, ma chiede una battuta di prova (100–1.000 caratteri) e la lingua
   **dette da Simone**, e spende crediti: non l'ho usato.
 
+- **Voice Design per gli ultimi quattro** (su richiesta di Simone, «sì, disegnale»): `creative_design_voice` (modello `eleven_ttv_v3`, lingua inglese, descrizione = quella di `doppiaggio/voci.md` di ciascuno,
+  battuta di prova = le loro stesse battute inglesi): tre anteprime per Nunzio, Saverio, Rocco e Pasquale, dodici in tutto, nello spazio ElevenLabs di Simone. Non salvate: aspettano che Simone ascolti e scelga
+  (`creative_save_designed_voice`). Il costo dei quattro giri non me lo dice il connettore: da guardare nel saldo.
+
 ## Verifiche
 - `doppiaggio/master/clip/en-ciro|peppe|cosimo/rapporto.txt`: 11/11, 17/17, 31/31, «0 da riascoltare», somiglianza almeno 85% e senza parole in più.
 - `python collaudo/doppiaggio.py`: TUTTO OK (532 di Enzo, 120 di Kira, 169 dei personaggi; 821 file; 28,3 MB con l'italiano).
