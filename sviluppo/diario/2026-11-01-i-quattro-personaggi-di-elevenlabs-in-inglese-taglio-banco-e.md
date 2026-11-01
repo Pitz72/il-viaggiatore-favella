@@ -40,6 +40,8 @@ quella che il taglio controlla: ogni parte riconosciuta da sola e confrontata co
   (`doppiaggio/en/prove/concetta.txt`, `[strong Italian accent]` perché la sua scheda dice «un forte sapore regionale del sud») e in italiano
   (`doppiaggio/DA-FARE/`, fuori da git). Nuovo comando `python strumenti/doppiaggio-inglese.py personaggio --voce Concetta`; non entra nel manifest, quindi il
   collaudo non lo pretende. Se l'esperimento piace, Concetta si aggiunge a `PERSONAGGI` e si taglia come gli altri quattro.
+  Subito dopo, su richiesta di Simone, lo stesso per Iole (la sola altra donna matura: 60 anni, la diga): `doppiaggio/en/prove/iole.txt`, 12 parti,
+  `[Italian accent]` perché la sua scheda dice «un lieve accento del sud», come Imma e Rosaria.
 - Documenti: `CHANGELOG.md`, `LICENSE-CONTENUTI.md`, `README.md`, `pre-produzione/08-doppiaggio-tts.md`, `doppiaggio/en/LEGGIMI.md`,
   `doppiaggio/voci-scelte.md`, `strumenti/LEGGIMI.md`, `sviluppo/PROSSIMI-PASSI.md`, `sviluppo/REGISTRO.md`.
 
