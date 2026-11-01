@@ -1,7 +1,7 @@
 # Prossimi passi
 
 > **Lo stato vivo del progetto.** *Il Viaggiatore* è concluso come storia (definitiva dalla 1.12.0) e il lavoro riprende solo
-> su richiesta di Simone. Ultima versione rilasciata: **1.41.0**, 1° novembre 2026; la **1.41.1** è preparata, non ancora rilasciata. Questo file tiene il conto di che cosa è aperto, di
+> su richiesta di Simone. Ultima versione: **1.41.1**, 1° novembre 2026. Questo file tiene il conto di che cosa è aperto, di
 > che cosa si è chiuso e di che cosa, di proposito, non si fa; **si aggiorna a ogni sessione** (vedi [`CLAUDE.md`](../CLAUDE.md)).
 > (Com'era prima, fermo alla 1.7.0: nella storia di git.)
 
@@ -9,10 +9,6 @@
 
 Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti non sono più da fare (vedi «Non si fa»).
 
-- **Lanciare il rilascio della 1.41.1**: è **preparata** (1° novembre 2026, diario «La preparazione del rilascio 1.41.1»: versione,
-  pacchetti e CHANGELOG alla 1.41.1, collaudi verdi) e porta i rimedi della revisione del codice, fra cui **Electron 44.10.1**, che
-  corregge due avvisi gravi del pacchetto 1.41.0. Manca solo Actions → Rilascio → Run workflow, su ordine di Simone. È il primo con il
-  nuovo `rilascio.yml` (permessi stretti, collaudo condiviso).
 - **Il doppiaggio è concluso** (Simone, 1° novembre 2026: «per questo lavoro del doppiaggio abbiamo finito»); i titoli di coda dicono ora tutte le voci, in italiano e in inglese (diario «Il controllo generale e i titoli di coda con tutte le voci»). **La voce recitata in inglese**: **il narratore, la voce di servizio (Kira) e tutti i quattordici personaggi sono fatti** (31 ottobre – 1° novembre 2026, diari «Il doppiaggio
   inglese: il narratore in sei blocchi», «La voce inglese del narratore: taglio, banco e integrazione nel gioco» e «Kira in inglese: taglio, banco
   e gioco», «I quattro personaggi di ElevenLabs in inglese: taglio, banco e gioco» e «Concetta, Iole e Onofrio in inglese»): 532 parti di Enzo
@@ -34,7 +30,8 @@ Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti 
 - **Le skill e la filigrana di Claude: da analizzare in futuro** (Simone, 31 ottobre 2026). La ricerca di skill su GitHub e
   la questione della filigrana nel testo si riprendono più avanti; i fatti verificati e la decisione sono nel diario del
   31 ottobre («La verifica dell'inglese…») e nella memoria. Nessuna skill trovata è stata installata.
-- **La copia su GitHub Pages** è ferma alla 1.23.0, solo in italiano: non si offre più da nessuna parte ma resta in linea per
+- **La copia su GitHub Pages** (https://pitz72.github.io/il-viaggiatore-favella/: direttamente il gioco, l'app intera, senza una
+  pagina di presentazione; ricontrollata il 1° novembre 2026) è ferma alla 1.23.0, solo in italiano: non si offre più da nessuna parte ma resta in linea per
   non rompere i link. Il workflow «Pagine» (manuale) la rifarebbe: se lanciato oggi pubblicherebbe di nuovo il gioco nel
   browser, contro la scelta della 1.40.0.
 - **Rami remoti vecchi**: `claude/amazing-mccarthy-8bigiy`, `claude/blissful-wright-qjgutj`, `claude/vigilant-feynman-d7d9kq`
@@ -50,7 +47,8 @@ Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti 
   revisione del codice»): la domanda del motore che risorgeva dopo salva e carica (e con un «s» faceva ricominciare la partita),
   RICOMINCIA che ora è un viaggio nuovo anche per la sequenza salvata, il trofeo che si poteva perdere, Electron, Vite e gli
   strumenti di costruzione aggiornati, un solo collaudo per CI e rilascio con i permessi stretti, ESLint per i hook React, le
-  rifiniture del taccuino e del desktop. Resta il rilascio (sopra, «Aperto»).
+  rifiniture del taccuino e del desktop. **Rilasciati con la 1.41.1** (1° novembre 2026, diario «Il rilascio 1.41.1»: run
+  41318350704, release con sette file, il primo col nuovo `rilascio.yml`).
 - **La verifica dell'inglese** (31 ottobre 2026, [`verifica-inglese.md`](verifica-inglese.md)): letti tutti i 494 testi inglesi
   contro calchi dall'italiano e schemi da LLM; corrette 52 voci nei cataloghi (rilasciate nella 1.40.1, workflow
   «Rilascio» riuscito). Il titolo «Il Viaggiatore» non si traduce, e la regola ora sta in `CLAUDE.md` e nel `LEGGIMI` della
