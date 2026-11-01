@@ -36,6 +36,10 @@ quella che il taglio controlla: ogni parte riconosciuta da sola e confrontata co
 - **Collaudo** (`collaudo/doppiaggio.py`, sezione 9): ora controlla anche i quattro personaggi inglesi e la cartella a parte (licenza, indice, file, durate,
   volume, corrispondenze, peso).
 - **Backup e pulizia**: i 4 MP3 su `F:` con `SHA256.txt`, poi tolti da `Downloads`.
+- **Dopo, un esperimento di Simone** (10.000 crediti di ElevenLabs rimasti): il blocco di Concetta, l'unica donna anziana (85 anni), in inglese
+  (`doppiaggio/en/prove/concetta.txt`, `[strong Italian accent]` perché la sua scheda dice «un forte sapore regionale del sud») e in italiano
+  (`doppiaggio/DA-FARE/`, fuori da git). Nuovo comando `python strumenti/doppiaggio-inglese.py personaggio --voce Concetta`; non entra nel manifest, quindi il
+  collaudo non lo pretende. Se l'esperimento piace, Concetta si aggiunge a `PERSONAGGI` e si taglia come gli altri quattro.
 - Documenti: `CHANGELOG.md`, `LICENSE-CONTENUTI.md`, `README.md`, `pre-produzione/08-doppiaggio-tts.md`, `doppiaggio/en/LEGGIMI.md`,
   `doppiaggio/voci-scelte.md`, `strumenti/LEGGIMI.md`, `sviluppo/PROSSIMI-PASSI.md`, `sviluppo/REGISTRO.md`.
 

@@ -38,7 +38,10 @@ Uso:  python strumenti/doppiaggio-inglese.py stato      (conti e verifiche, non 
       python strumenti/doppiaggio-inglese.py blocchi    (verifica e scrive doppiaggio/en/)
       python strumenti/doppiaggio-inglese.py blocchi --max-minuti 9.5
       python strumenti/doppiaggio-inglese.py blocchi --accento "strong Italian accent"   (o «nessuno»)
-      python strumenti/doppiaggio-inglese.py prove      (scrive solo doppiaggio/en/prove/)
+      python strumenti/doppiaggio-inglese.py prove      (scrive solo le prove di accento, doppiaggio/en/prove/accento-*.txt)
+      python strumenti/doppiaggio-inglese.py personaggio --voce Concetta --accento "strong Italian accent"
+                                                       (un esperimento: il blocco inglese di un personaggio non ancora fra i
+                                                        PERSONAGGI, in doppiaggio/en/prove/<nome>.txt; non tocca il manifest)
 """
 import argparse
 import glob
@@ -508,12 +511,12 @@ def testo_controllo_kira(r, kira, esiti):
 # 4. I personaggi (Eleven v4)
 # ---------------------------------------------------------------------------------------
 
-def raccogli_personaggi(r, tutto):
+def raccogli_personaggi(r, tutto, voci=PERSONAGGI):
     """Le parti inglesi dei PERSONAGGI, una per ogni parte italiana, nell'ordine dell'italiano (quello delle registrazioni
     ElevenLabs di oggi: l'ordine in cui compaiono nel gioco). Ritorna (unita, problemi): l'id inglese è l'impronta di
     «en-<voce>» e del testo, come per Enzo e Kira."""
     unita, problemi = OrderedDict(), []
-    for voce in PERSONAGGI:
+    for voce in voci:
         mie = [(ii, u) for ii, u in tutto["unita"].items() if u["voce"] == voce]
         if not mie:
             problemi.append("%s: nessuna parte nel manifest italiano" % voce)
@@ -619,7 +622,7 @@ def scrivi_prove(tutto, pers, blocchi):
     riprese uguali."""
     cartella = os.path.join(USCITA, "prove")
     os.makedirs(cartella, exist_ok=True)
-    for f in glob.glob(os.path.join(cartella, "*.txt")):
+    for f in glob.glob(os.path.join(cartella, "accento-*.txt")):
         os.remove(f)
     vito = blocchi["vito"]
     scelte = [vito[k] for k in PROVA_VITO]
@@ -748,14 +751,31 @@ def testo_controllo(r, tutto, blocchi, esiti):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("comando", choices=["stato", "blocchi", "prove"])
+    ap.add_argument("comando", choices=["stato", "blocchi", "prove", "personaggio"])
     ap.add_argument("--max-minuti", type=float, default=MAX_MINUTI, help="tetto di un blocco (predefinito %s)" % MAX_MINUTI)
+    ap.add_argument("--voce", help="con «personaggio»: il personaggio di cui scrivere il blocco inglese (Concetta…)")
     ap.add_argument("--accento", default=ACCENTO or "nessuno",
                     help="il tag d'accento davanti a ogni battuta dei personaggi di Eleven v4 (predefinito «%s»; «nessuno» = nessun tag)" % ACCENTO)
     a = ap.parse_args()
     accento = None if a.accento.lower() in ("nessuno", "none", "") else a.accento
     sys.stdout.reconfigure(encoding="utf-8")
     r, tutto = costruisci()
+    if a.comando == "personaggio":   # un esperimento: il blocco di un personaggio che non è fra i PERSONAGGI, fuori dal manifest
+        voce = next((v for v in dict.fromkeys(u["voce"] for u in tutto["unita"].values())
+                     if a.voce and v.lower() == a.voce.lower() and v not in ("narratore", "servizio")), None)
+        if not voce:
+            raise SystemExit("personaggio: serve --voce con il nome di un personaggio (Concetta, Iole, Cosimo…)")
+        x, problemi = raccogli_personaggi(r, tutto, [voce])
+        if problemi or not x:
+            raise SystemExit("personaggio %s: " % voce + ("; ".join(problemi[:3]) or "nessuna parte"))
+        ids = list(x)
+        os.makedirs(os.path.join(USCITA, "prove"), exist_ok=True)
+        percorso = os.path.join(USCITA, "prove", D.slug(voce) + ".txt")
+        with open(percorso, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(testo_eleven(x, ids, tutto.get("stili", {}), accento))
+        print("scritto %s: %d parti, %d caratteri di testo, accento: %s" % (
+            os.path.relpath(percorso, RADICE), len(ids), sum(len(x[i]["testo"]) for i in ids), accento or "nessuno"))
+        return
     esiti = verifiche(r, tutto)
     esiti += aggiungi_trailer(r)
     esiti_kira = verifiche_kira(r, tutto)
