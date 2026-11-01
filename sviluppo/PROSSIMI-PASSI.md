@@ -9,27 +9,23 @@
 
 Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti non sono più da fare (vedi «Non si fa»).
 
-- **La voce recitata in inglese**: **il narratore, la voce di servizio (Kira) e dieci personaggi sono fatti** (31 ottobre – 1° novembre 2026, diari «Il doppiaggio
+- **La voce recitata in inglese**: **il narratore, la voce di servizio (Kira) e tutti i quattordici personaggi sono fatti** (31 ottobre – 1° novembre 2026, diari «Il doppiaggio
   inglese: il narratore in sei blocchi», «La voce inglese del narratore: taglio, banco e integrazione nel gioco» e «Kira in inglese: taglio, banco
   e gioco», «I quattro personaggi di ElevenLabs in inglese: taglio, banco e gioco» e «Concetta, Iole e Onofrio in inglese»): 532 parti di Enzo
-  (narrazione e scelte), il trailer, 120 parti di Kira (31 suggerimenti e 89 pezzi coi numeri delle scorte) e 169 di dieci personaggi,
-  tagliati, controllati, nel banco (`app/public/voce/en/`, 821 parti, 28,3 MB con l'italiano) e nel gioco (modo di voce «inglese», che per ora
-  lascia in italiano gli altri quattro personaggi). Restano:
+  (narrazione e scelte), il trailer, 120 parti di Kira (31 suggerimenti e 89 pezzi coi numeri delle scorte) e 193 dei quattordici personaggi,
+  tagliati, controllati, nel banco (`app/public/voce/en/`, 845 parti, 28,7 MB con l'italiano) e nel gioco (modo di voce «inglese»: parla tutto). Restano:
   - (chiuso il 1° novembre 2026: Simone ha ascoltato le scelte inglesi, che il modello ha letto in fretta ma delle quali «si capisce tutto», il
     trailer, «The plain.» e «Il Viaggiatore»: vanno bene, **le scelte non si rigenerano**; e ha ascoltato Kira mentre generava: «perfetti»);
   - **ascoltare** il narratore e Kira inglesi sul gioco desktop (io non posso) e dire che cosa rifare;
-  - **i quattordici personaggi in inglese**: **fatti Imma, Rosaria, Tore, Vito, Concetta, Iole, Onofrio, Ciro, Peppe e Cosimo** (voci italiane di ElevenLabs Eleven v4; i primi
-    quattro il 1° novembre 2026 saltando la prova di accento, gli altri tre come esperimenti con i crediti avanzati e poi tenuti). 110 parti, tagliate e
-    controllate (tutte sopra l'85%, nessun tag letto), nel banco (`app/public/voce/en/elevenlabs/`, −23 LUFS) e nel gioco (modo «inglese»). Il resto va
-    **ascoltato** nel gioco desktop (io non posso). **Decisione di Simone, 1° novembre 2026**, dopo aver comprato un abbonamento a ElevenLabs: gli altri
-    **sette** (Nunzio, Saverio, Rocco, Pasquale, Peppe, Ciro, Cosimo) in inglese tutti con ElevenLabs, e poi, se avanzano crediti, le voci **italiane** di
-    Gemini rifatte con ElevenLabs. **I blocchi dei sette sono pronti** (`doppiaggio/en/prove/nunzio.txt` … `cosimo.txt`, con età e stato nei tag, `doppiaggio/en/stati.json`; le schede per
-    cercare le voci sono in `doppiaggio/en/voci-eleven.md`). Manca che Simone scelga le voci di libreria e li generi; poi si aggiungono a `PERSONAGGI` e si tagliano;
+  - **i quattordici personaggi in inglese**: **fatti tutti** (1° novembre 2026; diari «I quattro personaggi di ElevenLabs…», «Concetta, Iole e Onofrio…» e «Ciro, Peppe e Cosimo in inglese con
+    il connettore ElevenLabs»). Quattro con le loro voci italiane di ElevenLabs, tre come esperimenti di Simone, tre generati da Claude con voci di libreria (Pierpaolo, Vittorio, Corrado Noventa,
+    scelte da me, mai ascoltate da Simone) e quattro con voci disegnate da Simone (Voice Design). 193 parti, nel banco e nel gioco. Il resto va **ascoltato** nel gioco desktop (io non posso). **Decisione
+    di Simone**, dopo l'abbonamento a ElevenLabs: se avanzano crediti, rifare con ElevenLabs anche le voci **italiane** di Gemini, con la stessa voce di ogni personaggio nelle due lingue;
   - **la licenza delle voci ElevenLabs**: la cartella a parte e l'esclusione dalla licenza libera valgono per tutte, con la nota «in parte sul piano gratuito e in
     parte con un abbonamento»; se i diritti dell'abbonamento permettono l'uso commerciale (da leggere nei termini di ElevenLabs, non è una consulenza legale), le
     voci rifatte a pagamento potrebbero uscire dall'esclusione. Decide Simone;
   - **gli altri 39 «Generated Audio» in `Downloads`** (maggio – 30 ottobre, non nei master): che cosa sono, se vanno nel backup su F:;
-  - confermare le scelte mie (Kira britannica neutra; il modo «inglese» con quattro personaggi ancora italiani; le voci di Ciro (Pierpaolo), Peppe (Vittorio) e Cosimo (Corrado Noventa), scelte da me e mai ascoltate da Simone; il tag `Italian accent` (`strong` per Concetta e Onofrio), che non è stato confrontato con altri; la voce che segue il testo nella
+  - confermare le scelte mie (Kira britannica neutra; le voci di Ciro (Pierpaolo), Peppe (Vittorio) e Cosimo (Corrado Noventa), scelte da me e mai ascoltate da Simone; il tag `Italian accent` (`strong` per Concetta e Onofrio), che non è stato confrontato con altri; la voce che segue il testo nella
     prima finestra; il tetto del peso a 40 MB) e, quando Simone lo dice, il rilascio (una minor, 1.41.0).
 - **Le skill e la filigrana di Claude: da analizzare in futuro** (Simone, 31 ottobre 2026). La ricerca di skill su GitHub e
   la questione della filigrana nel testo si riprendono più avanti; i fatti verificati e la decisione sono nel diario del

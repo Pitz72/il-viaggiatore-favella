@@ -1149,11 +1149,11 @@ I minuti usano le costanti dell'italiano per il servizio (220 parole al minuto, 
 # Controllo dei personaggi inglesi (Eleven v4)
 
 > I personaggi che in italiano sono stati fatti con ElevenLabs, in inglese: stesse parti, stesso ordine, stessi toni.
-> Accento chiesto a Eleven: imma **Italian accent**, rosaria **Italian accent**, tore **Italian accent**, vito **Italian accent**, concetta **strong Italian accent**, iole **Italian accent**, onofrio **strong Italian accent**, ciro **Italian accent**, peppe **Italian accent**, cosimo **Italian accent**.
+> Accento chiesto a Eleven: imma **Italian accent**, rosaria **Italian accent**, tore **Italian accent**, vito **Italian accent**, concetta **strong Italian accent**, iole **Italian accent**, onofrio **strong Italian accent**, ciro **Italian accent**, peppe **Italian accent**, cosimo **Italian accent**, nunzio **Italian accent**, saverio **Italian accent**, rocco **Italian accent**, pasquale **Italian accent**.
 
 ## Verifiche
 
-- **OK**: Personaggi: ogni parte italiana di Imma, Rosaria, Tore, Vito, Concetta, Iole, Onofrio, Ciro, Peppe, Cosimo ha una traduzione sola nei cataloghi, e non ce ne sono due uguali
+- **OK**: Personaggi: ogni parte italiana di Imma, Rosaria, Tore, Vito, Concetta, Iole, Onofrio, Ciro, Peppe, Cosimo, Nunzio, Saverio, Rocco, Pasquale ha una traduzione sola nei cataloghi, e non ce ne sono due uguali
 - **OK**: Imma: parti italiane 22, inglesi 22
 - **OK**: Rosaria: parti italiane 15, inglesi 15
 - **OK**: Tore: parti italiane 13, inglesi 13
@@ -1164,6 +1164,10 @@ I minuti usano le costanti dell'italiano per il servizio (220 parole al minuto, 
 - **OK**: Ciro: parti italiane 11, inglesi 11
 - **OK**: Peppe: parti italiane 17, inglesi 17
 - **OK**: Cosimo: parti italiane 31, inglesi 31
+- **OK**: Nunzio: parti italiane 7, inglesi 7
+- **OK**: Saverio: parti italiane 8, inglesi 8
+- **OK**: Rocco: parti italiane 5, inglesi 5
+- **OK**: Pasquale: parti italiane 4, inglesi 4
 - **OK**: Personaggi: nessuna parte contiene parentesi, segnaposto, tag o virgolette
 - **OK**: Personaggi: nessuna parola in maiuscolo (Eleven la leggerebbe come enfasi)
 - **OK**: Personaggi: ogni tono ha il suo stile in toni.json
@@ -1183,6 +1187,10 @@ I minuti usano le costanti dell'italiano per il servizio (220 parole al minuto, 
 | ciro | 11 | 118 | 607 | 1.4 |
 | peppe | 17 | 197 | 992 | 2.3 |
 | cosimo | 31 | 452 | 2227 | 5.1 |
+| nunzio | 7 | 104 | 544 | 1.2 |
+| saverio | 8 | 53 | 274 | 0.7 |
+| rocco | 5 | 49 | 270 | 0.6 |
+| pasquale | 4 | 29 | 160 | 0.4 |
 
 ### imma
 
@@ -1402,3 +1410,47 @@ I minuti usano le costanti dell'italiano per il servizio (220 parole al minuto, 
 | 29 | dry, curt | Di come sei passato, si è saputo anche qui. | Word of how you came through got here too. |
 | 30 | (base) | Rosaria ha mandato un ragazzo su dai pastori, e i pastori scendono al greto per le bestie. Così si sa. | Rosaria sent a boy up to the shepherds, and the shepherds bring their animals down to the riverbed. That's how word gets round. |
 | 31 | (base) | Lo so da tre giorni, che arrivavi. So anche dove hai lasciato l'acqua. | I've known for three days that you were coming. I know where you left the water, too. |
+
+### nunzio
+
+| n. | Tono | Italiano | Inglese |
+|---:|---|---|---|
+| 1 | dry, curt | Altro? | Anything else? |
+| 2 | wary, guarded | Acqua non ne ho da regalare, di questi tempi. Ma qualcosa per la strada lo trovo, se hai da scambiare. | I've no water to give away, not these days. But I can find you something for the road, if you've got something to trade. |
+| 3 | wry, ironic | Oro per acqua. Ai miei tempi avrei riso. Tieni. | Gold for water. In my day I'd have laughed. Here. |
+| 4 | (base) | Un po' di scorta secca. Ti costa un sorso, ma cammini meglio. | Some dry rations. It'll cost you a sip, but you'll walk better. |
+| 5 | dry, curt | Le casse vuote, nel retro. Portale giù in cantina e un bicchiere te lo verso. | The empty crates, out the back. Carry them down to the cellar and I'll pour you a glass. |
+| 6 | (base) | A ovest, oltre la piana, c'è l'invaso secco. Poi la statale, e un paese che resiste. Poi le colline: Acquamorta è dietro. | West, past the plain, there's the dry reservoir. Then the main road, and a village that's holding out. Then the hills: Acquamorta is behind them. |
+| 7 | grave, slow, weighing each word | Ma serve una mappa, e acqua. Senza, non ci arrivi. | But you need a map, and water. Without them, you won't get there. |
+
+### saverio
+
+| n. | Tono | Italiano | Inglese |
+|---:|---|---|---|
+| 1 | wary, guarded | Cosa vuoi. | What do you want. |
+| 2 | dry, curt | Tu. Il secchio sai dov'è. | You. You know where the bucket is. |
+| 3 | dry, curt | Il pozzo. Una tanica, non di più: la corda è vecchia. | The well. One jerrycan, no more: the rope's old. |
+| 4 | wary, guarded | Acqua. | Water. |
+| 5 | bitter, resigned | Tutti vogliono acqua. Portami un motivo per fidarmi, e ne parliamo. | Everyone wants water. Bring me a reason to trust you, and we'll talk. |
+| 6 | (base) | Cala piano, la corda è vecchia. Quel che viene su è tuo. | Let it down slowly, the rope's old. Whatever comes up is yours. |
+| 7 | quietly menacing | Giù le mani | Hands off, |
+| 8 | firm, resolute | Questo pozzo non è una fontana. | This well isn't a fountain. |
+
+### rocco
+
+| n. | Tono | Italiano | Inglese |
+|---:|---|---|---|
+| 1 | teasing, mocking | Acqua? Qui non si chiede acqua. | Water? Nobody asks for water here. |
+| 2 | bitter, resigned | C'è il sale. Quello sì. Quello non finisce mai. | There's salt. That, yes. That never runs out. |
+| 3 | eager, anxious | Quella? Quella è buona. | That one? That one's good. |
+| 4 | eager, anxious | Più in là è meno salata, fidati. Bevi e cammini meglio. | Further out it's less salty, trust me. Drink and you'll walk better. |
+| 5 | bitter, resigned | Una volta che cominci, non smetti. La sete dopo è peggio. Ma intanto è acqua, no? | Once you start, you don't stop. The thirst afterwards is worse. But for now it's water, isn't it? |
+
+### pasquale
+
+| n. | Tono | Italiano | Inglese |
+|---:|---|---|---|
+| 1 | weak and feverish, trying to sound fine | Non sto male. | I'm not ill. |
+| 2 | weak and feverish, trying to sound fine | Passa pure, viandante. Non sei il primo che passa. | Pass on, traveller. You're not the first to pass. |
+| 3 | relieved, a little lighter | Sto meglio. Te lo devo. | I'm better. I owe it to you. |
+| 4 | (base) | Rosaria l'ha già saputo. Qui le cose si sanno prima di sera. | Rosaria's already heard. Round here, things get known before nightfall. |

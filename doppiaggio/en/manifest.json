@@ -25557,7 +25557,7 @@
   }
  },
  "personaggi": {
-  "voce": "Eleven v4: le voci italiane di Imma, Rosaria, Tore, Vito, Concetta, Iole, Onofrio, Ciro, Peppe, Cosimo, in inglese",
+  "voce": "Eleven v4: le voci italiane di Imma, Rosaria, Tore, Vito, Concetta, Iole, Onofrio, Ciro, Peppe, Cosimo, Nunzio, Saverio, Rocco, Pasquale, in inglese",
   "accento_predefinito": "Italian accent",
   "blocchi": {
    "imma": {
@@ -25797,6 +25797,58 @@
      "eb1eb7c0",
      "f575ed01",
      "fe3a47b7"
+    ]
+   },
+   "nunzio": {
+    "voce": "Nunzio",
+    "accento": "Italian accent",
+    "minuti_stimati": 1.2,
+    "parti": [
+     "dce8a028",
+     "4a16fe06",
+     "699274d0",
+     "d810c774",
+     "c4896595",
+     "a3d780cb",
+     "5195434f"
+    ]
+   },
+   "saverio": {
+    "voce": "Saverio",
+    "accento": "Italian accent",
+    "minuti_stimati": 0.7,
+    "parti": [
+     "80d3456f",
+     "7bec9987",
+     "f89803c9",
+     "cb9e83a0",
+     "7a742a96",
+     "f74d929e",
+     "6690cbbd",
+     "44f76896"
+    ]
+   },
+   "rocco": {
+    "voce": "Rocco",
+    "accento": "Italian accent",
+    "minuti_stimati": 0.6,
+    "parti": [
+     "7efdbf38",
+     "c7efce9b",
+     "6bb459b7",
+     "54e698ef",
+     "4d6c8e27"
+    ]
+   },
+   "pasquale": {
+    "voce": "Pasquale",
+    "accento": "Italian accent",
+    "minuti_stimati": 0.4,
+    "parti": [
+     "1699e9ab",
+     "07a48477",
+     "abd10e93",
+     "1734ce97"
     ]
    }
   },
@@ -29801,6 +29853,564 @@
      "bf6c75ee"
     ],
     "tono": "calmo"
+   },
+   "dce8a028": {
+    "voce": "Nunzio",
+    "categoria": "testo",
+    "zona": "z1",
+    "blocco": "nunzio",
+    "testo": "Anything else?",
+    "parole": 2,
+    "italiano": [
+     "Altro?"
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 67,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "af7219f5"
+    ],
+    "tono": "asciutto"
+   },
+   "4a16fe06": {
+    "voce": "Nunzio",
+    "categoria": "testo",
+    "zona": "z1",
+    "blocco": "nunzio",
+    "testo": "I've no water to give away, not these days. But I can find you something for the road, if you've got something to trade.",
+    "parole": 24,
+    "italiano": [
+     "Acqua non ne ho da regalare, di questi tempi. Ma qualcosa per la strada lo trovo, se hai da scambiare."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 68,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "369411dd"
+    ],
+    "tono": "diffidente"
+   },
+   "699274d0": {
+    "voce": "Nunzio",
+    "categoria": "testo",
+    "zona": "z1",
+    "blocco": "nunzio",
+    "testo": "Gold for water. In my day I'd have laughed. Here.",
+    "parole": 10,
+    "italiano": [
+     "Oro per acqua. Ai miei tempi avrei riso. Tieni."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 76,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "87b0b6d4"
+    ],
+    "tono": "ironico"
+   },
+   "d810c774": {
+    "voce": "Nunzio",
+    "categoria": "testo",
+    "zona": "z1",
+    "blocco": "nunzio",
+    "testo": "Some dry rations. It'll cost you a sip, but you'll walk better.",
+    "parole": 12,
+    "italiano": [
+     "Un po' di scorta secca. Ti costa un sorso, ma cammini meglio."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 80,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "96a4b7a7"
+    ],
+    "tono": "calmo"
+   },
+   "c4896595": {
+    "voce": "Nunzio",
+    "categoria": "testo",
+    "zona": "z1",
+    "blocco": "nunzio",
+    "testo": "The empty crates, out the back. Carry them down to the cellar and I'll pour you a glass.",
+    "parole": 18,
+    "italiano": [
+     "Le casse vuote, nel retro. Portale giù in cantina e un bicchiere te lo verso."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 83,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "6f3440d8"
+    ],
+    "tono": "asciutto"
+   },
+   "a3d780cb": {
+    "voce": "Nunzio",
+    "categoria": "testo",
+    "zona": "z1",
+    "blocco": "nunzio",
+    "testo": "West, past the plain, there's the dry reservoir. Then the main road, and a village that's holding out. Then the hills: Acquamorta is behind them.",
+    "parole": 25,
+    "italiano": [
+     "A ovest, oltre la piana, c'è l'invaso secco. Poi la statale, e un paese che resiste. Poi le colline: Acquamorta è dietro."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 87,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "0e0ab5ba"
+    ],
+    "tono": "calmo"
+   },
+   "5195434f": {
+    "voce": "Nunzio",
+    "categoria": "testo",
+    "zona": "z1",
+    "blocco": "nunzio",
+    "testo": "But you need a map, and water. Without them, you won't get there.",
+    "parole": 13,
+    "italiano": [
+     "Ma serve una mappa, e acqua. Senza, non ci arrivi."
+    ],
+    "fonti": [
+     {
+      "file": "z1-acquaviva.fav",
+      "riga": 87,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "483588b6"
+    ],
+    "tono": "grave"
+   },
+   "80d3456f": {
+    "voce": "Saverio",
+    "categoria": "testo",
+    "zona": "z2",
+    "blocco": "saverio",
+    "testo": "What do you want.",
+    "parole": 4,
+    "italiano": [
+     "Cosa vuoi."
+    ],
+    "fonti": [
+     {
+      "file": "z2-piana.fav",
+      "riga": 59,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "d3692b8d"
+    ],
+    "tono": "diffidente"
+   },
+   "7bec9987": {
+    "voce": "Saverio",
+    "categoria": "testo",
+    "zona": "z2",
+    "blocco": "saverio",
+    "testo": "You. You know where the bucket is.",
+    "parole": 7,
+    "italiano": [
+     "Tu. Il secchio sai dov'è."
+    ],
+    "fonti": [
+     {
+      "file": "z2-piana.fav",
+      "riga": 60,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "42d876e0"
+    ],
+    "tono": "asciutto"
+   },
+   "f89803c9": {
+    "voce": "Saverio",
+    "categoria": "testo",
+    "zona": "z2",
+    "blocco": "saverio",
+    "testo": "The well. One jerrycan, no more: the rope's old.",
+    "parole": 9,
+    "italiano": [
+     "Il pozzo. Una tanica, non di più: la corda è vecchia."
+    ],
+    "fonti": [
+     {
+      "file": "z2-piana.fav",
+      "riga": 66,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "16deb83a"
+    ],
+    "tono": "asciutto"
+   },
+   "cb9e83a0": {
+    "voce": "Saverio",
+    "categoria": "testo",
+    "zona": "z2",
+    "blocco": "saverio",
+    "testo": "Water.",
+    "parole": 1,
+    "italiano": [
+     "Acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z2-piana.fav",
+      "riga": 71,
+      "tipo": "dialogo",
+      "parte": 0
+     },
+     {
+      "file": "z2-piana.fav",
+      "riga": 72,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "26856ef7"
+    ],
+    "tono": "diffidente"
+   },
+   "7a742a96": {
+    "voce": "Saverio",
+    "categoria": "testo",
+    "zona": "z2",
+    "blocco": "saverio",
+    "testo": "Everyone wants water. Bring me a reason to trust you, and we'll talk.",
+    "parole": 13,
+    "italiano": [
+     "Tutti vogliono acqua. Portami un motivo per fidarmi, e ne parliamo."
+    ],
+    "fonti": [
+     {
+      "file": "z2-piana.fav",
+      "riga": 71,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "9b81944a"
+    ],
+    "tono": "amaro"
+   },
+   "f74d929e": {
+    "voce": "Saverio",
+    "categoria": "testo",
+    "zona": "z2",
+    "blocco": "saverio",
+    "testo": "Let it down slowly, the rope's old. Whatever comes up is yours.",
+    "parole": 12,
+    "italiano": [
+     "Cala piano, la corda è vecchia. Quel che viene su è tuo."
+    ],
+    "fonti": [
+     {
+      "file": "z2-piana.fav",
+      "riga": 72,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "27a7864e"
+    ],
+    "tono": "calmo"
+   },
+   "6690cbbd": {
+    "voce": "Saverio",
+    "categoria": "testo",
+    "zona": "z2",
+    "blocco": "saverio",
+    "testo": "Hands off,",
+    "parole": 2,
+    "italiano": [
+     "Giù le mani"
+    ],
+    "fonti": [
+     {
+      "file": "z2-piana.fav",
+      "riga": 80,
+      "tipo": "messaggio",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "29a47a12"
+    ],
+    "tono": "minaccioso"
+   },
+   "44f76896": {
+    "voce": "Saverio",
+    "categoria": "testo",
+    "zona": "z2",
+    "blocco": "saverio",
+    "testo": "This well isn't a fountain.",
+    "parole": 5,
+    "italiano": [
+     "Questo pozzo non è una fontana."
+    ],
+    "fonti": [
+     {
+      "file": "z2-piana.fav",
+      "riga": 80,
+      "tipo": "messaggio",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "ce297368"
+    ],
+    "tono": "deciso"
+   },
+   "7efdbf38": {
+    "voce": "Rocco",
+    "categoria": "testo",
+    "zona": "z3",
+    "blocco": "rocco",
+    "testo": "Water? Nobody asks for water here.",
+    "parole": 6,
+    "italiano": [
+     "Acqua? Qui non si chiede acqua."
+    ],
+    "fonti": [
+     {
+      "file": "z3-invaso.fav",
+      "riga": 153,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "85877725"
+    ],
+    "tono": "canzonatorio"
+   },
+   "c7efce9b": {
+    "voce": "Rocco",
+    "categoria": "testo",
+    "zona": "z3",
+    "blocco": "rocco",
+    "testo": "There's salt. That, yes. That never runs out.",
+    "parole": 8,
+    "italiano": [
+     "C'è il sale. Quello sì. Quello non finisce mai."
+    ],
+    "fonti": [
+     {
+      "file": "z3-invaso.fav",
+      "riga": 153,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "faab0326"
+    ],
+    "tono": "amaro"
+   },
+   "6bb459b7": {
+    "voce": "Rocco",
+    "categoria": "testo",
+    "zona": "z3",
+    "blocco": "rocco",
+    "testo": "That one? That one's good.",
+    "parole": 5,
+    "italiano": [
+     "Quella? Quella è buona."
+    ],
+    "fonti": [
+     {
+      "file": "z3-invaso.fav",
+      "riga": 158,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "783b1e18"
+    ],
+    "tono": "ansioso"
+   },
+   "54e698ef": {
+    "voce": "Rocco",
+    "categoria": "testo",
+    "zona": "z3",
+    "blocco": "rocco",
+    "testo": "Further out it's less salty, trust me. Drink and you'll walk better.",
+    "parole": 12,
+    "italiano": [
+     "Più in là è meno salata, fidati. Bevi e cammini meglio."
+    ],
+    "fonti": [
+     {
+      "file": "z3-invaso.fav",
+      "riga": 158,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "1ad54bd2"
+    ],
+    "tono": "ansioso"
+   },
+   "4d6c8e27": {
+    "voce": "Rocco",
+    "categoria": "testo",
+    "zona": "z3",
+    "blocco": "rocco",
+    "testo": "Once you start, you don't stop. The thirst afterwards is worse. But for now it's water, isn't it?",
+    "parole": 18,
+    "italiano": [
+     "Una volta che cominci, non smetti. La sete dopo è peggio. Ma intanto è acqua, no?"
+    ],
+    "fonti": [
+     {
+      "file": "z3-invaso.fav",
+      "riga": 161,
+      "tipo": "dialogo",
+      "parte": 1
+     }
+    ],
+    "italiano_ids": [
+     "3c3e2e61"
+    ],
+    "tono": "amaro"
+   },
+   "1699e9ab": {
+    "voce": "Pasquale",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "pasquale",
+    "testo": "I'm not ill.",
+    "parole": 3,
+    "italiano": [
+     "Non sto male."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 180,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "e602b094"
+    ],
+    "tono": "febbrile"
+   },
+   "07a48477": {
+    "voce": "Pasquale",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "pasquale",
+    "testo": "Pass on, traveller. You're not the first to pass.",
+    "parole": 9,
+    "italiano": [
+     "Passa pure, viandante. Non sei il primo che passa."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 180,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "e0a78c87"
+    ],
+    "tono": "febbrile"
+   },
+   "abd10e93": {
+    "voce": "Pasquale",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "pasquale",
+    "testo": "I'm better. I owe it to you.",
+    "parole": 7,
+    "italiano": [
+     "Sto meglio. Te lo devo."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 181,
+      "tipo": "dialogo",
+      "parte": 0
+     }
+    ],
+    "italiano_ids": [
+     "34803803"
+    ],
+    "tono": "sollievo"
+   },
+   "1734ce97": {
+    "voce": "Pasquale",
+    "categoria": "testo",
+    "zona": "z5",
+    "blocco": "pasquale",
+    "testo": "Rosaria's already heard. Round here, things get known before nightfall.",
+    "parole": 10,
+    "italiano": [
+     "Rosaria l'ha già saputo. Qui le cose si sanno prima di sera."
+    ],
+    "fonti": [
+     {
+      "file": "z5-paese.fav",
+      "riga": 181,
+      "tipo": "dialogo",
+      "parte": 2
+     }
+    ],
+    "italiano_ids": [
+     "4fbd3660"
+    ],
+    "tono": "calmo"
    }
   },
   "corrispondenze": {
@@ -29972,7 +30582,31 @@
    "11bbe6b8": "f6a0a57b",
    "1eb2f558": "eb1eb7c0",
    "074faba7": "f575ed01",
-   "bf6c75ee": "fe3a47b7"
+   "bf6c75ee": "fe3a47b7",
+   "af7219f5": "dce8a028",
+   "369411dd": "4a16fe06",
+   "87b0b6d4": "699274d0",
+   "96a4b7a7": "d810c774",
+   "6f3440d8": "c4896595",
+   "0e0ab5ba": "a3d780cb",
+   "483588b6": "5195434f",
+   "d3692b8d": "80d3456f",
+   "42d876e0": "7bec9987",
+   "16deb83a": "f89803c9",
+   "26856ef7": "cb9e83a0",
+   "9b81944a": "7a742a96",
+   "27a7864e": "f74d929e",
+   "29a47a12": "6690cbbd",
+   "ce297368": "44f76896",
+   "85877725": "7efdbf38",
+   "faab0326": "c7efce9b",
+   "783b1e18": "6bb459b7",
+   "1ad54bd2": "54e698ef",
+   "3c3e2e61": "4d6c8e27",
+   "e602b094": "1699e9ab",
+   "e0a78c87": "07a48477",
+   "34803803": "abd10e93",
+   "4fbd3660": "1734ce97"
   }
  }
 }

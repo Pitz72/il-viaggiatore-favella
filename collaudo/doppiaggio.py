@@ -328,7 +328,7 @@ def main():
     esito(not storte, "la voce del trailer: %d frasi al loro posto (%s solo scritte), «tuo FRATELLO.» e il titolo agganciati, "
           "nessuna sovrapposizione" % (len(frasi), len(tr["escluse"])), storte)
 
-    # 9. la voce inglese, del narratore, di Kira e di dieci personaggi (app/public/voce/en/, strumenti/doppiaggio-inglese.py)
+    # 9. la voce inglese, del narratore, di Kira e di tutti i personaggi (app/public/voce/en/, strumenti/doppiaggio-inglese.py)
     voce_inglese(esito, mb)
 
     tutto_ok = all(esiti)
@@ -345,13 +345,13 @@ def strumento_inglese():
 
 
 def voce_inglese(esito, mb_italiano):
-    """La voce inglese: Enzo, il narratore, Kira, la voce di servizio, e dieci personaggi (Imma, Rosaria, Tore, Vito, Concetta, Iole, Onofrio, Ciro, Peppe e Cosimo, di
-    ElevenLabs, in en/elevenlabs/ con l'indice e la licenza loro); gli altri quattro personaggi suonano ancora in italiano. Il
+    """La voce inglese: Enzo, il narratore, Kira, la voce di servizio, e i quattordici personaggi (di
+    ElevenLabs, in en/elevenlabs/ con l'indice e la licenza loro). Il
     diario del gioco resta in italiano e le parti si ritrovano dal testo italiano: l'indice inglese dice, per ogni parte
     italiana di queste voci, la sua registrazione. Si controlla che:
       1. ogni parte inglese che doppiaggio-inglese.py ricava dai cataloghi di OGGI abbia il suo audio, e che non ce ne sia
          di scaduto (un catalogo cambiato ha un id nuovo);
-      2. ogni parte italiana del narratore (narrazione e scelte), di Kira (suggerimenti e pezzi coi numeri) e dei dieci
+      2. ogni parte italiana del narratore (narrazione e scelte), di Kira (suggerimenti e pezzi coi numeri) e dei quattordici
          personaggi abbia la sua registrazione inglese, e le corrispondenze siano quelle di oggi;
       3. ogni file ci sia, sia un Ogg Opus vero e duri quanto dice l'indice, e le cartelle non abbiano altro;
       4. le durate tornino col testo e il volume stia al bersaglio (resoconto di doppiaggio/en/banco.json);
@@ -402,6 +402,9 @@ def voce_inglese(esito, mb_italiano):
     narratore_it = {i for i, u in it_unita.items() if u["voce"] == "narratore" and u.get("categoria") != "trailer"}
     kira_it = {i for i, u in it_unita.items() if u["voce"] == "servizio"}
     pers_it = {i for i, u in it_unita.items() if u["voce"] in E.PERSONAGGI}
+    voci_it = {u["voce"] for u in it_unita.values()} - {"narratore", "servizio"}
+    esito(voci_it == set(E.PERSONAGGI), "voce inglese: i personaggi dell'italiano (%d) sono tutti e soli quelli registrati in inglese" % len(voci_it),
+          ["manca in inglese: %s" % v for v in sorted(voci_it - set(E.PERSONAGGI))] + ["in più: %s" % v for v in sorted(set(E.PERSONAGGI) - voci_it)])
     corr = ix["corrispondenze"]
     senza = sorted(narratore_it - set(corr))
     esito(not senza, "voce inglese: ogni parte italiana del narratore (%d: narrazione e scelte) ha la sua registrazione" % len(narratore_it),
@@ -410,7 +413,7 @@ def voce_inglese(esito, mb_italiano):
     esito(not senza, "voce inglese: ogni parte italiana di Kira (%d: suggerimenti e pezzi coi numeri) ha la sua registrazione" % len(kira_it),
           ["%s «%s»" % (i, it_unita[i]["testo"][:70]) for i in senza])
     senza = sorted(pers_it - set(corr))
-    esito(not senza, "voce inglese: ogni parte italiana dei dieci personaggi (%d) ha la sua registrazione" % len(pers_it),
+    esito(not senza, "voce inglese: ogni parte italiana dei quattordici personaggi (%d) ha la sua registrazione" % len(pers_it),
           ["%s «%s»" % (i, it_unita[i]["testo"][:70]) for i in senza])
     attese_corr = {}
     for voce_it, gruppo in (("narratore", enzo), ("servizio", kira)):

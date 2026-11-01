@@ -56,8 +56,8 @@ const SOLO_PULSANTI = "In English you play with the buttons: the text parser und
 const SPIEGA_VOCE: Record<ModoVoce, Bilingue> = {
   recitata: { it: "Il gioco ti legge il racconto con le voci del doppiaggio. La voce si ferma al primo tasto; F2 ridice l'ultimo testo; le risposte di un dialogo si sentono passandoci sopra.",
     en: "The game reads you the story with the Italian voice cast. The voice stops at the first key; F2 repeats the last text; the replies in a conversation are heard when you hover over them." },
-  inglese: { it: "Il narratore, la voce di servizio (suggerimenti e scorte) e dieci personaggi parlano in inglese; gli altri quattro restano per ora quelli italiani, finché non saranno registrati anche in inglese. La voce si ferma al primo tasto; F2 ridice l'ultimo testo; le risposte di un dialogo si sentono passandoci sopra.",
-    en: "The narrator, the service voice (hints and supplies) and ten characters speak English; the other four are still the Italian ones for now, until they are recorded in English too. The voice stops at the first key; F2 repeats the last text; the replies in a conversation are heard when you hover over them." },
+  inglese: { it: "Il narratore, la voce di servizio (suggerimenti e scorte) e tutti i personaggi parlano in inglese. La voce si ferma al primo tasto; F2 ridice l'ultimo testo; le risposte di un dialogo si sentono passandoci sopra.",
+    en: "The narrator, the service voice (hints and supplies) and all the characters speak English. The voice stops at the first key; F2 repeats the last text; the replies in a conversation are heard when you hover over them." },
   nessuna: { it: "Nessuna voce del gioco: si legge soltanto, in silenzio.", en: "No game voice: text only, in silence." },
   lettore: { it: "Nessuna voce del gioco: se usi un lettore di schermo, è lui a leggerti il diario, riga per riga.",
     en: "No game voice: if you use a screen reader, it reads you the journal, line by line." },

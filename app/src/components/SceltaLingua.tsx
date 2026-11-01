@@ -5,7 +5,7 @@
 //  avvio, e una volta a chi giocava prima della 1.40. Due gruppi di scelte,
 //  il testo (italiano, inglese) e la voce (il doppiaggio italiano, quello
 //  inglese, nessuna voce, il lettore di schermo), e una riga che dice che in
-//  inglese per ora parlano il narratore, la voce di servizio e dieci personaggi. La voce segue il testo finché non
+//  inglese parlano il narratore, la voce di servizio e tutti i personaggi. La voce segue il testo finché non
 //  la si sceglie. «Continua» scrive le scelte e passa ai loghi; tutte si cambiano
 //  poi dalle opzioni. Le parole della finestra seguono il testo scelto, i
 //  nomi dei gruppi stanno in tutte e due le lingue (chi arriva non sa ancora
@@ -31,13 +31,13 @@ const VOCI: readonly [ModoVoce, Coppia, Coppia][] = [
   ["recitata", { it: "Italiano", en: "Italian" },
     { it: "Il racconto letto con le voci del doppiaggio: il narratore e i personaggi.", en: "The story read aloud by the Italian voice cast: the narrator and the characters." }],
   ["inglese", { it: "Inglese", en: "English" },
-    { it: "Il narratore, la voce di servizio e dieci personaggi parlano in inglese; gli altri quattro, per ora, restano quelli italiani.", en: "The narrator, the service voice and ten characters speak English; the other four are still the Italian ones, for now." }],
+    { it: "Il narratore, la voce di servizio e tutti i personaggi parlano in inglese.", en: "The narrator, the service voice and all the characters speak English." }],
   ["nessuna", { it: "Nessuna voce", en: "No voice" },
     { it: "Si legge soltanto, in silenzio.", en: "Text only, in silence." }],
   ["lettore", { it: "Lettore di schermo", en: "Screen reader" },
     { it: "Nessuna voce del gioco: il tuo lettore di schermo legge il diario, riga per riga.", en: "No game voice: your screen reader reads the journal, line by line." }],
 ];
-const PRESTO: Coppia = { it: "In inglese parlano per ora il narratore, la voce di servizio e dieci personaggi: presto anche gli altri.", en: "In English the narrator, the service voice and ten characters speak for now: the others are coming soon." };
+const PRESTO: Coppia = { it: "In inglese parla tutto il racconto: il narratore, la voce di servizio e tutti i personaggi.", en: "In English the whole story is spoken: the narrator, the service voice and every character." };
 const CONTINUA: Coppia = { it: "continua", en: "continue" };
 const CAMBIA: Coppia = { it: "Si cambia quando vuoi, nelle opzioni.", en: "You can change this any time in the options." };
 

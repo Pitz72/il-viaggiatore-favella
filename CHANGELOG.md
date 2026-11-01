@@ -9,14 +9,14 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 ## [Non rilasciato]
 
 ### Aggiunto
-- **La voce inglese: il narratore, la voce di servizio e dieci personaggi.** In inglese il narratore ha ora la sua voce: Enzo, in inglese
+- **La voce inglese: il narratore, la voce di servizio e tutti i personaggi.** In inglese il narratore ha ora la sua voce: Enzo, in inglese
   britannico, con tutta la narrazione (descrizioni, posti, messaggi, finali, il biglietto e le targhe), le scelte di dialogo del
   giocatore e il trailer, circa tre quarti d'ora di parlato (Google Gemini TTS, come la voce italiana). Parla in inglese anche la
   voce di servizio, Kira: i 31 suggerimenti tra parentesi e le righe con le scorte («You have five water, and three food.»), 120
-  parti in tutto. Parlano in inglese anche **Imma, Rosaria, Tore, Vito, Concetta, Iole, Onofrio, Ciro, Peppe e Cosimo**, con voci italiane di ElevenLabs (Eleven v4), 169
+  parti in tutto. Parlano in inglese anche **tutti i quattordici personaggi**, con voci italiane di ElevenLabs (Eleven v4; quattro disegnate con il Voice Design), 193
   parti: le stesse battute dell'italiano, con gli stessi toni, in `app/public/voce/en/elevenlabs/`, fuori dalla licenza libera come
   le italiane. Nelle opzioni e nella prima finestra la voce ha un modo nuovo, **inglese**, che segue il testo finché non lo si
-  sceglie: gli altri quattro personaggi restano per ora quelli italiani, finché non saranno registrati anche in inglese.
+  sceglie.
   Il racconto, i `.fav`, i salvataggi e la voce italiana non cambiano.
 
 ## [1.40.1] - 2026-10-31

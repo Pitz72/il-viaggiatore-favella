@@ -50,6 +50,10 @@ sono nel nome del file.
 | Ciro | **Pierpaolo** («Voce italiana, matura ed espressiva. Influenza salernitana», libreria) | 1/11, circa 10:18, 38,4 s | 11 parti su 11; generato da Claude con il connettore, impostazioni predefinite (Stability 0,5); `[Italian accent]` |
 | Peppe | **Vittorio boy next door** (libreria; giovane, accento milanese) | 1/11, circa 10:18, 56,6 s | 17 parti su 17; connettore, impostazioni predefinite; `[Italian accent]` |
 | Cosimo | **Corrado Noventa** (libreria; mezza età, profondo e basso, drammatico) | 1/11, circa 10:19, 139,3 s | 31 parti su 31; connettore, impostazioni predefinite; `[Italian accent]`; scelta fra quattro candidate fatta da Claude |
+| Nunzio | **Ermenegildo Meliconi** (voce disegnata con il Voice Design, scelta e salvata da Simone) | 1/11, circa 10:32, 39,4 s | 7 parti su 7; connettore, impostazioni predefinite; `[Italian accent]`, profilo `elderly man, thin, slightly cracked voice` |
+| Saverio | **Ignazio Rossi** (disegnata, scelta da Simone) | 1/11, circa 10:32, 24,2 s | 8 parti su 8; connettore; profilo `elderly man, hoarse, flat voice` |
+| Rocco | **Ciro Esposito** (disegnata, scelta da Simone; il nome è un'altra cosa: è la voce di Rocco) | 1/11, circa 10:32, 19,8 s | 5 parti su 5; connettore; profilo `thin man in his forties, hoarse, parched throat` |
+| Pasquale | **Carmine Lo Russo** (disegnata, scelta da Simone) | 1/11, circa 10:33, 13,2 s | 4 parti su 4; connettore; `young man` più lo stato: malato nelle prime due battute, guarito nelle altre due |
 
 Le voci italiane in inglese si riconoscono «soprattutto nella pronuncia dei nomi» (Simone, 1/11/2026): l'accento chiesto è `Italian accent` (`strong Italian accent`
 per Concetta e Onofrio, le cui schede lo vogliono più marcato), la prova delle alternative (`doppiaggio/en/prove/`) non è stata fatta. I nomi dei file scaricati
