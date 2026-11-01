@@ -575,15 +575,30 @@ def verifiche_personaggi(r, tutto, pers, problemi):
     return out
 
 
-def testo_eleven(unita, ids, stili, accento):
+def note_di(voce):
+    """(profilo, stati) di un personaggio da doppiaggio/en/stati.json: l'età e il modo di essere che si dicono a Eleven in ogni
+    battuta («young man»), e per alcune battute lo stato nella storia (malato, guarito). Senza il file, o senza il personaggio,
+    niente: i blocchi dei personaggi già registrati non cambiano."""
+    percorso = os.path.join(USCITA, "stati.json")
+    if not os.path.exists(percorso):
+        return None, []
+    with open(percorso, encoding="utf-8") as f:
+        dati = json.load(f)
+    return dati.get("profili", {}).get(voce), dati.get("stati", {}).get(voce, [])
+
+
+def testo_eleven(unita, ids, stili, accento, profilo=None, stati=()):
     """Il blocco di un personaggio per Eleven v4: una battuta per paragrafo (una riga vuota fra l'una e l'altra), con in testa
     l'accento e il tono come tag fra parentesi quadre («[Italian accent][dry, curt] Well?»), impilati come nelle guide di
     ElevenLabs. Il tono «calmo» è il tono di base e non ha tag. Niente SSML (v4 non lo ha) e niente intestazioni: il file si
-    incolla intero."""
+    incolla intero. Con un profilo (e uno stato, per le battute che lo hanno) il secondo tag diventa «[young man, sick with
+    fever, weak and feverish…]»: età, stato e tono in un tag solo, separati da virgole."""
     righe = []
     for i in ids:
         tono = unita[i].get("tono")
-        tag = ("[%s]" % accento if accento else "") + ("[%s]" % stili[tono] if tono and tono != "calmo" and tono in stili else "")
+        stato = next((st for inizio, st in stati if unita[i]["testo"].startswith(inizio)), None)
+        qualita = [q for q in (profilo, stato, stili[tono] if tono and tono != "calmo" and tono in stili else None) if q]
+        tag = ("[%s]" % accento if accento else "") + ("[%s]" % ", ".join(qualita) if qualita else "")
         righe.append((tag + " " if tag else "") + unita[i]["testo"])
     return "\n\n".join(righe) + "\n"
 
@@ -658,7 +673,7 @@ def scrivi(r, tutto, blocchi, esiti, kira=None, esiti_kira=None, pers=None, esit
     blocchi_pers = blocchi_personaggi(pers) if pers else OrderedDict()
     for nome, ids in blocchi_pers.items():
         with open(os.path.join(USCITA, "blocchi", nome + ".txt"), "w", encoding="utf-8", newline="\n") as fh:
-            fh.write(testo_eleven(pers, ids, tutto.get("stili", {}), accenti[nome]))
+            fh.write(testo_eleven(pers, ids, tutto.get("stili", {}), accenti[nome], *note_di(pers[ids[0]]["voce"])))
     unita = OrderedDict()
     for nome, ids in blocchi.items():
         for i in ids:
@@ -786,7 +801,7 @@ def main():
         os.makedirs(os.path.join(USCITA, "prove"), exist_ok=True)
         percorso = os.path.join(USCITA, "prove", D.slug(voce) + ".txt")
         with open(percorso, "w", encoding="utf-8", newline="\n") as fh:
-            fh.write(testo_eleven(x, ids, tutto.get("stili", {}), accento_di(voce, scelto)))
+            fh.write(testo_eleven(x, ids, tutto.get("stili", {}), accento_di(voce, scelto), *note_di(voce)))
         print("scritto %s: %d parti, %d caratteri di testo, accento: %s" % (
             os.path.relpath(percorso, RADICE), len(ids), sum(len(x[i]["testo"]) for i in ids), accento_di(voce, scelto) or "nessuno"))
         return

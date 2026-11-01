@@ -1,0 +1,20 @@
+{
+ "nota": "Età e stato dei personaggi per i tag di Eleven v4 (letto da strumenti/doppiaggio-inglese.py, non lo riscrive). «profili»: un descrittore messo in testa al tag di ogni battuta del personaggio ([Italian accent][young man, …]). «stati»: per una battuta che comincia con quel testo inglese, il suo stato nella storia (malato, guarito…), messo dopo il profilo. I personaggi già registrati (Imma, Rosaria, Tore, Vito, Concetta, Iole, Onofrio) non ci sono: i loro blocchi non cambiano.",
+ "profili": {
+  "Nunzio": "elderly man, thin, slightly cracked voice",
+  "Saverio": "elderly man, hoarse, flat voice",
+  "Rocco": "thin man in his forties, hoarse, parched throat",
+  "Pasquale": "young man",
+  "Peppe": "teenage boy",
+  "Ciro": "middle-aged man",
+  "Cosimo": "man in his fifties, low voice"
+ },
+ "stati": {
+  "Pasquale": [
+   ["I'm not ill.", "sick with fever"],
+   ["Pass on, traveller.", "sick with fever"],
+   ["I'm better.", "recovered from the fever, still pale and weak"],
+   ["Rosaria's already heard.", "recovered from the fever, still pale"]
+  ]
+ }
+}

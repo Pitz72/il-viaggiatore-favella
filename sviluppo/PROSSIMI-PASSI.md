@@ -23,8 +23,8 @@ Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti 
     controllate (tutte sopra l'85%, nessun tag letto), nel banco (`app/public/voce/en/elevenlabs/`, −23 LUFS) e nel gioco (modo «inglese»). Il resto va
     **ascoltato** nel gioco desktop (io non posso). **Decisione di Simone, 1° novembre 2026**, dopo aver comprato un abbonamento a ElevenLabs: gli altri
     **sette** (Nunzio, Saverio, Rocco, Pasquale, Peppe, Ciro, Cosimo) in inglese tutti con ElevenLabs, e poi, se avanzano crediti, le voci **italiane** di
-    Gemini rifatte con ElevenLabs. Mancano le voci di libreria (Simone le sceglie) e i blocchi (`python strumenti/doppiaggio-inglese.py personaggio --voce
-    Nunzio`, e poi aggiungerli a `PERSONAGGI`);
+    Gemini rifatte con ElevenLabs. **I blocchi dei sette sono pronti** (`doppiaggio/en/prove/nunzio.txt` … `cosimo.txt`, con età e stato nei tag, `doppiaggio/en/stati.json`; le schede per
+    cercare le voci sono in `doppiaggio/en/voci-eleven.md`). Manca che Simone scelga le voci di libreria e li generi; poi si aggiungono a `PERSONAGGI` e si tagliano;
   - **la licenza delle voci ElevenLabs**: la cartella a parte e l'esclusione dalla licenza libera valgono per tutte, con la nota «in parte sul piano gratuito e in
     parte con un abbonamento»; se i diritti dell'abbonamento permettono l'uso commerciale (da leggere nei termini di ElevenLabs, non è una consulenza legale), le
     voci rifatte a pagamento potrebbero uscire dall'esclusione. Decide Simone;

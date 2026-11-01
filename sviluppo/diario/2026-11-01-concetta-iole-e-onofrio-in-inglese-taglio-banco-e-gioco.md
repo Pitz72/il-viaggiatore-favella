@@ -35,6 +35,10 @@ evidenti per me.»
 - **Testi d'interfaccia** (opzioni, prima finestra, README): «il narratore, la voce di servizio e **sette** personaggi parlano in inglese; gli altri sette
   restano italiani». `LICENSE-CONTENUTI.md` dice ora che le voci inglesi di Concetta, Iole e Onofrio sono nella stessa cartella e con la stessa esclusione, e
   che dal 1° novembre 2026 l'autore ha un abbonamento a pagamento.
+- **I blocchi dei sette rimasti** (Nunzio, Saverio, Rocco, Pasquale, Peppe, Ciro, Cosimo), su richiesta di Simone («indicare nello script se è giovane, malato,
+  guarito»): `doppiaggio/en/prove/<nome>.txt`, 83 parti, con in ogni tag l'età (`young man`, `teenage boy`…) e per Pasquale lo stato (malato nelle prime due battute,
+  guarito nelle altre due), da `doppiaggio/en/stati.json`. Le schede per cercare le voci sono in `doppiaggio/en/voci-eleven.md`: non ho accesso alla Voice Library,
+  quindi non indico voci vere ma filtri e parole di ricerca. Simone ha poi fatto notare che ElevenLabs ha un connettore per Claude (vedi sotto).
 - **Backup**: i 3 MP3 su `F:` (ora 7 MP3 di ElevenLabs più `SHA256.txt`), SHA-256 uguale nei tre posti, poi tolti da `Downloads`.
 
 ## Decisioni
@@ -59,5 +63,8 @@ evidenti per me.»
 - Le sette voci rimaste in inglese: Simone sceglie le voci di libreria; si prepara un blocco per volta (`personaggio --voce Nunzio`), si genera, si porta fra i
   `PERSONAGGI`, si taglia.
 - La licenza delle voci ElevenLabs a pagamento (vedi sopra).
+- **Il connettore ElevenLabs per Claude**: nell'elenco dei connettori c'è «ElevenLabs» (`api.elevenlabs.io/v1/mcp-claude-marketplace`, accesso con OAuth, 79 strumenti, descritto come
+  gestione degli agenti vocali: gli strumenti che si vedono cominciano con `agents_`). Non so se espone la ricerca nella Voice Library né la generazione del parlato.
+  L'ho proposto a Simone con il pulsante «Connect»; se lo collega si vede che cosa permette. Ogni generazione che passasse di lì consumerebbe i suoi crediti.
 - Poi, se avanzano crediti: le voci italiane di Gemini rifatte con ElevenLabs, con la stessa voce di libreria di ogni personaggio in inglese.
 - Il rilascio (1.41.0) solo quando lo dice Simone.

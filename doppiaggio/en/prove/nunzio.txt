@@ -1,0 +1,13 @@
+[Italian accent][elderly man, thin, slightly cracked voice, dry, curt] Anything else?
+
+[Italian accent][elderly man, thin, slightly cracked voice, wary, guarded] I've no water to give away, not these days. But I can find you something for the road, if you've got something to trade.
+
+[Italian accent][elderly man, thin, slightly cracked voice, wry, ironic] Gold for water. In my day I'd have laughed. Here.
+
+[Italian accent][elderly man, thin, slightly cracked voice] Some dry rations. It'll cost you a sip, but you'll walk better.
+
+[Italian accent][elderly man, thin, slightly cracked voice, dry, curt] The empty crates, out the back. Carry them down to the cellar and I'll pour you a glass.
+
+[Italian accent][elderly man, thin, slightly cracked voice] West, past the plain, there's the dry reservoir. Then the main road, and a village that's holding out. Then the hills: Acquamorta is behind them.
+
+[Italian accent][elderly man, thin, slightly cracked voice, grave, slow, weighing each word] But you need a map, and water. Without them, you won't get there.
