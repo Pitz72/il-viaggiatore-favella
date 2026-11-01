@@ -11,10 +11,10 @@
  "totale": {
   "parti": 878,
   "parti_a_parte": 193,
-  "minuti": 63.8,
-  "minuti_a_parte": 12.9,
-  "mb": 14.83,
-  "mb_a_parte": 3.04
+  "minuti": 63.9,
+  "minuti_a_parte": 13.0,
+  "mb": 14.85,
+  "mb_a_parte": 3.07
  },
  "blocchi": {
   "ciro": {
@@ -33,15 +33,15 @@
   "concetta": {
    "voce": "Concetta",
    "parti": 8,
-   "lufs_prima": -24.6,
-   "guadagno_db": 1.6,
+   "lufs_prima": -20.3,
+   "guadagno_db": -2.7,
    "parti_alzate_di_meno": 0,
    "al_massimo_db_in_meno": 0.0,
-   "secondi": 46.0,
+   "secondi": 52.5,
    "cartella": "elevenlabs",
-   "lufs_dopo": -24.0,
-   "picco_vero_dbtp": -3.0,
-   "kb": 180
+   "lufs_dopo": -23.5,
+   "picco_vero_dbtp": -4.4,
+   "kb": 207
   },
   "cosimo": {
    "voce": "Cosimo",

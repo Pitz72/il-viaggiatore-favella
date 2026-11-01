@@ -13,14 +13,14 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
   britannico, con tutta la narrazione (descrizioni, posti, messaggi, finali, il biglietto e le targhe), le scelte di dialogo del
   giocatore e il trailer, circa tre quarti d'ora di parlato (Google Gemini TTS, come la voce italiana). Parla in inglese anche la
   voce di servizio, Kira: i 31 suggerimenti tra parentesi e le righe con le scorte («You have five water, and three food.»), 120
-  parti in tutto. Parlano in inglese anche **tutti i quattordici personaggi**, con voci italiane di ElevenLabs (Eleven v4; quattro disegnate con il Voice Design), 193
+  parti in tutto. Parlano in inglese anche **tutti i quattordici personaggi**, con voci italiane di ElevenLabs (Eleven v4; cinque disegnate con il Voice Design), 193
   parti: le stesse battute dell'italiano, con gli stessi toni, in `app/public/voce/en/elevenlabs/`, fuori dalla licenza libera come
   le italiane. Nelle opzioni e nella prima finestra la voce ha un modo nuovo, **inglese**, che segue il testo finché non lo si
   sceglie.
   Il racconto, i `.fav`, i salvataggi e la voce italiana non cambiano.
 
 ### Cambiato
-- **Le voci italiane dei personaggi sono rifatte con ElevenLabs** (Nunzio, Saverio, Iole, Rocco, Peppe, Ciro, Pasquale, Onofrio, Cosimo e Concetta): le stesse battute, al posto di quelle di Gemini, con la voce che il personaggio ha in inglese. Come le altre quattro di ElevenLabs, stanno in `app/public/voce/elevenlabs/`, fuori dalla licenza libera.
+- **Le voci italiane dei personaggi sono rifatte con ElevenLabs** (Nunzio, Saverio, Iole, Rocco, Peppe, Ciro, Pasquale, Onofrio, Cosimo e Concetta): le stesse battute, al posto di quelle di Gemini, con la voce che il personaggio ha in inglese. Concetta, l'anziana del cortile, ha una voce disegnata apposta (molto vecchia, sottile e incrinata), la stessa in italiano e in inglese. Come le altre quattro di ElevenLabs, stanno in `app/public/voce/elevenlabs/`, fuori dalla licenza libera.
 
 ## [1.40.1] - 2026-10-31
 

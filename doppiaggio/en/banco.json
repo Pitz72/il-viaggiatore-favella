@@ -11,10 +11,10 @@
  "totale": {
   "parti": 845,
   "parti_a_parte": 193,
-  "minuti": 59.5,
-  "minuti_a_parte": 12.9,
-  "mb": 13.95,
-  "mb_a_parte": 3.05
+  "minuti": 59.6,
+  "minuti_a_parte": 13.0,
+  "mb": 13.97,
+  "mb_a_parte": 3.07
  },
  "blocchi": {
   "narratore-a": {
@@ -193,15 +193,15 @@
   "concetta": {
    "voce": "Concetta",
    "parti": 8,
-   "lufs_prima": -25.1,
-   "guadagno_db": 2.1,
+   "lufs_prima": -19.6,
+   "guadagno_db": -3.4,
    "parti_alzate_di_meno": 0,
    "al_massimo_db_in_meno": 0.0,
-   "secondi": 45.9,
+   "secondi": 53.3,
    "cartella": "elevenlabs",
-   "lufs_dopo": -24.3,
-   "picco_vero_dbtp": -3.0,
-   "kb": 183
+   "lufs_dopo": -23.6,
+   "picco_vero_dbtp": -4.5,
+   "kb": 202
   },
   "iole": {
    "voce": "Iole",
