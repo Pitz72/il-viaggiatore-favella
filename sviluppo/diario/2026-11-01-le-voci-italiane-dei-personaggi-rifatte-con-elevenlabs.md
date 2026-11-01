@@ -9,7 +9,7 @@ versione: 1.40.1
 # Le voci italiane dei personaggi rifatte con ElevenLabs
 
 ## In breve
-Dopo la stima dei crediti, Simone ha detto «sì, solo i personaggi»: le voci italiane di Gemini di i nove personaggi sono rifatte con ElevenLabs, con la stessa voce che ognuno ha in inglese.
+Dopo la stima dei crediti, Simone ha detto «sì, solo i personaggi»: le voci italiane di Gemini di nove personaggi sono rifatte con ElevenLabs, con la stessa voce che ognuno ha in inglese.
 Concetta, dopo, con «Tosca old&deep» (la voce inglese «Tosca - Mature, Whispery and Seductive» non si trova con il connettore): **tutti e quattordici i personaggi sono ora ElevenLabs, in italiano e in inglese**.
 
 ## Contesto
@@ -37,6 +37,7 @@ giornata: «ora come ora ho 17.877 crediti». Il narratore Enzo e Kira hanno gi�
 - Non verificato: l'ascolto (non posso); la CI dell'ultimo commit.
 
 ## Questioni aperte
-- La voce di Concetta (italiano), poi `Concetta` in `A_PARTE`, banco rifatto, crediti e guide a «tutti i personaggi».
+- Ascoltare Concetta in italiano (voce diversa da quella inglese) e, se non va, rifarla con la voce giusta.
+- **Una CI è fallita sul commit a10a727**: il collaudo della sequenza finale (`app/scripts/finale-node.mjs`) si aspettava l'etichetta dei crediti «Imma, Rosaria, Tore e Vito»; ora si aspetta «I personaggi» (corretto nel commit successivo). Lo avevo scritto «il collaudo non controlla i crediti» e non lo avevo rilanciato: ora la CI è il controllo.
 - Simone ascolta tutto sul gioco desktop (`node prepara.mjs`, poi `npm run avvia` in `desktop/`), in italiano e in inglese.
 - La licenza delle voci a pagamento e il rilascio (1.41.0), solo quando lo dice Simone.

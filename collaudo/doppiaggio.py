@@ -370,7 +370,7 @@ def voce_inglese(esito, mb_italiano):
     r, tutto = E.costruisci()
     enzo = {i: u for i, u in r["unita"].items() if u["categoria"] in ("testo", "scelta")}
     kira = dict(r["kira"])   # le parti di Kira (suggerimenti e pezzi coi numeri), con la loro parte italiana
-    pers, problemi_pers = E.raccogli_personaggi(r, tutto)   # Imma, Rosaria, Tore e Vito, una parte inglese per parte italiana
+    pers, problemi_pers = E.raccogli_personaggi(r, tutto)   # i quattordici personaggi, una parte inglese per parte italiana
     esito(not problemi_pers, "voce inglese: i personaggi (%s) hanno una traduzione sola per parte italiana" % ", ".join(E.PERSONAGGI),
           problemi_pers)
     attese = {**enzo, **kira, **pers}
