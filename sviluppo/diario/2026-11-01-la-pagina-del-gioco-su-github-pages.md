@@ -31,7 +31,8 @@ Durante il rilascio della 1.41.1 Simone ha chiesto che cosa c'era su Pages: dire
 ## Verifiche
 - Il sito montato in locale dalla release v1.41.1 (85,9 MB, quattro download) e guardato nel browser integrato su un server di prova: le due lingue (l'interruttore, la memoria, nessun testo dell'altra lingua visibile), la lente sulle schermate (Esc la chiude), il pulsante del proprio sistema («Scarica per Windows · 181 MB»), su telefono (375 px) niente scorrimento orizzontale, nessun errore in console. Trovati e corretti lì: il pulsante «EN» nascosto dal CSS delle lingue, il banner non a tutta larghezza, l'incipit sopra il fondo del banner, le sezioni di lettura non allineate a sinistra.
 - Il gioco nella sottocartella, con Electron fuori schermo (il riquadro del browser nascosto ferma le animazioni dell'intro): in inglese, motore pronto in 6 s, «The station», voce inglese servita, nessun errore.
-- I workflow letti come YAML (job, dipendenze, permessi); la pubblicazione vera: vedi sotto.
+- I workflow letti come YAML (job, dipendenze, permessi).
+- **La pubblicazione**: commit `7bab2e9`, workflow «Pagine» lanciato a mano (run 41323181424): «Presentazione e gioco» 59 s, «Pubblica» 12 s, verde. Online: la pagina (200, «Versione 1.41.1 · 1 novembre 2026»), i quattro download della v1.41.1 (200 tutti e quattro), `gioca/` con il gioco della 1.41.1 (letto nel codice pubblicato), i caratteri, le schermate, la voce inglese e il motore (200). Una partita vera nel gioco pubblicato, con Electron fuori schermo: in inglese, «The station» in 12 s, nessun errore. La pagina pubblicata guardata nel browser integrato.
 
 ## Questioni aperte
 - **favella.eu ed Ecosystem** dicono ancora che il gioco è solo da scaricare: potrebbero rimandare alla pagina nuova. Sono altri repository: solo se Simone lo chiede.
