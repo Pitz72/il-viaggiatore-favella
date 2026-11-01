@@ -312,6 +312,8 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
       }
     })();
     return () => { vivo = false; };
+    // il motore si avvia una volta sola, con la partita da riprendere che c'era all'apertura
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Il fuoco dove si gioca: la riga; coi pulsanti il primo pulsante utile (la prima risposta, il «no» di una
@@ -340,6 +342,14 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
   // ── un turno ───────────────────────────────────────────────────────
   const applica = (etichetta: string, e: TurnoEsito) => {
     nuovoTurno();
+    if (e.ricominciata) {
+      // RICOMINCIA confermato: il mondo è quello dell'inizio, e per i trofei e il taccuino è un viaggio nuovo (le sfide
+      // intatte, il tempo da zero, nessuno incontrato). La sequenza salvata è ripartita nel ponte; il diario resta.
+      sfide.current = sfideNuove(nuovoViaggio());
+      tempo.current = 0;
+      setIncontrati([]);
+      annota("info", "partita ricominciata da capo: un viaggio nuovo");
+    }
     const blocchi = analizza(e.text);
     const statiDopo = statiDelleImmagini(sessione.current?.stato().stati);
     setVoci((v) => [...v, { id: contatore.current++, cmd: etichetta, blocchi, stati: statiDopo, nuova: true }]);
@@ -465,7 +475,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
   const haMappa = mondo.inventory.some((o) => senzaArticolo(o) === "mappa");
   useEffect(() => {
     if (haMappa && carta) preparaInAnticipo(cartaNellaLingua(carta, en), (id) => ROOM_ZONE[id], opz.qualita, opz.contrasto === "alto");
-  }, [haMappa, carta, opz.qualita, opz.contrasto]);
+  }, [haMappa, carta, en, opz.qualita, opz.contrasto]);
   const apriMappa = () => {
     if (!haMappa || finita || !carta || fase !== "gioca" || richiesta) return;
     voce.ferma();

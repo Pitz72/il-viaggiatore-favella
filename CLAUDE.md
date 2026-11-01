@@ -100,7 +100,8 @@ Regole venute da ciò che Simone ha chiesto e corretto; la memoria locale che le
 
 - Servono Node 22, Python 3.10 o più (qui `python`, 3.12; il comando `py` non c'è), `lark==1.3.1`, e ffmpeg (solo per doppiaggio e
   colonna sonora). Dopo un clone: `pip install lark==1.3.1`, `npm ci --prefix app`, `npm ci --prefix desktop`.
-- I collaudi in locale sono i passi del job «collaudo» di `.github/workflows/ci.yml`; l'esploratore completo
+- I collaudi in locale sono i passi di `.github/workflows/collaudo.yml` (lo richiamano la CI e il rilascio; dentro c'è anche
+  `npm run controlla`, ESLint, in `app/`); l'esploratore completo
   (`python esploratore.py`, in `collaudo/`) dura circa cinque minuti.
 - **I server di sviluppo si chiudono quando non servono** e si riaprono al bisogno (Simone, 1° novembre 2026, che ha autorizzato a
   chiuderli tutti, anche quelli di altre sessioni): a fine lavoro non ne resta nessuno acceso (`vite`, anteprima del browser).

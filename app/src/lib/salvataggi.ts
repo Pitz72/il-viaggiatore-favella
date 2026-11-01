@@ -166,6 +166,12 @@ interface ArchivioDesktop {
 }
 const desktop = (): ArchivioDesktop | undefined =>
   (window as unknown as { viaggiatoreDesktop?: { salvataggi?: ArchivioDesktop } }).viaggiatoreDesktop?.salvataggi;
+/** Un errore del processo principale arriva come «Error invoking remote method 'salvataggi:importa': Error: …»: a chi gioca
+ *  si mostra soltanto il messaggio, che desktop/salvataggi.cjs scrive già nella sua lingua. */
+async function dalDesktop<T>(chiesta: Promise<T>): Promise<T> {
+  try { return await chiesta; }
+  catch (e) { throw new Error((e instanceof Error ? e.message : String(e)).replace(/^Error invoking remote method '[^']*': (?:[A-Za-z]*Error: )?/, "")); }
+}
 
 const PREFISSO = "il-viaggiatore/posto/";
 const web = {
@@ -197,7 +203,7 @@ const voce = (posto: Posto, testo: string | null, errore?: string): VoceTaccuino
 /** Tutti i salvataggi che ci sono, dal più recente; quelli illeggibili in fondo. */
 export async function elenco(): Promise<VoceTaccuino[]> {
   const d = desktop();
-  const voci = d ? (await d.elenco()).map((r) => voce(r.posto, r.testo, r.errore)) : web.posti().map((p) => voce(p, web.leggi(p)));
+  const voci = d ? (await dalDesktop(d.elenco())).map((r) => voce(r.posto, r.testo, r.errore)) : web.posti().map((p) => voce(p, web.leggi(p)));
   return voci.filter((v) => v.dati || v.errore)
     .sort((a, b) => (a.dati && b.dati ? b.dati.creato.localeCompare(a.dati.creato) : a.dati ? -1 : b.dati ? 1 : a.posto.localeCompare(b.posto)));
 }
@@ -205,7 +211,7 @@ export async function elenco(): Promise<VoceTaccuino[]> {
 /** Un posto solo (null se non c'è). */
 export async function leggi(posto: Posto): Promise<VoceTaccuino | null> {
   const d = desktop();
-  const r = d ? await d.leggi(posto) : { testo: web.leggi(posto) };
+  const r = d ? await dalDesktop(d.leggi(posto)) : { testo: web.leggi(posto) };
   const v = voce(posto, r.testo, r.errore);
   return v.dati || v.errore ? v : null;
 }
@@ -214,7 +220,7 @@ export async function scrivi(posto: Posto, s: Salvataggio): Promise<void> {
   if (!postoValido(posto)) throw new Error(tr(`Posto di salvataggio sconosciuto: ${posto}`, `Unknown save slot: ${posto}`));
   const testo = JSON.stringify({ ...s, posto }, null, 1);
   const d = desktop();
-  if (d) await d.scrivi(posto, testo);
+  if (d) await dalDesktop(d.scrivi(posto, testo));
   else web.scrivi(posto, testo);
 }
 
@@ -229,7 +235,7 @@ export async function rinomina(posto: Posto, s: Salvataggio, nome: string): Prom
 
 export async function elimina(posto: Posto): Promise<void> {
   const d = desktop();
-  if (d) await d.elimina(posto);
+  if (d) await dalDesktop(d.elimina(posto));
   else web.elimina(posto);
 }
 
@@ -238,7 +244,7 @@ export const nomeFile = (s: Salvataggio) =>
 
 export async function esporta(posto: Posto, s: Salvataggio): Promise<boolean> {
   const d = desktop();
-  if (d) return d.esporta(posto, nomeFile(s));
+  if (d) return dalDesktop(d.esporta(posto, nomeFile(s)));
   const blob = new Blob([JSON.stringify(s, null, 1)], { type: "application/json" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
@@ -252,7 +258,7 @@ export async function esporta(posto: Posto, s: Salvataggio): Promise<boolean> {
 export async function importa(): Promise<Salvataggio | null> {
   const d = desktop();
   if (d) {
-    const testo = await d.importa();
+    const testo = await dalDesktop(d.importa());
     return testo === null ? null : leggiTesto(testo);
   }
   return new Promise((risolvi, rifiuta) => {

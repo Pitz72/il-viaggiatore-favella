@@ -74,7 +74,8 @@ let caricamento: Promise<Deposito> | null = null;
 const ascoltatori = new Set<(d: Deposito) => void>();
 const avvisa = () => { for (const f of ascoltatori) f(attuale!); };
 
-/** Il deposito: si legge una volta, poi resta in memoria. */
+/** Il deposito: si legge una volta, poi resta in memoria. Chi lo cambia parte da `attuale` DOPO l'attesa, non dal valore
+ *  che l'attesa gli ha dato: due cambi partiti insieme (un trofeo vinto e il punto più lontano) si sommano, non si cancellano. */
 export function deposito(): Promise<Deposito> {
   if (attuale) return Promise.resolve(attuale);
   caricamento ??= leggiDisco().then((d) => (attuale ??= d));
@@ -86,7 +87,8 @@ export const depositoOra = (): Deposito | null => attuale;
 
 /** Segna dei trofei come vinti adesso; restituisce quelli che non lo erano già. */
 export async function vinci(ids: string[]): Promise<string[]> {
-  const d = await deposito();
+  await deposito();
+  const d = attuale!;
   const nuovi = ids.filter((id) => PER_ID.has(id) && !d.vinti[id]);
   if (!nuovi.length) return [];
   const ora = new Date().toISOString();
@@ -98,7 +100,8 @@ export async function vinci(ids: string[]): Promise<string[]> {
 
 /** Tutti i trofei da vincere di nuovo. I viaggi (il punto più lontano) restano: non sono trofei. */
 export async function azzeraTrofei(): Promise<void> {
-  const d = await deposito();
+  await deposito();
+  const d = attuale!;
   attuale = { ...d, vinti: {} };
   avvisa();
   await scriviDisco(attuale);
@@ -110,7 +113,8 @@ export const piuLontano = (viaggio: string): number => attuale?.viaggi[viaggio] 
 /** Segna il punto raggiunto da un viaggio, se è più lontano di quello che si sapeva. Il viaggio va in fondo:
  *  si ricordano i più recenti. */
 export async function segnaLontano(viaggio: string, comandi: number): Promise<void> {
-  const d = await deposito();
+  await deposito();
+  const d = attuale!;
   if ((d.viaggi[viaggio] ?? -1) >= comandi) return;
   const { [viaggio]: _vecchio, ...altri } = d.viaggi;
   const viaggi = Object.fromEntries([...Object.entries(altri), [viaggio, comandi] as [string, number]].slice(-VIAGGI_RICORDATI));

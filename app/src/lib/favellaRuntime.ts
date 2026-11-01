@@ -55,6 +55,8 @@ export interface TurnoEsito {
   text: string;
   continua: boolean;
   stato: StatoPartita;
+  /** la partita è ripartita da capo (RICOMINCIA, «sì»): per chi gioca è un viaggio nuovo */
+  ricominciata?: boolean;
 }
 
 // Il ponte Python fra interfaccia e motore (fav_boot, fav_step, fav_stato,
@@ -221,33 +223,35 @@ export async function avviaGioco(spec: GiocoSpec, onStatus: OnStatus): Promise<S
   }
 
   const entryPath = `${dir}/${spec.entry}`;
+  // Gli argomenti passano per variabili globali di Python col prefisso «_js_»: il ponte gira nello stesso
+  // namespace e ha le sue (_entry, _registro…), che non vanno toccate da qui.
   const parse = (jsonStr: string): TurnoEsito => {
     const d = JSON.parse(jsonStr);
-    return { text: d.text ?? "", continua: !!d.continua, stato: d.stato ?? "in_corso" };
+    return { text: d.text ?? "", continua: !!d.continua, stato: d.stato ?? "in_corso", ricominciata: !!d.ricominciata };
   };
 
   return {
     boot: () => {
-      pyodide.globals.set("_entry", entryPath);
-      return parse(pyodide.runPython("fav_boot(_entry)"));
+      pyodide.globals.set("_js_entry", entryPath);
+      return parse(pyodide.runPython("fav_boot(_js_entry)"));
     },
     step: (cmd: string) => {
-      pyodide.globals.set("_cmd", cmd);
-      return parse(pyodide.runPython("fav_step(_cmd)"));
+      pyodide.globals.set("_js_cmd", cmd);
+      return parse(pyodide.runPython("fav_step(_js_cmd)"));
     },
     stato: () => JSON.parse(pyodide.runPython("fav_stato()")) as StatoMondo,
     salva: () => JSON.parse(pyodide.runPython("fav_salva()")) as PartitaSalvata,
     carica: (p) => {
-      pyodide.globals.set("_entry", entryPath);
-      pyodide.globals.set("_comandi", JSON.stringify(p.comandi));
-      pyodide.globals.set("_impronta", p.impronta ?? "");
-      pyodide.globals.set("_ultimo", p.ultimo ?? null);
-      return JSON.parse(pyodide.runPython("fav_carica(_entry, _comandi, _impronta, _ultimo)")) as EsitoCaricamento;
+      pyodide.globals.set("_js_entry", entryPath);
+      pyodide.globals.set("_js_comandi", JSON.stringify(p.comandi));
+      pyodide.globals.set("_js_impronta", p.impronta ?? "");
+      pyodide.globals.set("_js_ultimo", p.ultimo ?? null);
+      return JSON.parse(pyodide.runPython("fav_carica(_js_entry, _js_comandi, _js_impronta, _js_ultimo)")) as EsitoCaricamento;
     },
     motore: () => (JSON.parse(pyodide.runPython("fav_info()")) as { motore: string }).motore,
     anteprima: (cmd: string) => {
-      pyodide.globals.set("_cmd", cmd);
-      return JSON.parse(pyodide.runPython("fav_anteprima(_cmd)")) as Anteprima;
+      pyodide.globals.set("_js_cmd", cmd);
+      return JSON.parse(pyodide.runPython("fav_anteprima(_js_cmd)")) as Anteprima;
     },
     azioni: () => JSON.parse(pyodide.runPython("fav_azioni()")) as AzioniContesto,
     mappa: () => JSON.parse(pyodide.runPython("fav_mappa()")) as Carta,

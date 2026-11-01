@@ -40,6 +40,7 @@ _entry = None
 _registro = []           # la sequenza effettiva dei comandi (per il salvataggio)
 _posizioni = []          # per ogni istantanea di ANNULLA: len(_registro) prima del suo turno
 _ingresso_dialogo = None  # len(_registro) quando è cominciata la conversazione in corso
+_inizio_domanda = None   # len(_registro) prima del comando che ha posto la domanda ancora in sospeso
 
 _SERVIZIO_ANNULLA = ("annulla", "disfa")
 _SERVIZIO_ANCORA = ("ancora", "ripeti", "g")
@@ -79,14 +80,14 @@ def _comando_di_archivio(pulito):
 
 
 def _compila(entry):
-    global _mondo, _entry, _registro, _posizioni, _ingresso_dialogo
+    global _mondo, _entry, _registro, _posizioni, _ingresso_dialogo, _inizio_domanda
     _mondo = compila_mondo(entry)
     # Inizializzazioni che fa il main del gioco (gioco.py), NON compila_mondo:
     # registrare i verbi e piazzare il giocatore nella stanza di partenza.
     _mondo.carica_azioni(LIBRERIA_AZIONI)
     _mondo.imposta_posizione_iniziale()
     _entry = entry
-    _registro, _posizioni, _ingresso_dialogo = [], [], None
+    _registro, _posizioni, _ingresso_dialogo, _inizio_domanda = [], [], None, None
 
 
 def fav_boot(entry):
@@ -107,30 +108,68 @@ def _ultima_istantanea():
     return pila[-1] if pila else None
 
 
-def _annota(cmd, effettivo, era_in_dialogo, lunghezza_prima, pila_prima, ultima_prima):
-    """Aggiorna la sequenza effettiva dopo un comando già eseguito."""
-    global _ingresso_dialogo
+def _domanda_in_sospeso():
+    """Il motore aspetta una risposta: sì/no («esci», «ricomincia»), «Quale intendi…?», «Con cosa vuoi usarla?»."""
+    return any(getattr(_mondo, k, None) for k in ("_in_conferma", "_ambiguita", "_usa_in_sospeso"))
+
+
+def _motore_prima():
+    """Il registro che il motore tiene da sé, prima di un comando: lo si guarda dopo (vedi _annota)."""
+    reg = getattr(_mondo, "_registro_comandi", None)
+    return reg, len(reg) if reg is not None else 0
+
+
+def _ricominciata(reg_prima):
+    """Il motore ha rifatto la partita dal punto di partenza (RICOMINCIA, «sì»): il suo registro è una lista
+    nuova. La sequenza riparte con la sua: il mondo ricominciato è identico a uno appena compilato."""
+    global _registro, _posizioni, _ingresso_dialogo, _inizio_domanda
+    reg = getattr(_mondo, "_registro_comandi", None)
+    if reg_prima is None or reg is reg_prima:
+        return False
+    _registro, _posizioni, _ingresso_dialogo, _inizio_domanda = list(reg), [], None, None
+    return True
+
+
+def _annota(cmd, effettivo, era_in_dialogo, lunghezza_prima, pila_prima, ultima_prima, motore_prima=(None, 0)):
+    """Aggiorna la sequenza effettiva dopo un comando già eseguito.
+
+    LE DOMANDE. Un comando che il motore ha soltanto lasciato in sospeso con una domanda (e che quindi non
+    ha messo nel suo registro: non ha cambiato niente) vale insieme al comando che la segue, che la risponda
+    o la lasci cadere: ANNULLA li disfa tutti e due. E un ANNULLA che non ha niente da disfare lascia cadere
+    la domanda: il comando che l'aveva posta esce dalla sequenza, altrimenti a ogni caricamento la domanda
+    tornerebbe (un «s» per andare a sud diventerebbe il «sì» di «ricominciare da capo?»)."""
+    global _ingresso_dialogo, _inizio_domanda
     pulito = cmd.strip().lower()
     if not pulito:
         return
+    reg_motore, n_motore = motore_prima
+    if _ricominciata(reg_motore):
+        return True
+    inizio = lunghezza_prima if _inizio_domanda is None else _inizio_domanda
+    _inizio_domanda = None
     if not era_in_dialogo and pulito in _SERVIZIO_ANNULLA:
-        # ANNULLA riuscito: la pila si è accorciata, si tolgono i comandi del turno disfatto
-        if len(getattr(_mondo, "_storia_stati", [])) < pila_prima and _posizioni:
-            del _registro[_posizioni.pop():]
+        if len(getattr(_mondo, "_storia_stati", [])) < pila_prima:
+            # ANNULLA riuscito: la pila si è accorciata, si tolgono i comandi del turno disfatto
+            if _posizioni:
+                del _registro[_posizioni.pop():]
+        else:
+            del _registro[inizio:]
         return
     _registro.append(effettivo)
     if not era_in_dialogo and _mondo.in_dialogo():
-        _ingresso_dialogo = lunghezza_prima
+        _ingresso_dialogo = inizio
     nuova = _ultima_istantanea()
     if nuova is not None and nuova is not ultima_prima:
         # un turno (o un'intera conversazione) è diventato annullabile
         chiusa = era_in_dialogo and not _mondo.in_dialogo() and _ingresso_dialogo is not None
-        _posizioni.append(_ingresso_dialogo if chiusa else lunghezza_prima)
+        _posizioni.append(_ingresso_dialogo if chiusa else inizio)
         if chiusa:
             _ingresso_dialogo = None
         # la pila del motore ha un tetto: quando scarta la più vecchia, lo si segue
         while len(_posizioni) > len(_mondo._storia_stati):
             _posizioni.pop(0)
+    if reg_motore is not None and _domanda_in_sospeso() and len(reg_motore) == n_motore:
+        _inizio_domanda = inizio
 
 
 def fav_step(cmd):
@@ -150,6 +189,7 @@ def fav_step(cmd):
     lunghezza_prima = len(_registro)
     pila_prima = len(getattr(_mondo, "_storia_stati", []))
     ultima_prima = _ultima_istantanea()
+    motore_prima = _motore_prima()
     buf = io.StringIO()
     try:
         with contextlib.redirect_stdout(buf):
@@ -157,9 +197,10 @@ def fav_step(cmd):
     except Exception as e:
         return json.dumps({"text": buf.getvalue() + "\n[ERRORE] " + str(e),
                            "continua": True, "stato": getattr(_mondo, "stato_partita", "in_corso")})
-    _annota(cmd, effettivo, era_in_dialogo, lunghezza_prima, pila_prima, ultima_prima)
+    # «ricominciata»: la partita è ripartita da capo (RICOMINCIA, «sì»), e con lei la sequenza da salvare
+    ricominciata = _annota(cmd, effettivo, era_in_dialogo, lunghezza_prima, pila_prima, ultima_prima, motore_prima)
     return json.dumps({"text": buf.getvalue(), "continua": bool(continua),
-                       "stato": getattr(_mondo, "stato_partita", "in_corso")})
+                       "stato": getattr(_mondo, "stato_partita", "in_corso"), "ricominciata": bool(ricominciata)})
 
 
 # --------------------------------------------------------------------
@@ -409,8 +450,8 @@ def fav_carica(entry, comandi_json, impronta_attesa="", ultimo=None):
     È atomico: se qualcosa si rompe a metà (un comando che solleva, una sequenza
     illeggibile) il ponte torna com'era, con il mondo e la sequenza di prima,
     perché l'interfaccia continua a mostrare quel mondo."""
-    global _mondo, _entry, _registro, _posizioni, _ingresso_dialogo
-    prima = (_mondo, _entry, _registro, _posizioni, _ingresso_dialogo)
+    global _mondo, _entry, _registro, _posizioni, _ingresso_dialogo, _inizio_domanda
+    prima = (_mondo, _entry, _registro, _posizioni, _ingresso_dialogo, _inizio_domanda)
     buf = io.StringIO()
     try:
         comandi = json.loads(comandi_json)
@@ -429,20 +470,31 @@ def fav_carica(entry, comandi_json, impronta_attesa="", ultimo=None):
                         veloce = False
                     if veloce:
                         turno_prima = _mondo.turno_corrente
+                        reg_prima, n_prima = _motore_prima()
                         elabora_comando(_mondo, c)
+                        # un salvataggio fino alla 1.41.0 può contenere un «ricomincia» confermato
+                        if _ricominciata(reg_prima):
+                            continue
                         _registro.append(c)
                         if not era_in_dialogo and _mondo.in_dialogo():
                             _ingresso_dialogo = len(_registro) - 1
                         elif _mondo.turno_corrente > turno_prima and not era_in_dialogo:
                             _mondo.ultimo_comando = c
+                        # una domanda in sospeso, come in _annota: chi la segue si annulla insieme a lei
+                        if _domanda_in_sospeso() and len(reg_prima) == n_prima:
+                            if _inizio_domanda is None:
+                                _inizio_domanda = len(_registro) - 1
+                        else:
+                            _inizio_domanda = None
                     else:
                         # stesso percorso di fav_step: la sequenza non contiene
                         # mai ANNULLA né ANCORA, già risolti al salvataggio
                         lunghezza_prima = len(_registro)
                         pila_prima = len(_mondo._storia_stati)
                         ultima_prima = _ultima_istantanea()
+                        motore_prima = _motore_prima()
                         elabora_comando(_mondo, c)
-                        _annota(c, c, era_in_dialogo, lunghezza_prima, pila_prima, ultima_prima)
+                        _annota(c, c, era_in_dialogo, lunghezza_prima, pila_prima, ultima_prima, motore_prima)
             finally:
                 if veloce:
                     del _mondo.cattura_stato
@@ -462,7 +514,7 @@ def fav_carica(entry, comandi_json, impronta_attesa="", ultimo=None):
             "annullabili": len(_mondo._storia_stati),
         }, ensure_ascii=False)
     except Exception as e:
-        _mondo, _entry, _registro, _posizioni, _ingresso_dialogo = prima
+        _mondo, _entry, _registro, _posizioni, _ingresso_dialogo, _inizio_domanda = prima
         return json.dumps({"ok": False, "errore": f"{type(e).__name__}: {e}"})
 
 

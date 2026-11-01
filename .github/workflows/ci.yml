@@ -1,13 +1,9 @@
 # Integrazione continua: a ogni push e pull request.
 #
-#  1. versioni coerenti (strumenti/versione.mjs verifica), diario e registro dei materiali in ordine;
-#  2. collaudo dell'avventura: compilazione, i nove finali, le prove mirate,
-#     i salvataggi (salva → ricarica → stato identico);
-#  3. pacchetti desktop Windows e Linux costruiti e AUTOVERIFICATI (il gioco
+#  1. il collaudo intero (collaudo.yml: versioni, diario e registro, i tipi e i hook
+#     React, l'avventura, i salvataggi, la voce, la traduzione, l'esploratore);
+#  2. pacchetti desktop Windows e Linux costruiti e AUTOVERIFICATI (il gioco
 #     vero parte dentro il pacchetto, gioca, salva e ricarica).
-#
-#  Il giro corto dell'esploratore (partite a caso) non blocca: segnala anomalie
-#  da guardare a mano, ma un'anomalia non è per forza un difetto del commit.
 #
 #  Qui non si pubblica niente: le release le crea solo il workflow «Rilascio»,
 #  a mano, dalla scheda Actions.
@@ -24,78 +20,10 @@ permissions:
 
 jobs:
   collaudo:
-    name: Versioni e collaudo
-    runs-on: ubuntu-latest
-    env:
-      PYTHONIOENCODING: utf-8
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 22
-      - name: Versioni coerenti
-        run: node strumenti/versione.mjs verifica
-      - name: Diario di sviluppo ben formato
-        run: node strumenti/diario.mjs verifica
-      - name: Registro dei materiali in ordine
-        run: node strumenti/diario.mjs registro
-      - name: Prove del processo principale (registro, IPC) e della data
-        run: |
-          node desktop/prove.cjs
-          node strumenti/prova-data.mjs
-      - uses: actions/setup-python@v7
-        with:
-          python-version: "3.12"
-      - run: pip install lark==1.3.1
-      - name: Compilazione
-        run: python motore/favella.py compila prototipo/il-viaggiatore.fav
-      - name: I nove finali
-        working-directory: collaudo
-        run: python finali.py
-      - name: Prove mirate
-        working-directory: collaudo
-        run: python mirate.py
-      - name: Salvataggi
-        working-directory: collaudo
-        run: python salvataggi.py -n 16
-      - name: Bere e mangiare
-        working-directory: collaudo
-        run: python scorte.py
-      - name: Il ponte dell'interfaccia
-        working-directory: collaudo
-        run: python interfaccia.py
-      - name: I fili del viaggio e il guado
-        working-directory: collaudo
-        run: python fili.py
-      - name: Le partite giocate a mano
-        working-directory: collaudo
-        run: python giocate.py
-      - name: Le scelte che chiedono conferma, il testo del motore, le opzioni, la sequenza finale
-        run: |
-          npm ci --prefix app
-          python collaudo/conferme.py
-          python collaudo/testo.py
-          node app/scripts/opzioni-node.mjs
-          node app/scripts/posti-node.mjs
-          node app/scripts/trofei-prove.mjs
-          node app/scripts/finale-node.mjs
-      - name: I finali, le morti e i gesti giocati solo con i pulsanti
-        run: python collaudo/pulsanti.py
-      - name: La mappa (le tappe, i luoghi visitati, i nomi che non si toccano)
-        run: python collaudo/mappa.py
-      - name: I trofei (le partite di collaudo e le regole vere)
-        run: python collaudo/trofei.py
-      - name: La musica delle zone e la colonna sonora
-        run: python collaudo/musica.py
-      - name: La voce del doppiaggio (ogni testo stampato trova il suo audio)
-        run: python collaudo/doppiaggio.py
-      - name: La traduzione inglese (ogni testo stampato trova la sua traduzione)
-        run: python collaudo/traduzione.py
-      - name: L'esploratore (giro corto, non blocca)
-        continue-on-error: true
-        timeout-minutes: 6
-        working-directory: collaudo
-        run: python esploratore.py -n 5 -t 150
+    name: Collaudo
+    uses: ./.github/workflows/collaudo.yml
+    with:
+      partite: 16
 
   desktop:
     name: Pacchetto ${{ matrix.nome }}
@@ -113,6 +41,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v7
         with:
           node-version: 22

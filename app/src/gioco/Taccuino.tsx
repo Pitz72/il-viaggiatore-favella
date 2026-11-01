@@ -123,10 +123,15 @@ export default function Taccuino({ base, modo: modoIniziale, accento = "#f0b77e"
     metti(scelto);
   }, [voci, scelto, metti]);
 
+  // un'azione alla volta: due Invio veloci nel nome non fanno due salvataggi uguali (il pulsante disabilitato non basta,
+  // la tastiera non lo guarda)
+  const inCorso = useRef(false);
   const esegui = async (azione: () => Promise<void>) => {
+    if (inCorso.current) return;
+    inCorso.current = true;
     setOccupato(true);
     try { await azione(); } catch (e) { setNota({ testo: e instanceof Error ? e.message : String(e), errore: true }); }
-    finally { setOccupato(false); }
+    finally { inCorso.current = false; setOccupato(false); }
   };
 
   // ── le azioni ─────────────────────────────────────────────────────

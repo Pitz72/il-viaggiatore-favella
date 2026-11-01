@@ -161,7 +161,6 @@ export default function SequenzaFinale({ frase, onFine }: Props) {
     };
     window.addEventListener("keydown", tasto);
     return () => window.removeEventListener("keydown", tasto);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const saltato = useRef(false);
   const salta = () => {

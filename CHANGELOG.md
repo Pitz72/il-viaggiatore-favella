@@ -8,6 +8,33 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+### Corretto
+- **Una domanda lasciata cadere non torna più dopo un caricamento.** Se il gioco chiedeva «ricominciare da capo?» (o «chiudere la
+  partita?», «Con cosa vuoi usarla?») e la domanda cadeva con ANNULLA, un salvataggio fatto dopo la riportava a galla: caricandolo,
+  un «s» scritto per andare a sud diventava il «sì» che faceva ricominciare la partita. Ora ANNULLA toglie la domanda anche dalla
+  partita salvata. I salvataggi di prima si caricano come sempre (`app/src/lib/ponte.py`; prova in `collaudo/salvataggi.py`).
+- **Ricominciare dalla partita è un viaggio nuovo.** Dopo «ricomincia» e «sì» la partita salvata riparte da zero (prima si portava
+  dietro tutta la partita abbandonata e la rigiocava a ogni caricamento) e per i trofei è un viaggio nuovo: le sfide intatte, il
+  tempo di gioco da zero, nessuno incontrato.
+- **Un trofeo non si perde più** se lo si vince proprio mentre il gioco annota fin dove è arrivato il viaggio (`lib/trofei.ts`).
+- **Il taccuino**: due Invio veloci nel nome non fanno più due salvataggi uguali; gli errori del desktop si leggono senza il prefisso
+  tecnico di Electron e, in inglese, in inglese.
+- **Il desktop**: se un antivirus o l'indicizzatore tengono il file un attimo, il salvataggio si riprova invece di fallire; una
+  richiesta degli «ultimi N byte» di un file dà davvero gli ultimi (il protocollo `app://` sta ora in `desktop/servi.cjs`, con le sue prove).
+
+### Sicurezza
+- **Electron 44.10.1** (era 44.4.4): corregge due avvisi gravi, fra cui i certificati intermedi compromessi di eMudhra, che toccano
+  il collegamento con cui l'aggiornamento automatico scarica da GitHub. Aggiornati anche Vite (8.3.5, solo il server di sviluppo) e,
+  fra gli strumenti che costruiscono i pacchetti, fast-uri e undici.
+- **Il workflow «Rilascio»** scrive nel repository solo nel job della release; gli altri leggono soltanto, e nessun checkout lascia
+  il token nella cartella `.git`.
+
+### Cambiato
+- **Un solo collaudo per la CI e per il rilascio** (`.github/workflows/collaudo.yml`): il rilascio rifà tutti i controlli della CI
+  (prima ne saltava nove), con 40 partite di salvataggi.
+- **ESLint** controlla le regole dei hook React e gli `any` (`npm run controlla` in `app/`, e nella CI). Sistemati due effetti che
+  non seguivano tutto ciò che leggevano: la stampa della mappa preparata in anticipo segue anche la lingua.
+
 ## [1.41.0] - 2026-11-01
 
 ### Aggiunto

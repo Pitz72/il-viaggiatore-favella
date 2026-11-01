@@ -6,7 +6,9 @@
 //   · i canali IPC (ipc.cjs) rifiutano chi non è la pagina dell'app: un altro
 //     indirizzo, un altro host o porta, un indirizzo con utente, un frame sparito;
 //   · i salvataggi su disco (salvataggi.cjs): l'elenco libero della cartella,
-//     i nomi di file ammessi e quelli no, la copia di riserva, l'eliminazione;
+//     i nomi di file ammessi e quelli no, la copia di riserva, l'eliminazione,
+//     la rinomina che si riprova se un antivirus tiene il file;
+//   · il protocollo app:// (servi.cjs): gli intervalli, i percorsi fuori dalla cartella;
 //   · le impostazioni della finestra (impostazioni.cjs): i valori guasti, una
 //     posizione su uno schermo che non c'è più, la lettura e la scrittura.
 //  «electron» è sostituito da un finto che ricorda i gestori registrati.
@@ -163,6 +165,31 @@ prova("i salvataggi: un file guasto si riprende dalla copia di riserva; eliminat
   assert.ok(!(await chiama("salvataggi:elenco")).some((v) => v.posto === posto));
 });
 
+prova("i salvataggi: un file tenuto aperto da un antivirus (EPERM, EBUSY) si riprova; un altro errore no", async () => {
+  const vera = fs.promises.rename;
+  const guasta = (codici) => {
+    let n = 0;
+    fs.promises.rename = async (...a) => {
+      const c = codici[n++];
+      if (c) throw Object.assign(new Error(`finto ${c}`), { code: c });
+      return vera(...a);
+    };
+    return () => n;
+  };
+  try {
+    const tentativi = guasta(["EPERM", "EBUSY"]);
+    await chiama("salvataggi:scrivi", "rapido", finto_("dopo due tentativi"));
+    assert.equal(tentativi(), 3);
+    assert.equal(JSON.parse((await chiama("salvataggi:leggi", "rapido")).testo).n, "dopo due tentativi");
+    guasta(Array(salvataggi.PAUSE.length + 1).fill("EBUSY"));
+    await assert.rejects(() => zitto(() => chiama("salvataggi:scrivi", "rapido", finto_("mai"))), /EBUSY/, "non all'infinito");
+    guasta(["ENOSPC"]);
+    await assert.rejects(() => zitto(() => chiama("salvataggi:scrivi", "rapido", finto_("mai"))), /ENOSPC/, "un disco pieno non si riprova");
+  } finally { fs.promises.rename = vera; }
+  assert.equal(JSON.parse((await chiama("salvataggi:leggi", "rapido")).testo).n, "dopo due tentativi", "il salvataggio buono resta");
+  assert.ok(!fs.readdirSync(cartellaSalvataggi).some((n) => n.endsWith(".tmp")), "niente .tmp lasciati in giro");
+});
+
 prova("i salvataggi: con la cartella che non c'è, l'elenco è vuoto e non si rompe", async () => {
   const prima = process.env.VIAGGIATORE_SALVATAGGI;
   process.env.VIAGGIATORE_SALVATAGGI = path.join(cartellaSalvataggi, "non-c-e");
@@ -209,6 +236,54 @@ prova("la colonna sonora: un elenco con un percorso o un file strano si rifiuta"
     fs.writeFileSync(path.join(web, "colonna-sonora", "album.json"), JSON.stringify({ file: elenco }));
     await assert.rejects(() => colonna.copiaAlbum(web, os.tmpdir()), /guasto/, JSON.stringify(elenco));
   }
+});
+
+// ---- il protocollo app:// (servi.cjs) ---------------------------------------
+const { servitore, intervallo } = require("./servi.cjs");
+
+prova("il protocollo: gli intervalli, anche «gli ultimi N byte»", () => {
+  assert.equal(intervallo(null, 100), null);
+  assert.equal(intervallo("bytes=-", 100), null, "senza numeri: il file intero");
+  assert.equal(intervallo("bytes=0-1,5-6", 100), null, "più tratti: il file intero");
+  assert.deepEqual(intervallo("bytes=10-19", 100), { inizio: 10, fine: 19 });
+  assert.deepEqual(intervallo("bytes=90-", 100), { inizio: 90, fine: 99 });
+  assert.deepEqual(intervallo("bytes=90-500", 100), { inizio: 90, fine: 99 });
+  assert.deepEqual(intervallo("bytes=-10", 100), { inizio: 90, fine: 99 }, "fino alla 1.41.0 dava i primi 11");
+  assert.deepEqual(intervallo("bytes=-500", 100), { inizio: 0, fine: 99 });
+  assert.equal(intervallo("bytes=100-", 100), "fuori");
+  assert.equal(intervallo("bytes=-0", 100), "fuori");
+  assert.equal(intervallo("bytes=0-", 0), "fuori");
+});
+
+prova("il protocollo: i file della cartella e nient'altro", async () => {
+  const radice = fs.mkdtempSync(path.join(os.tmpdir(), "viaggiatore-servi-"));
+  const web = path.join(radice, "web");
+  fs.mkdirSync(path.join(web, "voce"), { recursive: true });
+  fs.mkdirSync(path.join(radice, "web-altro"));
+  fs.writeFileSync(path.join(web, "index.html"), "<!doctype html>ciao");
+  fs.writeFileSync(path.join(web, "voce", "parte.opus"), "0123456789");
+  fs.writeFileSync(path.join(radice, "web-altro", "segreto.txt"), "no");
+  fs.writeFileSync(path.join(radice, "segreto.txt"), "no");
+  try {
+    const servi = servitore(web);
+    const chiedi = (url, range) => servi({ url, headers: new Headers(range ? { range } : {}) });
+    let r = await chiedi("app://gioco/");
+    assert.equal(r.status, 200); assert.equal(await r.text(), "<!doctype html>ciao");
+    assert.match(r.headers.get("content-type"), /text\/html/);
+    r = await chiedi("app://gioco/voce/parte.opus", "bytes=-3");
+    assert.equal(r.status, 206); assert.equal(await r.text(), "789"); assert.equal(r.headers.get("content-range"), "bytes 7-9/10");
+    r = await chiedi("app://gioco/voce/parte.opus", "bytes=2-4");
+    assert.equal(await r.text(), "234");
+    assert.equal((await chiedi("app://gioco/voce/parte.opus", "bytes=10-")).status, 416);
+    assert.equal((await chiedi("app://gioco/manca.js")).status, 404);
+    assert.equal((await chiedi("app://gioco/voce")).status, 404, "una cartella non si serve");
+    for (const fuori of ["app://gioco/../segreto.txt", "app://gioco/%2e%2e/segreto.txt", "app://gioco/..%2fsegreto.txt",
+      "app://gioco/..%2fweb-altro/segreto.txt", "app://gioco/%2e%2e%5csegreto.txt"]) {
+      const s = (await chiedi(fuori)).status;
+      assert.ok(s === 403 || s === 404, `${fuori} → ${s}`);
+    }
+    assert.equal((await chiedi("app://gioco/%E0%A4%A")).status, 400, "un indirizzo guasto non fa saltare il gestore");
+  } finally { fs.rmSync(radice, { recursive: true, force: true }); }
 });
 
 // ---- le impostazioni della finestra ---------------------------------------

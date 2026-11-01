@@ -54,7 +54,6 @@ export default function Avviso({ onFine }: { onFine: () => void }) {
     };
     window.addEventListener("keydown", tasto);
     return () => { window.clearTimeout(comparsa); window.clearTimeout(scadenza); window.removeEventListener("keydown", tasto); };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

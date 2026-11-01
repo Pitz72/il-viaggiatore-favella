@@ -86,7 +86,7 @@ export default function PaginaTrofei({ base, accento = "#f0b77e", onChiudi }: Pr
     const ultimo = Object.entries(dep.vinti).sort((a, b) => b[1].localeCompare(a[1]))[0]?.[0];
     if (!ultimo) return;
     GRIGLIA.forEach((riga, r) => riga.forEach((t, c) => { if (t.id === ultimo) setScelto([r, c]); }));
-  }, [dep]);
+  }, [dep, GRIGLIA]);
   const t = GRIGLIA[scelto[0]][scelto[1]];
   const tt = testi(t);
   const quando = vinti[t.id];
@@ -114,7 +114,7 @@ export default function PaginaTrofei({ base, accento = "#f0b77e", onChiudi }: Pr
     mosse[e.key]();
   };
 
-  const conto = useMemo(() => (dep ? tr(`${quanti} di ${TUTTI.length}`, `${quanti} of ${TUTTI.length}`) : "…"), [dep, quanti, opz.lingua, TUTTI]);
+  const conto = dep ? tr(`${quanti} di ${TUTTI.length}`, `${quanti} of ${TUTTI.length}`) : "…";
 
   return (
     // le frecce valgono in tutto il pannello: appena aperto, il fuoco è sul pannello e non ancora su un medaglione

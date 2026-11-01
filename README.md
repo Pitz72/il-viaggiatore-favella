@@ -300,10 +300,12 @@ Sono sedici ([che cosa fa ciascuno](collaudo/LEGGIMI.md)); `testo.py`, `conferme
 blocca, il giro intero (qualche minuto) si lancia a mano. Del processo principale desktop e della data delle
 versioni, che non hanno bisogno di Electron, si occupano `node desktop/prove.cjs` e `node strumenti/prova-data.mjs`.
 
-La CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) a ogni push verifica
-le versioni e il diario, esegue il collaudo, costruisce i pacchetti Windows e Linux e
+La CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) a ogni push esegue il collaudo intero
+([`collaudo.yml`](.github/workflows/collaudo.yml): le versioni, il diario e il registro, i tipi e le regole dei hook React
+con ESLint, `npm run controlla` in `app/`, e tutti i collaudi), costruisce i pacchetti Windows e Linux e
 li **autoverifica**: avvia il gioco dentro il pacchetto appena costruito, gioca,
 salva e ricarica, e prova la voce (una parte per ogni voce, la traccia del trailer). Non pubblica niente.
+Il rilascio ([`rilascio.yml`](.github/workflows/rilascio.yml), solo a mano) rifà lo stesso collaudo, con più partite di salvataggi.
 
 ## Versioni, diario, rilascio
 

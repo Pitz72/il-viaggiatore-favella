@@ -9,13 +9,10 @@
 
 Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti non sono più da fare (vedi «Non si fa»).
 
-- **I rimedi della revisione del codice** (1° novembre 2026, diario «La revisione totale del codice»): collaudi, build e
-  autoverifica verdi, nessun file di codice cambiato. Aspettano il via di Simone, in ordine: (1) **la domanda del motore che
-  risorge** dopo salva e carica (`ponte.py`: un sì/no di «ricomincia» lasciato cadere con ANNULLA torna, e un «s» per andare a
-  sud fa ripartire la partita da zero), rimedio nel ponte più un caso in `collaudo/salvataggi.py`; (2) **Electron 44.4.4 → 44.10.1**
-  (due avvisi «high»), poi una release; (3) **il workflow «Rilascio»**: permessi di scrittura solo al job della release e il
-  collaudo intero della CI; (4) **un trofeo che si può perdere** se due scritture del deposito partono insieme (`lib/trofei.ts`);
-  (5) le rifiniture minori elencate nel diario.
+- **Rilasciare i rimedi della revisione del codice** (sarebbe una patch, 1.41.1): sono fatti e in «Non rilasciato» del CHANGELOG
+  (diario «I rimedi della revisione del codice»), fra cui **Electron 44.10.1**, che corregge due avvisi gravi del pacchetto 1.41.0.
+  Il rilascio lo decide Simone (`node strumenti/versione.mjs prepara patch`, poi Actions → Rilascio). Il nuovo `rilascio.yml`
+  (permessi stretti, collaudo condiviso) si prova davvero alla prima release.
 - **Il doppiaggio è concluso** (Simone, 1° novembre 2026: «per questo lavoro del doppiaggio abbiamo finito»); i titoli di coda dicono ora tutte le voci, in italiano e in inglese (diario «Il controllo generale e i titoli di coda con tutte le voci»). **La voce recitata in inglese**: **il narratore, la voce di servizio (Kira) e tutti i quattordici personaggi sono fatti** (31 ottobre – 1° novembre 2026, diari «Il doppiaggio
   inglese: il narratore in sei blocchi», «La voce inglese del narratore: taglio, banco e integrazione nel gioco» e «Kira in inglese: taglio, banco
   e gioco», «I quattro personaggi di ElevenLabs in inglese: taglio, banco e gioco» e «Concetta, Iole e Onofrio in inglese»): 532 parti di Enzo
@@ -49,6 +46,11 @@ Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti 
 
 ## Chiuso
 
+- **La revisione totale del codice e i suoi rimedi** (1° novembre 2026, diari «La revisione totale del codice» e «I rimedi della
+  revisione del codice»): la domanda del motore che risorgeva dopo salva e carica (e con un «s» faceva ricominciare la partita),
+  RICOMINCIA che ora è un viaggio nuovo anche per la sequenza salvata, il trofeo che si poteva perdere, Electron, Vite e gli
+  strumenti di costruzione aggiornati, un solo collaudo per CI e rilascio con i permessi stretti, ESLint per i hook React, le
+  rifiniture del taccuino e del desktop. Resta il rilascio (sopra, «Aperto»).
 - **La verifica dell'inglese** (31 ottobre 2026, [`verifica-inglese.md`](verifica-inglese.md)): letti tutti i 494 testi inglesi
   contro calchi dall'italiano e schemi da LLM; corrette 52 voci nei cataloghi (rilasciate nella 1.40.1, workflow
   «Rilascio» riuscito). Il titolo «Il Viaggiatore» non si traduce, e la regola ora sta in `CLAUDE.md` e nel `LEGGIMI` della

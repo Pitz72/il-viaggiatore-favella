@@ -15,14 +15,13 @@
 //  salva e ricarica in memoria, e termina con codice 0 (tutto bene) o 1
 //  (qualcosa non va). La usa la CI su ogni pacchetto costruito.
 //
-//  Moduli: registro.cjs (registro tecnico), salvataggi.cjs (file su disco),
+//  Moduli: servi.cjs (il protocollo app://), registro.cjs (registro tecnico), salvataggi.cjs (file su disco),
 //  colonna-sonora.cjs (la colonna sonora da scaricare, menu Extra),
 //  aggiornamenti.cjs (aggiornamento automatico dalle release di GitHub),
 //  ipc.cjs (i canali con la pagina, e il controllo di chi li chiama),
 //  impostazioni.cjs (la finestra e gli aggiornamenti, prima della pagina).
 // ====================================================================
 const { app, BrowserWindow, protocol, Menu, shell, screen } = require("electron");
-const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 const registro = require("./registro.cjs");
@@ -31,6 +30,7 @@ const salvataggi = require("./salvataggi.cjs");
 const colonnaSonora = require("./colonna-sonora.cjs");
 const aggiornamenti = require("./aggiornamenti.cjs");
 const impostazioni = require("./impostazioni.cjs");
+const { servitore } = require("./servi.cjs");
 const { SCHEMA, ORIGINE, dellApp, su, gestisci } = require("./ipc.cjs");
 
 const WEB = path.join(__dirname, "web");
@@ -39,62 +39,6 @@ const AUTOVERIFICA = process.argv.includes("--autoverifica");
 protocol.registerSchemesAsPrivileged([
   { scheme: SCHEMA, privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true, codeCache: true } },
 ]);
-
-const TIPI = {
-  ".html": "text/html; charset=utf-8",
-  ".js": "text/javascript; charset=utf-8",
-  ".mjs": "text/javascript; charset=utf-8",
-  ".css": "text/css; charset=utf-8",
-  ".json": "application/json",
-  ".wasm": "application/wasm",
-  ".zip": "application/zip",
-  ".whl": "application/zip",
-  ".fav": "text/plain; charset=utf-8",
-  ".mp3": "audio/mpeg",
-  ".opus": "audio/ogg",
-  ".woff2": "font/woff2",
-  ".png": "image/png",
-  ".ico": "image/x-icon",
-  ".svg": "image/svg+xml",
-  ".jpg": "image/jpeg",
-  ".webp": "image/webp",
-};
-
-// Serve i file di desktop/web. Supporta le richieste a intervalli (Range):
-// senza, l'elemento <audio> non può saltare dentro il brano, e il trailer usa
-// proprio il salto per restare sincronizzato con la musica.
-async function servi(richiesta) {
-  const url = new URL(richiesta.url);
-  let rel = decodeURIComponent(url.pathname);
-  if (rel === "/" || rel === "") rel = "/index.html";
-  const file = path.normalize(path.join(WEB, rel));
-  if (!file.startsWith(WEB + path.sep)) return new Response("vietato", { status: 403 });   // anche «web-altro» è fuori
-  let stat;
-  try { stat = await fs.promises.stat(file); } catch { return new Response("non trovato", { status: 404 }); }
-  if (!stat.isFile()) return new Response("non trovato", { status: 404 });
-  const tipo = TIPI[path.extname(file).toLowerCase()] ?? "application/octet-stream";
-  const intervallo = /^bytes=(\d*)-(\d*)$/.exec(richiesta.headers.get("range") ?? "");
-  if (intervallo) {
-    const inizio = intervallo[1] ? Number(intervallo[1]) : 0;
-    const fine = intervallo[2] ? Math.min(Number(intervallo[2]), stat.size - 1) : stat.size - 1;
-    if (inizio > fine || inizio >= stat.size) {
-      return new Response(null, { status: 416, headers: { "content-range": `bytes */${stat.size}` } });
-    }
-    const fd = await fs.promises.open(file, "r");
-    const buf = Buffer.alloc(fine - inizio + 1);
-    await fd.read(buf, 0, buf.length, inizio);
-    await fd.close();
-    return new Response(buf, {
-      status: 206,
-      headers: {
-        "content-type": tipo, "accept-ranges": "bytes",
-        "content-range": `bytes ${inizio}-${fine}/${stat.size}`, "content-length": String(buf.length),
-      },
-    });
-  }
-  const dati = await fs.promises.readFile(file);
-  return new Response(dati, { headers: { "content-type": tipo, "accept-ranges": "bytes", "content-length": String(dati.length) } });
-}
 
 let finestra = null;
 // le impostazioni di adesso; l'autoverifica parte sempre da quelle di base e non scrive niente
@@ -211,7 +155,9 @@ gestisci("finestra:dimensione", (_e, pxL, pxA) => {
   if (!finestra) return false;
   const d = schermoDi();
   const l = Math.round(Number(pxL) / d.scaleFactor), a = Math.round(Number(pxA) / d.scaleFactor);
-  if (!Number.isFinite(l) || !Number.isFinite(a) || l < 640 || a < 360 || l > d.workArea.width || a > d.workArea.height) throw new Error("La finestra non entra in questo schermo.");
+  if (!Number.isFinite(l) || !Number.isFinite(a) || l < 640 || a < 360 || l > d.workArea.width || a > d.workArea.height) {
+    throw new Error(lingua.tr("La finestra non entra in questo schermo.", "The window does not fit on this screen."));
+  }
   const applica = () => {
     if (finestra.isMaximized()) finestra.unmaximize();
     finestra.setContentSize(l, a);
@@ -249,7 +195,7 @@ if (!AUTOVERIFICA && !app.requestSingleInstanceLock()) {
     registro.apri(app.getPath("logs"));
     registro.info(`avvio: Il Viaggiatore ${app.getVersion()} · Electron ${process.versions.electron} · ${os.type()} ${os.release()} ${process.arch}${AUTOVERIFICA ? " · autoverifica" : ""}`);
     Menu.setApplicationMenu(null);
-    protocol.handle(SCHEMA, servi);
+    protocol.handle(SCHEMA, servitore(WEB));
     salvataggi.registra(() => finestra);
     colonnaSonora.registra(WEB, () => finestra);
     creaFinestra();

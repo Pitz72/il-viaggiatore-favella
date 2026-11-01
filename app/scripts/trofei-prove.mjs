@@ -157,6 +157,15 @@ assert.equal(D.piuLontano("v-viaggio-a"), 45, "i viaggi restano");
 smetti();
 ok("il deposito: vincere, il punto più lontano, l'azzeramento");
 
+// due cambi partiti nello stesso giro (un trofeo vinto mentre si segna il punto più lontano) si sommano:
+// fino alla 1.41.0 l'ultimo rifaceva il deposito da quello letto prima dell'attesa, e il trofeo spariva
+await Promise.all([D.vinci(["affare-fatto"]), D.segnaLontano("v-viaggio-b", 12), D.vinci(["qualcosa-del-tuo"])]);
+const insieme = JSON.parse(cassetto.get("viaggiatore.trofei"));
+assert.ok(insieme.vinti["affare-fatto"] && insieme.vinti["qualcosa-del-tuo"], "i due trofei ci sono, sul disco");
+assert.equal(insieme.viaggi["v-viaggio-b"], 12, "e il punto più lontano");
+assert.ok(D.depositoOra().vinti["affare-fatto"] && D.piuLontano("v-viaggio-b") === 12, "e in memoria");
+ok("due cambi del deposito partiti insieme non si cancellano");
+
 pieno = true;
 await assert.rejects(() => D.vinci(["la-lettera"]), /Quota/, "senza spazio la scrittura fallisce, e lo si dice");
 assert.ok((await D.deposito()).vinti["la-lettera"], "ma in memoria il trofeo c'è, fino alla chiusura");

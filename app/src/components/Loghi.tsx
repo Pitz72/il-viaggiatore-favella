@@ -49,7 +49,6 @@ export default function Loghi({ onFine }: { onFine: () => void }) {
     const tasto = (e: KeyboardEvent) => { if (e.key === "Escape") { e.preventDefault(); chiudi(); } };
     window.addEventListener("keydown", tasto);
     return () => { vivo = false; window.removeEventListener("keydown", tasto); };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -68,7 +67,6 @@ export default function Loghi({ onFine }: { onFine: () => void }) {
     };
     raf = requestAnimationFrame(passo);
     return () => { cancelAnimationFrame(raf); suono?.sfuma(); };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pronti]);
 
   return (

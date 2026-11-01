@@ -3,7 +3,9 @@
 Il ponte dell'app (app/src/lib/ponte.py) salva la sequenza effettiva dei comandi
 e al caricamento la rigioca. Qui lo si mette alla prova con partite casuali che
 fanno di tutto: si spostano, prendono, parlano, scelgono risposte, annullano
-(anche dentro e dopo i dialoghi), ripetono con ANCORA, sbagliano comando.
+(anche dentro e dopo i dialoghi), ripetono con ANCORA, sbagliano comando, si fanno
+fare domande dal motore («ricomincia», «esci», «usa X» da solo) e rispondono.
+Dopo ogni caricamento anche la domanda in sospeso dev'essere la stessa.
 
 Per ogni partita, a intervalli:
   1. l'istanza A salva;
@@ -12,7 +14,8 @@ Per ogni partita, a intervalli:
   4. A e B proseguono con gli stessi comandi: ogni risposta deve coincidere
      parola per parola, e le impronte restare uguali.
 
-In più prova che un caricamento rotto a metà non lasci il ponte con un mondo parziale (caricamento_fallito).
+In più prova che un caricamento rotto a metà non lasci il ponte con un mondo parziale (caricamento_fallito),
+e le domande lasciate cadere con ANNULLA e RICOMINCIA, anche nelle sequenze fino alla 1.41.0 (domande).
 
 Uso:  python salvataggi.py              (40 partite)
       python salvataggi.py -n 200       (più partite)
@@ -64,6 +67,10 @@ def scegli(p, rng):
     st = m.trova_stanza(m.posizione_giocatore)
     presenti = list(st.oggetti.values()) if st else []
     inv = [m.oggetti[o] for o in m.inventario if o in m.oggetti]
+    if x < 0.19:
+        # le domande del motore (il sì/no di «ricomincia» ed «esci», «Con cosa vuoi usarla?») e le risposte:
+        # «s» è il sì di una domanda in sospeso, altrimenti è sud
+        return rng.choice(["ricomincia", "esci", "no", "s"] + [f"usa {o.nome_visualizzato.lower()}" for o in inv])
     scelte = [d for d in (st.uscite if st else {})] * 3
     for o in presenti:
         n = o.nome_visualizzato.lower()
@@ -97,6 +104,98 @@ def avvia_lunga(a, rng, log):
         log.append(f"A> {cmd}")
 
 
+def in_sospeso(p):
+    """La domanda che il motore aspetta: l'impronta dello stato non la vede (è stato di sessione), ma dopo un
+    caricamento dev'essere la stessa della partita salvata."""
+    m = p._mondo
+    return (getattr(m, "_in_conferma", None), getattr(m, "_usa_in_sospeso", None), repr(getattr(m, "_ambiguita", None)))
+
+
+def gioca(p, comandi, log=None):
+    """Gioca dei comandi bevendo e mangiando quando serve, come avvia_lunga; restituisce i comandi giocati."""
+    giocati = []
+    for cmd in comandi:
+        m = p._mondo
+        if m.stato_partita != "in_corso":
+            break
+        if not m.in_dialogo():
+            v = m.variabili
+            if v.get("sete", 0) >= 5 and v.get("acqua", 0) >= 1:
+                p.fav_step("bevi"); giocati.append("bevi")
+            if v.get("fame", 0) >= 6 and v.get("cibo", 0) >= 1:
+                p.fav_step("mangia qualcosa"); giocati.append("mangia qualcosa")
+        p.fav_step(cmd)
+        giocati.append(cmd)
+    if log is not None:
+        log += [f"A> {c}" for c in giocati]
+    return giocati
+
+
+def ricarica(p):
+    """Un'istanza nuova che carica il salvataggio di `p`."""
+    s = json.loads(p.fav_salva())
+    b = nuovo_ponte()
+    e = json.loads(b.fav_carica(GIOCO, json.dumps(s["comandi"]), s["impronta"], s["ultimo"]))
+    return b, e, s
+
+
+def domande():
+    """Le domande del motore e ANNULLA (corrette dopo la 1.41.0). ANNULLA, riuscito o no, lascia cadere la domanda in sospeso
+    (il sì/no di «ricomincia» o di «esci», «Con cosa vuoi usarla?»): il comando che l'aveva posta non deve
+    restare in fondo alla sequenza, se no a ogni caricamento la domanda torna e un «s» per andare a sud
+    diventa il «sì» che ricomincia la partita. E un «ricomincia» confermato fa ripartire anche la sequenza."""
+    casi = [
+        ("ANNULLA che non disfa niente", ["ricomincia", "annulla"], "s"),
+        ("ANNULLA che disfa il turno dopo la domanda", ["nord", "aspetta", "ricomincia", "aspetta", "annulla"], "s"),
+        ("la domanda di «usa» lasciata cadere e annullata", ["nord", "usa la tanica", "aspetta", "annulla"], "guarda"),
+        ("«esci», un passo, ANNULLA", ["nord", "esci", "sud", "annulla"], "s"),
+    ]
+    for titolo, comandi, poi in casi:
+        a = nuovo_ponte(); a.fav_boot(GIOCO)
+        for c in comandi:
+            a.fav_step(c)
+        b, e, s = ricarica(a)
+        if not e.get("ok") or not e["identica"]:
+            return False, f"{titolo}: il caricamento non è identico ({s['comandi']})"
+        if in_sospeso(a) != in_sospeso(b):
+            return False, f"{titolo}: dopo il caricamento il motore aspetta {in_sospeso(b)}, la partita salvata {in_sospeso(a)} (sequenza {s['comandi']})"
+        ra, rb = json.loads(a.fav_step(poi)), json.loads(b.fav_step(poi))
+        if ra["text"] != rb["text"] or a.fav_impronta_stato() != b.fav_impronta_stato():
+            return False, f"{titolo}: dopo il caricamento «{poi}» fa un'altra cosa"
+    # RICOMINCIA confermato: la sequenza riparte, il ponte lo dice, e il caricamento è identico
+    a = nuovo_ponte(); a.fav_boot(GIOCO)
+    for c in ["nord", "aspetta", "ricomincia"]:
+        a.fav_step(c)
+    if not json.loads(a.fav_step("sì")).get("ricominciata"):
+        return False, "il «sì» a «ricominciare da capo?» non dice «ricominciata»"
+    a.fav_step("nord")
+    b, e, s = ricarica(a)
+    if s["comandi"] != ["nord"] or not e["identica"]:
+        return False, f"dopo RICOMINCIA la sequenza doveva ripartire: è {s['comandi']}, identica {e['identica']}"
+    # una sequenza fino alla 1.41.0, che contiene ancora la partita abbandonata e il «ricomincia»,
+    # si ricarica uguale anche quando il «ricomincia» cade nella testa che si rigioca senza istantanee
+    import percorsi
+    rotta = percorsi.comandi("A_peppe")
+    a = nuovo_ponte(); a.fav_boot(GIOCO)
+    prima = gioca(a, rotta[:12])
+    a.fav_step("ricomincia"); a.fav_step("sì")
+    dopo = gioca(a, rotta[:CODA_ANNULLA_PROVA])
+    vecchia = prima + ["ricomincia", "sì"] + dopo
+    b = nuovo_ponte()
+    e = json.loads(b.fav_carica(GIOCO, json.dumps(vecchia), a.fav_impronta_stato(), a._mondo.ultimo_comando))
+    if not e.get("ok") or not e["identica"] or b._registro != a._registro:
+        return False, f"una sequenza vecchia con RICOMINCIA non si ricarica uguale ({e.get('errore')})"
+    for c in ("annulla", "annulla", "guarda"):
+        a.fav_step(c); b.fav_step(c)
+    if a.fav_impronta_stato() != b.fav_impronta_stato():
+        return False, "dopo una sequenza vecchia con RICOMINCIA, ANNULLA disfa un'altra cosa"
+    return True, ""
+
+
+# comandi giocati dopo il «ricomincia» nella prova della sequenza vecchia: più della coda con le istantanee
+CODA_ANNULLA_PROVA = 46
+
+
 def partita(seme, comandi, ogni, log):
     rng = random.Random(seme)
     a = nuovo_ponte()
@@ -123,6 +222,8 @@ def partita(seme, comandi, ogni, log):
             t_carica = max(t_carica, time.perf_counter() - t0)
             if not esito.get("ok") or not esito["identica"]:
                 return False, f"caricamento diverso dopo {i + 1} comandi ({len(salvato['comandi'])} registrati)", verifiche, massimo, t_carica
+            if in_sospeso(a) != in_sospeso(b):
+                return False, f"dopo il caricamento il motore aspetta {in_sospeso(b)}, la partita salvata {in_sospeso(a)}", verifiche, massimo, t_carica
             # proseguono insieme
             rng_b = random.Random(seme * 7919 + i)
             for _ in range(DOPO):
@@ -134,7 +235,7 @@ def partita(seme, comandi, ogni, log):
                 if ra["text"] != rb["text"]:
                     log.append("--- A ---\n" + ra["text"] + "\n--- B ---\n" + rb["text"])
                     return False, f"risposte diverse a «{c}» dopo il caricamento", verifiche, massimo, t_carica
-                if a.fav_impronta_stato() != b.fav_impronta_stato():
+                if a.fav_impronta_stato() != b.fav_impronta_stato() or in_sospeso(a) != in_sospeso(b):
                     return False, f"stati diversi dopo «{c}», dopo il caricamento", verifiche, massimo, t_carica
                 # e anche la sequenza salvata di B deve ricaricare uguale
             sb = json.loads(b.fav_salva())
@@ -173,7 +274,7 @@ def caricamento_fallito():
     assert len(a._registro) > 20, "il percorso è troppo corto per la prova"
 
     def ricordi(p):
-        return (p._mondo, p._entry, list(p._registro), list(p._posizioni), p._ingresso_dialogo,
+        return (p._mondo, p._entry, list(p._registro), list(p._posizioni), p._ingresso_dialogo, p._inizio_domanda,
                 p.fav_impronta_stato(), p.fav_stato(), p.fav_salva())
 
     prima = ricordi(a)
@@ -196,7 +297,8 @@ def caricamento_fallito():
     if esito.get("ok") or "guasto di prova" not in esito.get("errore", ""):
         return False, f"un caricamento rotto deve dire «non ok» con la causa, ha detto {esito}"
     dopo = ricordi(a)
-    nomi = ("mondo", "avventura", "sequenza", "posizioni di annulla", "dialogo in corso", "impronta", "stato", "salvataggio")
+    nomi = ("mondo", "avventura", "sequenza", "posizioni di annulla", "dialogo in corso", "domanda in sospeso",
+            "impronta", "stato", "salvataggio")
     for nome, x, y in zip(nomi, prima, dopo):
         if (x is not y) if nome == "mondo" else (x != y):
             return False, f"dopo un caricamento fallito il ponte non è com'era: {nome} è cambiato"
@@ -219,6 +321,11 @@ def main():
         print(f"KO caricamento fallito: {motivo}")
         return 1
     print("OK un caricamento rotto a metà lascia il ponte com'era (mondo, sequenza, ANNULLA, dialogo).")
+    ok, motivo = domande()
+    if not ok:
+        print(f"KO domande del motore: {motivo}")
+        return 1
+    print("OK le domande del motore lasciate cadere con ANNULLA non tornano dopo un caricamento; RICOMINCIA fa ripartire la sequenza.")
     totale, massimo, peggiore = 0, 0, 0.0
     for s in range(args.n):
         log = []

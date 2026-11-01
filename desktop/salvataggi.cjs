@@ -9,7 +9,8 @@
 //  Il nome del file è il «posto»; il nome che vede chi gioca sta dentro il file.
 //  JSON leggibile (formato in app/src/lib/salvataggi.ts). Scrittura atomica:
 //  si scrive un .tmp e lo si rinomina, e la versione precedente resta come
-//  .bak: un'interruzione a metà non distrugge mai un salvataggio buono.
+//  .bak: un'interruzione a metà non distrugge mai un salvataggio buono. Su Windows un
+//  antivirus o l'indicizzatore possono tenere il file un attimo: la rinomina si riprova.
 //  Più scritture sullo stesso file si mettono in fila (ognuna col suo .tmp). Se il file di un
 //  posto è illeggibile, si prova la copia di riserva (.bak).
 //  La pagina non tocca il disco: chiede tutto qui, per nome di posto.
@@ -40,7 +41,7 @@ const fileTrofei = () => (process.env.VIAGGIATORE_SALVATAGGI
   : path.join(app.getPath("documents"), "Il Viaggiatore", "trofei.json"));
 
 function controllaPosto(posto) {
-  if (typeof posto !== "string" || !POSTO.test(posto)) throw new Error(`Posto di salvataggio sconosciuto: ${posto}`);
+  if (typeof posto !== "string" || !POSTO.test(posto)) throw new Error(tr(`Posto di salvataggio sconosciuto: ${posto}`, `Unknown save slot: ${posto}`));
   return path.join(cartella(), nomeFile(posto));
 }
 
@@ -51,6 +52,20 @@ async function postiPresenti() {
   return nomi.filter((n) => n.endsWith(ESTENSIONE)).map((n) => n.slice(0, -ESTENSIONE.length)).filter((p) => POSTO.test(p)).sort();
 }
 
+// gli errori di un file tenuto aperto da un altro programma (antivirus, indicizzatore, sincronizzazione): passano da soli
+const OCCUPATO = new Set(["EPERM", "EBUSY", "EACCES"]);
+const PAUSE = [40, 80, 160, 320];   // ms fra un tentativo e l'altro: in tutto poco più di mezzo secondo
+
+async function rinomina(da, a) {
+  for (let i = 0; ; i++) {
+    try { return await fs.promises.rename(da, a); }
+    catch (e) {
+      if (!OCCUPATO.has(e.code) || i >= PAUSE.length) throw e;
+      await new Promise((r) => setTimeout(r, PAUSE[i]));
+    }
+  }
+}
+
 let progressivo = 0;
 async function scriviUnaVolta(file, testo) {
   await fs.promises.mkdir(path.dirname(file), { recursive: true });
@@ -59,7 +74,7 @@ async function scriviUnaVolta(file, testo) {
     await fs.promises.writeFile(tmp, testo, "utf8");
     // primo salvataggio (o file tolto): nessuna riserva da tenere, e una vecchia non deve riapparire
     try { await fs.promises.copyFile(file, `${file}.bak`); } catch { await fs.promises.rm(`${file}.bak`, { force: true }); }
-    await fs.promises.rename(tmp, file);
+    await rinomina(tmp, file);
   } catch (e) {
     await fs.promises.rm(tmp, { force: true }).catch(() => {});
     throw e;
@@ -84,7 +99,7 @@ async function leggiPosto(file) {
   try {
     const testo = await fs.promises.readFile(file, "utf8");
     if (èJson(testo)) return { testo };
-    errore = "il file non è leggibile (JSON non valido)";
+    errore = tr("il file non è leggibile (JSON non valido)", "the file cannot be read (invalid JSON)");
   } catch (e) {
     if (e.code === "ENOENT") return { testo: null };
     errore = String(e.message);
@@ -112,7 +127,7 @@ function registra(finestra) {
 
   gestisci("salvataggi:scrivi", async (_e, posto, testo) => {
     const file = controllaPosto(posto);
-    if (typeof testo !== "string" || testo.length > LIMITE_IMPORT) throw new Error("Salvataggio non valido.");
+    if (typeof testo !== "string" || testo.length > LIMITE_IMPORT) throw new Error(tr("Salvataggio non valido.", "Invalid save."));
     await scriviAtomico(file, testo);
     registro.info(`salvataggio scritto: ${path.basename(file)} (${testo.length} byte)`);
   });
@@ -145,14 +160,14 @@ function registra(finestra) {
     });
     if (scelta.canceled || !scelta.filePaths[0]) return null;
     const stat = await fs.promises.stat(scelta.filePaths[0]);
-    if (stat.size > LIMITE_IMPORT) throw new Error("Il file è troppo grande per essere un salvataggio.");
+    if (stat.size > LIMITE_IMPORT) throw new Error(tr("Il file è troppo grande per essere un salvataggio.", "The file is too large to be a save."));
     registro.info(`salvataggio importato: ${scelta.filePaths[0]}`);
     return fs.promises.readFile(scelta.filePaths[0], "utf8");
   });
 
   gestisci("trofei:leggi", async () => leggiPosto(fileTrofei()));
   gestisci("trofei:scrivi", async (_e, testo) => {
-    if (typeof testo !== "string" || testo.length > LIMITE_TROFEI) throw new Error("Trofei non validi.");
+    if (typeof testo !== "string" || testo.length > LIMITE_TROFEI) throw new Error(tr("Trofei non validi.", "Invalid trophies."));
     await scriviAtomico(fileTrofei(), testo);
   });
 
@@ -163,4 +178,4 @@ function registra(finestra) {
   });
 }
 
-module.exports = { registra, cartella, POSTO };
+module.exports = { registra, cartella, POSTO, PAUSE };

@@ -32,12 +32,19 @@ const livello = (o: Opzioni, c: Canale) =>
   ({ musica: o.volumeMusica, voce: o.volumeVoce, effetti: o.volumeEffetti })[c] * TARATURA[c];
 const generale = (o: Opzioni) => (fuori && o.secondoPiano === "silenzia" ? 0 : o.volume);
 
+/** Dimentica i contesti già chiusi (il trailer ne apre uno a ogni giro): senza, restavano qui finché non cambiava un'opzione. */
+function sgombra() {
+  for (const ac of uscite.keys()) if (ac.state === "closed") uscite.delete(ac);
+  for (let i = canali.length - 1; i >= 0; i--) if (canali[i].ac.state === "closed") canali.splice(i, 1);
+}
+
 /** Vero per i contesti che rendono un file (OfflineAudioContext): quelli non si toccano. */
 export const offline = (ac: BaseAudioContext) => typeof OfflineAudioContext !== "undefined" && ac instanceof OfflineAudioContext;
 
 /** L'uscita di un contesto: volume generale → fusore (stereo o mono) → altoparlanti. Una per contesto. */
 export function uscita(ac: BaseAudioContext): AudioNode {
   if (offline(ac)) return ac.destination;
+  sgombra();
   let u = uscite.get(ac);
   if (!u) {
     const o = opzioni();
@@ -64,6 +71,7 @@ export function canale(ac: BaseAudioContext, c: Canale, verso?: AudioNode): Gain
     return n;
   }
   n.gain.value = livello(opzioni(), c);
+  sgombra();
   n.connect(verso ?? uscita(ac));
   canali.push({ ac, canale: c, nodo: n });
   return n;
@@ -71,16 +79,12 @@ export function canale(ac: BaseAudioContext, c: Canale, verso?: AudioNode): Gain
 
 function aggiorna() {
   const o = opzioni();
+  sgombra();
   for (const [ac, u] of uscite) {
-    if (ac.state === "closed") { uscite.delete(ac); continue; }
     u.generale.gain.setTargetAtTime(generale(o), ac.currentTime, DOLCE);
     u.fusore.channelCount = o.mono ? 1 : 2;
   }
-  for (let i = canali.length - 1; i >= 0; i--) {
-    const k = canali[i];
-    if (k.ac.state === "closed") { canali.splice(i, 1); continue; }
-    k.nodo.gain.setTargetAtTime(livello(o, k.canale), k.ac.currentTime, DOLCE);
-  }
+  for (const k of canali) k.nodo.gain.setTargetAtTime(livello(o, k.canale), k.ac.currentTime, DOLCE);
 }
 
 ascoltaOpzioni(aggiorna);
