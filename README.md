@@ -353,7 +353,6 @@ Il doppiaggio è fatto con la sintesi vocale, a partire dai testi del gioco:
 |---|---|---|
 | il narratore (anche le scelte del giocatore e il trailer) | Google Gemini 3.8 Flash TTS | Enzo |
 | la voce di servizio (suggerimenti, numeri delle scorte) | Google Gemini 3.8 Flash TTS | Kira |
-| Nunzio, Saverio, Iole, Rocco, Peppe, Ciro, Pasquale, Concetta, Onofrio, Cosimo | Google Gemini 3.8 Flash TTS | voci della libreria di AI Studio |
 | I quattordici personaggi, in italiano e in inglese | ElevenLabs Eleven v4 · elevenlabs.io | voci di libreria o disegnate (Victoria, Valeria, Criss, Luigi, Pierpaolo, Corrado Noventa e altre): generate in parte sul piano gratuito e in parte con un abbonamento, distribuite **fuori dalla licenza libera, solo per uso non commerciale** (scelta dell'autore, che ne accetta il rischio) |
 
 Google non rivendica la proprietà dell'audio generato, che però non è esclusivo; ogni clip porta la filigrana SynthID,

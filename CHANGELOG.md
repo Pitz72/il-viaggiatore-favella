@@ -20,8 +20,7 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
   Il racconto, i `.fav`, i salvataggi e la voce italiana non cambiano.
 
 ### Cambiato
-- **Le voci italiane dei personaggi sono rifatte con ElevenLabs** (Nunzio, Saverio, Iole, Rocco, Peppe, Ciro, Pasquale, Onofrio, Cosimo e Concetta): le stesse battute, al posto di quelle di Gemini, con la voce che il personaggio ha in inglese
-  (Concetta no: una voce diversa, «Tosca old&deep»). Come le altre quattro di ElevenLabs, stanno in `app/public/voce/elevenlabs/`, fuori dalla licenza libera.
+- **Le voci italiane dei personaggi sono rifatte con ElevenLabs** (Nunzio, Saverio, Iole, Rocco, Peppe, Ciro, Pasquale, Onofrio, Cosimo e Concetta): le stesse battute, al posto di quelle di Gemini, con la voce che il personaggio ha in inglese. Come le altre quattro di ElevenLabs, stanno in `app/public/voce/elevenlabs/`, fuori dalla licenza libera.
 
 ## [1.40.1] - 2026-10-31
 

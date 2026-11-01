@@ -10,7 +10,7 @@ versione: 1.40.1
 
 ## In breve
 Dopo la stima dei crediti, Simone ha detto «sì, solo i personaggi»: le voci italiane di Gemini di nove personaggi sono rifatte con ElevenLabs, con la stessa voce che ognuno ha in inglese.
-Concetta, dopo, con «Tosca old&deep» (la voce inglese «Tosca - Mature, Whispery and Seductive» non si trova con il connettore): **tutti e quattordici i personaggi sono ora ElevenLabs, in italiano e in inglese**.
+Concetta, dopo, con Tosca (nel connettore «Tosca old&deep», nella Libreria che vede Simone «Tosca - Mature, Whispery and Seductive»: la stessa voce): **tutti e quattordici i personaggi sono ora ElevenLabs, in italiano e in inglese**.
 
 ## Contesto
 Stima fatta il 1° novembre 2026: rifare tutto il doppiaggio con ElevenLabs costa circa 101.500 crediti (un credito per carattere, qualunque modello); le dieci voci italiane dei personaggi di Gemini 9.883. Simone, a metà
@@ -29,7 +29,7 @@ giornata: «ora come ora ho 17.877 crediti». Il narratore Enzo e Kira hanno gi�
 
 ## Decisioni
 - **Peppe con Vittorio anche in italiano** — la voce è la stessa dell'inglese, ma ha un accento milanese: un ragazzo del sud con accento milanese. Da ascoltare; se stona si cambia voce (1.163 crediti).
-- **Concetta con «Tosca old&deep»** — la voce inglese di Concetta («Tosca - Mature, Whispery and Seductive», che Simone aveva usato a mano nell'app: velocità 0,81, Stability 34, Similarity 40) il connettore non la trova. Simone ha detto «vai di Tosca anche in italiano» e ho usato l'unica Tosca che trovo, «Tosca old&deep» (donna italiana anziana, profonda, calma): **non è la stessa voce dell'inglese**. 826 crediti, 8 parti su 8. Se all'ascolto non va, si rifà con la voce giusta (aggiunta a My Voices) o la genera Simone nell'app.
+- **Concetta con Tosca** — la voce inglese di Concetta, che Simone aveva usato a mano nell'app (velocità 0,81, Stability 34, Similarity 40), il connettore non sembrava trovarla: cercando «Tosca» dava solo «Tosca old&deep». Simone ha detto «vai di Tosca anche in italiano» e ho usato quella, pensando fosse un'altra voce, e l'ho scritto. **Simone ha poi verificato: è la stessa voce**, solo con un'etichetta diversa nella Libreria («Tosca - Mature, Whispery and Seductive»). Nessuna ripresa da fare. 826 crediti, 8 parti su 8, impostazioni predefinite del connettore (quelle di Simone a mano erano velocità 0,81 / Stability 34 / Similarity 40).
 - **Una ripresa a testa** — come per l'inglese.
 
 ## Verifiche
@@ -37,7 +37,7 @@ giornata: «ora come ora ho 17.877 crediti». Il narratore Enzo e Kira hanno gi�
 - Non verificato: l'ascolto (non posso); la CI dell'ultimo commit.
 
 ## Questioni aperte
-- Ascoltare Concetta in italiano (voce diversa da quella inglese) e, se non va, rifarla con la voce giusta.
+- Ascoltare Concetta in italiano: la voce è quella dell'inglese, ma con le impostazioni predefinite e non quelle a mano di Simone; se suona troppo diversa, si rifà dall'app.
 - **Una CI è fallita sul commit a10a727**: il collaudo della sequenza finale (`app/scripts/finale-node.mjs`) si aspettava l'etichetta dei crediti «Imma, Rosaria, Tore e Vito»; ora si aspetta «I personaggi» (corretto nel commit successivo). Lo avevo scritto «il collaudo non controlla i crediti» e non lo avevo rilanciato: ora la CI è il controllo.
 - Simone ascolta tutto sul gioco desktop (`node prepara.mjs`, poi `npm run avvia` in `desktop/`), in italiano e in inglese.
 - La licenza delle voci a pagamento e il rilascio (1.41.0), solo quando lo dice Simone.
