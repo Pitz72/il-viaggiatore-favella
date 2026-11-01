@@ -270,7 +270,8 @@ export default function SequenzaFinale({ frase, onFine }: Props) {
                   <div key={che}>
                     <dt style={{ fontFamily: FONT.mono, fontWeight: 500, fontSize: 15, letterSpacing: "0.3em", textTransform: "uppercase",
                       color: "rgba(240,183,126,.9)", textShadow: ombra }}>{che}</dt>
-                    <dd style={{ margin: "12px 0 0", fontFamily: FONT.serif, fontSize: 27, lineHeight: 1.4, color: "#ece4d6", textShadow: ombra }}>{chi}</dd>
+                    <dd style={{ margin: "12px 0 0", fontFamily: FONT.serif, fontSize: 27, lineHeight: 1.4, color: "#ece4d6", textShadow: ombra,
+                      whiteSpace: "pre-line" }}>{chi}</dd>
                   </div>
                 ))}
               </dl>

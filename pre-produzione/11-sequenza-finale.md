@@ -210,5 +210,6 @@ Il cartello all'avvio sparisce: l'ordine diventa loghi → avviso → trailer.
 - Le foto della sequenza a 1920×1080 (tramonto, frase, notte, titoli, loghi), in Electron fuori schermo.
 - Un finale e una morte giocati nel gioco vero: dal finale alla sequenza al menu; dalla morte al menu.
 - `collaudo/doppiaggio.py`: nessun testo detto cambia.
+- (1° novembre 2026, dopo il doppiaggio completo) i crediti nominano le voci: Enzo e Kira (Gemini) e, una riga per personaggio, la voce ElevenLabs dei quattordici personaggi (`finale/crediti.ts`; la riga va a capo, `white-space: pre-line`); `app/scripts/finale-node.mjs` prova che ci siano tutti, in italiano e in inglese.
 - (1.34.0) `collaudo/musica.py`: l'album a otto brani, la canzone nell'indice col titolo dell'album e nei crediti con
   lo stesso titolo, −14 LUFS, niente silenzi lunghi alle estremità; l'autoverifica dei pacchetti decodifica la canzone.

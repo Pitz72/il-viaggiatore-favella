@@ -73,13 +73,38 @@ prova("presenza: zero fuori, uno dentro, rampe", () => {
 });
 
 // ── i crediti ────────────────────────────────────────────────────────
-const VOCI_DEL_CARTELLO = ["Il Viaggiatore", "Storia, testi, musica dell'intro, grafica", "Musiche delle zone", "Voci",
-  "I personaggi", "Ritratti e oggetti", "Codice", "Motore", "Componenti", "Marchi"];
-prova("le righe del vecchio cartello d'avvio (più i ritratti, dalla 1.38), tutte e nell'ordine", () => {
+const VOCI_DEL_CARTELLO = ["Il Viaggiatore", "Storia, testi, musica dell'intro, grafica", "Musiche delle zone",
+  "Il narratore e la voce di servizio", "I personaggi", "Le voci dei personaggi", "Ritratti e oggetti", "Codice", "Motore",
+  "Componenti", "Marchi"];
+prova("le righe del vecchio cartello d'avvio (più i ritratti, dalla 1.38, e le voci una per una, dal doppiaggio completo), tutte e nell'ordine", () => {
   assert.deepEqual(C.CREDITI.map(([che]) => che), VOCI_DEL_CARTELLO);
 });
 prova("l'attribuzione delle voci ElevenLabs c'è", () => {
   assert.ok(C.CREDITI.some(([che, chi]) => che.includes("personaggi") && chi.includes("elevenlabs.io")));
+  assert.ok(C.CREDITI_EN.some(([che, chi]) => che.includes("characters") && chi.includes("elevenlabs.io")));
+});
+prova("i crediti in inglese hanno le stesse righe, nello stesso ordine, e nessun testo vuoto", () => {
+  assert.equal(C.CREDITI_EN.length, C.CREDITI.length);
+  for (const lista of [C.CREDITI, C.CREDITI_EN]) for (const [che, chi] of lista) assert.ok(che.trim() && chi.trim(), `riga vuota: ${che}`);
+  assert.equal(new Set(C.CREDITI.map(([che]) => che)).size, C.CREDITI.length, "etichette doppie in italiano");
+  assert.equal(new Set(C.CREDITI_EN.map(([che]) => che)).size, C.CREDITI_EN.length, "etichette doppie in inglese");
+  assert.equal(C.righeDeiTitoli(true, true).length, C.CREDITI_EN.length + 1);
+  assert.equal(C.righeDeiTitoli(true, true)[3], C.CANZONE_EN);
+});
+prova("ogni personaggio del doppiaggio ha la sua voce nei crediti, in italiano e in inglese (e nessuno di più)", () => {
+  const man = JSON.parse(fs.readFileSync(path.join(qui, "..", "..", "doppiaggio", "en", "manifest.json"), "utf8"));
+  const personaggi = Object.keys(man.personaggi.blocchi);   // gli slug: imma, rosaria, … pasquale
+  assert.equal(personaggi.length, 14);
+  for (const lista of [C.CREDITI, C.CREDITI_EN]) {
+    const riga = lista.find(([che]) => che === "Le voci dei personaggi" || che === "The characters' voices");
+    assert.ok(riga, "manca la riga delle voci dei personaggi");
+    const nomi = riga[1].split("\n").map((r) => r.split(" · ")[0].toLowerCase());
+    assert.deepEqual(nomi.sort(), [...personaggi].sort());
+    for (const r of riga[1].split("\n")) assert.ok(r.split(" · ")[1]?.trim(), `senza voce: ${r}`);
+  }
+  // le cinque voci disegnate dicono di esserlo, le nove della libreria no
+  assert.equal(C.CREDITI[5][1].split("\n").filter((r) => r.includes("voce disegnata")).length, 5);
+  assert.equal(C.CREDITI_EN[5][1].split("\n").filter((r) => r.includes("designed voice")).length, 5);
 });
 prova("la canzone compare dopo le musiche delle zone, e solo se c'è", () => {
   const con = C.righeDeiTitoli(true), senza = C.righeDeiTitoli(false);

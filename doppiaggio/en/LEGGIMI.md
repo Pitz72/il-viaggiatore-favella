@@ -3,8 +3,8 @@
 Il narratore del gioco in inglese (Enzo) e la voce di servizio (Kira), con Gemini 3.8 Flash TTS da Google AI Studio, a mano, come
 in italiano (`../LEGGIMI.md`). **Tutti e quattordici i personaggi sono fatti anche in inglese**, con ElevenLabs (`eleven-v4.md`): i primi
 quattro, quelli che in italiano erano di ElevenLabs (Eleven v4), con le loro voci italiane; gli altri dieci con voci di libreria o voci disegnate
-da Simone (Voice Design). Simone vuole poi, se avanzano crediti, rifare con ElevenLabs anche le voci italiane di Gemini (decisione del
-1° novembre 2026, dopo l'acquisto di un abbonamento).
+da Simone (Voice Design). Le voci italiane di Gemini dei dieci personaggi sono state rifatte con ElevenLabs lo stesso 1° novembre 2026 (stessa voce nelle due lingue; dopo l'acquisto
+di un abbonamento): Concetta, ultima, con una voce disegnata.
 
 | File | Contenuto |
 |---|---|

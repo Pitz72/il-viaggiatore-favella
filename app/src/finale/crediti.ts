@@ -10,16 +10,33 @@
 //  In inglese: ogni testo ha accanto la sua traduzione (…_EN), riga per riga
 //  nello stesso ordine; la lingua la sceglie chi li mostra
 //  (components/SequenzaFinale.tsx). Nomi, titoli, licenze e indirizzi restano.
+//  Un testo può andare a capo con «\n» (la riga delle voci dei personaggi).
 //  Niente React né import: lo prova app/scripts/finale-node.mjs.
 // ====================================================================
+
+/** Chi parla con quale voce, personaggio per personaggio, nell'ordine di doppiaggio/voci-scelte.md. Nove voci vengono dalla
+ *  Voice Library di ElevenLabs; le altre cinque sono disegnate (il nome fra parentesi è quello che ElevenLabs ha dato alla voce:
+ *  non è una persona, e per Rocco non è Ciro). Una riga per personaggio, che il testo a schermo tiene a capo (SequenzaFinale.tsx).
+ *  Se un personaggio cambia voce, si cambia qui, in `doppiaggio/voci-scelte.md` e in `LICENSE-CONTENUTI.md`:
+ *  app/scripts/finale-node.mjs prova che ci siano tutti e quattordici. */
+const VOCI: [string, string, boolean][] = [
+  ["Imma", "Victoria", false], ["Rosaria", "Valeria", false], ["Tore", "Criss", false], ["Vito", "Luigi", false],
+  ["Concetta", "America Marchetti", true], ["Iole", "Elettra", false], ["Onofrio", "Nonno Ben", false],
+  ["Ciro", "Pierpaolo", false], ["Peppe", "Vittorio", false], ["Cosimo", "Corrado Noventa", false],
+  ["Nunzio", "Ermenegildo Meliconi", true], ["Saverio", "Ignazio Rossi", true], ["Rocco", "Ciro Esposito", true],
+  ["Pasquale", "Carmine Lo Russo", true],
+];
+const VOCI_DEI_PERSONAGGI = VOCI.map(([chi, voce, disegnata]) => `${chi} · ${disegnata ? `voce disegnata (${voce})` : voce}`).join("\n");
+const VOCI_DEI_PERSONAGGI_EN = VOCI.map(([chi, voce, disegnata]) => `${chi} · ${disegnata ? `designed voice (${voce})` : voce}`).join("\n");
 
 /** [che cosa, chi o che licenza]. collaudo/testo.py non le controlla: sono dell'app. */
 export const CREDITI: [string, string][] = [
   ["Il Viaggiatore", "un gioco di Simone Pizzi (Pitz72), 2026"],
   ["Storia, testi, musica dell'intro, grafica", "CC BY-SA 4.0"],
   ["Musiche delle zone", "The Runtimers · generate con Lyria 3.5 (Google) · fuori dalla licenza libera"],
-  ["Voci", "doppiaggio con sintesi vocale Google Gemini TTS (CC BY-SA 4.0)"],
-  ["I personaggi", "voci ElevenLabs · elevenlabs.io · solo uso non commerciale, fuori dalla licenza libera"],
+  ["Il narratore e la voce di servizio", "Enzo, il narratore, e Kira, la voce di servizio · sintesi vocale Google Gemini 3.8 Flash TTS, in italiano e in inglese (CC BY-SA 4.0)"],
+  ["I personaggi", "voci ElevenLabs (Eleven v4) · elevenlabs.io · nove della Voice Library, dei loro autori, e cinque disegnate con il Voice Design · solo uso non commerciale, fuori dalla licenza libera"],
+  ["Le voci dei personaggi", VOCI_DEI_PERSONAGGI],
   ["Ritratti e oggetti", "illustrazioni generate con Nano Banana Pro 2.1 (Google) in Google Flow (CC BY-SA 4.0)"],
   ["Codice", "MIT"],
   ["Motore", "FAVELLA 1 · MIT"],
@@ -32,8 +49,9 @@ export const CREDITI_EN: [string, string][] = [
   ["Il Viaggiatore", "a game by Simone Pizzi (Pitz72), 2026"],
   ["Story, text, intro music, graphics", "CC BY-SA 4.0"],
   ["Zone music", "The Runtimers · generated with Lyria 3.5 (Google) · outside the free licence"],
-  ["Voices", "voice acting with Google Gemini TTS speech synthesis (CC BY-SA 4.0)"],
-  ["The characters", "ElevenLabs voices · elevenlabs.io · non-commercial use only, outside the free licence"],
+  ["The narrator and the service voice", "Enzo, the narrator, and Kira, the service voice · Google Gemini 3.8 Flash TTS speech synthesis, in Italian and English (CC BY-SA 4.0)"],
+  ["The characters", "ElevenLabs voices (Eleven v4) · elevenlabs.io · nine from the Voice Library, belonging to their authors, and five designed with Voice Design · non-commercial use only, outside the free licence"],
+  ["The characters' voices", VOCI_DEI_PERSONAGGI_EN],
   ["Portraits and objects", "illustrations generated with Nano Banana Pro 2.1 (Google) in Google Flow (CC BY-SA 4.0)"],
   ["Code", "MIT"],
   ["Engine", "FAVELLA 1 · MIT"],

@@ -1,7 +1,7 @@
 # Il doppiaggio
 
-Il gioco si doppia con Gemini 3.8 Flash TTS (`gemini-3.8-flash-tts`) da Google AI Studio,
-a mano. I testi si ricavano dai `.fav` con `strumenti/doppiaggio.py`, non si scrivono a
+Il narratore (Enzo), la voce di servizio (Kira) e il trailer si doppiano con Gemini 3.8 Flash TTS (`gemini-3.8-flash-tts`) da Google AI Studio,
+a mano; i quattordici personaggi, dal 1° novembre 2026, con ElevenLabs Eleven v4 (`voci-scelte.md`). I testi si ricavano dai `.fav` con `strumenti/doppiaggio.py`, non si scrivono a
 mano: se un testo cambia, si rigenera il blocco.
 
 | Cartella | Contenuto | Nel repository |
@@ -120,12 +120,12 @@ mai le cartelle archiviate né le parti `fuori_uso` di Kira), toglie il silenzio
 blocco un sussurro resta più piano di un grido (una parte il cui picco supererebbe −1,5 dBFS si alza di meno;
 niente compressione), codifica in **Opus mono a 32 kbit/s** e scrive `app/public/voce/` e `banco.json`. Una
 parte che dopo la codifica supera −0,5 dBFS si ricodifica un poco più piano. Lo stesso ingresso dà gli stessi
-byte: rifarlo non sporca git. I blocchi fatti sul piano gratuito di ElevenLabs (Imma, Rosaria, Tore, Vito)
+byte: rifarlo non sporca git. I blocchi dei quattordici personaggi, fatti con ElevenLabs (Imma, Rosaria, Tore e Vito sul piano gratuito, gli altri in parte con un abbonamento),
 vanno in `voce/elevenlabs/`, con un indice loro che dice la licenza: sono distribuiti col gioco ma esclusi
 dalla licenza CC BY-SA, solo per uso non commerciale (scelta di Simone, che ne accetta il rischio:
 `LICENSE-CONTENUTI.md`, piano 08, decisione 6). Se un giorno si rifanno su un piano a pagamento o con Gemini,
 basta toglierli da `A_PARTE` in `strumenti/doppiaggio-banco.py` e rifare il banco. Lo stesso vale per i loro blocchi inglesi
-(`doppiaggio/en/`, voce inglese di Imma, Rosaria, Tore e Vito): `app/public/voce/en/elevenlabs/`, con un indice e una licenza loro.
+(`doppiaggio/en/`, voce inglese dei quattordici personaggi): `app/public/voce/en/elevenlabs/`, con un indice e una licenza loro.
 Il collaudo è `collaudo/doppiaggio.py`.
 
 ## Nel gioco

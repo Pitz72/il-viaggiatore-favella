@@ -21,6 +21,7 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ### Cambiato
 - **Le voci italiane dei personaggi sono rifatte con ElevenLabs** (Nunzio, Saverio, Iole, Rocco, Peppe, Ciro, Pasquale, Onofrio, Cosimo e Concetta): le stesse battute, al posto di quelle di Gemini, con la voce che il personaggio ha in inglese. Concetta, l'anziana del cortile, ha una voce disegnata apposta (molto vecchia, sottile e incrinata), la stessa in italiano e in inglese. Come le altre quattro di ElevenLabs, stanno in `app/public/voce/elevenlabs/`, fuori dalla licenza libera.
+- **I titoli di coda dicono tutte le voci**, in italiano e in inglese: Enzo e Kira (Google Gemini 3.8 Flash TTS) e, personaggio per personaggio, la voce ElevenLabs dei quattordici personaggi (nove della Voice Library, cinque disegnate con il Voice Design), con l'attribuzione «elevenlabs.io» e la dicitura «solo uso non commerciale». La riga delle voci va a capo (`SequenzaFinale.tsx`); `app/scripts/finale-node.mjs` prova che ci siano tutti e quattordici e che l'inglese abbia le stesse righe.
 
 ## [1.40.1] - 2026-10-31
 

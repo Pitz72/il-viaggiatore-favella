@@ -55,13 +55,13 @@ il tema dell'intro). La copertina dell'album è il logo del gioco, sotto questa 
 
 Le voci dei **quattordici personaggi**, in italiano e in inglese
 (`app/public/voce/elevenlabs/` e `app/public/voce/en/elevenlabs/`), sono state generate con
-ElevenLabs (elevenlabs.io) sul piano gratuito, che non concede l'uso commerciale. **Non** sono
+ElevenLabs (elevenlabs.io), in parte sul piano gratuito, che non concede l'uso commerciale, e in parte con un abbonamento a pagamento (vedi sotto). **Non** sono
 coperte da questa licenza: si possono ridistribuire solo come parte di questo gioco e **solo per
 uso non commerciale**, citando elevenlabs.io. Un'opera derivata o un uso commerciale deve toglierle
 o sostituirle (il gioco funziona anche senza: quelle battute restano scritte). Le voci della
 libreria di ElevenLabs (Victoria, Valeria, Criss, Luigi, Elettra, Nonno Ben, Pierpaolo, Vittorio, Corrado Noventa; Nunzio, Saverio, Rocco, Pasquale e Concetta sono voci disegnate dall'autore con il Voice Design di ElevenLabs) sono dei loro titolari.
 
-Dal 1° novembre 2026 l'autore ha un abbonamento a pagamento a ElevenLabs: le voci inglesi generate dopo l'acquisto potrebbero
+Dal 1° novembre 2026 l'autore ha un abbonamento a pagamento a ElevenLabs: le voci generate dopo l'acquisto (le inglesi e le italiane rifatte) potrebbero
 avere diritti più ampi di quelle del piano gratuito. Finché non si verifica nei termini di ElevenLabs, restano tutte nella
 stessa cartella e con la stessa esclusione (scelta prudente: non è una consulenza legale).
 

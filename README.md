@@ -332,15 +332,15 @@ salva e ricarica, e prova la voce (una parte per ogni voce, la traccia del trail
 
 - **Codice** (app, desktop, collaudo, script): [MIT](LICENSE).
 - **Motore FAVELLA 1** (`motore/`): MIT, © Simone (Pitz72), [motore/LICENSE](motore/LICENSE).
-- **Storia, testi, musica dell'intro, voci del doppiaggio, icona e grafica** (comprese le immagini promozionali di
+- **Storia, testi, musica dell'intro, voci del narratore e di Kira, icona e grafica** (comprese le immagini promozionali di
   `grafica/branding/` e i ritratti e gli oggetti di `app/public/immagini/`, generati con Nano Banana Pro 2.1 di Google in
   Google Flow): [CC BY-SA 4.0](LICENSE-CONTENUTI.md), tranne le musiche di The Runtimers e le voci dei personaggi
   (qui sotto).
 - **Le musiche delle zone e la canzone dei titoli di coda** (`app/public/musica/`, `app/public/colonna-sonora/`): di
   The Runtimers, generate con Lyria 3.5 di Google, **escluse dalla licenza libera**; per il loro uso valgono i termini di
   Google per i contenuti generati con Lyria. Si ridistribuiscono come parte del gioco.
-- **Le voci dei personaggi**, tutti e quattordici, in italiano (`app/public/voce/elevenlabs/`) e in inglese (`app/public/voce/en/elevenlabs/`): fatte con [ElevenLabs](https://elevenlabs.io)
-  sul piano gratuito, **escluse dalla licenza libera** e **solo per uso non commerciale**; chi fa un'opera derivata o un
+- **Le voci dei personaggi**, tutti e quattordici, in italiano (`app/public/voce/elevenlabs/`) e in inglese (`app/public/voce/en/elevenlabs/`): fatte con [ElevenLabs](https://elevenlabs.io),
+  in parte sul piano gratuito e in parte con un abbonamento, **escluse dalla licenza libera** e **solo per uso non commerciale**; chi fa un'opera derivata o un
   uso commerciale del gioco deve toglierle o sostituirle.
 - **I marchi** di Runtime Multimedia e di FAVELLA 1 (i loghi d'apertura, le immagini promozionali) restano dei
   rispettivi titolari.
