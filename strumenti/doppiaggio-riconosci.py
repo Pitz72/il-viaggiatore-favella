@@ -49,7 +49,11 @@ def main():
     with open(os.path.join(CARTELLA, "en" if en else "", "manifest.json"), encoding="utf-8") as f:
         man = json.load(f)
     blocchi = {}
-    for nome, b in man["blocchi"].items():
+    tutti = dict(man["blocchi"])
+    if en and "servizio" in man:   # Kira in inglese sta a parte nel manifest (chiave «servizio»): blocchi kira-*
+        tutti.update(man["servizio"]["blocchi"])
+        man["unita"] = {**man["unita"], **man["servizio"]["unita"]}
+    for nome, b in tutti.items():
         if a.voce and not (nome == a.voce or nome.startswith(a.voce + "-") or b.get("voce", "narratore") == a.voce):
             continue
         if en and nome == "trailer":   # un WAV per tono: si riconosce ogni gruppo da sé

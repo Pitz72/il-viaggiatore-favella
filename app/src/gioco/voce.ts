@@ -10,11 +10,12 @@
 //  escluse dalla licenza libera) hanno un indice loro e si aggiungono.
 //
 //  La voce inglese (public/voce/en/, strumenti/doppiaggio-banco.py --lingua en) è
-//  per ora il solo narratore. Il diario resta in italiano e le parti si ritrovano
-//  dal testo italiano (parti.ts): l'indice inglese dice, per ogni parte italiana
-//  del narratore, la sua registrazione inglese. Col modo «inglese» una parte che
-//  ha la registrazione inglese suona quella; tutte le altre (la voce di servizio,
-//  i personaggi) suonano ancora in italiano, finché non saranno registrate.
+//  per ora il narratore e la voce di servizio (Kira: suggerimenti e numeri delle
+//  scorte). Il diario resta in italiano e le parti si ritrovano dal testo italiano
+//  (parti.ts): l'indice inglese dice, per ogni parte italiana del narratore e di
+//  Kira, la sua registrazione inglese. Col modo «inglese» una parte che ha la
+//  registrazione inglese suona quella; tutte le altre (i personaggi) suonano ancora
+//  in italiano, finché non saranno registrate.
 //
 //  Le risposte di dialogo si leggono in ANTEPRIMA (quando ci si ferma sopra):
 //  un'anteprima non interrompe mai il turno che parla (il personaggio che
@@ -38,7 +39,7 @@ const MEMORIA = 120;   // parti decodificate tenute in memoria
 
 interface Indice {
   estensione: string; parti: Record<string, number>; testi?: Testi; cartelle?: string[];
-  /** solo nell'indice inglese: id della parte italiana del narratore → id della sua registrazione inglese */
+  /** solo nell'indice inglese: id della parte italiana del narratore o di Kira → id della sua registrazione inglese */
   corrispondenze?: Record<string, string>;
 }
 
@@ -49,7 +50,7 @@ class Voce {
   private ctx: AudioContext | null = null;
   private uscita: GainNode | null = null;
   private dove = new Map<string, string>();          // id → URL del file
-  private inglese = new Map<string, string>();       // id della parte italiana del narratore → URL della registrazione inglese
+  private inglese = new Map<string, string>();       // id della parte italiana (narratore, Kira) → URL della registrazione inglese
   private testi: Testi = {};
   private buffer = new Map<string, Promise<AudioBuffer | null>>();
   private suonano: AudioBufferSourceNode[] = [];

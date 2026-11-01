@@ -160,7 +160,7 @@ def main():
     ap.add_argument("--misura", action="store_true", help="misura soltanto, non scrive niente")
     ap.add_argument("--bersaglio", type=float, default=BERSAGLIO, help="LUFS per blocco (predefinito %(default)s)")
     ap.add_argument("--lingua", choices=["it", "en"], default="it",
-                    help="en: il narratore inglese (doppiaggio/en/manifest.json, parti in master/clip/en-<blocco>/, "
+                    help="en: il narratore e Kira in inglese (doppiaggio/en/manifest.json, parti in master/clip/en-<blocco>/, "
                          "file in app/public/voce/en/, resoconto in doppiaggio/en/banco.json); il trailer inglese ha la sua "
                          "traccia (doppiaggio-trailer.py --lingua en)")
     a = ap.parse_args()
@@ -175,10 +175,15 @@ def main():
 
     with open(os.path.join(DOPPIAGGIO, "en" if en else "", "manifest.json"), encoding="utf-8") as f:
         man = json.load(f)
+    tutti = dict(man["blocchi"])
+    corrispondenze = dict(man.get("corrispondenze", {}))
+    if en and "servizio" in man:   # Kira in inglese sta a parte nel manifest (chiave «servizio»): blocchi kira-*
+        tutti.update({nome: dict(b, voce="servizio") for nome, b in man["servizio"]["blocchi"].items()})
+        corrispondenze.update(man["servizio"]["corrispondenze"])
 
     # 1-2. le parti di ogni blocco, rifilate
     blocchi = {}
-    for nome, b in man["blocchi"].items():
+    for nome, b in tutti.items():
         if en and nome == "trailer":
             continue   # la voce del trailer inglese è una traccia sola, fatta dalle sue clip
         if not en and not b.get("generato"):
@@ -211,7 +216,7 @@ def main():
             if g < guadagno - 0.05:
                 limitate.append(round(guadagno - g, 1))
             parti[k] = (i, y * 10 ** (g / 20), sr)
-        resoconto[nome] = {"voce": man["blocchi"][nome].get("voce", "narratore"), "parti": len(parti),
+        resoconto[nome] = {"voce": tutti[nome].get("voce", "narratore"), "parti": len(parti),
                            "lufs_prima": round(lufs, 1), "guadagno_db": round(guadagno, 1),
                            "parti_alzate_di_meno": len(limitate),
                            "al_massimo_db_in_meno": max(limitate) if limitate else 0.0,
@@ -264,7 +269,7 @@ def main():
         # per ogni parte italiana del narratore, la sua registrazione inglese
         scrivi(os.path.join(USCITA, "indice.json"),
                {"formato": 1, "estensione": ESTENSIONE, "lingua": "en", "parti": indice,
-                "corrispondenze": {ii: ei for ii, ei in man["corrispondenze"].items() if ei in indice}})
+                "corrispondenze": {ii: ei for ii, ei in corrispondenze.items() if ei in indice}})
     else:
         testi = {i: [man["unita"][i]["voce"], man["unita"][i]["testo"]] for i in list(indice) + list(indice_a_parte)}
         scrivi(os.path.join(USCITA, "indice.json"),
@@ -280,7 +285,7 @@ def main():
         resoconto[nome].update({"lufs_dopo": round(lufs, 1), "picco_vero_dbtp": picco,
                                 "kb": round(sum(os.path.getsize(p) for p in file) / 1024)})
     peso = lambda c: sum(os.path.getsize(os.path.join(c, f)) for f in os.listdir(c) if f.endswith(ESTENSIONE))
-    if en:   # in inglese: solo le parti del narratore, nella cartella inglese (il trailer ha la sua traccia)
+    if en:   # in inglese: le parti del narratore e di Kira, nella cartella inglese (il trailer ha la sua traccia)
         totale = {"parti": len(indice), "parti_a_parte": 0, "minuti": round(sum(indice.values()) / 60000, 1),
                   "minuti_a_parte": 0.0, "mb": round(peso(USCITA) / 1048576, 2), "mb_a_parte": 0.0}
     else:

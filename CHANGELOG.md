@@ -9,11 +9,12 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 ## [Non rilasciato]
 
 ### Aggiunto
-- **La voce inglese del narratore.** In inglese il narratore ha ora la sua voce: Enzo, in inglese britannico, con tutta la
-  narrazione (descrizioni, posti, messaggi, finali, il biglietto e le targhe), le scelte di dialogo del giocatore e il
-  trailer, circa tre quarti d'ora di parlato (Google Gemini TTS, come la voce italiana). Nelle opzioni e nella prima finestra la
-  voce ha un modo nuovo, **inglese**, che segue il testo finché non lo si sceglie: in inglese parla il solo narratore, le altre
-  voci (la voce di servizio e i personaggi) restano per ora quelle italiane, finché non saranno registrate anche in inglese.
+- **La voce inglese del narratore e della voce di servizio.** In inglese il narratore ha ora la sua voce: Enzo, in inglese
+  britannico, con tutta la narrazione (descrizioni, posti, messaggi, finali, il biglietto e le targhe), le scelte di dialogo del
+  giocatore e il trailer, circa tre quarti d'ora di parlato (Google Gemini TTS, come la voce italiana). Parla in inglese anche la
+  voce di servizio, Kira: i 31 suggerimenti tra parentesi e le righe con le scorte («You have five water, and three food.»), 120
+  parti in tutto. Nelle opzioni e nella prima finestra la voce ha un modo nuovo, **inglese**, che segue il testo finché non lo si
+  sceglie: i personaggi restano per ora quelli italiani, finché non saranno registrati anche in inglese.
   Il racconto, i `.fav`, i salvataggi e la voce italiana non cambiano.
 
 ## [1.40.1] - 2026-10-31

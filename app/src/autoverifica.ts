@@ -84,7 +84,7 @@ async function provaLaVoce(testoAvvio: string, nota: (r: string) => void): Promi
   } catch (e) {
     ok = false; nota(`KO voce del trailer: ${e instanceof Error ? e.message : e}`);
   }
-  // la voce inglese (per ora il solo narratore): l'indice con le corrispondenze, una parte decodificata davvero,
+  // la voce inglese (il narratore e Kira): l'indice con le corrispondenze, una parte decodificata davvero,
   // la traccia del trailer inglese
   try {
     const re = await fetch(`${base}en/indice.json`);
@@ -100,7 +100,7 @@ async function provaLaVoce(testoAvvio: string, nota: (r: string) => void): Promi
       const sc = await (await fetch(`${base}en/trailer.json`)).json() as { durata: number; file: string; frasi: unknown[] };
       const t = await ctx.decodeAudioData(await (await fetch(`${base}en/${sc.file}`)).arrayBuffer());
       if (Math.abs(t.duration - sc.durata) > 0.1) { ok = false; nota(`KO voce inglese del trailer: dura ${t.duration.toFixed(2)} s invece di ${sc.durata}`); }
-      else nota(`ok voce inglese: ${Object.keys(en.parti).length} parti per ${Object.keys(en.corrispondenze).length} parti italiane del narratore, trailer di ${sc.frasi.length} frasi`);
+      else nota(`ok voce inglese: ${Object.keys(en.parti).length} parti per ${Object.keys(en.corrispondenze).length} parti italiane del narratore e di Kira, trailer di ${sc.frasi.length} frasi`);
     }
   } catch (e) {
     ok = false; nota(`KO voce inglese: ${e instanceof Error ? e.message : e}`);

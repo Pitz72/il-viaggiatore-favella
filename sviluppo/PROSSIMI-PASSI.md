@@ -9,19 +9,19 @@
 
 Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti non sono più da fare (vedi «Non si fa»).
 
-- **La voce recitata in inglese**: **il narratore è fatto** (31 ottobre – 1° novembre 2026, diari «Il doppiaggio inglese: il narratore in sei
-  blocchi» e «La voce inglese del narratore: taglio, banco e integrazione nel gioco»): 532 parti (narrazione e scelte) e il trailer, tagliati,
-  controllati, nel banco (`app/public/voce/en/`) e nel gioco (modo di voce «inglese», che per ora lascia in italiano le altre voci). Restano:
+- **La voce recitata in inglese**: **il narratore e la voce di servizio (Kira) sono fatti** (31 ottobre – 1° novembre 2026, diari «Il doppiaggio
+  inglese: il narratore in sei blocchi», «La voce inglese del narratore: taglio, banco e integrazione nel gioco» e «Kira in inglese: taglio, banco
+  e gioco»): 532 parti di Enzo (narrazione e scelte), il trailer e 120 parti di Kira (31 suggerimenti e 89 pezzi coi numeri delle scorte),
+  tagliati, controllati, nel banco (`app/public/voce/en/`, 652 parti, 25,6 MB con l'italiano) e nel gioco (modo di voce «inglese», che per ora
+  lascia in italiano i personaggi). Restano:
   - (chiuso il 1° novembre 2026: Simone ha ascoltato le scelte inglesi, che il modello ha letto in fretta ma delle quali «si capisce tutto», il
-    trailer, «The plain.» e «Il Viaggiatore»: vanno bene, **le scelte non si rigenerano**);
-  - **ascoltare** il resto del narratore inglese sul gioco desktop (io non posso) e dire che cosa rifare;
-  - **la voce di servizio (Kira) in inglese**: i tre blocchi sono pronti (`doppiaggio/en/blocchi/kira-*.txt`: suggerimenti, numeri a e b; 120
-    parti, verificate contro l'italiano) e **Simone li genera in AI Studio**; poi vanno estesi il taglio (`en-kira-*`), il banco, il gioco
-    (anche i pezzi coi numeri) e il collaudo. Kira britannica neutra è una scelta mia, da confermare;
-  - **i quattordici personaggi in inglese**, poi il banco e i collaudi per loro;
+    trailer, «The plain.» e «Il Viaggiatore»: vanno bene, **le scelte non si rigenerano**; e ha ascoltato Kira mentre generava: «perfetti»);
+  - **ascoltare** il narratore e Kira inglesi sul gioco desktop (io non posso) e dire che cosa rifare;
+  - **i quattordici personaggi in inglese**: voci, prompt, blocchi (come per Kira: i testi si ricavano dall'italiano, parte per parte), poi
+    taglio, banco e collaudi per loro;
   - **gli altri 39 «Generated Audio» in `Downloads`** (maggio – 30 ottobre, non nei master): che cosa sono, se vanno nel backup su F:;
-  - confermare le tre scelte mie (il modo «inglese» con le altre voci italiane, la voce che segue il testo nella prima finestra, il tetto del
-    peso a 40 MB) e, quando Simone lo dice, il rilascio (una minor, 1.41.0).
+  - confermare le scelte mie (Kira britannica neutra; il modo «inglese» con i personaggi ancora italiani; la voce che segue il testo nella
+    prima finestra; il tetto del peso a 40 MB) e, quando Simone lo dice, il rilascio (una minor, 1.41.0).
 - **Le skill e la filigrana di Claude: da analizzare in futuro** (Simone, 31 ottobre 2026). La ricerca di skill su GitHub e
   la questione della filigrana nel testo si riprendono più avanti; i fatti verificati e la decisione sono nel diario del
   31 ottobre («La verifica dell'inglese…») e nella memoria. Nessuna skill trovata è stata installata.

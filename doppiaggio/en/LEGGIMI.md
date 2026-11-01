@@ -1,21 +1,22 @@
 # Il doppiaggio inglese
 
-Il narratore del gioco in inglese, con Gemini 3.8 Flash TTS da Google AI Studio, a mano, come in italiano (`../LEGGIMI.md`). Qui
-c'è soltanto Enzo: la voce di servizio (Kira) e i quattordici personaggi in inglese non sono stati decisi.
+Il narratore del gioco in inglese (Enzo) e la voce di servizio (Kira), con Gemini 3.8 Flash TTS da Google AI Studio, a mano, come
+in italiano (`../LEGGIMI.md`). I quattordici personaggi in inglese non sono stati decisi.
 
 | File | Contenuto |
 |---|---|
 | `blocchi/narratore-a.txt` … `-f.txt` | **la narrazione** in sei blocchi di circa 9,5 minuti stimati: descrizioni, posti, messaggi, finali, biglietto e targhe, «I've read it.»; una parte per riga, `<long pause>` in mezzo, da incollare in AI Studio |
 | `blocchi/scelte.txt` | le **scelte di dialogo del giocatore** (81 frasi in prima persona), le legge Enzo; un blocco a parte |
+| `blocchi/kira-suggerimenti.txt`, `kira-numeri-a.txt`, `kira-numeri-b.txt` | **Kira**, la voce di servizio: i 31 suggerimenti tra parentesi e i 89 pezzi con i numeri delle scorte; tre blocchi (vedi sotto) |
 | `blocchi/trailer.txt` | il **trailer**, in gruppi di tono (`### tono — style: …`: un blocco di parlato per gruppo; le righe con `###` non si incollano) |
 | `trailer.json` | i testi del trailer inglese, scritti a mano dai testi sullo schermo (`app/src/components/Trailer.tsx`, `app/src/trailer/zone.ts`, `scaletta.ts`); stessi id, toni, finestre e ancore di `../trailer.json` |
-| `manifest.json` | per ogni parte: id, blocco, testo inglese, testo italiano da cui viene, da quale riga di quale `.fav`; per ogni testo del gioco, la voce di ogni suo pezzo |
+| `manifest.json` | per ogni parte: id, blocco, testo inglese, testo italiano da cui viene, da quale riga di quale `.fav`; per ogni testo del gioco, la voce di ogni suo pezzo; **Kira sta a parte, nella chiave `servizio`** (blocchi, parti, corrispondenze italiano → inglese) |
 | `controllo.md` | le verifiche, i conti, **ciò che non è di Enzo** (suggerimenti e personaggi) e la **tabella italiano ↔ inglese di ogni parte di Enzo** |
 | `voci.md` | il prompt della voce (campo accanto alla voce, identico in ogni generazione) |
 | `gemini-tts.md` | la documentazione di Gemini 3.8 Flash TTS letta il 31 ottobre 2026 |
 | `banco.json` | il resoconto del banco della voce inglese (`python strumenti/doppiaggio-banco.py --lingua en`): per ogni blocco la loudness prima e dopo, il guadagno, il picco, il peso |
 | `../master/en-grezzi/` | i WAV scaricati da AI Studio (non si versionano), con le loro trascrizioni in `trascrizioni/`; `../master/clip/en-<blocco>/` le parti tagliate |
-| `../../app/public/voce/en/` | ciò che il gioco suona in inglese: un file Opus per parte, `indice.json` (id della parte → durata; **corrispondenze**: id della parte italiana del narratore → registrazione inglese), `trailer.opus` e `trailer.json` |
+| `../../app/public/voce/en/` | ciò che il gioco suona in inglese: un file Opus per parte, `indice.json` (id della parte → durata; **corrispondenze**: id della parte italiana del narratore e di Kira → registrazione inglese), `trailer.opus` e `trailer.json` |
 
 Tutto, tranne `trailer.json`, `voci.md` e `gemini-tts.md`, lo scrive `python strumenti/doppiaggio-inglese.py blocchi`: non si ritocca
 a mano. `python strumenti/doppiaggio-inglese.py stato` fa le verifiche senza scrivere. Se un catalogo inglese
@@ -47,14 +48,15 @@ tornano con l'iniziale maiuscola, gli a capo diventano spazi. I testi con segnap
    vero**. Vicino a 10:50 il finale è tagliato.
 3. Scarica il WAV e salvalo in `../master/` (non si versiona) con il nome del blocco.
 
-L'ordine: narratore-a … -f, poi `scelte`, poi `trailer`.
+L'ordine: narratore-a … -f, poi `scelte`, poi `trailer`, poi Kira (`kira-suggerimenti`, `kira-numeri-a`, `kira-numeri-b`: campo di stile vuoto,
+voce di libreria Kira, il prompt di Kira in `voci.md`).
 
 ## Che cosa è fatto, che cosa resta
 
 Fatto il 31 ottobre – 1° novembre 2026: i blocchi sono stati generati da Simone (11 WAV, uno doppio), riconosciuti
 (`doppiaggio-riconosci.py --lingua en`), tagliati e controllati parte per parte (`doppiaggio-taglia.py en-narratore-a` … `en-scelte`,
 `en-trailer`: 532 parti di Enzo e 33 del trailer, tutte trovate, tutte controllate da sole), passati al banco
-(`doppiaggio-banco.py --lingua en`: 532 parti, 43,3 minuti, 10,1 MB) e al trailer
+(`doppiaggio-banco.py --lingua en`: 532 parti, 43,3 minuti, 10,1 MB; con Kira, vedi sotto, 652 parti, 46,7 minuti, 10,9 MB) e al trailer
 (`doppiaggio-trailer.py --lingua en`), e il gioco le suona col modo di voce «inglese» (`app/src/gioco/voce.ts`). Il collaudo è la sezione 9 di
 `collaudo/doppiaggio.py`.
 
@@ -66,10 +68,16 @@ Fatto il 31 ottobre – 1° novembre 2026: i blocchi sono stati generati da Simo
 - **Il «long pause» letto ad alta voce**: in quattro blocchi su sei (b, d, e, f) il modello ha pronunciato il tag fra una parte e l'altra, fino a 30 volte
   in un blocco. Il taglio lo lascia fuori da tutte le parti e il controllo di ogni parte non lo trova dentro; in generazioni nuove conviene
   guardare il rapporto (`master/clip/en-<blocco>/rapporto.txt`).
-- **Kira (voce di servizio) in inglese**: i testi sono pronti, tre blocchi (`blocchi/kira-suggerimenti.txt`, `kira-numeri-a.txt`, `kira-numeri-b.txt`;
-  120 parti: 31 suggerimenti e 89 pezzi con i numeri delle scorte), con il prompt in `voci.md` e il controllo in `controllo.md` (sezione di Kira).
-  Il manifest li tiene a parte, nella chiave `servizio` (blocchi, parti, corrispondenze italiano → inglese). **Non ancora registrati**: il taglio, il
-  banco e il gioco non li conoscono ancora, e col modo «inglese» Kira suona in italiano.
+- **Kira (voce di servizio) in inglese**: registrata da Simone il 1° novembre 2026 in tre blocchi (`blocchi/kira-suggerimenti.txt`, `kira-numeri-a.txt`,
+  `kira-numeri-b.txt`; 120 parti: 31 suggerimenti e 89 pezzi con i numeri delle scorte), con il prompt in `voci.md` e il controllo in `controllo.md`
+  (sezione di Kira). Tre blocchi e non uno perché i pezzi coi numeri si somigliano e Gemini salta ciò che prende per una ripetizione; due pezzi che
+  differiscono solo per la virgola o il punto finale («…water,» e «…water.») non stanno nello stesso blocco. Il manifest li tiene a parte, nella
+  chiave `servizio`; il taglio li conosce come `en-kira-suggerimenti`, `en-kira-numeri-a`, `en-kira-numeri-b`, il riconoscitore (`--lingua en`) e il
+  banco (`--lingua en`) anche; il gioco li suona col modo «inglese» senza altro (le corrispondenze di Kira stanno nell'indice inglese insieme a
+  quelle del narratore: i numeri si ricompongono dai pezzi italiani, come in italiano). Tagliati e controllati parte per parte: 120 su 120 trovate,
+  «long pause» mai letto ad alta voce, quattro sole righe sotto l'85% nel controllo di ognuna da sola, tutte di whisper e non della voce («Nunzio to barter» sentito «Nunzio Tabata», «Iole» sentito «you later», «Onofrio» sentito
+  «an off-reel», «and eight food.» sentito «and eat food.», che con la frase vicina come suggerimento torna «eight»). Nel banco ogni blocco di
+  Kira sta a −23 LUFS come Enzo (le registrazioni grezze stavano a −17: sei decibel in meno).
 - **I personaggi in inglese**: non registrati. Finché non lo sono, col modo «inglese» suonano in italiano.
 
 ## Da sapere (trovato preparando i blocchi)

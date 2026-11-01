@@ -328,7 +328,7 @@ def main():
     esito(not storte, "la voce del trailer: %d frasi al loro posto (%s solo scritte), «tuo FRATELLO.» e il titolo agganciati, "
           "nessuna sovrapposizione" % (len(frasi), len(tr["escluse"])), storte)
 
-    # 9. la voce inglese del narratore (app/public/voce/en/, strumenti/doppiaggio-inglese.py)
+    # 9. la voce inglese, del narratore e di Kira (app/public/voce/en/, strumenti/doppiaggio-inglese.py)
     voce_inglese(esito, mb)
 
     tutto_ok = all(esiti)
@@ -345,13 +345,13 @@ def strumento_inglese():
 
 
 def voce_inglese(esito, mb_italiano):
-    """La voce inglese: Enzo, per ora il solo narratore (le altre voci suonano ancora in italiano). Il diario del
-    gioco resta in italiano e le parti si ritrovano dal testo italiano: l'indice inglese dice, per ogni parte
-    italiana del narratore, la sua registrazione. Si controlla che:
+    """La voce inglese: Enzo, il narratore, e Kira, la voce di servizio (i personaggi suonano ancora in italiano). Il
+    diario del gioco resta in italiano e le parti si ritrovano dal testo italiano: l'indice inglese dice, per ogni parte
+    italiana del narratore e di Kira, la sua registrazione. Si controlla che:
       1. ogni parte inglese che doppiaggio-inglese.py ricava dai cataloghi di OGGI abbia il suo audio, e che non ce ne sia
          di scaduto (un catalogo cambiato ha un id nuovo);
-      2. ogni parte italiana del narratore (narrazione e scelte) abbia la sua registrazione inglese, e le
-         corrispondenze siano quelle di oggi;
+      2. ogni parte italiana del narratore (narrazione e scelte) e di Kira (suggerimenti e pezzi coi numeri) abbia la sua
+         registrazione inglese, e le corrispondenze siano quelle di oggi;
       3. ogni file ci sia, sia un Ogg Opus vero e duri quanto dice l'indice, e la cartella non abbia altro;
       4. le durate tornino col testo e il volume stia al bersaglio (resoconto di doppiaggio/en/banco.json);
       5. la traccia del trailer inglese: le stesse frasi, finestre e ancore dell'italiano, nessuna sovrapposizione,
@@ -367,12 +367,14 @@ def voce_inglese(esito, mb_italiano):
     est = ix["estensione"]
     E = strumento_inglese()
     r, tutto = E.costruisci()
-    attese = {i: u for i, u in r["unita"].items() if u["categoria"] in ("testo", "scelta")}
+    enzo = {i: u for i, u in r["unita"].items() if u["categoria"] in ("testo", "scelta")}
+    kira = dict(r["kira"])   # le parti di Kira (suggerimenti e pezzi coi numeri), con la loro parte italiana
+    attese = {**enzo, **kira}
     parti = ix["parti"]
 
     # 1. le parti di oggi contro l'indice
     mancano = sorted(set(attese) - set(parti))
-    esito(not mancano, "voce inglese: ogni parte di Enzo dei cataloghi di oggi ha la sua voce (%d parti)" % len(attese),
+    esito(not mancano, "voce inglese: ogni parte dei cataloghi di oggi ha la sua voce (%d di Enzo, %d di Kira)" % (len(enzo), len(kira)),
           ["%s «%s»" % (i, attese[i]["testo"][:70]) for i in mancano])
     scadute = sorted(set(parti) - set(attese))
     esito(not scadute, "voce inglese: nessun audio scaduto (parti che i cataloghi non dicono più)", scadute)
@@ -381,14 +383,19 @@ def voce_inglese(esito, mb_italiano):
     S = strumento_doppiaggio()
     it_unita = S.costruisci_tutto()["unita"]
     narratore_it = {i for i, u in it_unita.items() if u["voce"] == "narratore" and u.get("categoria") != "trailer"}
+    kira_it = {i for i, u in it_unita.items() if u["voce"] == "servizio"}
     corr = ix["corrispondenze"]
     senza = sorted(narratore_it - set(corr))
     esito(not senza, "voce inglese: ogni parte italiana del narratore (%d: narrazione e scelte) ha la sua registrazione" % len(narratore_it),
           ["%s «%s»" % (i, it_unita[i]["testo"][:70]) for i in senza])
+    senza = sorted(kira_it - set(corr))
+    esito(not senza, "voce inglese: ogni parte italiana di Kira (%d: suggerimenti e pezzi coi numeri) ha la sua registrazione" % len(kira_it),
+          ["%s «%s»" % (i, it_unita[i]["testo"][:70]) for i in senza])
     attese_corr = {}
-    for i, u in attese.items():
-        for ti in u["italiano"]:
-            attese_corr[S.impronta("narratore", ti)] = i
+    for voce_it, gruppo in (("narratore", enzo), ("servizio", kira)):
+        for i, u in gruppo.items():
+            for ti in u["italiano"]:
+                attese_corr[S.impronta(voce_it, ti)] = i
     storte = ["%s → %s, oggi %s" % (i, corr.get(i), attese_corr.get(i)) for i in sorted(set(corr) | set(attese_corr))
               if corr.get(i) != attese_corr.get(i)]
     esito(not storte, "voce inglese: le corrispondenze italiano → inglese sono quelle dei cataloghi di oggi", storte)
@@ -423,7 +430,7 @@ def voce_inglese(esito, mb_italiano):
         if i not in attese:
             continue
         n, s = attese[i]["parole"], ms / 1000
-        scelta = attese[i]["categoria"] == "scelta"
+        scelta = attese[i]["categoria"] == "scelta"   # Kira (suggerimenti, numeri) ha il limite della narrazione
         in_fretta += scelta and n / s > 5.0
         massimo = 7.5 if scelta else 6.5
         if s < 0.25 or s > 40 or not (0.3 <= n / s <= 7.5) or (n >= 5 and not (1.0 <= n / s <= massimo)):
@@ -443,7 +450,8 @@ def voce_inglese(esito, mb_italiano):
     if shutil.which("ffmpeg"):
         fuori = []
         with open(os.path.join(RADICE, "doppiaggio", "en", "manifest.json"), encoding="utf-8") as f:
-            blocchi = json.load(f)["blocchi"]
+            man_en = json.load(f)
+        blocchi = {**man_en["blocchi"], **man_en["servizio"]["blocchi"]}
         for b, v in blocchi.items():
             file = [os.path.join(cartella, i + est) for i in v["parti"] if i in parti]
             if not file or b == "trailer":

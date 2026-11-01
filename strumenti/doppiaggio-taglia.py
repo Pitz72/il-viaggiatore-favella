@@ -395,8 +395,8 @@ def scrivi_wav(percorso, campioni, rate):
 def main():
     global LINGUA
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("blocco", help="un blocco del manifest italiano; «en-<blocco>» (en-narratore-a, en-scelte, en-trailer) "
-                                   "è un blocco inglese, da doppiaggio/en/manifest.json")
+    ap.add_argument("blocco", help="un blocco del manifest italiano; «en-<blocco>» (en-narratore-a, en-scelte, en-trailer, "
+                                   "en-kira-suggerimenti…) è un blocco inglese, da doppiaggio/en/manifest.json")
     ap.add_argument("wav", nargs="+")
     ap.add_argument("--da-file", help="le parti attese sono le righe di questo file (un blocco già "
                                       "generato, in doppiaggio/generati/), non quelle del manifest")
@@ -433,6 +433,8 @@ def main():
     else:
         with open(manifest, encoding="utf-8") as f:
             man = json.load(f)
+        if nome.startswith("kira-") and "servizio" in man:   # Kira in inglese sta a parte, nella chiave «servizio»
+            man = man["servizio"]
         ids = man["blocchi"][nome]["parti"]
         testi = [man["unita"][i]["testo"] for i in ids]
     uscita = a.uscita or os.path.join(CARTELLA, "master", "clip", a.blocco)
