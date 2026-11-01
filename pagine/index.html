@@ -1,0 +1,231 @@
+<!doctype html>
+<!--
+  La pagina di presentazione su GitHub Pages: il modello. Non si apre così com'è: la monta
+  strumenti/pagine.mjs, che mette al posto dei segnaposto {{…}} la versione, i quattro download
+  dell'ultima release, l'avviso dell'autore e i titoli di coda (letti dai sorgenti del gioco), e
+  mette il gioco costruito in gioca/. Ogni testo c'è in italiano e in inglese (lang="it" / lang="en"):
+  pagina.js mostra la lingua scelta, che parte da quella del browser.
+-->
+<html lang="it" data-lingua="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Il Viaggiatore</title>
+  <meta name="author" content="Simone Pizzi" />
+  <meta name="description" content="Un'avventura testuale di sopravvivenza e cammino scritta in FAVELLA 1, doppiata in italiano e in inglese. Da scaricare per Windows e Linux, o da giocare nel browser." />
+  <meta name="theme-color" content="#0c0a0e" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Il Viaggiatore" />
+  <meta property="og:description" content="Un'avventura testuale di sopravvivenza e cammino scritta in FAVELLA 1. Da scaricare per Windows e Linux, o da giocare nel browser." />
+  <meta property="og:url" content="{{INDIRIZZO}}" />
+  <meta property="og:image" content="{{INDIRIZZO}}anteprima.jpg" />
+  <meta property="og:image:width" content="1280" />
+  <meta property="og:image:height" content="640" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="{{INDIRIZZO}}anteprima.jpg" />
+  <link rel="icon" href="gioca/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="gioca/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="gioca/favicon-180.png" />
+  <link rel="stylesheet" href="gioca/fonts/fonts.css" />
+  <link rel="stylesheet" href="stile.css" />
+  <script>
+    // la lingua prima del primo disegno: quella scelta l'ultima volta, se no quella del browser
+    (function () {
+      var l = null;
+      try { l = localStorage.getItem("viaggiatore.pagina.lingua"); } catch (e) { /* niente memoria */ }
+      if (l !== "it" && l !== "en") l = /^it\b/i.test(navigator.language || "") ? "it" : "en";
+      document.documentElement.setAttribute("data-lingua", l);
+      document.documentElement.lang = l;
+    })();
+  </script>
+</head>
+<body>
+  <a class="salta" href="#principale"><span lang="it">Vai al contenuto</span><span lang="en">Skip to content</span></a>
+
+  <header class="testata">
+    <a class="marchio" href="#principale">Il Viaggiatore</a>
+    <nav class="menu" aria-label="Sezioni">
+      <a href="#scarica"><span lang="it">Scarica</span><span lang="en">Download</span></a>
+      <a href="#gioca"><span lang="it">Gioca</span><span lang="en">Play</span></a>
+      <a href="#schermate"><span lang="it">Schermate</span><span lang="en">Screenshots</span></a>
+      <a href="#crediti"><span lang="it">Crediti</span><span lang="en">Credits</span></a>
+    </nav>
+    <div class="lingue" role="group" aria-label="Lingua · Language">
+      <button type="button" data-scegli="it" aria-label="Italiano">IT</button>
+      <button type="button" data-scegli="en" aria-label="English">EN</button>
+    </div>
+  </header>
+
+  <main id="principale">
+    <section class="apertura">
+      <img class="banner" src="banner.jpg" width="2520" height="1080"
+        alt="Il Viaggiatore: due uomini, uno di fronte all'altro, davanti a un paese al tramonto." />
+      <div class="apertura-testo">
+        <p class="incipit">
+          <span lang="it">Un uomo torna a casa. A piedi. Attraverso una terra che l’acqua ha svuotato.</span>
+          <span lang="en">A man returns home. On foot. Across a land the water has emptied.</span>
+        </p>
+        <p class="sotto">
+          <span lang="it">Un’avventura testuale di sopravvivenza e cammino, scritta in FAVELLA 1 e doppiata per intero, in italiano e in inglese.</span>
+          <span lang="en">A text adventure about survival and a long walk, written in FAVELLA 1 and fully voiced in Italian and English.</span>
+        </p>
+        <div class="azioni">
+          <a class="bottone pieno" href="#scarica" data-scarica-tuo>
+            <span lang="it">Scarica il gioco</span><span lang="en">Download the game</span>
+          </a>
+          <a class="bottone" href="gioca/">
+            <span lang="it">Gioca nel browser</span><span lang="en">Play in your browser</span>
+          </a>
+        </div>
+        <p class="versione">
+          <span lang="it">Versione {{VERSIONE}} · {{DATA_IT}} · Windows, Linux e browser</span>
+          <span lang="en">Version {{VERSIONE}} · {{DATA_EN}} · Windows, Linux and browser</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="racconto" aria-labelledby="titolo-racconto">
+      <h2 id="titolo-racconto" class="sopratitolo"><span lang="it">La storia</span><span lang="en">The story</span></h2>
+      <p class="biglietto">
+        <span lang="it">Le lettere di tua moglie hanno smesso di arrivare. L’ultimo biglietto, in stampatello e senza firma, dice soltanto: «Non è il caso di tornare.» Torni lo stesso.</span>
+        <span lang="en">Your wife’s letters have stopped coming. The last note, in block capitals and unsigned, says only: “There’s no need to come back.” You go back anyway.</span>
+      </p>
+      <p>
+        <span lang="it">Sette tappe fino a casa, da Acquaviva ad Acquamorta, lungo un sud rimasto senz’acqua. La sete detta il passo, l’acqua è la moneta e ogni scelta pesa: chi aiuti, che cosa dai via, quando alzi le mani. E al guado, ad aspettarti, tuo fratello.</span>
+        <span lang="en">Seven stages home, from Acquaviva to Acquamorta, through a southern land that has run dry. Thirst sets the pace, water is the currency and every choice carries weight: whom you help, what you give away, when you raise a hand to someone. And at the ford, waiting for you, your brother.</span>
+      </p>
+    </section>
+
+    <section id="schermate" class="schermate" aria-labelledby="titolo-schermate">
+      <h2 id="titolo-schermate" class="sopratitolo"><span lang="it">Il gioco</span><span lang="en">The game</span></h2>
+      <div class="galleria">
+        <figure>
+          <a href="schermate/1-diario-it.jpg" lang="it" data-ingrandisci><img src="schermate/1-diario-it.jpg" width="1600" height="900" loading="lazy" alt="Il diario della partita, con il paesaggio in alto, i pulsanti in basso e il corpo, le scorte e la bisaccia a destra." /></a>
+          <a href="schermate/1-diario-en.jpg" lang="en" data-ingrandisci><img src="schermate/1-diario-en.jpg" width="1600" height="900" loading="lazy" alt="The game journal, with the landscape at the top, the buttons below, and body, supplies and satchel on the right." /></a>
+          <figcaption><span lang="it">Il diario: le parole in maiuscolo si toccano, come i pulsanti.</span><span lang="en">The journal: the words in capitals can be clicked, like the buttons.</span></figcaption>
+        </figure>
+        <figure>
+          <a href="schermate/2-dialogo-it.jpg" lang="it" data-ingrandisci><img src="schermate/2-dialogo-it.jpg" width="1600" height="900" loading="lazy" alt="Un dialogo con Nunzio, il barista, col suo ritratto e le risposte numerate." /></a>
+          <a href="schermate/2-dialogo-en.jpg" lang="en" data-ingrandisci><img src="schermate/2-dialogo-en.jpg" width="1600" height="900" loading="lazy" alt="A conversation with Nunzio, the barman, with his portrait and the numbered replies." /></a>
+          <figcaption><span lang="it">Quattordici personaggi, ognuno con il suo volto e la sua voce.</span><span lang="en">Fourteen characters, each with a face and a voice.</span></figcaption>
+        </figure>
+        <figure>
+          <a href="schermate/3-mappa-it.jpg" lang="it" data-ingrandisci><img src="schermate/3-mappa-it.jpg" width="1600" height="900" loading="lazy" alt="La carta fisica della provincia, con i luoghi già visitati e le tappe ancora da raggiungere." /></a>
+          <a href="schermate/3-mappa-en.jpg" lang="en" data-ingrandisci><img src="schermate/3-mappa-en.jpg" width="1600" height="900" loading="lazy" alt="The relief map of the province, with the places already visited and the stages still ahead." /></a>
+          <figcaption><span lang="it">La mappa, quando la trovi, si riempie camminando.</span><span lang="en">The map, once you find it, fills in as you walk.</span></figcaption>
+        </figure>
+        <figure>
+          <a href="schermate/4-scelta-it.jpg" lang="it" data-ingrandisci><img src="schermate/4-scelta-it.jpg" width="1600" height="900" loading="lazy" alt="Una scelta che costa: prima di dare il cibo, il gioco dice che cosa si perde e che cosa resta." /></a>
+          <a href="schermate/4-scelta-en.jpg" lang="en" data-ingrandisci><img src="schermate/4-scelta-en.jpg" width="1600" height="900" loading="lazy" alt="A choice with a cost: before you give food away, the game shows what you lose and what you have left." /></a>
+          <figcaption><span lang="it">Le scelte che costano chiedono conferma, e dicono che cosa resta.</span><span lang="en">Costly choices ask you to confirm, and show what you’d have left.</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="numeri" aria-labelledby="titolo-numeri">
+      <h2 id="titolo-numeri" class="sopratitolo"><span lang="it">In numeri</span><span lang="en">By the numbers</span></h2>
+      <ul class="cifre">
+        <li><b>7</b><span lang="it">tappe</span><span lang="en">stages</span></li>
+        <li><b>39</b><span lang="it">luoghi</span><span lang="en">places</span></li>
+        <li><b>14</b><span lang="it">personaggi</span><span lang="en">characters</span></li>
+        <li><b>6</b><span lang="it">finali</span><span lang="en">endings</span></li>
+      </ul>
+      <ul class="qualita">
+        <li>
+          <h3><span lang="it">Si scrive, o si tocca</span><span lang="en">Type, or click</span></h3>
+          <p lang="it">In italiano si gioca scrivendo, come nelle avventure classiche (<i>bevi</i>, <i>parla con Rosaria</i>, <i>usa la lettera su Cosimo</i>), oppure a clic, con le uscite, le cose e le risposte a portata di mano.</p>
+          <p lang="en">In Italian you can type, as in classic text adventures, or click. In English you play by clicking, with exits, objects and replies right at hand.</p>
+        </li>
+        <li>
+          <h3><span lang="it">Doppiato per intero</span><span lang="en">Fully voiced</span></h3>
+          <p lang="it">Circa un’ora di parlato: il narratore, i quattordici personaggi, i suggerimenti e il trailer, in italiano e in inglese. Oppure il diario lo legge il tuo lettore di schermo.</p>
+          <p lang="en">About an hour of speech: the narrator, all fourteen characters, the hints and the trailer, in Italian and English. Or let your screen reader read the journal.</p>
+        </li>
+        <li>
+          <h3><span lang="it">Sette zone, sette brani</span><span lang="en">Seven zones, seven tracks</span></h3>
+          <p lang="it">Ogni zona ha la sua musica, che negli interni si sente da dentro. La colonna sonora si scarica dal menu Extra.</p>
+          <p lang="en">Each zone has its own music, muffled when you step indoors. The soundtrack can be downloaded from the Extra menu.</p>
+        </li>
+        <li>
+          <h3><span lang="it">Trenta trofei</span><span lang="en">Thirty trophies</span></h3>
+          <p lang="it">I sei finali, le tre fini lungo la strada, i gesti, i modi di arrivare e tre sfide da tentare in un viaggio solo.</p>
+          <p lang="en">The six endings, the three ways the road can end you, the deeds, the ways of arriving, and three challenges to attempt in a single journey.</p>
+        </li>
+        <li>
+          <h3><span lang="it">Si salva come in un gioco</span><span lang="en">Save as in any game</span></h3>
+          <p lang="it">Salvataggi con nome quanti se ne vuole, il rapido con F5 e F9, tre automatici, e ANNULLA per tornare indietro di un turno.</p>
+          <p lang="en">As many named saves as you like, quick save and load on F5 and F9, three autosaves, and UNDO to take back a turn.</p>
+        </li>
+        <li>
+          <h3><span lang="it">Accessibile</span><span lang="en">Accessible</span></h3>
+          <p lang="it">Un interruttore per l’alta accessibilità: contrasto alto, testo grande, un carattere ad alta leggibilità, movimento ridotto e il fuoco della tastiera ben visibile.</p>
+          <p lang="en">A single switch, High accessibility: high contrast, large text, a typeface designed for legibility, reduced motion and a clearly visible keyboard focus.</p>
+        </li>
+      </ul>
+    </section>
+
+    <section id="scarica" class="scarica" aria-labelledby="titolo-scarica">
+      <h2 id="titolo-scarica" class="sopratitolo"><span lang="it">Scarica</span><span lang="en">Download</span></h2>
+      <p class="intro">
+        <span lang="it">La versione {{VERSIONE}}, la più completa: in più ha la finestra e lo schermo intero dalle opzioni, i salvataggi come file nella cartella Documenti e, con l’installer di Windows e l’AppImage, l’aggiornamento automatico.</span>
+        <span lang="en">Version {{VERSIONE}}, the most complete: it adds window and full-screen settings, saves as files in your Documents folder and, with the Windows installer and the AppImage, automatic updates.</span>
+      </p>
+      <div class="download">
+{{DOWNLOAD}}
+      </div>
+      <p class="nota">
+        <span lang="it">Gli eseguibili non sono firmati: Windows SmartScreen può chiedere una conferma («Ulteriori informazioni» → «Esegui comunque»). L’AppImage va resa eseguibile (Proprietà → Permessi, o <code>chmod +x</code>).</span>
+        <span lang="en">The executables are not signed: Windows SmartScreen may ask you to confirm (“More info” → “Run anyway”). The AppImage must be made executable (Properties → Permissions, or <code>chmod +x</code>).</span>
+        <a href="{{TUTTE}}"><span lang="it">Tutte le versioni</span><span lang="en">All versions</span></a>
+      </p>
+    </section>
+
+    <section id="gioca" class="gioca" aria-labelledby="titolo-gioca">
+      <h2 id="titolo-gioca" class="sopratitolo"><span lang="it">Gioca nel browser</span><span lang="en">Play in your browser</span></h2>
+      <p>
+        <span lang="it">Lo stesso gioco, senza installare niente: il motore FAVELLA 1 gira nella pagina. La prima volta scarica l’interprete e la voce (qualche decina di MB), poi il browser li tiene. I salvataggi restano nel browser, e dal taccuino si esportano in un file.</span>
+        <span lang="en">The same game, with nothing to install: the FAVELLA 1 engine runs in the page. The first time it downloads the interpreter and the voices (a few dozen MB), then your browser keeps them. Saves stay in the browser, and you can export them to a file from the notebook.</span>
+      </p>
+      <p class="azioni"><a class="bottone pieno" href="gioca/"><span lang="it">Comincia il viaggio</span><span lang="en">Start the journey</span></a></p>
+      <p class="nota">
+        <span lang="it">Va meglio su un computer, con un browser recente e lo schermo largo.</span>
+        <span lang="en">Best on a computer, with a recent browser and a wide screen.</span>
+      </p>
+    </section>
+
+    <section class="progetto" aria-labelledby="titolo-progetto">
+      <h2 id="titolo-progetto" class="sopratitolo"><span lang="it">Il progetto</span><span lang="en">The project</span></h2>
+      <blockquote>
+        <p lang="it">{{AVVISO_IT}}</p>
+        <p lang="en">{{AVVISO_EN}}</p>
+      </blockquote>
+      <p>
+        <span lang="it">Il progetto è concluso, e il sorgente è aperto: si può studiare, e chi ama FAVELLA 1 è libero di estenderlo o di farne una propria versione.</span>
+        <span lang="en">The project is finished, and the source is open: you can study it, and anyone who likes FAVELLA 1 is free to extend it or make their own version.</span>
+        <a href="https://github.com/Pitz72/il-viaggiatore-favella"><span lang="it">Il codice su GitHub</span><span lang="en">The code on GitHub</span></a>
+      </p>
+    </section>
+
+    <section id="crediti" class="crediti" aria-labelledby="titolo-crediti">
+      <h2 id="titolo-crediti" class="sopratitolo"><span lang="it">Crediti, voci e licenze</span><span lang="en">Credits, voices and licences</span></h2>
+{{CREDITI}}
+    </section>
+  </main>
+
+  <footer class="piede">
+    <ul class="collegamenti">
+      <li><a href="https://favella.eu/">favella.eu</a> <span lang="it">· il motore FAVELLA 1</span><span lang="en">· the FAVELLA 1 engine</span></li>
+      <li><a href="https://ecosystem.runtimeradio.com/">ecosystem.runtimeradio.com</a> <span lang="it">· Runtime Radio</span><span lang="en">· Runtime Radio</span></li>
+      <li><a href="https://github.com/Pitz72/il-viaggiatore-favella">GitHub</a> <span lang="it">· il codice e le licenze</span><span lang="en">· code and licences</span></li>
+    </ul>
+    <p><span lang="it">Un gioco di Simone Pizzi (Pitz72), 2026.</span><span lang="en">A game by Simone Pizzi (Pitz72), 2026.</span></p>
+  </footer>
+
+  <dialog class="lente" aria-label="Schermata · Screenshot">
+    <img alt="" />
+    <button type="button" class="chiudi"><span lang="it">Chiudi</span><span lang="en">Close</span> <kbd>Esc</kbd></button>
+  </dialog>
+
+  <script src="pagina.js"></script>
+</body>
+</html>

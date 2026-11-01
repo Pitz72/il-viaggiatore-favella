@@ -1,14 +1,19 @@
-# Versione web giocabile su GitHub Pages: SOLO A MANO (Actions → «Pagine» → Run workflow).
+# Il sito su GitHub Pages: https://pitz72.github.io/il-viaggiatore-favella/
 #
-# Costruisce l'app (la stessa del desktop, col motore FAVELLA dentro Pyodide),
-# la pubblica su https://pitz72.github.io/il-viaggiatore-favella/ e lascia fra
-# gli artefatti dell'esecuzione lo zip `Il-Viaggiatore-web.zip`, pronto da
-# caricare su itch.io, Game Jolt o Newgrounds come gioco HTML5.
-# I salvataggi, nel browser, stanno nel browser di chi gioca.
+#  · alla radice la PRESENTAZIONE (pagine/, montata da strumenti/pagine.mjs): i quattro download
+#    dell'ultima release, il gioco nel browser, le schermate, i numeri, i crediti; italiano e inglese;
+#  · in gioca/ il GIOCO, costruito dal tag dell'ULTIMA RELEASE (non da main): nel browser si gioca
+#    la stessa versione che si scarica.
+#
+#  Parte da sé alla fine del workflow «Rilascio» (che lo richiama), e si lancia anche a mano
+#  (Actions → Pagine → Run workflow), per esempio dopo un ritocco alla presentazione.
+#  Fra gli artefatti resta lo zip `Il-Viaggiatore-web.zip` del gioco, pronto per itch.io e simili.
+#  I salvataggi, nel browser, stanno nel browser di chi gioca.
 name: Pagine
 
 on:
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read
@@ -21,17 +26,39 @@ concurrency:
 
 jobs:
   costruisci:
+    name: Presentazione e gioco
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v7
         with:
           node-version: 22
-      - run: |
-          npm ci --prefix app
-          npm run build --prefix app
-      - name: Zip per itch.io e simili
-        run: cd app/dist && zip -qr ../../Il-Viaggiatore-web.zip .
+      - name: L'ultima release
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG=$(gh release view --repo "${{ github.repository }}" --json tagName --jq .tagName)
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Il gioco nel browser sarà la $TAG"
+      - name: Il gioco di quella release
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ steps.release.outputs.tag }}
+          path: gioco
+          persist-credentials: false
+      - name: Costruisci il gioco
+        run: |
+          npm ci --prefix gioco/app
+          npm run build --prefix gioco/app
+      - name: Monta il sito
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node strumenti/pagine.mjs --gioco gioco --uscita sito --tag "${{ steps.release.outputs.tag }}"
+      - name: Zip del gioco per itch.io e simili
+        run: cd gioco/app/dist && zip -qr ../../../Il-Viaggiatore-web.zip .
       - uses: actions/upload-artifact@v7
         with:
           name: Il-Viaggiatore-web
@@ -39,9 +66,10 @@ jobs:
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:
-          path: app/dist
+          path: sito
 
   pubblica:
+    name: Pubblica
     needs: costruisci
     runs-on: ubuntu-latest
     environment:

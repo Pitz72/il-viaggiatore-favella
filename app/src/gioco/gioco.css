@@ -182,6 +182,9 @@ span.vg-oggetto.vg-informa, span.vg-oggetto.vg-informa:hover { display: block; b
 .vg-voci li { margin: 5px 0; font-style: italic; font-size: 13px; line-height: 1.35; color: rgba(230,223,210,.7); }
 .vg-voci li::before { content: "«"; margin-right: 3px; opacity: .5; }
 .vg-voci li::after { content: "»"; margin-left: 3px; opacity: .5; }
+/* in inglese le virgolette inglesi (la lingua sta su <html lang>, lib/lingua.ts) */
+:root:lang(en) .vg-voci li::before { content: "“"; }
+:root:lang(en) .vg-voci li::after { content: "”"; }
 .vg-pip i { display: inline-block; width: 12px; height: 5px; margin-left: 3px; border-radius: 2px; background: rgba(255,255,255,.1); }
 .vg-pip i.on { background: var(--acc); box-shadow: 0 0 6px var(--acc); }
 
@@ -242,6 +245,8 @@ button.vg-chiave-tasto:hover, button.vg-chiave-tasto:focus-visible { border-bott
 .vg-conf-quota { margin: 10px 0 0; font-style: italic; font-size: 15px; color: rgba(230,223,210,.62); }
 .vg-conf-quota::before { content: "«"; }
 .vg-conf-quota::after { content: "»"; }
+:root:lang(en) .vg-conf-quota::before { content: "“"; }
+:root:lang(en) .vg-conf-quota::after { content: "”"; }
 .vg-conf h2 { margin: 6px 0 0; font-family: 'Lora', serif; font-weight: 500; font-size: 23px; line-height: 1.28; color: #f7eddb; text-wrap: balance; }
 .vg-conf-conti { display: flex; align-items: stretch; gap: 14px; margin-top: 18px; }
 .vg-conf-col { flex: 1; min-width: 0; padding: 10px 14px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,.09); background: rgba(255,255,255,.03); }

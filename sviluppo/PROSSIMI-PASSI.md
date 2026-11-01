@@ -30,10 +30,8 @@ Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti 
 - **Le skill e la filigrana di Claude: da analizzare in futuro** (Simone, 31 ottobre 2026). La ricerca di skill su GitHub e
   la questione della filigrana nel testo si riprendono più avanti; i fatti verificati e la decisione sono nel diario del
   31 ottobre («La verifica dell'inglese…») e nella memoria. Nessuna skill trovata è stata installata.
-- **La copia su GitHub Pages** (https://pitz72.github.io/il-viaggiatore-favella/: direttamente il gioco, l'app intera, senza una
-  pagina di presentazione; ricontrollata il 1° novembre 2026) è ferma alla 1.23.0, solo in italiano: non si offre più da nessuna parte ma resta in linea per
-  non rompere i link. Il workflow «Pagine» (manuale) la rifarebbe: se lanciato oggi pubblicherebbe di nuovo il gioco nel
-  browser, contro la scelta della 1.40.0.
+- **favella.eu ed Ecosystem dicono ancora «solo da scaricare»** (dalla 1.40.0), mentre dal 1° novembre 2026 il gioco si gioca di
+  nuovo nel browser dalla pagina su GitHub Pages: potrebbero rimandare lì. Sono altri repository: si toccano solo se Simone lo chiede.
 - **Rami remoti vecchi**: `claude/amazing-mccarthy-8bigiy`, `claude/blissful-wright-qjgutj`, `claude/vigilant-feynman-d7d9kq`
   di questo repository sono già tutti contenuti in `main` (0 commit in avanti, verificato il 31 ottobre): si possono cancellare,
   ma solo su ordine di Simone.
@@ -43,6 +41,10 @@ Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti 
 
 ## Chiuso
 
+- **La pagina del gioco su GitHub Pages** (1° novembre 2026, diario «La pagina del gioco su GitHub Pages»): la presentazione alla
+  radice, in italiano e in inglese, con i download dell'ultima release, il gioco nel browser in `gioca/` all'ultima versione, le
+  schermate, i numeri, i crediti; si rifà da sola a ogni rilascio. Simone: «Il gioco doveva essere finito, per questo quella
+  decisione» (il gioco solo da scaricare della 1.40.0): ora la versione nel browser torna, e sempre aggiornata.
 - **La revisione totale del codice e i suoi rimedi** (1° novembre 2026, diari «La revisione totale del codice» e «I rimedi della
   revisione del codice»): la domanda del motore che risorgeva dopo salva e carica (e con un «s» faceva ricominciare la partita),
   RICOMINCIA che ora è un viaggio nuovo anche per la sequenza salvata, il trofeo che si poteva perdere, Electron, Vite e gli

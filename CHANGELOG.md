@@ -8,6 +8,17 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+### Aggiunto
+- **La pagina del gioco su GitHub Pages** (https://pitz72.github.io/il-viaggiatore-favella/): la presentazione, in italiano e in
+  inglese, con i quattro download dell'ultima release (quello del proprio sistema in evidenza), il gioco nel browser in `gioca/`,
+  quattro schermate del gioco vero per lingua, i numeri, le caratteristiche, l'avviso dell'autore, i crediti e i link a favella.eu ed
+  Ecosystem. Il gioco nel browser è costruito dal tag dell'ultima release, e il workflow «Rilascio» rifà le Pagine a ogni versione
+  (`pagine/`, `strumenti/pagine.mjs`, `.github/workflows/pagine.yml`; le schermate le rifà `strumenti/schermate.cjs`).
+
+### Corretto
+- **In inglese le virgolette inglesi** anche nella conferma di una scelta (la frase della risposta) e in «si dice di te»: erano
+  caporali italiani.
+
 ## [1.41.1] - 2026-11-01
 
 ### Corretto

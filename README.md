@@ -10,7 +10,8 @@
 
 <p align="center">
   <a href="https://github.com/Pitz72/il-viaggiatore-favella/releases/latest"><b>⬇ SCARICA IL GIOCO PER WINDOWS E LINUX</b></a>
-  <br>in italiano e, dalla 1.40, in inglese
+  &nbsp;·&nbsp; <a href="https://pitz72.github.io/il-viaggiatore-favella/gioca/"><b>▶ GIOCA NEL BROWSER</b></a>
+  <br>in italiano e, dalla 1.40, in inglese · la pagina del gioco: <a href="https://pitz72.github.io/il-viaggiatore-favella/">pitz72.github.io/il-viaggiatore-favella</a>
 </p>
 
 <p align="center">
@@ -54,8 +55,11 @@ In inglese parla tutto: il narratore, la voce di servizio e tutti i quattordici 
 **Il gioco si scarica, per Windows e Linux** (dalla 1.40.0 anche in inglese): la storia intera, doppiata, col suo
 trailer, le opzioni a schede (lingua, volumi, accessibilità, finestra e qualità della grafica), la pausa, i salvataggi con
 nome e quelli rapidi (F5/F9), i trofei, la musica di ogni zona e la colonna sonora da scaricare, la sequenza finale con i
-titoli di coda e la sua canzone. La versione da giocare nel browser, ferma alla 1.23.0 e solo in italiano, non si
-distribuisce più: dalla 1.40.0 non c'è più nemmeno su [favella.eu](https://favella.eu).
+titoli di coda e la sua canzone. **Si gioca anche nel browser**, senza installare niente: la
+[pagina del gioco](https://pitz72.github.io/il-viaggiatore-favella/) su GitHub Pages ha i download e, in
+[`gioca/`](https://pitz72.github.io/il-viaggiatore-favella/gioca/), il gioco stesso, sempre all'ultima release (il workflow
+«Rilascio» rifà le Pagine a ogni versione; i salvataggi restano nel browser). Dalla 1.40.0 alla 1.41.1 la copia nel browser era
+ferma alla 1.23.0 e non si offriva più; dal 1° novembre 2026 è tornata, aggiornata.
 
 Dalla pagina [Releases](https://github.com/Pitz72/il-viaggiatore-favella/releases):
 

@@ -24,7 +24,9 @@ Poi si controlla che il repository dica lo stesso: `git status`, `git log`, la C
 
 *Il Viaggiatore*: avventura testuale di sopravvivenza e cammino scritta in FAVELLA 1 (motore Python in `motore/`, storia in
 `prototipo/`), con l'app React in `app/` e il guscio Electron in `desktop/`. In italiano e, dalla 1.40.0, in inglese.
-7 zone, 39 luoghi, 14 personaggi, 6 finali. La storia è definitiva dalla 1.12.0; il progetto è dichiarato concluso e il
+7 zone, 39 luoghi, 14 personaggi, 6 finali. Si scarica dalle release (Windows e Linux) e si gioca nel browser dalla pagina su
+GitHub Pages (https://pitz72.github.io/il-viaggiatore-favella/: la presentazione in `pagine/`, il gioco in `gioca/`; la rifà il
+workflow «Rilascio» a ogni versione). La storia è definitiva dalla 1.12.0; il progetto è dichiarato concluso e il
 lavoro riprende solo su richiesta di Simone.
 
 ## Regole che valgono sempre

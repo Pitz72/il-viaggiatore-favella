@@ -13,7 +13,10 @@
 #      (AppImage + deb) e li AUTOVERIFICA;
 #   4. crea il tag e la release, con le note prese dal CHANGELOG e i file per
 #      l'aggiornamento automatico (latest.yml, latest-linux.yml, blockmap).
-#      Una versione con «-» (1.2.0-beta.1) esce come pre-release.
+#      Una versione con «-» (1.2.0-beta.1) esce come pre-release;
+#   5. rifà il sito di GitHub Pages (pagine.yml): la presentazione con i download
+#      della release appena uscita e il gioco nel browser di quella versione. Non
+#      per una bozza: finché non è pubblicata, la release «ultima» resta quella di prima.
 #
 # Permessi: il token può scrivere nel repository solo nel job della release
 # (tag e file). Gli altri, che installano e costruiscono migliaia di pacchetti,
@@ -182,3 +185,13 @@ jobs:
           draft: ${{ inputs.bozza }}
           files: pacchetti/*
           fail_on_unmatched_files: true
+
+  pagine:
+    name: Pagine
+    needs: release
+    if: ${{ !inputs.bozza }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/pagine.yml
