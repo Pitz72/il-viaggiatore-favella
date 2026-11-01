@@ -40,7 +40,9 @@ Alla domanda «Applico i rimedi, partendo dal ponte dei salvataggi?» Simone ha 
 - **Build e desktop**: `node prepara.mjs` riuscita; `electron . --autoverifica` con Electron 44.10.1 e cartelle di prova: **AUTOVERIFICA SUPERATA**.
 - **Nel browser integrato** (server di sviluppo, poi chiuso), con l'interfaccia vera: «nord, aspetta, ricomincia, aspetta, annulla» → sequenza `["nord", "aspetta"]`; F5 e F9 → «Ripreso da…», nessuna domanda attiva (la frase resta solo come riga passata del diario). «ricomincia» e il pulsante «sì» → stazione, turno 0, sequenza vuota; un F5 dopo ha un viaggio nuovo (identificativo diverso, «indietro» da vero a falso, tempo da zero). Nessun errore in console.
 - **`npm audit`**: app, 0 avvisi fra ciò che si distribuisce e minimatch (moderato) negli strumenti di ESLint; desktop, solo minimatch negli strumenti di electron-builder.
-- Non verificato: il workflow «Rilascio» nuovo (si prova alla prima release); la CI del commit, guardata dopo la spinta.
+- **La CI di `e7467fb`** (run 41313602622): verde. «Collaudo / Versioni e collaudo» (il workflow richiamato) in 4 min 58 s; «Pacchetto Windows» e «Pacchetto Linux» costruiti e autoverificati con Electron 44.10.1 e `servi.cjs` dentro l'asar.
+- Non verificato: il workflow «Rilascio» nuovo (si prova alla prima release).
+- Annotati in `CLAUDE.md` («Su questo computer») due inciampi di oggi: `write_text` di Python che mette CRLF, e i registri delle prove da scrivere nella cartella temporanea.
 
 ## Questioni aperte
 - **Il rilascio** di queste correzioni (sarebbe una patch, 1.41.1): lo decide Simone. Il nuovo `rilascio.yml` si prova davvero solo alla prima release; `collaudo.yml` lo prova la CI a ogni push.

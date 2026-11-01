@@ -110,6 +110,10 @@ Regole venute da ciò che Simone ha chiesto e corretto; la memoria locale che le
 - `npm ci --ignore-scripts` in `desktop/` cancella `node_modules/electron/dist`: lo rimette `node node_modules/electron/install.js`.
   `npm audit fix` può spostare electron-builder: meglio `npm update <pacchetto>`.
 - `python -I` non vede Pillow: gli strumenti che lo usano (`strumenti/immagini.py`, `grafica/componi-ico.py`) si lanciano senza `-I`.
+- Riscrivendo un file del repository da Python, `Path.write_text` mette i fine riga CRLF: si usa `write_bytes` (o `newline="\n"`).
+  Git li riporterebbe a LF (`.gitattributes`), ma la copia di lavoro resta sporca e i diff lo segnalano.
+- Gli script di prova scrivono i loro registri nella cartella temporanea della sessione, con percorsi assoluti: il 1° novembre
+  2026 26 registri con percorsi relativi sono finiti nel clone (spostati prima del commit).
 - Se un `git push` con molto audio scade (HTTP 408 su una linea lenta): un commit per volta, in ordine,
   `git -c http.version=HTTP/1.1 -c http.postBuffer=524288000 push origin <sha>:refs/heads/main`.
 
