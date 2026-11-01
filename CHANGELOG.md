@@ -8,6 +8,8 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.41.1] - 2026-11-01
+
 ### Corretto
 - **Una domanda lasciata cadere non torna più dopo un caricamento.** Se il gioco chiedeva «ricominciare da capo?» (o «chiudere la
   partita?», «Con cosa vuoi usarla?») e la domanda cadeva con ANNULLA, un salvataggio fatto dopo la riportava a galla: caricandolo,

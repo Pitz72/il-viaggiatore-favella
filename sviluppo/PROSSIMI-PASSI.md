@@ -1,7 +1,7 @@
 # Prossimi passi
 
 > **Lo stato vivo del progetto.** *Il Viaggiatore* è concluso come storia (definitiva dalla 1.12.0) e il lavoro riprende solo
-> su richiesta di Simone. Ultima versione: **1.41.0**, 1° novembre 2026. Questo file tiene il conto di che cosa è aperto, di
+> su richiesta di Simone. Ultima versione rilasciata: **1.41.0**, 1° novembre 2026; la **1.41.1** è preparata, non ancora rilasciata. Questo file tiene il conto di che cosa è aperto, di
 > che cosa si è chiuso e di che cosa, di proposito, non si fa; **si aggiorna a ogni sessione** (vedi [`CLAUDE.md`](../CLAUDE.md)).
 > (Com'era prima, fermo alla 1.7.0: nella storia di git.)
 
@@ -9,10 +9,10 @@
 
 Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti non sono più da fare (vedi «Non si fa»).
 
-- **Rilasciare i rimedi della revisione del codice** (sarebbe una patch, 1.41.1): sono fatti e in «Non rilasciato» del CHANGELOG
-  (diario «I rimedi della revisione del codice»), fra cui **Electron 44.10.1**, che corregge due avvisi gravi del pacchetto 1.41.0.
-  Il rilascio lo decide Simone (`node strumenti/versione.mjs prepara patch`, poi Actions → Rilascio). Il nuovo `rilascio.yml`
-  (permessi stretti, collaudo condiviso) si prova davvero alla prima release.
+- **Lanciare il rilascio della 1.41.1**: è **preparata** (1° novembre 2026, diario «La preparazione del rilascio 1.41.1»: versione,
+  pacchetti e CHANGELOG alla 1.41.1, collaudi verdi) e porta i rimedi della revisione del codice, fra cui **Electron 44.10.1**, che
+  corregge due avvisi gravi del pacchetto 1.41.0. Manca solo Actions → Rilascio → Run workflow, su ordine di Simone. È il primo con il
+  nuovo `rilascio.yml` (permessi stretti, collaudo condiviso).
 - **Il doppiaggio è concluso** (Simone, 1° novembre 2026: «per questo lavoro del doppiaggio abbiamo finito»); i titoli di coda dicono ora tutte le voci, in italiano e in inglese (diario «Il controllo generale e i titoli di coda con tutte le voci»). **La voce recitata in inglese**: **il narratore, la voce di servizio (Kira) e tutti i quattordici personaggi sono fatti** (31 ottobre – 1° novembre 2026, diari «Il doppiaggio
   inglese: il narratore in sei blocchi», «La voce inglese del narratore: taglio, banco e integrazione nel gioco» e «Kira in inglese: taglio, banco
   e gioco», «I quattro personaggi di ElevenLabs in inglese: taglio, banco e gioco» e «Concetta, Iole e Onofrio in inglese»): 532 parti di Enzo
