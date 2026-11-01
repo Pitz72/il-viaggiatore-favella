@@ -12,8 +12,9 @@ Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti 
 - **La voce recitata in inglese**: **il narratore è fatto** (31 ottobre – 1° novembre 2026, diari «Il doppiaggio inglese: il narratore in sei
   blocchi» e «La voce inglese del narratore: taglio, banco e integrazione nel gioco»): 532 parti (narrazione e scelte) e il trailer, tagliati,
   controllati, nel banco (`app/public/voce/en/`) e nel gioco (modo di voce «inglese», che per ora lascia in italiano le altre voci). Restano:
-  - **rigenerare le scelte inglesi con calma** (il modello le ha lette in fretta: 35 su 81 sopra le 5 parole al secondo);
-  - **ascoltare** il narratore inglese sul gioco desktop (non l'ho potuto fare) e dire che cosa rifare;
+  - (chiuso il 1° novembre 2026: Simone ha ascoltato le scelte inglesi, che il modello ha letto in fretta ma delle quali «si capisce tutto», il
+    trailer, «The plain.» e «Il Viaggiatore»: vanno bene, **le scelte non si rigenerano**);
+  - **ascoltare** il resto del narratore inglese sul gioco desktop (io non posso) e dire che cosa rifare;
   - **la voce di servizio (Kira) e i quattordici personaggi in inglese**, poi il banco e i collaudi per loro;
   - confermare le tre scelte mie (il modo «inglese» con le altre voci italiane, la voce che segue il testo nella prima finestra, il tetto del
     peso a 40 MB) e, quando Simone lo dice, il rilascio (una minor, 1.41.0).

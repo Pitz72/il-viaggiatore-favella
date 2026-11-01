@@ -60,8 +60,9 @@ Fatto il 31 ottobre – 1° novembre 2026: i blocchi sono stati generati da Simo
 
 - **Se un testo inglese cambia** (un catalogo di `app/src/lingue/en/`): cambia l'id della sua parte e il collaudo lo dice. Si rigenera quel
   testo (`doppiaggio-inglese.py blocchi` e `da-fare` per Gemini), si taglia, si rifà il banco.
-- **Le scelte del giocatore sono da rigenerare**: il modello le ha lette in fretta (mediana 4,8 parole al secondo contro 3,3 della narrazione e
-  delle scelte italiane; 35 su 81 sopra le 5). Il collaudo lo dice con una riga e per ora le accetta (limite 7,5).
+- **Le scelte del giocatore sono lette in fretta, e vanno bene così**: mediana 4,8 parole al secondo contro 3,3 della narrazione e delle scelte
+  italiane; 35 su 81 sopra le 5. Simone le ha ascoltate il 1° novembre 2026: «si capisce tutto», quindi **non si rigenerano**. Il collaudo ne dice
+  il numero con una riga e le accetta (limite 7,5).
 - **Il «long pause» letto ad alta voce**: in quattro blocchi su sei (b, d, e, f) il modello ha pronunciato il tag fra una parte e l'altra, fino a 30 volte
   in un blocco. Il taglio lo lascia fuori da tutte le parti e il controllo di ogni parte non lo trova dentro; in generazioni nuove conviene
   guardare il rapporto (`master/clip/en-<blocco>/rapporto.txt`).

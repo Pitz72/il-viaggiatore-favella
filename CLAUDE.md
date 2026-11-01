@@ -102,6 +102,8 @@ Regole venute da ciò che Simone ha chiesto e corretto; la memoria locale che le
   colonna sonora). Dopo un clone: `pip install lark==1.3.1`, `npm ci --prefix app`, `npm ci --prefix desktop`.
 - I collaudi in locale sono i passi del job «collaudo» di `.github/workflows/ci.yml`; l'esploratore completo
   (`python esploratore.py`, in `collaudo/`) dura circa cinque minuti.
+- **I server di sviluppo si chiudono quando non servono** e si riaprono al bisogno (Simone, 1° novembre 2026, che ha autorizzato a
+  chiuderli tutti, anche quelli di altre sessioni): a fine lavoro non ne resta nessuno acceso (`vite`, anteprima del browser).
 - **La porta 5200 può essere già occupata** da un `vite` di un'altra sessione: `npm run dev` allora sale su un'altra porta, e
   guardare la 5200 vuol dire guardare un altro checkout. Si guarda la porta che `vite` stampa, dopo aver controllato chi ascolta.
 - `npm ci --ignore-scripts` in `desktop/` cancella `node_modules/electron/dist`: lo rimette `node node_modules/electron/install.js`.

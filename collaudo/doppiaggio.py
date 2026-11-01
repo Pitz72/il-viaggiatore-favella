@@ -416,8 +416,8 @@ def voce_inglese(esito, mb_italiano):
 
     # 4. le durate e il volume
     # Le scelte inglesi del 31/10/2026 il modello le ha lette in fretta (mediana 4,8 parole al secondo, la narrazione 3,3, le
-    # scelte italiane 3,3): sono da rigenerare con calma (diario del 1/11/2026). Finché non si rifanno, per loro il limite
-    # è 7,5 e questa riga lo dice; per la narrazione resta 6,5.
+    # scelte italiane 3,3). Simone le ha ascoltate il 1/11/2026: «si capisce tutto», non si rigenerano (diario del 1/11/2026).
+    # Per loro il limite è 7,5 e la riga qui sotto ne dice il numero; per la narrazione resta 6,5.
     strane, in_fretta = [], 0
     for i, ms in sorted(parti.items()):
         if i not in attese:
@@ -430,7 +430,7 @@ def voce_inglese(esito, mb_italiano):
             strane.append("%s: %d parole in %.2f s «%s»" % (i, n, s, attese[i]["testo"][:60]))
     esito(not strane, "voce inglese: le durate tornano col testo (narrazione fra 1 e 6,5 parole al secondo; scelte fino a 7,5)", strane)
     if in_fretta:
-        print("-- voce inglese: %d scelte su %d sono lette sopra le 5 parole al secondo (in italiano una): da rigenerare con calma"
+        print("-- voce inglese: %d scelte su %d sono lette sopra le 5 parole al secondo (in italiano una); ascoltate da Simone: vanno bene"
               % (in_fretta, sum(1 for u in attese.values() if u["categoria"] == "scelta")))
     with open(os.path.join(RADICE, "doppiaggio", "en", "banco.json"), encoding="utf-8") as f:
         banco = json.load(f)
