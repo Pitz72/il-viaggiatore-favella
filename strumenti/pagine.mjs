@@ -28,16 +28,17 @@ const args = process.argv.slice(2);
 const opz = (nome, ripiego) => { const i = args.indexOf(nome); return i >= 0 ? args[i + 1] : ripiego; };
 const SEGNO = ".sito-del-viaggiatore";   // c'è in un sito montato da qui: solo quella cartella si può svuotare
 
-/** I quattro file di una release, nell'ordine della pagina. `primo`: quello che si propone a chi usa quel sistema. */
+/** I quattro file di una release, nell'ordine della pagina. `primo`: quello che si propone a chi usa quel sistema.
+ *  `bIt`/`bEn`: la riga corta sotto il pulsante d'apertura. */
 const FILE = [
   { re: /-win-x64\.exe$/, sistema: "windows", primo: true, it: "Windows", en: "Windows",
-    dIt: "con installazione · si aggiorna da solo", dEn: "installer · updates itself" },
+    dIt: "con installazione · si aggiorna da solo", dEn: "installer · updates itself", bIt: "con installazione", bEn: "installer" },
   { re: /-portable\.exe$/, sistema: "windows", it: "Windows, portatile", en: "Windows, portable",
-    dIt: "senza installazione: si apre e si gioca", dEn: "nothing to install: open it and play" },
+    dIt: "senza installazione: si apre e si gioca", dEn: "nothing to install: open it and play", bIt: "portatile", bEn: "portable" },
   { re: /-linux-x86_64\.AppImage$/, sistema: "linux", primo: true, it: "Linux · AppImage", en: "Linux · AppImage",
-    dIt: "qualunque distribuzione · si aggiorna da solo", dEn: "any distribution · updates itself" },
+    dIt: "qualunque distribuzione · si aggiorna da solo", dEn: "any distribution · updates itself", bIt: "AppImage", bEn: "AppImage" },
   { re: /-linux-amd64\.deb$/, sistema: "linux", it: "Linux · .deb", en: "Linux · .deb",
-    dIt: "Debian, Ubuntu, Mint", dEn: "Debian, Ubuntu, Mint" },
+    dIt: "Debian, Ubuntu, Mint", dEn: "Debian, Ubuntu, Mint", bIt: ".deb · Debian, Ubuntu", bEn: ".deb · Debian, Ubuntu" },
 ];
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -92,12 +93,16 @@ async function main() {
     .some((f) => fs.readFileSync(path.join(dist, "assets", f), "utf8").includes(`gioco:\`${versione}\``));
   if (!bundle) fallisci(`${dist} non è costruita dalla ${versione} (va rifatta: npm run build in app/)`);
 
-  // i quattro download
-  const download = FILE.map((f) => {
+  // i quattro download: le schede della sezione «Scarica» e i pulsanti dell'apertura
+  const file = FILE.map((f) => {
     const a = rel.assets.find((x) => f.re.test(x.name));
     if (!a) fallisci(`nella release ${rel.tag_name} manca il file ${f.re}`);
-    const peso = `${Math.round(a.size / 1048576)} MB`;
-    const url = `https://github.com/${REPO}/releases/download/${rel.tag_name}/${encodeURIComponent(a.name)}`;
+    return { ...f, a, peso: `${Math.round(a.size / 1048576)} MB`, url: `https://github.com/${REPO}/releases/download/${rel.tag_name}/${encodeURIComponent(a.name)}` };
+  });
+  const apertura = file.map(({ sistema, primo, url, peso, bIt, bEn }) =>
+    `          <a class="bottone" href="${esc(url)}" data-sistema="${sistema}"${primo ? " data-primo" : ""}>${sistema === "windows" ? "Windows" : "Linux"} <small>${coppia(esc(bIt), esc(bEn))} · ${peso}</small></a>`).join("\n");
+  const download = file.map((f) => {
+    const { a, peso, url } = f;
     return `        <a class="file" href="${esc(url)}" data-sistema="${f.sistema}"${f.primo ? " data-primo" : ""} data-peso="${peso}">
           <span class="file-sistema">${coppia(esc(f.it), esc(f.en))}</span>
           <span class="file-dettaglio">${coppia(esc(f.dIt), esc(f.dEn))} · ${peso}</span>
@@ -128,7 +133,7 @@ async function main() {
   const quando = new Date(rel.published_at);
   const data = (l) => quando.toLocaleDateString(l, { timeZone: "Europe/Rome", day: "numeric", month: "long", year: "numeric" });
   const valori = {
-    INDIRIZZO, VERSIONE: esc(versione), DATA_IT: data("it-IT"), DATA_EN: data("en-GB"), DOWNLOAD: download, CREDITI: titoli,
+    INDIRIZZO, VERSIONE: esc(versione), DATA_IT: data("it-IT"), DATA_EN: data("en-GB"), DOWNLOAD: download, DOWNLOAD_APERTURA: apertura, CREDITI: titoli,
     AVVISO_IT: esc(avvisoIt), AVVISO_EN: esc(avvisoEn), TUTTE: `https://github.com/${REPO}/releases`,
   };
   const pagine = path.join(radice, "pagine");

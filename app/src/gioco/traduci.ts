@@ -313,7 +313,7 @@ const SEGNI: Record<string, string> = {
 const DOMANDE: Record<string, string> = {
   "Questa scelta chiude il viaggio. Vuoi procedere?": "This choice ends the journey. Go ahead?",
   "Questa scelta pesa sul resto del viaggio. Vuoi confermarla?": "This choice weighs on the rest of the journey. Confirm it?",
-  "Vuoi davvero alzare le mani?": "Do you really want to raise your hands?",
+  "Vuoi davvero alzare le mani?": "Do you really want to raise a hand to someone?",
   "Ti costa vita. Vuoi farlo lo stesso?": "It costs you life. Do it anyway?",
   "Vuoi fare questo scambio?": "Make this trade?",
   "Vuoi davvero rinunciarci?": "Do you really want to give it up?",

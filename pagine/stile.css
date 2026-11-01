@@ -74,6 +74,12 @@ a:hover { color: #ffd29b; }
 .bottone.pieno { background: var(--oro); border-color: var(--oro); color: #1a0f08; }
 .bottone.pieno:hover { background: #ffc98a; color: #1a0f08; }
 .bottone small { font-weight: 400; letter-spacing: .06em; opacity: .75; text-transform: none; }
+.etichetta-scarica { margin: 1.8rem 0 0; font: 600 12px/1 var(--mono); letter-spacing: .26em; text-transform: uppercase; color: var(--tenue); }
+.scarica-subito { margin-top: .9rem; gap: 10px; }
+.scarica-subito .bottone { flex-direction: column; gap: 5px; min-height: 58px; padding: 9px 20px; }
+.scarica-subito .bottone small { font-size: 11px; }
+.gioca-subito { min-width: 260px; }
+.azioni + .azioni { margin-top: 12px; }
 .versione { margin: 1.2rem 0 0; font: 12px/1.6 var(--mono); letter-spacing: .1em; color: var(--tenue); }
 
 /* ── le sezioni ─────────────────────────────────────────────────────── */

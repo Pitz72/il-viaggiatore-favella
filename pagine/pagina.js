@@ -25,21 +25,16 @@
   lingua(radice.getAttribute("data-lingua") === "en" ? "en" : "it");
 
   // ── il download del sistema di chi guarda ─────────────────────────
-  // Windows: l'installer, che si aggiorna da solo; Linux: l'AppImage. Altrove (macOS, telefoni) resta l'elenco.
+  // In apertura ci sono tutti e quattro i download: su Windows si riempie l'installer (che si aggiorna da solo), su Linux
+  // l'AppImage, e nell'elenco più sotto si segnano i due file di quel sistema. Altrove (macOS, telefoni) restano tutti uguali.
   var piattaforma = ((navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || navigator.userAgent || "").toLowerCase();
   var telefono = /android|iphone|ipad|mobile/.test((navigator.userAgent || "").toLowerCase());
   var sistema = telefono ? null : /win/.test(piattaforma) ? "windows" : /linux|x11/.test(piattaforma) ? "linux" : null;
   if (sistema) {
-    var file = document.querySelector('.file[data-sistema="' + sistema + '"][data-primo]');
-    var apri = document.querySelector("[data-scarica-tuo]");
     var tutti = document.querySelectorAll('.file[data-sistema="' + sistema + '"]');
     for (var j = 0; j < tutti.length; j++) tutti[j].classList.add("tuo");
-    if (file && apri) {
-      apri.setAttribute("href", file.getAttribute("href"));
-      apri.innerHTML = sistema === "windows"
-        ? '<span lang="it">Scarica per Windows</span><span lang="en">Download for Windows</span> <small>' + file.getAttribute("data-peso") + "</small>"
-        : '<span lang="it">Scarica per Linux</span><span lang="en">Download for Linux</span> <small>' + file.getAttribute("data-peso") + "</small>";
-    }
+    var primo = document.querySelector('.scarica-subito [data-sistema="' + sistema + '"][data-primo]');
+    if (primo) primo.classList.add("pieno");
   }
 
   // ── la lente: la schermata grande, senza lasciare la pagina ────────
