@@ -65,6 +65,9 @@ evidenti per me.»
 - La licenza delle voci ElevenLabs a pagamento (vedi sopra).
 - **Il connettore ElevenLabs per Claude**: nell'elenco dei connettori c'è «ElevenLabs» (`api.elevenlabs.io/v1/mcp-claude-marketplace`, accesso con OAuth, 79 strumenti, descritto come
   gestione degli agenti vocali: gli strumenti che si vedono cominciano con `agents_`). Non so se espone la ricerca nella Voice Library né la generazione del parlato.
-  L'ho proposto a Simone con il pulsante «Connect»; se lo collega si vede che cosa permette. Ogni generazione che passasse di lì consumerebbe i suoi crediti.
+  L'ho proposto a Simone con il pulsante «Connect»; **Simone l'ha collegato**. Fra i 150 strumenti ci sono `creative_list_voices` (cerca nella Voice Library),
+  `creative_generate_speech` (genera il parlato con `eleven_v4`, anche in sola stima dei crediti) e `creative_design_voice`. Con `list_voices` ho cercato voci per i sette
+  personaggi rimasti (risultati in `doppiaggio/en/voci-eleven.md`: Cosimo, Ciro e Peppe hanno candidate italiane, per Nunzio, Saverio, Rocco e Pasquale non ho trovato niente di adatto;
+  i filtri di lingua e accento non sono rigidi). La stima dice **un credito per carattere, tag compresi**. Non ho generato niente.
 - Poi, se avanzano crediti: le voci italiane di Gemini rifatte con ElevenLabs, con la stessa voce di libreria di ogni personaggio in inglese.
 - Il rilascio (1.41.0) solo quando lo dice Simone.

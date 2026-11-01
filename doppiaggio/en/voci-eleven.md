@@ -63,7 +63,32 @@ stessa età e della stessa terra del narratore. È il confronto finale: toni *ti
 **Cerca**: uomo, *middle aged*; *deep*, *gravelly*, *somber*, *restrained*, *serious*; Stability 50-60. La voce che deve reggere la scena più difficile del gioco: una voce capace di trattenersi (rabbia contenuta) e di incrinarsi
 in pochissime battute. Ascolta una versione di prova prima di generare tutto.
 
+## Voci trovate con il connettore ElevenLabs (1° novembre 2026)
+
+Simone ha collegato il connettore «ElevenLabs» di Claude (strumento `creative_list_voices`: cerca nella Voice Library con filtri di lingua, genere, età,
+accento e parole di carattere). Non ho potuto ascoltare nulla: sono candidate **da ascoltare** (ogni voce ha un'anteprima sul sito; si cercano per nome nella libreria, e se serve gli identificativi li ritrovo con il connettore). I filtri di lingua
+e di accento non sono rigidi (con alcune combinazioni sono tornate voci inglesi, tedesche, hindi), e per «vecchio» e per «giovane» con parole italiane non è
+tornato niente: la libreria italiana di voci anziane e di ragazzi sembra povera.
+
+| Personaggio | Candidate | Perché |
+|---|---|---|
+| Cosimo | **Corrado Noventa** | italiano, mezza età, profondo e basso, drammatico e sentimentale |
+| | **Giuseppe Barbasso stage actor** | uomo maturo, basso, narrativo ed emozionale, recitativo |
+| | **Dade M – Mysterious Suspense Narrator** | profondo, deliberato, inquietante con la sola trattenuta: tiene le pause (la rabbia sotto la superficie) |
+| | Luca Brasi Profondo | peso e un tocco di oscurità |
+| Ciro | **Pierpaolo** | matura ed espressiva, influenza salernitana (accento del sud) |
+| | Marco Ferrario | mezza età, conversazionale, «perfetta per vendere» |
+| | Ambrogio Mereghetti | 40 anni, conversazionale (accento milanese: meno adatto) |
+| Peppe | **Vittorio boy next door** | l'unico ragazzo italiano trovato: giovane, amichevole e sorridente (accento milanese) |
+| Nunzio, Saverio, Rocco, Pasquale | nessuna voce italiana adatta trovata | cercare a mano sul sito: per Nunzio e Saverio un vecchio roco, per Rocco un uomo magro e graffiato, per Pasquale un adulto debole |
+
+Fra le voci non italiane che il filtro ha dato, per un vecchio roco: *Frederick – Old Gnarly Narrator*, *Jessie – Vintage Narrator*; per Rocco *Q. Patrick – Raspy*. Sono inglesi o americane: con `[Italian accent]` potrebbero reggere in
+inglese, ma poi non servirebbero per l'italiano.
+
 ## Quanto costano
+
+**Un credito per carattere, tag compresi** (stima fatta con il connettore: 395 crediti per un testo di circa 390 caratteri con i tag, 7,9 centesimi di dollaro
+a prezzo d'API). I conti qui sotto sono in crediti.
 
 | Personaggio | Parti | Caratteri di testo | Tag (circa) |
 |---|---:|---:|---:|
@@ -76,5 +101,5 @@ in pochissime battute. Ascolta una versione di prova prima di generare tutto.
 | Cosimo | 31 | 2.227 | 1.800 |
 | **In tutto** | **83** | **5.074** | **circa 4.700** |
 
-Circa 9.800 caratteri per tutti e sette in inglese, tag compresi (i tag sono più lunghi di prima perché portano anche età e stato). Rifare le dieci voci italiane di Gemini
-costa circa altri 7.500 caratteri di testo più i tag, senza profili.
+Circa 9.800 crediti per tutti e sette in inglese, tag compresi (i tag sono più lunghi di prima perché portano anche età e stato). Rifare le dieci voci italiane di Gemini
+costa circa altri 9.500 crediti (7.500 di testo e circa 2.000 di tag, senza profili): in tutto circa 19.300.
