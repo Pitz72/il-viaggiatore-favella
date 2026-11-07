@@ -9,6 +9,7 @@ Questo indice si rigenera da sé (`node strumenti/diario.mjs indice`).
 
 | Data | Tipo | Versione | Voce |
 |---|---|---|---|
+| 2026-11-07 | sessione | 1.42.0 | [Il rilascio 1.42.0](diario/2026-11-07-il-rilascio-1-42-0.md) — Rilasciata la 1.42.0, su ordine di Simone («rilascia»): il bilanciamento del 7 novembre 2026 (la fame ogni 5 turni, il lavoro |
 | 2026-11-07 | sessione | 1.42.0 | [Il metodo del Relitto per il bilanciamento](diario/2026-11-07-il-metodo-del-relitto-per-il-bilanciamento.md) — Il metodo di bilanciamento di *Il Relitto Silente* (partite da principiante verosimili, non tre percorsi da esperto) è ora anche |
 | 2026-11-01 | sessione | 1.41.1 | [La pagina su itch.io: decisioni e materiali (in pausa)](diario/2026-11-01-la-pagina-su-itch-io-decisioni-e-materiali-in-pausa.md) — Decise con Simone le linee della pagina su itch.io e preparati i materiali (copertina, banner, descrizione nelle due lingue, |
 | 2026-11-01 | sessione | 1.41.1 | [Chiusura della sessione del 1° novembre 2026 (revisione, rimedi, 1.41.1, la pagina su GitHub Pages)](diario/2026-11-01-chiusura-della-sessione-del-1-novembre-2026-revisione-rimedi.md) — La sessione del pomeriggio si chiude con il codice rivisto e corretto, la 1.41.1 rilasciata e la pagina del gioco online su GitHub Pages; la prossima comincia con la guida a itch.io. |

@@ -1,8 +1,7 @@
 # Prossimi passi
 
 > **Lo stato vivo del progetto.** *Il Viaggiatore* è concluso come storia (definitiva dalla 1.12.0) e il lavoro riprende solo
-> su richiesta di Simone. Ultima versione rilasciata: **1.41.1**, 1° novembre 2026; pronta e non rilasciata: **1.42.0**
-> (7 novembre 2026, il bilanciamento). Questo file tiene il conto di che cosa è aperto, di
+> su richiesta di Simone. Ultima versione rilasciata: **1.42.0**, 7 novembre 2026 (il bilanciamento). Questo file tiene il conto di che cosa è aperto, di
 > che cosa si è chiuso e di che cosa, di proposito, non si fa; **si aggiorna a ogni sessione** (vedi [`CLAUDE.md`](../CLAUDE.md)).
 > (Com'era prima, fermo alla 1.7.0: nella storia di git.)
 
@@ -10,8 +9,6 @@
 
 Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti non sono più da fare (vedi «Non si fa»).
 
-- **Il rilascio della 1.42.0** (il bilanciamento del 7 novembre 2026: la fame ogni 5 turni, il lavoro da Nunzio a 1 di fame, le
-  soglie estreme a 16 e 18): pronta, collaudi verdi, non rilasciata. Si rilascia quando Simone lo dice (Actions → Rilascio).
 - **Far rigiocare Michela la 1.42.0**, se capita: dove si perde, quando beve, che cosa capisce tardi. Il suo racconto vale più delle
   partite simulate; se smentisce il modello, si ritoccano i caratteri in `collaudo/verosimili.py` e si rimisura. Ogni ritocco
   futuro della difficoltà si misura con il metodo di [`bilanciamento.md`](bilanciamento.md) e deve tenere la regola
@@ -65,6 +62,8 @@ Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti 
   percorsi scritti a mano, sei caratteri, due livelli di smarrimento, le varianti su una copia dei `.fav`, il controllo rapido in CI);
   il rapporto sul gioco di oggi (Michela non arrivava mai al lago: il margine, il lavoro da Nunzio, la morte sul colpo); le decisioni
   di Simone a questionario e la regola («Michela al lago 2 su 5»), applicate nella 1.42.0 e verificate: la regola regge.
+  **Rilasciati con la 1.42.0** (7 novembre 2026, diario «Il rilascio 1.42.0»: run 42418778595, release con sette file, la
+  pagina su GitHub Pages rifatta alla 1.42.0).
 - **La pagina del gioco su GitHub Pages** (1° novembre 2026, diario «La pagina del gioco su GitHub Pages»): la presentazione alla
   radice, in italiano e in inglese, con i download dell'ultima release, il gioco nel browser in `gioca/` all'ultima versione, le
   schermate, i numeri, i crediti; si rifà da sola a ogni rilascio. Simone: «Il gioco doveva essere finito, per questo quella
