@@ -1,6 +1,6 @@
 # Collaudo del Viaggiatore
 
-Sedici collaudi, tutti sul motore del progetto (`../motore`) e sull'avventura
+Diciassette collaudi, tutti sul motore del progetto (`../motore`) e sull'avventura
 in `../prototipo`. Ognuno esce con codice 1 se trova un problema. Le trascrizioni
 finiscono in `esiti/` (si possono cancellare: si rigenerano).
 
@@ -22,13 +22,16 @@ finiscono in `esiti/` (si possono cancellare: si rigenerano).
 | `traduzione.py` | la **traduzione inglese** (`app/src/lingue/en/`, scritta con `strumenti/traduzione.py`; il gioco la applica al testo che il motore stampa, `app/src/gioco/traduci.ts`): i cataloghi hanno tutti e soli i testi dei `.fav` di oggi, ognuno tradotto; ogni traduzione tiene segnaposto e testi condizionali intatti, gli stessi a capo, niente caporali; ogni luogo, cosa e persona ha il suo nome inglese; con la logica vera dell'app (`traduci.ts` in Node), lungo i dodici percorsi e le tre morti ogni riga stampata si traduce intera, e così ogni risposta di dialogo e ogni testo dei `.fav`; le righe a lato (gesti, voci) hanno la loro; e un giocatore a caso coi soli pulsanti (quello di `pulsanti.py --esplora`, come gioca chi sceglie l'inglese) non incontra una riga che resti in italiano. Serve `npm ci --prefix app`. | ~1 min |
 | `trofei.py` | i **trofei** (piano 09, §7): col ponte vero gioca i dodici percorsi, le tre morti e due partite corte al casello (il bluff, Vito a terra); i trofei li decidono le regole vere del gioco (`app/src/gioco/trofei.ts`, in Node con `app/scripts/trofei-node.mjs`). Pretende per ogni partita esattamente i trofei previsti, ciascuno al suo momento (i finali, le fini, le sfide e «Mani pulite» all'ultimo turno; un gesto al turno del comando che lo compie); che ogni riga «FINALE —» e ogni «perdi» dei `.fav`, ogni gesto del ponte e ogni via del riconoscimento abbiano il loro trofeo; che le sfide si rompano come devono (ANNULLA, un comando di un altro modo); e, giocate tutte di fila, che ogni trofeo sia vinto da almeno una partita, «Tutte le strade» col sesto finale e «Il viaggiatore» con l'ultimo che mancava. I casi che le partite non toccano (sfide caricate, deposito guasto) stanno in `app/scripts/trofei-prove.mjs`. Serve `npm ci --prefix app`. | ~20 s |
 | `musica.py` | la **musica delle zone** e la **colonna sonora** (`app/public/musica/`, `app/public/colonna-sonora/`, scritte da `strumenti/colonna-sonora.py`): ogni zona del gioco ha il suo brano, col titolo dell'album; ogni giro sta dentro il suo file; l'album elenca i sette MP3, la copertina e il LEGGIMI; lo ZIP della versione web (`app/src/lib/zip.ts`, in Node con `app/scripts/zip-node.mjs`) si apre con zipfile, nomi UTF-8 compresi. Con ffmpeg: le etichette degli MP3 e la copertina, le durate, la giuntura di ogni giro (gli istanti prima del salto ricalcano quelli prima dell'inizio, il timbro al salto non supera quello normale del brano) e il volume a −23 LUFS. Serve `npm ci --prefix app`; ffmpeg è facoltativo. | ~40 s |
+| `verosimili.py` | **il bilanciamento** (il metodo del Relitto, 7 novembre 2026; tutto in [`../sviluppo/bilanciamento.md`](../sviluppo/bilanciamento.md)): da tre partite da principiante scritte a mano (`principiante-curiosa.txt`, `principiante-frettolosa.txt`, `principiante-sperduta.txt`, la partita di Michela) e dal percorso B ricava centinaia di partite verosimili per sei caratteri (attenta, violenta, distratta, inesperta, curiosa, frettolosa), giocate da una principiante che beve e mangia alla sua soglia e rimedia da sé ai passaggi chiusi (`cammino.py`); dice quante arrivano al lago e a un finale, dove e di che cosa muoiono le altre, con quanta vita e quante scorte. `--variante` prova un «e se…?» su una copia dei `.fav`. In CI gira `--controlla`: i tre percorsi, giocati diritti, finiscono come devono; poche partite per carattere, due volte con lo stesso seme, danno lo stesso conto e nessuna eccezione. | ~20 s (`--controlla`); ~2 min (`-n 300`) |
 
 Il **banco di gioco** per giocare a mano e misurare l'equilibrio non è un collaudo: sta in
 `../strumenti/gioca.py` ([istruzioni](../strumenti/LEGGIMI.md)); `giocate.py` ne verifica la coerenza
 col pilota di `finali.py`.
 
 Moduli di supporto: `partita.py` (una partita pilotata da Python, con la stessa vista
-della scena che ha l'interfaccia) e `percorsi.py` (i sei percorsi scritti a mano).
+della scena che ha l'interfaccia), `percorsi.py` (i sei percorsi scritti a mano) e `cammino.py`
+(la giocatrice principiante di `verosimili.py`; da solo gioca un percorso e ne misura corpo e scorte
+passo per passo: `python cammino.py principiante-sperduta.txt --passi`).
 
 ## Opzioni dell'esploratore
 

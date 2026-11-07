@@ -95,6 +95,12 @@ Regole venute da ciò che Simone ha chiesto e corretto; la memoria locale che le
 - **Giocare davvero le partite**, oltre ai collaudi: dopo un'evoluzione della storia, almeno una partita intera per profilo
   (attento, violento, distratto) col banco `strumenti/gioca.py` (istruzioni in `strumenti/LEGGIMI.md`), leggendo le risposte come un
   giocatore; poi si fissa ciò che si è scoperto in `collaudo/giocate.py`.
+- **La difficoltà si misura su molte partite verosimili, mai su una sola** (il metodo del Relitto, portato qui il 7 novembre
+  2026: [`sviluppo/bilanciamento.md`](sviluppo/bilanciamento.md)). Ogni ritocco di ciò che si consuma (sete, fame, acqua, cibo,
+  vita, passaggi) si prova prima come variante su una copia dei `.fav` (`python collaudo/verosimili.py --variante …`), si porta a
+  Simone a questionario e, applicato, deve tenere la sua regola (`python collaudo/verosimili.py --regola`: Michela al lago in almeno
+  2 partite su 5 a metà smarrimento, l'attenta sempre al finale, la curiosa in 3 su 4, nessuna morte sul colpo). «Il gioco deve
+  restare una sfida ma non può essere implacabile ingiustamente.»
 - **Per fargli ascoltare o giudicare** audio e grafica: gli si avvia il gioco desktop vero (`node prepara.mjs`, poi
   `npm run avvia`, in `desktop/`), non il riquadro del browser; il browser integrato non ha il ponte desktop.
 

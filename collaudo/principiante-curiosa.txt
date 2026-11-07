@@ -1,0 +1,218 @@
+# Partita da principiante: LA CURIOSA (il metodo del Relitto, 7 novembre 2026).
+# Non conosce il gioco. Esamina quello che vede, parla con tutti e ascolta ogni risposta,
+# prende quasi tutto quello che trova (e con le mani piene posa quel che le serve meno).
+# Sbaglia come chi arriva nuovo: beve dalla pozza salmastra di Rocco, resta a guardare il
+# cane prima di decidere. Dice soltanto che cosa vuole fare: bere, mangiare e rimediare ai
+# passaggi chiusi lo fa da sé collaudo/cammino.py, ognuna alla sua soglia.
+#   python collaudo/cammino.py collaudo/principiante-curiosa.txt --passi
+# La giocano anche la distratta e la violenta (collaudo/verosimili.py).
+
+# --- Acquaviva: guarda tutto, parla con Nunzio ---
+guarda
+esamina il biglietto
+nord
+est
+esamina Nunzio
+parla con Nunzio
+Da che parte è Acquamorta?
+Altro.
+Niente, per ora.
+ovest
+nord
+esamina la foto
+raddrizza la foto
+esamina la mappa
+prendi la mappa
+esamina l'orologio
+prendi l'orologio
+prendi il coltello
+sud
+est
+parla con Nunzio
+Ti do l'orologio per dell'acqua.
+Torno a vedere cos'hai.
+Hai qualcosa da mangiare?
+Basta così.
+ovest
+ovest
+ovest
+
+# --- La piana: il pozzo, poi la serra ---
+ovest
+nord
+esamina Saverio
+parla con Saverio
+Mi serve acqua dal pozzo.
+Capito.
+Ti lascio del cibo.
+Grazie.
+attingi
+sud
+sud
+esamina il cane
+getta cibo
+nord
+ovest
+ovest
+
+# --- L'invaso: Rocco, la torre, la carcassa, Iole ---
+sud
+esamina Rocco
+parla con Rocco
+Quella pozza in fondo
+…
+Stai bevendo dalle pozze
+…
+Tieniti il sale.
+bevi salmastra
+prendi i cristalli
+sud
+prendi la borsa
+nord
+nord
+ovest
+esamina il diario
+prendi il filtro
+prendi gli occhiali
+prendi la batteria
+est
+nord
+esamina la pompa
+parla con Iole
+Perché se n'è andata l'acqua?
+E torna?
+…
+Come si fa a bere
+Capito.
+Ti lascio dell'acqua | Ti lascio del cibo.
+Grazie.
+Niente, per ora.
+nord
+prendi le pastiglie
+prendi la damigiana
+sud
+usa le pastiglie su la pompa
+ovest
+ovest
+
+# --- La statale: la piazzola, l'area di servizio, Vito, Imma ---
+ovest
+parla con Vito
+Cosa c'è, oltre il casello?
+Torniamo a noi.
+Niente, per ora.
+nord
+prendi la stecca
+prendi il giubbotto
+sud
+sud
+prendi le medicine
+nord
+parla con Vito
+Ti do la stecca di sigarette.
+Grazie.
+prendi il lasciapassare
+ovest
+parla con Imma
+Chi sei?
+E il casello?
+…
+Com'è il paese?
+…
+Tieni, mangia.
+…
+ovest
+
+# --- Il paese: Peppe, Pasquale, Ciro, Rosaria, Concetta ---
+ovest
+parla con Peppe
+È troppo dura, dove vado. Resta.
+…
+ovest
+esamina Pasquale
+usa le medicine su Pasquale
+est
+sud
+parla con Ciro
+Ti do la batteria.
+Altro.
+Ho la carta di Vito.
+Altro.
+Ti do i cristalli
+Altro.
+Ti do la borsa
+Basta così.
+nord
+nord
+esamina il registro
+parla con Rosaria
+Cosa si dice di Acquamorta?
+Chi è quest'uomo?
+…
+Ti lascio dell'acqua, per l'ospitalità.
+…
+Mi serve salire alle colline.
+Scrivile, allora.
+Grazie.
+est
+prendi il giocattolo
+parla con Concetta
+Erano in due?
+Che disgrazia?
+…
+Il giocattolo, sul davanzale
+…
+Ti lascio riposare.
+ovest
+nord
+
+# --- Le colline: la cappella, Tore, la sorgente, Onofrio ---
+nord
+est
+esamina il santino
+prendi il santino
+prendi la coperta
+ovest
+nord
+parla con Tore
+Chi c'è, al guado?
+…
+Il vecchio nella grotta?
+…
+Ti do un po' d'acqua
+…
+Tiro avanti.
+est
+attingi
+ovest
+ovest
+parla con Onofrio
+Cosa è successo, ad Acquamorta?
+E il biglietto che diceva di non tornare?
+…
+Ti mostro questo cavallo di legno.
+Cosa mi dai?
+Dammi la lettera.
+…
+prendi la lettera
+esamina la lettera
+est
+est
+attingi
+ovest
+nord
+
+# --- Il guado ---
+nord
+parla con Cosimo
+Non sapevo. Te lo giuro.
+…
+…
+usa il biglietto su Cosimo
+usa la lettera su Cosimo
+parla con Cosimo
+…
+esamina Cosimo
+guarda
+nord
+nord

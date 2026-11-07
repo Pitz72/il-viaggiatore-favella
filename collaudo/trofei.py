@@ -191,7 +191,9 @@ MOMENTO = {
     "la-febbre-rotta": lambda c, chi: c.startswith("usa le medicine"),
     "la-lettera": lambda c, chi: c == "usa la lettera su Cosimo",
     "il-fucile-posato": lambda c, chi: c == "lascia il fucile",
-    "chi-arrivava-di-la": lambda c, chi: c == "aspetta",
+    # la veglia avanza a ogni turno passato al guado con Cosimo: anche quello in cui il pilota beve o
+    # mangia (dalla 1.42, con la fame ogni 5 turni, beve proprio durante la veglia)
+    "chi-arrivava-di-la": lambda c, chi: c in ("aspetta", "bevi", "mangia qualcosa"),
     "detto-il-vero": lambda c, chi: chi == "peppe" and c == "È vero",
     # la voce della generosità: entrando in osteria, quando Imma è già lì
     "quello-che-lasciava-l-acqua": lambda c, chi: c == "nord",

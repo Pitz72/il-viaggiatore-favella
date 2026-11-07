@@ -69,7 +69,7 @@ Nunzio al nodo "banco" dice "«Acqua non ne ho da regalare, di questi tempi. Ma 
 
 Al nodo "banco" l'opzione "Ti do l'orologio per dell'acqua." se il giocatore ha l'orologio conduce al nodo "scambio_acqua" e adesso l'orologio è nel nulla e adesso aumenta l'acqua di 3.
 Al nodo "banco" l'opzione "Hai qualcosa da mangiare?" se l'acqua è almeno 1 e il cibo è al massimo 3 conduce al nodo "scambio_cibo" e adesso diminuisci l'acqua di 1 e adesso aumenta il cibo di 2.
-Al nodo "banco" l'opzione "Posso lavorare, per un po' d'acqua?" se l'acqua è al massimo 2 conduce al nodo "lavoro" e adesso aumenta l'acqua di 1 e adesso aumenta la fame di 2.
+Al nodo "banco" l'opzione "Posso lavorare, per un po' d'acqua?" se l'acqua è al massimo 2 conduce al nodo "lavoro" e adesso aumenta l'acqua di 1 e adesso aumenta la fame di 1.
 Al nodo "banco" l'opzione "Da che parte è Acquamorta?" conduce al nodo "indicazioni".
 Al nodo "banco" l'opzione "Niente, per ora." chiude il dialogo e adesso lo stato del discorso di Nunzio è avviato.
 

@@ -1,0 +1,144 @@
+# Partita da principiante: LA SPERDUTA, la partita di Michela (il metodo del Relitto, 7 novembre 2026).
+# Michela non conosceva il gioco: all'inizio si perde un po', e muore prima di arrivare al lago
+# (l'invaso). Questa partita fa come lei: va verso la strada prima di avere la mappa, torna
+# indietro, non prende l'orologio, si guarda intorno nel tratto al sole, entra nella serra prima
+# del pozzo e resta a guardare il cane, chiede l'acqua a Saverio a mani vuote e torna da Nunzio a
+# cambiare acqua con cibo; poi impara, e il resto del viaggio lo fa con meno giri. Dice soltanto
+# che cosa vuole fare: bere, mangiare e rimediare ai passaggi chiusi lo fa da sé
+# collaudo/cammino.py (la inesperta di collaudo/verosimili.py: beve presto o tardi, e a volte si
+# perde prima di trovare il rimedio).
+#   python collaudo/cammino.py collaudo/principiante-sperduta.txt --passi
+
+# --- Acquaviva: va verso la strada, torna, chiede a Nunzio, trova la mappa ---
+guarda
+esamina il biglietto
+nord
+ovest
+guarda
+est
+est
+parla con Nunzio
+Da che parte è Acquamorta?
+Grazie.
+ovest
+nord
+esamina la foto
+prendi la mappa
+prendi il coltello
+sud
+sud
+guarda
+nord
+ovest
+ovest
+
+# --- La piana: si guarda intorno al sole, la serra prima del pozzo, Saverio a mani vuote ---
+guarda
+ovest
+guarda
+sud
+esamina il cane
+nord
+nord
+parla con Saverio
+Mi serve acqua dal pozzo.
+Capito.
+Niente.
+attingi
+sud
+est
+est
+est
+est
+parla con Nunzio
+Hai qualcosa da mangiare?
+Basta così.
+ovest
+ovest
+ovest
+ovest
+nord
+parla con Saverio
+Ti lascio del cibo.
+Grazie.
+attingi
+sud
+ovest
+ovest
+
+# --- L'invaso: Iole prima, la pompa senza filtro, il fondale e la pozza di Rocco ---
+nord
+parla con Iole
+Come si fa a bere
+Capito.
+Niente, per ora.
+nord
+prendi le pastiglie
+sud
+usa le pastiglie su la pompa
+sud
+sud
+parla con Rocco
+Quella pozza in fondo
+…
+Tieniti il sale.
+bevi salmastra
+nord
+ovest
+prendi il filtro
+prendi la batteria
+est
+nord
+usa le pastiglie su la pompa
+ovest
+ovest
+
+# --- La statale: chiede a Vito, poi paga ---
+ovest
+parla con Vito
+Cosa c'è, oltre il casello?
+Torniamo a noi.
+Niente, per ora.
+ovest
+parla con Imma
+Chi sei?
+…
+Tieni, mangia.
+…
+ovest
+
+# --- Il paese: Peppe, Rosaria che non la fa salire, il cortile ---
+ovest
+parla con Peppe
+È troppo dura, dove vado. Resta.
+…
+nord
+parla con Rosaria
+Mi serve salire alle colline.
+Capito. Tornerò.
+Niente, grazie.
+est
+prendi il giocattolo
+parla con Concetta
+Ti lascio riposare.
+ovest
+nord
+
+# --- Le colline: Tore, il valico senza la lettera ---
+nord
+nord
+parla con Tore
+Chi c'è, al guado?
+…
+Tiro avanti.
+nord
+nord
+
+# --- Il guado ---
+parla con Cosimo
+Fammi passare, Cosimo.
+…
+…
+nord
+nord
+nord

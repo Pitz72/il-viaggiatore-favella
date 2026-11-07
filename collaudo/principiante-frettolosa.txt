@@ -1,0 +1,86 @@
+# Partita da principiante: LA FRETTOLOSA (il metodo del Relitto, 7 novembre 2026).
+# Non conosce il gioco e va dritta: prende la mappa e poco altro, non baratta con Nunzio,
+# legge le risposte dei dialoghi solo quanto basta. Ai passaggi chiusi (Rosaria che non la
+# fa salire, il valico senza la lettera, Cosimo) ci arriva prima di sapere che cosa serve:
+# il rimedio lo trova da sé collaudo/cammino.py, come bere e mangiare.
+#   python collaudo/cammino.py collaudo/principiante-frettolosa.txt --passi
+
+# --- Acquaviva ---
+nord
+nord
+prendi la mappa
+prendi il coltello
+sud
+ovest
+ovest
+
+# --- La piana ---
+ovest
+nord
+parla con Saverio
+Mi serve acqua dal pozzo.
+Capito.
+Ti lascio del cibo.
+Grazie.
+attingi
+sud
+ovest
+ovest
+
+# --- L'invaso ---
+nord
+parla con Iole
+Come si fa a bere
+Capito.
+Ti lascio dell'acqua | Ti lascio del cibo.
+Grazie.
+Niente, per ora.
+nord
+prendi le pastiglie
+sud
+sud
+ovest
+prendi il filtro
+est
+nord
+usa le pastiglie su la pompa
+ovest
+ovest
+
+# --- La statale ---
+ovest
+parla con Vito
+Ti lascio tre d'acqua.
+Grazie.
+ovest
+parla con Imma
+Tieni, mangia.
+…
+ovest
+
+# --- Il paese ---
+ovest
+parla con Peppe
+È troppo dura, dove vado. Resta.
+…
+nord
+parla con Rosaria
+Mi serve salire alle colline.
+Scrivile, allora.
+Grazie.
+nord
+
+# --- Le colline ---
+nord
+nord
+nord
+nord
+
+# --- Il guado ---
+parla con Cosimo
+Fammi passare, Cosimo.
+…
+…
+nord
+nord
+nord

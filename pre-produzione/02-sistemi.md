@@ -33,8 +33,11 @@ Ogni comando è un turno, anche `esamina`. Il logorio è lento, così esplorare 
 
 ```favella
 Ogni 3 turni: aumenta la sete.
-Ogni 4 turni: aumenta la fame.
+Ogni 5 turni: aumenta la fame.
 ```
+
+La fame sale ogni 5 turni dalla 1.42.0 (fino alla 1.41 ogni 4): decisione di Simone del 7 novembre 2026, misurata con le
+partite da principiante (`collaudo/verosimili.py`; il metodo e i numeri in [`sviluppo/bilanciamento.md`](../sviluppo/bilanciamento.md)).
 
 Il costo del cammino non è un demone sui tratti di strada (la bozza lo prevedeva): è affidato ai **passaggi**, che chiedono una scorta minima prima di lasciarti partire (vedi `03-mappa.md`). Il giocatore sente il peso della traversata *prima* di farla, quando può ancora rimediare.
 
@@ -53,10 +56,10 @@ I rifiuti «non hai sete / non hai fame» proteggono dallo spreco: le scorte son
 
 | | Avviso (una volta per crisi, poi radi) | Danno | Soglia estrema |
 |---|---|---|---|
-| **Sete** | 6: «Hai la lingua impastata. Devi bere.» | da 9: vita −1 a turno | 13 |
-| **Fame** | 7: «Lo stomaco ti si è chiuso.» | da 11: vita −1 a turno | 15 |
+| **Sete** | 6: «Hai la lingua impastata. Devi bere.» | da 9: vita −1 a turno | 16 (fino alla 1.41: 13) |
+| **Fame** | 7: «Lo stomaco ti si è chiuso.» | da 11: vita −1 a turno | 18 (fino alla 1.41: 15) |
 
-**La morte dice la causa.** La sete sale di 1 ogni 3 turni: da 9 a 13 ne servono 12, mentre la vita (10) si esaurisce in 10. Quindi, in pratica, si muore sempre a **vita 0** mentre sete o fame fanno il danno. Il collaudo dei finali (`collaudo/finali.py`) ha scoperto che per questo le frasi «La sete ti ha avuto» e «La fame ti ha fermato» non comparivano mai. Ora la morte a vita 0 legge la causa:
+**La morte dice la causa.** La sete sale di 1 ogni 3 turni: da 9 a 16 ne servono 21 (fino alla 1.41, da 9 a 13, 12), mentre la vita (10) si esaurisce in 10. Quindi, in pratica, si muore sempre a **vita 0** mentre sete o fame fanno il danno. Il collaudo dei finali (`collaudo/finali.py`) ha scoperto che per questo le frasi «La sete ti ha avuto» e «La fame ti ha fermato» non comparivano mai. Ora la morte a vita 0 legge la causa:
 
 ```favella
 Quando la vita è al massimo 0 e la sete è almeno 9: … perdi "La sete ti ha avuto prima di casa.".
@@ -64,7 +67,7 @@ Quando la vita è al massimo 0 e la sete è meno di 9 e la fame è almeno 11: �
 Quando la vita è al massimo 0 e la sete è meno di 9 e la fame è meno di 11: … perdi "Il viaggio finisce qui.".
 ```
 
-Le tre condizioni si escludono: scatta sempre una sola frase. Le soglie estreme (13 e 15) restano come rete per i salti bruschi (per esempio `bevi salmastra`).
+Le tre condizioni si escludono: scatta sempre una sola frase. Le soglie estreme restano come rete per i salti bruschi (per esempio `bevi salmastra`). Dalla 1.42.0 sono a 16 e 18 (prima 13 e 15): con 13 e 15 faticare tre volte da Nunzio con la fame a 9 portava a 15 in un colpo, e la partita finiva con la vita ancora alta, senza un turno di danno che lo annunciasse (la «morte sul colpo» di `sviluppo/bilanciamento.md`: un terzo delle partite della giocatrice inesperta).
 
 ### La vita che risale
 La vita ha un tetto di 10 e risale **piano**, solo se il corpo sta bene: con sete e fame sotto i due avvisi (sete al massimo 5, fame al massimo 6), fuori dai luoghi di scontro (serra, casello, guado), una volta ogni tanto (`càpita (1 su 8)`) torna su di 1. Le medicine danno +3 subito. Così una ferita di Vito si recupera camminando bene, ma non durante la rissa.
@@ -90,7 +93,7 @@ Niente prezzi dinamici nel motore: ogni scambio è **cablato** in un'opzione di 
 | Fonte | Zona | Quanto | Condizione |
 |---|---|---|---|
 | Nunzio, l'orologio | Z1 | +3 | avere l'orologio |
-| Nunzio, faticare | Z1 | +1 (fame +2) | acqua al massimo 2 |
+| Nunzio, faticare | Z1 | +1 (fame +1; fino alla 1.41 +2) | acqua al massimo 2 |
 | Il pozzo di Saverio | Z2 | +5, poi fango +2 | fiducia di Saverio almeno 2 |
 | La pompa della diga | Z3 | +12 (con la damigiana) o +8, poi +3 a volta | filtro + pastiglie, `usa le pastiglie sulla pompa` |
 | Ciro, il mercato | Z5 | +2…+4 per oggetto | merce da scambiare (vedi `04-oggetti.md`) |

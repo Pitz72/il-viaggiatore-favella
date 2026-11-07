@@ -128,7 +128,11 @@ def gioca(nome, ui, problemi, *, comandi=None, giro=None, limite=None, bevi=True
 
     def turno(cmd, *, cura=False):
         nonlocal mancanti
-        precedente, ultimo[0] = ultimo[0], cmd
+        # il bere e il mangiare del pilota non contano come «gesto precedente»: dalla 1.42 (la fame ogni
+        # 5 turni) il pilota mangia fra il terzo e il quarto colpo a Vito, che è già a terra
+        precedente = ultimo[0]
+        if not cura:
+            ultimo[0] = cmd
         if not a_pulsanti:
             return json.loads(p.fav_step(cmd))
         stato = json.loads(p.fav_stato())

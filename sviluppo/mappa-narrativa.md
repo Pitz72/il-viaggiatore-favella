@@ -118,8 +118,8 @@ Le cose sono l'altra memoria del viaggio: si prendono in una zona e contano in u
 
 | Zona | Esito | Condizione | Frase |
 |---|---|---|---|
-| sistemi | perdi | quando la sete è almeno 13 | La sete ti ha avuto prima di casa. |
-| sistemi | perdi | quando la fame è almeno 15 | La fame ti ha fermato lungo la strada. |
+| sistemi | perdi | quando la sete è almeno 16 | La sete ti ha avuto prima di casa. |
+| sistemi | perdi | quando la fame è almeno 18 | La fame ti ha fermato lungo la strada. |
 | sistemi | perdi | quando la vita è al massimo 0 e la sete è almeno 9 | La sete ti ha avuto prima di casa. |
 | sistemi | perdi | quando la vita è al massimo 0 e la sete è meno di 9 e la fame è almeno 11 | La fame ti ha fermato lungo la strada. |
 | sistemi | perdi | quando la vita è al massimo 0 e la sete è meno di 9 e la fame è meno di 11 | Il viaggio finisce qui. |

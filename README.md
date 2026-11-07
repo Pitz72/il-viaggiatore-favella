@@ -222,7 +222,7 @@ di GitHub per i pacchetti.
 | `app/` | l'app React: loghi animati, avviso, trailer (canvas procedurale + colonna sonora + voce), gioco, guida «come si gioca», sequenza finale e titoli di coda (`src/finale/`); in `app/public/voce/` la voce del doppiaggio, un file Opus per parte; in `app/src/lingue/en/` la traduzione inglese |
 | `doppiaggio/` | il doppiaggio: i testi per le voci ricavati dai `.fav`, il manifest delle parti, le voci scelte, il resoconto del banco; vedi `doppiaggio/LEGGIMI.md` |
 | `desktop/` | il guscio Electron per Windows e Linux |
-| `collaudo/` | i sedici collaudi automatici: i nove finali, le prove mirate, i salvataggi, le scorte, il ponte dell'interfaccia, i fili del viaggio, le giocate, il testo, le conferme, i pulsanti, la mappa, la voce del doppiaggio, la traduzione inglese, i trofei, la musica, l'esploratore |
+| `collaudo/` | i diciassette collaudi automatici: i nove finali, le prove mirate, i salvataggi, le scorte, il ponte dell'interfaccia, i fili del viaggio, le giocate, le partite da principiante (il bilanciamento), il testo, le conferme, i pulsanti, la mappa, la voce del doppiaggio, la traduzione inglese, i trofei, la musica, l'esploratore |
 | `pre-produzione/` | gli undici documenti di progetto: visione, sistemi, mappa, oggetti, personaggi, ramificazione, intro e trailer, doppiaggio, opzioni, menu e pausa, musiche, sequenza finale |
 | `grafica/` | l'icona (SVG), il banner del README e gli script che rasterizzano l'icona; in `grafica/branding/` le immagini promozionali (16:9, 21:9, 4:3, quadrata, locandina, anteprima di GitHub), vedi il suo `LEGGIMI.md` |
 | `sviluppo/` | le regole delle versioni, il diario di sviluppo, i prossimi passi (lo stato vivo del progetto) e la mappa narrativa |
@@ -297,9 +297,10 @@ python traduzione.py    # la traduzione inglese è completa e regge il testo ver
 python trofei.py        # ogni partita vince i suoi trofei, al momento giusto; tutti e trenta si possono vincere
 python musica.py        # un brano per zona, giri senza cuciture, l'album e il suo ZIP
 python esploratore.py   # 100 partite a caso che cercano i punti in cui il gioco si rompe
+python verosimili.py    # centinaia di partite da principiante: quanto è difficile, dove e perché si muore
 ```
 
-Sono sedici ([che cosa fa ciascuno](collaudo/LEGGIMI.md)); `testo.py`, `conferme.py`, `pulsanti.py`, `mappa.py`,
+Sono diciassette ([che cosa fa ciascuno](collaudo/LEGGIMI.md)); `testo.py`, `conferme.py`, `pulsanti.py`, `mappa.py`,
 `doppiaggio.py`, `traduzione.py`, `trofei.py` e `musica.py` servono `npm ci --prefix app`. La CI li esegue tutti: l'esploratore in un giro corto (`-n 5 -t 150`) che non
 blocca, il giro intero (qualche minuto) si lancia a mano. Del processo principale desktop e della data delle
 versioni, che non hanno bisogno di Electron, si occupano `node desktop/prove.cjs` e `node strumenti/prova-data.mjs`.

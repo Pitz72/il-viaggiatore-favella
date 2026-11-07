@@ -989,8 +989,8 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
         <aside className="vg-lato gv-scroll">
           <p className="vg-sezione">{tr("il corpo", "the body")}</p>
           {metro(tr("Vita", "Life"), num("vita"), 10, [6, 3], statoVita(num("vita")), true)}
-          {metro(tr("Sete", "Thirst"), num("sete"), 13, [6, 9], statoSete(num("sete")))}
-          {metro(tr("Fame", "Hunger"), num("fame"), 15, [7, 11], statoFame(num("fame")))}
+          {metro(tr("Sete", "Thirst"), num("sete"), 16, [6, 9], statoSete(num("sete")))}
+          {metro(tr("Fame", "Hunger"), num("fame"), 18, [7, 11], statoFame(num("fame")))}
 
           <p className="vg-sezione">{tr("scorte", "supplies")}</p>
           <div className="vg-scorte">
