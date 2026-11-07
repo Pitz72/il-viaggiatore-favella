@@ -8,7 +8,25 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.42.0] - 2026-11-07
+
+### Cambiato
+- **Il viaggio è meno implacabile per chi lo comincia senza conoscerlo** (decisioni di Simone del 7 novembre 2026, misurate
+  con il metodo del Relitto: centinaia di partite da principiante verosimili, `collaudo/verosimili.py`, il perché e i numeri in
+  `sviluppo/bilanciamento.md`). Tre numeri, nessun testo: **la fame sale ogni 5 turni** invece che ogni 4; **il lavoro da
+  Nunzio costa 1 di fame** invece di 2; **le soglie estreme sono a 16 di sete e 18 di fame** invece di 13 e 15, così non si
+  muore più «sul colpo» con la vita ancora alta (tre lavori da Nunzio con la fame a 9 bastavano): si muore a vita zero, dopo i
+  turni di danno che dicono «(BEVI.)» e «(MANGIA.)». I misuratori di sete e fame arrivano a 16 e 18. Chi sa la strada non se ne
+  accorge; una giocatrice che si perde un po' all'inizio, come Michela, arriva al lago in metà delle partite (prima quasi mai),
+  e la curiosa finisce il viaggio in più di nove partite su dieci (prima tre su quattro). I salvataggi di prima si caricano e
+  si rigiocano con i numeri nuovi (`prototipo/sistemi.fav`, `prototipo/z1-acquaviva.fav`, `ViaggiatorePlayer.tsx`).
+
 ### Aggiunto
+- **Il metodo per bilanciare senza betatester**, portato da *Il Relitto Silente*: tre partite da principiante scritte a mano
+  (`collaudo/principiante-curiosa.txt`, `-frettolosa.txt`, `-sperduta.txt`, la partita di Michela), una giocatrice che beve,
+  mangia e rimedia da sé ai passaggi chiusi (`collaudo/cammino.py`) e centinaia di partite verosimili per sei caratteri, con le
+  varianti «e se…?» su una copia dei `.fav` e la regola decisa da Simone (`collaudo/verosimili.py --regola`). In CI il controllo
+  rapido (`--controlla`).
 - **La pagina del gioco su GitHub Pages** (https://pitz72.github.io/il-viaggiatore-favella/): la presentazione, in italiano e in
   inglese, con i quattro download dell'ultima release già in apertura (quello del proprio sistema in evidenza), il gioco nel browser in `gioca/`,
   quattro schermate del gioco vero per lingua, i numeri, le caratteristiche, l'avviso dell'autore, i crediti e i link a favella.eu ed
