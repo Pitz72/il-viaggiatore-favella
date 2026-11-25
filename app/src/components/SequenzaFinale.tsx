@@ -33,6 +33,7 @@ import { ATTACCO, presenza, tempi, type Tempi } from "../finale/scaletta";
 import { GRAZIE, GRAZIE_EN, LICENZE, LICENZE_EN, righeDeiTitoli } from "../finale/crediti";
 import { useLingua } from "../lib/useOpzioni";
 import { tr } from "../lib/lingua";
+import FirmaAutore from "./FirmaAutore";
 
 const CANZONE = `${import.meta.env.BASE_URL}musica/finale.opus`;
 const TETTO_TELA = 2560;      // px: la tela non va oltre (la scena è dipinta per il trailer, che a questa misura è nitido)
@@ -298,10 +299,7 @@ export default function SequenzaFinale({ frase, onFine }: Props) {
               <div ref={titolo}>
                 <div style={{ fontFamily: FONT.display, fontWeight: 800, fontSize: 112, lineHeight: 1.08, letterSpacing: "0.14em",
                   paddingLeft: "0.14em", color: "#f4ece0", textShadow: "0 0 50px rgba(255,190,130,.16)" }}>IL VIAGGIATORE</div>
-                <div style={{ marginTop: 22, fontFamily: FONT.mono, fontWeight: 500, fontSize: 20, letterSpacing: "0.5em", textTransform: "uppercase",
-                  color: "#ffe0bd", textShadow: ombra }}>{tr("un esperimento in favella 1", "an experiment in favella 1")}</div>
-                <div style={{ marginTop: 16, fontFamily: FONT.serif, fontStyle: "italic", fontSize: 28, color: "rgba(244,236,224,.88)",
-                  textShadow: ombra }}>{tr("un gioco di Simone Pizzi", "a game by Simone Pizzi")}</div>
+                <div style={{ marginTop: 20 }}><FirmaAutore corpo={30} ombra={ombra} /></div>
               </div>
               {/* abbastanza sotto da non vedersi mentre il titolo sta fermo al centro */}
               <dl style={{ margin: "460px auto 0", maxWidth: 1180, display: "flex", flexDirection: "column", gap: 50 }}>

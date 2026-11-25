@@ -9,14 +9,26 @@
 
 Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti non sono più da fare (vedi «Non si fa»).
 
-- **Ritocchi al trailer nuovo, se Simone li chiede** (25 novembre 2026, diari «Il trailer rimesso in piedi» e «Il rilascio 1.43.1»). La
-  1.43.1 è uscita, ma Simone non ha ancora detto com'è il trailer guardato con calma (la misura dell'uomo, i colori, la mappa): si
-  riprende da `app/src/trailer/figura.ts` e dalle macchine da presa delle scene (`trailer/prospettiva.ts`). Scelte mie da confermare: i
-  pali del telegrafo dell'alba, che ho tolto (scorrevano sopra una tavola ferma); l'uomo lontano e a sinistra sul titolo; la rotta
-  della mappa sulle strade vere. Da decidere con lui: il sottotitolo «un esperimento in favella 1», che le immagini promozionali non
-  dicono più; i video in `video/` (M03), che sono del trailer di prima; volendo, le otto schermate di `pagine/schermate/` da
-  rifotografare con `strumenti/schermate.cjs`.
+- **Il trailer: le cinque rifiniture di Simone, fatte e non rilasciate** (25 novembre 2026, sera, diario «Cinque rifiniture al
+  trailer»). Simone ha guardato la 1.43.1 («Nell'insieme va benissimo come è») e ha chiesto cinque correzioni: il lampo all'attacco,
+  la lettera bianca, lo zoom della mappa, il brano che ripartiva sul menu, il sottotitolo come nelle locandine. Sono fatte e stanno in
+  «Non rilasciato» del CHANGELOG. **Da confermare** guardandole nel gioco desktop: la distanza fissa della mappa (1,55), il contatore
+  delle tappe passato in basso a destra, la firma nuova anche nei titoli di coda, l'inglese «a FAVELLA1 game by Simone Pizzi». Il
+  rilascio lo decide Simone. Restano da decidere con lui: i video in `video/` (M03), che sono del trailer di prima; volendo, le otto
+  schermate di `pagine/schermate/` da rifotografare con `strumenti/schermate.cjs`. (Le scelte mie della 1.43.1, cioè i pali del
+  telegrafo tolti, l'uomo lontano sul titolo e la rotta sulle strade vere, sono passate: Simone ha giudicato l'insieme e non le ha
+  toccate.)
 
+- **I suoni con ElevenLabs: il censimento è fatto, niente è generato** (25 novembre 2026, diario «Il censimento dei suoni»,
+  [`pre-produzione/12-suoni.md`](../pre-produzione/12-suoni.md)). Nel gioco nessun suono è un file: 43 suoni sintetizzati fra loghi,
+  trailer, mappa e trofei. Proposta: rifare con gli effetti sonori di ElevenLabs solo i rumori (circa 30, 90–110 generazioni con le
+  prese) e tenere sintetizzate le parti intonate. Da decidere con Simone: quali rifare; la licenza degli effetti col suo piano (22
+  dollari al mese; 116.031 crediti il 25 novembre 2026). Il connettore genera, ma non legge il conto: i crediti si guardano sul sito. **Da guardare prima**: i passi del titolo che
+  continuano per quasi un minuto sul menu con l'immagine ferma.
+- **Controllare la sequenza finale** dopo il lavoro della 1.43.0 (Simone, 25 novembre 2026: Gemini Carbon l'ha rielaborata). La
+  notte e la sincronia sono state toccate e mai verificate; il suo orologio prende il tempo dalla musica come il trailer prima della
+  correzione del lampo. Si guarda nella versione di produzione (`vite preview`, voce `viaggiatore-produzione` di
+  `.claude/launch.json`), misurando la luce dei fotogrammi.
 - **Far rigiocare Michela la 1.42.0**, se capita: dove si perde, quando beve, che cosa capisce tardi. Il suo racconto vale più delle
   partite simulate; se smentisce il modello, si ritoccano i caratteri in `collaudo/verosimili.py` e si rimisura. Ogni ritocco
   futuro della difficoltà si misura con il metodo di [`bilanciamento.md`](bilanciamento.md) e deve tenere la regola

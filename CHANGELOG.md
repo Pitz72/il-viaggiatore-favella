@@ -8,6 +8,23 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+### Corretto
+- **Il trailer non ha più il lampo all'attacco.** Appena partita la dissolvenza sulle lettere, il tempo tornava indietro di qualche
+  decimo (la latenza dell'uscita audio si conosce solo dopo i primi fotogrammi) e l'immagine, appena comparsa, tornava al buio
+  prima di risalire. Ora il tempo del trailer non torna mai indietro (`components/Trailer.tsx`).
+- **Finito il trailer, il menu arriva in silenzio.** Il brano finiva e, al comparire del menu, ne ripartiva l'ultimo tratto: la
+  coda del titolo, che deve suonare solo quando si salta al titolo con Esc o si torna dalla partita (`trailer/audio.ts`; un
+  difetto della 1.43.0).
+
+### Cambiato
+- **La lettera sotto il biglietto è scritta**: un corsivo fitto che non si legge, con la data, il saluto, i capoversi e la firma,
+  steso sul foglio dipinto della tavola, in prospettiva (`trailer/scene/lettere.ts`).
+- **La mappa del trailer sta sempre alla stessa distanza** e non esce mai dal foglio: segue la penna, si ferma al bordo della
+  carta e alla fine resta su Acquamorta (`trailer/scene/mappa.ts`). Il contatore delle tappe è passato in basso a destra.
+- **Sotto il titolo c'è la firma delle locandine**, «un gioco in FAVELLA1 di Simone Pizzi» (in inglese «a FAVELLA1 game by Simone
+  Pizzi»), al posto di «un esperimento in favella 1» e «un gioco di Simone Pizzi»: nel trailer, sul menu d'avvio e nei titoli di
+  coda (`components/FirmaAutore.tsx`).
+
 ## [1.43.1] - 2026-11-25
 
 ### Corretto

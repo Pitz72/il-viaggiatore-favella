@@ -287,21 +287,28 @@ export class ColonnaSonora {
     if (t < fine) {
       this.coda = false;
       const lat = this.latenza();
-      if (Math.abs(b.currentTime - (t + lat)) > 0.3) b.currentTime = t + lat;   // salti: rivedi, capitoli
-      if (b.paused) b.play().catch(() => {});
+      let salto = false;
+      if (Math.abs(b.currentTime - (t + lat)) > 0.3) { b.currentTime = t + lat; salto = true; }   // salti: rivedi, capitoli
+      // un brano già finito non si rilancia da sé: `play` lo farebbe ripartire dall'inizio
+      if (b.paused && (salto || !b.ended)) b.play().catch(() => {});
       return;
     }
-    // arrivo al menu da salto (Esc, anche negli ultimi secondi) o da ritorno dalla partita/finale (startAtEnd):
-    // se il brano non ha appena finito da sé la corsa intera, parte la coda del titolo
-    if (!this.coda && (tPrec < 0 || tPrec < fine - 0.35 || tPrec >= fine)) {
+    // Il tempo ha passato la fine del brano. Se ci è arrivato camminando (il fotogramma prima era a pochi decimi dalla fine),
+    // il brano ha finito da sé e il menu resta in silenzio. Se ci è arrivato con un salto (Esc, anche negli ultimi secondi;
+    // il ritorno dalla partita o dal finale, startAtEnd; l'audio acceso dal menu), parte la coda del titolo.
+    // Fino alla 1.43.1 la seconda condizione valeva anche per il fotogramma subito dopo la fine naturale, e la coda ripartiva
+    // da 81,4 s proprio mentre compariva il menu (Simone, 25 novembre 2026: «come se si fosse desincronizzato»).
+    if (!this.coda) {
       this.coda = true;
+      const daSe = tPrec >= fine - 0.35 && tPrec < fine;
+      if (daSe) return;
       if (tPrec < 0 || tPrec >= fine || b.currentTime >= fine - 0.1 || b.currentTime < CODA - 0.5) {
         b.currentTime = Math.min(CODA, Math.max(0, fine - 1));
       }
       b.play().catch(() => {});
       return;
     }
-    if (this.coda && b.paused && !b.ended) b.play().catch(() => {}); // ripresa dopo una pausa
+    if (b.paused && !b.ended) b.play().catch(() => {}); // ripresa dopo una pausa
   }
 
   /** Chiamata a ogni fotogramma col tempo del trailer. */

@@ -45,6 +45,8 @@ import Domanda from "../gioco/Domanda";
 import Cartiglio, { DURATA_TROFEO, type DatiCartiglio } from "../gioco/Cartiglio";
 import { PER_ID } from "../gioco/trofei";
 import { suonaTrofeo } from "../gioco/suonoTrofeo";
+import FirmaAutore from "./FirmaAutore";
+import { TARGA } from "../trailer/scene/mappa";
 
 // --------------------------------------------------------------------
 //  Testi (cue): tempi, posizione, tipo d'animazione
@@ -466,11 +468,8 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
       tit.style.letterSpacing = `${0.5 - e * 0.36}em`;
       tit.style.filter = e < 1 ? `blur(${(1 - e) * 14}px)` : "none";
       tit.style.backgroundPosition = `${100 - seg(t, 83.4, 85.8) * 100}% 0`;
-      sub.style.opacity = String(clamp(seg(t, 84.3, 85.4)));
+      sub.style.opacity = String(clamp(seg(t, 84.3, 85.6)));
     }
-    // il nome dell'autore, ultimo: resta sul menu d'avvio
-    const aut = extraRef.current.autore;
-    if (aut) aut.style.opacity = String(clamp(seg(t, 85.1, 86.3)));
 
     // letterbox: si apre sul titolo
     const apre = easeOut(seg(t, 81.8, 84.2));
@@ -585,12 +584,19 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
     let raf = 0, prec = performance.now(), finePrec = startAtEnd, giri = 0, lento = 0, ultimoDisegnoMenu = -1;
     const passo = (ora: number) => {
       const grezzo = ora - prec;
-      const dt = Math.min(0.1, grezzo / 1000);
+      // il primo giro può avere un orario di poco precedente a quello dell'effetto: niente passi indietro
+      const dt = clamp(grezzo / 1000, 0, 0.1);
       prec = ora;
       const fermo = pausaRef.current || document.hidden;
       if (!fermo) {
         const tm = suono.current?.orologio();
-        tRef.current = tm != null && Math.abs(tm - tRef.current) < 0.5 ? tm : tRef.current + dt;
+        // Il brano fa da orologio, ma il tempo non torna mai indietro: se il brano è un poco indietro, l'immagine rallenta a
+        // metà passo finché non la raggiunge (fermarla del tutto si vedrebbe). All'attacco il ritardo dell'uscita audio
+        // (latenza()) si conosce solo dopo qualche fotogramma: fino alla 1.43.1 il tempo scendeva di colpo di quel ritardo e la
+        // dissolvenza delle lettere, appena cominciata, ripartiva dal nero (Simone, 25 novembre 2026). I salti veri (rivedi,
+        // Esc) assegnano tRef da sé e qui non passano.
+        if (tm != null && Math.abs(tm - tRef.current) < 0.5) tRef.current = tm >= tRef.current ? tm : Math.min(tRef.current + dt * 0.5, tm + 0.5);
+        else tRef.current += dt;
         if (tRef.current < DURATA && ++giri > 120) {
           lento = grezzo > 36 ? lento + 1 : Math.max(0, lento - 1);
           if (lento > 50 && qualita.current > 0.5 && grafica.current === "automatica") { qualita.current -= 0.25; lento = 0; adattaRef.current(); }
@@ -784,9 +790,9 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
             <span style={{ display: "inline-block", width: 14, height: 30, marginLeft: 6, verticalAlign: -5, background: "#f0a867", animation: "kf-caret 1s step-end infinite" }} />
           </div>
 
-          {/* E · contatore delle tappe: in basso a sinistra, dove la carta del gioco non ha nomi (in alto c'è Acquamorta), su una
-              targhetta scura che dipinge la scena (trailer/scene/mappa.ts) */}
-          <div ref={reg("tappe")} style={{ position: "absolute", left: 150, top: H - BANDA - 79, opacity: 0, ...mono(18, { color: "rgba(226,232,240,.86)" }) }} />
+          {/* E · contatore delle tappe: in basso a destra, dove la macchina, ferma al bordo del foglio, non porta il viaggio, su
+              una targhetta scura che dipinge la scena (trailer/scene/mappa.ts, TARGA) */}
+          <div ref={reg("tappe")} style={{ position: "absolute", left: TARGA.x + 24, top: H - BANDA - 79, opacity: 0, ...mono(18, { color: "rgba(226,232,240,.86)" }) }} />
 
           {/* F · cinque colonne coi medaglioni dipinti a gouache e china */}
           <div style={{ position: "absolute", left: 0, right: 0, top: 306, display: "flex", justifyContent: "center", gap: 12 }}>
@@ -850,8 +856,10 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
               backgroundSize: "300% 100%", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent",
               textShadow: "0 0 60px rgba(255,190,130,.18)", paddingLeft: "0.14em",
             }}>IL VIAGGIATORE</h1>
-            <div ref={reg("sottotitolo")} style={mono(22, { color: "#ffe0bd", fontWeight: 500, letterSpacing: "0.5em", marginTop: 26, opacity: 0, textShadow: "0 1px 3px rgba(20,8,10,.85), 0 1px 22px rgba(0,0,0,.85)" })}>{tr("un esperimento in favella 1", "an experiment in favella 1")}</div>
-            <div ref={reg("autore")} style={serif(28, { color: "rgba(244,236,224,.86)", fontStyle: "italic", marginTop: 18, opacity: 0, textShadow: "0 1px 3px rgba(20,8,10,.85), 0 1px 22px rgba(0,0,0,.85)" })}>{tr("un gioco di Simone Pizzi", "a game by Simone Pizzi")}</div>
+            {/* la firma delle immagini promozionali: resta sul menu d'avvio */}
+            <div ref={reg("sottotitolo")} style={{ marginTop: 22, opacity: 0 }}>
+              <FirmaAutore corpo={36} ombra="0 1px 3px rgba(20,8,10,.85), 0 1px 22px rgba(0,0,0,.85)" />
+            </div>
           </div>
 
           {/* letterbox */}

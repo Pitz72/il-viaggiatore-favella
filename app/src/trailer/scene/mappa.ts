@@ -18,7 +18,7 @@
 //  una diagonale e il viaggio verso est.
 // ====================================================================
 import { W, H, BANDA, TAPPE_T0, TAPPE_PASSO } from "../scaletta";
-import { clamp, easeInOut, easeOut, inviluppo, lerp, seg, smoothstep } from "../tempo";
+import { clamp, easeInOut, easeOut, inviluppo, lerp, seg } from "../tempo";
 import { FONT } from "../font";
 import { grana, inquadra, oscillaCamera, vignetta } from "../pittura";
 import { inglese, tr } from "../../lib/lingua";
@@ -43,8 +43,16 @@ const SPESSORE: Record<Classe, number> = { statale: 2.2, provinciale: 1.6, strad
 /** Quanti pixel del quadro vale un'unità del foglio a campo intero: il foglio (1092 × 481) sta tutto dentro le fasce. */
 const U = 1.6;
 const OX = (W - FOGLIO.larghezza * U) / 2, OY = (H - FOGLIO.altezza * U) / 2;
-/** Quanti pixel per unità ha la tela del foglio e la stampa (la macchina si avvicina fino a una volta e mezza). */
+/** Quanti pixel per unità ha la tela del foglio e la stampa (la macchina sta a una volta e mezza). */
 const FITTA = 2;
+/** La distanza della macchina dal foglio, la stessa dal primo all'ultimo fotogramma (quella che teneva per quasi tutta la scena
+ *  fino alla 1.43.1). Deve restare sopra 1,1: sotto, il foglio (1747 × 770 px) non riempie più il quadro fra le fasce. */
+const ZOOM = 1.55;
+/** Quanto la macchina resta dentro il bordo del foglio (px di progetto): copre il respiro di macchina a mano (oscillaCamera). */
+const MARGINE = 6;
+/** La targhetta scura sotto il contatore delle tappe (Trailer.tsx), in basso a destra: con la macchina ferma sul bordo del
+ *  foglio, l'ultimo tratto del viaggio sale lungo il lato sinistro del quadro, e a sinistra la targhetta lo copriva. */
+export const TARGA = { x: W - 126 - 300, w: 300 };
 
 interface Pt { x: number; y: number }
 /** Un tratto di strada nel verso del cammino, con le lunghezze cumulate. */
@@ -208,13 +216,13 @@ export function disegnaMappa(ctx: CanvasRenderingContext2D, t: number, c: Cache)
   const penna = k <= 0 ? { x: m.tappe[0].x, y: m.tappe[0].y } : puntoSu(m.gambe[gi], percorsa);
   const raggiunte = k < 0 ? 0 : Math.min(m.tappe.length, gi + 1 + (fatta >= 0.995 ? 1 : 0));
 
-  // la macchina: segue la penna da vicino, poi si allarga su tutto il foglio
-  const allarga = smoothstep(46.0, 48.4, t);
-  const zoom = lerp(lerp(1.3, 1.55, smoothstep(32.8, 36.0, t)), 1, allarga);
-  const mezzaL = W / 2 / zoom, mezzaA = (H / 2 - BANDA) / zoom;
-  const stringi = (v: number, lo: number, hi: number) => (lo > hi ? (lo + hi) / 2 : clamp(v, lo, hi));
-  const fx = lerp(stringi(OX + penna.x * U, OX + mezzaL - 70, OX + FOGLIO.larghezza * U - mezzaL + 70), W / 2, allarga);
-  const fy = lerp(stringi(OY + penna.y * U, OY + mezzaA - 24, OY + FOGLIO.altezza * U - mezzaA + 24), H / 2, allarga);
+  // la macchina: sempre alla stessa distanza (ZOOM), segue la penna e si ferma dove finisce il foglio, così fra le fasce del
+  // letterbox si vede soltanto la carta. Finito il viaggio resta dov'è, su Acquamorta (Simone, 25 novembre 2026: prima
+  // la distanza cambiava e, allargandosi, mostrava il tavolo vuoto attorno al foglio)
+  const mezzaL = W / 2 / ZOOM, mezzaA = (H / 2 - BANDA) / ZOOM;
+  const fx = clamp(OX + penna.x * U, OX + mezzaL + MARGINE, OX + FOGLIO.larghezza * U - mezzaL - MARGINE);
+  const fy = clamp(OY + penna.y * U, OY + mezzaA + MARGINE, OY + FOGLIO.altezza * U - mezzaA - MARGINE);
+  const zoom = ZOOM;
 
   // il tavolo scuro sotto il foglio
   const tavolo = ctx.createRadialGradient(W / 2, H / 2, 200, W / 2, H / 2, 1200);
@@ -326,7 +334,7 @@ export function disegnaMappa(ctx: CanvasRenderingContext2D, t: number, c: Cache)
   ctx.restore();
 
   // un velo scuro in alto, solo mentre c'è la scritta chiara «Sette tappe fino a casa.» (33,6 → 36,1), e una targhetta scura
-  // sotto il contatore delle tappe, in basso a sinistra (Trailer.tsx)
+  // sotto il contatore delle tappe, in basso a destra (Trailer.tsx)
   const velo = inviluppo(t, 33.0, 36.5, 0.8, 0.6);
   if (velo > 0) {
     const gAlto = ctx.createLinearGradient(0, BANDA, 0, BANDA + 260);
@@ -339,7 +347,7 @@ export function disegnaMappa(ctx: CanvasRenderingContext2D, t: number, c: Cache)
   const targa = inviluppo(t, TAPPE_T0 - 0.2, 48.7, 0.5, 0.5);
   if (targa > 0) {
     ctx.fillStyle = `rgba(14,10,8,${0.7 * targa})`;
-    ctx.beginPath(); ctx.roundRect(126, H - BANDA - 92, 300, 50, 8); ctx.fill();
+    ctx.beginPath(); ctx.roundRect(TARGA.x, H - BANDA - 92, TARGA.w, 50, 8); ctx.fill();
   }
   vignetta(ctx, 0.4);
 }
