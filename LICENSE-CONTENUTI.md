@@ -65,6 +65,15 @@ Dal 1° novembre 2026 l'autore ha un abbonamento a pagamento a ElevenLabs: le vo
 avere diritti più ampi di quelle del piano gratuito. Finché non si verifica nei termini di ElevenLabs, restano tutte nella
 stessa cartella e con la stessa esclusione (scelta prudente: non è una consulenza legale).
 
+## Cosa NON copre: gli effetti sonori di ElevenLabs
+
+Gli **effetti sonori registrati** (`app/public/effetti/`: la carta, i passi, i tasti, il timbro, i soffi, il televisore e il
+libro dei loghi, la mappa) sono stati generati il 25 novembre 2026 con ElevenLabs Sound Effects (elevenlabs.io), con
+l'abbonamento dell'autore. Valgono come le voci qui sopra: **non** sono coperti da questa licenza, si possono ridistribuire solo
+come parte di questo gioco e **solo per uso non commerciale**, finché i diritti dell'abbonamento non sono verificati. Un'opera
+derivata o un uso commerciale deve toglierli o sostituirli: il gioco funziona anche senza, e suona allora i suoni sintetici che
+avevano preso il posto.
+
 ## In breve
 
 Puoi copiare, distribuire, modificare e riusare questi contenuti, anche a fini

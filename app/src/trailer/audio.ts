@@ -26,6 +26,7 @@ import { EVENTI, type Evento, type TipoSuono } from "./scaletta";
 import { rng } from "./tempo";
 import { canale, offline, uscita } from "../lib/suono";
 import { conVoce, opzioni } from "../lib/opzioni";
+import { suonaEffetto } from "../lib/effetti";
 
 const INTONATI: TipoSuono[] = ["rintocco", "tonfo"];
 const LIV_RUMORI_CON_BRANO = 0.55;
@@ -364,6 +365,7 @@ export class ColonnaSonora {
     const r = rng(Math.round((e?.t ?? now) * 1000) + 7);
     const v = (a: number, b: number) => a + (b - a) * r();
     const dB = (x: number) => Math.pow(10, x / 20);
+    if (this.registrato(tipo, vol, e, r)) return;
     const uscita = (pan: number): AudioNode => {
       if (!pan || !ac.createStereoPanner) return this.rumori;
       const p = ac.createStereoPanner(); p.pan.value = pan; p.connect(this.rumori); return p;
@@ -424,6 +426,23 @@ export class ColonnaSonora {
       case "soffio": rumore(0.6, "bandpass", 300, 0.22, 3000); break;
       case "tonfo": tono(70, 28, 1.4, 0.8); rumore(0.2, "lowpass", 400, 0.3); break;
       case "rintocco": tono(880, 870, 1.6, 0.06, "triangle"); tono(1320, 1310, 1.2, 0.03); break;
+    }
+  }
+
+  /** I rumori registrati (lib/effetti.ts) al posto dei sintetici: carta, tasti, timbro, soffi, passi. Ogni colpo è una variante
+   *  scelta dal seme dell'evento, con un filo di velocità e di livello diversi, come i sintetici. Falso se l'effetto non c'è. */
+  private registrato(tipo: TipoSuono, vol: number, e: Evento | undefined, r: () => number): boolean {
+    const ac = this.ac!, t = ac.currentTime;
+    const n = Math.floor(r() * 997);
+    const rate = 0.96 + r() * 0.08, liv = Math.pow(10, (r() * 4 - 2) / 20);
+    switch (tipo) {
+      case "carta": return suonaEffetto(ac, this.rumori, e?.biglietto ? "biglietto" : "busta", t, { g: vol, n, rate });
+      case "tasto": return suonaEffetto(ac, this.rumori, "tasto", t, { g: vol * liv, n, rate });
+      case "timbro": return suonaEffetto(ac, this.rumori, "timbro", t, { g: vol });
+      case "soffio": return suonaEffetto(ac, this.rumori, "soffio", t, { g: vol, n, rate });
+      case "passo": return suonaEffetto(ac, this.rumori, `passo-${e?.terreno ?? "asfalto"}`, t,
+        { g: vol * liv, n, rate, pan: e?.piede ? 0.16 : -0.16 });
+      default: return false;           // rintocchi e tonfi: solo senza brano, e restano sintetici
     }
   }
 }

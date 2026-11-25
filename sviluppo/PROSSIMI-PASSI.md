@@ -19,12 +19,25 @@ Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti 
   telegrafo tolti, l'uomo lontano sul titolo e la rotta sulle strade vere, sono passate: Simone ha giudicato l'insieme e non le ha
   toccate.)
 
-- **I suoni con ElevenLabs: il censimento è fatto, niente è generato** (25 novembre 2026, diario «Il censimento dei suoni»,
-  [`pre-produzione/12-suoni.md`](../pre-produzione/12-suoni.md)). Nel gioco nessun suono è un file: 43 suoni sintetizzati fra loghi,
-  trailer, mappa e trofei. Proposta: rifare con gli effetti sonori di ElevenLabs solo i rumori (circa 30, 90–110 generazioni con le
-  prese) e tenere sintetizzate le parti intonate. Da decidere con Simone: quali rifare; la licenza degli effetti col suo piano (22
-  dollari al mese; 116.031 crediti il 25 novembre 2026). Il connettore genera, ma non legge il conto: i crediti si guardano sul sito. **Da guardare prima**: i passi del titolo che
-  continuano per quasi un minuto sul menu con l'immagine ferma.
+- **I suoni con ElevenLabs: generati e nel gioco, da ascoltare, non rilasciati** (25 novembre 2026, diari «Il censimento dei
+  suoni» e «Gli effetti sonori generati con ElevenLabs», [`pre-produzione/12-suoni.md`](../pre-produzione/12-suoni.md),
+  [`effetti/LEGGIMI.md`](../effetti/LEGGIMI.md)). Nel gioco nessun suono è un file: 43 suoni sintetizzati fra loghi, trailer, mappa e
+  trofei. Generati i rumori (87 prese per 28 suoni, circa 555 crediti; master in `effetti/master/`, fuori da git, M18) e **messi
+  nel gioco** la sera stessa: Simone ha lasciato scegliere le prese a Claude; 27 effetti in `app/public/effetti/`, ciascuno con
+  l'energia del sintetico che sostituisce (`strumenti/effetti-livelli.cjs`), controllati da `collaudo/effetti.py`. Le parti intonate e
+  il trofeo restano sintetici. **Da fare**: Simone li ascolta nel gioco desktop e dice che cosa cambiare; non è rilasciato. Da decidere con Simone: la licenza degli effetti col suo piano (22
+  dollari al mese; 116.031 crediti il 25 novembre 2026, circa 555 spesi). Il connettore genera, ma non legge il conto: i crediti si guardano sul sito. I passi del titolo che continuavano sul menu sono corretti.
+- **I suoni d'ambiente, per una prossima sessione** (Simone, 25 novembre 2026, sera: «in linea di principio ci siamo ma in una
+  prossima sessione io farei anche i suoni ambientali, atmosferici. Che non devono sostituire le musiche, anzi, devono stargli
+  sotto»). In partita oggi non c'è nessun suono d'ambiente (censimento, §5). Punti di partenza, tutti da decidere con lui:
+  - un letto d'ambiente per zona, sotto la musica della zona (`gioco/musica.ts` sa già fare i giri senza cuciture, le dissolvenze fra
+    le zone e gli interni filtrati): il vento sulla piana, il silenzio salato dell'invaso, il paese vuoto, le colline, l'acqua del guado;
+    forse varianti per gli interni e per la notte;
+  - sempre **sotto** la musica e sotto la voce: un livello molto più basso, e magari un canale suo nel bus sonoro (`lib/suono.ts`)
+    con un cursore nelle opzioni, accanto a musica, voce ed effetti;
+  - si generano con ElevenLabs Sound Effects in giro continuo (`loop`, fino a 30 s), come il ronzio del tubo; si mettono accanto agli
+    effetti (`app/public/effetti/`, fuori dalla licenza libera) e si controllano con `collaudo/effetti.py`;
+  - prima un piccolo censimento dei luoghi (le 7 zone, i 39 luoghi, gli interni), poi le prove su una zona, poi le altre.
 - **Controllare la sequenza finale** dopo il lavoro della 1.43.0 (Simone, 25 novembre 2026: Gemini Carbon l'ha rielaborata). La
   notte e la sincronia sono state toccate e mai verificate; il suo orologio prende il tempo dalla musica come il trailer prima della
   correzione del lampo. Si guarda nella versione di produzione (`vite preview`, voce `viaggiatore-produzione` di

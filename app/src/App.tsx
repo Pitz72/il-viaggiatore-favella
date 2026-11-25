@@ -24,6 +24,7 @@ import SceltaLingua from "./components/SceltaLingua";
 import Loghi from "./components/Loghi";
 import Avviso from "./components/Avviso";
 import { avviaPreparazione } from "./trailer/paesaggi";
+import { caricaEffetti } from "./lib/effetti";
 import Trailer from "./components/Trailer";
 import GameShell from "./components/GameShell";
 import SequenzaFinale from "./components/SequenzaFinale";
@@ -61,7 +62,7 @@ export default function App() {
 
   // Le tele del trailer (cielo, monti, legno, carta, fango, sale, cemento, rilievo…) si dipingono
   // a pezzi mentre girano i loghi: quando comincia il trailer sono già pronte.
-  useEffect(() => { avviaPreparazione(); }, []);
+  useEffect(() => { avviaPreparazione(); caricaEffetti(); }, []);
 
   // dopo un errore di disegno: si ricomincia dal menu d'avvio, con un confine nuovo
   const [ripartenza, setRipartenza] = useState(0);

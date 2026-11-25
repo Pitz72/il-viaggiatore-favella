@@ -22,6 +22,7 @@ import { REGIA_FAVELLA as F, BATTUTE, MOTTO } from "./LogoFavella";
 import { RUNTIME_RIQUADRI, MULTIMEDIA_RIQUADRI, PIXEL } from "./forme";
 import { inDesktop } from "../lib/desktop";
 import { canale } from "../lib/suono";
+import { suonaEffetto, varianti } from "../lib/effetti";
 
 const LIVELLO = 0.8;            // volume generale (la colonna del trailer resta più forte)
 const ZERO = 0.0001;
@@ -192,21 +193,35 @@ function ronzio(b: Banco, t0: number, t1: number, g: number) {
 
 const panX = (x: number, centro: number, mezzo: number, ampiezza = 0.6) => ((x - centro) / mezzo) * ampiezza;
 
+/** Un rumore registrato (lib/effetti.ts, pre-produzione/12-suoni.md) al posto del sintetico, con la stessa posizione nello stereo e
+ *  la stessa mandata al riverbero; `g` è il livello del sintetico che sostituisce. Falso se l'effetto non c'è (resta il sintetico). */
+function registrato(b: Banco, t: number, chiave: string, g: number, o: { pan?: number; riv?: number; n?: number; rate?: number } = {}) {
+  if (!varianti(chiave)) return false;
+  return suonaEffetto(b.ac, voce(b, o.pan ?? 0, o.riv ?? 0.15), chiave, t, { g, n: o.n, rate: o.rate });
+}
+
 // ── RUNTIME MULTIMEDIA ────────────────────────────────────────────────
 function partituraRuntime(b: Banco, s: number) {
   const at = (x: number) => s + x;
   // il televisore si accende: tonfo, scarica, e il tubo che ronza fino allo spegnimento
-  colpo(b, at(R.rigaDa), 0.42, 95, 38, 0.36);
-  rumore(b, at(R.rigaDa), { dur: 0.16, g: 0.16, tipo: "highpass", f: 1800, f1: 7000, riv: 0.2 });
-  tono(b, at(R.rigaDa + 0.02), { f: 7800, f1: 9400, dur: 0.32, g: 0.012, att: 0.02, riv: 0.1 });
-  ronzio(b, at(R.rigaDa + 0.05), at(R.spentaA), 0.018);
+  if (!registrato(b, at(R.rigaDa), "tv-acceso", 0.42, { riv: 0.2 })) {
+    colpo(b, at(R.rigaDa), 0.42, 95, 38, 0.36);
+    rumore(b, at(R.rigaDa), { dur: 0.16, g: 0.16, tipo: "highpass", f: 1800, f1: 7000, riv: 0.2 });
+    tono(b, at(R.rigaDa + 0.02), { f: 7800, f1: 9400, dur: 0.32, g: 0.012, att: 0.02, riv: 0.1 });
+  }
+  const giroRonzio = { fino: at(R.spentaA), entra: 0.4, esce: 0.12 };
+  if (!(varianti("ronzio") && suonaEffetto(b.ac, voce(b, 0, 0.05), "ronzio", at(R.rigaDa + 0.05), { g: 0.018, giro: giroRonzio })))
+    ronzio(b, at(R.rigaDa + 0.05), at(R.spentaA), 0.018);
   // lo schermo si apre: un soffio che sale
-  rumore(b, at(R.rigaA - 0.04), { dur: 0.42, g: 0.3, tipo: "bandpass", f: 380, f1: 3600, q: 1.1, att: 0.12, riv: 0.3 });
+  if (!registrato(b, at(R.rigaA - 0.04), "schermo", 0.3, { riv: 0.3 }))
+    rumore(b, at(R.rigaA - 0.04), { dur: 0.42, g: 0.3, tipo: "bandpass", f: 380, f1: 3600, q: 1.1, att: 0.12, riv: 0.3 });
   // la testina compare e scorre: un tono che sale piano, appena sotto le lettere
   tono(b, at(R.testina), { f: 880, f1: 1320, dur: 0.09, g: 0.08, att: 0.003, pan: -0.55, riv: 0.2 });
   const corsa = R.corsaA - R.corsaDa;
-  tono(b, at(R.corsaDa), { f: 196, f1: 587, dur: corsa + 0.1, g: 0.05, tipo: "triangle", att: 0.15, lp: 900, lp1: 2600, pan: 0, riv: 0.25 });
-  rumore(b, at(R.corsaDa), { dur: corsa, g: 0.035, tipo: "bandpass", f: 2000, f1: 6000, q: 3, att: 0.2, riv: 0.2 });
+  if (!registrato(b, at(R.corsaDa), "testina", 0.05, { riv: 0.25 })) {
+    tono(b, at(R.corsaDa), { f: 196, f1: 587, dur: corsa + 0.1, g: 0.05, tipo: "triangle", att: 0.15, lp: 900, lp1: 2600, pan: 0, riv: 0.25 });
+    rumore(b, at(R.corsaDa), { dur: corsa, g: 0.035, tipo: "bandpass", f: 2000, f1: 6000, q: 3, att: 0.2, riv: 0.2 });
+  }
   // RUNTIME: un bip per lettera, su una scala che sale (Re maggiore pentatonica)
   const scala = [587.3, 659.3, 740, 880, 987.8, 1174.7, 1318.5];
   PASSA_RUNTIME.forEach((tp, i) => {
@@ -216,15 +231,19 @@ function partituraRuntime(b: Banco, s: number) {
   // MULTIMEDIA: ticchettii più fini, dati che si scrivono
   PASSA_MULTIMEDIA.forEach((tp, i) => {
     const [x0, x1] = MULTIMEDIA_RIQUADRI[i];
-    rumore(b, at(tp + 0.03), { dur: 0.024, g: 0.085, tipo: "highpass", f: 4200 + i * 120, pan: panX((x0 + x1) / 2, 478, 420), riv: 0.12 });
+    const pan = panX((x0 + x1) / 2, 478, 420);
+    if (!registrato(b, at(tp + 0.03), "tic", 0.085, { pan, riv: 0.12, n: i, rate: 1 + i * 0.02 }))
+      rumore(b, at(tp + 0.03), { dur: 0.024, g: 0.085, tipo: "highpass", f: 4200 + i * 120, pan, riv: 0.12 });
   });
   // il triangolo si chiude: una zip che sale
   const dis = R.disegnoA - R.disegnoDa;
-  tono(b, at(R.disegnoDa), { f: 170, f1: 760, dur: dis, g: 0.055, tipo: "sawtooth", att: 0.04, lp: 700, lp1: 3800, pan: 0.35, riv: 0.2 });
-  rumore(b, at(R.disegnoDa), { dur: dis, g: 0.05, tipo: "bandpass", f: 900, f1: 5200, q: 2, att: 0.05, pan: 0.35, riv: 0.2 });
+  if (!registrato(b, at(R.disegnoDa), "zip", 0.055, { pan: 0.35, riv: 0.2 })) {
+    tono(b, at(R.disegnoDa), { f: 170, f1: 760, dur: dis, g: 0.055, tipo: "sawtooth", att: 0.04, lp: 700, lp1: 3800, pan: 0.35, riv: 0.2 });
+    rumore(b, at(R.disegnoDa), { dur: dis, g: 0.05, tipo: "bandpass", f: 900, f1: 5200, q: 2, att: 0.05, pan: 0.35, riv: 0.2 });
+  }
   // … e colpisce: cassa, accordo che si apre e resta sotto fino allo spegnimento
   const colpoT = R.pienoDa + 0.06;
-  colpo(b, at(colpoT), 0.95, 130, 40, 0.55, 0.15);
+  if (!registrato(b, at(colpoT), "colpo", 0.95, { riv: 0.15 })) colpo(b, at(colpoT), 0.95, 130, 40, 0.55, 0.15);
   accordo(b, at(colpoT), at(R.spegneDa + 0.06), { note: [146.8, 220, 293.7, 370, 440, 659.3], g: 0.22, att: 0.006, ril: 0.25, lp: 5200, lp1: 1100, tlp: 0.7, stacco: true, riv: 0.5 });
   campana(b, at(colpoT + 0.01), 1318.5, 0.05, 1.6, 0.3, 0.6);
   // il triangolo interno: un «pop»
@@ -237,13 +256,19 @@ function partituraRuntime(b: Banco, s: number) {
   });
   // il riflesso: un velo luminoso
   const rif = R.riflessoA - R.riflessoDa;
-  rumore(b, at(R.riflessoDa), { dur: rif, g: 0.05, tipo: "bandpass", f: 2600, f1: 9500, q: 2.5, att: rif * 0.4, pan: -0.2, riv: 0.6 });
-  tono(b, at(R.riflessoDa + 0.1), { f: 2637, f1: 3951, dur: 0.5, g: 0.012, att: 0.15, pan: 0.2, riv: 0.7 });
+  if (!registrato(b, at(R.riflessoDa), "riflesso", 0.05, { pan: -0.2, riv: 0.6, n: 0 })) {
+    rumore(b, at(R.riflessoDa), { dur: rif, g: 0.05, tipo: "bandpass", f: 2600, f1: 9500, q: 2.5, att: rif * 0.4, pan: -0.2, riv: 0.6 });
+    tono(b, at(R.riflessoDa + 0.1), { f: 2637, f1: 3951, dur: 0.5, g: 0.012, att: 0.15, pan: 0.2, riv: 0.7 });
+  }
   // lo spegnimento: tutto scende in un attimo, la riga, il punto
-  tono(b, at(R.spegneDa), { f: 1400, f1: 70, dur: 0.3, g: 0.11, att: 0.004, riv: 0.25 });
-  rumore(b, at(R.spegneDa), { dur: 0.26, g: 0.09, tipo: "lowpass", f: 4200, f1: 220, riv: 0.2 });
-  colpo(b, at(R.spentaA), 0.26, 80, 36, 0.24, 0.1);
-  tono(b, at(R.spentaA + 0.02), { f: 5200, f1: 2400, dur: 0.22, g: 0.016, att: 0.004, riv: 0.4 });
+  if (!registrato(b, at(R.spegneDa), "spegne", 0.11, { riv: 0.25 })) {
+    tono(b, at(R.spegneDa), { f: 1400, f1: 70, dur: 0.3, g: 0.11, att: 0.004, riv: 0.25 });
+    rumore(b, at(R.spegneDa), { dur: 0.26, g: 0.09, tipo: "lowpass", f: 4200, f1: 220, riv: 0.2 });
+  }
+  if (!registrato(b, at(R.spentaA), "punto", 0.26, { riv: 0.1 })) {
+    colpo(b, at(R.spentaA), 0.26, 80, 36, 0.24, 0.1);
+    tono(b, at(R.spentaA + 0.02), { f: 5200, f1: 2400, dur: 0.22, g: 0.016, att: 0.004, riv: 0.4 });
+  }
 }
 
 // ── FAVELLA 1 ─────────────────────────────────────────────────────────
@@ -253,25 +278,29 @@ function partituraFavella(b: Banco, s: number) {
   // la scintilla della gemma
   campana(b, at(F.scintillaDa), 2349.3, 0.09, 1.5, -0.25, 0.6);
   campana(b, at(F.scintillaDa + 0.05), 3520, 0.03, 1.0, -0.25, 0.7);
-  rumore(b, at(F.scintillaDa - 0.06), { dur: 0.34, g: 0.03, tipo: "highpass", f: 5200, att: 0.2, pan: -0.25, riv: 0.5 });
+  if (!registrato(b, at(F.scintillaDa - 0.06), "scintilla", 0.03, { pan: -0.25, riv: 0.5 }))
+    rumore(b, at(F.scintillaDa - 0.06), { dur: 0.34, g: 0.03, tipo: "highpass", f: 5200, att: 0.2, pan: -0.25, riv: 0.5 });
   // l'accordo caldo: entra con la gemma, si apre con la luce delle pagine, sfuma col logo
   accordo(b, at(F.scintillaDa + 0.1), fine, { note: [110, 146.8, 185, 220, 329.6, 440], g: 0.09, att: 1.3, ril: 0.75, lp: 480, lp1: 1700, tlp: 2.4, riv: 0.5, onda: "triangle" });
   tono(b, at(F.scintillaDa + 0.2), { f: 73.4, dur: F.esceA - F.scintillaDa, g: 0.04, att: 1.2, riv: 0.1 });
   tono(b, at(F.scintillaDa + 0.08), { f: 293.7, dur: 1.8, g: 0.04, att: 0.35, pan: -0.25, riv: 0.5 });
   // il libro si apre: tonfo morbido e soffio di carta
-  colpo(b, at(F.libroDa), 0.42, 110, 48, 0.4, 0.2);
-  rumore(b, at(F.libroDa), { dur: 0.5, g: 0.2, tipo: "lowpass", f: 1100, f1: 260, att: 0.03, riv: 0.3 });
+  if (!registrato(b, at(F.libroDa), "libro", 0.42, { riv: 0.25 })) {
+    colpo(b, at(F.libroDa), 0.42, 110, 48, 0.4, 0.2);
+    rumore(b, at(F.libroDa), { dur: 0.5, g: 0.2, tipo: "lowpass", f: 1100, f1: 260, att: 0.03, riv: 0.3 });
+  }
   // le pagine: fruscii a destra e a sinistra, sopra un arpeggio d'arpa che sale
   for (let i = 2; i >= 0; i--) {
     const t0 = F.foglieDa + (2 - i) * F.fogliePasso;
-    fruscio(b, at(t0 + 0.02), 0.11, -0.55);
-    fruscio(b, at(t0 + 0.035), 0.11, 0.55);
+    if (!registrato(b, at(t0 + 0.02), "pagina", 0.11, { pan: -0.55, riv: 0.25, n: 2 * i, rate: 1.02 })) fruscio(b, at(t0 + 0.02), 0.11, -0.55);
+    if (!registrato(b, at(t0 + 0.035), "pagina", 0.11, { pan: 0.55, riv: 0.25, n: 2 * i + 1, rate: 0.97 })) fruscio(b, at(t0 + 0.035), 0.11, 0.55);
   }
   [293.7, 370, 440, 587.3, 659.3, 880, 1108.7].forEach((f, n) =>
     pizzico(b, at(F.foglieDa + 0.02 + n * 0.075), f, 0.12, 1.7, n % 2 ? 0.45 : -0.45, 0.5));
   // le graffe si scrivono, una a sinistra e una a destra, e si posano con un rintocco
   const gr = F.graffeA - F.graffeDa;
   [-0.75, 0.75].forEach((pan) => {
+    if (registrato(b, at(F.graffeDa), "penna", 0.028, { pan, riv: 0.3, rate: pan < 0 ? 0.98 : 1.03 })) return;
     tono(b, at(F.graffeDa), { f: 1180, f1: 1760, dur: gr, g: 0.024, att: 0.2, pan, riv: 0.4 });
     rumore(b, at(F.graffeDa), { dur: gr, g: 0.028, tipo: "bandpass", f: 5200, f1: 8200, q: 4, att: 0.25, pan, riv: 0.3 });
   });
@@ -280,7 +309,8 @@ function partituraFavella(b: Banco, s: number) {
   // FAVELLA1: un soffio per lettera, poi un fondo grave che si apre
   for (let i = 0; i < 8; i++) {
     const t0 = F.scrittaDa + i * F.scrittaPasso;
-    rumore(b, at(t0), { dur: 0.16, g: 0.055, tipo: "bandpass", f: 1500, f1: 650, q: 1.4, att: 0.05, pan: 0.15 + i * 0.07, riv: 0.25 });
+    if (!registrato(b, at(t0), "soffio-lettera", 0.055, { pan: 0.15 + i * 0.07, riv: 0.25, n: i, rate: 1.06 - i * 0.015 }))
+      rumore(b, at(t0), { dur: 0.16, g: 0.055, tipo: "bandpass", f: 1500, f1: 650, q: 1.4, att: 0.05, pan: 0.15 + i * 0.07, riv: 0.25 });
   }
   const pieno = F.scrittaDa + 7 * F.scrittaPasso + 0.15;
   tono(b, at(pieno), { f: 73.4, dur: 1.6, g: 0.18, att: 0.06, riv: 0.3 });
@@ -289,14 +319,22 @@ function partituraFavella(b: Banco, s: number) {
   const km = F.mottoA - F.mottoDa;
   [...MOTTO].forEach((c, j) => {
     const t = F.mottoDa + BATTUTE[j] * km;
-    tasto(b, at(t), 0.05, 0.05 + (j / MOTTO.length) * 0.6, c === " ");
+    const pan = 0.05 + (j / MOTTO.length) * 0.6, spazio = c === " ";
+    // la barra spaziatrice: lo stesso tasto più lento, più sordo e un poco più forte
+    if (!registrato(b, at(t), "tasto-motto", spazio ? 0.06 : 0.05, { pan, riv: 0.08, n: j, rate: spazio ? 0.78 : 0.97 + (j % 5) * 0.015 }))
+      tasto(b, at(t), 0.05, pan, spazio);
   });
   campana(b, at(F.mottoA + 0.05), 1318.5, 0.055, 1.6, 0.55, 0.6);
   campana(b, at(F.mottoA + 0.09), 1760, 0.03, 1.2, 0.55, 0.65);
   // il riflesso sulla scritta
   const rif = F.riflessoA - F.riflessoDa;
-  rumore(b, at(F.riflessoDa), { dur: rif, g: 0.04, tipo: "bandpass", f: 3000, f1: 9000, q: 2.5, att: rif * 0.4, pan: 0.4, riv: 0.6 });
+  if (!registrato(b, at(F.riflessoDa), "riflesso", 0.04, { pan: 0.4, riv: 0.6, n: 1 }))
+    rumore(b, at(F.riflessoDa), { dur: rif, g: 0.04, tipo: "bandpass", f: 3000, f1: 9000, q: 2.5, att: rif * 0.4, pan: 0.4, riv: 0.6 });
 }
+
+/** I mattoni sintetici, per strumenti/effetti-livelli.cjs: misura ogni rumore sintetico accanto all'effetto registrato che lo
+ *  sostituisce, e ne ricava il livello (lib/effetti.ts). Nel gioco non servono. */
+export const primitivi = { banco, voce, tono, rumore, colpo, tasto, fruscio, ronzio };
 
 export interface Parti { runtime?: number | null; favella?: number | null }
 

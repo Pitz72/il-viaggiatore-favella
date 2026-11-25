@@ -17,11 +17,13 @@ const path = require("node:path");
 const MP3_BASE64 = fs.readFileSync(path.join(__dirname, "..", "app", "src", "assets", "intro.mp3")).toString("base64");
 
 /** {sr, canali: [Int16Array sinistro, destro], eventi, frasi} del tratto [da, a] del trailer. */
-async function mixOffline(win, da, a, { voce = true } = {}) {
+async function mixOffline(win, da, a, { voce = true, effetti = true } = {}) {
   const js = (s) => win.webContents.executeJavaScript(s);
   const r = await js(`(async () => { try {
     const A = await import('/src/trailer/audio.ts');
     const S = await import('/src/trailer/scaletta.ts');
+    const Ef = await import('/src/lib/effetti.ts');
+    await Ef.caricaEffetti();                                               // i rumori registrati (lib/effetti.ts), sempre pronti
     const sr = 44100, durata = ${a - da};
     const off = new OfflineAudioContext(2, Math.ceil(sr * durata), sr);
     let cursore = 0;
@@ -32,6 +34,7 @@ async function mixOffline(win, da, a, { voce = true } = {}) {
     c.costruisci();
     window.AudioContext = Originale;
     await c.voceCaricata;
+    if (!${effetti}) c.registrato = () => false;                            // --senza-effetti: i rumori sintetici di prima
     c.master.gain.value = 0.9; c.vento.gain.value = 0; c.bordone.gain.value = 0; c.gTerza.gain.value = 0;
     const musica = off.createBufferSource();
     const bytes = Uint8Array.from(atob(${JSON.stringify(MP3_BASE64)}), (c) => c.charCodeAt(0)).buffer;     // il brano si legge da disco

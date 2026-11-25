@@ -20,6 +20,7 @@ import { useEffect, useRef, useState } from "react";
 import LogoRuntime, { DURATA_RUNTIME, type Animabile } from "../loghi/LogoRuntime";
 import LogoFavella, { DURATA_FAVELLA } from "../loghi/LogoFavella";
 import { SuonoLoghi } from "../loghi/suono";
+import { caricaEffetti } from "../lib/effetti";
 import { tr } from "../lib/lingua";
 
 const CODA = 0.35;   // nero dopo l'ultimo logo
@@ -45,7 +46,8 @@ export default function Loghi({ onFine }: { onFine: () => void }) {
   useEffect(() => {
     let vivo = true;
     const caratteri = Promise.all(CARATTERI.map((f) => document.fonts?.load(f).catch(() => null)));
-    Promise.race([caratteri, new Promise((r) => setTimeout(r, 1500))])
+    // anche gli effetti registrati (lib/effetti.ts): la partitura dei loghi si scrive tutta all'avvio
+    Promise.race([Promise.all([caratteri, caricaEffetti()]), new Promise((r) => setTimeout(r, 1500))])
       .then(() => { if (vivo) { favella.current?.prepara?.(); setPronti(true); } });
     const tasto = (e: KeyboardEvent) => { if (e.key === "Escape") { e.preventDefault(); chiudi(); } };
     window.addEventListener("keydown", tasto);

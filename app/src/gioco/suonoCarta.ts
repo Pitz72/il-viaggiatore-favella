@@ -12,6 +12,7 @@
 //  lo stesso, in silenzio.
 // ====================================================================
 import { canale, offline } from "../lib/suono";
+import { suonaEffetto } from "../lib/effetti";
 
 const PICCO = 0.12;
 
@@ -97,8 +98,9 @@ function rumoreBianco(a: BaseAudioContext): AudioBuffer {
   return rumore;
 }
 
-/** Compone il suono dentro un contesto qualunque (anche offline, per misurarlo): `dest` è dove esce, `t` quando comincia. */
-export function componiCarta(a: BaseAudioContext, dest: AudioNode, modo: "apre" | "chiude", t: number) {
+/** Compone il suono dentro un contesto qualunque (anche offline, per misurarlo): `dest` è dove esce, `t` quando comincia.
+ *  `soloSintetico`: senza la carta registrata (serve a strumenti/effetti-livelli.cjs per misurare il sintetico). */
+export function componiCarta(a: BaseAudioContext, dest: AudioNode, modo: "apre" | "chiude", t: number, soloSintetico = false) {
   rumoreBianco(a);
   // tutto passa per un passabasso morbido (niente spigoli) e un passaalto (niente rimbombo)
   const morbido = a.createBiquadFilter();
@@ -106,6 +108,12 @@ export function componiCarta(a: BaseAudioContext, dest: AudioNode, modo: "apre" 
   const alto = a.createBiquadFilter();
   alto.type = "highpass"; alto.frequency.value = 90;
   morbido.connect(alto).connect(dest);
+
+  // la carta vera, registrata (lib/effetti.ts), con lo stesso livello al picco del sintetico; se manca, il sintetico qui sotto
+  if (!soloSintetico && suonaEffetto(a, morbido, modo === "apre" ? "carta-apre" : "carta-chiude", t, { g: PICCO })) {
+    if (!offline(a) && typeof window !== "undefined") window.setTimeout(() => { morbido.disconnect(); alto.disconnect(); }, (modo === "apre" ? DURATA_APRE : DURATA_CHIUDE) + 350);
+    return;
+  }
 
   if (modo === "apre") {
     const d = DURATA_APRE / 1000;

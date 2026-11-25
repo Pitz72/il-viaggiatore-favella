@@ -20,6 +20,7 @@ import { DURATA, SCENE, W, presenza } from "./trailer/scaletta";
 import { cacheTrailer, disegnaScena, preparaTutto } from "./trailer/paesaggi";
 import { caricaTavoleTrailer, tavoleTrailer } from "./trailer/tavole";
 import { stampaMappaPronta } from "./trailer/scene/mappa";
+import { caricaEffetti, varianti } from "./lib/effetti";
 
 /** Il trailer, fotogramma per fotogramma: ogni scena si disegna su una tela piccola a passi di 1/120 di secondo, dall'inizio
  *  al menu, e nessun fotogramma deve fallire; le tavole dipinte devono esserci tutte. Nella 1.43.0 un fotogramma solo falliva
@@ -133,6 +134,14 @@ async function provaLaVoce(testoAvvio: string, nota: (r: string) => void): Promi
     else nota(`ok voce del trailer: ${sc.frasi.length} frasi, ${b.duration.toFixed(1)} s`);
   } catch (e) {
     ok = false; nota(`KO voce del trailer: ${e instanceof Error ? e.message : e}`);
+  }
+  // gli effetti sonori registrati (lib/effetti.ts): tutti decodificati dentro il pacchetto, con le loro varianti
+  {
+    const caricati = await caricaEffetti();
+    const chiavi = ["busta", "passo-asfalto", "passo-sassi", "tasto-motto", "ronzio", "carta-apre"];
+    const vuote = chiavi.filter((k) => !varianti(k));
+    if (!caricati || vuote.length) { ok = false; nota(`KO effetti: ${caricati ? "mancano " + vuote.join(", ") : "non si caricano"}`); }
+    else nota(`ok effetti: caricati e decodificati (${chiavi.map((k) => `${k} ${varianti(k)}`).join(", ")})`);
   }
   // la voce inglese (il narratore, Kira e tutti i personaggi): l'indice con le corrispondenze, una parte decodificata davvero
   // per cartella (la principale e quelle a parte), la traccia del trailer inglese

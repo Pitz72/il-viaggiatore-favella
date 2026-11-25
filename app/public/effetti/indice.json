@@ -1,0 +1,414 @@
+{
+ "formato": 1,
+ "frequenza": 48000,
+ "licenza": "Effetti sonori generati con ElevenLabs Sound Effects (elevenlabs.io) con l'abbonamento dell'autore: esclusi dalla licenza CC BY-SA del gioco, solo uso non commerciale, finché i diritti dell'abbonamento non sono verificati; chi fa un'opera derivata o un uso commerciale li toglie (il gioco suona allora i suoni sintetici) o li sostituisce (LICENSE-CONTENUTI.md).",
+ "effetti": {
+  "tv-acceso": [
+   {
+    "file": "tv-acceso-1.opus",
+    "durata": 1.2
+   }
+  ],
+  "schermo": [
+   {
+    "file": "schermo-1.opus",
+    "durata": 0.515
+   }
+  ],
+  "testina": [
+   {
+    "file": "testina-1.opus",
+    "durata": 1.0
+   }
+  ],
+  "zip": [
+   {
+    "file": "zip-1.opus",
+    "durata": 0.465
+   }
+  ],
+  "colpo": [
+   {
+    "file": "colpo-1.opus",
+    "durata": 0.533
+   }
+  ],
+  "riflesso": [
+   {
+    "file": "riflesso-1.opus",
+    "durata": 0.8
+   },
+   {
+    "file": "riflesso-2.opus",
+    "durata": 0.8
+   }
+  ],
+  "spegne": [
+   {
+    "file": "spegne-1.opus",
+    "durata": 0.583
+   }
+  ],
+  "punto": [
+   {
+    "file": "punto-1.opus",
+    "durata": 0.413
+   }
+  ],
+  "scintilla": [
+   {
+    "file": "scintilla-1.opus",
+    "durata": 0.994
+   }
+  ],
+  "libro": [
+   {
+    "file": "libro-1.opus",
+    "durata": 0.56
+   }
+  ],
+  "pagina": [
+   {
+    "file": "pagina-1.opus",
+    "durata": 0.472
+   },
+   {
+    "file": "pagina-2.opus",
+    "durata": 0.365
+   },
+   {
+    "file": "pagina-3.opus",
+    "durata": 0.419
+   }
+  ],
+  "penna": [
+   {
+    "file": "penna-1.opus",
+    "durata": 0.726
+   }
+  ],
+  "soffio-lettera": [
+   {
+    "file": "soffio-lettera-1.opus",
+    "durata": 0.42
+   },
+   {
+    "file": "soffio-lettera-2.opus",
+    "durata": 0.371
+   }
+  ],
+  "busta": [
+   {
+    "file": "busta-1.opus",
+    "durata": 0.246
+   },
+   {
+    "file": "busta-2.opus",
+    "durata": 0.196
+   },
+   {
+    "file": "busta-3.opus",
+    "durata": 0.276
+   }
+  ],
+  "biglietto": [
+   {
+    "file": "biglietto-1.opus",
+    "durata": 0.434
+   }
+  ],
+  "timbro": [
+   {
+    "file": "timbro-1.opus",
+    "durata": 0.442
+   }
+  ],
+  "soffio": [
+   {
+    "file": "soffio-1.opus",
+    "durata": 0.686
+   },
+   {
+    "file": "soffio-2.opus",
+    "durata": 0.759
+   }
+  ],
+  "carta-apre": [
+   {
+    "file": "carta-apre-1.opus",
+    "durata": 0.922
+   }
+  ],
+  "carta-chiude": [
+   {
+    "file": "carta-chiude-1.opus",
+    "durata": 0.444
+   }
+  ],
+  "ronzio": [
+   {
+    "file": "ronzio-1.opus",
+    "durata": 5.0
+   }
+  ],
+  "tic": [
+   {
+    "file": "tic-1.opus",
+    "durata": 0.05
+   },
+   {
+    "file": "tic-2.opus",
+    "durata": 0.05
+   },
+   {
+    "file": "tic-3.opus",
+    "durata": 0.042
+   },
+   {
+    "file": "tic-4.opus",
+    "durata": 0.049
+   },
+   {
+    "file": "tic-5.opus",
+    "durata": 0.03
+   },
+   {
+    "file": "tic-6.opus",
+    "durata": 0.05
+   }
+  ],
+  "tasto-motto": [
+   {
+    "file": "tasto-motto-1.opus",
+    "durata": 0.12
+   },
+   {
+    "file": "tasto-motto-2.opus",
+    "durata": 0.12
+   },
+   {
+    "file": "tasto-motto-3.opus",
+    "durata": 0.12
+   },
+   {
+    "file": "tasto-motto-4.opus",
+    "durata": 0.108
+   },
+   {
+    "file": "tasto-motto-5.opus",
+    "durata": 0.12
+   },
+   {
+    "file": "tasto-motto-6.opus",
+    "durata": 0.098
+   },
+   {
+    "file": "tasto-motto-7.opus",
+    "durata": 0.12
+   },
+   {
+    "file": "tasto-motto-8.opus",
+    "durata": 0.12
+   }
+  ],
+  "tasto": [
+   {
+    "file": "tasto-1.opus",
+    "durata": 0.12
+   },
+   {
+    "file": "tasto-2.opus",
+    "durata": 0.12
+   },
+   {
+    "file": "tasto-3.opus",
+    "durata": 0.12
+   },
+   {
+    "file": "tasto-4.opus",
+    "durata": 0.12
+   },
+   {
+    "file": "tasto-5.opus",
+    "durata": 0.12
+   },
+   {
+    "file": "tasto-6.opus",
+    "durata": 0.12
+   },
+   {
+    "file": "tasto-7.opus",
+    "durata": 0.12
+   },
+   {
+    "file": "tasto-8.opus",
+    "durata": 0.12
+   }
+  ],
+  "passo-asfalto": [
+   {
+    "file": "passo-asfalto-1.opus",
+    "durata": 0.353
+   },
+   {
+    "file": "passo-asfalto-2.opus",
+    "durata": 0.371
+   },
+   {
+    "file": "passo-asfalto-3.opus",
+    "durata": 0.335
+   },
+   {
+    "file": "passo-asfalto-4.opus",
+    "durata": 0.13
+   },
+   {
+    "file": "passo-asfalto-5.opus",
+    "durata": 0.335
+   },
+   {
+    "file": "passo-asfalto-6.opus",
+    "durata": 0.38
+   },
+   {
+    "file": "passo-asfalto-7.opus",
+    "durata": 0.282
+   },
+   {
+    "file": "passo-asfalto-8.opus",
+    "durata": 0.36
+   }
+  ],
+  "passo-crosta": [
+   {
+    "file": "passo-crosta-1.opus",
+    "durata": 0.37
+   },
+   {
+    "file": "passo-crosta-2.opus",
+    "durata": 0.356
+   },
+   {
+    "file": "passo-crosta-3.opus",
+    "durata": 0.38
+   },
+   {
+    "file": "passo-crosta-4.opus",
+    "durata": 0.38
+   },
+   {
+    "file": "passo-crosta-5.opus",
+    "durata": 0.369
+   },
+   {
+    "file": "passo-crosta-6.opus",
+    "durata": 0.378
+   },
+   {
+    "file": "passo-crosta-7.opus",
+    "durata": 0.38
+   },
+   {
+    "file": "passo-crosta-8.opus",
+    "durata": 0.38
+   }
+  ],
+  "passo-sale": [
+   {
+    "file": "passo-sale-1.opus",
+    "durata": 0.38
+   },
+   {
+    "file": "passo-sale-2.opus",
+    "durata": 0.38
+   },
+   {
+    "file": "passo-sale-3.opus",
+    "durata": 0.38
+   },
+   {
+    "file": "passo-sale-4.opus",
+    "durata": 0.37
+   },
+   {
+    "file": "passo-sale-5.opus",
+    "durata": 0.38
+   },
+   {
+    "file": "passo-sale-6.opus",
+    "durata": 0.38
+   },
+   {
+    "file": "passo-sale-7.opus",
+    "durata": 0.38
+   },
+   {
+    "file": "passo-sale-8.opus",
+    "durata": 0.38
+   }
+  ],
+  "passo-sassi": [
+   {
+    "file": "passo-sassi-1.opus",
+    "durata": 0.363
+   },
+   {
+    "file": "passo-sassi-2.opus",
+    "durata": 0.38
+   },
+   {
+    "file": "passo-sassi-3.opus",
+    "durata": 0.38
+   },
+   {
+    "file": "passo-sassi-4.opus",
+    "durata": 0.38
+   },
+   {
+    "file": "passo-sassi-5.opus",
+    "durata": 0.38
+   },
+   {
+    "file": "passo-sassi-6.opus",
+    "durata": 0.364
+   },
+   {
+    "file": "passo-sassi-7.opus",
+    "durata": 0.38
+   },
+   {
+    "file": "passo-sassi-8.opus",
+    "durata": 0.38
+   }
+  ]
+ },
+ "livelli": {
+  "tv-acceso": 0.42,
+  "schermo": 0.205,
+  "testina": 1.009,
+  "tic": 1.191,
+  "zip": 0.592,
+  "colpo": 0.703,
+  "riflesso": 0.594,
+  "spegne": 0.36,
+  "punto": 0.557,
+  "scintilla": 1.17,
+  "libro": 1.627,
+  "pagina": 0.222,
+  "penna": 1.355,
+  "soffio-lettera": 0.106,
+  "tasto-motto": 0.313,
+  "ronzio": 2.257,
+  "busta": 0.173,
+  "biglietto": 0.163,
+  "tasto": 0.508,
+  "timbro": 1.389,
+  "soffio": 0.031,
+  "passo-asfalto": 0.386,
+  "passo-crosta": 0.806,
+  "passo-sale": 0.176,
+  "passo-sassi": 0.19,
+  "carta-apre": 1.126,
+  "carta-chiude": 0.426
+ }
+}

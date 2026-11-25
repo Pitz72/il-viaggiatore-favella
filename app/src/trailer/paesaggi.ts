@@ -5,6 +5,7 @@
 import type { IdScena } from "./scaletta";
 import { cacheTrailer, type Cache } from "./cache";
 import { FONT } from "./font";
+import { effettiEntro } from "../lib/effetti";
 import { ZONE, REGOLE } from "./zone";
 import { preparaLettere, disegnaLettere } from "./scene/lettere";
 import { preparaAlba, disegnaAlba } from "./scene/alba";
@@ -60,6 +61,7 @@ export function avviaPreparazione(c: Cache = cacheTrailer, avanza?: (k: number) 
       notifica();
     }
     await tavoleP;
+    await effettiEntro(3000);            // i rumori registrati del trailer (lib/effetti.ts); senza, restano i sintetici
     await stampaMappaPronta();          // la stampa della carta del gioco, dipinta a fette nei momenti liberi
     avanzamento = 1;
     avanza?.(1);

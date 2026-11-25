@@ -2,8 +2,10 @@
 
 > Ogni suono che il gioco fa, a parte le musiche e le voci: dove suona, quando, quanto dura, com'è fatto oggi e che cosa
 > servirebbe per rifarlo con gli effetti sonori di ElevenLabs (Sound Effects v3, dal connettore). Scritto il 25 novembre 2026,
-> su richiesta di Simone, leggendo il codice: è un elenco, **non è ancora stato generato niente**. Il diario della sessione
-> racconta il resto: «Il censimento dei suoni».
+> su richiesta di Simone, leggendo il codice. Il diario della sessione racconta il resto: «Il censimento dei suoni».
+> **Aggiornamento, stessa sera**: i rumori (R) sono stati generati (87 prese per 28 suoni), scelti da Claude su richiesta di Simone e
+> messi nel gioco: 27 effetti in `app/public/effetti/`, suonati da loghi, trailer e mappa con la stessa energia dei sintetici. Il
+> trofeo è rimasto sintetico. Quali prese e come si rifanno: [`effetti/LEGGIMI.md`](../effetti/LEGGIMI.md).
 
 ## In breve
 
@@ -161,7 +163,7 @@ passi, tubo catodico) sotto una musica che resta precisa. Il trofeo (G01) è a m
 
 Non sono suoni da rifare, ma vanno guardate (e ascoltate) prima di toccare l'audio:
 
-1. **I passi sul titolo continuano sul menu.** La camminata del titolo (`CAMMINATE`, da 81,4 s) dà passi per 60 secondi, fino a
+1. **I passi sul titolo continuano sul menu** (corretto il 25 novembre 2026: i passi si fermano alla fine del trailer). La camminata del titolo (`CAMMINATE`, da 81,4 s) dà passi per 60 secondi, fino a
    141,4 s. Sul menu l'orologio del trailer va avanti e i passi suonano, ma l'immagine resta ferma sull'ultimo fotogramma (88,5 s):
    per quasi un minuto si sentono passi sull'asfalto, piano (volume 0,25 per 0,55, cioè circa un settimo di un passo pieno),
    mentre l'uomo non si muove. Da verificare all'ascolto.

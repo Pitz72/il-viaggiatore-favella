@@ -8,7 +8,17 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+### Aggiunto
+- **Rumori veri al posto dei sintetici**: la carta, i tasti, il timbro, i soffi e i passi del trailer (asfalto, crosta, sale,
+  sassi), il televisore, il ronzio del tubo, il libro, le pagine e la penna dei loghi, la carta della mappa sono ora effetti
+  registrati, generati con ElevenLabs Sound Effects e tagliati in 81 file (`app/public/effetti/`, 306 KB; `lib/effetti.ts`). Ogni
+  effetto ha la stessa energia del suono sintetico che sostituisce: la musica e la voce restano sopra come prima. Le note, le
+  campane, l'arpa, gli accordi e il trofeo restano sintetici; senza i file, il gioco suona i sintetici di prima. Gli effetti sono
+  fuori dalla licenza libera, come le voci ElevenLabs (`LICENSE-CONTENUTI.md`).
+
 ### Corretto
+- **Sul menu d'avvio non si sentono più i passi.** La camminata del titolo dava passi per quasi un minuto dopo la fine del trailer,
+  piano, mentre l'uomo restava fermo sull'ultimo fotogramma (`trailer/scaletta.ts`).
 - **Il trailer non ha più il lampo all'attacco.** Appena partita la dissolvenza sulle lettere, il tempo tornava indietro di qualche
   decimo (la latenza dell'uscita audio si conosce solo dopo i primi fotogrammi) e l'immagine, appena comparsa, tornava al buio
   prima di risalire. Ora il tempo del trailer non torna mai indietro (`components/Trailer.tsx`).

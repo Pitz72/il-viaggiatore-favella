@@ -106,8 +106,9 @@ export function appoggi(c: Camminata, fino = 200): number[] {
 //  EVENTI SONORI puntuali (i passi si aggiungono da CAMMINATE).
 // --------------------------------------------------------------------
 export type TipoSuono = "carta" | "timbro" | "tasto" | "soffio" | "tonfo" | "passo" | "rintocco";
-/** `terreno` e `piede` (0 sinistro, 1 destro) servono solo ai passi: ne dicono la materia e il lato. */
-export interface Evento { t: number; tipo: TipoSuono; vol?: number; terreno?: Terreno; piede?: 0 | 1 }
+/** `terreno` e `piede` (0 sinistro, 1 destro) servono solo ai passi: ne dicono la materia e il lato. `biglietto` distingue la
+ *  carta del biglietto da quella delle buste (l'effetto registrato è un altro: lib/effetti.ts). */
+export interface Evento { t: number; tipo: TipoSuono; vol?: number; terreno?: Terreno; piede?: 0 | 1; biglietto?: boolean }
 
 const LETTERE_ARRIVI = [0.7, 1.8, 2.9, 4.0];
 /** Il biglietto in stampatello. I tasti suonano sulle lettere italiane (`testo`); in inglese (`testoEn`, la frase della
@@ -118,7 +119,7 @@ export const BIGLIETTO = { arriva: 6.7, scrive: 7.25, perCarattere: 0.034, testo
 function eventiBase(): Evento[] {
   const e: Evento[] = [];
   LETTERE_ARRIVI.forEach((t) => e.push({ t: t + 0.55, tipo: "carta", vol: 0.8 }));
-  e.push({ t: BIGLIETTO.arriva + 0.5, tipo: "carta", vol: 1 });
+  e.push({ t: BIGLIETTO.arriva + 0.5, tipo: "carta", vol: 1, biglietto: true });
   let n = 0;
   BIGLIETTO.testo.forEach((riga) => {
     for (const ch of riga) { if (ch !== " ") e.push({ t: BIGLIETTO.scrive + n * BIGLIETTO.perCarattere, tipo: "tasto", vol: 0.5 }); n++; }
@@ -146,7 +147,10 @@ export const REGOLA_DUR = 1.84;
 
 export const EVENTI: Evento[] = (() => {
   const e = eventiBase();
-  CAMMINATE.forEach((c) => appoggi(c, 60).forEach((t, i) => e.push({ t, tipo: "passo", vol: c.vol, terreno: c.terreno, piede: (i % 2) as 0 | 1 })));
+  // non oltre la fine del trailer: sul menu l'immagine resta ferma su DURATA, e fino al 25 novembre 2026 la camminata del titolo
+  // continuava a dare passi per quasi un minuto, con l'uomo immobile (pre-produzione/12-suoni.md, «Due cose trovate»)
+  CAMMINATE.forEach((c) => appoggi(c, 60).filter((t) => t < DURATA)
+    .forEach((t, i) => e.push({ t, tipo: "passo", vol: c.vol, terreno: c.terreno, piede: (i % 2) as 0 | 1 })));
   return e.sort((a, b) => a.t - b.t);
 })();
 

@@ -7,6 +7,8 @@
 //  trailer con la musica che le scende sotto (`--senza-voce` per toglierla). Il lavoro lo fa strumenti/trailer-mix.cjs,
 //  lo stesso dell'esportatore dei video. Non c'è la latenza d'uscita: quella si sente solo sulla macchina vera.
 //
+//  --senza-effetti: i rumori sintetici di prima al posto di quelli registrati (lib/effetti.ts), per confrontarli.
+//
 //  Uso (dalla cartella del progetto):
 //    desktop\node_modules\.bin\electron strumenti\trailer-rumori.cjs --da 17.6 --a 25.2 --uscita video\rumori-dopo.wav
 //  I file in video/ non sono versionati.
@@ -20,6 +22,7 @@ const args = process.argv.slice(2);
 const opz = (nome, ripiego) => { const i = args.indexOf(nome); return i >= 0 ? args[i + 1] : ripiego; };
 const DA = Number(opz("--da", 17.6)), A_ = Number(opz("--a", 25.2));
 const VOCE = !args.includes("--senza-voce");
+const EFFETTI = !args.includes("--senza-effetti");     // i rumori sintetici di prima, al posto di quelli registrati (lib/effetti.ts)
 const USCITA = opz("--uscita") ? path.resolve(opz("--uscita")) : null;
 if (!USCITA) { console.error("Manca --uscita <file.wav>. Vedi l'intestazione di questo file."); process.exit(2); }
 const dormi = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -29,7 +32,7 @@ app.whenReady().then(async () => {
   const win = new BrowserWindow({ width: 800, height: 600, show: false, webPreferences: { offscreen: true, backgroundThrottling: false, contextIsolation: true } });
   await win.loadURL("http://localhost:5200/");
   await dormi(2500);
-  const r = await mixOffline(win, DA, A_, { voce: VOCE });
+  const r = await mixOffline(win, DA, A_, { voce: VOCE, effetti: EFFETTI });
   fs.writeFileSync(USCITA, wav(r.pcm, r.sr));
   console.log(`fatto: ${USCITA} (${DA}–${A_} s, ${r.eventi} rumori, ${r.frasi} frasi di voce)`);
   app.quit();

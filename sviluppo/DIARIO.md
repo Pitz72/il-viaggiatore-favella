@@ -9,6 +9,8 @@ Questo indice si rigenera da sé (`node strumenti/diario.mjs indice`).
 
 | Data | Tipo | Versione | Voce |
 |---|---|---|---|
+| 2026-11-25 | sessione | 1.43.1 | [I rumori veri nel gioco: scelta delle prese, taglio, livelli](diario/2026-11-25-i-rumori-veri-nel-gioco-scelta-delle-prese-taglio-livelli.md) — Simone ha ascoltato le prese generate con ElevenLabs e ha lasciato la scelta a me («scegli tu, alcuni sono proprio impercettibili e |
+| 2026-11-25 | sessione | 1.43.1 | [Gli effetti sonori generati con ElevenLabs](diario/2026-11-25-gli-effetti-sonori-generati-con-elevenlabs.md) — Su richiesta di Simone («inizia a generare sti suoni») ho generato con il connettore ElevenLabs i rumori del |
 | 2026-11-25 | sessione | 1.43.1 | [Il censimento dei suoni](diario/2026-11-25-il-censimento-dei-suoni.md) — Su richiesta di Simone («parti con il censimento dei suoni») ho elencato, dal codice, ogni suono del gioco che non è musica né voce, |
 | 2026-11-25 | sessione | 1.43.1 | [Cinque rifiniture al trailer: il lampo iniziale, la lettera scritta, la mappa ferma, la fine del brano, la firma](diario/2026-11-25-cinque-rifiniture-al-trailer-il-lampo-iniziale-la-lettera-sc.md) — Simone ha guardato con calma il trailer della 1.43.1 («Nell'insieme va benissimo come è») e ha segnalato cinque imperfezioni: |
 | 2026-11-25 | sessione | 1.43.1 | [Il rilascio 1.43.1](diario/2026-11-25-il-rilascio-1-43-1.md) — Rilasciata la **1.43.1**, su ordine di Simone: il trailer che non si ferma più sul nero a 69 secondi, il Viandante che cammina, la mappa del trailer che è la carta del gioco. Con lo stesso ordine sono andate su `main` anche le immagini promozionali rifatte in mattinata. |
