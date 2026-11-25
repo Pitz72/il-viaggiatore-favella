@@ -42,7 +42,9 @@ lavoro riprende solo su richiesta di Simone.
   (`node strumenti/diario.mjs registro`); prima del commit lo si lancia anche a mano.
 - **`main` è sempre l'ultimissimo stato di lavoro** (decisione di Simone, 31 ottobre 2026). A fine sessione ciò che è fatto e
   verificato si porta su `main` (fast-forward, mai forzando), con la memoria aggiornata; un clone fresco di `main` deve bastare
-  a riprendere. Il rilascio resta sempre manuale: Actions → Rilascio → Run workflow.
+  a riprendere. Il rilascio resta sempre manuale: Actions → Rilascio → Run workflow. **«Su `main`» vuol dire tutto il clone**: il 25
+  novembre 2026 avevo inviato le sole correzioni del trailer, lasciando fuori le immagini promozionali che aspettavano una conferma,
+  e Simone ha corretto («No... committa e pusha tutto»). Se qualcosa di pronto non deve andare, lo si chiede prima.
 - **Dove si sviluppa.** Dal 31 ottobre 2026 lo sviluppo torna **in locale**, in `C:\Users\Utente\Documents\GitHub\IlViaggiatore`:
   le sessioni cloud non vedono i materiali fuori da git né le credenziali dei siti, e continuare lì è stato un errore (la
   memoria locale è andata persa). GitHub è il backup: si spinge spesso.

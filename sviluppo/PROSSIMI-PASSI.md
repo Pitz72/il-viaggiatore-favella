@@ -1,7 +1,7 @@
 # Prossimi passi
 
 > **Lo stato vivo del progetto.** *Il Viaggiatore* è concluso come storia (definitiva dalla 1.12.0) e il lavoro riprende solo
-> su richiesta di Simone. Ultima versione rilasciata: **1.43.0**, 25 novembre 2026 (revisione totale, rimedi del codice e nuova veste pittorica). Questo file tiene il conto di che cosa è aperto, di
+> su richiesta di Simone. Ultima versione rilasciata: **1.43.1**, 25 novembre 2026 (la correzione del trailer; la 1.43.0, dello stesso giorno, aveva portato la revisione del codice e la veste pittorica). Questo file tiene il conto di che cosa è aperto, di
 > che cosa si è chiuso e di che cosa, di proposito, non si fa; **si aggiorna a ogni sessione** (vedi [`CLAUDE.md`](../CLAUDE.md)).
 > (Com'era prima, fermo alla 1.7.0: nella storia di git.)
 
@@ -9,14 +9,13 @@
 
 Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti non sono più da fare (vedi «Non si fa»).
 
-- **Decidere il rilascio della correzione del trailer** (25 novembre 2026, pomeriggio, diario «Il trailer rimesso in piedi»). Su
-  `main` da quel giorno, su ordine di Simone («Sì, su main»), **non rilasciato**: il buio a 69 secondi corretto, il Viandante che non
-  pattina più (dipinto come le tavole, di spalle all'alba e sul titolo, alla misura giusta per la prospettiva), la mappa del trailer
-  che ora è la carta del gioco. **Il difetto del buio sta nella 1.43.0 rilasciata**: chi guarda il trailer fino in fondo, installato
-  o nel browser, a 69 secondi resta sul nero finché non preme Esc; la correzione sarebbe la **1.43.1** e il rilascio lo ordina
-  Simone. Restano da decidere con lui: eventuali ritocchi dopo averlo guardato con calma nel gioco desktop (`node prepara.mjs` e
-  `npm run avvia`, in `desktop/`); i pali del telegrafo dell'alba, che ho tolto; il sottotitolo «un esperimento in favella 1», che
-  le immagini promozionali nuove non dicono più; i video in `video/` (M03), che sono del trailer di prima.
+- **Ritocchi al trailer nuovo, se Simone li chiede** (25 novembre 2026, diari «Il trailer rimesso in piedi» e «Il rilascio 1.43.1»). La
+  1.43.1 è uscita, ma Simone non ha ancora detto com'è il trailer guardato con calma (la misura dell'uomo, i colori, la mappa): si
+  riprende da `app/src/trailer/figura.ts` e dalle macchine da presa delle scene (`trailer/prospettiva.ts`). Scelte mie da confermare: i
+  pali del telegrafo dell'alba, che ho tolto (scorrevano sopra una tavola ferma); l'uomo lontano e a sinistra sul titolo; la rotta
+  della mappa sulle strade vere. Da decidere con lui: il sottotitolo «un esperimento in favella 1», che le immagini promozionali non
+  dicono più; i video in `video/` (M03), che sono del trailer di prima; volendo, le otto schermate di `pagine/schermate/` da
+  rifotografare con `strumenti/schermate.cjs`.
 
 - **Far rigiocare Michela la 1.42.0**, se capita: dove si perde, quando beve, che cosa capisce tardi. Il suo racconto vale più delle
   partite simulate; se smentisce il modello, si ritoccano i caratteri in `collaudo/verosimili.py` e si rimisura. Ogni ritocco
@@ -66,6 +65,15 @@ Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti 
 
 ## Chiuso
 
+- **Il trailer rimesso in piedi e le immagini promozionali — rilasciati come 1.43.1** (25 novembre 2026, diari «Il trailer rimesso in
+  piedi: il buio a 69 secondi, l'omino che pattinava, la carta vera del gioco» e «Il rilascio 1.43.1»; commit `6581bb2`, `8bcf75e`,
+  `1917ace`; run `45651615117`; tag `v1.43.1` con sette file; la pagina su GitHub Pages alla 1.43.1). Nella 1.43.0 il trailer si
+  fermava sul nero a 69,65 secondi, con musica e voce (un cerchio di raggio negativo); il Viandante saliva in diagonale e pattinava;
+  la mappa era una pergamena inventata col viaggio verso est. Ora: il disegno non fallisce e l'orologio regge un fotogramma guasto;
+  l'uomo è dipinto come le tavole, avanza della lunghezza dei suoi passi e sta dove dice la macchina da presa di ogni tavola
+  (`trailer/figura.ts`, `trailer/prospettiva.ts`); la mappa è la «Carta fisica della provincia» di partita (`trailer/carta.json`,
+  `strumenti/carta-trailer.py`, `collaudo/mappa.py`); l'autoverifica del pacchetto disegna il trailer a 1/120 di secondo. Le immagini
+  promozionali nella veste pittorica sono su `main` (`grafica/branding/`, `grafica/banner.jpg`, `grafica/itch/`).
 - **Revisione totale, rimedi alle 21 criticità e nuova veste pittorica — rilasciata come 1.43.0** (25 novembre 2026, diari «Revisione totale, rimedi del codice e nuova veste pittorica» e «Il rilascio 1.43.0 e le nuove immagini promozionali», commit `ab65891`, run `45579422485`, tag `v1.43.0` con sette file e sito su GitHub Pages aggiornato alla 1.43.0): risolti i 21 bug di codice e accessibilità (finali `terminata` distinti dalle morti, salvataggio automatico alla chiusura finestra, domande del motore mostrate al ricaricamento, attesa scrittura trofei, sincronia audio-video di trailer e titoli di coda, trappola del fuoco nei riquadri modali e nel taccuino, sosta reale del disegno panoramico in pausa o a movimento ridotto) più quattro casi limite nei `.fav` a zero doppiaggio (veglia al guado, sblocco del valico, avvisi su oggetti assenti); rinnovati con 26 tavole WebP a gouache e china (`app/public/immagini/scene/`) il trailer, la Carta Fisica, i cinque medaglioni, le dieci tessere d'osso, i panorami delle zone e degli interni, il cammeo del Viandante e l'interfaccia editoriale di partita; rifatta anche l'intera serie delle immagini promozionali (`grafica/branding/`, `banner.jpg`, `grafica/itch/`), su `main` dal 25 novembre 2026 su ordine di Simone; volendo, restano da rifotografare le otto schermate di `pagine/schermate/` con `strumenti/schermate.cjs`.
 - **Il bilanciamento con il metodo del Relitto** (7 novembre 2026, diario «Il metodo del Relitto per il bilanciamento»,
   [`bilanciamento.md`](bilanciamento.md)): le partite da principiante verosimili (`collaudo/cammino.py`, `collaudo/verosimili.py`, tre
