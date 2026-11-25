@@ -1,32 +1,35 @@
 # Il Viaggiatore — le immagini promozionali
 
-Una sola **key art** in tutti i formati: il guado di Acquamorta al tramonto, il sole tagliato dal campanile, i due
-fratelli sul greto, uno per parte, di controluce. In alto il titolo come sul titolo del gioco (Sora 800 spaziato),
-«un esperimento in FAVELLA 1» e «un gioco di Simone Pizzi»; la frase del biglietto del fratello, «Non è il caso di
-tornare.», scritta a mano (Covered By Your Grace, il carattere del biglietto nel trailer); in basso i marchi di
-**Runtime Multimedia** e di **FAVELLA 1** in un colore chiaro, come nei titoli di un film.
+Una sola **key art** pittorica a gouache e china in tutti i formati, coerente con la veste grafica del gioco: il guado
+di Acquamorta al tramonto ramato, il campanile mozzato e le case in rovina sul poggio, i due fratelli che si fronteggiano
+da una sponda all'altra (il Viaggiatore col cappello a tesa larga, la coperta arrotolata e la tanica metallica; il fratello
+a capo scoperto sull'altra riva). Il titolo è composto come nel gioco (Sora 800 spaziato), accompagnato dalla firma
+«un gioco in FAVELLA1 di Simone Pizzi» e dalla frase del biglietto del fratello, «Non è il caso di tornare.», scritta a
+mano (Covered By Your Grace); in basso i marchi di **Runtime Multimedia** e di **FAVELLA 1** in avorio caldo, come nei
+titoli di un film.
 
 | File | Misura | Uso |
 |---|---|---|
+| `il-viaggiatore-locandina-27x40.jpg` | 2700 × 4000 | la locandina cinematografica (one-sheet 27 × 40 pollici) |
 | `il-viaggiatore-16x9.jpg` | 3840 × 2160 | video, YouTube, schermi, social orizzontali |
 | `il-viaggiatore-21x9.jpg` | 5040 × 2160 | copertine larghe, banner, schermi ultrawide |
+| `il-viaggiatore-1x1.jpg` | 2160 × 2160 | social quadrati, copertine, diffusione del progetto |
 | `il-viaggiatore-4x3.jpg` | 2880 × 2160 | pagine, presentazioni, schede |
-| `il-viaggiatore-1x1.jpg` | 2160 × 2160 | social quadrati, copertine, avatar di pagina |
-| `il-viaggiatore-locandina-27x40.jpg` | 2700 × 4000 | la locandina cinematografica (one-sheet 27 × 40 pollici) |
-| `il-viaggiatore-github-1280x640.jpg` | 1280 × 640 | l'anteprima social del repository (GitHub → Settings → Social preview) |
+| `il-viaggiatore-github-1280x640.jpg` | 1280 × 640 | l'anteprima social del repository e Open Graph (`anteprima.jpg`) |
+| `tavole/{locandina,panoramica,quadrata}.webp` | alta risoluzione | le tre tavole pittoriche maestre senza testi, usate dal generatore |
 | `marchi/RuntimeMultimedia_Bianco.svg` | vettoriale | il marchio ufficiale di Runtime Multimedia, versione «Bianco», usato nelle immagini |
 
-La copertina del README (`../banner.jpg`, 2520 × 1080) è il 21:9 a metà misura.
+Dal `21:9` escono anche la copertina del README e della pagina web (`../banner.jpg`, 2520 × 1080) e il banner di itch.io
+(`../itch/banner-960x411.jpg`); dal `4:3` esce la copertina di itch.io (`../itch/copertina-630x500.jpg`).
 
 ## Come si rifanno
 
-Le immagini non sono fotogrammi del trailer: sono dipinte apposta, con lo stesso pennello (le tele, la città, i sassi,
-le figure di `app/src/trailer/`), alla misura esatta di ogni formato. Il sorgente è in `app/src/locandine/` (la scena,
-i formati e l'impaginazione, i marchi); la pagina `app/locandine.html` esiste solo in sviluppo e non entra nella build.
+Il sorgente d'impaginazione è in `app/src/locandine/` (inquadratura delle tavole e velature, formati, tipografia e marchi).
+`strumenti/locandine.cjs` compila al volo in memoria il modulo e dipinge ogni formato fuori schermo con Electron, senza
+bisogno di avviare il server di sviluppo:
 
 ```bash
-npm run dev --prefix app                                  # il server di sviluppo sulla 5200
-desktop\node_modules\.bin\electron strumenti\locandine.cjs # tutti i formati, qui e in grafica/banner.jpg
+desktop\node_modules\.bin\electron strumenti\locandine.cjs                  # tutti i formati + banner.jpg + itch/
 desktop\node_modules\.bin\electron strumenti\locandine.cjs --formati 1x1,locandina
 ```
 

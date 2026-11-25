@@ -1,77 +1,111 @@
 // ====================================================================
 //  I formati delle immagini promozionali e come si impagina ciascuno.
 // --------------------------------------------------------------------
-//  Due impaginazioni. «Cielo» (i formati larghi e il quadrato): il titolo
-//  in alto, nel cielo già notte; in basso, fra i due fratelli, la frase del
-//  biglietto e i due marchi. «Locandina» (il manifesto 27×40): la frase in
-//  alto, nel buio; la scena; in fondo, sul greto che si spegne, il titolo,
-//  l'autore e il blocco dei marchi, come nei manifesti dei film.
-//  Le misure dei testi sono in pixel dell'uscita; la scena in unità di
-//  progetto (scena.ts): `larghezza` dice quanta se ne vede, `alto` dov'è
-//  il bordo di sopra.
+//  Due famiglie d'impaginazione sopra le tre tavole pittoriche a gouache
+//  e china («panoramica», «quadrata», «locandina» in grafica/branding/tavole/):
+//  - «cielo» (i formati larghi e il quadrato): il titolo e la firma in alto,
+//    nel cielo del crepuscolo; in basso, sul greto in ombra, la frase del
+//    biglietto del fratello e i due marchi.
+//  - «locandina» (il manifesto cinematografico 27×40): la frase del biglietto
+//    in alto nel buio; al centro la scena intera al guado di Acquamorta;
+//    in fondo, sulla quinta scura sotto gli scarponi, il titolo, la firma
+//    «un gioco in FAVELLA1 di Simone Pizzi» e il blocco dei marchi.
 // ====================================================================
+export type Tavola = "panoramica" | "quadrata" | "locandina";
+
+export interface Inquadratura {
+  tavola: Tavola;
+  /** scala e posizione (in frazione o pixel sul formato finale) */
+  modo: "copri" | "locandina";
+  /** spostamento orizzontale (px sull'uscita, 0 = centrato) in modo «copri» */
+  dx?: number;
+  /** spostamento verticale (px sull'uscita, 0 = centrato; negativo alza la scena) in modo «copri» */
+  dy?: number;
+  /** y superiore (px) della tavola quando modo === «locandina» */
+  yTavola?: number;
+}
+
 export interface Formato {
   id: string;
   /** il file d'uscita, senza estensione */
   file: string;
   nome: string;
-  w: number; h: number;
+  w: number;
+  h: number;
   impagina: "cielo" | "locandina";
-  larghezza: number; alto: number;
-  /** metà della distanza fra i due fratelli (unità) */
-  distanza: number;
+  scena: Inquadratura;
   /** i testi: y della linea di base e corpo, in px */
   titolo: { y: number; corpo: number };
-  sotto: { y: number; corpo: number };
   autore: { y: number; corpo: number };
   frase: { y: number; corpo: number };
   marchi: { y: number; alto: number };
-  /** da dove (frazione dell'altezza) il basso comincia a spegnersi, e quanto (0…1) */
-  buio: { da: number; forza: number };
+  /** velatura scura in cima e in fondo (frazione dell'altezza e intensità 0…1) */
+  veloAlto: { finoA: number; forza: number };
+  veloBasso: { da: number; forza: number };
 }
 
-// i formati larghi hanno la stessa altezza di scena (1080 unità, da −40): cambia solo quanto si vede ai lati
-const largo = (id: string, file: string, nome: string, w: number, h: number, titolo: number): Formato => {
-  const s = h / 2160;
-  return {
-    id, file, nome, w, h, impagina: "cielo", larghezza: (w / h) * 1080, alto: -40, distanza: 300,
-    titolo: { y: 430 * s, corpo: titolo * s },
-    sotto: { y: 545 * s, corpo: 40 * s },
-    autore: { y: 650 * s, corpo: 66 * s },
-    frase: { y: 1972 * s, corpo: 98 * s },
-    marchi: { y: 2070 * s, alto: 88 * s },
-    buio: { da: 0.8, forza: 0.62 },
-  };
-};
-
 export const FORMATI: Formato[] = [
-  largo("16x9", "il-viaggiatore-16x9", "16:9", 3840, 2160, 250),
-  largo("21x9", "il-viaggiatore-21x9", "21:9", 5040, 2160, 270),
-  largo("4x3", "il-viaggiatore-4x3", "4:3", 2880, 2160, 196),
+  {
+    id: "16x9", file: "il-viaggiatore-16x9", nome: "16:9", w: 3840, h: 2160, impagina: "cielo",
+    scena: { tavola: "panoramica", modo: "copri", dx: 0, dy: 0 },
+    titolo: { y: 292, corpo: 212 },
+    autore: { y: 390, corpo: 60 },
+    frase: { y: 1966, corpo: 94 },
+    marchi: { y: 2072, alto: 84 },
+    veloAlto: { finoA: 0.28, forza: 0.56 },
+    veloBasso: { da: 0.76, forza: 0.80 },
+  },
+  {
+    id: "21x9", file: "il-viaggiatore-21x9", nome: "21:9", w: 5040, h: 2160, impagina: "cielo",
+    // panoramica 2736×1520 scalata a 5040 diventa alta 2800 (centrata: y = -320). Con dy = +152 parte da y = -168:
+    // ampio cielo libero fra il titolo e il campanile, e scarponi del Viaggiatore interi sopra il bordo inferiore.
+    scena: { tavola: "panoramica", modo: "copri", dx: 0, dy: 152 },
+    titolo: { y: 226, corpo: 190 },
+    autore: { y: 312, corpo: 56 },
+    frase: { y: 1966, corpo: 92 },
+    marchi: { y: 2072, alto: 82 },
+    veloAlto: { finoA: 0.25, forza: 0.58 },
+    veloBasso: { da: 0.76, forza: 0.82 },
+  },
+  {
+    id: "4x3", file: "il-viaggiatore-4x3", nome: "4:3", w: 2880, h: 2160, impagina: "cielo",
+    scena: { tavola: "panoramica", modo: "copri", dx: 44, dy: 0 },
+    titolo: { y: 284, corpo: 184 },
+    autore: { y: 374, corpo: 54 },
+    frase: { y: 1966, corpo: 86 },
+    marchi: { y: 2072, alto: 74 },
+    veloAlto: { finoA: 0.27, forza: 0.56 },
+    veloBasso: { da: 0.76, forza: 0.80 },
+  },
   {
     id: "1x1", file: "il-viaggiatore-1x1", nome: "quadrata", w: 2160, h: 2160, impagina: "cielo",
-    larghezza: 1200, alto: -120, distanza: 270,
-    titolo: { y: 420, corpo: 152 },
-    sotto: { y: 508, corpo: 30 },
-    autore: { y: 592, corpo: 52 },
-    frase: { y: 1985, corpo: 76 },
-    marchi: { y: 2078, alto: 60 },
-    buio: { da: 0.8, forza: 0.62 },
+    scena: { tavola: "quadrata", modo: "copri", dx: 0, dy: 0 },
+    titolo: { y: 278, corpo: 156 },
+    autore: { y: 368, corpo: 50 },
+    frase: { y: 1962, corpo: 78 },
+    marchi: { y: 2072, alto: 64 },
+    veloAlto: { finoA: 0.26, forza: 0.50 },
+    veloBasso: { da: 0.77, forza: 0.82 },
   },
   {
     id: "locandina", file: "il-viaggiatore-locandina-27x40", nome: "locandina 27×40", w: 2700, h: 4000, impagina: "locandina",
-    larghezza: 1150, alto: -480, distanza: 250,
-    frase: { y: 420, corpo: 132 },
-    titolo: { y: 3440, corpo: 196 },
-    sotto: { y: 3548, corpo: 38 },
-    autore: { y: 3660, corpo: 64 },
-    marchi: { y: 3850, alto: 96 },
-    buio: { da: 0.76, forza: 0.97 },
+    scena: { tavola: "locandina", modo: "locandina", yTavola: 52 },
+    frase: { y: 386, corpo: 132 },
+    titolo: { y: 3508, corpo: 196 },
+    autore: { y: 3626, corpo: 62 },
+    marchi: { y: 3836, alto: 92 },
+    veloAlto: { finoA: 0.18, forza: 0.60 },
+    veloBasso: { da: 0.74, forza: 0.98 },
   },
-  // l'anteprima social del repository su GitHub (Settings → Social preview): 1280×640; la si vede piccola, quindi
-  // la frase e i marchi più grandi, e più in basso il titolo
-  (() => {
-    const f = largo("github", "il-viaggiatore-github-1280x640", "anteprima GitHub", 1280, 640, 260);
-    return { ...f, sotto: { y: 166, corpo: 14 }, autore: { y: 198, corpo: 24 }, frase: { y: 580, corpo: 36 }, marchi: { y: 616, alto: 30 } };
-  })(),
+  {
+    // l'anteprima social del repository su GitHub e Open Graph (1280×640): si vede piccola, quindi testi ben leggibili
+    id: "github", file: "il-viaggiatore-github-1280x640", nome: "anteprima GitHub", w: 1280, h: 640, impagina: "cielo",
+    scena: { tavola: "panoramica", modo: "copri", dx: 0, dy: 18 },
+    titolo: { y: 74, corpo: 58 },
+    autore: { y: 104, corpo: 20 },
+    frase: { y: 572, corpo: 34 },
+    marchi: { y: 614, alto: 28 },
+    veloAlto: { finoA: 0.27, forza: 0.58 },
+    veloBasso: { da: 0.75, forza: 0.84 },
+  },
 ];

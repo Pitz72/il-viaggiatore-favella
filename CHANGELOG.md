@@ -27,6 +27,10 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
   arrotolata, tanica e scarponi; all'alba e sul titolo è di spalle e si allontana lungo la strada, sulla terra crepata, sul sale e
   al guado è di profilo. Il fratello al guado è a capo scoperto, col fucile tenuto basso. I pali del telegrafo dell'alba, che
   scorrevano sopra una tavola ferma, non ci sono più.
+- **Le immagini promozionali sono nella veste pittorica** (`grafica/branding/`, `grafica/banner.jpg`, `grafica/itch/`): il guado di
+  Acquamorta dipinto a gouache e china, i due fratelli sulle due sponde, con la firma «un gioco in FAVELLA1 di Simone Pizzi». Le tre
+  tavole senza testi stanno in `grafica/branding/tavole/`; `strumenti/locandine.cjs` le impagina in tutti i formati senza server
+  di sviluppo.
 
 ### Aggiunto
 - **L'autoverifica del pacchetto prova il trailer fotogramma per fotogramma** (1/120 di secondo, dall'inizio al menu): nessuno
