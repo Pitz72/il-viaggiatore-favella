@@ -8,6 +8,8 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.43.1] - 2026-11-25
+
 ### Corretto
 - **Il trailer non si ferma più sul nero a 69 secondi.** All'attacco della seconda regola («L'acqua è la moneta») la moneta nasce
   da zero e per tre centesimi di secondo i suoi filetti interni avevano raggio negativo: il disegno falliva, l'orologio del
