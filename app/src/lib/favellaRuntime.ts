@@ -40,12 +40,13 @@ const asset = (p: string) => `${ENGINE_ROOT}${p}`;
 async function fetchTesto(url: string): Promise<string> {
   const res = await fetch(url);
   if (!res.ok) {
-    throw new Error(`Il server ha rifiutato «${url}» (HTTP ${res.status}).`);
+    throw new Error(tr(`Il server ha rifiutato «${url}» (HTTP ${res.status}).`, `The server refused “${url}” (HTTP ${res.status}).`));
   }
   const testo = await res.text();
   const inizio = testo.trimStart().slice(0, 15).toLowerCase();
   if (inizio.startsWith("<!doctype") || inizio.startsWith("<html")) {
-    throw new Error(`«${url}» non è stato trovato sul server (è arrivata una pagina HTML al suo posto).`);
+    throw new Error(tr(`«${url}» non è stato trovato sul server (è arrivata una pagina HTML al suo posto).`,
+      `“${url}” was not found on the server (an HTML page arrived instead).`));
   }
   return testo;
 }
@@ -63,6 +64,7 @@ export interface TurnoEsito {
 // fav_salva, fav_carica…): vive in ponte.py, un file Python vero, così lo
 // stesso codice gira qui dentro Pyodide e nel collaudo (collaudo/salvataggi.py).
 import PONTE_PY from "./ponte.py?raw";
+import { tr } from "./lingua";
 
 type OnStatus = (msg: string) => void;
 
@@ -84,20 +86,20 @@ const injectScript = (src: string) =>
 async function caricaRuntime(onStatus: OnStatus): Promise<any> {
   if (pyodidePromise) return pyodidePromise;
   pyodidePromise = (async () => {
-    onStatus("Avvio dell'interprete…");
+    onStatus(tr("Avvio dell'interprete…", "Starting the interpreter…"));
     await injectScript(`${PYODIDE_BASE}pyodide.js`);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const pyodide = await (window as any).loadPyodide({ indexURL: PYODIDE_BASE });
 
-    onStatus("Installazione di Lark…");
+    onStatus(tr("Installazione di Lark…", "Installing Lark…"));
     // Lark è puro Python: il suo wheel si scompatta direttamente nei
     // site-packages, senza micropip né rete. Versione PINNATA (vendor/), la
     // stessa con cui il motore è testato.
     const ruota = await fetch(`${PYODIDE_BASE}${RUOTA_LARK}`);
-    if (!ruota.ok) throw new Error(`Manca ${RUOTA_LARK} (HTTP ${ruota.status}).`);
+    if (!ruota.ok) throw new Error(tr(`Manca ${RUOTA_LARK} (HTTP ${ruota.status}).`, `Missing ${RUOTA_LARK} (HTTP ${ruota.status}).`));
     pyodide.unpackArchive(await ruota.arrayBuffer(), "wheel");
 
-    onStatus("Caricamento del motore FAVELLA…");
+    onStatus(tr("Caricamento del motore FAVELLA…", "Loading the FAVELLA engine…"));
     pyodide.FS.mkdirTree("/engine");
     for (const f of ENGINE_FILES) {
       // "strutture.py" è servito come "strutture.fav": niente «.py» nel nome remoto.
@@ -107,6 +109,7 @@ async function caricaRuntime(onStatus: OnStatus): Promise<any> {
     pyodide.runPython(PONTE_PY);
     return pyodide;
   })();
+  pyodidePromise.catch(() => { pyodidePromise = null; });
   return pyodidePromise;
 }
 
@@ -214,7 +217,7 @@ export interface SessioneGioco {
 export async function avviaGioco(spec: GiocoSpec, onStatus: OnStatus): Promise<SessioneGioco> {
   const pyodide = await caricaRuntime(onStatus);
 
-  onStatus("Caricamento dell'avventura…");
+  onStatus(tr("Caricamento dell'avventura…", "Loading the adventure…"));
   const dir = `/games/${spec.gameId}`;
   pyodide.FS.mkdirTree(dir);
   for (const nome of spec.files) {

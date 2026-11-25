@@ -247,3 +247,110 @@ export function catenaScorre(ctx: C2D, tela: Tela, yBase: number, scorri: number
 
 export { rgba, lerp, clamp };
 export type { RGB };
+
+// --------------------------------------------------------------------
+//  Aiuti sincroni leggeri per la composizione delle tavole dipinte
+// --------------------------------------------------------------------
+
+/** Crea una tela HTML fuori schermo dipinta subito da `disegna`. */
+export function tela(w: number, h: number, disegna: (g: C2D) => void): HTMLCanvasElement {
+  const c = document.createElement("canvas");
+  c.width = w; c.height = h;
+  const g = c.getContext("2d");
+  if (g) disegna(g);
+  return c;
+}
+
+/** Inquadratura con scala, panoramica (dx, dy) ed eventuale rotazione attorno al centro (W/2, H/2). */
+export function inquadra(ctx: C2D, scala: number, dx = 0, dy = 0, rot = 0) {
+  ctx.translate(W / 2 + dx, H / 2 + dy);
+  if (rot) ctx.rotate(rot);
+  ctx.scale(scala, scala);
+  ctx.translate(-W / 2, -H / 2);
+}
+
+/** Lieve respiro di macchina a mano deterministico sul tempo `t`. */
+export function oscillaCamera(ctx: C2D, t: number, amp = 2) {
+  ctx.translate(
+    Math.sin(t * 0.73) * amp + Math.cos(t * 1.41) * amp * 0.35,
+    Math.cos(t * 0.59) * amp * 0.7 + Math.sin(t * 1.19) * amp * 0.25,
+  );
+}
+
+/** Vignettatura radiale morbida ai bordi del fotogramma 1920×1080. */
+export function vignetta(ctx: C2D, forza = 0.5) {
+  const g = ctx.createRadialGradient(W / 2, H / 2, W * 0.26, W / 2, H / 2, W * 0.66);
+  g.addColorStop(0, "rgba(0,0,0,0)");
+  g.addColorStop(1, `rgba(0,0,0,${forza})`);
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
+}
+
+/** Fascia morbida di foschia orizzontale attorno a `yCentro`. */
+export function foschia(ctx: C2D, yCentro: number, raggioY: number, colore: string) {
+  const g = ctx.createLinearGradient(0, yCentro - raggioY, 0, yCentro + raggioY);
+  g.addColorStop(0, "rgba(0,0,0,0)");
+  g.addColorStop(0.5, colore);
+  g.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.fillStyle = g;
+  ctx.fillRect(0, yCentro - raggioY, W, raggioY * 2);
+}
+
+/** Pulviscolo caldo/freddo in deriva su tutto il quadro 1920×1080. */
+export function polvere(ctx: C2D, t: number, n: number, colore: string, vx = 10, vy = -8) {
+  const r = rng(313);
+  ctx.save();
+  ctx.fillStyle = colore;
+  for (let i = 0; i < n; i++) {
+    const x = (((r() * W + t * (vx + (r() - 0.5) * 8)) % W) + W) % W;
+    const y = (((r() * H + t * (vy + (r() - 0.5) * 6)) % H) + H) % H;
+    const dim = 1.0 + r() * 2.0;
+    ctx.globalAlpha = 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(t * 1.6 + i * 2.1));
+    ctx.beginPath(); ctx.arc(x, y, dim, 0, Math.PI * 2); ctx.fill();
+  }
+  ctx.restore();
+}
+
+/** Chiazze morbide di velatura/nubi per le tele di preparazione. */
+export function nubi(ctx: C2D, seme: number, hMax: number, colore: string, scala = 1) {
+  const r = rng(seme);
+  ctx.save();
+  ctx.fillStyle = colore;
+  for (let i = 0; i < 28; i++) {
+    const cx = r() * W, cy = r() * hMax;
+    const rx = (110 + r() * 240) * scala, ry = (24 + r() * 58) * scala;
+    ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, (r() - 0.5) * 0.2, 0, Math.PI * 2); ctx.fill();
+  }
+  ctx.restore();
+}
+
+/** Grana fine sparsa su un rettangolo di una tela precalcolata. */
+export function grana(ctx: C2D, x0: number, y0: number, w: number, h: number, punti: number, colore: string, seme: number) {
+  const r = rng(seme);
+  ctx.fillStyle = colore;
+  for (let i = 0; i < punti; i++) {
+    ctx.fillRect(x0 + r() * w, y0 + r() * h, 1.4, 1.4);
+  }
+}
+
+/** Raggi solari obliqui leggeri da (sx, sy). */
+export function raggi(ctx: C2D, sx: number, sy: number, quanti: number, lung: number, a0: number, a1: number, colore: string, seme: number) {
+  const r = rng(seme);
+  ctx.save();
+  ctx.globalCompositeOperation = "screen";
+  for (let i = 0; i < quanti; i++) {
+    const ang = lerp(a0, a1, (i + r() * 0.6) / quanti);
+    const ap = 0.035 + r() * 0.045;
+    const g = ctx.createRadialGradient(sx, sy, 12, sx, sy, lung);
+    g.addColorStop(0, colore);
+    g.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.moveTo(sx, sy);
+    ctx.lineTo(sx + Math.cos(ang - ap) * lung, sy + Math.sin(ang - ap) * lung);
+    ctx.lineTo(sx + Math.cos(ang + ap) * lung, sy + Math.sin(ang + ap) * lung);
+    ctx.closePath();
+    ctx.fill();
+  }
+  ctx.restore();
+}

@@ -220,10 +220,11 @@ export const scalaStampa = (qualita: string) =>
   (qualita === "alta" || (qualita === "automatica" && typeof window !== "undefined" && window.devicePixelRatio >= 1.5) ? 2 : 1);
 
 /** Con la mappa in bisaccia, si prepara tutto in anticipo, in momenti liberi (la disposizione, e la stampa se serve):
- *  aprirla, poi, non costa niente. */
-export function preparaInAnticipo(carta: Carta, zonaDi: (id: string) => string | undefined, qualita: string, alto: boolean) {
+ *  aprirla, poi, non costa niente. `preparaCarta` viene eseguita nel momento libero subito prima di `disposizione`, così i nomi
+ *  delle tappe sono sempre quelli della lingua richiesta anche se l'opzione è cambiata nel frattempo. */
+export function preparaInAnticipo(preparaCarta: () => Carta, zonaDi: (id: string) => string | undefined, qualita: string, alto: boolean) {
   quandoLibero(() => {
-    const a = ancoreTerreno(disposizione(carta, zonaDi));
+    const a = ancoreTerreno(disposizione(preparaCarta(), zonaDi));
     if (a && !alto) preparaStampa(a, scalaStampa(qualita)).catch(() => {});
   });
 }

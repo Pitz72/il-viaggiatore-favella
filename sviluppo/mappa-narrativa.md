@@ -78,9 +78,9 @@ scelta si spegne lì. Una che si legge più avanti è una **conseguenza a distan
 | stato del riconoscimento | Z7 | Z7 (4) | Z7 (2) | locale |
 | stato dell'arrivo | Z7 | Z7 (1) | Z7 (1) | locale |
 | stato della strada | Z7 | Z7 (3) | Z7 (3) | locale |
-| stato della veglia | Z7 | Z7 (9) | Z7 (7) | locale |
-| stato di cosimo | Z7 | Z7 (7) | Z7 (45) | locale |
-| veglia | Z7 | Z7 (8) | Z7 (5) | locale |
+| stato della veglia | Z7 | Z7 (9) | Z7 (8) | locale |
+| stato di cosimo | Z7 | Z7 (7) | Z6 (1), Z7 (47) | locale |
+| veglia | Z7 | Z7 (9) | Z7 (6) | locale |
 
 ## 3. Le cose che si portano da una zona all'altra
 

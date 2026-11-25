@@ -81,6 +81,15 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
   // la domanda in fondo: ripristinare le opzioni, o azzerare i trofei
   const [domanda, setDomanda] = useState<null | "ripristino" | "trofei">(null);
   const domandaRef = useRef(domanda);
+  const ripristinaBtnRef = useRef<HTMLButtonElement>(null);
+  const eraDomanda = useRef(false);
+  useEffect(() => {
+    if (domanda) eraDomanda.current = true;
+    else if (eraDomanda.current) {
+      eraDomanda.current = false;
+      requestAnimationFrame(() => ripristinaBtnRef.current?.focus());
+    }
+  }, [domanda]);
   domandaRef.current = domanda;
   // Esc: prima chiude la domanda, poi il pannello
   const dialogo = useDialogo<HTMLDivElement>(() => { if (domandaRef.current) setDomanda(null); else onChiudi(); });
@@ -357,12 +366,12 @@ export default function PannelloOpzioni({ base, accento = "#f0b77e", onRiascolta
                 {domanda === "ripristino" ? tr("Tutte le opzioni tornano come al primo avvio? La lingua e la voce restano.", "Put all options back as at first launch? Language and voice stay.")
                   : tr("Tutti i trofei tornano da vincere? I salvataggi restano.", "Put all trophies back up for grabs? Your saves stay.")}
               </span>
-              <button type="button" className="opz-bottone" autoFocus style={{ ...stileBottone, background: accento, color: "#140c06", borderColor: accento }}
+              <button type="button" className="opz-bottone" autoFocus style={stileBottone} onClick={() => setDomanda(null)}>no <b>N</b></button>
+              <button type="button" className="opz-bottone" style={{ ...stileBottone, background: accento, color: "#140c06", borderColor: accento }}
                 onClick={domanda === "ripristino" ? ripristina : azzera}>{tr("sì", "yes")} <b>{tr("S", "Y")}</b></button>
-              <button type="button" className="opz-bottone" style={stileBottone} onClick={() => setDomanda(null)}>no <b>N</b></button>
             </span>
           ) : (
-            <button type="button" className="opz-bottone" style={stileBottone} onClick={() => setDomanda("ripristino")}>{tr("ripristina le opzioni di base", "restore default options")}</button>
+            <button ref={ripristinaBtnRef} type="button" className="opz-bottone" style={stileBottone} onClick={() => setDomanda("ripristino")}>{tr("ripristina le opzioni di base", "restore default options")}</button>
           )}
           <button type="button" className="opz-bottone" style={stileBottone} onClick={onChiudi}>{tr("chiudi", "close")} <b>Esc</b></button>
         </div>

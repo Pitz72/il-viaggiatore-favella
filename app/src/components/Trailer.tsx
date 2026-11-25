@@ -193,12 +193,13 @@ const SOGLIA_MS = 14;                         // misurato a freddo, appena dopo 
  * Null se WebGL non c'è.
  */
 function creaMisuratore(tela: HTMLCanvasElement) {
-  const gl = document.createElement("canvas").getContext("webgl");
+  const cv = document.createElement("canvas");
+  const gl = cv.getContext("webgl");
   if (!gl) return null;
   const tex = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, tex);
   const px = new Uint8Array(4);
-  return (disegnaF: (t: number) => void, t: number, n: number) => {
+  const misura = (disegnaF: (t: number) => void, t: number, n: number) => {
     const ms: number[] = [];
     for (let i = 0; i < n; i++) {
       const a = performance.now();
@@ -210,6 +211,11 @@ function creaMisuratore(tela: HTMLCanvasElement) {
     ms.sort((x, y) => x - y);
     return { mediana: ms[Math.floor(n / 2)], p95: ms[Math.floor(n * 0.95)], max: ms[n - 1] };
   };
+  const rilascia = () => {
+    if (tex) gl.deleteTexture(tex);
+    gl.getExtension("WEBGL_lose_context")?.loseContext();
+  };
+  return { misura, rilascia };
 }
 
 function faiGrana(): string {
@@ -345,14 +351,11 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
   // così cambiarlo nelle opzioni del menu vale già per «rivedi il trailer»; i volumi li applica il bus sonoro.
   // La traccia è quella della voce scelta al momento di mostrare il trailer: con la voce inglese, quella in inglese (voce/en/).
   useEffect(() => {
-    const base = `${import.meta.env.BASE_URL}voce/${opzioni().voce === "inglese" ? "en/" : ""}`;
-    suono.current = new ColonnaSonora(branoIntro, { traccia: `${base}trailer.opus`, scaletta: `${base}trailer.json` });
-    // Sul desktop l'audio parte da solo (Electron permette l'autoplay): il
-    // trailer è il primo schermo del gioco, non una pagina web.
-    // Nel browser il gesto che ha chiuso l'avviso (clic o Invio) è passato PRIMA che il trailer
-    // esistesse: se la pagina ha già avuto un gesto, il browser lascia partire la musica anche ora.
-    const giaSbloccato = !!(navigator as Navigator & { userActivation?: { hasBeenActive: boolean } }).userActivation?.hasBeenActive;
-    if (inDesktop() || giaSbloccato) { suono.current.attiva(); setAudio(true); }
+    const voceAttuale = () => {
+      const base = `${import.meta.env.BASE_URL}voce/${opzioni().voce === "inglese" ? "en/" : ""}`;
+      return { traccia: `${base}trailer.opus`, scaletta: `${base}trailer.json` };
+    };
+    suono.current = new ColonnaSonora(branoIntro, voceAttuale());
     return () => { suono.current?.chiudi(); suono.current = null; };
   }, []);
 
@@ -476,10 +479,6 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
       const h = BANDA * (1 - apre) * clamp(seg(t, 0, 0.9) + (startAtEnd ? 1 : 0));
       bs.style.height = h + "px"; bg.style.height = h + "px";
     }
-    const ctr = extraRef.current.controlli;
-    if (ctr) ctr.style.opacity = String(1 - apre);
-    const barra = extraRef.current.barra;
-    if (barra) barra.style.transform = `scaleX(${clamp(t / DURATA)})`;
 
     // la grana cambia a 24 fotogrammi al secondo, dal tempo del trailer (sul menu, fermo, dal tempo vero)
     const quadro = Math.floor((t >= DURATA ? performance.now() / 1000 : t) * FOTOGRAMMI_GRANA);
@@ -495,7 +494,7 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
     if (!import.meta.env.DEV) return;
     const w = window as unknown as { __trailer?: object };
     w.__trailer = {
-      vai: (t: number) => { tRef.current = t; pausaRef.current = true; setFinito(t >= DURATA); },
+      vai: (t: number) => { tRef.current = t; pausaRef.current = true; disegna(t); setFinito(t >= DURATA); },
       riprendi: () => { pausaRef.current = false; },
       tetto: (n: number) => { tetto.current = n; adattaRef.current(); return telaRef.current?.width ?? 0; },
       t: () => tRef.current,
@@ -505,69 +504,88 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
       prova: (t: number, n = 30) => {
         const tela = telaRef.current;
         if (!tela) return null;
-        const r = creaMisuratore(tela)?.(disegna, t, n);
-        return r && { mediana: +r.mediana.toFixed(1), p95: +r.p95.toFixed(1), max: +r.max.toFixed(1) };
+        const m = creaMisuratore(tela);
+        if (!m) return null;
+        try {
+          const r = m.misura(disegna, t, n);
+          return { mediana: +r.mediana.toFixed(1), p95: +r.p95.toFixed(1), max: +r.max.toFixed(1) };
+        } finally {
+          m.rilascia();
+        }
       },
     };
     return () => { delete w.__trailer; };
   }, [disegna]);
 
-  // ── la tela più grande, se il computer la regge ────────────────────────
-  // Fino a 2560 px di larghezza non c'è niente da scegliere. Uno schermo più grande (4K) ne vorrebbe di più: si prova la
-  // larghezza maggiore sulle inquadrature più pesanti e la si tiene solo se la peggiore costa meno di SOGLIA_MS; se no si
-  // scende al gradino dopo, fino al tetto di sempre. Dura una frazione di secondo e avviene prima che il tempo cominci a scorrere.
+  // ── la tela più grande, se il computer la regge, PRIMA che partano audio e orologio ──
+  const copertoRef = useRef(false);
+  copertoRef.current = guida || taccuino || opzioniAperte || trofeiAperti || domandaNuovo;
   useEffect(() => {
-    if (!pronto || grafica.current !== "automatica") return;   // le altre qualità non si misurano: le ha scelte chi gioca
-    if (import.meta.env.DEV && !location.search.includes("calibra")) return;   // in sviluppo catture e misure scelgono da sé (__trailer.tetto)
+    if (!pronto) return;
     const el = palcoRef.current, tela = telaRef.current;
-    if (!el || !tela) return;
-    const voluta = Math.round(el.clientWidth * Math.min(window.devicePixelRatio || 1, 2));
-    const candidate = [...new Set([Math.min(voluta, TELE_GRANDI[0]), ...TELE_GRANDI])].filter((l) => l > TETTO_TELA && l <= voluta);
-    if (!candidate.length) return;
-    const misura = creaMisuratore(tela);
-    let scelta = TETTO_TELA;
-    const provati: string[] = [];
-    if (misura) {
-      for (const larg of candidate) {
-        tetto.current = larg; adattaRef.current();
-        misura(disegna, ISTANTI_PESANTI[0], 4);                         // il primo fotogramma di una tela nuova paga l'allocazione
-        let peggiore = 0;
-        for (const t of ISTANTI_PESANTI) {
-          misura(disegna, t, 2);
-          peggiore = Math.max(peggiore, misura(disegna, t, 5).mediana);
-          if (peggiore > SOGLIA_MS) break;
+    if (el && tela && grafica.current === "automatica" && (!import.meta.env.DEV || location.search.includes("calibra"))) {
+      const voluta = Math.round(el.clientWidth * Math.min(window.devicePixelRatio || 1, 2));
+      const candidate = [...new Set([Math.min(voluta, TELE_GRANDI[0]), ...TELE_GRANDI])].filter((l) => l > TETTO_TELA && l <= voluta);
+      if (candidate.length) {
+        const m = creaMisuratore(tela);
+        let scelta = TETTO_TELA;
+        const provati: string[] = [];
+        if (m) {
+          try {
+            for (const larg of candidate) {
+              tetto.current = larg; adattaRef.current();
+              m.misura(disegna, ISTANTI_PESANTI[0], 3);
+              let peggiore = 0;
+              for (const t of ISTANTI_PESANTI) {
+                m.misura(disegna, t, 1);
+                peggiore = Math.max(peggiore, m.misura(disegna, t, 4).mediana);
+                if (peggiore > SOGLIA_MS) break;
+              }
+              provati.push(`${larg}: ${peggiore.toFixed(1)} ms`);
+              if (peggiore <= SOGLIA_MS) { scelta = larg; break; }
+            }
+          } finally {
+            m.rilascia();
+          }
         }
-        provati.push(`${larg}: ${peggiore.toFixed(1)} ms`);
-        if (peggiore <= SOGLIA_MS) { scelta = larg; break; }
+        tetto.current = scelta; adattaRef.current();
+        if (import.meta.env.DEV) console.info(`[trailer] tela di ${tela.width} px (voluta ${voluta}; provate: ${provati.join(", ") || "nessuna"}; soglia ${SOGLIA_MS} ms)`);
       }
     }
-    tetto.current = scelta; adattaRef.current();
-    if (import.meta.env.DEV) console.info(`[trailer] tela di ${tela.width} px (voluta ${voluta}; provate: ${provati.join(", ") || "nessuna"}; soglia ${SOGLIA_MS} ms)`);
+    // l'audio parte qui, a tela pronta e calibrata, così l'attacco di «lettere» non subisce alcuno strappo
+    const giaSbloccato = !!(navigator as Navigator & { userActivation?: { hasBeenActive: boolean } }).userActivation?.hasBeenActive;
+    if ((inDesktop() || giaSbloccato) && suono.current && !suono.current.attivo) {
+      suono.current.attiva();
+      setAudio(true);
+    }
   }, [pronto, disegna]);
 
   // ── l'orologio ────────────────────────────────────────────────────
   useEffect(() => {
     if (!pronto) return;
-    let raf = 0, prec = performance.now(), finePrec = startAtEnd, giri = 0, lento = 0;
+    let raf = 0, prec = performance.now(), finePrec = startAtEnd, giri = 0, lento = 0, ultimoDisegnoMenu = -1;
     const passo = (ora: number) => {
       const grezzo = ora - prec;
       const dt = Math.min(0.1, grezzo / 1000);
       prec = ora;
       const fermo = pausaRef.current || document.hidden;
       if (!fermo) {
-        // con il brano in riproduzione è lui l'orologio: la pellicola lo insegue.
-        // Uno scarto grande vuol dire un salto appena comandato (rivedi, salta):
-        // allora vale il tempo della pellicola e aggiorna() riposiziona il brano.
         const tm = suono.current?.orologio();
         tRef.current = tm != null && Math.abs(tm - tRef.current) < 0.5 ? tm : tRef.current + dt;
-        // passati i primi due secondi, se i fotogrammi restano lenti a lungo si scende di risoluzione
-        if (++giri > 120) {
+        if (tRef.current < DURATA && ++giri > 120) {
           lento = grezzo > 36 ? lento + 1 : Math.max(0, lento - 1);
           if (lento > 50 && qualita.current > 0.5 && grafica.current === "automatica") { qualita.current -= 0.25; lento = 0; adattaRef.current(); }
         }
       }
       const t = tRef.current;
-      disegna(t);
+      // sul menu fermo: se coperto da un pannello si disegna una volta sola; scoperto, 24 fotogrammi al secondo bastano alla grana
+      if (t < DURATA) {
+        ultimoDisegnoMenu = -1;
+        disegna(t);
+      } else if (ultimoDisegnoMenu < 0 || (!copertoRef.current && !fermo && ora - ultimoDisegnoMenu >= 41)) {
+        ultimoDisegnoMenu = ora;
+        disegna(DURATA);
+      }
       suono.current?.aggiorna(t, fermo);
       if (!finePrec && t >= DURATA) { finePrec = true; setFinito(true); }
       if (finePrec && t < DURATA) finePrec = false;
@@ -581,9 +599,16 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
   const salta = useCallback(() => {
     tRef.current = Math.max(tRef.current, DURATA);
     pausaRef.current = false;
+    disegna(DURATA);
     setFinito(true);
-  }, []);
-  const rivedi = () => { tRef.current = 0; pausaRef.current = false; setFinito(false); };
+  }, [disegna]);
+  const rivedi = () => {
+    const base = `${import.meta.env.BASE_URL}voce/${opzioni().voce === "inglese" ? "en/" : ""}`;
+    suono.current?.impostaVoce({ traccia: `${base}trailer.opus`, scaletta: `${base}trailer.json` });
+    tRef.current = 0;
+    pausaRef.current = false;
+    setFinito(false);
+  };
   const commutaAudio = useCallback(() => {
     if (!suono.current) suono.current = new ColonnaSonora();
     if (suono.current.attivo) { suono.current.spegni(); setAudio(false); }
@@ -743,17 +768,37 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
           {/* E · contatore delle tappe */}
           <div ref={reg("tappe")} style={{ position: "absolute", left: 150, top: BANDA + 44, opacity: 0, ...mono(18, { color: "rgba(214,224,238,.6)" }) }} />
 
-          {/* F · cinque colonne */}
-          <div style={{ position: "absolute", left: 0, right: 0, top: 318, display: "flex", justifyContent: "center", gap: 12 }}>
+          {/* F · cinque colonne coi medaglioni dipinti a gouache e china */}
+          <div style={{ position: "absolute", left: 0, right: 0, top: 306, display: "flex", justifyContent: "center", gap: 12 }}>
             {CINQUE.map((c, i) => (
-              <div key={c.nome} ref={reg("col" + i)} style={{ width: 330, textAlign: "center", opacity: 0, borderLeft: i ? "1px solid rgba(255,255,255,.07)" : "none" }}>
-                <svg viewBox="0 0 120 120" width={196} height={196} style={{ display: "block", margin: "-14px auto -18px", overflow: "visible", filter: `drop-shadow(0 0 14px ${c.a}66)` }}>
-                  {c.riempi.map((d, j) => <path key={"f" + j} d={d} fill={c.a} stroke="none" data-riempi="1" style={{ opacity: 0 }} />)}
-                  {c.d.map((d, j) => <path key={j} d={d} pathLength={1} fill="none" stroke={c.a} strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round" style={{ strokeDasharray: 1, strokeDashoffset: 1 }} />)}
-                </svg>
-                <div style={mono(17, { color: c.a, marginTop: 34 })}>{c.nome}</div>
-                <div style={serif(56, { color: "#f1f3f7", fontStyle: "italic", marginTop: 20 })}>{c.verbo[lingua]}</div>
-                <div style={serif(26, { color: "rgba(214,224,238,.55)", marginTop: 14 })}>{c.luogo[lingua]}</div>
+              <div key={c.nome} ref={reg("col" + i)} style={{ width: 330, textAlign: "center", opacity: 0, borderLeft: i ? "1px solid rgba(218,188,146,.12)" : "none" }}>
+                <div style={{ position: "relative", width: 184, height: 184, margin: "0 auto", filter: `drop-shadow(0 10px 24px rgba(0,0,0,.65)) drop-shadow(0 0 18px ${c.a}38)` }}>
+                  <div style={{
+                    position: "absolute", inset: 12, borderRadius: "50%", overflow: "hidden", background: "#0b0a0e",
+                    boxShadow: "inset 0 0 22px rgba(0,0,0,.78), inset 0 0 0 1px rgba(218,188,146,.22)",
+                  }}>
+                    <img
+                      src={`${import.meta.env.BASE_URL}immagini/scene/trailer/cinque-${i + 1}.webp`}
+                      alt=""
+                      style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                    />
+                  </div>
+                  <svg viewBox="0 0 120 120" width={184} height={184} style={{ position: "absolute", inset: 0, display: "block", overflow: "visible" }}>
+                    <circle cx="60" cy="60" r="56" fill="none" stroke="rgba(218,188,146,.24)" strokeWidth={1.1} />
+                    <path
+                      d="M 60 6 A 54 54 0 1 1 59.99 6"
+                      pathLength={1}
+                      fill="none"
+                      stroke={c.a}
+                      strokeWidth={2.2}
+                      strokeLinecap="round"
+                      style={{ strokeDasharray: 1, strokeDashoffset: 1 }}
+                    />
+                  </svg>
+                </div>
+                <div style={mono(17, { color: c.a, marginTop: 26 })}>{c.nome}</div>
+                <div style={serif(54, { color: "#f4ece0", fontStyle: "italic", marginTop: 18 })}>{c.verbo[lingua]}</div>
+                <div style={serif(25, { color: "rgba(226,216,200,.62)", marginTop: 12 })}>{c.luogo[lingua]}</div>
               </div>
             ))}
           </div>
@@ -837,19 +882,35 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
         </div>
       </div>
       {guida && compatto && <ComeSiGioca base={14} compatto onChiudi={() => setGuida(false)} />}
+      {opzioniAperte && compatto && <PannelloOpzioni base={13} onChiudi={() => setOpzioniAperte(false)} />}
+      {trofeiAperti && compatto && <PaginaTrofei base={12} onChiudi={() => setTrofeiAperti(false)} />}
+      {taccuino && compatto && <Taccuino base={12} modo="carica" puoSalvare={false} onCarica={(d) => { setTaccuino(false); onLaunch(d); }} onChiudi={() => setTaccuino(false)} />}
+      {domandaNuovo && compatto && (
+        <Domanda base={14} domanda={tr("Cominciare un viaggio nuovo?", "Start a new journey?")}
+          sotto={tr("I salvataggi del taccuino restano. Il posto automatico si riscriverà al primo cambio di luogo.",
+            "The saves in your notebook stay. The autosave slot will be overwritten at the first change of place.")}
+          si={tr("sì, un viaggio nuovo", "yes, a new journey")} no="no"
+          onSi={() => { setDomandaNuovo(false); onLaunch(null); }} onNo={() => setDomandaNuovo(false)} />
+      )}
 
-      {/* telefono in verticale: comandi e avvio fuori dal palco, a dimensione normale */}
+      {/* telefono o finestra sotto 960 px: comandi e avvio fuori dal palco, completi di Nuovo viaggio, Carica, Opzioni e Trofei */}
       {compatto && pronto && (
-        <div style={{ position: "absolute", left: 16, right: 16, bottom: "max(24px, env(safe-area-inset-bottom))", display: "flex", flexDirection: "column", alignItems: "center", gap: 14, textAlign: "center" }}>
+        <div style={{ position: "absolute", left: 16, right: 16, bottom: "max(24px, env(safe-area-inset-bottom))", display: "flex", flexDirection: "column", alignItems: "center", gap: 12, textAlign: "center" }}>
           {finito ? (
             <>
-              <p style={{ margin: 0, fontFamily: FONT.serif, fontSize: 17, lineHeight: 1.45, color: "rgba(230,222,208,.8)", maxWidth: 340 }}>
+              <p style={{ margin: 0, fontFamily: FONT.serif, fontSize: 16, lineHeight: 1.45, color: "rgba(230,222,208,.8)", maxWidth: 360 }}>
                 {tr("Si parte a piedi. Da qui in poi comandi tu: scrivi in italiano o scegli con i pulsanti. Il gioco rende meglio in orizzontale.",
                   "You set out on foot. From here on, you are in charge: you play with the buttons. The game looks better in landscape.")}
               </p>
-              <button onClick={() => onLaunch(ultimo)} style={{ cursor: "pointer", border: "none", borderRadius: 999, padding: "14px 30px", fontFamily: FONT.display, fontWeight: 700, fontSize: 17, color: "#140c06", background: "#f0b77e", ["--gl" as string]: "rgba(240,183,126,.55)", animation: "kf-pulse 1.9s ease-in-out infinite" } as React.CSSProperties}>{ultimo ? tr("Continua il viaggio →", "Continue the journey →") : tr("Inizia il viaggio →", "Start the journey →")}</button>
-              <div style={{ display: "flex", gap: 10 }}>
-                <button onClick={() => setGuida(true)} style={{ ...bottoneCompatto, color: "#f0b77e" }}>{tr("? come si gioca", "? how to play")}</button>
+              <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 10 }}>
+                <button onClick={() => onLaunch(ultimo)} style={{ cursor: "pointer", border: "none", borderRadius: 999, padding: "12px 26px", fontFamily: FONT.display, fontWeight: 700, fontSize: 16, color: "#140c06", background: "#f0b77e", ["--gl" as string]: "rgba(240,183,126,.55)", animation: "kf-pulse 1.9s ease-in-out infinite" } as React.CSSProperties}>{ultimo ? tr("Continua il viaggio →", "Continue the journey →") : tr("Inizia il viaggio →", "Start the journey →")}</button>
+                {ultimo && <button onClick={() => setDomandaNuovo(true)} style={bottoneCompatto}>{tr("Nuovo viaggio", "New journey")}</button>}
+              </div>
+              <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8 }}>
+                <button onClick={() => setTaccuino(true)} style={bottoneCompatto}>{tr("Carica", "Load")}</button>
+                <button onClick={() => setOpzioniAperte(true)} style={bottoneCompatto}>{tr("Opzioni", "Options")}</button>
+                <button onClick={() => setTrofeiAperti(true)} style={bottoneCompatto}>{tr("Trofei", "Trophies")}</button>
+                <button onClick={() => setGuida(true)} style={{ ...bottoneCompatto, color: "#f0b77e" }}>{tr("? guida", "? guide")}</button>
                 <button onClick={rivedi} style={bottoneCompatto}>{tr("↺ rivedi", "↺ watch again")}</button>
                 <button onClick={commutaAudio} style={bottoneCompatto} aria-pressed={audio}>{audio ? tr("♪ sì", "♪ on") : tr("♪ no", "♪ off")}</button>
               </div>

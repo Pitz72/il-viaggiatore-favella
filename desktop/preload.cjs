@@ -17,6 +17,11 @@ contextBridge.exposeInMainWorld("viaggiatoreDesktop", {
       ipcRenderer.on("finestra", f);
       return () => ipcRenderer.removeListener("finestra", f);
     },
+    primaDiChiudere: (fn) => {
+      const f = () => Promise.resolve(fn()).catch(() => {}).finally(() => ipcRenderer.send("pronto-a-chiudere"));
+      ipcRenderer.on("prima-di-chiudere", f);
+      return () => ipcRenderer.removeListener("prima-di-chiudere", f);
+    },
   },
   esitoAutoverifica: (ok, dettagli) => ipcRenderer.send("autoverifica", !!ok, String(dettagli)),
   registro: (livello, testo) => ipcRenderer.send("registro", String(livello), String(testo)),

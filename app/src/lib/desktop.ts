@@ -36,6 +36,7 @@ interface PonteDesktop {
     dimensione: (larghezza: number, altezza: number) => Promise<boolean>;
     aggiornamenti: (si: boolean) => Promise<boolean>;
     quandoCambia: (fn: () => void) => () => void;
+    primaDiChiudere?: (fn: () => Promise<void> | void) => () => void;
   };
   esitoAutoverifica: (ok: boolean, dettagli: string) => void;
 }
@@ -105,3 +106,12 @@ export function seguiAggiornamento(fn: (s: StatoAggiornamento) => void): () => v
 }
 
 export const installaAggiornamento = () => ponte()?.aggiornamento.installa();
+
+/** Chiamato quando la finestra sta per chiudersi (Alt+F4, pulsante ✕ o chiusura scheda): lascia salvare il posto automatico. */
+export function primaDiChiudere(fn: () => Promise<void> | void): () => void {
+  const p = ponte();
+  if (p?.finestra?.primaDiChiudere) return p.finestra.primaDiChiudere(fn);
+  const suPagina = () => { void fn(); };
+  window.addEventListener("pagehide", suPagina);
+  return () => window.removeEventListener("pagehide", suPagina);
+}

@@ -55,6 +55,7 @@ export class ColonnaSonora {
   private rumore!: AudioBuffer;
   private rumori!: GainNode;     // l'uscita dei rumori sintetici: passano da una «stanza» brevissima
   private ultimoT = -1;
+  private sinteticiSpenti = false;
   private datiVoce: VoceDelTrailer | null = null;
   private voce: AudioBuffer | null = null;
   private frasi: Frase[] = [];
@@ -127,6 +128,23 @@ export class ColonnaSonora {
     this.brano?.pause();
     this.fermaVoce();
     this.ac?.close(); this.ac = null; this.attivo = false;
+  }
+
+  /** Aggiorna i file della voce se chi gioca cambia lingua della voce nel menu prima di «Rivedi il trailer». */
+  impostaVoce(voce: VoceDelTrailer) {
+    if (this.datiVoce?.traccia === voce.traccia && this.datiVoce?.scaletta === voce.scaletta) return;
+    this.datiVoce = voce;
+    this.fermaVoce();
+    this.voce = null;
+    this.frasi = [];
+    if (this.ac) {
+      if (!this.gVoce) {
+        this.gVoce = this.ac.createGain();
+        this.gVoce.gain.value = offline(this.ac) ? voce.volume ?? 1 : 1;
+        this.gVoce.connect(canale(this.ac, "voce", this.master));
+      }
+      this.voceCaricata = this.caricaVoce(this.ac, voce);
+    }
   }
 
   private async caricaVoce(ac: BaseAudioContext, d: VoceDelTrailer) {
@@ -273,9 +291,13 @@ export class ColonnaSonora {
       if (b.paused) b.play().catch(() => {});
       return;
     }
-    if (tPrec >= 0 && tPrec < fine - 2) {                          // salto al titolo
+    // arrivo al menu da salto (Esc, anche negli ultimi secondi) o da ritorno dalla partita/finale (startAtEnd):
+    // se il brano non ha appena finito da sé la corsa intera, parte la coda del titolo
+    if (!this.coda && (tPrec < 0 || tPrec < fine - 0.35 || tPrec >= fine)) {
       this.coda = true;
-      b.currentTime = Math.min(CODA, fine - 1);
+      if (tPrec < 0 || tPrec >= fine || b.currentTime >= fine - 0.1 || b.currentTime < CODA - 0.5) {
+        b.currentTime = Math.min(CODA, Math.max(0, fine - 1));
+      }
       b.play().catch(() => {});
       return;
     }
@@ -293,17 +315,21 @@ export class ColonnaSonora {
     this.guidaBrano(t, inPausa, this.ultimoT);
     this.guidaVoce(t, inPausa);
     if (this.conBrano) {
-      this.bordone.gain.setTargetAtTime(0, now, 0.3);
-      this.gTerza.gain.setTargetAtTime(0, now, 0.3);
-      this.vento.gain.setTargetAtTime(0, now, 0.3);
+      if (!this.sinteticiSpenti) {
+        this.bordone.gain.setTargetAtTime(0, now, 0.3);
+        this.gTerza.gain.setTargetAtTime(0, now, 0.3);
+        this.vento.gain.setTargetAtTime(0, now, 0.3);
+        this.sinteticiSpenti = true;
+      }
     } else {
-    // bordone: cresce verso il guado, si apre al titolo
-    const liv = inPausa ? 0 : t < 9.6 ? 0.05 : t < 59.6 ? 0.05 + (t - 9.6) / 50 * 0.1 : t < 67.8 ? 0.2 : t < 81.4 ? 0.12 : 0.16;
-    this.bordone.gain.setTargetAtTime(liv, now, 0.6);
-    this.gTerza.gain.setTargetAtTime(!inPausa && t > 60.5 && t < 68 ? 0.35 : 0, now, 0.8);
-    // il vento cala al guado (silenzio prima del tonfo), torna al titolo
-    const v = inPausa ? 0.02 : t > 62.5 && t < 67.8 ? 0.05 : t > 67.8 && t < 81.4 ? 0.07 : 0.13;
-    this.vento.gain.setTargetAtTime(v, now, 0.5);
+      this.sinteticiSpenti = false;
+      // bordone: cresce verso il guado, si apre al titolo
+      const liv = inPausa ? 0 : t < 9.6 ? 0.05 : t < 59.6 ? 0.05 + (t - 9.6) / 50 * 0.1 : t < 67.8 ? 0.2 : t < 81.4 ? 0.12 : 0.16;
+      this.bordone.gain.setTargetAtTime(liv, now, 0.6);
+      this.gTerza.gain.setTargetAtTime(!inPausa && t > 60.5 && t < 68 ? 0.35 : 0, now, 0.8);
+      // il vento cala al guado (silenzio prima del tonfo), torna al titolo
+      const v = inPausa ? 0.02 : t > 62.5 && t < 67.8 ? 0.05 : t > 67.8 && t < 81.4 ? 0.07 : 0.13;
+      this.vento.gain.setTargetAtTime(v, now, 0.5);
     }
 
     if (inPausa) { this.ultimoT = t; return; }

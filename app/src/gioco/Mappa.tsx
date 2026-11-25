@@ -60,6 +60,7 @@ export default function Mappa({ base, accento = "#f0b77e", carta, visitate, qui,
   // si apre spiegandosi (tre pieghe), poi resta un foglio solo; si chiude con un attimo di carta che si ripiega
   const [fase, setFase] = useState<"apre" | "aperta" | "chiude">(ridotto ? "aperta" : "apre");
   const chiudendo = useRef(false);
+  const timerChiudi = useRef(0);
   const suonata = useRef(false);
   const chiudi = () => {
     if (chiudendo.current) return;
@@ -67,13 +68,13 @@ export default function Mappa({ base, accento = "#f0b77e", carta, visitate, qui,
     suonaCarta("chiude");
     if (ridotto) { onChiudi(); return; }
     setFase("chiude");
-    window.setTimeout(onChiudi, DURATA_CHIUDE);
+    timerChiudi.current = window.setTimeout(onChiudi, DURATA_CHIUDE);
   };
   useEffect(() => {
     if (!suonata.current) { suonata.current = true; suonaCarta("apre"); }
-    if (fase !== "apre") return;
+    if (fase !== "apre") return () => window.clearTimeout(timerChiudi.current);
     const t = window.setTimeout(() => setFase((f) => (f === "apre" ? "aperta" : f)), DURATA_APRE);
-    return () => window.clearTimeout(t);
+    return () => { window.clearTimeout(t); window.clearTimeout(timerChiudi.current); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const dialogo = useDialogo<HTMLDivElement>(chiudi);

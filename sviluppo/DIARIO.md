@@ -9,6 +9,7 @@ Questo indice si rigenera da sé (`node strumenti/diario.mjs indice`).
 
 | Data | Tipo | Versione | Voce |
 |---|---|---|---|
+| 2026-11-25 | sessione | 1.43.0 | [Revisione totale, rimedi del codice e nuova veste pittorica](diario/2026-11-25-revisione-totale-rimedi-del-codice-e-nuova-veste-pittorica.md) — Condotta un'analisi completa del codice e dei sorgenti narrativi con correzione di tutte le 21 criticità individuate (più quattro casi limite logici nei `.fav` a zero impatto sul doppiaggio) e portata l'estetica del trailer, dei panorami e dell'interfaccia di partita allo stile pittorico a gouache e china dei ritratti, preparando la versione `1.43.0`. |
 | 2026-11-07 | sessione | 1.42.0 | [Il rilascio 1.42.0](diario/2026-11-07-il-rilascio-1-42-0.md) — Rilasciata la 1.42.0, su ordine di Simone («rilascia»): il bilanciamento del 7 novembre 2026 (la fame ogni 5 turni, il lavoro |
 | 2026-11-07 | sessione | 1.42.0 | [Il metodo del Relitto per il bilanciamento](diario/2026-11-07-il-metodo-del-relitto-per-il-bilanciamento.md) — Il metodo di bilanciamento di *Il Relitto Silente* (partite da principiante verosimili, non tre percorsi da esperto) è ora anche |
 | 2026-11-01 | sessione | 1.41.1 | [La pagina su itch.io: decisioni e materiali (in pausa)](diario/2026-11-01-la-pagina-su-itch-io-decisioni-e-materiali-in-pausa.md) — Decise con Simone le linee della pagina su itch.io e preparati i materiali (copertina, banner, descrizione nelle due lingue, |

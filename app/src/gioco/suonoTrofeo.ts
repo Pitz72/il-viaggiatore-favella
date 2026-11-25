@@ -74,6 +74,7 @@ export function suonaTrofeo() {
     soffio.gain.setTargetAtTime(0.0001, t + 0.8, 0.3);
     s.connect(banda).connect(soffio).connect(morbido);
     s.start(t); s.stop(t + DURATA);
+    vib.onended = () => { morbido.disconnect(); nota.disconnect(); soffio.disconnect(); banda.disconnect(); };
   } catch {
     /* niente audio: il trofeo arriva lo stesso, in silenzio */
   }

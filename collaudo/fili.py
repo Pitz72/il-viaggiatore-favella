@@ -168,6 +168,24 @@ p = partita("guado", ["lettera"], sangue=2)
 fai(p, "usa la lettera su Cosimo")
 prova("la lettera basta anche col sangue", p.v("stato di cosimo") == "riconosciuto" and p.v("stato del riconoscimento") == "lettera")
 
+p = partita("guado", ["fucile"])
+fai(p, "lascia il fucile", "aspetta", "sud")
+prova("andarsene dal guado azzera i turni della veglia", p.v("veglia") == 0 and p.v("stato di cosimo") == "fermo", str(p.v("veglia")))
+fai(p, "nord", "aspetta")
+prova("…rientrati al guado bisogna rifare l'attesa intera (due turni non bastano)", p.v("veglia") == 2 and p.v("stato di cosimo") == "fermo")
+fai(p, "aspetta")
+prova("…al terzo turno consecutivo di nuovo al guado Cosimo si sposta", p.v("stato di cosimo") == "riconosciuto")
+
+# oggetti mai avuti o già spesi non dicono «è lì per terra / tra i sassi»
+prova("al guado senza lettera (mai avuta) non dice che è tra i sassi",
+      "tra i sassi" not in fai(partita("guado"), "usa la lettera su Cosimo"))
+prova("al guado senza fucile (mai avuto) non dice che è tra i sassi",
+      "tra i sassi" not in fai(partita("guado"), "usa il fucile su Cosimo"))
+prova("nel vicolo senza medicine (già spese) non dice che sono per terra",
+      "per terra" not in fai(partita("vicolo"), "usa le medicine su Pasquale"))
+prova("alla diga senza pastiglie (ancora nel casotto) non dice che sono per terra",
+      "per terra" not in fai(partita("diga"), "usa le pastiglie su la pompa"))
+
 # ---------------------------------------------------------------------------
 # 5. la strada di Acquamorta, una volta sola
 # ---------------------------------------------------------------------------

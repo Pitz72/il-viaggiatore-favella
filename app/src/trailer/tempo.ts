@@ -10,6 +10,12 @@ export const lerp = (a: number, b: number, k: number) => a + (b - a) * k;
 /** Avanzamento 0→1 di t dentro [a, b]. */
 export const seg = (t: number, a: number, b: number) => clamp((t - a) / (b - a));
 
+/** Transizione morbida Hermite 0→1 di t dentro [a, b]. */
+export const smoothstep = (a: number, b: number, t: number) => {
+  const k = clamp((t - a) / (b - a));
+  return k * k * (3 - 2 * k);
+};
+
 export const easeInOut = (k: number) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
 export const easeOut = (k: number) => 1 - Math.pow(1 - k, 3);
 export const easeIn = (k: number) => k * k * k;

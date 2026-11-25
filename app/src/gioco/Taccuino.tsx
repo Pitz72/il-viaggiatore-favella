@@ -81,11 +81,25 @@ export default function Taccuino({ base, modo: modoIniziale, accento = "#f0b77e"
   const elencoRef = useRef<HTMLDivElement>(null);
   const nuovoRef = useRef<HTMLInputElement>(null);
   const schedeRef = useRef<HTMLDivElement>(null);
-  // mentre c'è una domanda, o si scrive un nome, Esc e Tab sono loro
-  const stato = useRef({ richiesta, nomeInCorso });
-  stato.current = { richiesta, nomeInCorso };
-  const dialogo = useDialogo<HTMLDivElement>(onChiudi,
-    () => !!stato.current.richiesta || stato.current.nomeInCorso !== null || document.activeElement instanceof HTMLInputElement);
+  // mentre c'è una domanda a parte sopra il taccuino, Esc e Tab sono suoi; se invece si sta rinominando o scrivendo il nome
+  // nuovo, Tab resta dentro il taccuino ed Esc annulla la rinomina (o torna all'elenco) prima di chiudere il taccuino
+  const stato = useRef({ richiesta, nomeInCorso, scelto });
+  stato.current = { richiesta, nomeInCorso, scelto };
+  const dialogo = useDialogo<HTMLDivElement>(
+    () => {
+      if (stato.current.nomeInCorso !== null) {
+        setNomeInCorso(null);
+        if (stato.current.scelto) metti(stato.current.scelto);
+        return;
+      }
+      if (document.activeElement === nuovoRef.current) {
+        metti("nuovo");
+        return;
+      }
+      onChiudi();
+    },
+    () => !!stato.current.richiesta,
+  );
 
   const ricarica = useCallback(async (seleziona?: Scelto) => {
     try {
@@ -361,7 +375,7 @@ export default function Taccuino({ base, modo: modoIniziale, accento = "#f0b77e"
             {righe.map(riga)}
             {voci !== null && !righe.length && <p className="tc-vuoto">{tr("Nessun salvataggio.", "No saves.")}</p>}
           </div>
-          <div style={{ minWidth: 0, minHeight: 0, overflow: "hidden" }}>{dettaglio()}</div>
+          <div className="gv-scroll" style={{ minWidth: 0, minHeight: 0, overflowY: "auto", paddingRight: ".3em" }}>{dettaglio()}</div>
         </div>
 
         <div style={{ marginTop: "1em", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1em", flexShrink: 0 }}>

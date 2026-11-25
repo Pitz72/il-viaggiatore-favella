@@ -156,7 +156,7 @@ export default function PaginaTrofei({ base, accento = "#f0b77e", onChiudi }: Pr
                         const xt = testi(x);
                         return (
                           <button key={x.id} type="button" role="gridcell" data-pos={`${r}-${c}`} tabIndex={su ? 0 : -1}
-                            className={"tr-medaglia" + (v ? " tr-vinto" : "")} aria-current={su ? "true" : undefined}
+                            className={"tr-medaglia" + (v ? " tr-vinto" : "")} aria-selected={su} aria-current={su ? "true" : undefined}
                             aria-label={v ? tr(`${xt.nome}, vinto`, `${xt.nome}, won`) : tr(`Trofeo nascosto: ${xt.accenno}`, `Hidden trophy: ${xt.accenno}`)}
                             onClick={() => vai(r, c)} onMouseEnter={() => setScelto([r, c])}>
                             <Medaglione famiglia={x.famiglia} vinto={v} accento={accento} />

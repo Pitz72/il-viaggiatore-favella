@@ -1,294 +1,469 @@
 // ====================================================================
-//  F · CINQUE MODI   H · LE REGOLE   I · I NUMERI
+//  F · CINQUE MODI   (48.3 → 59.5s)
+//  H · LE CINQUE REGOLE (65.4 → 77.6s)
+//  I/J · RESPIRO DEI NUMERI E DEL TITOLO (77.0 → fine)
 // --------------------------------------------------------------------
-//  Tre scene di montaggio su fondo scuro. I titoli e i segni delle cinque
-//  colonne stanno nel DOM (Trailer.tsx); qui i fondali e i cinque segni
-//  delle regole, ognuno disegnato con la sua luce e la sua materia:
-//    la spina dorsale che si riempie di sete · la goccia che diventa
-//    moneta · la porta che lascia passare la luce · la vita che si
-//    spezza · l'albero delle scelte.
+//   Tavole simboliche riallineate allo stile gouache e china: chiaroscuro
+//  caldo dietro i cinque medaglioni dipinti e tessere scolpite d'osso e
+//  pietra incisa al posto delle pillole rosa in «La violenza costa».
 // ====================================================================
-import { W, H, REGOLA_DUR } from "../scaletta";
-import { clamp, easeInOut, easeOut, lerp, mix, rgba, seg } from "../tempo";
-import type { Cache } from "../cache";
-import { alone, pulviscolo, type C2D } from "../pittura";
-import { FONT } from "../font";
+import { W, H, REGOLA_DUR, CINQUE_T0, CINQUE_PASSO } from "../scaletta";
 import { REGOLE } from "../zone";
-import { inglese } from "../../lib/lingua";
+import { clamp, easeOut, expoOut, inviluppo, lerp, rng, seg, smoothstep } from "../tempo";
+import { oscillaCamera, polvere, vignetta } from "../pittura";
 
-// --------------------------------------------------------------------
-//  F · sfondo dei cinque modi
-// --------------------------------------------------------------------
-export function disegnaCinque(ctx: C2D, t: number) {
-  const g = ctx.createRadialGradient(W / 2, H * 0.55, 100, W / 2, H / 2, W * 0.7);
-  g.addColorStop(0, "#111520"); g.addColorStop(1, "#04050a");
-  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-  // cinque aloni alti e morbidi, appena percettibili, uno per ciascuno (senza bordi: la luce sfuma da sola)
-  const colori = ["#e6a85a", "#a9dbe4", "#f2ad45", "#ec7d54", "#9aa6e0"];
-  ctx.globalCompositeOperation = "lighter";
-  colori.forEach((col, i) => alone(ctx, W / 2 + (i - 2) * 326, 560, 190, col, 0.13 + 0.035 * Math.sin(t * 0.9 + i), 2.05));
-  pulviscolo(ctx, t, 55, 90, { x: 0, y: 150, w: W, h: 780 }, "#c8d4e6", 0.5, 2.4);
-  ctx.globalCompositeOperation = "source-over";
+const REGOLA_T0 = 67.8;
+
+export function disegnaCinque(ctx: CanvasRenderingContext2D, t: number) {
+  // Fondale materico carbone-seppia con luci calde dietro i cinque medaglioni dipinti
+  const bg = ctx.createRadialGradient(W / 2, H * 0.44, 60, W / 2, H * 0.5, 1040);
+  bg.addColorStop(0, "#191518");
+  bg.addColorStop(0.6, "#100e12");
+  bg.addColorStop(1, "#070609");
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+
+  // Coni morbidi di luce d'accento che si accendono dietro ciascuna colonna quando entra
+  const accenti = ["#7fc8bd", "#a9dbe4", "#f2ad45", "#ec7d54", "#9aa6e0"];
+  const passoCol = 342;
+  const x0 = W / 2 - 2 * passoCol;
+  ctx.save();
+  ctx.globalCompositeOperation = "screen";
+  for (let i = 0; i < 5; i++) {
+    const e = easeOut(seg(t, CINQUE_T0 + i * CINQUE_PASSO, CINQUE_T0 + i * CINQUE_PASSO + 1.0));
+    if (e <= 0) continue;
+    const cx = x0 + i * passoCol, cy = 402;
+    const g = ctx.createRadialGradient(cx, cy, 8, cx, cy, 220);
+    g.addColorStop(0, `${accenti[i]}26`);
+    g.addColorStop(0.55, `${accenti[i]}0c`);
+    g.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.globalAlpha = e * (1 - smoothstep(58.8, 59.5, t));
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(cx, cy, 220, 0, Math.PI * 2); ctx.fill();
+  }
+  ctx.restore();
+
+  polvere(ctx, t, 38, "rgba(232,206,168,0.22)", 7, -9);
+  vignetta(ctx, 0.68);
 }
 
-// --------------------------------------------------------------------
-//  H · le cinque regole
-// --------------------------------------------------------------------
-const CX = 1400, CY = 540;
+export function disegnaRespiro(ctx: CanvasRenderingContext2D, t: number, colore: string, caldo: boolean) {
+  ctx.fillStyle = caldo ? "#090708" : "#07090d";
+  ctx.fillRect(0, 0, W, H);
+  const respiro = 0.85 + 0.15 * Math.sin(t * 1.1);
+  const g = ctx.createRadialGradient(W / 2, H * 0.5, 10, W / 2, H * 0.5, 760 * respiro);
+  g.addColorStop(0, colore + (caldo ? "2b" : "1e"));
+  g.addColorStop(0.5, colore + "0b");
+  g.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  polvere(ctx, t, caldo ? 45 : 30, caldo ? "rgba(255,205,150,0.28)" : "rgba(200,225,240,0.2)", 6, -8);
+  vignetta(ctx, 0.72);
+}
 
-/** La spina dorsale: dodici vertebre di profilo che si riempiono, dal basso, di sete. */
-function spina(ctx: C2D, col: string, e: number, t: number) {
-  const n = 12;
-  for (let v = 0; v < n; v++) {
-    const u = v / (n - 1);
-    const y = CY + 214 - v * 38;
-    // la curva della colonna: lombare, dorsale, cervicale
-    const x = CX + Math.sin(u * Math.PI * 1.6 + 0.4) * 34 - 20;
-    const ang = Math.cos(u * Math.PI * 1.6 + 0.4) * 0.12;
-    const riempi = clamp(e * n - v);
-    const sete = mix(col, "#df5f78", u);
-    ctx.save(); ctx.translate(x, y); ctx.rotate(ang);
-    const s = 0.9 + 0.32 * (1 - u);
-    ctx.scale(s, s);
-    const corpo = new Path2D();
-    corpo.moveTo(-34, -13); corpo.quadraticCurveTo(-38, 0, -34, 13); corpo.lineTo(30, 13); corpo.quadraticCurveTo(34, 0, 30, -13); corpo.closePath();
-    const spinosa = new Path2D();                                      // l'apofisi spinosa, verso la schiena
-    spinosa.moveTo(30, -8); spinosa.lineTo(64, -18); spinosa.quadraticCurveTo(70, -14, 64, -8); spinosa.lineTo(30, 6); spinosa.closePath();
-    const trasv = new Path2D();                                        // il processo trasverso, in prospettiva
-    trasv.moveTo(4, -13); trasv.lineTo(18, -26); trasv.lineTo(26, -22); trasv.lineTo(16, -12); trasv.closePath();
-    ctx.fillStyle = "rgba(255,255,255,.055)"; ctx.fill(corpo); ctx.fill(spinosa); ctx.fill(trasv);
-    if (riempi > 0) {
-      ctx.save(); ctx.clip(corpo);
-      const gr = ctx.createLinearGradient(0, 13, 0, -13);
-      gr.addColorStop(0, rgba(sete, 0.95)); gr.addColorStop(1, rgba(sete, 0.55));
-      ctx.fillStyle = gr; ctx.fillRect(-40, 13 - 26 * riempi, 80, 26 * riempi);
-      ctx.restore();
-      ctx.fillStyle = rgba(sete, 0.6 * riempi); ctx.fill(spinosa); ctx.fill(trasv);
-      ctx.globalCompositeOperation = "lighter"; alone(ctx, 0, 0, 74, sete, 0.20 * riempi); ctx.globalCompositeOperation = "source-over";
+export function disegnaRegola(ctx: CanvasRenderingContext2D, t: number) {
+  const idx = clamp(Math.floor((t - REGOLA_T0) / REGOLA_DUR), 0, 4);
+  const t0 = REGOLA_T0 + idx * REGOLA_DUR;
+  const u = clamp((t - t0) / REGOLA_DUR);
+  const v = inviluppo(t, t0, t0 + REGOLA_DUR, 0.25, 0.28);
+  const acc = REGOLE[idx].a;
+
+  // Fondo carta-carbone calda da romanzo grafico
+  const bg = ctx.createRadialGradient(W * 0.66, H * 0.5, 40, W * 0.55, H * 0.5, 1020);
+  bg.addColorStop(0, "#171418");
+  bg.addColorStop(0.65, "#0d0b0f");
+  bg.addColorStop(1, "#060508");
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+
+  ctx.save();
+  oscillaCamera(ctx, t, 1.4);
+  const g = ctx.createRadialGradient(W * 0.68, H * 0.5, 20, W * 0.68, H * 0.5, 580);
+  g.addColorStop(0, acc + "28");
+  g.addColorStop(0.55, acc + "0a");
+  g.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.globalAlpha = v;
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+
+  ctx.translate(W * 0.68, H * 0.5);
+  ctx.globalAlpha = v;
+  switch (idx) {
+    case 0: spina(ctx, u, acc); break;
+    case 1: moneta(ctx, u, acc, t); break;
+    case 2: porta(ctx, u, acc); break;
+    case 3: vita(ctx, u); break;
+    case 4: albero(ctx, u, acc); break;
+  }
+  ctx.restore();
+
+  polvere(ctx, t, 28, "rgba(232,212,182,0.18)", 6, -6);
+  vignetta(ctx, 0.68);
+}
+
+// 1 · La sete è la spina dorsale — anfora/colonna vertebrale incisa a china che si prosciuga
+function spina(ctx: CanvasRenderingContext2D, u: number, acc: string) {
+  const liv = lerp(0.86, 0.14, easeOut(clamp(u * 1.15)));
+  const h = 380, w = 86;
+
+  // Ombra profonda e corpo d'osso/terracotta scolpito
+  ctx.save();
+  ctx.fillStyle = "#1d1816";
+  ctx.strokeStyle = "#120e0d";
+  ctx.lineWidth = 4;
+  ctx.beginPath(); ctx.roundRect(-w / 2 - 8, -h / 2 - 8, w + 16, h + 16, 22); ctx.fill(); ctx.stroke();
+
+  // Cornice in bronzo antico
+  ctx.strokeStyle = "rgba(218,176,112,0.52)";
+  ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.roundRect(-w / 2, -h / 2, w, h, 16); ctx.stroke();
+
+  // Colonna d'acqua ambrata interna che cala lasciando incrostazioni di sale
+  const ah = (h - 16) * liv;
+  const g = ctx.createLinearGradient(0, h / 2 - 8 - ah, 0, h / 2 - 8);
+  g.addColorStop(0, "#ffd89a");
+  g.addColorStop(0.35, acc);
+  g.addColorStop(1, "#6e4219");
+  ctx.fillStyle = g;
+  ctx.beginPath();
+  ctx.roundRect(-w / 2 + 8, h / 2 - 8 - ah, w - 16, ah, 10);
+  ctx.fill();
+
+  // Tacche vertebrali incise a china lungo l'asse
+  for (let k = 1; k < 10; k++) {
+    const yy = -h / 2 + (h / 10) * k;
+    const bagnata = yy > h / 2 - 8 - ah;
+    ctx.strokeStyle = bagnata ? "rgba(24,15,10,0.55)" : "rgba(218,188,144,0.28)";
+    ctx.lineWidth = k === 5 ? 2.6 : 1.5;
+    const sporg = k % 2 === 0 ? 22 : 14;
+    ctx.beginPath();
+    ctx.moveTo(-w / 2 - sporg, yy); ctx.lineTo(-w / 2 + 18, yy);
+    ctx.moveTo(w / 2 - 18, yy); ctx.lineTo(w / 2 + sporg, yy);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+// 2 · L'acqua è la moneta — antica moneta battuta in bronzo e ardesia con goccia a rilievo
+function moneta(ctx: CanvasRenderingContext2D, u: number, acc: string, t: number) {
+  const p = expoOut(clamp(u * 1.6));
+  const rMoneta = 118 * p;
+
+  ctx.save();
+  // Disco coniato irregolare in bronzo scuro e acquamarina
+  if (rMoneta > 4) {
+    const gm = ctx.createRadialGradient(-28, -32, 8, 0, 0, rMoneta);
+    gm.addColorStop(0, "#32444c");
+    gm.addColorStop(0.7, "#1a2329");
+    gm.addColorStop(1, "#0f1418");
+    ctx.fillStyle = gm;
+    ctx.strokeStyle = "#110e0d";
+    ctx.lineWidth = 4;
+    ctx.beginPath(); ctx.arc(0, 0, rMoneta, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+
+    ctx.strokeStyle = `${acc}88`;
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(0, 0, rMoneta - 10, 0, Math.PI * 2); ctx.stroke();
+    ctx.setLineDash([4, 6]);
+    ctx.strokeStyle = "rgba(218,188,144,0.38)";
+    ctx.beginPath(); ctx.arc(0, 0, rMoneta - 20, 0, Math.PI * 2); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // Goccia scolpita al centro a gouache luminosa e china
+  const s = 1.05 * p;
+  ctx.save(); ctx.scale(s, s);
+  const gg = ctx.createLinearGradient(-22, -55, 24, 52);
+  gg.addColorStop(0, "#e8fbff");
+  gg.addColorStop(0.45, acc);
+  gg.addColorStop(1, "#2f5f6b");
+  ctx.fillStyle = gg;
+  ctx.strokeStyle = "#10161b";
+  ctx.lineWidth = 3.2;
+  ctx.beginPath();
+  ctx.moveTo(0, -64);
+  ctx.bezierCurveTo(44, -8, 48, 44, 0, 56);
+  ctx.bezierCurveTo(-48, 44, -44, -8, 0, -64);
+  ctx.closePath();
+  ctx.fill(); ctx.stroke();
+
+  // Riflesso bianco a mezzaluna sulla goccia
+  ctx.strokeStyle = "rgba(255,255,255,0.68)";
+  ctx.lineWidth = 2.6;
+  ctx.lineCap = "round";
+  ctx.beginPath(); ctx.arc(-12, 16, 20, Math.PI * 0.72, Math.PI * 1.28); ctx.stroke();
+  ctx.restore();
+
+  // Onde concentriche d'acqua viva fuori dal conio
+  for (let i = 0; i < 3; i++) {
+    const k = ((u * 1.35 + i * 0.33) % 1);
+    const rr = 124 + k * 145;
+    ctx.strokeStyle = acc;
+    ctx.globalAlpha *= (1 - k) * 0.52;
+    ctx.lineWidth = 2.0;
+    ctx.beginPath(); ctx.arc(0, Math.sin(t + i) * 1.5, rr, 0, Math.PI * 2); ctx.stroke();
+  }
+  ctx.restore();
+}
+
+// 3 · La fiducia apre le porte — arco in pietra a secco e battente di legno che si schiude sulla luce calda
+function porta(ctx: CanvasRenderingContext2D, u: number, acc: string) {
+  const ap = easeOut(seg(u, 0.12, 0.86));
+  const w = 188, h = 308;
+
+  ctx.save();
+  // Luce interna d'osteria/casa che dilaga sul pavimento quando l'anta si apre
+  const lg = ctx.createRadialGradient(-w * 0.1, 0, 8, 0, 30, 310);
+  lg.addColorStop(0, `rgba(255,222,158,${0.86 * ap})`);
+  lg.addColorStop(0.42, `${acc}${Math.round(ap * 115).toString(16).padStart(2, "0")}`);
+  lg.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.fillStyle = lg;
+  ctx.beginPath();
+  ctx.moveTo(-w / 2, -h / 2); ctx.lineTo(w / 2, -h / 2);
+  ctx.lineTo(w * 1.45, h / 2 + 95); ctx.lineTo(-w * 1.05, h / 2 + 95);
+  ctx.closePath(); ctx.fill();
+
+  // Stipite in conci di pietra scolpita a gouache e china
+  ctx.fillStyle = "#2b2522";
+  ctx.strokeStyle = "#120f0d";
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.roundRect(-w / 2 - 22, -h / 2 - 22, w + 44, h + 22, [28, 28, 4, 4]);
+  ctx.fill(); ctx.stroke();
+
+  // Vano luminoso interno
+  const vg = ctx.createLinearGradient(0, -h / 2, 0, h / 2);
+  vg.addColorStop(0, `rgba(255,228,176,${0.25 + 0.68 * ap})`);
+  vg.addColorStop(1, `rgba(218,154,92,${0.18 + 0.58 * ap})`);
+  ctx.fillStyle = vg;
+  ctx.fillRect(-w / 2, -h / 2, w, h);
+
+  // Conci incisi sullo stipite
+  ctx.strokeStyle = "rgba(218,192,152,0.22)";
+  ctx.lineWidth = 1.6;
+  for (let yy = -h / 2 + 38; yy < h / 2; yy += 46) {
+    ctx.beginPath();
+    ctx.moveTo(-w / 2 - 22, yy); ctx.lineTo(-w / 2, yy);
+    ctx.moveTo(w / 2, yy + 18); ctx.lineTo(w / 2 + 22, yy + 18);
+    ctx.stroke();
+  }
+
+  // Battente di tavole inchiodate incernierato a sinistra che ruota in scorcio
+  const scorcio = lerp(w, w * 0.24, ap);
+  const incl = ap * 24;
+  ctx.fillStyle = "#3a271b";
+  ctx.strokeStyle = "#120d0a";
+  ctx.lineWidth = 3.8;
+  ctx.beginPath();
+  ctx.moveTo(-w / 2, -h / 2);
+  ctx.lineTo(-w / 2 + scorcio, -h / 2 + incl);
+  ctx.lineTo(-w / 2 + scorcio, h / 2 - incl);
+  ctx.lineTo(-w / 2, h / 2);
+  ctx.closePath();
+  ctx.fill(); ctx.stroke();
+
+  // Doghe verticali e anello di ferro battuto
+  ctx.strokeStyle = "rgba(18,12,9,0.65)";
+  ctx.lineWidth = 1.8;
+  for (const f of [0.33, 0.66]) {
+    const xx = -w / 2 + scorcio * f;
+    ctx.beginPath();
+    ctx.moveTo(xx, -h / 2 + incl * f);
+    ctx.lineTo(xx, h / 2 - incl * f);
+    ctx.stroke();
+  }
+  ctx.strokeStyle = "#caa26a";
+  ctx.lineWidth = 2.6;
+  ctx.beginPath();
+  ctx.arc(-w / 2 + scorcio * 0.8, 8, Math.max(3, 8 * (1 - ap * 0.55)), 0, Math.PI * 2);
+  ctx.stroke();
+
+  // Soglia di pietra
+  ctx.strokeStyle = "rgba(232,204,162,0.45)";
+  ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(-w / 2 - 36, h / 2 + 2); ctx.lineTo(w / 2 + 36, h / 2 + 2); ctx.stroke();
+  ctx.restore();
+}
+
+// 4 · La violenza costa. Ed è evitabile — 10 tessere scolpite d'osso/travertino inciso (le ultime 4 si spaccano)
+function vita(ctx: CanvasRenderingContext2D, u: number) {
+  const colpo = smoothstep(0.30, 0.43, u);
+  const caduta = easeOut(seg(u, 0.34, 0.88));
+  const n = 10, larg = 38, alt = 88, passo = 50;
+  const x0 = -((n - 1) * passo) / 2;
+  const rSchegge = rng(409);
+
+  ctx.save();
+  // Filo di ferro/cuoio orizzontale su cui sono infilate le dieci tessere della vita
+  ctx.strokeStyle = "rgba(168,142,108,0.34)";
+  ctx.lineWidth = 2.4;
+  ctx.beginPath(); ctx.moveTo(x0 - 44, 0); ctx.lineTo(-x0 + 44, 0); ctx.stroke();
+
+  for (let i = 0; i < n; i++) {
+    const persa = i >= 6;
+    const k = persa ? colpo : 0;
+    const x = x0 + i * passo;
+    const scossa = persa && colpo > 0 && colpo < 1 ? Math.sin(u * 95 + i * 2) * 5 * (1 - colpo) : 0;
+    const giu = persa ? k * (14 + (i - 6) * 5) : 0;
+    const rot = persa ? k * ((i % 2 ? 1 : -1) * 0.14) : 0;
+
+    ctx.save();
+    ctx.translate(x + scossa, giu);
+    ctx.rotate(rot);
+
+    // Ombra portata
+    ctx.fillStyle = "rgba(0,0,0,0.52)";
+    ctx.beginPath();
+    ctx.roundRect(-larg / 2 + 3, -alt / 2 + 5, larg, alt, 5);
+    ctx.fill();
+
+    // Corpo della tessera: avorio/travertino caldo per le intatte, pietra spenta cinerea per le spezzate
+    const gt = ctx.createLinearGradient(-larg / 2, -alt / 2, larg / 2, alt / 2);
+    if (k < 0.5) {
+      gt.addColorStop(0, "#e5d7bc");
+      gt.addColorStop(0.55, "#c5b18e");
+      gt.addColorStop(1, "#8f7b5c");
+    } else {
+      gt.addColorStop(0, "#463d3f");
+      gt.addColorStop(0.6, "#2c2528");
+      gt.addColorStop(1, "#1b1619");
     }
-    ctx.strokeStyle = rgba(sete, 0.55 + 0.4 * riempi); ctx.lineWidth = 2; ctx.lineJoin = "round";
-    ctx.stroke(corpo); ctx.stroke(spinosa); ctx.stroke(trasv);
-    // il disco fra due vertebre: un cuscinetto che si asciuga
-    if (v < n - 1) { ctx.fillStyle = `rgba(200,220,240,${0.10 + 0.10 * (1 - riempi)})`; ctx.beginPath(); ctx.ellipse(-2, -19, 26, 4.4, 0, 0, Math.PI * 2); ctx.fill(); }
+    ctx.fillStyle = gt;
+    ctx.strokeStyle = "#120d0c";
+    ctx.lineWidth = 3.2;
+
+    // Sagoma smussata a piastrina d'osso scolpita
+    ctx.beginPath();
+    ctx.moveTo(-larg / 2 + 6, -alt / 2);
+    ctx.lineTo(larg / 2 - 6, -alt / 2);
+    ctx.lineTo(larg / 2, -alt / 2 + 7);
+    ctx.lineTo(larg / 2, alt / 2 - 7);
+    ctx.lineTo(larg / 2 - 6, alt / 2);
+    ctx.lineTo(-larg / 2 + 6, alt / 2);
+    ctx.lineTo(-larg / 2, alt / 2 - 7);
+    ctx.lineTo(-larg / 2, -alt / 2 + 7);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Smusso chiaro sul bordo sinistro/superiore + brace vitale calda nelle tessere integre
+    ctx.strokeStyle = k < 0.5 ? "rgba(255,248,230,0.45)" : "rgba(180,90,96,0.22)";
+    ctx.lineWidth = 1.4;
+    ctx.beginPath();
+    ctx.moveTo(-larg / 2 + 3, alt / 2 - 8);
+    ctx.lineTo(-larg / 2 + 3, -alt / 2 + 8);
+    ctx.lineTo(larg / 2 - 7, -alt / 2 + 3);
+    ctx.stroke();
+
+    // Tacca incisa al centro di ogni tessera (goccia/intaglio rituale)
+    ctx.fillStyle = k < 0.5 ? "#8b2d2b" : "#161113";
+    ctx.beginPath();
+    ctx.moveTo(0, -13);
+    ctx.lineTo(6.5, 2);
+    ctx.lineTo(0, 13);
+    ctx.lineTo(-6.5, 2);
+    ctx.closePath();
+    ctx.fill();
+
+    // Frattura frastagliata color cremisi scuro sulle ultime 4 tessere colpite
+    if (persa && k > 0.08) {
+      ctx.strokeStyle = `rgba(196,48,62,${0.88 * k})`;
+      ctx.lineWidth = 2.6;
+      ctx.beginPath();
+      ctx.moveTo(-larg / 2 + 2, -18 + (i - 6) * 4);
+      ctx.lineTo(-4, -3);
+      ctx.lineTo(5, 7);
+      ctx.lineTo(larg / 2 - 2, 22 - (i - 6) * 3);
+      ctx.stroke();
+
+      ctx.strokeStyle = "#0d090a";
+      ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      ctx.moveTo(-4, -3); ctx.lineTo(-9, 19);
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    // Schegge di pietra che cadono nel buio dopo il colpo
+    if (persa && caduta > 0.02) {
+      for (let s = 0; s < 3; s++) {
+        const vxS = (rSchegge() - 0.45) * 42;
+        const vyS = 32 + rSchegge() * 96;
+        const sx = x + vxS * caduta;
+        const sy = 18 + vyS * caduta * caduta;
+        ctx.save();
+        ctx.globalAlpha *= (1 - caduta) * 0.85;
+        ctx.translate(sx, sy);
+        ctx.rotate(caduta * (3 + s));
+        ctx.fillStyle = s === 0 ? "#b84352" : "#9c8b74";
+        ctx.beginPath();
+        ctx.moveTo(-4, -3); ctx.lineTo(5, -1); ctx.lineTo(1, 5); ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+  }
+
+  // Fendente d'inchiostro cremisi che squarcia le ultime quattro tessere al momento dell'impatto
+  const taglio = inviluppo(u, 0.28, 0.56, 0.06, 0.20);
+  if (taglio > 0.01) {
+    const xInizio = x0 + 5.4 * passo;
+    const xFine = x0 + 9.6 * passo;
+    ctx.save();
+    ctx.strokeStyle = `rgba(224,72,92,${taglio * 0.92})`;
+    ctx.lineWidth = 4.2;
+    ctx.lineCap = "round";
+    ctx.shadowColor = "rgba(224,72,92,0.65)";
+    ctx.shadowBlur = 16;
+    ctx.beginPath();
+    ctx.moveTo(xInizio, -46);
+    ctx.lineTo(lerp(xInizio, xFine, easeOut(seg(u, 0.28, 0.40))), 44);
+    ctx.stroke();
     ctx.restore();
   }
-  // una goccia che si asciuga in cima
-  const cade = (t * 0.6) % 1;
-  ctx.globalAlpha = e * (1 - cade) * 0.8; ctx.fillStyle = "#cfe6f0";
-  ctx.beginPath(); const gx = CX + 6, gy = CY - 260 + cade * 60; ctx.moveTo(gx, gy - 14); ctx.quadraticCurveTo(gx + 8, gy, gx, gy + 6); ctx.quadraticCurveTo(gx - 8, gy, gx, gy - 14); ctx.fill();
-  ctx.globalAlpha = 1;
-}
-
-/** La goccia che diventa moneta, con il suo orlo zigrinato e il riflesso che la attraversa. */
-function moneta(ctx: C2D, col: string, k: number, t: number) {
-  const m = easeInOut(seg(k, 0.15, 0.6));
-  ctx.save(); ctx.translate(CX, CY);
-  const r = 116;
-  // cerchi d'acqua sotto
-  for (let i = 0; i < 3; i++) {
-    const ph = ((t * 0.7 + i / 3) % 1);
-    ctx.strokeStyle = rgba(col, (1 - ph) * 0.35); ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.ellipse(0, 156, 90 + ph * 160, 18 + ph * 34, 0, 0, Math.PI * 2); ctx.stroke();
-  }
-  ctx.globalCompositeOperation = "lighter"; alone(ctx, 0, 0, 260, col, 0.20 + 0.10 * m); ctx.globalCompositeOperation = "source-over";
-  // la goccia (m=0) → la moneta (m=1): il profilo si arrotonda, l'apice si spiana
-  // il profilo è una curva polare: a m=0 un cerchio con la punta in alto (la goccia), a m=1 un cerchio perfetto
-  ctx.beginPath();
-  for (let i = 0; i <= 96; i++) {
-    const th = (i / 96) * Math.PI * 2;                      // 0 = la punta, in alto
-    const c = Math.cos(th), s = Math.sin(th);
-    const alto = (1 + c) / 2;
-    const x = r * s * (1 - 0.66 * (1 - m) * Math.pow(alto, 3));
-    const y = -r * c - (1 - m) * Math.pow(alto, 5) * r * 1.05;
-    if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y);
-  }
-  ctx.closePath();
-  const gr = ctx.createLinearGradient(-r, -r, r, r);
-  gr.addColorStop(0, "#f4fbfd"); gr.addColorStop(0.35, col); gr.addColorStop(1, "#4d8aa0");
-  ctx.fillStyle = gr; ctx.shadowColor = col; ctx.shadowBlur = 34; ctx.fill(); ctx.shadowBlur = 0;
-  ctx.save(); ctx.clip();
-  // la moneta: bordo zigrinato, anello interno, cifra in rilievo
-  ctx.globalAlpha = m;
-  ctx.strokeStyle = "rgba(4,18,26,.55)"; ctx.lineWidth = 3.4;
-  for (let i = 0; i < 64; i++) { const a = (i / 64) * Math.PI * 2; ctx.beginPath(); ctx.moveTo(Math.cos(a) * (r - 14), Math.sin(a) * (r - 14)); ctx.lineTo(Math.cos(a) * (r - 3), Math.sin(a) * (r - 3)); ctx.stroke(); }
-  ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(0, 0, r * 0.73, 0, Math.PI * 2); ctx.stroke();
-  ctx.fillStyle = "rgba(4,18,26,.85)"; ctx.font = `700 96px ${FONT.display}`; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText("1", 0, 8);
-  ctx.fillStyle = "rgba(255,255,255,.55)"; ctx.fillText("1", -1.6, 6);
-  ctx.restore();
-  // il riflesso che passa sopra
-  const s = seg(k, 0.55, 0.9);
-  if (s > 0 && s < 1) { ctx.globalCompositeOperation = "lighter"; alone(ctx, lerp(-130, 130, s), -36, 90, "#ffffff", 0.5); ctx.globalCompositeOperation = "source-over"; }
   ctx.restore();
 }
 
-/** La porta che si apre, la luce che passa e riempie il pavimento. */
-function porta(ctx: C2D, col: string, k: number, t: number) {
-  const ap = easeInOut(seg(k, 0.15, 0.7));
-  const x0 = CX - 130, y0 = CY - 232, w = 260, h = 464;
-  // il fascio di luce sul pavimento, che si apre a ventaglio
-  ctx.globalCompositeOperation = "lighter";
-  const gl = ctx.createLinearGradient(x0 + w / 2, y0 + 60, x0 + w / 2 + 620, y0 + h + 100);
-  gl.addColorStop(0, rgba(col, 0.055 * ap)); gl.addColorStop(1, rgba(col, 0));
-  ctx.fillStyle = gl;
-  // il fascio ha i bordi morbidi: molti trapezi via via più larghi, ognuno appena visibile (le somme sfumano da sole)
-  for (let s = 0; s < 18; s++) {
-    const e = s * 9;
-    ctx.beginPath(); ctx.moveTo(x0 + 8 - e * 0.2, y0 + 8 - e * 0.1); ctx.lineTo(x0 + w - 8 + e * 0.2, y0 + 8 - e * 0.1);
-    ctx.lineTo(x0 + w + 520 + e, y0 + h + 120 + e * 0.4); ctx.lineTo(x0 - 240 * ap - e, y0 + h + 120 + e * 0.4); ctx.closePath(); ctx.fill();
-  }
-  ctx.globalCompositeOperation = "source-over";
-  // il vano: buio dentro, lo stipite in pietra, la soglia
-  ctx.fillStyle = "#06090c"; ctx.fillRect(x0, y0, w, h);
-  const luce = ctx.createLinearGradient(x0, y0, x0 + w, y0);
-  luce.addColorStop(0, rgba(col, 0.55 * ap)); luce.addColorStop(1, rgba(col, 0.95 * ap));
-  ctx.fillStyle = luce; ctx.fillRect(x0, y0, w, h);
-  // la porta: un'anta a due specchiature che ruota sui cardini, restringendosi di prospettiva
-  const ang = ap * 1.15;
-  const wa = w * Math.cos(ang);
-  ctx.save(); ctx.translate(x0, 0);
-  const anta = ctx.createLinearGradient(0, 0, wa, 0);
-  anta.addColorStop(0, "#1b2a26"); anta.addColorStop(1, "#0d1614");
-  ctx.fillStyle = anta;
-  ctx.beginPath(); ctx.moveTo(0, y0); ctx.lineTo(wa, y0 + 24 * Math.sin(ang)); ctx.lineTo(wa, y0 + h - 24 * Math.sin(ang)); ctx.lineTo(0, y0 + h); ctx.closePath(); ctx.fill();
-  ctx.strokeStyle = rgba(col, 0.35); ctx.lineWidth = 2;
-  for (const [fy, fh] of [[70, 130], [250, 150]] as const) {
-    const pann = new Path2D();
-    pann.moveTo(wa * 0.16, y0 + fy); pann.lineTo(wa * 0.84, y0 + fy + 8 * Math.sin(ang)); pann.lineTo(wa * 0.84, y0 + fy + fh - 8 * Math.sin(ang)); pann.lineTo(wa * 0.16, y0 + fy + fh); pann.closePath();
-    ctx.stroke(pann);
-    // la specchiatura ha un rilievo: filo scuro sopra e a sinistra, filo chiaro sotto e a destra
-    ctx.save(); ctx.translate(1.5, 1.5); ctx.strokeStyle = "rgba(0,0,0,.55)"; ctx.stroke(pann); ctx.restore();
-    ctx.save(); ctx.translate(-1.2, -1.2); ctx.strokeStyle = rgba(col, 0.16); ctx.stroke(pann); ctx.restore();
-    ctx.strokeStyle = rgba(col, 0.35);
-  }
-  // sul bordo libero dell'anta, dove batte la luce, un filo acceso
-  ctx.strokeStyle = rgba(col, 0.85 * ap); ctx.lineWidth = 2.5;
-  ctx.beginPath(); ctx.moveTo(wa, y0 + 24 * Math.sin(ang)); ctx.lineTo(wa, y0 + h - 24 * Math.sin(ang)); ctx.stroke();
-  ctx.strokeStyle = rgba(col, 0.35); ctx.lineWidth = 2;
-  ctx.fillStyle = rgba("#f0e6c8", 0.9); ctx.beginPath(); ctx.arc(wa * 0.86, y0 + h * 0.54, 7, 0, Math.PI * 2); ctx.fill();          // il pomolo
-  ctx.fillStyle = rgba("#3a4a44", 1); ctx.fillRect(-2, y0 + 60, 5, 26); ctx.fillRect(-2, y0 + h - 86, 5, 26);                        // i cardini
-  ctx.restore();
-  // lo stipite
-  ctx.strokeStyle = rgba(col, 0.9); ctx.lineWidth = 3;
-  ctx.strokeRect(x0 - 4, y0 - 4, w + 8, h + 8);
-  ctx.fillStyle = "rgba(255,255,255,.10)"; ctx.fillRect(x0 - 18, y0 + h + 4, w + 36, 8);
-  // pulviscolo nel fascio
-  ctx.globalCompositeOperation = "lighter";
-  pulviscolo(ctx, t, 77, 30, { x: x0 + w, y: y0 + 120, w: 460, h: 380 }, "#fff2d0", 0.55 * ap, 2.4);
-  ctx.globalCompositeOperation = "source-over";
-}
-
-/** Dieci tacche di vita: il colpo ne spezza quattro, e i cocci cadono. */
-function vita(ctx: C2D, col: string, k: number) {
-  const colpo = seg(k, 0.35, 0.5);
-  const scossa = colpo > 0 && colpo < 1 ? Math.sin(k * 120) * 10 * (1 - colpo) : 0;
-  ctx.save(); ctx.translate(scossa, 0);
-  for (let v = 0; v < 10; v++) {
-    const spenta = v >= 6 && colpo >= (v - 6) / 4;
-    const x = CX - 350 + v * 72, y = CY - 44;
-    if (!spenta) {
-      const gr = ctx.createLinearGradient(x, y, x, y + 88);
-      gr.addColorStop(0, "#ff9aab"); gr.addColorStop(0.5, col); gr.addColorStop(1, "#a63a4d");
-      ctx.fillStyle = gr; ctx.beginPath(); ctx.roundRect(x, y, 56, 88, 10); ctx.fill();
-      ctx.fillStyle = "rgba(255,255,255,.30)"; ctx.beginPath(); ctx.roundRect(x + 6, y + 6, 44, 10, 5); ctx.fill();
-    } else {
-      // il vuoto e i cocci: tre schegge che cadono con la gravità
-      const cadi = clamp((colpo - (v - 6) / 4) * 1.6);
-      ctx.strokeStyle = "rgba(255,255,255,.10)"; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.roundRect(x, y, 56, 88, 10); ctx.stroke();
-      for (let s = 0; s < 3; s++) {
-        const px = x + 12 + s * 16 + (s - 1) * cadi * 40, py = y + 34 + cadi * cadi * 320 + s * 10, rot = cadi * (s + 1) * 2.6;
-        ctx.save(); ctx.translate(px, py); ctx.rotate(rot); ctx.globalAlpha = 1 - cadi * 0.9; ctx.fillStyle = col;
-        ctx.beginPath(); ctx.moveTo(-11, -8); ctx.lineTo(12, -4); ctx.lineTo(4, 13); ctx.closePath(); ctx.fill(); ctx.restore();
-      }
-    }
-  }
-  ctx.restore();
-  if (colpo > 0 && colpo < 1) { ctx.fillStyle = `rgba(223,95,120,${(1 - colpo) * 0.25})`; ctx.fillRect(0, 0, W, H); }
-  ctx.fillStyle = rgba(col, 0.9); ctx.font = `600 22px ${FONT.mono}`; ctx.textAlign = "left";
-  ctx.fillText(colpo >= 1 ? "−4" : "10", CX - 350, CY + 44 + 44);
-}
-
-/** L'albero delle scelte: rami curvi che si dividono fino a sei foglie accese. */
-function albero(ctx: C2D, col: string, k: number) {
-  const cresce = easeOut(seg(k, 0.05, 0.75));
-  const foglie: { x: number; y: number; k: number }[] = [];
-  const nodi: { x: number; y: number; r: number }[] = [];
-  const X0 = CX - 250;
-  // ogni ramo è una curva che si assottiglia; ai bivi resta un nodo, e qualche rametto spento dice che le strade non prese esistono
-  const ramo = (x: number, y: number, ang: number, lung: number, liv: number, fino: number) => {
-    if (liv === 0 || fino <= 0) return;
-    const kk = clamp(fino * 3 - (3 - liv));
-    const x2 = x + Math.cos(ang) * lung * kk, y2 = y + Math.sin(ang) * lung * kk;
-    const cx = x + Math.cos(ang - 0.25) * lung * kk * 0.55, cy = y + Math.sin(ang - 0.25) * lung * kk * 0.55;
-    const sp = liv === 3 ? 10 : liv === 2 ? 6 : 3.4;
-    ctx.lineCap = "round";
-    ctx.strokeStyle = rgba(col, 0.13); ctx.lineWidth = sp + 12;                      // alone morbido sotto il ramo
-    ctx.beginPath(); ctx.moveTo(x, y); ctx.quadraticCurveTo(cx, cy, x2, y2); ctx.stroke();
-    ctx.strokeStyle = col; ctx.lineWidth = sp;
-    ctx.beginPath(); ctx.moveTo(x, y); ctx.quadraticCurveTo(cx, cy, x2, y2); ctx.stroke();
-    ctx.strokeStyle = "rgba(255,255,255,.30)"; ctx.lineWidth = Math.max(1, sp * 0.22);   // il filo di luce sul dorso del ramo
-    ctx.beginPath(); ctx.moveTo(x, y - sp * 0.18); ctx.quadraticCurveTo(cx, cy - sp * 0.18, x2, y2 - sp * 0.18); ctx.stroke();
-    if (liv === 1) { if (kk >= 1) foglie.push({ x: x2, y: y2, k: kk }); return; }
-    if (kk >= 1) {
-      nodi.push({ x: x2, y: y2, r: liv === 3 ? 12 : 9 });
-      // i rametti che non si prendono
-      for (const da of [-1.15, 1.2]) {
-        const a = ang + da, L = lung * 0.34;
-        ctx.strokeStyle = rgba(col, 0.28); ctx.lineWidth = 2.2;
-        ctx.beginPath(); ctx.moveTo(x2, y2); ctx.quadraticCurveTo(x2 + Math.cos(a - 0.2) * L * 0.6, y2 + Math.sin(a - 0.2) * L * 0.6, x2 + Math.cos(a) * L, y2 + Math.sin(a) * L); ctx.stroke();
-        ctx.fillStyle = rgba(col, 0.28); ctx.beginPath(); ctx.arc(x2 + Math.cos(a) * L, y2 + Math.sin(a) * L, 3.4, 0, Math.PI * 2); ctx.fill();
-      }
-    }
-    const figli = liv === 3 ? 2 : 3;
-    for (let f = 0; f < figli; f++) {
-      const a = ang + (f / (figli - 1) - 0.5) * (liv === 3 ? 1.15 : 0.78);
-      ramo(x2, y2, a, lung * (liv === 3 ? 0.98 : 0.8), liv - 1, fino);
-    }
+// 5 · Le scelte arrivano fino in fondo — albero/delta a china con la via scelta illuminata fino alla meta
+interface Ramo { x1: number; y1: number; x2: number; y2: number; liv: number; scelto: boolean }
+const RAMI: Ramo[] = (() => {
+  const out: Ramo[] = [];
+  // Percorso scelto coerente dal tronco fino a una foglia finale
+  const viaScelta = [0, 1, 2, 5];
+  const gen = (x: number, y: number, l: number, a: number, liv: number, idx: number, suVia: boolean) => {
+    const x2 = x + Math.cos(a) * l, y2 = y + Math.sin(a) * l;
+    out.push({ x1: x, y1: y, x2, y2, liv, scelto: suVia });
+    if (liv >= 4) return;
+    const figlioSx = idx * 2, figlioDx = idx * 2 + 1;
+    const apre = 0.42 - liv * 0.04;
+    gen(x2, y2, l * 0.76, a - apre, liv + 1, figlioSx, suVia && viaScelta[liv] === figlioSx);
+    gen(x2, y2, l * 0.76, a + apre, liv + 1, figlioDx, suVia && viaScelta[liv] === figlioDx);
   };
-  ramo(X0, CY, 0, 205, 3, cresce);
-  for (const n of nodi) {
-    ctx.fillStyle = "#050609"; ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill();
-    ctx.strokeStyle = col; ctx.lineWidth = 3.2; ctx.stroke();
-  }
-  for (const f of foglie) {
-    ctx.globalCompositeOperation = "lighter"; alone(ctx, f.x, f.y, 64, col, 0.62); ctx.globalCompositeOperation = "source-over";
-    ctx.fillStyle = col; ctx.beginPath(); ctx.arc(f.x, f.y, 12, 0, Math.PI * 2); ctx.fill();
-    ctx.strokeStyle = rgba(col, 0.55); ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(f.x, f.y, 20, 0, Math.PI * 2); ctx.stroke();
-    ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(f.x - 3, f.y - 3, 4, 0, Math.PI * 2); ctx.fill();
-  }
-  ctx.globalAlpha = seg(k, 0.7, 0.9);
-  ctx.fillStyle = col; ctx.font = `600 24px ${FONT.mono}`; ctx.textAlign = "left"; ctx.fillText(inglese() ? "6 ENDINGS" : "6 FINALI", CX + 350, CY + 8);
-  ctx.globalAlpha = 1;
-}
+  gen(-215, 0, 114, 0, 0, 0, true);
+  return out;
+})();
 
-export function disegnaRegole(ctx: C2D, t: number) {
-  const i = clamp(Math.floor((t - 67.8) / REGOLA_DUR), 0, 4);
-  const k = seg(t, 67.8 + i * REGOLA_DUR, 67.8 + (i + 1) * REGOLA_DUR);
-  const col = REGOLE[i].a;
-  ctx.fillStyle = "#040509"; ctx.fillRect(0, 0, W, H);
-  ctx.globalCompositeOperation = "lighter";
-  alone(ctx, 1380, 540, 760, col, 0.13);
-  ctx.globalCompositeOperation = "source-over";
-  ctx.lineCap = "round"; ctx.lineJoin = "round";
-  const e = easeOut(clamp(k * 1.6));
-  if (i === 0) spina(ctx, col, e, t);
-  else if (i === 1) moneta(ctx, col, k, t);
-  else if (i === 2) porta(ctx, col, k, t);
-  else if (i === 3) vita(ctx, col, k);
-  else albero(ctx, col, k);
-  // un filo di luce che passa in orizzontale a ogni cambio: il taglio del montaggio
-  const taglio = 1 - seg(k, 0, 0.12);
-  if (taglio > 0) { ctx.fillStyle = `rgba(255,255,255,${taglio * 0.10})`; ctx.fillRect(0, 0, W, H); }
-}
+function albero(ctx: CanvasRenderingContext2D, u: number, acc: string) {
+  ctx.lineCap = "round";
+  for (const r of RAMI) {
+    const k = easeOut(seg(u, r.liv * 0.14, r.liv * 0.14 + 0.28));
+    if (k <= 0) continue;
+    const x = lerp(r.x1, r.x2, k), y = lerp(r.y1, r.y2, k);
+    const mx = (r.x1 + x) * 0.5, my = (r.y1 + y) * 0.5 + (r.liv % 2 ? -5 : 5) * k;
 
-// --------------------------------------------------------------------
-//  I · i numeri (sfondo): la carta, quasi spenta, e il buio ai bordi
-// --------------------------------------------------------------------
-export function disegnaNumeri(ctx: C2D, t: number, c: Cache) {
-  ctx.fillStyle = "#040609"; ctx.fillRect(0, 0, W, H);
-  ctx.globalAlpha = 0.5;
-  ctx.drawImage(c.mappa.mappa, 600 + (t - 77) * 20, 0, W, H, 0, 0, W, H);
-  ctx.globalAlpha = 1;
-  const g = ctx.createRadialGradient(W / 2, H / 2, 200, W / 2, H / 2, W * 0.6);
-  g.addColorStop(0, "rgba(4,6,9,.2)"); g.addColorStop(1, "rgba(4,6,9,.95)");
-  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    // Tratto d'inchiostro sottostante + filo luminoso d'ambra/lavanda sulla via scelta
+    ctx.strokeStyle = r.scelto ? "#f0c27b" : acc;
+    ctx.globalAlpha = r.scelto ? 0.96 : 0.34 - r.liv * 0.03;
+    ctx.lineWidth = Math.max(1.4, (r.scelto ? 6.2 : 4.4) - r.liv * 0.85);
+    ctx.beginPath(); ctx.moveTo(r.x1, r.y1); ctx.quadraticCurveTo(mx, my, x, y); ctx.stroke();
+
+    if (k >= 1 && r.liv === 4) {
+      ctx.fillStyle = r.scelto ? "#ffe2a8" : acc;
+      ctx.globalAlpha = r.scelto ? 1 : 0.62;
+      ctx.beginPath(); ctx.arc(r.x2, r.y2, r.scelto ? 6.8 : 4.0, 0, Math.PI * 2); ctx.fill();
+      if (r.scelto) {
+        const g = ctx.createRadialGradient(r.x2, r.y2, 2, r.x2, r.y2, 28);
+        g.addColorStop(0, "rgba(255,214,142,0.55)");
+        g.addColorStop(1, "rgba(255,214,142,0)");
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(r.x2, r.y2, 28, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+  }
 }

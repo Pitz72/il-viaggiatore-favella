@@ -56,7 +56,7 @@ import { bersagliDelUso, conArticolo, conSu, senzaArticolo, serveAnteprima, valu
 import { componi, dataLeggibile, genere, leggi, nomeVisibile, postoAutomatico, RAPIDO, scrivi, type Posto, type Riassunto, type Salvataggio } from "../lib/salvataggi";
 import Cartiglio, { type DatiCartiglio } from "../gioco/Cartiglio";
 import Domanda from "../gioco/Domanda";
-import { annota, inDesktop, esciDalGioco } from "../lib/desktop";
+import { annota, inDesktop, esciDalGioco, primaDiChiudere } from "../lib/desktop";
 import { analizza, spezza, VOCI, GESTI, type Blocco } from "../gioco/testo";
 import { partiDelBlocco, partiDellaScelta, type Tabella } from "../gioco/parti";
 import { voce, PAUSA_FRASE, PAUSA_RIGA, type Parte } from "../gioco/voce";
@@ -376,13 +376,14 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
       stati: dopo.stati, sfide: sfide.current }, vinti.current);
     if (!nuovi.length) return;
     for (const id of nuovi) vinti.current.add(id);
-    vinci(nuovi).then((davvero) => {
+    const p = vinci(nuovi).then((davvero) => {
       if (!davvero.length) return;
       annota("info", `trofei: ${davvero.join(", ")}`);
       setTrofeiViaggio((v) => [...v, ...davvero]);
       if (!fine) setCodaTrofei((c) => [...c, ...davvero]);
       else trofeiDellaFine.current.push(...davvero);   // si annunciano sul menu d'avvio
     }).catch((err) => annota("warn", `trofei non scritti: ${err?.message ?? err}`));
+    scritturaTrofei.current = p;
   };
 
   // gli avvisi dei trofei, uno alla volta, ciascuno col suo suono; a viaggio finito la fila si svuota
@@ -474,7 +475,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
   // stampa si preparano in momenti liberi (stampa.ts), così aprirla non costa niente
   const haMappa = mondo.inventory.some((o) => senzaArticolo(o) === "mappa");
   useEffect(() => {
-    if (haMappa && carta) preparaInAnticipo(cartaNellaLingua(carta, en), (id) => ROOM_ZONE[id], opz.qualita, opz.contrasto === "alto");
+    if (haMappa && carta) preparaInAnticipo(() => cartaNellaLingua(carta, en), (id) => ROOM_ZONE[id], opz.qualita, opz.contrasto === "alto");
   }, [haMappa, carta, en, opz.qualita, opz.contrasto]);
   const apriMappa = () => {
     if (!haMappa || finita || !carta || fase !== "gioca" || richiesta) return;
@@ -517,12 +518,15 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
   // leggere l'ultimo turno) si passa la mano: la sequenza finale o, dopo una morte, il menu d'avvio. Invio, Spazio o Esc
   // vanno avanti subito. Il gioco non riparte da solo (Simone, 21/10/2026).
   const trofeiDellaFine = useRef<string[]>([]);
+  const scritturaTrofei = useRef<Promise<void> | null>(null);
   const passata = useRef(false);
   const continua = () => {
     if (passata.current) return;
     passata.current = true;
     voce.ferma();
-    onFine({ esito, frase: finale || null, trofei: [...trofeiDellaFine.current] });
+    const esciConTrofei = () => onFine({ esito, frase: finale || null, trofei: [...trofeiDellaFine.current] });
+    if (scritturaTrofei.current) scritturaTrofei.current.finally(esciConTrofei);
+    else esciConTrofei();
   };
   const continuaRef = useRef(continua);
   continuaRef.current = continua;
@@ -588,11 +592,16 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mondo.roomId, mondo.dialog, fase, finita]);
 
-  // lasciare la partita (verso l'intro o fuori dal gioco): se c'è strada non salvata, prima il posto automatico
+  // lasciare la partita (verso l'intro o fuori dal gioco, anche con Alt+F4 o chiudendo la finestra): se c'è strada non salvata, prima il posto automatico
+  const salvaSeServe = useRef<() => Promise<void> | void>(() => {});
+  salvaSeServe.current = () => {
+    if (fase === "gioca" && !finita && nonSalvati > 0) return salvaAutomatico().catch(() => {});
+  };
+  useEffect(() => primaDiChiudere(() => salvaSeServe.current()), []);
   const lascia = (dove: () => void) => {
-    if (fase === "gioca" && !finita && !mondo.dialog && nonSalvati > 0) {
-      salvaAutomatico().catch(() => {}).finally(dove);
-    } else dove();
+    const p = salvaSeServe.current();
+    if (p) Promise.resolve(p).finally(dove);
+    else dove();
   };
   const esci = () => lascia(onExit);
   const chiudiGioco = () => lascia(esciDalGioco);
@@ -641,7 +650,8 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
     iStoria.current = -1;
     setMenu(null); setUsaDa(null); setBozza(""); setPannello(null); setRichiesta(null);
     const fine = esito.stato !== "in_corso";
-    setFinita(fine); setEsito(esito.stato); setFinale("");
+    const ultimoFinale = [...dati.diario.voci.flatMap((v) => v.blocchi), ...ripresa].reverse().find((b) => b.tipo === "finale");
+    setFinita(fine); setEsito(esito.stato); setFinale(ultimoFinale && ultimoFinale.tipo === "finale" ? ultimoFinale.testo : "");
     setCamminaDa(performance.now());
     setNonSalvati(0);
     tempo.current = dati.tempoMs ?? 0;
@@ -732,8 +742,9 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
   // ── dati derivati ──────────────────────────────────────────────────
   const zona = zoneOf(mondo.roomId);
   const tema = ZONE_THEME[zona];
-  const accento = finita ? (esito === "vinta" ? "#f5c563" : "#9aa3b2") : tema.accent;
-  const clima: Clima = finita ? (esito === "vinta" ? "vinta" : "persa") : zona;
+  const persa = finita && esito === "persa";
+  const accento = finita ? (esito === "vinta" ? "#f5c563" : persa ? "#9aa3b2" : "#d99b66") : tema.accent;
+  const clima: Clima = finita ? (persa ? "persa" : esito === "vinta" ? "vinta" : "terminata") : zona;
   const c = mondo.counters;
   const num = (k: string) => (typeof c[k] === "number" ? c[k] : 0);
   const zi = ZORDER.indexOf(zona);
@@ -906,7 +917,7 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
           </div>
         </div>
         <div className="vg-luogo">
-          <p className="vg-sopratitolo">{finita ? (esito === "vinta" ? tr("a casa", "home") : tr("il viaggio finisce qui", "the journey ends here")) : en ? tema.nomeEn : tema.nome}</p>
+          <p className="vg-sopratitolo">{finita ? (!persa ? tr("a casa", "home") : tr("il viaggio finisce qui", "the journey ends here")) : en ? tema.nomeEn : tema.nome}</p>
           <h1>{finita ? "Acquamorta" : mondo.room ? (en ? nome(mondo.room) : mondo.room) : "—"}</h1>
         </div>
       </header>
@@ -923,9 +934,9 @@ const ViaggiatorePlayer = ({ onExit, onFine, carica = null }: { onExit: () => vo
                 </section>
               ))}
               {finita && (
-                <section className="vg-finale">
-                  <p className="vg-sopratitolo">{esito === "vinta" ? tr("finale", "ending") : tr("fine", "the end")}</p>
-                  <p className="vg-finale-testo">{finale ? (en ? inInglese(finale) : finale) : esito === "vinta" ? tr("Sei arrivato.", "You have arrived.") : tr("Il viaggio finisce qui.", "The journey ends here.")}</p>
+                <section className={"vg-finale" + (persa ? " vg-finale-persa" : "")}>
+                  <p className="vg-sopratitolo">{!persa ? tr("finale", "ending") : tr("fine", "the end")}</p>
+                  <p className="vg-finale-testo">{finale ? (en ? inInglese(finale) : finale) : !persa ? tr("Sei arrivato.", "You have arrived.") : tr("Il viaggio finisce qui.", "The journey ends here.")}</p>
                   {/* niente pulsanti: finita la lettura si va avanti da soli (la sequenza finale, o il menu d'avvio) */}
                   <button className="vg-finale-avanti" onClick={continua}>{tr("Invio · continua", "Enter · continue")}</button>
                 </section>

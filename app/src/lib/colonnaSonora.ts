@@ -9,6 +9,7 @@
 //  sono già, e così bastano poche righe e nessuna libreria (lib/zip.ts).
 // ====================================================================
 import { componiZip } from "./zip";
+import { tr } from "./lingua";
 
 const BASE = `${import.meta.env.BASE_URL}colonna-sonora/`;
 const NOME_ZIP = "Il Viaggiatore - Official Soundtrack.zip";
@@ -29,14 +30,14 @@ export async function scaricaColonnaSonora(): Promise<Esito> {
     return dove ? { tipo: "cartella", dove } : { tipo: "annullato" };
   }
   const r = await fetch(`${BASE}album.json`);
-  if (!r.ok) throw new Error("La colonna sonora non c'è.");
+  if (!r.ok) throw new Error(tr("La colonna sonora non c'è.", "The soundtrack is missing."));
   const album = (await r.json()) as Album;
   const file: { nome: string; dati: Uint8Array }[] = [];
   for (const nome of album.file) {
     // encodeURI e non encodeURIComponent: la virgola di «Acqua ovunque, niente da bere» resta com'è (codificata,
     // un server può non riconoscerla e rispondere con la pagina del gioco); e una pagina al posto di un file è un errore
     const f = await fetch(BASE + encodeURI(nome));
-    if (!f.ok || (f.headers.get("content-type") ?? "").includes("text/html")) throw new Error(`Manca ${nome}.`);
+    if (!f.ok || (f.headers.get("content-type") ?? "").includes("text/html")) throw new Error(tr(`Manca ${nome}.`, `Missing ${nome}.`));
     file.push({ nome: `${CARTELLA}/${nome}`, dati: new Uint8Array(await f.arrayBuffer()) });
   }
   const zip = componiZip(file);

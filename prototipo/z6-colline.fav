@@ -145,5 +145,5 @@ Quando il giocatore è in il valico e lo stato di Peppe è compagno e lo stato d
 
 # --- IL GATE [!] verso Z7: al guado non si va a mani vuote ---
 # (il guado è la stanza d'ingresso di z7-guado.fav)
-Invece di vai nord se il giocatore è in il valico e il giocatore non ha la lettera e il giocatore non ha il fucile: dire "Guardi giù, verso il greto. Onofrio è stato chiaro: a Cosimo, a mani vuote, non ci si arriva. Torna da lui, e scegli cosa portargli.".
+Invece di vai nord se il giocatore è in il valico e il giocatore non ha la lettera e il giocatore non ha il fucile e la lettera non è in il guado e il fucile non è in il guado e lo stato di Cosimo è fermo: dire "Guardi giù, verso il greto. Onofrio è stato chiaro: a Cosimo, a mani vuote, non ci si arriva. Torna da lui, e scegli cosa portargli.".
 Il valico collega nord a il guado.

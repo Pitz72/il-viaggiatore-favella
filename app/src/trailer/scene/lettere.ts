@@ -1,354 +1,196 @@
 // ====================================================================
-//  A · LE LETTERE
-// --------------------------------------------------------------------
-//  Dall'alto, sul tavolo: quattro lettere in corsivo arrivano una dopo
-//  l'altra (la mano di sua moglie, fitta, con le notizie del bambino in
-//  fondo), poi il vuoto, poi il biglietto in stampatello. Il legno, la
-//  carta, l'inchiostro, la busta con il francobollo e la penna sono
-//  dipinti una volta sola; a ogni fotogramma cadono, si posano, si
-//  riempiono di scrittura, e la luce si stringe sul biglietto.
+//  A · LE LETTERE  (0 → 9.6s)
+//  Tavola dipinta a gouache e china dello scrittoio in noce scuro illuminato
+//  dalla finestra, buste che arrivano ai tempi esatti di scaletta.ts (LETTERE)
+//  e il biglietto battuto/scritto carattere per carattere su BIGLIETTO.scrive.
 // ====================================================================
 import { W, H, LETTERE, BIGLIETTO } from "../scaletta";
-import { clamp, easeInOut, easeOut, expoOut, lerp, rng, seg } from "../tempo";
-import type { Cache } from "../cache";
-import { camera, pulviscolo, type C2D } from "../pittura";
-import { carta, scriviLettera, scriviRiga } from "../scritta";
-import { campoLento, creaTela, ctxDi, fbmPeriodico, hexRgb, perlin, riempi, RES_TELE, type Tela } from "../texture";
+import { clamp, expoOut, lerp, rng, seg, smoothstep } from "../tempo";
 import { FONT } from "../font";
-import { inglese } from "../../lib/lingua";
+import { inquadra, oscillaCamera, polvere, tela, vignetta } from "../pittura";
+import { lingua } from "../../lib/lingua";
+import type { Cache } from "../cache";
+import { disegnaTavola, tavoleTrailer } from "../tavole";
 
-// le date e l'intestazione si scrivono a ogni fotogramma, nella lingua di adesso (`en`: la stessa data in inglese)
-export const POSIZIONI_LETTERE = [
-  { x: 720, y: 470, r: -0.13, d: "14 marzo", en: "14 March" },
-  { x: 1140, y: 505, r: 0.09, d: "2 maggio", en: "2 May" },
-  { x: 860, y: 600, r: -0.04, d: "19 luglio", en: "19 July" },
-  { x: 1210, y: 400, r: 0.16, d: "11 ottobre", en: "11 October" },
-];
-
-/** L'ultimo posto di una scrittura a macchina del biglietto (ogni riga ne lascia quattro vuoti dopo di sé). */
-const ultimoPosto = (righe: readonly string[]) => righe.reduce((n, r) => n + r.length, 0) + 4 * (righe.length - 1) - 1;
-/** In inglese la frase è più lunga: la mano va più svelta, così l'ultima lettera arriva quando arriva quella italiana. */
-const PASSO_EN = BIGLIETTO.perCarattere * ultimoPosto(BIGLIETTO.testo) / ultimoPosto(BIGLIETTO.testoEn);
-
-const FW = 520, FH = 350, RES = RES_TELE;
-const RES_SCRITTURA = 1.5;                           // la geometria delle righe (corpo, interlinea) è pensata su fogli di FW·1,5 × FH·1,5
-const BW = 430, BH = 190;
-const LARGO_MANO = 300;                              // quanto è larga la prima riga del biglietto (px): il corpo si ricava da qui
-const LARGO_MANO_EN = 340;                           // in inglese la prima riga ha più lettere: un poco più larga, perché non rimpiccioliscano troppo
-
-interface StatoLettere { tavolo: Tela; fogli: Tela[]; inchiostri: Tela[]; biglietto: Tela; busta: Tela; penna: Tela; macchia: Tela; maschera: Tela }
-
-// --------------------------------------------------------------------
-//  Il tavolo: assi di noce, venature, nodi, graffi, l'anello di un bicchiere
-// --------------------------------------------------------------------
-async function tavoloTela(): Promise<Tela> {
-  const w = 960, h = 540;                                // le unità del campo (le stesse di sempre: il disegno non cambia)
-  const F = 2;                                           // la tela è dipinta a 1920×1080: il campo si campiona due volte più fitto
-  const nGran = fbmPeriodico(41, 4, 5, 0);
-  const fibre = perlin(7);
-  const assi = 4, hh = h / assi;
-  // le venature larghe sono lente: il rumore a griglia (ogni 2 unità) e, per ogni asse, la fibra lungo x in una tabella
-  const granF = campoLento((x, y) => nGran(x * 0.006, y * 0.03), w, h, 2, false);
-  const fibreX = Array.from({ length: assi }, (_, a) => Float32Array.from({ length: w * F + 2 }, (_, i) => fibre((i / F) * 0.004, a * 7.3)));
-  const base = [hexRgb("#4a3020"), hexRgb("#3f281a"), hexRgb("#523625"), hexRgb("#3a2517")];
-  const nodi = [{ x: 220, y: 70, r: 34 }, { x: 700, y: 330, r: 40 }, { x: 430, y: 470, r: 26 }];
-  const t = await riempi(w * F, h * F, (px0, py0, px) => {
-    const x = px0 / F, y = py0 / F;
-    const a = Math.min(assi - 1, Math.floor(y / hh)), yl = y - a * hh;
-    const col = base[a];
-    // andamento delle venature: righe che ondeggiano piano
-    let v = (yl * 0.32 + granF(x, y) * 22 + fibreX[a][px0] * 9);
-    // i nodi: anelli concentrici che deviano le fibre
-    for (const n of nodi) {
-      const dx = (x - n.x) / 1.6, dy = y - n.y, d = Math.hypot(dx, dy);
-      if (d < n.r * 2.2) v += Math.sin(d * 0.5) * 3.2 * (1 - d / (n.r * 2.2)) + (d < n.r ? 3 : 0);
-    }
-    const strisce = 0.5 + 0.5 * Math.sin(v);
-    const grana = fibre(x * 0.05, y * 0.8) * 10 + fibre(x * 0.18, y * 0.35) * 5;
-    const chiaro = strisce * 30 + grana;
-    let r = col[0] + chiaro, g = col[1] + chiaro * 0.78, b = col[2] + chiaro * 0.6;
-    // le commessure fra le assi: una riga scura e un filo di luce
-    if (yl < 1.6) { r *= 0.35; g *= 0.35; b *= 0.35; }
-    else if (yl < 3) { r += 14; g += 9; b += 5; }
-    px[0] = r; px[1] = g; px[2] = b;
-  });
-  const g = ctxDi(t), r = rng(5);
-  g.scale(F, F);
-  g.lineCap = "round";
-  for (let i = 0; i < 70; i++) {                         // graffi
-    const x = r() * w, y = r() * h, l = 8 + r() * 46, a = (r() - 0.5) * 0.5;
-    g.strokeStyle = `rgba(230,190,140,${0.05 + r() * 0.1})`; g.lineWidth = 0.6 + r() * 0.9;
-    g.beginPath(); g.moveTo(x, y); g.lineTo(x + Math.cos(a) * l, y + Math.sin(a) * l); g.stroke();
-  }
-  return t;
-}
-
-/** L'anello lasciato da un bicchiere: due cerchi scuri, il secondo più sottile. */
-function macchiaTela(): Tela {
-  const t = creaTela(240 * RES_TELE, 240 * RES_TELE), g = ctxDi(t);
-  g.scale(RES_TELE, RES_TELE);
-  g.translate(120, 120);
-  for (const [rr, a, lw] of [[84, 0.22, 7], [79, 0.10, 3], [70, 0.06, 9]] as const) {
-    g.strokeStyle = `rgba(10,5,2,${a})`; g.lineWidth = lw;
-    g.beginPath(); g.ellipse(0, 0, rr, rr * 0.96, 0.3, 0.2, Math.PI * 2 - 0.35); g.stroke();
-  }
-  return t;
-}
-
-// --------------------------------------------------------------------
-//  La busta (con francobollo e timbro) e la penna stilografica
-// --------------------------------------------------------------------
-async function bustaTela(): Promise<Tela> {
-  const w = 470, h = 300, k = RES;
-  const t = creaTela(w * k, h * k), g = ctxDi(t);
-  g.scale(k, k);
-  const cart = await carta({ w: w * k, h: h * k, seme: 91, chiara: "#e9dcbf", scura: "#cbb98f", invecchiata: 0.7 });
-  g.drawImage(cart, 0, 0, w, h);
-  // patta: due lembi obliqui che si incontrano sul centro, con la loro ombra
-  g.strokeStyle = "rgba(70,50,25,.35)"; g.lineWidth = 1.4;
-  g.beginPath(); g.moveTo(0, 0); g.lineTo(w / 2, h * 0.56); g.lineTo(w, 0); g.stroke();
-  g.beginPath(); g.moveTo(0, h); g.lineTo(w * 0.42, h * 0.52); g.moveTo(w, h); g.lineTo(w * 0.58, h * 0.52); g.stroke();
-  const om = g.createLinearGradient(0, 0, 0, h * 0.62);
-  om.addColorStop(0, "rgba(60,40,20,.10)"); om.addColorStop(1, "rgba(60,40,20,0)");
-  g.fillStyle = om; g.beginPath(); g.moveTo(0, 0); g.lineTo(w / 2, h * 0.56); g.lineTo(w, 0); g.closePath(); g.fill();
-  // l'indirizzo, in corsivo blu
-  const r = rng(12);
-  for (let i = 0; i < 3; i++) scriviRiga(g, r, { x: 96, y: 150 + i * 34, larghezza: 230 - i * 40, altezzaX: 8, inchiostro: "rgb(28,40,84)", opacita: 0.85, spessore: 1.9 });
-  // il francobollo: bordo dentellato, cornice, un profilo e il valore
-  const sx = w - 108, sy = 26, sw = 66, sh = 82;
-  g.fillStyle = "#f1e8d2"; g.fillRect(sx - 4, sy - 4, sw + 8, sh + 8);
-  g.fillStyle = "#d9e3ea";
-  for (let x = 0; x < sw + 8; x += 7) { g.beginPath(); g.arc(sx - 4 + x + 3.5, sy - 4, 2.6, 0, Math.PI * 2); g.arc(sx - 4 + x + 3.5, sy + sh + 4, 2.6, 0, Math.PI * 2); g.fill(); }
-  for (let y = 0; y < sh + 8; y += 7) { g.beginPath(); g.arc(sx - 4, sy - 4 + y + 3.5, 2.6, 0, Math.PI * 2); g.arc(sx + sw + 4, sy - 4 + y + 3.5, 2.6, 0, Math.PI * 2); g.fill(); }
-  const fs = g.createLinearGradient(sx, sy, sx, sy + sh);
-  fs.addColorStop(0, "#3d5f87"); fs.addColorStop(1, "#243f63");
-  g.fillStyle = fs; g.fillRect(sx, sy, sw, sh);
-  g.strokeStyle = "rgba(240,225,190,.75)"; g.lineWidth = 1.4; g.strokeRect(sx + 4, sy + 4, sw - 8, sh - 8);
-  g.fillStyle = "rgba(240,225,190,.85)";
-  g.beginPath(); g.arc(sx + sw / 2, sy + 34, 15, 0, Math.PI * 2); g.fill();                      // testa
-  g.beginPath(); g.ellipse(sx + sw / 2, sy + 68, 22, 15, 0, Math.PI, 0); g.fill();               // spalle
-  g.fillStyle = "#243f63"; g.font = `700 11px ${FONT.mono}`; g.textAlign = "center"; g.fillText("60", sx + sw / 2, sy + sh - 10);
-  // il timbro: cerchio con l'anno e le righe ondulate che passano sul francobollo
-  g.strokeStyle = "rgba(30,24,30,.6)"; g.lineWidth = 1.6;
-  g.beginPath(); g.arc(sx - 30, sy + 66, 36, 0, Math.PI * 2); g.stroke();
-  g.beginPath(); g.arc(sx - 30, sy + 66, 28, 0, Math.PI * 2); g.stroke();
-  g.fillStyle = "rgba(30,24,30,.6)"; g.font = `700 9px ${FONT.mono}`; g.textAlign = "center";
-  g.fillText("ACQUAVIVA", sx - 30, sy + 60); g.fillText("· 14 · III ·", sx - 30, sy + 74);
-  for (let i = 0; i < 4; i++) {
-    g.beginPath(); g.moveTo(sx - 12, sy + 20 + i * 8);
-    for (let x = 0; x <= 96; x += 6) g.lineTo(sx - 12 + x, sy + 20 + i * 8 + Math.sin(x * 0.5 + i) * 2);
-    g.stroke();
-  }
-  return t;
-}
-
-function pennaTela(): Tela {
-  const w = 380, h = 44, k = 2;
-  const t = creaTela(w * k, h * k), g = ctxDi(t);
-  g.scale(k, k);
-  const corpo = g.createLinearGradient(0, 8, 0, 36);
-  corpo.addColorStop(0, "#3a3540"); corpo.addColorStop(0.35, "#15111a"); corpo.addColorStop(0.7, "#0a070d"); corpo.addColorStop(1, "#262230");
-  g.fillStyle = corpo;
-  g.beginPath(); g.moveTo(22, 12); g.lineTo(268, 9); g.quadraticCurveTo(280, 22, 268, 35); g.lineTo(22, 32); g.quadraticCurveTo(10, 22, 22, 12); g.fill();
-  g.fillStyle = "rgba(255,255,255,.22)"; g.fillRect(28, 13, 236, 2.2);                      // riflesso lungo
-  const oro = g.createLinearGradient(0, 10, 0, 34);
-  oro.addColorStop(0, "#f2d98a"); oro.addColorStop(0.5, "#b88a3a"); oro.addColorStop(1, "#f0d58a");
-  g.fillStyle = oro; g.fillRect(150, 10, 6, 22); g.fillRect(200, 10, 3, 22);               // fascette d'oro
-  g.beginPath(); g.moveTo(168, 9); g.lineTo(230, 9); g.lineTo(236, 16); g.lineTo(168, 15); g.closePath(); g.fill();   // il fermaglio
-  // la sezione con la punta
-  g.fillStyle = "#1b171f"; g.beginPath(); g.moveTo(268, 13); g.lineTo(322, 18); g.lineTo(322, 26); g.lineTo(268, 31); g.closePath(); g.fill();
-  g.fillStyle = oro; g.beginPath(); g.moveTo(322, 16); g.lineTo(372, 22); g.lineTo(322, 28); g.closePath(); g.fill();
-  g.strokeStyle = "#5a431a"; g.lineWidth = 0.8; g.beginPath(); g.moveTo(326, 22); g.lineTo(368, 22); g.stroke();
-  return t;
-}
-
-async function bigliettoTela(): Promise<Tela> {
-  const k = RES;
-  const t = creaTela(BW * k, BH * k), g = ctxDi(t);
-  const base = await carta({ w: BW * k, h: BH * k, seme: 33, chiara: "#d9d5cc", scura: "#bdb8ae", invecchiata: 0.45, piegaVerticale: false });
-  g.save();
-  g.scale(k, k);
-  // margine superiore strappato da un quaderno: dentini irregolari
-  g.beginPath(); g.moveTo(0, 6);
-  const r = rng(6);
-  for (let x = 0; x <= BW; x += 6) g.lineTo(x, 4 + (r() - 0.5) * 6);
-  g.lineTo(BW, BH); g.lineTo(0, BH); g.closePath(); g.clip();
-  g.drawImage(base, 0, 0, BW, BH);
-  // una riga di quaderno, appena visibile, e una piega
-  g.strokeStyle = "rgba(90,110,150,.18)"; g.lineWidth = 1;
-  for (let y = 46; y < BH; y += 30) { g.beginPath(); g.moveTo(0, y); g.lineTo(BW, y); g.stroke(); }
-  g.restore();
-  return t;
-}
-
-// --------------------------------------------------------------------
-//  Precalcolo
-// --------------------------------------------------------------------
-export async function preparaLettere(c: Cache) {
+export function preparaLettere(c: Cache) {
   if (c.lettere) return;
-  const fogli: Tela[] = [], inchiostri: Tela[] = [];
-  const toni = [["#efe6d1", "#d8ccb0"], ["#ece3cd", "#d3c5a8"], ["#f0e7d3", "#dccfb3"], ["#e9dfc8", "#d0c2a3"]];
-  for (let i = 0; i < 4; i++) {
-    fogli.push(await carta({ w: FW * RES, h: FH * RES, seme: 200 + i, chiara: toni[i][0], scura: toni[i][1], invecchiata: 0.6, piegheOrizzontali: 2, piegaVerticale: i % 2 === 0 }));
-    inchiostri.push(scriviLettera(FW * RES_SCRITTURA, FH * RES_SCRITTURA, 300 + i, "rgb(30,44,86)", 0.86, RES / RES_SCRITTURA));
-  }
-  // le lettere sono scritte a risoluzione piena: la geometria delle righe va scalata
-  c.lettere = {
-    tavolo: await tavoloTela(), fogli, inchiostri, biglietto: await bigliettoTela(), busta: await bustaTela(), penna: pennaTela(), macchia: macchiaTela(), maschera: creaTela(FW * RES, 30 * RES),
-  } satisfies StatoLettere;
-}
-
-// --------------------------------------------------------------------
-//  Un foglio che cade e si posa
-// --------------------------------------------------------------------
-function foglio(ctx: C2D, tela: Tela, w: number, h: number, x: number, y: number, rot: number, quota: number) {
-  // quota 0 = posato, 1 = in aria: ombra più morbida e lontana, foglio un poco più grande
-  ctx.save();
-  ctx.translate(x, y); ctx.rotate(rot);
-  const s = 1 + quota * 0.10;
-  ctx.scale(s, s);
-  ctx.shadowColor = "rgba(0,0,0,.62)"; ctx.shadowBlur = 16 + quota * 34; ctx.shadowOffsetX = 5 + quota * 18; ctx.shadowOffsetY = 8 + quota * 30;
-  ctx.drawImage(tela, -w / 2, -h / 2, w, h);
-  ctx.shadowColor = "transparent"; ctx.shadowBlur = 0; ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0;
-  // un velo di luce che gira con la piega mentre il foglio scende
-  if (quota > 0.02) {
-    const g = ctx.createLinearGradient(-w / 2, -h / 2, w / 2, h / 2);
-    g.addColorStop(0, `rgba(255,236,200,${0.2 * quota})`); g.addColorStop(1, `rgba(0,0,0,${0.22 * quota})`);
-    ctx.fillStyle = g; ctx.fillRect(-w / 2, -h / 2, w, h);
-  }
-  ctx.restore();
-}
-
-// --------------------------------------------------------------------
-//  La scena
-// --------------------------------------------------------------------
-export function disegnaLettere(ctx: C2D, t: number, c: Cache) {
-  const a = c.lettere as StatoLettere;
-  const en = inglese();
-  // la macchina avanza: 1,0 → 1,1 in 9,6 s, e con lei si muove anche il legno (le giunture delle assi
-  // scorrono quanto la busta e le lettere: lo sguardo «entra» nel tavolo). A 1,0 la tela copre
-  // esattamente il quadro e poi può solo ingrandire: i bordi restano coperti.
-  const avanza = lerp(1.0, 1.1, easeInOut(seg(t, 0, 9.6)));
-  // il legno, illuminato dal basso a sinistra come da una lampada fuori campo (la luce è ferma: la lampada sta fuori campo)
-  ctx.save();
-  camera(ctx, avanza, W / 2, H * 0.58);
-  ctx.drawImage(a.tavolo, 0, 0, W, H);
-  ctx.restore();
-  const lampada = 0.96 + 0.04 * Math.sin(t * 7.1) * Math.sin(t * 2.3);
-  const gl = ctx.createRadialGradient(W * 0.50, H * 0.46, 40, W * 0.5, H * 0.5, W * 0.72);
-  gl.addColorStop(0, `rgba(255,214,150,${0.34 * lampada})`); gl.addColorStop(0.5, "rgba(255,180,100,.06)"); gl.addColorStop(1, "rgba(0,0,0,.72)");
-  ctx.fillStyle = gl; ctx.fillRect(0, 0, W, H);
-
-  ctx.save();
-  camera(ctx, avanza, W / 2, H * 0.58);
-
-  // sul tavolo, già da prima: l'anello di un bicchiere, la busta, la penna
-  ctx.drawImage(a.macchia, 1320, 190, 300, 300);
-  ctx.save(); ctx.translate(430, 660); ctx.rotate(-0.24);
-  ctx.shadowColor = "rgba(0,0,0,.6)"; ctx.shadowBlur = 20; ctx.shadowOffsetX = 6; ctx.shadowOffsetY = 10;
-  ctx.drawImage(a.busta, -235, -150, 470, 300);
-  ctx.restore();
-  ctx.save(); ctx.translate(1500, 790); ctx.rotate(-0.34);
-  ctx.shadowColor = "rgba(0,0,0,.6)"; ctx.shadowBlur = 14; ctx.shadowOffsetX = 5; ctx.shadowOffsetY = 9;
-  ctx.drawImage(a.penna, -190, -22, 380, 44);
-  ctx.restore();
-
-  // le quattro lettere
-  POSIZIONI_LETTERE.forEach((p, i) => {
-    const ta = LETTERE[i];
-    const k = expoOut(seg(t, ta, ta + 0.85));
-    if (k <= 0) return;
-    const y = lerp(-420, p.y, k), rot = lerp(p.r - 0.35, p.r, k);
-    foglio(ctx, a.fogli[i], FW, FH, p.x, y, rot, 1 - easeOut(seg(t, ta + 0.4, ta + 0.9)) * (k >= 0.99 ? 1 : 0.9));
-    // la scrittura: le righe compaiono dopo l'atterraggio, una alla volta
-    ctx.save();
-    ctx.translate(p.x, y); ctx.rotate(rot); ctx.translate(-FW / 2, -FH / 2);
-    const scr = seg(t, ta + 0.5, ta + 1.9);
-    const ink = a.inchiostri[i];
-    const righe = Math.floor((FH - 96 - 40) / 27);
-    for (let j = 0; j < righe; j++) {
-      const kj = clamp(scr * righe - j);
-      if (kj <= 0) continue;
-      const top = 96 + j * 27 - 20, alt = 30;
-      const sw = Math.min(FW, 40 + kj * 440);
-      if (kj >= 1) { ctx.drawImage(ink, 0, top * RES, sw * RES, alt * RES, 0, top, sw, alt); continue; }
-      // la riga che si sta scrivendo: l'inchiostro arriva fin dove è arrivata la penna, con il bordo bagnato che sfuma
-      const m = a.maschera, mg = m.getContext("2d")!;
-      mg.globalCompositeOperation = "source-over"; mg.clearRect(0, 0, m.width, m.height);
-      mg.drawImage(ink, 0, top * RES, sw * RES, alt * RES, 0, 0, sw * RES, alt * RES);
-      const sfuma = mg.createLinearGradient((sw - 16) * RES, 0, sw * RES, 0);
-      sfuma.addColorStop(0, "rgba(0,0,0,1)"); sfuma.addColorStop(1, "rgba(0,0,0,0)");
-      mg.globalCompositeOperation = "destination-in"; mg.fillStyle = sfuma; mg.fillRect(0, 0, m.width, m.height);
-      ctx.drawImage(m, 0, 0, sw * RES, alt * RES, 0, top, sw, alt);
+  const legno = tela(W, H, (g) => {
+    g.fillStyle = "#160e09"; g.fillRect(0, 0, W, H);
+    const r = rng(101);
+    let y = 0;
+    while (y < H) {
+      const sp = 130 + r() * 90;
+      const t = (r() - 0.5) * 10;
+      const lg = g.createLinearGradient(0, y, 0, y + sp);
+      lg.addColorStop(0, `rgb(${26 + t},${17 + t * 0.7},${11 + t * 0.4})`);
+      lg.addColorStop(0.5, `rgb(${33 + t},${21 + t * 0.7},${14 + t * 0.4})`);
+      lg.addColorStop(1, `rgb(${22 + t},${14 + t * 0.7},${9 + t * 0.4})`);
+      g.fillStyle = lg; g.fillRect(0, y, W, sp);
+      g.fillStyle = "rgba(5,3,1,0.55)"; g.fillRect(0, y + sp - 2, W, 2.5);
+      y += sp;
     }
-    ctx.globalAlpha = clamp(scr * 3);
-    ctx.fillStyle = "rgba(30,44,86,.88)";
-    ctx.font = `italic 500 24px ${FONT.serif}`;
-    ctx.textAlign = "right"; ctx.fillText(en ? p.en : p.d, 480, 52);
-    ctx.textAlign = "left"; ctx.fillText(en ? "My dear," : "Caro mio,", 46, 72);
-    ctx.globalAlpha = 1;
+    vignetta(g, 0.72);
+  });
+
+  // Quattro buste che planano sul tavolo agli istanti di LETTERE (0.7, 1.8, 2.9, 4.0)
+  const buste = [0, 1, 2, 3].map((k) => tela(420, 270, (g) => {
+    const r = rng(310 + k * 23);
+    g.translate(20, 20);
+    const bw = 380, bh = 230;
+    const cg = g.createLinearGradient(0, 0, bw, bh);
+    cg.addColorStop(0, k % 2 === 0 ? "#ebd8b2" : "#e3cda4");
+    cg.addColorStop(0.55, k % 2 === 0 ? "#cfaf7c" : "#c5a26f");
+    cg.addColorStop(1, k % 2 === 0 ? "#a48252" : "#997748");
+    g.fillStyle = cg;
+    g.strokeStyle = "#19110a";
+    g.lineWidth = 3.0;
+    g.beginPath(); g.rect(0, 0, bw, bh); g.fill(); g.stroke();
+    // Velatura gouache d'ombra lungo i bordi della busta
+    g.strokeStyle = "rgba(92,58,28,0.22)";
+    g.lineWidth = 6;
+    g.strokeRect(3, 3, bw - 6, bh - 6);
+    g.strokeStyle = "rgba(28,19,12,0.55)";
+    g.lineWidth = 1.7;
+    g.beginPath(); g.moveTo(4, 4); g.lineTo(bw / 2, bh * 0.46); g.lineTo(bw - 4, 4); g.stroke();
+    const fx = bw - 68, fy = 18;
+    g.fillStyle = "#efe4cc"; g.fillRect(fx - 4, fy - 4, 52, 60);
+    g.strokeStyle = "#241911"; g.lineWidth = 1.6; g.strokeRect(fx - 4, fy - 4, 52, 60);
+    g.fillStyle = k % 2 === 0 ? "#9a5d36" : "#5e6a3e";
+    g.fillRect(fx + 2, fy + 2, 40, 48);
+    g.strokeStyle = "rgba(42,30,22,0.48)"; g.lineWidth = 1.5;
+    g.beginPath(); g.arc(fx - 26, fy + 28, 20, 0, Math.PI * 2); g.stroke();
+    g.strokeStyle = "rgba(38,26,18,0.52)"; g.lineWidth = 1.8;
+    for (let riga = 0; riga < 3; riga++) {
+      const yy = 132 + riga * 24, lung = 150 - riga * 24 + r() * 20;
+      g.beginPath(); g.moveTo(86, yy);
+      for (let x = 86; x < 86 + lung; x += 8) g.lineTo(x, yy + (r() - 0.5) * 3.8);
+      g.stroke();
+    }
+  }));
+
+  // Il cartoncino rigido avorio caldo che arriva a BIGLIETTO.arriva (6.7 s)
+  const cartoncino = tela(540, 320, (g) => {
+    g.translate(20, 20);
+    const cw = 500, ch = 280;
+    const cg = g.createLinearGradient(0, 0, cw, ch);
+    cg.addColorStop(0, "#f5e7c6");
+    cg.addColorStop(0.6, "#e6d2aa");
+    cg.addColorStop(1, "#cfb588");
+    g.fillStyle = cg;
+    g.strokeStyle = "#1a110a";
+    g.lineWidth = 3.2;
+    g.fillRect(0, 0, cw, ch);
+    g.strokeRect(0, 0, cw, ch);
+    g.strokeStyle = "rgba(110,74,38,0.2)";
+    g.lineWidth = 5;
+    g.strokeRect(3, 3, cw - 6, ch - 6);
+  });
+
+  c.lettere = { legno, buste, cartoncino };
+}
+
+export function disegnaLettere(ctx: CanvasRenderingContext2D, t: number, c: Cache) {
+  preparaLettere(c);
+  const img = tavoleTrailer.lettere;
+  const u = clamp(t / 9.6);
+
+  ctx.save();
+  const spinta = smoothstep(4.2, 9.4, t);
+  inquadra(ctx, lerp(1.01, 1.08, u), lerp(0, -48, spinta), lerp(0, -10, spinta), 0);
+  oscillaCamera(ctx, t, 2.0);
+
+  if (img) {
+    disegnaTavola(ctx, img, W, H);
+  } else {
+    ctx.drawImage(c.lettere.legno, 0, 0);
+  }
+
+  // Le quattro buste che arrivano in sincrono coi fruscii di carta (LETTERE = [0.7, 1.8, 2.9, 4.0])
+  const poseBuste = [
+    { x: 392, y: 424, rot: -0.26 },
+    { x: 438, y: 506, rot: -0.17 },
+    { x: 468, y: 598, rot: -0.22 },
+    { x: 498, y: 666, rot: -0.11 },
+  ];
+  LETTERE.forEach((t0, k) => {
+    const p = expoOut(seg(t, t0, t0 + 0.72));
+    if (p <= 0) return;
+    const b = poseBuste[k];
+    const scivola = (1 - p) * 130;
+    ctx.save();
+    ctx.globalAlpha = clamp(p * 1.4);
+    ctx.translate(b.x - scivola * 0.65, b.y - scivola);
+    ctx.rotate(b.rot + (1 - p) * 0.16);
+    ctx.scale(0.82 + (1 - p) * 0.08, 0.82 + (1 - p) * 0.08);
+    ctx.shadowColor = "rgba(8,4,2,0.58)";
+    ctx.shadowBlur = 14 + (1 - p) * 22;
+    ctx.shadowOffsetX = 6 + (1 - p) * 14;
+    ctx.shadowOffsetY = 9 + (1 - p) * 18;
+    ctx.drawImage(c.lettere.buste[k], -210, -135);
     ctx.restore();
   });
 
-  // il biglietto: carta più povera, stampatello a mano
-  const kb = expoOut(seg(t, BIGLIETTO.arriva, BIGLIETTO.arriva + 0.8));
-  if (kb > 0) {
-    const bx = lerp(1500, 980, kb), by = lerp(1250, 730, kb), br = lerp(0.3, -0.03, kb);
-    foglio(ctx, a.biglietto, BW, BH, bx, by, br, 1 - kb);
-    ctx.save();
-    ctx.translate(bx, by); ctx.rotate(br);
-    ctx.fillStyle = "#15171c";
-    // il corpo si ricava dalla larghezza della prima riga: anche col carattere di ripiego il biglietto resta della stessa mole
-    const testo = en ? BIGLIETTO.testoEn : BIGLIETTO.testo, passo = en ? PASSO_EN : BIGLIETTO.perCarattere;
-    ctx.font = `400 100px ${FONT.mano}`;
-    const corpo = Math.min(64, (en ? LARGO_MANO_EN : LARGO_MANO) * 100 / Math.max(1, ctx.measureText(testo[0]).width));
-    ctx.font = `400 ${corpo.toFixed(1)}px ${FONT.mano}`;
-    ctx.lineWidth = corpo * 0.024; ctx.lineJoin = "round"; ctx.strokeStyle = "#15171c";   // il pennarello: il tratto pieno, un filo più grosso del carattere
-    ctx.textBaseline = "middle";
-    let n = 0;
-    testo.forEach((riga, ri) => {
-      const r = rng(40 + ri);
-      const SP = 1.2;                                                 // il respiro fra una lettera e l'altra
-      let x = -(ctx.measureText(riga).width + riga.length * SP) / 2;
-      for (const ch of riga) {
-        const tc = BIGLIETTO.scrive + n * passo;
-        const w = ctx.measureText(ch).width;
-        const dy = (r() - 0.5) * 3.2, rot = (r() - 0.5) * 0.07, forza = 0.86 + r() * 0.14;
-        if (t >= tc) {
-          // il tratto si scrive da sinistra a destra, con la penna: la lettera si svela dietro un bordo che avanza
-          const kk = easeOut(seg(t, tc, tc + 0.14));
-          ctx.save();
-          ctx.translate(x + w / 2, (ri === 0 ? -0.56 : 0.56) * corpo * 1.0 + dy);
-          ctx.rotate(rot);
-          ctx.globalAlpha = forza;
-          ctx.beginPath(); ctx.rect(-w / 2 - 4, -60, (w + 8) * kk, 120); ctx.clip();
-          ctx.shadowColor = "rgba(20,22,30,.5)"; ctx.shadowBlur = 1.2;
-          ctx.fillText(ch, -w / 2, 0);
-          ctx.strokeText(ch, -w / 2, 0);
-          ctx.restore();
-        }
-        x += w + SP;
-        n++;
-      }
-      n += 4;
-    });
-    ctx.restore();
-  }
+  // Lama viva di sole caldo dalla finestra in alto a sinistra
+  const respiroLuce = 0.88 + 0.12 * Math.sin(t * 0.9);
+  ctx.save();
+  ctx.globalCompositeOperation = "screen";
+  const gl = ctx.createLinearGradient(160, 0, 1460, H);
+  gl.addColorStop(0, `rgba(255,198,122,${0.17 * respiroLuce})`);
+  gl.addColorStop(0.52, `rgba(244,174,96,${0.08 * respiroLuce})`);
+  gl.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.fillStyle = gl;
+  ctx.fillRect(0, 0, W, H);
   ctx.restore();
 
-  // pulviscolo di carta nella luce della lampada
-  ctx.globalCompositeOperation = "lighter";
-  pulviscolo(ctx, t, 17, 46, { x: 300, y: 200, w: 1300, h: 700 }, "#ffd7a0", 0.5, 2.2);
-  ctx.globalCompositeOperation = "source-over";
+  // Il biglietto (BIGLIETTO.arriva = 6.7 s) e la frase battuta/scritta lettera per lettera (BIGLIETTO.scrive = 7.25 s)
+  const pb = expoOut(seg(t, BIGLIETTO.arriva, BIGLIETTO.arriva + 0.65));
+  if (pb > 0) {
+    const en = lingua() === "en";
+    const righe = en ? BIGLIETTO.testoEn : BIGLIETTO.testo;
+    // Durata totale dei colpi di tasto calcolata sul testo italiano (scaletta.ts:123)
+    const totPassiIt = BIGLIETTO.testo[0].length + 4 + BIGLIETTO.testo[1].length;
+    const durataScrive = totPassiIt * BIGLIETTO.perCarattere;
+    const totPassi = righe[0].length + 4 + righe[1].length;
+    const avanzCaratteri = clamp((t - BIGLIETTO.scrive) / durataScrive) * totPassi;
 
-  // occhio di bue sul biglietto: il resto del tavolo si spegne
-  const buio = easeInOut(seg(t, 5.0, 7.2));
-  if (buio > 0) {
-    const cx = kb > 0 ? 980 : W / 2, cy = kb > 0 ? 720 : H / 2;
-    const gg = ctx.createRadialGradient(cx, cy, 120, cx, cy, 900);
-    gg.addColorStop(0, "rgba(0,0,0,0)");
-    gg.addColorStop(0.45, `rgba(0,0,0,${0.35 * buio})`);
-    gg.addColorStop(1, `rgba(0,0,0,${0.84 * buio})`);
-    ctx.fillStyle = gg; ctx.fillRect(0, 0, W, H);
+    ctx.save();
+    const fx = img ? W * 0.628 : W * 0.52;
+    const fy = img ? H * 0.505 : H * 0.48;
+    const ang = img ? -0.276 : -0.045;
+    const cala = (1 - pb) * 95;
+    ctx.translate(fx + cala * 0.25, fy - cala);
+    ctx.rotate(ang + (1 - pb) * 0.08);
+
+    // Cartoncino che si posa sul foglio con suono di carta a t = 7.2 s
+    ctx.save();
+    ctx.globalAlpha = pb;
+    ctx.shadowColor = "rgba(8,4,2,0.55)";
+    ctx.shadowBlur = 18 + (1 - pb) * 24;
+    ctx.shadowOffsetX = 6;
+    ctx.shadowOffsetY = 10 + (1 - pb) * 16;
+    ctx.drawImage(c.lettere.cartoncino, -270, -160);
+    ctx.restore();
+
+    if (t >= BIGLIETTO.scrive) {
+      const n1 = clamp(Math.floor(avanzCaratteri), 0, righe[0].length);
+      const n2 = clamp(Math.floor(avanzCaratteri - righe[0].length - 4), 0, righe[1].length);
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.font = `400 ${en ? 44 : 52}px ${FONT.mano}`;
+      ctx.fillStyle = "rgba(31,19,13,0.94)";
+      if (n1 > 0) ctx.fillText(righe[0].slice(0, n1), 0, -34);
+      if (n2 > 0) ctx.fillText(righe[1].slice(0, n2), 0, 34);
+    }
+    ctx.restore();
   }
+
+  ctx.restore();
+
+  polvere(ctx, t, 56, "rgba(255,218,162,0.32)", 9, 13);
+  const gBasso = ctx.createLinearGradient(0, H * 0.72, 0, H);
+  gBasso.addColorStop(0, "rgba(0,0,0,0)");
+  gBasso.addColorStop(1, "rgba(6,4,3,0.74)");
+  ctx.fillStyle = gBasso;
+  ctx.fillRect(0, H * 0.72, W, H * 0.28);
+  vignetta(ctx, 0.48);
 }

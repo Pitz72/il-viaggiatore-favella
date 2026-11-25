@@ -184,7 +184,7 @@ Al nodo "pasquale_inizio" l'opzione "…" chiude il dialogo.
 # La cura: usa le medicine su Pasquale (le medicine vengono da Z4, o le hai spese su di te).
 Invece di usa le medicine su Pasquale se il giocatore ha le medicine e lo stato di Pasquale è malato: dire "Sciogli le medicine in un dito d'acqua e lo aiuti a mandarle giù. Per la prima volta da giorni, il respiro gli si fa lungo. Una donna sulla soglia ti guarda fare, poi se ne va di fretta verso l'osteria." e adesso le medicine è nel nulla e adesso lo stato di Pasquale è curato e adesso aumenta la fiducia di Rosaria di 2.
 Invece di usa le medicine su Pasquale se lo stato di Pasquale è curato: dire "Pasquale riposa, la febbre rotta. Non gli serve altro.".
-Invece di usa le medicine su Pasquale: dire "Le medicine sono lì per terra: prendile, prima.".
+Invece di usa le medicine su Pasquale se le medicine sono in il vicolo: dire "Le medicine sono lì per terra: prendile, prima.".
 Quando lo stato di Pasquale è curato: aumenta la generosità di 1.
 
 # --- PEPPE  [il rovescio del tema: PARTIRE. Portarlo o lasciarlo: flag per Z7] ---

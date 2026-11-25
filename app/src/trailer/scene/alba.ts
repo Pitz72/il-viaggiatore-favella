@@ -1,401 +1,209 @@
 // ====================================================================
-//  B / J · L'ALBA  (anche sfondo del titolo)
-// --------------------------------------------------------------------
-//  Campo lunghissimo: una provinciale dritta, i pali del telegrafo, la
-//  piana secca e quattro catene di monti che si perdono nella foschia. Il
-//  sole basso a destra scalda le nuvole da sotto; il viandante va verso
-//  ovest con la sua ombra lunga davanti. Il cielo, le nuvole e i monti si
-//  dipingono una volta sola; a ogni fotogramma si spostano e si accendono.
+//  B · LA PARTENZA ALL'ALBA  (9.6 → 17.6s)  e  J · IL TITOLO / MENU  (81.4s → ∞)
+//  Tavola dipinta a gouache e china della provinciale deserta all'alba +
+//  bagliore vivo del sole all'orizzonte, nubi in deriva, pali del telegrafo
+//  in parallasse, stormo lontano e il Viandante col passo agganciato ai
+//  battiti dei passi di CAMMINATE. Sul titolo/menu (finale = true) la luce
+//  d'oro sale morbida e accoglie il titolo e la colonna del menu d'avvio.
 // ====================================================================
-import { W, H, CAMMINATE, faseDiPasso } from "../scaletta";
-import { clamp, lerp, mix, rng, seg, easeInOut, easeOut } from "../tempo";
+import { W, H, DURATA, CAMMINATE, faseDiPasso } from "../scaletta";
+import { clamp, lerp, rng, smoothstep } from "../tempo";
+import { foschia, grana, inquadra, nubi, oscillaCamera, polvere, raggi, tela, vignetta } from "../pittura";
+import { disegnaOmbra, disegnaViandante } from "../viandante";
 import type { Cache } from "../cache";
-import { alone, camera, catenaScorre, cielo, crinale, disegnaRaggio, nuvole, nuvoleScorrono, pulviscolo, raggioMorbido, type C2D, type RaggioMorbido } from "../pittura";
-import { creaTelaR, fbmPeriodico, hexRgb, rgbCss, riempi, smooth, sfoca, type Tela } from "../texture";
-import { disegnaOmbra, disegnaViandante, velocitaSuolo } from "../viandante";
+import { disegnaTavola, tavoleTrailer } from "../tavole";
 
-const ORIZZONTE = 700;
-const STRADA = 858;
-const LARGH_CIELO = 1920;
-
-const CATENE = [
-  { seme: 101, base: 128, ampiezza: 104, frequenza: 2.0, aspro: 0.62, chiaro: "#f2b697", scuro: "#8b6482", nebbia: "#eba482", forza: 0.78, grana: 0.22, y: 546, par: 0.10 },
-  { seme: 202, base: 108, ampiezza: 80, frequenza: 3.4, aspro: 0.38, chiaro: "#cf8f8c", scuro: "#4c4066", nebbia: "#c98b82", forza: 0.62, grana: 0.26, y: 584, par: 0.22 },
-  { seme: 303, base: 88, ampiezza: 56, frequenza: 5.0, aspro: 0.22, chiaro: "#80576f", scuro: "#241e38", nebbia: "#80596f", forza: 0.46, grana: 0.28, y: 624, par: 0.42 },
-  { seme: 404, base: 68, ampiezza: 34, frequenza: 7.5, aspro: 0.10, chiaro: "#443248", scuro: "#110f1b", nebbia: "#3c2d45", forza: 0.26, grana: 0.20, y: 656, par: 0.70 },
-] as const;
-
-interface StatoAlba {
-  nubiAlte: Tela; nubiBasse: Tela; monti: Tela[]; erbaFar: Tela; erbaNear: Tela; asfalto: Tela; nebbia: Tela; campo: Tela; sagome: Tela; raggi: RaggioMorbido[];
-}
-
-// --------------------------------------------------------------------
-//  Precalcolo
-// --------------------------------------------------------------------
-function ciuffi(seme: number, w: number, h: number, n: number, altMin: number, altMax: number, base: string, punta: string, vento: number): Tela {
-  const { tela: t, g } = creaTelaR(w, h), r = rng(seme);
-  g.lineCap = "round";
-  // n ciuffi in tutta la larghezza; quelli vicini ai bordi si ripetono dall'altra parte: la tessera si salda
-  for (let i = 0; i < n; i++) {
-    const x = r() * w, alt = altMin + r() * (altMax - altMin);
-    const lame = 3 + Math.floor(r() * 5);
-    const lam = Array.from({ length: lame }, () => ({ ang: (r() - 0.5) * 0.9 + vento, dx: (r() - 0.5) * 9, lw: 1.1 + r() * 1.5, k: 0.7 + r() * 0.3 }));
-    for (const shift of [0, -w, w]) {
-      if (x + shift < -40 || x + shift > w + 40) continue;
-      for (const l of lam) {
-        const ox = x + shift + l.dx;
-        const gx = ox + Math.sin(l.ang) * alt, gy = h - Math.cos(l.ang) * alt * l.k;
-        g.strokeStyle = base; g.lineWidth = l.lw;
-        g.beginPath(); g.moveTo(ox, h + 2); g.quadraticCurveTo(ox + (gx - ox) * 0.2, h - alt * 0.6, gx, gy); g.stroke();
-        g.strokeStyle = punta; g.lineWidth = 0.9;
-        g.beginPath(); g.moveTo(lerp(ox, gx, 0.72), lerp(h, gy, 0.72)); g.lineTo(gx, gy); g.stroke();
-      }
-    }
-  }
-  return t;
-}
-
-async function asfaltoTela(): Promise<Tela> {
-  const w = LARGH_CIELO, h = 64;
-  const { tela: t, g } = creaTelaR(w, h), r = rng(77);
-  const gr = g.createLinearGradient(0, 0, 0, h);
-  gr.addColorStop(0, "#41373d"); gr.addColorStop(0.5, "#332b31"); gr.addColorStop(1, "#231e24");
-  g.fillStyle = gr; g.fillRect(0, 0, w, h);
-  // grana dell'asfalto: pietrisco e macchie
-  const n = fbmPeriodico(5, 12, 4);
-  const grana = await riempi(w, h, (x, y, px) => {
-    const v = n((x / w) * 12, y / 16) * 0.5;
-    const s = (r() - 0.5) * 34 + v * 30;
-    px[0] = 128 + s; px[1] = 124 + s; px[2] = 132 + s; px[3] = 34;
-  });
-  g.drawImage(grana, 0, 0, w, h);
-  // crepe e rattoppi
-  g.strokeStyle = "rgba(8,6,10,.55)"; g.lineCap = "round";
-  for (let i = 0; i < 26; i++) {
-    let x = r() * w, y = 6 + r() * (h - 12);
-    g.lineWidth = 0.8 + r() * 1.2; g.beginPath(); g.moveTo(x, y);
-    const len = 40 + r() * 140;
-    for (let s = 0; s < 8; s++) { x += len / 8; y += (r() - 0.5) * 6; g.lineTo(x, Math.max(2, Math.min(h - 2, y))); }
-    g.stroke();
-  }
-  for (let i = 0; i < 4; i++) {
-    g.fillStyle = "rgba(10,8,12,.35)"; g.fillRect(r() * w, 14 + r() * 30, 90 + r() * 120, 8 + r() * 14);
-  }
-  // mezzeria consumata e riga di margine
-  g.fillStyle = "rgba(230,214,170,.30)";
-  for (let x = 40; x < w; x += 190) g.fillRect(x, h * 0.52, 88, 3);
-  g.fillStyle = "rgba(230,214,170,.16)"; g.fillRect(0, 5, w, 2);
-  // bordo chiaro verso il sole (la banchina)
-  g.fillStyle = "rgba(255,190,130,.18)"; g.fillRect(0, 0, w, 2);
-  return t;
-}
-
-async function nebbiaTela(): Promise<Tela> {
-  const w = LARGH_CIELO, h = 150;
-  const n = fbmPeriodico(9, 6, 4);
-  return await riempi(w, h, (x, y, px) => {
-    const u = (x / w) * 6;
-    const d = n(u, y / 60) * 0.5 + 0.5;
-    const fade = Math.sin((y / h) * Math.PI);
-    px[0] = 255; px[1] = 172; px[2] = 128;
-    px[3] = clamp(d * d * 1.5 - 0.15) * fade * 200;
-  });
-}
-
-async function campoTela(): Promise<Tela> {
-  // la piana secca: dalla foschia dell'orizzonte alla terra scura, con strisce d'erba
-  // riarsa e file di ciuffi che crescono col vicino
-  const w = LARGH_CIELO, h = 190;
-  const { tela: t, g } = creaTelaR(w, h), r = rng(31);
-  const gr = g.createLinearGradient(0, 0, 0, h);
-  gr.addColorStop(0, "#5a4247"); gr.addColorStop(0.18, "#3a2c3a"); gr.addColorStop(0.55, "#211a27"); gr.addColorStop(1, "#110d15");
-  g.fillStyle = gr; g.fillRect(0, 0, w, h);
-  // strisce lunghe e sottili: solchi, erba distesa, terra smossa
-  const n = fbmPeriodico(21, 8, 4);
-  const strisce = await riempi(w, h, (x, y, px) => {
-    const v = n((x / w) * 8, y / 11);
-    const chiara = v > 0;
-    px[0] = chiara ? 230 : 6; px[1] = chiara ? 150 : 4; px[2] = chiara ? 105 : 10;
-    px[3] = Math.abs(v) * (chiara ? 95 : 130) * (1 - y / h * 0.6);
-  });
-  g.drawImage(strisce, 0, 0, w, h);
-  // file di ciuffi: piccoli in alto, grandi in basso
-  for (let i = 0; i < 700; i++) {
-    const k = Math.pow(r(), 0.7);
-    const y = 4 + k * (h - 10), x = r() * w, alt = 2.5 + k * 14 + r() * 3;
-    const lame = 3 + Math.floor(r() * 3);
-    for (let b = 0; b < lame; b++) {
-      const dx = (b - lame / 2) * (0.8 + k * 1.4) + (r() - 0.5);
-      g.strokeStyle = `rgba(16,11,20,${0.55 + r() * 0.35})`; g.lineWidth = 0.8 + k * 1.1;
-      g.beginPath(); g.moveTo(x + dx, y); g.quadraticCurveTo(x + dx + (r() - 0.5) * alt * 0.5, y - alt * 0.6, x + dx * 1.8 + (r() - 0.5) * alt * 0.6, y - alt); g.stroke();
-      g.strokeStyle = `rgba(255,165,105,${0.16 + r() * 0.18})`; g.lineWidth = 0.7;
-      g.beginPath(); g.moveTo(x + dx * 1.6, y - alt * 0.6); g.lineTo(x + dx * 1.8 + (r() - 0.5) * alt * 0.6, y - alt); g.stroke();
-    }
-  }
-  return t;
-}
-
-/** Sagome sull'orizzonte: masserie, cipressi, una pompa a vento. Una fascia che si ripete. */
-function sagomeTela(): Tela {
-  const w = LARGH_CIELO, h = 150, y0 = 132;
-  const { tela: t, g } = creaTelaR(w, h), r = rng(64);
-  const col = "#2b2032", luce = "rgba(255,168,110,.5)";
-  const masseria = (x: number, s: number) => {
-    g.fillStyle = col;
-    const cw = 100 * s, ch = 30 * s;
-    g.fillRect(x, y0 - ch, cw, ch);                                      // il corpo
-    g.beginPath(); g.moveTo(x - 4 * s, y0 - ch); g.lineTo(x + cw * 0.5, y0 - ch - 14 * s); g.lineTo(x + cw + 4 * s, y0 - ch); g.closePath(); g.fill();   // il tetto
-    g.fillRect(x + cw * 0.72, y0 - ch - 40 * s, 22 * s, 42 * s);        // la torretta
-    g.beginPath(); g.moveTo(x + cw * 0.72 - 3 * s, y0 - ch - 40 * s); g.lineTo(x + cw * 0.72 + 11 * s, y0 - ch - 54 * s); g.lineTo(x + cw * 0.72 + 25 * s, y0 - ch - 40 * s); g.closePath(); g.fill();
-    g.fillRect(x + cw + 2 * s, y0 - 22 * s, 36 * s, 22 * s);             // una tettoia
-    g.strokeStyle = luce; g.lineWidth = 1.2 * s;                          // luce sul lato del sole
-    g.beginPath(); g.moveTo(x + cw + 4 * s, y0 - ch); g.lineTo(x + cw + 4 * s, y0); g.moveTo(x + cw * 0.72 + 22 * s, y0 - ch - 38 * s); g.lineTo(x + cw * 0.72 + 22 * s, y0 - ch); g.stroke();
-    g.fillStyle = "rgba(255,196,120,.9)"; g.fillRect(x + 22 * s, y0 - ch + 9 * s, 5 * s, 8 * s);   // una finestra accesa
-  };
-  const cipresso = (x: number, s: number) => {
-    g.fillStyle = col;
-    g.beginPath(); g.moveTo(x, y0); g.quadraticCurveTo(x - 8 * s, y0 - 30 * s, x, y0 - 64 * s); g.quadraticCurveTo(x + 8 * s, y0 - 30 * s, x, y0); g.fill();
-    g.strokeStyle = luce; g.lineWidth = 1.1 * s; g.beginPath(); g.moveTo(x + 2.5 * s, y0 - 4 * s); g.quadraticCurveTo(x + 6 * s, y0 - 30 * s, x + 1 * s, y0 - 62 * s); g.stroke();
-  };
-  const eolica = (x: number, s: number) => {
-    g.strokeStyle = col; g.lineWidth = 2 * s; g.lineCap = "round";
-    g.beginPath(); g.moveTo(x - 9 * s, y0); g.lineTo(x - 1.5 * s, y0 - 66 * s); g.moveTo(x + 9 * s, y0); g.lineTo(x + 1.5 * s, y0 - 66 * s);
-    g.moveTo(x - 7 * s, y0 - 18 * s); g.lineTo(x + 7 * s, y0 - 18 * s); g.moveTo(x - 5 * s, y0 - 40 * s); g.lineTo(x + 5 * s, y0 - 40 * s); g.stroke();
-    g.lineWidth = 1.4 * s;
-    for (let k = 0; k < 12; k++) {
-      const a = (k / 12) * Math.PI * 2;
-      g.beginPath(); g.moveTo(x, y0 - 70 * s); g.lineTo(x + Math.cos(a) * 20 * s, y0 - 70 * s + Math.sin(a) * 20 * s); g.stroke();
-    }
-    g.beginPath(); g.arc(x, y0 - 70 * s, 20 * s, 0, Math.PI * 2); g.stroke();
-    g.fillStyle = col; g.beginPath(); g.moveTo(x, y0 - 70 * s); g.lineTo(x + 34 * s, y0 - 76 * s); g.lineTo(x + 34 * s, y0 - 64 * s); g.closePath(); g.fill();   // la coda
-  };
-  masseria(120, 1.0); cipresso(60, 1.0); cipresso(82, 0.85); cipresso(250, 0.9);
-  eolica(520, 0.9);
-  masseria(860, 0.7); cipresso(985, 0.7); cipresso(1000, 0.6);
-  for (let i = 0; i < 7; i++) cipresso(1120 + i * 22 + r() * 6, 0.55 + r() * 0.15);       // il filare
-  masseria(1420, 1.15); cipresso(1560, 1.0); cipresso(1580, 1.1); cipresso(1604, 0.9);
-  eolica(1780, 0.75);
-  // fusione col fondo: i piedi si perdono nella foschia
-  const gr = g.createLinearGradient(0, y0 - 6, 0, y0 + 14);
-  gr.addColorStop(0, "rgba(90,66,71,0)"); gr.addColorStop(1, "rgba(90,66,71,0.95)");
-  g.fillStyle = gr; g.fillRect(0, y0 - 6, w, 20);
-  return t;
-}
-
-export async function preparaAlba(c: Cache) {
+export function preparaAlba(c: Cache) {
   if (c.alba) return;
-  const monti: Tela[] = [];
-  for (const k of CATENE) monti.push(await crinale({
-    seme: k.seme, larghezza: 3840, altezza: 250, base: k.base, ampiezza: k.ampiezza, frequenza: k.frequenza, aspro: k.aspro, luce: 1,
-    chiaro: k.chiaro, scuro: k.scuro, nebbia: k.nebbia, nebbiaForza: k.forza, grana: k.grana,
-  }));
-  const a: StatoAlba = {
-    nubiAlte: await nuvole({
-      seme: 11, w: 960, h: 330, scalaX: 2.7, scalaY: 1, copertura: 0.40, morbidezza: 0.20, sole: [1, 0.25],
-      chiaro: "#ffc59a", scuro: "#5a5487", alto: 0.30, basso: 0.60,
-    }),
-    nubiBasse: await nuvole({
-      seme: 23, w: 960, h: 190, scalaX: 3.6, scalaY: 1, copertura: 0.38, morbidezza: 0.18, sole: [1, 0.15],
-      chiaro: "#ffdca8", scuro: "#6a5476", alto: 0.34, basso: 0.55,
-    }),
-    monti,
-    erbaFar: ciuffi(41, LARGH_CIELO, 60, 2600, 8, 22, "#1a121d", "#b56f56", 0.25),
-    erbaNear: ciuffi(43, LARGH_CIELO, 150, 800, 30, 96, "#0d0a10", "#e0925f", 0.22),
-    asfalto: await asfaltoTela(),
-    nebbia: await nebbiaTela(),
-    campo: await campoTela(),
-    sagome: sagomeTela(),
-    raggi: [],
-  };
-  // i nove raggi del sole, con i bordi morbidi (uno per ogni apertura: sette diverse)
-  const sprite = new Map<number, RaggioMorbido>();
-  for (let i = 0; i < 9; i++) {
-    const w2 = 0.06 + ((i * 37) % 7) * 0.012;
-    if (!sprite.has(w2)) sprite.set(w2, raggioMorbido(1500, w2, 40, 1300, "#ffcf8a"));
-    a.raggi.push(sprite.get(w2) as RaggioMorbido);
-  }
-  c.alba = a;
+  const cieloRipiego = tela(W, 660, (g) => {
+    const cg = g.createLinearGradient(0, 0, 0, 660);
+    cg.addColorStop(0, "#242c3c");
+    cg.addColorStop(0.45, "#685866");
+    cg.addColorStop(0.76, "#c98b66");
+    cg.addColorStop(1, "#f2bf86");
+    g.fillStyle = cg; g.fillRect(0, 0, W, 660);
+    nubi(g, 31, 420, "rgba(255,204,158,0.22)", 1.1);
+  });
+  const suoloRipiego = tela(W, H, (g) => {
+    const sg = g.createLinearGradient(0, 480, 0, H);
+    sg.addColorStop(0, "#b88a58");
+    sg.addColorStop(0.4, "#7d5c3c");
+    sg.addColorStop(1, "#2a1f18");
+    g.fillStyle = sg; g.fillRect(0, 480, W, H - 480);
+    grana(g, 0, 500, W, H - 500, 1400, "rgba(20,14,10,0.2)", 39);
+  });
+  const stratoNubi = tela(W + 400, 420, (g) => {
+    nubi(g, 47, 360, "rgba(255,212,168,0.13)", 1.05);
+    nubi(g, 53, 250, "rgba(64,58,78,0.12)", 0.85);
+  });
+  c.alba = { cieloRipiego, suoloRipiego, stratoNubi };
 }
 
-// --------------------------------------------------------------------
-//  I pali del telegrafo, con isolatori e fili che pendono
-// --------------------------------------------------------------------
-function palo(ctx: C2D, x: number, yBase: number, alto: number, col: string, rim: string, s: number) {
-  ctx.fillStyle = col;
-  ctx.beginPath();
-  ctx.moveTo(x - 4.4 * s, yBase); ctx.lineTo(x - 2.5 * s, yBase - alto); ctx.lineTo(x + 2.5 * s, yBase - alto); ctx.lineTo(x + 4.4 * s, yBase);
-  ctx.closePath(); ctx.fill();
-  // due traverse, la superiore più lunga; controventi
-  ctx.fillRect(x - 40 * s, yBase - alto + 8 * s, 80 * s, 5 * s);
-  ctx.fillRect(x - 27 * s, yBase - alto + 34 * s, 54 * s, 4 * s);
-  ctx.strokeStyle = col; ctx.lineWidth = 2.4 * s;
-  ctx.beginPath(); ctx.moveTo(x - 2 * s, yBase - alto + 40 * s); ctx.lineTo(x - 24 * s, yBase - alto + 16 * s); ctx.moveTo(x + 2 * s, yBase - alto + 40 * s); ctx.lineTo(x + 24 * s, yBase - alto + 16 * s); ctx.stroke();
-  // isolatori
-  for (const dx of [-36, -14, 14, 36]) ctx.fillRect(x + dx * s - 2 * s, yBase - alto + 1 * s, 4 * s, 8 * s);
-  for (const dx of [-24, 24]) ctx.fillRect(x + dx * s - 2 * s, yBase - alto + 27 * s, 4 * s, 8 * s);
-  // luce di contorno dal lato del sole
-  ctx.strokeStyle = rim; ctx.lineWidth = 1.5 * s;
-  ctx.beginPath(); ctx.moveTo(x + 4.4 * s, yBase); ctx.lineTo(x + 2.5 * s, yBase - alto); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(x - 40 * s, yBase - alto + 8 * s); ctx.lineTo(x + 40 * s, yBase - alto + 8 * s); ctx.stroke();
-}
+function disegnaPaliProspettici(ctx: CanvasRenderingContext2D, tRel: number) {
+  const fugaX = W * 0.273, fugaY = H * 0.448;
+  const avanzamento = ((tRel * 0.22) % 1 + 1) % 1;
+  ctx.save();
+  ctx.lineCap = "round"; ctx.lineJoin = "round";
 
-function fili(ctx: C2D, a: number, b: number, yBase: number, alto: number, s: number, col: string) {
-  ctx.strokeStyle = col; ctx.lineWidth = 1.5 * s; ctx.lineCap = "butt";
-  const ys = yBase - alto;
-  const sag = 24 * s + (b - a) * 0.02;
-  for (const [da, db, dy] of [[-36, -36, 2], [-14, -14, 2], [14, 14, 2], [36, 36, 2], [-24, -24, 30], [24, 24, 30]] as const) {
+  const puntiCavoSx: Array<[number, number]> = [];
+  const puntiCavoDx: Array<[number, number]> = [];
+
+  for (let i = 5; i >= 0; i--) {
+    const u = (i + avanzamento) / 5.4;
+    const k = Math.pow(u, 2.15);
+    if (k < 0.035 || k > 1.25) continue;
+
+    const baseX = lerp(fugaX + 18, W * 1.04, k);
+    const baseY = lerp(fugaY + 4, H * 0.88, k);
+    const hPalo = 360 * k;
+    const cimaY = baseY - hPalo;
+    const braccio = 22 * k;
+    const alfa = clamp((1.22 - k) * 3.2) * clamp(k * 9);
+    const ty = cimaY + 14 * k;
+
+    ctx.save();
+    ctx.globalAlpha = alfa * 0.88;
+    ctx.strokeStyle = "rgba(24,18,18,0.26)";
+    ctx.lineWidth = Math.max(1.2, 5.5 * k);
     ctx.beginPath();
-    ctx.moveTo(a + da * s, ys + dy * s + 1 * s);
-    ctx.quadraticCurveTo((a + b) / 2 + da * s, ys + dy * s + sag * 2, b + db * s, ys + dy * s + 1 * s);
+    ctx.moveTo(baseX, baseY);
+    ctx.lineTo(baseX - hPalo * 1.25, baseY + hPalo * 0.14);
     ctx.stroke();
+
+    ctx.strokeStyle = "#1e1716";
+    ctx.lineWidth = Math.max(1.2, 6.2 * k);
+    ctx.beginPath(); ctx.moveTo(baseX, baseY); ctx.lineTo(baseX, cimaY); ctx.stroke();
+
+    ctx.strokeStyle = "rgba(244,186,126,0.45)";
+    ctx.lineWidth = Math.max(0.8, 1.8 * k);
+    ctx.beginPath(); ctx.moveTo(baseX - 1.8 * k, baseY); ctx.lineTo(baseX - 1.8 * k, cimaY); ctx.stroke();
+
+    ctx.strokeStyle = "#1e1716";
+    ctx.lineWidth = Math.max(1, 3.6 * k);
+    ctx.beginPath(); ctx.moveTo(baseX - braccio, ty); ctx.lineTo(baseX + braccio, ty); ctx.stroke();
+    ctx.fillStyle = "#2b2220";
+    ctx.fillRect(baseX - braccio - 1.5 * k, ty - 4.5 * k, 3 * k, 4.5 * k);
+    ctx.fillRect(baseX + braccio - 1.5 * k, ty - 4.5 * k, 3 * k, 4.5 * k);
+    ctx.restore();
+
+    puntiCavoSx.push([baseX - braccio, ty - 3 * k]);
+    puntiCavoDx.push([baseX + braccio, ty - 3 * k]);
   }
+
+  ctx.strokeStyle = "rgba(28,22,22,0.52)";
+  ctx.lineWidth = 1.15;
+  for (const serie of [puntiCavoSx, puntiCavoDx]) {
+    for (let j = 0; j < serie.length - 1; j++) {
+      const [x0, y0] = serie[j], [x1, y1] = serie[j + 1];
+      const mx = (x0 + x1) * 0.5, my = (y0 + y1) * 0.5 + Math.hypot(x1 - x0, y1 - y0) * 0.045;
+      ctx.beginPath(); ctx.moveTo(x0, y0); ctx.quadraticCurveTo(mx, my, x1, y1); ctx.stroke();
+    }
+  }
+  ctx.restore();
 }
 
-// --------------------------------------------------------------------
-//  La scena
-// --------------------------------------------------------------------
-export function disegnaAlba(ctx: C2D, t: number, c: Cache, titolo: boolean) {
-  const a = c.alba as StatoAlba;
-  const t0 = titolo ? 81.4 : 9.6;
-  const l = t - t0;
-  const luce = titolo ? 0.35 + 0.25 * easeInOut(seg(l, 0, 6)) : 0.1 * easeInOut(seg(l, 0, 8));
+export function disegnaAlba(ctx: CanvasRenderingContext2D, t: number, c: Cache, finale = false) {
+  preparaAlba(c);
+  const tr0 = finale ? Math.max(0, Math.min(t, DURATA) - 81.4) : Math.max(0, t - 9.6);
+  const u = clamp(tr0 / (finale ? 7.1 : 8.0));
+  const img = tavoleTrailer.alba;
 
-  // ── il cielo
-  cielo(ctx, [
-    [0, mix("#060b1c", "#18224a", luce)], [0.34, mix("#141c40", "#3a4270", luce)], [0.5, mix("#4a3a62", "#8a6488", luce)],
-    [0.60, mix("#a86a6a", "#e69a70", luce)], [0.67, mix("#ee9a5c", "#ffc078", luce)], [0.71, mix("#f6c07a", "#ffe0a4", luce)],
-  ], 0, 720);
+  const soleX = img ? W * 0.295 : 1420;
+  const soleY = img ? lerp(H * 0.455, H * 0.415, u) : 498 - tr0 * 3.5;
 
-  // stelle che si spengono con la luce
-  const stelle = rng(7);
-  const vis = clamp(1 - luce * 2.6);
-  if (vis > 0.02) {
-    for (let i = 0; i < 90; i++) {
-      const x = stelle() * W, y = stelle() * 430, base = 0.3 + stelle() * 0.7;
-      const tw = 0.6 + 0.4 * Math.sin(t * (1.2 + stelle() * 2) + i);
-      ctx.fillStyle = `rgba(225,232,255,${base * tw * vis})`;
-      ctx.fillRect(x, y, 1.6, 1.6);
+  ctx.save();
+  if (finale) {
+    // Sul titolo e sul menu l'inquadratura si assesta solenne e respira appena
+    inquadra(ctx, lerp(1.06, 1.02, u), lerp(18, 0, u), lerp(-6, 0, u));
+    if (t < DURATA) oscillaCamera(ctx, t, 1.2);
+  } else {
+    inquadra(ctx, lerp(1.02, 1.075, u), lerp(14, -26, u), lerp(4, -8, u));
+    oscillaCamera(ctx, t, 2.0);
+  }
+
+  if (img) {
+    disegnaTavola(ctx, img, W, H);
+  } else {
+    ctx.drawImage(c.alba.cieloRipiego, 0, 0);
+    ctx.drawImage(c.alba.suoloRipiego, 0, 0);
+  }
+
+  ctx.save();
+  ctx.globalAlpha = 0.62;
+  ctx.drawImage(c.alba.stratoNubi, -(((tr0 * 12) % 380 + 380) % 380), 0);
+  ctx.restore();
+
+  ctx.save();
+  ctx.globalCompositeOperation = "screen";
+  const sg = ctx.createRadialGradient(soleX, soleY, 8, soleX, soleY, 620);
+  const crescitaAlba = lerp(0.75, finale ? 1.18 : 1.08, smoothstep(0, 6.5, tr0));
+  sg.addColorStop(0, `rgba(255,236,196,${0.42 * crescitaAlba})`);
+  sg.addColorStop(0.26, `rgba(255,186,122,${0.22 * crescitaAlba})`);
+  sg.addColorStop(0.64, `rgba(232,134,88,${0.08 * crescitaAlba})`);
+  sg.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.fillStyle = sg;
+  ctx.fillRect(0, 0, W, H);
+  ctx.restore();
+
+  raggi(ctx, soleX, soleY, 9, 980, 0.35, 1.05, "rgba(255,212,156,0.055)", 17);
+  foschia(ctx, H * 0.455, 92, "rgba(255,204,158,0.16)");
+
+  if (!finale) {
+    const ru = rng(73);
+    ctx.strokeStyle = "rgba(42,32,36,0.58)"; ctx.lineWidth = 1.6;
+    for (let i = 0; i < 6; i++) {
+      const bx = 680 + i * 34 + tr0 * (24 + ru() * 7);
+      const by = 248 + Math.sin(i * 1.7) * 18 - tr0 * 3.8;
+      const ala = Math.sin(t * 6.5 + i * 1.3) * 4.5;
+      ctx.beginPath();
+      ctx.moveTo(bx - 6, by + ala); ctx.quadraticCurveTo(bx - 2, by - 2, bx, by);
+      ctx.quadraticCurveTo(bx + 2, by - 2, bx + 6, by + ala);
+      ctx.stroke();
     }
   }
 
-  // ── il sole
-  const sy = titolo ? 700 - Math.min(l, 20) * 2 : lerp(752, 668, easeOut(seg(l, 0, 8)));
-  const sx = titolo ? 1640 : 1510;
-  // I grandi aloni si compongono in «screen», non in somma: sommandoli il rosso e il verde arrivano al massimo insieme
-  // e il blu no, e il cielo vira dall'arancio al giallo limone (tinta 50–58°); in «screen» restano dorati (≈ 40°).
-  ctx.globalCompositeOperation = "screen";
-  alone(ctx, sx, sy, 1100, "#ff8f4a", 0.30 + luce * 0.16, 0.62);
-  alone(ctx, sx, ORIZZONTE + 4, 1500, "#ff9550", 0.26 + luce * 0.1, 0.16);
-  alone(ctx, sx, sy, 280, "#ffc486", 0.55);
-  ctx.globalCompositeOperation = "source-over";
+  // Sul menu fermo (t >= DURATA) la figura e i pali si fermano morbidi nella luce dell'alba
+  const camm = CAMMINATE[finale ? 4 : 0];
+  const fermoMenu = finale ? smoothstep(DURATA - 1.4, DURATA, t) : 0;
+  disegnaPaliProspettici(ctx, finale ? lerp(tr0, 5.7, fermoMenu) : tr0);
 
-  // ── nuvole: alte, lontane; e basse, scaldate da sotto
-  nuvoleScorrono(ctx, a.nubiAlte, 0, 20, LARGH_CIELO, 640, t * 5.5, 0.92);
-  ctx.globalCompositeOperation = "screen";
-  alone(ctx, sx - 60, sy + 20, 900, "#ff9a5c", 0.16 * (0.4 + luce), 0.5);
-  ctx.globalCompositeOperation = "source-over";
-  nuvoleScorrono(ctx, a.nubiBasse, 0, 470, LARGH_CIELO, 380, t * 9, 0.95);
+  const vx = finale ? lerp(W * 0.62, W * 0.56, u) : lerp(W * 0.56, W * 0.43, u);
+  const vy = finale ? lerp(H * 0.81, H * 0.77, u) : lerp(H * 0.835, H * 0.745, u);
+  const vh = finale ? lerp(152, 134, u) : lerp(176, 138, u);
+  const fase = faseDiPasso(Math.min(t, DURATA), camm);
+  const opzV = {
+    colore: "#191314",
+    lontano: "#100c0d",
+    bordo: "#ffbe7e",
+    latoLuce: -1,
+    verso: -1,
+    fermo: fermoMenu,
+    tanica: true,
+    fagotto: true,
+    cappello: true,
+    dettaglio: 2 as const,
+  };
+  disegnaOmbra(ctx, vx, vy, vh, fase, opzV, 1.35, -0.22, "rgba(18,12,12,0.38)");
+  disegnaViandante(ctx, vx, vy, vh, fase, opzV);
 
-  // il disco del sole, davanti alle nuvole basse più sottili
-  ctx.fillStyle = "#fff0cf";
-  ctx.beginPath(); ctx.arc(sx, sy, 50, 0, Math.PI * 2); ctx.fill();
-  ctx.globalCompositeOperation = "lighter";
-  alone(ctx, sx, sy, 130, "#ffe9c6", 0.85);
-  // raggi: spicchi dai bordi morbidi che salgono dal sole e respirano (sommati: sono i soli a dare la luce viva al sole)
-  ctx.save(); ctx.translate(sx, sy);
-  for (let i = 0; i < 9; i++) {
-    const ang = -Math.PI * (0.30 + i * 0.105) - Math.PI * 0.15;
-    disegnaRaggio(ctx, a.raggi[i], ang, 1.3 * (0.07 + 0.05 * Math.sin(t * 0.6 + i * 1.7)) * (0.5 + luce));   // 1,3: i bordi morbidi tolgono contrasto, il peso resta
-  }
   ctx.restore();
-  ctx.globalCompositeOperation = "source-over";
 
-  // ── i monti, dal più lontano
-  const pan = titolo ? l * 4 : l * 7;
-  CATENE.forEach((k, i) => catenaScorre(ctx, a.monti[i], k.y, pan * k.par, 1));
-  // foschia calda fra le catene
-  cielo(ctx, [[0, "rgba(255,176,120,0)"], [1, `rgba(255,176,120,${0.16 + luce * 0.10})`]], 560, 720);
+  polvere(ctx, Math.min(t, DURATA), 42, "rgba(255,214,168,0.26)", 16, -6);
 
-  // ── la piana: chiazze e cespugli, poi la nebbia bassa che scivola
-  ctx.drawImage(a.campo, 0, ORIZZONTE - 6, W, 190);
-  ctx.globalCompositeOperation = "lighter";
-  ctx.globalAlpha = 0.55 + luce * 0.3;
-  nuvoleScorrono(ctx, a.nebbia, 0, ORIZZONTE - 40, LARGH_CIELO, 150, t * 6, 1);
-  ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
-  // masserie, cipressi e pompe a vento sull'orizzonte
-  const offH = (pan * 0.30) % LARGH_CIELO;
-  ctx.globalAlpha = 0.85;
-  for (let x = -offH; x < W; x += LARGH_CIELO) ctx.drawImage(a.sagome, x, ORIZZONTE - 132 + 4, LARGH_CIELO, 150);
-  ctx.globalAlpha = 1;
-  // ciuffi lontani, sulla riga della piana
-  const off = (pan * 0.9) % W;
-  for (let x = -off; x < W; x += W) ctx.drawImage(a.erbaFar, x, ORIZZONTE + 92, W, 60);
-
-  // ── pali lontani (più piccoli, sfumati nella foschia)
-  const paliL: number[] = [];
-  for (let i = -1; i < 9; i++) paliL.push(((i * 300 + pan * 0.55) % (300 * 9)) - 100);
-  paliL.sort((p, q) => p - q);
-  ctx.globalAlpha = 0.55;
-  for (const px of paliL) palo(ctx, px, ORIZZONTE + 62, 76, "#2a1f2d", "#e79a68", 0.42);
-  for (let i = 0; i < paliL.length - 1; i++) if (paliL[i + 1] - paliL[i] < 400) fili(ctx, paliL[i], paliL[i + 1], ORIZZONTE + 62, 76, 0.42, "rgba(40,28,44,.9)");
-  ctx.globalAlpha = 1;
-
-  // ── la strada
-  const ys = STRADA - 22;
-  ctx.fillStyle = "#1a1418"; ctx.fillRect(0, ys - 8, W, H);
-  ctx.save();
-  ctx.beginPath(); ctx.moveTo(-10, ys); ctx.quadraticCurveTo(W / 2, ys - 6, W + 10, ys + 1); ctx.lineTo(W + 10, ys + 58); ctx.quadraticCurveTo(W / 2, ys + 62, -10, ys + 58); ctx.closePath(); ctx.clip();
-  const offS = (pan * 1.0) % LARGH_CIELO;
-  for (let x = -offS; x < W; x += LARGH_CIELO) ctx.drawImage(a.asfalto, x, ys, LARGH_CIELO, 60);
-  // riflesso del sole sull'asfalto
-  ctx.globalCompositeOperation = "lighter";
-  alone(ctx, sx - 120, ys + 12, 520, "#ff9a5a", 0.30 + luce * 0.2, 0.12);
-  ctx.restore();
-  ctx.globalCompositeOperation = "source-over";
-  // banchina sotto: terra battuta e ghiaia, in ombra
-  const gr2 = ctx.createLinearGradient(0, ys + 58, 0, H);
-  gr2.addColorStop(0, "#1f181d"); gr2.addColorStop(0.4, "#0f0c12"); gr2.addColorStop(1, "#07060a");
-  ctx.fillStyle = gr2; ctx.fillRect(0, ys + 58, W, H - ys - 58);
-
-  // ── pali vicini, lungo la strada
-  const palie: number[] = [];
-  for (let i = -1; i < 7; i++) palie.push(((i * 430 + pan * 1.0) % (430 * 7)) - 200);
-  palie.sort((p, q) => p - q);
-  for (const px of palie) palo(ctx, px, ys + 4, 214, "#0b090f", "#ffae74", 1);
-  for (let i = 0; i < palie.length - 1; i++) if (palie[i + 1] - palie[i] < 600) fili(ctx, palie[i], palie[i + 1], ys + 4, 214, 1, "rgba(12,10,16,.95)");
-
-  // ── il viandante e la sua ombra lunga davanti
-  const cam = titolo ? 4 : 0;
-  const fase = faseDiPasso(t, CAMMINATE[cam]) - 0.25;      // il tallone tocca terra quando il suono dice «passo»
-  const cad = CAMMINATE[cam].cad;
-  let x: number, alto: number, amp: number;
-  if (titolo) {
-    alto = 74; amp = 0.55;
-    const corsa = 1500, v = velocitaSuolo(alto, cad, amp) - 4;
-    x = 1250 - ((l * v) % corsa);
+  // Velo scuro caldo più intenso sul finale/menu così «IL VIAGGIATORE» e le voci del menu spiccano con contrasto pieno
+  if (finale) {
+    const gMenu = ctx.createLinearGradient(0, 0, W * 0.68, 0);
+    gMenu.addColorStop(0, "rgba(8,7,10,0.72)");
+    gMenu.addColorStop(0.58, "rgba(10,8,12,0.42)");
+    gMenu.addColorStop(1, "rgba(10,8,12,0.18)");
+    ctx.fillStyle = gMenu;
+    ctx.fillRect(0, 0, W, H);
   } else {
-    alto = 150; amp = 0.62;
-    const v = velocitaSuolo(alto, cad, amp) - 7;     // meno la panoramica lenta della macchina
-    x = 1340 - l * v;
+    const gTesto = ctx.createLinearGradient(0, 0, W * 0.52, 0);
+    gTesto.addColorStop(0, "rgba(10,8,12,0.44)");
+    gTesto.addColorStop(1, "rgba(10,8,12,0)");
+    ctx.fillStyle = gTesto;
+    ctx.fillRect(0, 0, W * 0.52, H);
   }
-  const svanisce = titolo ? clamp((x - 180) / 200) : 1;
-  ctx.globalAlpha = svanisce;
-  const yPiedi = ys + 30;
-  disegnaOmbra(ctx, x, yPiedi + 2, alto, fase, { colore: "#000", tanica: true, fagotto: true, cappello: true, ampiezza: amp }, 2.5, -0.09, "rgba(4,2,8,.5)");
-  disegnaViandante(ctx, x, yPiedi, alto, fase, {
-    colore: "#08060b", lontano: "#040306", bordo: "#ffb27a", latoLuce: 1, verso: -1,
-    tanica: true, fagotto: true, cappello: true, ampiezza: amp, dettaglio: alto > 100 ? 1 : 0,
-  });
-  ctx.globalAlpha = 1;
-
-  // ── in primo piano: ciuffi d'erba secca controluce e polvere nella luce
-  const offN = (pan * 1.7) % LARGH_CIELO;
-  for (let xx = -offN; xx < W; xx += LARGH_CIELO) ctx.drawImage(a.erbaNear, xx, 800, LARGH_CIELO, 150);
-  ctx.globalCompositeOperation = "lighter";
-  pulviscolo(ctx, t, 8, 70, { x: 700, y: 360, w: 1300, h: 560 }, "#ffd9ae", 0.55 + luce * 0.6);
-  ctx.globalCompositeOperation = "source-over";
-  // grana calda in alto, la pellicola vira
-  cielo(ctx, [[0, "rgba(6,8,22,.16)"], [0.4, "rgba(6,8,22,0)"]], 0, 500);
+  vignetta(ctx, finale ? 0.56 : 0.44);
 }
-
-export { hexRgb, rgbCss, smooth, sfoca, camera };

@@ -20,6 +20,7 @@ import { useEffect, useRef, useState } from "react";
 import LogoRuntime, { DURATA_RUNTIME, type Animabile } from "../loghi/LogoRuntime";
 import LogoFavella, { DURATA_FAVELLA } from "../loghi/LogoFavella";
 import { SuonoLoghi } from "../loghi/suono";
+import { tr } from "../lib/lingua";
 
 const CODA = 0.35;   // nero dopo l'ultimo logo
 const DURATA = DURATA_RUNTIME + DURATA_FAVELLA + CODA;
@@ -71,7 +72,7 @@ export default function Loghi({ onFine }: { onFine: () => void }) {
 
   return (
     <div style={{ position: "fixed", inset: 0, background: "#000", cursor: "none", overflow: "hidden", userSelect: "none" }}
-      aria-label="Loghi di apertura">
+      aria-label={tr("Loghi di apertura", "Opening logos")}>
       <LogoRuntime ref={runtime} />
       <LogoFavella ref={favella} />
     </div>

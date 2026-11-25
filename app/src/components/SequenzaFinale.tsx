@@ -46,19 +46,41 @@ async function caricaBrano(ac: AudioContext, url: string): Promise<AudioBuffer> 
   return ac.decodeAudioData(await r.arrayBuffer());
 }
 
-/** La notte che scende sulla riva: un velo blu più fitto in alto, e le stelle sopra le colline. */
+/** La notte che scende sulla riva: spegne il bagliore d'ambra dell'orizzonte e accende le stelle sopra il crinale. */
 function notte(ctx: CanvasRenderingContext2D, n: number, t: number) {
+  if (n <= 0.002) return;
+  ctx.save();
+  ctx.globalCompositeOperation = "multiply";
+  const gm = ctx.createLinearGradient(0, 0, 0, H);
+  const cSu = Math.round(255 - 236 * n);
+  const cCentro = Math.round(255 - 228 * n);
+  const cGiu = Math.round(255 - 216 * n);
+  gm.addColorStop(0, `rgb(${cSu},${Math.min(255, cSu + 8)},${Math.min(255, cSu + 38)})`);
+  gm.addColorStop(0.52, `rgb(${cCentro},${Math.min(255, cCentro + 6)},${Math.min(255, cCentro + 32)})`);
+  gm.addColorStop(1, `rgb(${cGiu},${Math.min(255, cGiu + 6)},${Math.min(255, cGiu + 24)})`);
+  ctx.fillStyle = gm;
+  ctx.fillRect(0, 0, W, H);
+  ctx.restore();
+
   const g = ctx.createLinearGradient(0, 0, 0, H);
-  g.addColorStop(0, `rgba(3,5,16,${0.88 * n})`);
-  g.addColorStop(0.6, `rgba(6,8,22,${0.76 * n})`);
-  g.addColorStop(1, `rgba(2,3,8,${0.82 * n})`);
+  g.addColorStop(0, `rgba(4,7,20,${0.86 * n})`);
+  g.addColorStop(0.38, `rgba(7,11,28,${0.72 * n})`);
+  g.addColorStop(0.68, `rgba(6,8,20,${0.64 * n})`);
+  g.addColorStop(1, `rgba(2,3,9,${0.78 * n})`);
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, W, H);
+
+  const kStelle = Math.max(0, (n - 0.25) / 0.75);
+  if (kStelle <= 0) return;
   const r = rng(29);
   for (let i = 0; i < 150; i++) {
-    const x = r() * W, y = BANDA + r() * 300, base = 0.25 + r() * 0.75, ritmo = 0.9 + r() * 1.8, lato = r() < 0.12 ? 2.2 : 1.5;
+    const x = r() * W;
+    // Le stelle restano nel cielo sopra il profilo delle montagne e del campanile di Acquamorta
+    const tettoMonte = x > W * 0.36 ? 155 : 235;
+    const y = BANDA + r() * tettoMonte;
+    const base = 0.25 + r() * 0.75, ritmo = 0.9 + r() * 1.8, lato = r() < 0.12 ? 2.2 : 1.5;
     const brilla = 0.6 + 0.4 * Math.sin(t * ritmo + i);
-    ctx.fillStyle = `rgba(226,232,255,${base * brilla * n * 0.9})`;
+    ctx.fillStyle = `rgba(226,234,255,${base * brilla * kStelle * 0.92})`;
     ctx.fillRect(x, y, lato, lato);
   }
 }
@@ -84,10 +106,11 @@ export default function SequenzaFinale({ frase, onFine }: Props) {
   const runtime = useRef<Animabile>(null);
   const favella = useRef<Animabile>(null);
   const [scala, setScala] = useState(1);
-  const [avvio, setAvvio] = useState<{ T: Tempi; conCanzone: boolean } | null>(null);
+  const [avvio, setAvvio] = useState<{ T: Tempi; conCanzone: boolean; orologioAudio: () => number | null } | null>(null);
   const fine = useRef(onFine);
   fine.current = onFine;
   const fatto = useRef(false);
+  const timerSalta = useRef(0);
   const uscita = useRef<null | (() => void)>(null);
 
   // il palco 16:9 più grande che entra nella finestra; la tela ai suoi pixel veri (fino al tetto)
@@ -114,17 +137,26 @@ export default function SequenzaFinale({ frase, onFine }: Props) {
     const livello = ac.createGain();
     livello.connect(canale(ac, "musica"));
     let sorgente: AudioBufferSourceNode | null = null;
-    const parti = (buf: AudioBuffer | null, conCanzone: boolean) => {
+    const parti = async (buf: AudioBuffer | null, conCanzone: boolean) => {
       if (!vivo || fatto.current) return;
       fatto.current = true;
-      if (ac.state === "suspended") ac.resume().catch(() => {});
+      if (ac.state === "suspended") await ac.resume().catch(() => {});
+      if (!vivo) return;
+      let inizioAudio: number | null = null;
       if (buf) {
         sorgente = ac.createBufferSource();
         sorgente.buffer = buf;
         sorgente.connect(livello);
-        sorgente.start(ac.currentTime + ATTACCO);
+        inizioAudio = ac.currentTime + ATTACCO;
+        sorgente.start(inizioAudio);
       }
-      setAvvio({ T: tempi(buf ? buf.duration : null), conCanzone });
+      const acLat = ac as AudioContext & { outputLatency?: number };
+      const orologioAudio = () => {
+        if (inizioAudio === null || ac.state !== "running") return null;
+        const lat = Math.max(0, Math.min(0.25, (acLat.baseLatency || 0) + (acLat.outputLatency || 0)));
+        return Math.max(0, ac.currentTime - (inizioAudio - ATTACCO) - lat);
+      };
+      setAvvio({ T: tempi(buf ? buf.duration : null), conCanzone, orologioAudio });
     };
     // le tele del paesaggio si aspettano sempre (nel gioco sono pronte dall'avvio); la musica al massimo ATTESA_MUSICA
     let scadenza = 0;
@@ -141,6 +173,7 @@ export default function SequenzaFinale({ frase, onFine }: Props) {
     return () => {
       vivo = false;
       window.clearTimeout(scadenza);
+      window.clearTimeout(timerSalta.current);
       try { sorgente?.stop(); } catch { /* già fermo */ }
       ac.close().catch(() => {});
     };
@@ -168,25 +201,31 @@ export default function SequenzaFinale({ frase, onFine }: Props) {
     saltato.current = true;
     uscita.current?.();
     if (nero.current) { nero.current.style.transition = `opacity ${USCITA}s ease`; nero.current.style.opacity = "1"; }
-    window.setTimeout(() => fine.current(), USCITA * 1000);
+    timerSalta.current = window.setTimeout(() => fine.current(), USCITA * 1000);
   };
 
   // ── il fotogramma ──────────────────────────────────────────────────
   useEffect(() => {
     if (!avvio) return;
-    const { T } = avvio;
+    const { T, orologioAudio } = avvio;
     const t0 = performance.now();
     let fermo: number | null = null;
     if (import.meta.env.DEV) (window as unknown as { __finale?: object }).__finale = { vai: (t: number) => { fermo = t; }, T };
     // la colonna dei titoli: il titolo fermo al centro della finestra, poi sale finché «Grazie» non sta al centro
     const finestra = H - 2 * BANDA;
     const centro = (el: HTMLElement | null) => (el ? el.offsetTop + el.offsetHeight / 2 : 0);
-    const y0 = finestra / 2 - centro(titolo.current);
-    const y1 = finestra / 2 - centro(grazie.current);
+    let y0 = finestra / 2 - centro(titolo.current);
+    let y1 = finestra / 2 - centro(grazie.current);
+    let vivoMisura = true;
+    document.fonts?.ready.then(() => {
+      if (!vivoMisura) return;
+      y0 = finestra / 2 - centro(titolo.current);
+      y1 = finestra / 2 - centro(grazie.current);
+    }).catch(() => {});
     const fineCorsa = T.titoliA - 4;
     let raf = 0;
     const passo = (ora: number) => {
-      const t = fermo ?? (ora - t0) / 1000;
+      const t = fermo ?? orologioAudio() ?? (ora - t0) / 1000;
       const c = tela.current;
       if (c) {
         const ctx = c.getContext("2d")!;
@@ -226,6 +265,7 @@ export default function SequenzaFinale({ frase, onFine }: Props) {
     };
     raf = requestAnimationFrame(passo);
     return () => {
+      vivoMisura = false;
       cancelAnimationFrame(raf);
       if (import.meta.env.DEV) delete (window as unknown as { __finale?: object }).__finale;
     };

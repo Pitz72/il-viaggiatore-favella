@@ -12,6 +12,7 @@ import { useEffect, useRef } from "react";
 import type { Conferma as DatiConferma } from "./azioni";
 import { comandoInglese, confermaInglese } from "./traduci";
 import { inglese, tr } from "../lib/lingua";
+import { useDialogo } from "./useDialogo";
 
 interface Props {
   conferma: DatiConferma;
@@ -32,12 +33,13 @@ const Elenco = ({ titolo, voci, tono }: { titolo: string; voci: string[]; tono: 
 export default function Conferma({ conferma, etichetta, puoAnnullare, onSi, onNo }: Props) {
   const en = inglese();
   const c = en ? confermaInglese(conferma) : conferma;
+  const dialogo = useDialogo<HTMLDivElement>(onNo);
   const no = useRef<HTMLButtonElement>(null);
-  useEffect(() => { no.current?.focus(); }, []);
+  useEffect(() => { const r = requestAnimationFrame(() => no.current?.focus()); return () => cancelAnimationFrame(r); }, []);
   useEffect(() => {
     const tasto = (e: KeyboardEvent) => {
       const k = e.key.toLowerCase();
-      if (k === "escape" || k === "n") { e.preventDefault(); e.stopPropagation(); onNo(); }
+      if (k === "n") { e.preventDefault(); e.stopPropagation(); onNo(); }
       else if (k === "s" || k === "y") { e.preventDefault(); e.stopPropagation(); onSi(); }
     };
     window.addEventListener("keydown", tasto, true);
@@ -45,7 +47,7 @@ export default function Conferma({ conferma, etichetta, puoAnnullare, onSi, onNo
   }, [onSi, onNo]);
 
   return (
-    <div className="vg-conf-velo" role="alertdialog" aria-modal="true" aria-labelledby="vg-conf-domanda" onClick={onNo}>
+    <div ref={dialogo} tabIndex={-1} style={{ outline: "none" }} className="vg-conf-velo" role="alertdialog" aria-modal="true" aria-labelledby="vg-conf-domanda" onClick={onNo}>
       <div className={`vg-conf vg-conf-tipo-${c.tipo}`} onClick={(e) => e.stopPropagation()}>
         <p className="vg-sopratitolo">{c.segno}</p>
         <p className="vg-conf-quota">{en ? comandoInglese(etichetta) : etichetta}</p>

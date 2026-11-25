@@ -28,10 +28,10 @@ interface Props {
 export default function Domanda({ base, accento = "#f0b77e", domanda, sotto, si, no, onSi, onNo }: Props) {
   const [opz] = useOpzioni();
   const dialogo = useDialogo<HTMLDivElement>(onNo);
-  // il fuoco su «sì» un attimo dopo l'apertura, non con autoFocus: così il dialogo ricorda chi l'ha aperto e, chiuso,
-  // ci riporta il fuoco (con autoFocus avrebbe ricordato il suo stesso pulsante)
-  const siRef = useRef<HTMLButtonElement>(null);
-  useEffect(() => { const r = requestAnimationFrame(() => siRef.current?.focus()); return () => cancelAnimationFrame(r); }, []);
+  // il fuoco su «no» un attimo dopo l'apertura, non con autoFocus: un Invio distratto non sovrascrive né elimina niente, e
+  // chiuso il dialogo il fuoco torna a chi l'aveva aperto
+  const noRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => { const r = requestAnimationFrame(() => noRef.current?.focus()); return () => cancelAnimationFrame(r); }, []);
   useEffect(() => {
     const tasto = (e: KeyboardEvent) => {
       const k = e.key.toLowerCase();
@@ -57,8 +57,8 @@ export default function Domanda({ base, accento = "#f0b77e", domanda, sotto, si,
         <p style={{ margin: 0, fontFamily: SERIF, fontSize: "1.45em", color: "#f4ece0" }}>{domanda}</p>
         {sotto && <p className="dm-sotto" style={{ margin: ".6em 0 0", fontFamily: SERIF, fontStyle: "italic", fontSize: ".98em", lineHeight: 1.45, color: "rgba(226,220,208,.74)" }}>{sotto}</p>}
         <div style={{ marginTop: "1.5em", display: "flex", justifyContent: "center", gap: ".8em" }}>
-          <button ref={siRef} type="button" className="opz-bottone" onClick={onSi} style={{ ...bottone, background: accento, color: "#140c06", borderColor: accento }}>{si} <b>{tr("S", "Y")}</b></button>
-          <button type="button" className="opz-bottone" onClick={onNo} style={bottone}>{no} <b>N</b></button>
+          <button ref={noRef} type="button" className="opz-bottone" onClick={onNo} style={bottone}>{no} <b>N</b></button>
+          <button type="button" className="opz-bottone" onClick={onSi} style={{ ...bottone, background: accento, color: "#140c06", borderColor: accento }}>{si} <b>{tr("S", "Y")}</b></button>
         </div>
       </div>
     </div>

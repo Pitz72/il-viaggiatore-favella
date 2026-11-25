@@ -11,7 +11,7 @@
 //  anche qui. Un contesto solo; se l'audio non può partire, la mappa si apre
 //  lo stesso, in silenzio.
 // ====================================================================
-import { canale } from "../lib/suono";
+import { canale, offline } from "../lib/suono";
 
 const PICCO = 0.12;
 
@@ -33,19 +33,27 @@ function scricchiolii(a: BaseAudioContext, dest: AudioNode, t0: number, t1: numb
   s.buffer = rumore;
   s.loop = true;
   s.connect(filtro).connect(g).connect(dest);
+  const istanti: number[] = [];
   for (let i = 0; i < n; i++) {
     // il momento di uno scatto: scelto a caso, ma accettato con probabilità pari alla densità lì (rifiuto)
     let x = Math.random();
     for (let k = 0; k < 8 && Math.random() > densita(x); k++) x = Math.random();
-    const t = t0 + x * (t1 - t0);
+    istanti.push(t0 + x * (t1 - t0));
+  }
+  istanti.sort((x, y) => x - y);
+  let finePrecedente = t0;
+  for (const tGrezz of istanti) {
+    const t = Math.max(tGrezz, finePrecedente + 0.001);
     const forza = livello * (0.25 + Math.random() * 0.75);
     const durata = 0.006 + Math.random() * 0.03;
     g.gain.setValueAtTime(0.0001, t);
     g.gain.linearRampToValueAtTime(forza, t + 0.002);
     g.gain.exponentialRampToValueAtTime(0.0001, t + 0.002 + durata);
+    finePrecedente = t + 0.002 + durata;
   }
+  s.onended = () => { s.disconnect(); filtro.disconnect(); g.disconnect(); };
   s.start(t0, Math.random() * 0.5);
-  s.stop(t1 + 0.1);
+  s.stop(Math.max(t1 + 0.1, finePrecedente + 0.02));
 }
 
 /** Un soffio d'aria: rumore passabasso che sale e scende. */
@@ -106,10 +114,12 @@ export function componiCarta(a: BaseAudioContext, dest: AudioNode, modo: "apre" 
     scricchiolii(a, morbido, t + 0.02, t + d * 0.9, 46, (x) => 0.35 + 0.65 * Math.max(Math.exp(-x * 6), Math.exp(-((x - 0.55) ** 2) * 28)), 2600, 0.9, PICCO * 1.1);
     scricchiolii(a, morbido, t + 0.05, t + d * 0.85, 26, (x) => 0.3 + 0.7 * Math.exp(-((x - 0.4) ** 2) * 20), 5200, 1.1, PICCO * 0.7);
     colpetto(a, morbido, t + d * 0.88, PICCO * 0.9);
+    if (!offline(a) && typeof window !== "undefined") window.setTimeout(() => { morbido.disconnect(); alto.disconnect(); }, DURATA_APRE + 350);
   } else {
     const d = DURATA_CHIUDE / 1000;
     soffio(a, morbido, t, d, 1400, PICCO * 0.4);
     scricchiolii(a, morbido, t, t + d, 14, () => 1, 3000, 0.9, PICCO * 0.8);
+    if (!offline(a) && typeof window !== "undefined") window.setTimeout(() => { morbido.disconnect(); alto.disconnect(); }, DURATA_CHIUDE + 300);
   }
 }
 

@@ -68,7 +68,7 @@ function schede(modo: ModoComandi): Scheda[] {
         + (tocca ? tr("Se sbagli una mossa, ↶ annulla (o Ctrl+Z) ti riporta indietro. ", "If you make a wrong move, ↶ undo (or Ctrl+Z) takes you back. ")
           : "Se sbagli una mossa, ANNULLA (o Ctrl+Z) ti riporta indietro. ")
         + tr("Il racconto ha una voce: un tasto la ferma, F2 la ridice, le opzioni la regolano. ",
-          "The story is voiced (in Italian, for now): any key stops the voice, F2 repeats it, the options adjust it. ")
+          "The story is voiced: any key stops the voice, F2 repeats it, the options adjust it. ")
         + (scrive ? "Esc (o PAUSA) mette in pausa: da lì le opzioni, questa guida, il menu d'avvio. "
           : tr("Esc mette in pausa: da lì le opzioni, questa guida, il menu d'avvio. ", "Esc pauses the game: from there, the options, this guide, the main menu. "))
         + tr("Sei finali: come arrivi decide quale.", "Six endings: how you get there decides which."),
@@ -82,7 +82,7 @@ export default function ComeSiGioca({ base, accento = "#f0b77e", onChiudi, compa
   const [opz] = useOpzioni();
   const SCHEDE = schede(comandiEffettivi(opz));
   return (
-    <div ref={dialogo} tabIndex={-1} role="dialog" aria-modal="true" aria-label={tr("Come si gioca", "How to play")}
+    <div ref={dialogo} tabIndex={-1} role="dialog" aria-modal="true" className="csg-dialogo" aria-label={tr("Come si gioca", "How to play")}
       style={{ outline: "none", fontSize: base * scalaTesto(opz), position: "absolute", inset: 0, zIndex: 70, display: "flex", alignItems: "center", justifyContent: "center",
         background: "rgba(4,4,8,.72)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", animation: "kf-launch .35s ease both", pointerEvents: "auto" }}
       onClick={onChiudi}>

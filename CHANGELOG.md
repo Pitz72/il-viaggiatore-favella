@@ -8,6 +8,59 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+## [1.43.0] - 2026-11-25
+
+### Aggiunto
+- **Veste pittorica a gouache e china per il trailer, i panorami e il cammeo del protagonista** (`app/public/immagini/scene/`,
+  26 tavole WebP per circa 1,25 MB complessivi; i 24 ritratti e oggetti già presenti restano intatti al byte):
+  - cinque fondali panoramici `16:9` per il trailer e il menu d'avvio (*Le lettere*, *L'alba sulla provinciale*, *La terra crepata*,
+    *L'invaso morto*, *Il guado di Acquamorta*) animati dal vivo su tela con luci, nubi, riverbero termico, trascolorare notturno con
+    Via Lattea e spia della torre, riflessi sull'acqua e ciclo di camminata completo (`app/src/trailer/tavole.ts`, `scene/*.ts`,
+    `viandante.ts`);
+  - cinque medaglioni circolari dipinti per *Cinque modi di stare in un mondo che muore* (pozzo, pompa col filtro, sbarra del casello,
+    tavola d'osteria, cavallo di legno intagliato) con anello animato nell'accento del personaggio (`Trailer.tsx`, `regole.ts`);
+  - quindici strisce panoramiche per la partita (`Panorama.tsx`: le sette zone all'aperto più gli otto interni `bar`, `osteria`, `casa`,
+    `casotto`, `serra`, `grotta`, `condotta`/`sottopasso`, `torre di presa`), con parallasse morbida durante il passo, fumo, fiamme del
+    camino, pulviscolo e ripiego procedurale immediato;
+  - il **cammeo dipinto di tre quarti di spalle del Viandante** (`immagini/scene/viandante.webp`, senza volto frontale come vuole la
+    storia) accanto alle risposte di dialogo, velato sulla spalla dalla luce della zona corrente (`RitrattoNostro.tsx`).
+
+### Cambiato
+- **Le scene simboliche del trailer parlano la stessa lingua del gioco**: la mappa delle sette tappe è ora una **Carta Fisica** su
+  pergamena calda con curve di livello a inchiostro bruno, alvei secchi, pieghe del foglio e rosa dei venti (`trailer/scene/mappa.ts`);
+  nella quarta regola (*La violenza costa. Ed è evitabile.*) le dieci pillole rosa sono sostituite da **dieci tessere scolpite d'osso e
+  pietra incisa**, di cui le ultime quattro si fendono e cadono in schegge al colpo (`trailer/scene/regole.ts`).
+- **Interfaccia di partita editoriale e materica** (`gioco.css`, `taccuino.css`): fondo carta-carbone caldo, filetti in bronzo antico,
+  divisori di luogo con fregio, indicatori del corpo incassati con tacche incise, riquadri delle scorte e della bisaccia a rilievo,
+  testata superiore simmetrica con velatura protettiva nell'angolo destro per la piena leggibilità di `SALVA / CARICA / PAUSA` anche sui
+  cieli chiari; l'Alta Accessibilità (contrasto alto, testo grande, carattere Atkinson, movimento ridotto, fuoco marcato) resta intatta.
+
+### Corretto
+- **I tre finali amari della storia (`terminata`) non appaiono più come sconfitte per morte (`persa`)**: mostrano «a casa» / «finale»,
+  luce ambrata del tramonto e portano regolarmente alla sequenza finale coi titoli di coda; il grigio spento e «il viaggio finisce qui»
+  restano riservati alle sole morti lungo la strada (`ViaggiatorePlayer.tsx`, `Panorama.tsx`). Caricando un salvataggio già concluso, la
+  frase del finale si conserva per la sequenza di chiusura, e la scrittura dei trofei dell'ultimo turno è attesa prima del ritorno al menu.
+- **Chiudere la finestra del gioco desktop (o la scheda del browser) salva automaticamente la partita in corso**, anche se un riquadro
+  modale è aperto (`desktop/main.cjs`, `preload.cjs`, `lib/desktop.ts`, `ViaggiatorePlayer.tsx`).
+- **Ricaricare un salvataggio fatto mentre il motore aspettava una risposta** («ricominciare da capo?», «chiudere la partita?», «con cosa
+  vuoi usarla?») rimostra subito la domanda in sospeso nel diario senza alterare l'impronta del salvataggio (`app/src/lib/ponte.py`).
+- **Quattro casi limite logici nei sorgenti `.fav`, a zero impatto sul doppiaggio** (`z7-guado.fav`, `z6-colline.fav`, `z5-paese.fav`,
+  `z3-invaso.fav`, `doppiaggio/attribuzioni.json`, verificati in `collaudo/fili.py`): allontanarsi dal guado durante la veglia azzera i
+  turni d'attesa; chi ha posato o consegnato il fucile al guado e torna indietro sul valico non resta più bloccato a sud; al guado, nel
+  vicolo e alla diga il gioco non dice più che lettera, fucile, medicine o pastiglie sono «per terra» o «tra i sassi» quando il giocatore
+  non le ha mai portate lì.
+- **Audio, trailer, sequenza finale e prestazioni**: il giro musicale del menu d'avvio parte sempre anche saltando il trailer negli ultimi
+  secondi o rientrando a fine trailer, il cambio della lingua della voce nelle opzioni vale subito per «Rivedi il trailer», i fruscii e i
+  suoni di trofeo scollegano i nodi Web Audio a fine coda e sospendono il contesto quando la musica tace (`trailer/audio.ts`, `lib/suono.ts`,
+  `suonoCarta.ts`, `suonoTrofeo.ts`, `musica.ts`); la calibrazione WebGL rilascia il contesto prima dell'attacco audio, i titoli di coda
+  seguono l'orologio reale dell'`AudioContext` spegnendo il tramonto prima delle stelle (`Trailer.tsx`, `SequenzaFinale.tsx`), e il
+  `Panorama` ferma del tutto `requestAnimationFrame` in pausa, a scheda nascosta o a movimento ridotto (`Panorama.tsx`).
+- **Accessibilità, tastiera e traduzione d'interfaccia**: trappola del fuoco completa in `Conferma.tsx`, fuoco iniziale prudente sul «No»
+  nelle conferme distruttive (`Domanda.tsx`, `Opzioni.tsx`), `Tab` ed `Esc` coerenti durante la rinomina nel `Taccuino.tsx` con scorrimento
+  verticale anti-taglio col testo grande, scorrimento di sicurezza nella plancia, `aria-selected` nella griglia dei trofei (`PaginaTrofei.tsx`),
+  testo inglese aggiornato in `ComeSiGioca.tsx` («The story is voiced:»), stringhe d'avvio/errore bilingui (`Loghi.tsx`, `favellaRuntime.ts`,
+  `colonnaSonora.ts`) e ordine di preparazione della mappa senza corse sulla lingua (`Mappa.tsx`).
+
 ## [1.42.0] - 2026-11-07
 
 ### Cambiato

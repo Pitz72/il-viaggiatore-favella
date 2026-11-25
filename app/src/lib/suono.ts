@@ -26,7 +26,7 @@ const uscite = new Map<BaseAudioContext, Uscita>();
 const canali: { ac: BaseAudioContext; canale: Canale; nodo: GainNode }[] = [];
 
 /** La finestra non è in primo piano: ridotta a icona, nascosta, o con un'altra davanti. */
-let fuori = false;
+let fuori = typeof document !== "undefined" ? (document.hidden || !document.hasFocus()) : false;
 
 const livello = (o: Opzioni, c: Canale) =>
   ({ musica: o.volumeMusica, voce: o.volumeVoce, effetti: o.volumeEffetti })[c] * TARATURA[c];

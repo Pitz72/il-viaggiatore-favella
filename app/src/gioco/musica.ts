@@ -157,6 +157,10 @@ class Musica {
   chiudi() {
     this.ferma(0.6);
     this.posti.clear();
+    const g = this.giro;
+    if (typeof window !== "undefined") {
+      window.setTimeout(() => { if (this.giro === g && !this.suona && this.ctx?.state === "running") this.ctx.suspend().catch(() => {}); }, 750);
+    }
   }
 
   /** Solo per il collaudo in sviluppo: che cosa suona e dove. */

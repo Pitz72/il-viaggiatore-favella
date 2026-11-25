@@ -456,6 +456,7 @@ def fav_carica(entry, comandi_json, impronta_attesa="", ultimo=None):
     try:
         comandi = json.loads(comandi_json)
         inizio_coda = max(0, len(comandi) - CODA_ANNULLA)
+        domanda_finale = ""
         with contextlib.redirect_stdout(buf):
             _compila(entry)
             _mondo.cattura_stato = lambda: None
@@ -468,6 +469,7 @@ def fav_carica(entry, comandi_json, impronta_attesa="", ultimo=None):
                     if veloce and i >= inizio_coda and not era_in_dialogo:
                         del _mondo.cattura_stato
                         veloce = False
+                    pos_buf = buf.tell()
                     if veloce:
                         turno_prima = _mondo.turno_corrente
                         reg_prima, n_prima = _motore_prima()
@@ -495,6 +497,8 @@ def fav_carica(entry, comandi_json, impronta_attesa="", ultimo=None):
                         motore_prima = _motore_prima()
                         elabora_comando(_mondo, c)
                         _annota(c, c, era_in_dialogo, lunghezza_prima, pila_prima, ultima_prima, motore_prima)
+                    if i == len(comandi) - 1 and _domanda_in_sospeso():
+                        domanda_finale = buf.getvalue()[pos_buf:].strip()
             finally:
                 if veloce:
                     del _mondo.cattura_stato
@@ -503,10 +507,13 @@ def fav_carica(entry, comandi_json, impronta_attesa="", ultimo=None):
         with contextlib.redirect_stdout(uscita):
             if not _mondo.in_dialogo():
                 mostra_stanza(_mondo)
+        testo_uscita = uscita.getvalue()
+        if domanda_finale:
+            testo_uscita = (testo_uscita.rstrip() + "\n\n" + domanda_finale + "\n") if testo_uscita.strip() else (domanda_finale + "\n")
         impronta = fav_impronta_stato()
         return json.dumps({
             "ok": True,
-            "text": uscita.getvalue(),
+            "text": testo_uscita,
             "impronta": impronta,
             "identica": (not impronta_attesa) or impronta == impronta_attesa,
             "stato": _mondo.stato_partita,

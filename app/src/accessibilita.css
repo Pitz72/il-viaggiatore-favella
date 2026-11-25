@@ -139,7 +139,7 @@
 [data-testo="grande"] .csg-testo { line-height: 1.33 !important; margin-top: .3em !important; }
 [data-testo="grande"] .csg-esempi { margin-top: .45em !important; }
 [data-testo="grande"] .csg-piede { margin-top: .6em !important; }
-[data-testo="grande"] [role="dialog"][aria-label="Come si gioca"] > div { padding-top: 1.25em !important; padding-bottom: 1.05em !important; }
+[data-testo="grande"] .csg-dialogo > div { padding-top: 1.25em !important; padding-bottom: 1.05em !important; }
 
 /* il menu d'avvio col testo grande: voci più vicine (il testo no), perché l'ultima resti lontana dal bordo a 1080 righe;
    i fili d'accento scendono meno, così restano a metà della voce */

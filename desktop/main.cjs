@@ -41,6 +41,7 @@ protocol.registerSchemesAsPrivileged([
 ]);
 
 let finestra = null;
+let chiusuraConsentita = false;
 // le impostazioni di adesso; l'autoverifica parte sempre da quelle di base e non scrive niente
 let imp = { ...impostazioni.BASE };
 
@@ -107,9 +108,19 @@ function creaFinestra() {
     }
   });
 
-  // ogni cambio della finestra si ricorda (le scritture ravvicinate se ne fanno una); alla chiusura, subito
+  // ogni cambio della finestra si ricorda (le scritture ravvicinate se ne fanno una); alla chiusura, prima la pagina salva
+  // l'eventuale strada non ancora salvata (Alt+F4 o pulsante ✕), con un tetto di 800 ms perché la finestra chiuda sempre
   for (const ev of ["resize", "move", "enter-full-screen", "leave-full-screen", "maximize", "unmaximize"]) finestra.on(ev, () => ricorda());
-  finestra.on("close", () => ricorda(true));
+  finestra.on("close", (e) => {
+    ricorda(true);
+    if (AUTOVERIFICA || chiusuraConsentita || !finestra || finestra.webContents.isDestroyed()) return;
+    e.preventDefault();
+    chiusuraConsentita = true;
+    const chiudiOra = () => { if (finestra && !finestra.isDestroyed()) finestra.close(); };
+    const scadenza = setTimeout(chiudiOra, 800);
+    chiusuraPronta = () => { clearTimeout(scadenza); chiudiOra(); };
+    finestra.webContents.send("prima-di-chiudere");
+  });
   if (!AUTOVERIFICA && imp.massimizzata && !imp.schermoIntero) finestra.maximize();
 
   if (!AUTOVERIFICA) finestra.once("ready-to-show", () => finestra.show());
@@ -123,7 +134,9 @@ su("registro", (_e, livello, testo) => {
 });
 gestisci("registro:percorso", () => registro.percorso());
 su("lingua", (_e, l) => lingua.imposta(l));
-su("esci", () => app.quit());
+let chiusuraPronta = null;
+su("esci", () => { chiusuraConsentita = true; app.quit(); });
+su("pronto-a-chiudere", () => { const f = chiusuraPronta; chiusuraPronta = null; f?.(); });
 gestisci("schermo", () => !!finestra?.isFullScreen());
 gestisci("commuta-schermo", () => {
   if (!finestra) return false;

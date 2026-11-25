@@ -1,13 +1,15 @@
 # Prossimi passi
 
 > **Lo stato vivo del progetto.** *Il Viaggiatore* è concluso come storia (definitiva dalla 1.12.0) e il lavoro riprende solo
-> su richiesta di Simone. Ultima versione rilasciata: **1.42.0**, 7 novembre 2026 (il bilanciamento). Questo file tiene il conto di che cosa è aperto, di
+> su richiesta di Simone. Ultima versione rilasciata: **1.42.0**, 7 novembre 2026; preparata in locale la **1.43.0**, 25 novembre 2026 (revisione totale, rimedi del codice e veste pittorica). Questo file tiene il conto di che cosa è aperto, di
 > che cosa si è chiuso e di che cosa, di proposito, non si fa; **si aggiorna a ogni sessione** (vedi [`CLAUDE.md`](../CLAUDE.md)).
 > (Com'era prima, fermo alla 1.7.0: nella storia di git.)
 
 ## Aperto
 
 Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti non sono più da fare (vedi «Non si fa»).
+
+- **Provare dal vivo e rilasciare la 1.43.0** (preparata in locale il 25 novembre 2026, diario «Revisione totale, rimedi del codice e nuova veste pittorica»): quando Simone avrà guardato sul gioco desktop il nuovo trailer, il menu d'avvio, i panorami e il cammeo del protagonista, restano solo il commit, il push su `main` e, quando vorrà, il workflow «Rilascio» su GitHub Actions (ed eventualmente rifotografare le otto schermate di `pagine/schermate/` con `strumenti/schermate.cjs` e il video `video/` con `strumenti/esporta-trailer.cjs` per allinearli alla nuova grafica).
 
 - **Far rigiocare Michela la 1.42.0**, se capita: dove si perde, quando beve, che cosa capisce tardi. Il suo racconto vale più delle
   partite simulate; se smentisce il modello, si ritoccano i caratteri in `collaudo/verosimili.py` e si rimisura. Ogni ritocco
@@ -57,6 +59,7 @@ Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti 
 
 ## Chiuso
 
+- **Revisione totale, rimedi alle 21 criticità e nuova veste pittorica** (25 novembre 2026, diario «Revisione totale, rimedi del codice e nuova veste pittorica», versione **1.43.0** pronta in locale): risolti i 21 bug di codice e accessibilità (finali `terminata` distinti dalle morti, salvataggio automatico alla chiusura finestra, domande del motore mostrate al ricaricamento, attesa scrittura trofei, sincronia audio-video di trailer e titoli di coda, trappola del fuoco nei riquadri modali e nel taccuino, sosta reale del disegno panoramico in pausa o a movimento ridotto) più quattro casi limite nei `.fav` a zero doppiaggio (veglia al guado, sblocco del valico, avvisi su oggetti assenti); rinnovati con 26 tavole WebP a gouache e china (`app/public/immagini/scene/`) il trailer, la Carta Fisica, i cinque medaglioni, le dieci tessere d'osso, i panorami delle zone e degli interni, il cammeo del Viandante e l'interfaccia editoriale di partita.
 - **Il bilanciamento con il metodo del Relitto** (7 novembre 2026, diario «Il metodo del Relitto per il bilanciamento»,
   [`bilanciamento.md`](bilanciamento.md)): le partite da principiante verosimili (`collaudo/cammino.py`, `collaudo/verosimili.py`, tre
   percorsi scritti a mano, sei caratteri, due livelli di smarrimento, le varianti su una copia dei `.fav`, il controllo rapido in CI);

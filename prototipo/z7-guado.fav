@@ -72,8 +72,8 @@ Al nodo "cosimo_no" l'opzione "…" conduce al nodo "cosimo_inizio" e adesso lo 
 
 # --- VIA UMANA: usa la lettera su Cosimo → lo riconosci ---
 Invece di usa la lettera su Cosimo se il giocatore ha la lettera e lo stato di Cosimo è fermo: dire "Tiri fuori la lettera che lui credeva persa e gliela tieni davanti agli occhi. Cosimo riconosce la grafia, la sua. Allunga la mano e la ritira a metà strada. «Quella non doveva leggerla nessuno.» «L'ho letta.» Restate così, due uomini su un greto. Poi Cosimo si sposta di un passo, quanto basta, senza dire niente." e adesso lo stato di Cosimo è riconosciuto e adesso lo stato del riconoscimento è lettera.
-Invece di usa la lettera su Cosimo se lo stato di Cosimo è fermo: dire "La lettera è lì tra i sassi: raccoglila, prima.".
-Invece di usa la lettera su Cosimo: dire "È già detto tutto, qui.".
+Invece di usa la lettera su Cosimo se la lettera è in il guado e lo stato di Cosimo è fermo: dire "La lettera è lì tra i sassi: raccoglila, prima.".
+Invece di usa la lettera su Cosimo se lo stato di Cosimo non è fermo: dire "È già detto tutto, qui.".
 Invece di usa il biglietto su Cosimo se lo stato di Cosimo è fermo: dire "Gli tendi il biglietto. Cosimo riconosce il suo stampatello e guarda altrove. «Quello lo conosco. L'ho scritto per tenerti lontano, e non è bastato.» Non si sposta.".
 Invece di usa il biglietto su Cosimo: dire "Lo rimetti in tasca. Adesso non serve più.".
 
@@ -87,8 +87,8 @@ Invece di spara Cosimo se il giocatore ha il fucile e lo stato di Cosimo è ferm
 Invece di spara Cosimo se il giocatore ha la pistola e lo stato di Cosimo è fermo: dire "Gli punti contro la pistola e premi il grilletto. Un clic secco, e niente. Cosimo non ha battuto ciglio." e adesso lo stato della veglia è spenta e adesso la veglia diventa 0.
 Invece di spara Cosimo se lo stato di Cosimo è abbattuto: dire "È già fatta. Non c'è altro da togliergli.".
 Invece di usa il fucile su Cosimo se il giocatore ha il fucile e lo stato di Cosimo è fermo: dire "Alzi il fucile. Cosimo non scappa, non implora: fa un passo avanti, come per aiutarti a mirare. «Bravo. Almeno uno di noi due finisce questa storia.» Il colpo parte e copre il rumore del greto. Poi solo il vento, e l'acqua morta, e tu di qua, ancora in piedi." e adesso lo stato di Cosimo è abbattuto.
-Invece di usa il fucile su Cosimo se lo stato di Cosimo è fermo: dire "Il fucile è tra i sassi, ai tuoi piedi. (Per riprenderlo: PRENDI IL FUCILE.)".
-Invece di usa il fucile su Cosimo: dire "Non c'è più niente da fare, con quel fucile.".
+Invece di usa il fucile su Cosimo se il fucile è in il guado e lo stato di Cosimo è fermo: dire "Il fucile è tra i sassi, ai tuoi piedi. (Per riprenderlo: PRENDI IL FUCILE.)".
+Invece di usa il fucile su Cosimo se lo stato di Cosimo non è fermo: dire "Non c'è più niente da fare, con quel fucile.".
 # Minacciarlo. Col fucile in mano sono parole; con la pistola scarica, alzare le mani.
 Invece di minaccia Cosimo se il giocatore ha il fucile e lo stato di Cosimo è fermo: dire "Gli punti il fucile al petto. Cosimo non alza le mani. «O spari, o lo posi. Il resto sono chiacchiere.»".
 Invece di minaccia Cosimo se il giocatore ha la pistola e lo stato di Cosimo è fermo e lo stato del bluff è fatto: dire "Tiri fuori la pistola. Cosimo non la guarda nemmeno. «Quella del casello.» Lo dice come si dice un nome. «Vito l'ha capito dopo. Io l'avevo capito prima che la tirassi fuori.»" e adesso lo stato della veglia è spenta e adesso la veglia diventa 0.
@@ -110,7 +110,8 @@ Quando la veglia è almeno 3 e lo stato della veglia è accesa e lo stato di Cos
 Quando la veglia è almeno 3 e lo stato della veglia è accesa e lo stato di Cosimo è fermo e il sangue è almeno 1: dire "«Chi alza le mani per strada non le posa per sempre al guado.» Lo dice all'acqua, non a te.".
 Quando la veglia è almeno 4 e lo stato della veglia è accesa e lo stato di Cosimo è fermo e il sangue è almeno 1: dire "Il sole si è spostato sul greto. Hai la gola di sabbia. Cosimo non si è mosso, e nemmeno tu." e adesso aumenta la sete di 1.
 Quando la veglia è almeno 5 e lo stato della veglia è accesa e lo stato di Cosimo è fermo e il sangue è almeno 1: dire "Cosimo si china sul fucile, lo raccoglie e lo apre. Si mette le due cartucce in tasca, una alla volta. «Sei ancora capace di stare fermo. Almeno questo.» Si sposta di un passo, quanto basta, e non ti guarda passare." e adesso il fucile è nel nulla e adesso lo stato di Cosimo è riconosciuto e adesso lo stato del riconoscimento è veglia e adesso lo stato della veglia è spenta.
-# Riprenderlo in mano rompe la veglia: si ricomincia da capo.
+# Riprenderlo in mano o andarsene dal guado rompe la veglia: si ricomincia da capo.
+Ogni turno se il giocatore non è in il guado e lo stato della veglia è accesa e la veglia è almeno 1: la veglia diventa 0.
 Dopo di prendi il fucile se il giocatore è in il guado e lo stato della veglia è accesa e lo stato di Cosimo è fermo: dire "Cosimo ti guarda raccoglierlo. Annuisce appena, come chi aveva scommesso proprio su questo." e adesso lo stato della veglia è spenta e adesso la veglia diventa 0.
 
 # Il guado non si passa finché Cosimo è in piedi e ti guarda.
