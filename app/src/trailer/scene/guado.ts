@@ -8,9 +8,19 @@
 import { W, H, CAMMINATE, faseDiPasso } from "../scaletta";
 import { clamp, lerp, rng, smoothstep } from "../tempo";
 import { foschia, inquadra, oscillaCamera, polvere, tela, vignetta } from "../pittura";
-import { disegnaFermo, disegnaOmbra, disegnaViandante } from "../viandante";
+import { disegnaFigura, disegnaOmbraFigura, FALCATA, type LuceFigura, type OpzioniFigura } from "../figura";
+import { aTerra, distanzaDi, integra, STATURA, type Macchina } from "../prospettiva";
 import type { Cache } from "../cache";
 import { caricaTavoleTrailer, disegnaTavola, tavoleTrailer } from "../tavole";
+
+/** La macchina da presa della tavola: alta sulla riva (quattro metri), l'orizzonte al piede dei monti. La stessa per i due
+ *  fratelli: chi sta sull'altra sponda è più piccolo perché è più lontano, non a occhio. */
+const MACCHINA: Macchina = { fugaX: W / 2, orizzonte: H * 0.42, alta: 4, focale: 2600 };
+/** Il Viandante sulla riva vicina (la riga dei piedi, da dove parte, il passo sui sassi) e il fratello sulla ghiaia di là. */
+const RIGA = H * 0.84, PARTE_DA = 250, AMPIEZZA = 0.95;
+const FRATELLO = { x: W * 0.585, y: H * 0.664 };
+/** Il tramonto è dietro, a sinistra: controluce, col filo di luce arancio sul bordo. */
+const LUCE: LuceFigura = { ambiente: "#a48a7e", chiave: "#ffb476", forza: 0.76, buio: "#1c1114", fondo: 0.7, lato: -1, alto: 0.6, china: "#110a0c" };
 
 export function preparaGuado(c: Cache) {
   if (c.guado) return;
@@ -89,31 +99,24 @@ export function disegnaGuado(ctx: CanvasRenderingContext2D, t: number, c: Cache,
   foschia(ctx, H * 0.57, 64, "rgba(232,158,104,0.12)");
 
   if (conFigure) {
-    // Cosimo immobile sulla sponda opposta, ai piedi della rupe di Acquamorta, col fucile di traverso
-    disegnaFermo(ctx, W * 0.585, H * 0.662, 92, "#120d10", "#f4a468");
+    // Il fratello immobile sulla sponda opposta, a capo scoperto e col fucile di traverso, voltato verso chi arriva
+    const oltre = aTerra(MACCHINA, 0, distanzaDi(MACCHINA, FRATELLO.y));
+    const fratello: OpzioniFigura = { vista: "profilo", verso: -1, luce: LUCE, fermo: 1, respiro: t, fratello: true };
+    disegnaOmbraFigura(ctx, FRATELLO.x, FRATELLO.y, oltre.alto, 0, fratello, -0.6, -0.3, "#0c080a", 0.36);
+    disegnaFigura(ctx, FRATELLO.x, FRATELLO.y, oltre.alto, 0, fratello);
 
-    // Il Viandante sulla riva vicina tra i ciottoli, che avanza piano e rallenta davanti al fratello
-    // Cammina da 59.6 e si arresta sul colpo grave del brano a 64.0 s («tuo fratello.»)
+    // Il Viandante sulla riva vicina, tra i ciottoli: cammina da 59,6 e si arresta sul colpo grave del brano a 64,0 s
+    // («tuo fratello.»). La strada che fa è quella dei suoi passi, anche mentre rallenta
+    const camm = CAMMINATE[3];
     const fermoGuado = smoothstep(63.4, 64.1, t);
-    const progCammino = clamp((t - 59.6) / 4.4);
-    const vx = lerp(W * 0.22, W * 0.355, progCammino);
-    const vy = lerp(H * 0.83, H * 0.795, progCammino);
-    const faseG = faseDiPasso(Math.min(t, 64.0), CAMMINATE[3]);
-    const opzGuado = {
-      colore: "#140e11",
-      lontano: "#0b0709",
-      bordo: "#f6ad72",
-      latoLuce: 1,
-      verso: 1,
-      fermo: fermoGuado,
-      ampiezza: 0.84,
-      tanica: true,
-      fagotto: true,
-      cappello: true,
-      dettaglio: 2 as const,
-    };
-    disegnaOmbra(ctx, vx, vy, 134, faseG, opzGuado, -0.75, -0.17, "rgba(12,8,10,0.38)");
-    disegnaViandante(ctx, vx, vy, 134, faseG, opzGuado);
+    const distanza = distanzaDi(MACCHINA, RIGA);
+    const parte = aTerra(MACCHINA, 0, distanza);
+    const strada = STATURA * FALCATA * AMPIEZZA * camm.cad * integra((x) => 1 - smoothstep(63.4, 64.1, x), 59.6, Math.max(59.6, Math.min(t, 64.1)));
+    const posto = aTerra(MACCHINA, (PARTE_DA - MACCHINA.fugaX) / parte.scala + strada, distanza);
+    const fase = faseDiPasso(Math.min(t, 64.0), camm) - 0.25;  // il tallone tocca terra sul suono del passo (fasi ,25 e ,75)
+    const figura: OpzioniFigura = { vista: "profilo", verso: 1, luce: LUCE, fermo: fermoGuado, ampiezza: AMPIEZZA, respiro: t, tanica: true, coperta: true, cappello: true };
+    disegnaOmbraFigura(ctx, posto.x, posto.y, posto.alto, fase, figura, -0.6, -0.3, "#0c080a", 0.4);
+    disegnaFigura(ctx, posto.x, posto.y, posto.alto, fase, figura);
   }
 
   // Canne scure sul greto mosse dalla brezza serale

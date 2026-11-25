@@ -489,7 +489,26 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
     }
   }, [startAtEnd]);
 
+  // Un fotogramma che non riesce non deve fermare l'orologio. Il 25 novembre 2026, nella 1.43.0, un cerchio di raggio
+  // negativo all'attacco della seconda regola (69,65 s) faceva fallire `arc`: l'errore usciva dal giro di rAF, che non si
+  // riprenotava più, e restavano un quadro quasi nero, la musica e la voce. Ora l'errore si ferma qui: si azzera lo stato
+  // delle due tele (le `save` rimaste aperte a metà disegno) e si passa al fotogramma dopo.
+  const disegnaProtetto = useCallback((t: number) => {
+    try {
+      disegna(t);
+    } catch (e) {
+      for (const cv of [telaRef.current, buffer.current]) {
+        const g = cv?.getContext("2d");
+        if (!cv || !g) continue;
+        if (typeof g.reset === "function") g.reset();
+        else { const w = cv.width; cv.width = w; }   // riassegnare la larghezza azzera la tela anche dove `reset` manca
+      }
+      if (import.meta.env.DEV) console.error(`[trailer] il fotogramma a ${t.toFixed(3)} s non si è disegnato`, e);
+    }
+  }, [disegna]);
+
   // solo in sviluppo: posizionare il tempo per controllare le inquadrature, e misurare quanto costa un fotogramma
+  // (`vai` e `prova` chiamano `disegna` senza protezione: un errore qui si deve vedere)
   useEffect(() => {
     if (!import.meta.env.DEV) return;
     const w = window as unknown as { __trailer?: object };
@@ -581,10 +600,10 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
       // sul menu fermo: se coperto da un pannello si disegna una volta sola; scoperto, 24 fotogrammi al secondo bastano alla grana
       if (t < DURATA) {
         ultimoDisegnoMenu = -1;
-        disegna(t);
+        disegnaProtetto(t);
       } else if (ultimoDisegnoMenu < 0 || (!copertoRef.current && !fermo && ora - ultimoDisegnoMenu >= 41)) {
         ultimoDisegnoMenu = ora;
-        disegna(DURATA);
+        disegnaProtetto(DURATA);
       }
       suono.current?.aggiorna(t, fermo);
       if (!finePrec && t >= DURATA) { finePrec = true; setFinito(true); }
@@ -593,15 +612,15 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
     };
     raf = requestAnimationFrame(passo);
     return () => cancelAnimationFrame(raf);
-  }, [pronto, disegna, startAtEnd]);
+  }, [pronto, disegnaProtetto, startAtEnd]);
 
   // ── comandi ───────────────────────────────────────────────────────
   const salta = useCallback(() => {
     tRef.current = Math.max(tRef.current, DURATA);
     pausaRef.current = false;
-    disegna(DURATA);
+    disegnaProtetto(DURATA);
     setFinito(true);
-  }, [disegna]);
+  }, [disegnaProtetto]);
   const rivedi = () => {
     const base = `${import.meta.env.BASE_URL}voce/${opzioni().voce === "inglese" ? "en/" : ""}`;
     suono.current?.impostaVoce({ traccia: `${base}trailer.opus`, scaletta: `${base}trailer.json` });
@@ -765,8 +784,9 @@ const Trailer = ({ startAtEnd = false, onLaunch, onTitoli, annuncia = [], onAnnu
             <span style={{ display: "inline-block", width: 14, height: 30, marginLeft: 6, verticalAlign: -5, background: "#f0a867", animation: "kf-caret 1s step-end infinite" }} />
           </div>
 
-          {/* E · contatore delle tappe */}
-          <div ref={reg("tappe")} style={{ position: "absolute", left: 150, top: BANDA + 44, opacity: 0, ...mono(18, { color: "rgba(214,224,238,.6)" }) }} />
+          {/* E · contatore delle tappe: in basso a sinistra, dove la carta del gioco non ha nomi (in alto c'è Acquamorta), su una
+              targhetta scura che dipinge la scena (trailer/scene/mappa.ts) */}
+          <div ref={reg("tappe")} style={{ position: "absolute", left: 150, top: H - BANDA - 79, opacity: 0, ...mono(18, { color: "rgba(226,232,240,.86)" }) }} />
 
           {/* F · cinque colonne coi medaglioni dipinti a gouache e china */}
           <div style={{ position: "absolute", left: 0, right: 0, top: 306, display: "flex", justifyContent: "center", gap: 12 }}>

@@ -157,13 +157,18 @@ function moneta(ctx: CanvasRenderingContext2D, u: number, acc: string, t: number
     ctx.lineWidth = 4;
     ctx.beginPath(); ctx.arc(0, 0, rMoneta, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
 
-    ctx.strokeStyle = `${acc}88`;
-    ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.arc(0, 0, rMoneta - 10, 0, Math.PI * 2); ctx.stroke();
-    ctx.setLineDash([4, 6]);
-    ctx.strokeStyle = "rgba(218,188,144,0.38)";
-    ctx.beginPath(); ctx.arc(0, 0, rMoneta - 20, 0, Math.PI * 2); ctx.stroke();
-    ctx.setLineDash([]);
+    // I due filetti interni compaiono solo quando il disco è abbastanza largo da contenerli: nei primi tre centesimi
+    // di secondo la moneta nasce da zero, e un cerchio di raggio negativo (rMoneta − 10, rMoneta − 20) faceva fallire
+    // `arc`, fermando l'orologio del trailer su un quadro quasi nero (69,65 s: restavano solo musica e voce).
+    if (rMoneta > 24) {
+      ctx.strokeStyle = `${acc}88`;
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(0, 0, rMoneta - 10, 0, Math.PI * 2); ctx.stroke();
+      ctx.setLineDash([4, 6]);
+      ctx.strokeStyle = "rgba(218,188,144,0.38)";
+      ctx.beginPath(); ctx.arc(0, 0, rMoneta - 20, 0, Math.PI * 2); ctx.stroke();
+      ctx.setLineDash([]);
+    }
   }
 
   // Goccia scolpita al centro a gouache luminosa e china

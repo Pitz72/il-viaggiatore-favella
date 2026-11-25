@@ -69,8 +69,10 @@ app.whenReady().then(async () => {
   await win.loadURL(URL_DEV);
   win.webContents.setZoomFactor(DENSITA);
   await dormi(2500);
-  // loghi e avviso si saltano con Esc; si smette appena il trailer esiste
+  // la prima finestra della lingua (dalla 1.40.0: in un profilo nuovo c'è sempre) e l'avviso hanno un pulsante «continua»;
+  // i loghi si saltano con Esc; si smette appena il trailer esiste
   for (let i = 0; i < 100 && !(await js("!!window.__trailer")); i++) {
+    await js(`[...document.querySelectorAll("button")].find((b) => /^\\s*continu[ae]/i.test(b.textContent || ""))?.click()`);
     await js(`window.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }))`);
     await dormi(400);
   }

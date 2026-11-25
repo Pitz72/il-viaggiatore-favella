@@ -1,351 +1,345 @@
 // ====================================================================
-//  E · LA MAPPA · SETTE ZONE  (31.0 → 49.0s)
-//  Carta Fisica d'autore su pergamena calda (in continuità visiva con la
-//  mappa pieghevole di partita): curve di livello a inchiostro seppia, alvei
-//  secchi, pieghe del foglio, bussola cartografica, tracciato a china che
-//  avanza di tappa in tappa e simboli incisi a mano (ordine dei veli corretto:
-//  la tappa attiva brilla nitida sopra il velo di lettura).
+//  E · LA MAPPA · SETTE TAPPE  (32.8 → 49.0s)
+// --------------------------------------------------------------------
+//  È la mappa del gioco, non un'altra: la «Carta fisica della provincia» che
+//  si apre in partita (gioco/Mappa.tsx), con la stessa stampa (gioco/stampa.ts:
+//  il mare a est, la Serra Alta, il Torrente Morto, il lago dell'invaso), le
+//  stesse otto tappe nei loro posti (gioco/foglio.ts) e gli stessi segni della
+//  mano: l'anello tratteggiato della tappa da raggiungere e pieno di quella
+//  raggiunta, il disco rosso a mirino di «sei qui», le strade a penna ciascuna
+//  col tratto della sua classe, il sale tratteggiato sul lago quando si arriva
+//  all'invaso. Il viaggio va come nel gioco: da Acquaviva, a est, verso ovest,
+//  e poi su fino ad Acquamorta; la penna lo percorre per le strade vere, una
+//  tappa a ogni rintocco (TAPPE_T0, TAPPE_PASSO).
+//  La carta (luoghi e strade) in partita la dà il motore; qui il motore non è
+//  ancora avviato e se ne legge una copia (../carta.json: la riscrive
+//  strumenti/carta-trailer.py, e collaudo/mappa.py pretende che sia uguale).
+//  Fino alla 1.43.0 qui c'era una pergamena inventata, con le tappe in fila su
+//  una diagonale e il viaggio verso est.
 // ====================================================================
 import { W, H, BANDA, TAPPE_T0, TAPPE_PASSO } from "../scaletta";
-import { ZONE } from "../zone";
-import { clamp, easeInOut, easeOut, lerp, rng, seg, smoothstep } from "../tempo";
+import { clamp, easeInOut, easeOut, inviluppo, lerp, seg, smoothstep } from "../tempo";
 import { FONT } from "../font";
-import { grana, inquadra, nubi, oscillaCamera, tela, vignetta } from "../pittura";
-import { tr } from "../../lib/lingua";
+import { grana, inquadra, oscillaCamera, vignetta } from "../pittura";
+import { inglese, tr } from "../../lib/lingua";
+import type { Carta } from "../../lib/favellaRuntime";
+import { ROOM_ZONE, ZONE_THEME, type ZoneKey } from "../../data/viaggiatore";
+import { CARTIGLIO, CORPO_TAPPA, FOGLIO, RAGGIO_TAPPA, ROSA, TAPPE, ancoreTerreno, anello, disposizione, postoNome, type Classe, type Lato } from "../../gioco/foglio";
+import { preparaStampa } from "../../gioco/stampa";
 import type { Cache } from "../cache";
+import cartaGioco from "../carta.json";
 
 /** Indice 1..7 della tappa mostrata al tempo `t` (usato dal contatore in Trailer.tsx). */
 export function tappaCorrente(t: number): number {
   return clamp(Math.floor((t - TAPPE_T0) / TAPPE_PASSO) + 1, 1, 7);
 }
 
-const PUNTI: [number, number][] = [
-  [270, 742], [536, 668], [790, 594], [1052, 540], [1296, 456], [1508, 362], [1686, 276],
-];
+// i colori della mappa di partita (gioco/mappa.css)
+const CARTA = "#dccfae", INCHIOSTRO = "#2d2216", TENUE = "#5a4a35", ROSSO = "#9a2418";
+const ANIMA: Partial<Record<Classe, string>> = { statale: "#f0cf6e", provinciale: "#f3ead2" };
+const BORDO: Partial<Record<Classe, number>> = { statale: 4.6, provinciale: 3.6 };
+const SPESSORE: Record<Classe, number> = { statale: 2.2, provinciale: 1.6, strada: 2.2, sterrata: 1.6, traccia: 1.6, mulattiera: 1.6, sentiero: 1.2 };
 
-// Tinte d'inchiostro calde per le tappe sulla pergamena (leggibili e coerenti con la Carta Fisica)
-const INCHIOSTRI_ZONA = [
-  "#2a5c55", "#9c5618", "#355d6e", "#9e5a14", "#9e351e", "#464d7c", "#9a2228",
-];
+/** Quanti pixel del quadro vale un'unità del foglio a campo intero: il foglio (1092 × 481) sta tutto dentro le fasce. */
+const U = 1.6;
+const OX = (W - FOGLIO.larghezza * U) / 2, OY = (H - FOGLIO.altezza * U) / 2;
+/** Quanti pixel per unità ha la tela del foglio e la stampa (la macchina si avvicina fino a una volta e mezza). */
+const FITTA = 2;
 
-function puntoSu(pts: [number, number][], u: number): [number, number] {
-  const n = pts.length - 1, f = clamp(u) * n, i = Math.min(n - 1, Math.floor(f)), k = f - i;
-  const p0 = pts[Math.max(0, i - 1)], p1 = pts[i], p2 = pts[i + 1], p3 = pts[Math.min(n, i + 2)];
-  const catmull = (a: number, b: number, c: number, d: number) =>
-    0.5 * ((2 * b) + (-a + c) * k + (2 * a - 5 * b + 4 * c - d) * k * k + (-a + 3 * b - 3 * c + d) * k * k * k);
-  return [catmull(p0[0], p1[0], p2[0], p3[0]), catmull(p0[1], p1[1], p2[1], p3[1])];
+interface Pt { x: number; y: number }
+/** Un tratto di strada nel verso del cammino, con le lunghezze cumulate. */
+interface Tratto { pts: Pt[]; cum: number[]; classe: Classe }
+/** Da una tappa alla successiva: i tratti, la lunghezza, i luoghi per cui si passa. */
+interface Gamba { tratti: Tratto[]; lunga: number; luoghi: Pt[] }
+interface TappaTrailer { zona: string; nome: string; x: number; y: number; anello: Path2D; lato: Lato; scosta: number }
+interface StatoMappa {
+  gambe: Gamba[]; tappe: TappaTrailer[];
+  foglio: HTMLCanvasElement; stampa: HTMLImageElement | null; sale: HTMLImageElement | null; conStampa: boolean;
+}
+
+let stampaInArrivo: Promise<void> | null = null;
+/** La stampa della carta si dipinge a fette in momenti liberi (gioco/stampa.ts): la preparazione del trailer la aspetta,
+ *  ma non oltre qualche secondo; senza, la mappa mostra il foglio bianco con le tappe e la rotta. */
+export function stampaMappaPronta(): Promise<void> {
+  return Promise.race([stampaInArrivo ?? Promise.resolve(), new Promise<void>((ok) => setTimeout(ok, 6000))]);
+}
+
+function immagine(url: string): Promise<HTMLImageElement | null> {
+  return new Promise((ok) => {
+    const img = new Image();
+    img.onload = () => ok(img);
+    img.onerror = () => ok(null);
+    img.src = url;
+  });
+}
+
+/** Il foglio fermo: la carta, la stampa, le pieghe, il bordo scurito, il riquadro del cartiglio, la rosa dei venti. */
+function componiFoglio(stampa: HTMLImageElement | null): HTMLCanvasElement {
+  const tela = document.createElement("canvas");
+  tela.width = FOGLIO.larghezza * FITTA; tela.height = FOGLIO.altezza * FITTA;
+  const g = tela.getContext("2d");
+  if (!g) return tela;
+  const L = FOGLIO.larghezza, A = FOGLIO.altezza;
+  g.scale(FITTA, FITTA);
+  g.fillStyle = CARTA; g.fillRect(0, 0, L, A);
+  if (stampa) g.drawImage(stampa, 0, 0, L, A);
+  grana(g, 0, 0, L, A, 5200, "rgba(89,66,41,0.10)", 151);
+  // le pieghe: in tre per il lungo, in due per il largo
+  g.strokeStyle = "rgba(70,48,20,.22)"; g.lineWidth = 1.2;
+  g.beginPath();
+  for (const i of [1, 2]) { g.moveTo((L * i) / 3, 0); g.lineTo((L * i) / 3, A); }
+  g.moveTo(0, A / 2); g.lineTo(L, A / 2);
+  g.stroke();
+  const bordo = g.createRadialGradient(L / 2, A / 2, L * 0.75 * 0.62, L / 2, A / 2, L * 0.75);
+  bordo.addColorStop(0, "rgba(122,90,42,0)"); bordo.addColorStop(1, "rgba(122,90,42,.32)");
+  g.fillStyle = bordo; g.fillRect(0, 0, L, A);
+  if (stampa) {
+    g.fillStyle = "rgba(230,220,192,.92)"; g.strokeStyle = "rgba(90,70,50,.8)"; g.lineWidth = 0.7;
+    g.fillRect(CARTIGLIO.x0, CARTIGLIO.y0, CARTIGLIO.x1 - CARTIGLIO.x0, CARTIGLIO.y1 - CARTIGLIO.y0);
+    g.strokeRect(CARTIGLIO.x0, CARTIGLIO.y0, CARTIGLIO.x1 - CARTIGLIO.x0, CARTIGLIO.y1 - CARTIGLIO.y0);
+    g.lineWidth = 0.4; g.strokeRect(CARTIGLIO.x0 + 3, CARTIGLIO.y0 + 3, CARTIGLIO.x1 - CARTIGLIO.x0 - 6, CARTIGLIO.y1 - CARTIGLIO.y0 - 6);
+  }
+  // la rosa dei venti, sul mare
+  g.save();
+  g.translate(ROSA.cx, ROSA.cy); g.scale(ROSA.r / 34, ROSA.r / 34);
+  g.globalAlpha = 0.75; g.strokeStyle = TENUE; g.fillStyle = TENUE; g.lineWidth = 1;
+  g.beginPath(); g.arc(0, 0, 34, 0, Math.PI * 2); g.stroke();
+  g.save(); g.lineWidth = 0.6; g.setLineDash([1.5, 3]); g.beginPath(); g.arc(0, 0, 27, 0, Math.PI * 2); g.stroke(); g.restore();
+  g.beginPath(); g.moveTo(0, -44); g.lineTo(7, 0); g.lineTo(0, 44); g.lineTo(-7, 0); g.closePath(); g.stroke();
+  g.beginPath(); g.moveTo(-44, 0); g.lineTo(0, -7); g.lineTo(44, 0); g.lineTo(0, 7); g.closePath(); g.stroke();
+  g.beginPath(); g.moveTo(0, -44); g.lineTo(7, 0); g.lineTo(0, 0); g.closePath(); g.fill();
+  g.font = `italic 15px ${FONT.serif}`; g.textAlign = "center"; g.fillText("N", 0, -52);
+  g.restore();
+  return tela;
 }
 
 export function preparaMappa(c: Cache) {
   if (c.mappa) return;
-  const PADX = 360, PADY = 220;
-  const CW = W + PADX * 2, CH = H + PADY * 2;
-  const carta = tela(CW, CH, (g) => {
-    g.translate(PADX, PADY);
-    // 1. Fondo di pergamena fisica calda esteso oltre i bordi così le carrellate ravvicinate non scoprono mai il nero
-    const rg = g.createRadialGradient(W * 0.54, H * 0.48, 90, W * 0.52, H * 0.5, 1480);
-    rg.addColorStop(0, "#dfd1b0");
-    rg.addColorStop(0.52, "#cbb892");
-    rg.addColorStop(0.82, "#a68e67");
-    rg.addColorStop(1, "#5c472e");
-    g.fillStyle = rg; g.fillRect(-PADX, -PADY, CW, CH);
-
-    // Macchie d'acqua antica e rilievo orografico caldo verso l'Appennino (destra/alto)
-    nubi(g, 131, H, "rgba(112,82,46,0.12)", 1.25);
-    const ombraRilievo = g.createLinearGradient(W * 0.35, H * 0.85, W * 0.92, H * 0.12);
-    ombraRilievo.addColorStop(0, "rgba(90,66,38,0)");
-    ombraRilievo.addColorStop(0.65, "rgba(86,60,34,0.12)");
-    ombraRilievo.addColorStop(1, "rgba(68,46,26,0.26)");
-    g.fillStyle = ombraRilievo; g.fillRect(-PADX, -PADY, CW, CH);
-
-    // 2. Reticolo cartografico fine (graticola geografica a matita seppia su tutta la pergamena)
-    g.strokeStyle = "rgba(74,52,30,0.11)"; g.lineWidth = 1;
-    for (let x = -320; x < W + PADX; x += 160) { g.beginPath(); g.moveTo(x, -PADY); g.lineTo(x, H + PADY); g.stroke(); }
-    for (let y = -140; y < H + PADY; y += 140) { g.beginPath(); g.moveTo(-PADX, y); g.lineTo(W + PADX, y); g.stroke(); }
-
-    // 3. Curve di livello orografiche in inchiostro bruno (più fitte salendo verso il paese, le colline e il guado)
-    const r = rng(144);
-    const cime = [
-      { cx: 520, cy: 360, rx: 280, ry: 170, anelli: 6 },
-      { cx: 980, cy: 760, rx: 320, ry: 180, anelli: 6 },
-      { cx: 1290, cy: 450, rx: 290, ry: 210, anelli: 8 },
-      { cx: 1520, cy: 350, rx: 340, ry: 230, anelli: 10 },
-      { cx: 1710, cy: 265, rx: 290, ry: 210, anelli: 9 },
-      { cx: 810, cy: 260, rx: 240, ry: 150, anelli: 5 },
-    ];
-    for (const m of cime) {
-      const f1 = r() * 6, f2 = r() * 6;
-      for (let k = 1; k <= m.anelli; k++) {
-        const s = k / m.anelli;
-        const direttrice = k % 4 === 0;
-        g.strokeStyle = direttrice ? "rgba(68,46,26,0.28)" : "rgba(78,54,32,0.15)";
-        g.lineWidth = direttrice ? 1.45 : 0.95;
-        g.beginPath();
-        for (let a = 0; a <= 72; a++) {
-          const ang = (a / 72) * Math.PI * 2;
-          const d = 1 + 0.16 * Math.sin(ang * 3 + f1) + 0.09 * Math.cos(ang * 5 + f2);
-          const px = m.cx + Math.cos(ang) * m.rx * s * d;
-          const py = m.cy + Math.sin(ang) * m.ry * s * d;
-          if (a === 0) g.moveTo(px, py); else g.lineTo(px, py);
-        }
-        g.stroke();
-      }
-    }
-
-    // 4. Alvei secchi dei torrenti e dell'invaso (tratteggio cartografico bruno-ardesia)
-    g.save();
-    g.strokeStyle = "rgba(64,58,52,0.34)";
-    g.lineWidth = 1.6;
-    g.setLineDash([7, 5]);
-    g.beginPath();
-    g.moveTo(710, 470); g.bezierCurveTo(760, 550, 815, 620, 770, 720);
-    g.moveTo(1640, 140); g.bezierCurveTo(1665, 235, 1705, 315, 1785, 420);
-    g.stroke();
-    g.restore();
-
-    // 5. Le due pieghe verticali del foglio tascabile (come in Mappa.tsx)
-    for (const fx of [W / 3, (W * 2) / 3]) {
-      g.strokeStyle = "rgba(58,38,18,0.18)"; g.lineWidth = 1.6;
-      g.beginPath(); g.moveTo(fx, 0); g.lineTo(fx, H); g.stroke();
-      g.strokeStyle = "rgba(255,246,224,0.22)"; g.lineWidth = 1.2;
-      g.beginPath(); g.moveTo(fx + 2, 0); g.lineTo(fx + 2, H); g.stroke();
-    }
-
-    // 6. Rosa dei venti incisa a penna in basso a destra
-    const rx = W - 178, ry = H - BANDA - 112, rr = 44;
-    g.save();
-    g.translate(rx, ry);
-    g.strokeStyle = "rgba(54,36,20,0.58)"; g.fillStyle = "rgba(54,36,20,0.68)"; g.lineWidth = 1.3;
-    g.beginPath(); g.arc(0, 0, rr, 0, Math.PI * 2); g.stroke();
-    g.beginPath(); g.arc(0, 0, rr - 6, 0, Math.PI * 2); g.stroke();
-    for (let k = 0; k < 4; k++) {
-      g.save(); g.rotate((k * Math.PI) / 2);
-      g.beginPath(); g.moveTo(0, -rr - 8); g.lineTo(6, -8); g.lineTo(0, 0); g.closePath(); g.fill();
-      g.beginPath(); g.moveTo(0, -rr - 8); g.lineTo(-6, -8); g.lineTo(0, 0); g.closePath(); g.stroke();
-      g.restore();
-    }
-    g.font = `italic 600 16px ${FONT.serif}`;
-    g.textAlign = "center"; g.fillText("N", 0, -rr - 16);
-    g.restore();
-
-    // 7. Cornice graduata interna + grana di fibra + ombra calda ai margini per garantire contrasto netto alle scritte del trailer
-    g.strokeStyle = "rgba(58,38,20,0.42)"; g.lineWidth = 2;
-    g.strokeRect(54, BANDA + 20, W - 108, H - BANDA * 2 - 40);
-    g.strokeStyle = "rgba(58,38,20,0.22)"; g.lineWidth = 1;
-    g.strokeRect(62, BANDA + 28, W - 124, H - BANDA * 2 - 56);
-    grana(g, 0, 0, W, H, 2600, "rgba(52,34,16,0.08)", 151);
-
-    // Vignettatura bruno-carbone morbida estesa anche al margine di sbordo
-    const vSx = g.createRadialGradient(W * 0.54, H * 0.46, 360, W * 0.5, H * 0.5, 1460);
-    vSx.addColorStop(0, "rgba(24,16,10,0)");
-    vSx.addColorStop(0.68, "rgba(24,16,10,0.26)");
-    vSx.addColorStop(1, "rgba(14,10,8,0.82)");
-    g.fillStyle = vSx; g.fillRect(-PADX, -PADY, CW, CH);
-  });
-
-  const traccia: [number, number][] = [];
-  for (let i = 0; i <= 240; i++) traccia.push(puntoSu(PUNTI, i / 240));
-  c.mappa = { carta, traccia, padX: PADX, padY: PADY };
-}
-
-function simbolo(ctx: CanvasRenderingContext2D, i: number, r: number) {
-  ctx.beginPath();
-  switch (i) {
-    case 0: // stazione: binario con traversine
-      ctx.moveTo(-r, -r * 0.42); ctx.lineTo(r, -r * 0.42);
-      ctx.moveTo(-r, r * 0.42); ctx.lineTo(r, r * 0.42);
-      for (let x = -r * 0.7; x <= r * 0.75; x += r * 0.46) { ctx.moveTo(x, -r * 0.7); ctx.lineTo(x, r * 0.7); }
-      break;
-    case 1: // piana: spiga secca
-      ctx.moveTo(0, r); ctx.lineTo(0, -r);
-      for (let y = -r * 0.55; y <= r * 0.35; y += r * 0.42) {
-        ctx.moveTo(0, y); ctx.lineTo(-r * 0.55, y - r * 0.32);
-        ctx.moveTo(0, y); ctx.lineTo(r * 0.55, y - r * 0.32);
-      }
-      break;
-    case 2: // invaso: muro di diga ad arco
-      ctx.arc(0, -r * 0.25, r * 0.9, 0.25, Math.PI - 0.25);
-      ctx.moveTo(-r * 0.5, r * 0.55); ctx.lineTo(-r * 0.5, r * 0.95);
-      ctx.moveTo(r * 0.5, r * 0.55); ctx.lineTo(r * 0.5, r * 0.95);
-      break;
-    case 3: // statale: piloni del viadotto
-      ctx.moveTo(-r, -r * 0.35); ctx.lineTo(r, -r * 0.35);
-      ctx.moveTo(-r * 0.55, -r * 0.35); ctx.lineTo(-r * 0.55, r * 0.85);
-      ctx.moveTo(r * 0.55, -r * 0.35); ctx.lineTo(r * 0.55, r * 0.85);
-      break;
-    case 4: // paese: campanile e tetto
-      ctx.moveTo(-r * 0.65, r * 0.8); ctx.lineTo(-r * 0.65, -r * 0.15);
-      ctx.lineTo(0, -r * 0.9); ctx.lineTo(r * 0.65, -r * 0.15); ctx.lineTo(r * 0.65, r * 0.8);
-      ctx.moveTo(-r * 0.85, r * 0.8); ctx.lineTo(r * 0.85, r * 0.8);
-      break;
-    case 5: // colline: doppia cresta e vento
-      ctx.moveTo(-r, r * 0.55); ctx.lineTo(-r * 0.3, -r * 0.5); ctx.lineTo(r * 0.2, r * 0.15);
-      ctx.lineTo(r * 0.68, -r * 0.35); ctx.lineTo(r, r * 0.55);
-      break;
-    case 6: // guado: due sponde e acqua in mezzo
-      ctx.moveTo(-r, -r * 0.42); ctx.quadraticCurveTo(0, -r * 0.8, r, -r * 0.42);
-      ctx.moveTo(-r, r * 0.42); ctx.quadraticCurveTo(0, r * 0.8, r, r * 0.42);
-      ctx.moveTo(-r * 0.45, 0); ctx.lineTo(r * 0.45, 0);
-      break;
+  const carta = cartaGioco as unknown as Carta;
+  const zonaDi = (id: string) => ROOM_ZONE[id];
+  const disp = disposizione(carta, zonaDi);
+  // da una tappa alla successiva per le strade vere: il cammino più corto (per numero di luoghi)
+  const vicini = new Map<string, string[]>();
+  for (const [a, b] of carta.strade) {
+    (vicini.get(a) ?? vicini.set(a, []).get(a)!).push(b);
+    (vicini.get(b) ?? vicini.set(b, []).get(b)!).push(a);
   }
-  ctx.stroke();
+  const cammino = (da: string, a: string): string[] => {
+    const prima = new Map<string, string | null>([[da, null]]), coda = [da];
+    while (coda.length) {
+      const id = coda.shift()!;
+      if (id === a) break;
+      for (const v of vicini.get(id) ?? []) if (!prima.has(v) && disp.posti.has(v)) { prima.set(v, id); coda.push(v); }
+    }
+    const out: string[] = [];
+    for (let id: string | null = prima.has(a) ? a : null; id; id = prima.get(id) ?? null) out.unshift(id);
+    return out.length ? out : [da, a];
+  };
+  const pt = (id: string): Pt => { const p = disp.posti.get(id); return p ? { x: p.cx, y: p.cy } : { x: 0, y: 0 }; };
+  const tappeConPosto = TAPPE.filter((t) => disp.posti.has(t.luogo));
+  const gambe: Gamba[] = tappeConPosto.slice(0, -1).map((t, i) => {
+    const ids = cammino(t.luogo, tappeConPosto[i + 1].luogo);
+    const tratti: Tratto[] = ids.slice(1).map((id, k) => {
+      const da = ids[k], [p, q] = da < id ? [da, id] : [id, da];
+      const tracciato = disp.tracciati.get(`${p}|${q}`);
+      const pts: Pt[] = tracciato ? tracciato.campioni.map((s) => ({ x: s.cx, y: s.cy })) : [pt(p), pt(q)];
+      if (da !== p) pts.reverse();
+      const cum = [0];
+      for (let j = 1; j < pts.length; j++) cum.push(cum[j - 1] + Math.hypot(pts[j].x - pts[j - 1].x, pts[j].y - pts[j - 1].y));
+      return { pts, cum, classe: tracciato?.classe ?? "sterrata" };
+    });
+    return { tratti, lunga: tratti.reduce((s, x) => s + x.cum[x.cum.length - 1], 0), luoghi: ids.slice(1, -1).map(pt) };
+  });
+  const tappe: TappaTrailer[] = tappeConPosto.map((t) => {
+    const p = pt(t.luogo), posto = disp.lati.tappe.get(t.luogo);
+    return { zona: t.zona, nome: t.nome, x: p.x, y: p.y, anello: new Path2D(anello(p.x, p.y, RAGGIO_TAPPA, t.luogo)), lato: posto?.lato ?? "sopra", scosta: posto?.scosta ?? 0 };
+  });
+  const stato: StatoMappa = { gambe, tappe, foglio: componiFoglio(null), stampa: null, sale: null, conStampa: false };
+  c.mappa = stato;
+  const ancore = ancoreTerreno(disp);
+  if (ancore) {
+    stampaInArrivo = preparaStampa(ancore, FITTA)
+      .then(async (s) => { stato.stampa = await immagine(s.url); stato.sale = s.sale ? await immagine(s.sale) : null; })
+      .catch(() => undefined);
+  }
 }
+
+/** Il punto a `d` unità dall'inizio di una gamba. */
+function puntoSu(g: Gamba, d: number): Pt {
+  let resto = clamp(d, 0, g.lunga);
+  for (const tr0 of g.tratti) {
+    const l = tr0.cum[tr0.cum.length - 1];
+    if (resto <= l || tr0 === g.tratti[g.tratti.length - 1]) {
+      let j = 1;
+      while (j < tr0.cum.length - 1 && tr0.cum[j] < resto) j++;
+      const k = clamp((resto - tr0.cum[j - 1]) / (tr0.cum[j] - tr0.cum[j - 1] || 1));
+      return { x: lerp(tr0.pts[j - 1].x, tr0.pts[j].x, k), y: lerp(tr0.pts[j - 1].y, tr0.pts[j].y, k) };
+    }
+    resto -= l;
+  }
+  return g.tratti[0]?.pts[0] ?? { x: 0, y: 0 };
+}
+
+/** Il tracciato di un tratto fino a `d` unità (tutto, se `d` manca). */
+function finoA(tr0: Tratto, d = Infinity): Path2D {
+  const p = new Path2D();
+  p.moveTo(tr0.pts[0].x, tr0.pts[0].y);
+  for (let j = 1; j < tr0.pts.length; j++) {
+    if (tr0.cum[j] <= d) { p.lineTo(tr0.pts[j].x, tr0.pts[j].y); continue; }
+    const k = clamp((d - tr0.cum[j - 1]) / (tr0.cum[j] - tr0.cum[j - 1] || 1));
+    p.lineTo(lerp(tr0.pts[j - 1].x, tr0.pts[j].x, k), lerp(tr0.pts[j - 1].y, tr0.pts[j].y, k));
+    break;
+  }
+  return p;
+}
+
+const nomeDiTappa = (t: TappaTrailer) =>
+  (inglese() && t.zona in ZONE_THEME ? ZONE_THEME[t.zona as ZoneKey].nomeEn.split(" · ")[0] : t.nome).toUpperCase();
 
 export function disegnaMappa(ctx: CanvasRenderingContext2D, t: number, c: Cache) {
   preparaMappa(c);
-  const prog = clamp((t - TAPPE_T0) / (7 * TAPPE_PASSO));
-  const [fx, fy] = puntoSu(PUNTI, prog);
-  const allarga = smoothstep(46.2, 48.6, t);
-  const zoom = lerp(1.38, 1.0, allarga);
-  const cx = lerp(fx, W / 2, allarga), cy = lerp(fy, H / 2, allarga);
+  const m = c.mappa as StatoMappa;
+  if (m.stampa && !m.conStampa) { m.foglio = componiFoglio(m.stampa); m.conStampa = true; }
 
-  // Tappa attualmente illuminata
-  let attiva = -1;
-  for (let i = 0; i < 7; i++) {
-    if (t >= TAPPE_T0 + i * TAPPE_PASSO - 0.15) attiva = i;
-  }
+  // dove sta la penna: un tratto per tappa; il cammino occupa i primi quattro quinti del passo, poi la penna sosta sulla tappa
+  const k = (t - TAPPE_T0) / TAPPE_PASSO, n = m.gambe.length;
+  const gi = clamp(Math.floor(k), 0, n - 1), fatta = k >= n ? 1 : easeInOut(clamp((k - gi) / 0.8));
+  const percorsa = k <= 0 ? 0 : fatta * m.gambe[gi].lunga;
+  const penna = k <= 0 ? { x: m.tappe[0].x, y: m.tappe[0].y } : puntoSu(m.gambe[gi], percorsa);
+  const raggiunte = k < 0 ? 0 : Math.min(m.tappe.length, gi + 1 + (fatta >= 0.995 ? 1 : 0));
+
+  // la macchina: segue la penna da vicino, poi si allarga su tutto il foglio
+  const allarga = smoothstep(46.0, 48.4, t);
+  const zoom = lerp(lerp(1.3, 1.55, smoothstep(32.8, 36.0, t)), 1, allarga);
+  const mezzaL = W / 2 / zoom, mezzaA = (H / 2 - BANDA) / zoom;
+  const stringi = (v: number, lo: number, hi: number) => (lo > hi ? (lo + hi) / 2 : clamp(v, lo, hi));
+  const fx = lerp(stringi(OX + penna.x * U, OX + mezzaL - 70, OX + FOGLIO.larghezza * U - mezzaL + 70), W / 2, allarga);
+  const fy = lerp(stringi(OY + penna.y * U, OY + mezzaA - 24, OY + FOGLIO.altezza * U - mezzaA + 24), H / 2, allarga);
+
+  // il tavolo scuro sotto il foglio
+  const tavolo = ctx.createRadialGradient(W / 2, H / 2, 200, W / 2, H / 2, 1200);
+  tavolo.addColorStop(0, "#1a1410"); tavolo.addColorStop(1, "#080605");
+  ctx.fillStyle = tavolo; ctx.fillRect(0, 0, W, H);
 
   ctx.save();
-  inquadra(ctx, zoom, (W / 2 - cx) * zoom, (H / 2 - cy) * zoom);
-  oscillaCamera(ctx, t, 1.2);
+  inquadra(ctx, zoom, (W / 2 - fx) * zoom, (H / 2 - fy) * zoom);
+  oscillaCamera(ctx, t, 1.0);
+  // l'ombra del foglio sul tavolo, poi il foglio
+  for (const [d, a] of [[26, 0.10], [16, 0.14], [8, 0.20], [3, 0.26]] as const) {
+    ctx.fillStyle = `rgba(0,0,0,${a})`;
+    ctx.fillRect(OX - d + 6, OY - d + 10, FOGLIO.larghezza * U + d * 2, FOGLIO.altezza * U + d * 2);
+  }
+  ctx.translate(OX, OY);
+  ctx.scale(U, U);
+  ctx.drawImage(m.foglio, 0, 0, FOGLIO.larghezza, FOGLIO.altezza);
 
-  ctx.drawImage(c.mappa.carta, -c.mappa.padX, -c.mappa.padY);
-
-  const traccia: [number, number][] = c.mappa.traccia;
-  // Strada ancora non percorsa: tratteggio fine a matita bruna (come .mp-accennata in partita)
-  ctx.save();
-  ctx.strokeStyle = "rgba(63,46,30,0.42)";
-  ctx.lineWidth = 2.0 / zoom;
-  ctx.setLineDash([5 / zoom, 6 / zoom]);
-  ctx.beginPath();
-  traccia.forEach(([x, y], k) => (k ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
-  ctx.stroke();
-  ctx.restore();
-
-  // Tratto percorso: strada a doppio filetto d'inchiostro con anima ocra chiara (come .mp-statale)
-  const n = Math.max(1, Math.floor(easeInOut(prog) * (traccia.length - 1)));
-  if (n > 1) {
-    ctx.save();
-    ctx.lineCap = "round"; ctx.lineJoin = "round";
-    ctx.strokeStyle = "#2b1e14";
-    ctx.lineWidth = 6.2 / zoom;
-    ctx.beginPath();
-    for (let k = 0; k <= n; k++) { const [x, y] = traccia[k]; if (k) ctx.lineTo(x, y); else ctx.moveTo(x, y); }
-    ctx.stroke();
-
-    ctx.strokeStyle = "#f0d27a";
-    ctx.lineWidth = 2.6 / zoom;
-    ctx.beginPath();
-    for (let k = 0; k <= n; k++) { const [x, y] = traccia[k]; if (k) ctx.lineTo(x, y); else ctx.moveTo(x, y); }
-    ctx.stroke();
-    ctx.restore();
+  // il sale: con l'invaso raggiunto, la mano tratteggia il lago che la stampa dà ancora pieno
+  const invaso = m.tappe.findIndex((x) => x.zona === "z3");
+  if (m.sale && invaso >= 0) {
+    const a = seg(t, TAPPE_T0 + invaso * TAPPE_PASSO, TAPPE_T0 + invaso * TAPPE_PASSO + 0.9);
+    if (a > 0) { ctx.save(); ctx.globalAlpha = a; ctx.drawImage(m.sale, 0, 0, FOGLIO.larghezza, FOGLIO.altezza); ctx.restore(); }
   }
 
-  // Segno vivo in punta di penna sul punto corrente del cammino
-  if (prog > 0 && prog < 1) {
-    const g = ctx.createRadialGradient(fx, fy, 1, fx, fy, 28 / zoom);
-    g.addColorStop(0, "rgba(186,48,32,0.52)");
-    g.addColorStop(1, "rgba(186,48,32,0)");
-    ctx.fillStyle = g;
-    ctx.beginPath(); ctx.arc(fx, fy, 28 / zoom, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = "#9a2418";
-    ctx.strokeStyle = "#efe3c6";
-    ctx.lineWidth = 2 / zoom;
-    ctx.beginPath(); ctx.arc(fx, fy, 4.8 / zoom, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  // il cartiglio
+  if (m.conStampa) {
+    const cx = (CARTIGLIO.x0 + CARTIGLIO.x1) / 2;
+    ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+    ctx.font = `600 13px ${FONT.serif}`; ctx.letterSpacing = "3.9px"; ctx.fillStyle = "#3b2c20";
+    ctx.fillText(tr("CARTA FISICA", "PHYSICAL MAP"), cx + 1.9, CARTIGLIO.y0 + 30);
+    ctx.font = `italic 11px ${FONT.serif}`; ctx.letterSpacing = "0px"; ctx.fillStyle = "#5a4632";
+    ctx.fillText(tr("della provincia", "of the province"), cx, CARTIGLIO.y0 + 47);
   }
 
-  // Le sette tappe (prima quelle non attive, poi il velo scuro di lettura in basso, infine la tappa attiva nitida: B21)
-  const disegnaTappa = (i: number, inPrimoPiano: boolean) => {
-    const z = ZONE[i], [px, py] = PUNTI[i];
-    const ti = TAPPE_T0 + i * TAPPE_PASSO;
-    const acceso = easeOut(seg(t, ti - 0.15, ti + 0.55));
-    const qui = clamp(1 - Math.abs(t - (ti + TAPPE_PASSO * 0.45)) / (TAPPE_PASSO * 0.7));
-    const colInchiostro = INCHIOSTRI_ZONA[i];
-
-    ctx.save();
-    ctx.translate(px, py);
-
-    if (acceso > 0 && (inPrimoPiano || qui > 0.05)) {
-      const aR = (30 + qui * 24) / zoom;
-      const g = ctx.createRadialGradient(0, 0, 2, 0, 0, aR);
-      g.addColorStop(0, `${z.a}55`);
-      g.addColorStop(0.55, `${colInchiostro}28`);
-      g.addColorStop(1, "rgba(0,0,0,0)");
-      ctx.fillStyle = g;
-      ctx.beginPath(); ctx.arc(0, 0, aR, 0, Math.PI * 2); ctx.fill();
+  // le strade percorse, a penna: prima i bordi della statale e della provinciale, poi le anime, poi le strade semplici
+  const fatti: { p: Path2D; classe: Classe }[] = [];
+  if (k > 0) {
+    for (let i = 0; i <= gi; i++) {
+      let resto = i < gi ? Infinity : percorsa;
+      for (const tr0 of m.gambe[i].tratti) {
+        if (resto <= 0) break;
+        fatti.push({ p: finoA(tr0, resto), classe: tr0.classe });
+        resto -= tr0.cum[tr0.cum.length - 1];
+      }
     }
+  }
+  ctx.lineCap = "round"; ctx.lineJoin = "round";
+  ctx.strokeStyle = INCHIOSTRO;
+  for (const f of fatti) if (BORDO[f.classe]) { ctx.lineWidth = BORDO[f.classe]!; ctx.stroke(f.p); }
+  for (const f of fatti) if (ANIMA[f.classe]) { ctx.strokeStyle = ANIMA[f.classe]!; ctx.lineWidth = SPESSORE[f.classe]; ctx.stroke(f.p); }
+  ctx.strokeStyle = INCHIOSTRO;
+  for (const f of fatti) if (!BORDO[f.classe]) { ctx.lineWidth = SPESSORE[f.classe]; ctx.stroke(f.p); }
+  // i luoghi per cui si è passati
+  ctx.fillStyle = INCHIOSTRO;
+  if (k > 0) {
+    for (let i = 0; i <= gi; i++) {
+      const g = m.gambe[i];
+      let fin = 0;
+      g.tratti.forEach((tr0, j) => {
+        fin += tr0.cum[tr0.cum.length - 1];
+        if (j < g.luoghi.length && (i < gi || percorsa >= fin)) { ctx.beginPath(); ctx.arc(g.luoghi[j].x, g.luoghi[j].y, 3.4, 0, Math.PI * 2); ctx.fill(); }
+      });
+    }
+  }
 
-    const r = (13 + acceso * 5 + qui * 3.5) / zoom;
-    ctx.fillStyle = acceso > 0 ? "#efe4c8" : "#d8caa8";
-    ctx.strokeStyle = qui > 0.35 ? "#9a2418" : acceso > 0 ? "#2b1e14" : "rgba(68,48,28,0.55)";
-    ctx.lineWidth = (acceso > 0 ? 2.4 : 1.4) / zoom;
-    if (acceso <= 0) ctx.setLineDash([3 / zoom, 2.5 / zoom]);
-    ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  // le tappe: l'anello tracciato a mano (tratteggiato finché non ci si arriva) e il nome in maiuscoletto
+  m.tappe.forEach((tp, i) => {
+    const raggiunta = i < raggiunte;
+    const quando = TAPPE_T0 + i * TAPPE_PASSO - (i ? TAPPE_PASSO * 0.2 : 0);
+    const colpo = raggiunta ? 1 - easeOut(seg(t, quando, quando + 0.5)) : 0;       // l'anello si allarga un attimo quando ci si arriva
+    ctx.save();
+    ctx.translate(tp.x, tp.y); ctx.scale(1 + colpo * 0.35, 1 + colpo * 0.35); ctx.translate(-tp.x, -tp.y);
+    ctx.strokeStyle = raggiunta ? INCHIOSTRO : TENUE; ctx.lineWidth = raggiunta ? 1.8 : 1.2;
+    ctx.setLineDash(raggiunta ? [] : [3, 2.5]);
+    ctx.stroke(tp.anello);
     ctx.setLineDash([]);
-
-    // Anello doppio sulle tappe raggiunte
-    if (acceso > 0) {
-      ctx.strokeStyle = qui > 0.35 ? "rgba(154,36,24,0.45)" : "rgba(43,30,20,0.32)";
-      ctx.lineWidth = 1.1 / zoom;
-      ctx.beginPath(); ctx.arc(0, 0, r + 4 / zoom, 0, Math.PI * 2); ctx.stroke();
-    }
-
-    ctx.strokeStyle = qui > 0.35 ? "#9a2418" : acceso > 0 ? colInchiostro : "rgba(72,52,32,0.55)";
-    ctx.lineWidth = (acceso > 0 ? 1.85 : 1.25) / zoom;
-    ctx.lineCap = "round"; ctx.lineJoin = "round";
-    simbolo(ctx, i, r * 0.56);
-
-    if (acceso > 0) {
-      const sopra = i % 2 === 0 ? -1 : 1;
-      const ey = sopra * (r + 22 / zoom);
-      ctx.globalAlpha = acceso;
-      ctx.textAlign = "center"; ctx.textBaseline = "middle";
-      ctx.font = `700 ${16 / zoom}px ${FONT.serif}`;
-      const nomeTappa = tr(z.n, z.en.n);
-      // Bordino chiaro di riserva tipografica come sulle carte stampate (.mp-nome-tappa)
-      ctx.strokeStyle = "rgba(236,224,196,0.92)";
-      ctx.lineWidth = 4.2 / zoom;
-      ctx.lineJoin = "round";
-      ctx.strokeText(nomeTappa, 0, ey);
-      ctx.fillStyle = qui > 0.35 ? "#7e1810" : "#261a10";
-      ctx.fillText(nomeTappa, 0, ey);
-
-      ctx.font = `600 ${10.5 / zoom}px ${FONT.mono}`;
-      ctx.fillStyle = "rgba(74,50,28,0.82)";
-      ctx.fillText(`0${i + 1}`, 0, ey + sopra * (15 / zoom));
-    }
+    ctx.beginPath(); ctx.arc(tp.x, tp.y, raggiunta ? 4 : 3, 0, Math.PI * 2);
+    if (raggiunta) { ctx.fillStyle = INCHIOSTRO; ctx.fill(); } else { ctx.lineWidth = 1; ctx.stroke(); }
     ctx.restore();
-  };
+    const p = postoNome({ cx: tp.x, cy: tp.y, lato: tp.lato, scosta: tp.scosta, raggio: RAGGIO_TAPPA }, CORPO_TAPPA);
+    ctx.font = `600 ${CORPO_TAPPA}px ${FONT.serif}`; ctx.letterSpacing = "1.2px";
+    ctx.textAlign = p.ancora === "middle" ? "center" : p.ancora === "start" ? "left" : "right"; ctx.textBaseline = "alphabetic";
+    ctx.strokeStyle = CARTA; ctx.lineWidth = 3.2; ctx.lineJoin = "round";
+    const nome = nomeDiTappa(tp);
+    ctx.strokeText(nome, p.x, p.y);
+    ctx.fillStyle = raggiunta ? INCHIOSTRO : TENUE;
+    ctx.fillText(nome, p.x, p.y);
+  });
+  ctx.letterSpacing = "0px";
 
-  for (let i = 0; i < 7; i++) {
-    if (i !== attiva) disegnaTappa(i, false);
+  // «sei qui»: il disco rosso con le quattro tacche a mirino e l'alone che respira, sulla punta della penna
+  if (t >= TAPPE_T0 - 0.6) {
+    const entra = seg(t, TAPPE_T0 - 0.6, TAPPE_T0 - 0.1);
+    const giro = (((t / 2.4) % 1) + 1) % 1, a = giro < 0.8 ? 0.85 * (1 - giro / 0.8) : 0;
+    ctx.save();
+    ctx.globalAlpha = entra;
+    ctx.strokeStyle = ROSSO; ctx.lineWidth = 1.6; ctx.globalAlpha = entra * a;
+    ctx.beginPath(); ctx.arc(penna.x, penna.y, 8 * lerp(0.7, 2.1, Math.min(1, giro / 0.8)), 0, Math.PI * 2); ctx.stroke();
+    ctx.globalAlpha = entra;
+    ctx.strokeStyle = INCHIOSTRO; ctx.lineWidth = 1.4; ctx.lineCap = "butt";
+    ctx.beginPath();
+    for (const [x0, y0, x1, y1] of [[0, -7, 0, -9.5], [7, 0, 9.5, 0], [0, 7, 0, 9.5], [-7, 0, -9.5, 0]]) { ctx.moveTo(penna.x + x0, penna.y + y0); ctx.lineTo(penna.x + x1, penna.y + y1); }
+    ctx.stroke();
+    ctx.fillStyle = ROSSO; ctx.strokeStyle = CARTA; ctx.lineWidth = 1.8;
+    ctx.beginPath(); ctx.arc(penna.x, penna.y, 5.5, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.restore();
   }
   ctx.restore();
 
-  // Velo caldo bruno-scuro in basso a sinistra e in alto a sinistra per leggere nitidamente i testi di Trailer.tsx,
-  // steso PRIMA del richiamo luminoso della tappa attiva (risolve B21)
-  const gBasso = ctx.createLinearGradient(0, H - BANDA - 250, 0, H - BANDA);
-  gBasso.addColorStop(0, "rgba(14,10,8,0)");
-  gBasso.addColorStop(0.55, "rgba(14,10,8,0.58)");
-  gBasso.addColorStop(1, "rgba(10,8,6,0.84)");
-  ctx.fillStyle = gBasso;
-  ctx.fillRect(0, H - BANDA - 250, W, 250 + BANDA);
-
-  const gAlto = ctx.createLinearGradient(0, BANDA, 0, BANDA + 190);
-  gAlto.addColorStop(0, "rgba(12,9,7,0.74)");
-  gAlto.addColorStop(0.55, "rgba(12,9,7,0.34)");
-  gAlto.addColorStop(1, "rgba(12,9,7,0)");
-  ctx.fillStyle = gAlto;
-  ctx.fillRect(0, 0, W, BANDA + 190);
-
-  // La tappa attiva in primo piano sopra ogni velo, così non risulta mai spenta
-  if (attiva >= 0) {
-    ctx.save();
-    inquadra(ctx, zoom, (W / 2 - cx) * zoom, (H / 2 - cy) * zoom);
-    oscillaCamera(ctx, t, 1.2);
-    disegnaTappa(attiva, true);
-    ctx.restore();
+  // un velo scuro in alto, solo mentre c'è la scritta chiara «Sette tappe fino a casa.» (33,6 → 36,1), e una targhetta scura
+  // sotto il contatore delle tappe, in basso a sinistra (Trailer.tsx)
+  const velo = inviluppo(t, 33.0, 36.5, 0.8, 0.6);
+  if (velo > 0) {
+    const gAlto = ctx.createLinearGradient(0, BANDA, 0, BANDA + 260);
+    gAlto.addColorStop(0, `rgba(12,9,7,${0.86 * velo})`);
+    gAlto.addColorStop(0.5, `rgba(12,9,7,${0.6 * velo})`);
+    gAlto.addColorStop(1, "rgba(12,9,7,0)");
+    ctx.fillStyle = gAlto;
+    ctx.fillRect(0, 0, W, BANDA + 260);
   }
-
-  vignetta(ctx, 0.42);
+  const targa = inviluppo(t, TAPPE_T0 - 0.2, 48.7, 0.5, 0.5);
+  if (targa > 0) {
+    ctx.fillStyle = `rgba(14,10,8,${0.7 * targa})`;
+    ctx.beginPath(); ctx.roundRect(126, H - BANDA - 92, 300, 50, 8); ctx.fill();
+  }
+  vignetta(ctx, 0.4);
 }

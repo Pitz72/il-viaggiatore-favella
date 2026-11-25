@@ -6,11 +6,20 @@
 //  il Viandante che attraversa la crosta di sale.
 // ====================================================================
 import { W, H, CAMMINATE, faseDiPasso } from "../scaletta";
-import { clamp, lerp, rng, smoothstep } from "../tempo";
+import { clamp, lerp, mix, rng, smoothstep } from "../tempo";
 import { foschia, inquadra, oscillaCamera, polvere, tela, vignetta } from "../pittura";
-import { disegnaOmbra, disegnaViandante } from "../viandante";
+import { disegnaFigura, disegnaOmbraFigura, FALCATA, type LuceFigura, type OpzioniFigura } from "../figura";
+import { aTerra, distanzaDi, STATURA, type Macchina } from "../prospettiva";
 import type { Cache } from "../cache";
 import { disegnaTavola, tavoleTrailer } from "../tavole";
+
+/** La macchina da presa della tavola: ad altezza d'uomo, l'orizzonte sulla riva lontana del bacino. */
+const MACCHINA: Macchina = { fugaX: W / 2, orizzonte: H * 0.59, alta: 1.75, focale: 2400 };
+/** La riga dove posa i piedi (davanti alla barca), da dove parte (px) e quanto è lungo il suo passo sul sale. */
+const RIGA = H * 0.804, PARTE_DA = 300, AMPIEZZA = 0.92;
+/** L'ultimo chiaro è dietro la diga, a destra: al crepuscolo e a notte fonda. */
+const CREPUSCOLO: LuceFigura = { ambiente: "#aeb4be", chiave: "#eef2f6", forza: 0.42, buio: "#151b27", fondo: 0.44, lato: 1, alto: 0.6, china: "#0e121a" };
+const NOTTE: LuceFigura = { ambiente: "#5a688c", chiave: "#b6ccf2", forza: 0.5, buio: "#070b15", fondo: 0.68, lato: 1, alto: 0.6, china: "#04060c" };
 
 interface Stella { x: number; y: number; r: number; a: number; f: number; c: string }
 
@@ -135,24 +144,20 @@ export function disegnaInvaso(ctx: CanvasRenderingContext2D, t: number, c: Cache
   }
   ctx.restore();
 
-  // Il Viandante che cammina sul sale crepato dalla barca verso la diga
-  const vx = lerp(W * 0.32, W * 0.66, u);
-  const vy = lerp(H * 0.78, H * 0.74, u);
-  const opzInv = {
-    colore: notte > 0.5 ? "#0b101b" : "#18202c",
-    lontano: notte > 0.5 ? "#060911" : "#101620",
-    bordo: notte > 0.5 ? "#9ec2f6" : "#dce8f2",
-    latoLuce: -1,
-    verso: 1,
-    tanica: true,
-    fagotto: true,
-    cappello: true,
-    polvere: "#cfd8de",
-    dettaglio: 2 as const,
+  // Il Viandante attraversa il sale da sinistra a destra, davanti alla barca, sulla sua riga: STATURA × FALCATA metri a
+  // ogni ciclo di passo. La sua luce trascolora con la tavola, dal crepuscolo alla notte
+  const camm = CAMMINATE[2];
+  const distanza = distanzaDi(MACCHINA, RIGA);
+  const parte = aTerra(MACCHINA, 0, distanza);
+  const posto = aTerra(MACCHINA, (PARTE_DA - MACCHINA.fugaX) / parte.scala + STATURA * FALCATA * AMPIEZZA * camm.cad * tr0, distanza);
+  const fase = faseDiPasso(t, camm) - 0.25;                    // il tallone tocca terra sul suono del passo (fasi ,25 e ,75)
+  const luce: LuceFigura = {
+    ambiente: mix(CREPUSCOLO.ambiente, NOTTE.ambiente, notte), chiave: mix(CREPUSCOLO.chiave, NOTTE.chiave, notte), forza: lerp(CREPUSCOLO.forza, NOTTE.forza, notte),
+    buio: mix(CREPUSCOLO.buio, NOTTE.buio, notte), fondo: lerp(CREPUSCOLO.fondo, NOTTE.fondo, notte), lato: 1, alto: 0.6, china: mix(CREPUSCOLO.china, NOTTE.china, notte),
   };
-  const faseInv = faseDiPasso(t, CAMMINATE[2]);
-  disegnaOmbra(ctx, vx, vy, 118, faseInv, opzInv, 0.85, -0.16, `rgba(12,18,28,${lerp(0.32, 0.16, notte)})`);
-  disegnaViandante(ctx, vx, vy, 118, faseInv, opzInv);
+  const figura: OpzioniFigura = { vista: "profilo", verso: 1, luce, ampiezza: AMPIEZZA, tanica: true, coperta: true, cappello: true };
+  disegnaOmbraFigura(ctx, posto.x, posto.y, posto.alto, fase, figura, 0.5, -0.2, "#0c121c", lerp(0.34, 0.16, notte));
+  disegnaFigura(ctx, posto.x, posto.y, posto.alto, fase, figura);
 
   ctx.restore();
 

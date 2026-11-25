@@ -1,17 +1,28 @@
 // ====================================================================
 //  B · LA PARTENZA ALL'ALBA  (9.6 → 17.6s)  e  J · IL TITOLO / MENU  (81.4s → ∞)
 //  Tavola dipinta a gouache e china della provinciale deserta all'alba +
-//  bagliore vivo del sole all'orizzonte, nubi in deriva, pali del telegrafo
-//  in parallasse, stormo lontano e il Viandante col passo agganciato ai
-//  battiti dei passi di CAMMINATE. Sul titolo/menu (finale = true) la luce
-//  d'oro sale morbida e accoglie il titolo e la colonna del menu d'avvio.
+//  bagliore vivo del sole all'orizzonte, nubi in deriva, stormo lontano e il
+//  Viandante di spalle che si allontana lungo la strada. La tavola è ferma e
+//  in prospettiva: dove sta e quanto è alto lo dice la macchina da presa
+//  (prospettiva.ts), dai metri che fa a ogni passo. Sul titolo è già lontano;
+//  sul menu (finale = true) si ferma, e la luce d'oro accoglie il titolo.
 // ====================================================================
 import { W, H, DURATA, CAMMINATE, faseDiPasso } from "../scaletta";
 import { clamp, lerp, rng, smoothstep } from "../tempo";
 import { foschia, grana, inquadra, nubi, oscillaCamera, polvere, raggi, tela, vignetta } from "../pittura";
-import { disegnaOmbra, disegnaViandante } from "../viandante";
+import { disegnaFigura, disegnaOmbraFigura, FALCATA, type LuceFigura, type OpzioniFigura } from "../figura";
+import { aTerra, integra, STATURA, type Macchina } from "../prospettiva";
 import type { Cache } from "../cache";
 import { disegnaTavola, tavoleTrailer } from "../tavole";
+
+/** La macchina da presa della tavola: il punto di fuga della strada, l'orizzonte, 2,65 m da terra (la carreggiata, larga
+ *  sei metri e mezzo, vale 158 px al metro dove comincia la scena), e una focale lunga (il tratteggio della mezzeria). */
+const MACCHINA: Macchina = { fugaX: W * 0.273, orizzonte: H * 0.448, alta: 2.65, focale: 3000 };
+/** Dove cammina: a metà della carreggiata (metri a destra dell'asse della macchina), e a quanti metri dalla macchina
+ *  comincia la scena della partenza e quella del titolo. */
+const CORSIA = 3.4, PARTENZA = 18.2, TITOLO = 52;
+/** Il sole è davanti, a sinistra: la figura è in controluce, con un filo di luce calda sul bordo. */
+const LUCE: LuceFigura = { ambiente: "#b09a94", chiave: "#ffcc94", forza: 0.8, buio: "#1e1519", fondo: 0.66, lato: -1, alto: 0.5, china: "#130c0f" };
 
 export function preparaAlba(c: Cache) {
   if (c.alba) return;
@@ -37,69 +48,6 @@ export function preparaAlba(c: Cache) {
     nubi(g, 53, 250, "rgba(64,58,78,0.12)", 0.85);
   });
   c.alba = { cieloRipiego, suoloRipiego, stratoNubi };
-}
-
-function disegnaPaliProspettici(ctx: CanvasRenderingContext2D, tRel: number) {
-  const fugaX = W * 0.273, fugaY = H * 0.448;
-  const avanzamento = ((tRel * 0.22) % 1 + 1) % 1;
-  ctx.save();
-  ctx.lineCap = "round"; ctx.lineJoin = "round";
-
-  const puntiCavoSx: Array<[number, number]> = [];
-  const puntiCavoDx: Array<[number, number]> = [];
-
-  for (let i = 5; i >= 0; i--) {
-    const u = (i + avanzamento) / 5.4;
-    const k = Math.pow(u, 2.15);
-    if (k < 0.035 || k > 1.25) continue;
-
-    const baseX = lerp(fugaX + 18, W * 1.04, k);
-    const baseY = lerp(fugaY + 4, H * 0.88, k);
-    const hPalo = 360 * k;
-    const cimaY = baseY - hPalo;
-    const braccio = 22 * k;
-    const alfa = clamp((1.22 - k) * 3.2) * clamp(k * 9);
-    const ty = cimaY + 14 * k;
-
-    ctx.save();
-    ctx.globalAlpha = alfa * 0.88;
-    ctx.strokeStyle = "rgba(24,18,18,0.26)";
-    ctx.lineWidth = Math.max(1.2, 5.5 * k);
-    ctx.beginPath();
-    ctx.moveTo(baseX, baseY);
-    ctx.lineTo(baseX - hPalo * 1.25, baseY + hPalo * 0.14);
-    ctx.stroke();
-
-    ctx.strokeStyle = "#1e1716";
-    ctx.lineWidth = Math.max(1.2, 6.2 * k);
-    ctx.beginPath(); ctx.moveTo(baseX, baseY); ctx.lineTo(baseX, cimaY); ctx.stroke();
-
-    ctx.strokeStyle = "rgba(244,186,126,0.45)";
-    ctx.lineWidth = Math.max(0.8, 1.8 * k);
-    ctx.beginPath(); ctx.moveTo(baseX - 1.8 * k, baseY); ctx.lineTo(baseX - 1.8 * k, cimaY); ctx.stroke();
-
-    ctx.strokeStyle = "#1e1716";
-    ctx.lineWidth = Math.max(1, 3.6 * k);
-    ctx.beginPath(); ctx.moveTo(baseX - braccio, ty); ctx.lineTo(baseX + braccio, ty); ctx.stroke();
-    ctx.fillStyle = "#2b2220";
-    ctx.fillRect(baseX - braccio - 1.5 * k, ty - 4.5 * k, 3 * k, 4.5 * k);
-    ctx.fillRect(baseX + braccio - 1.5 * k, ty - 4.5 * k, 3 * k, 4.5 * k);
-    ctx.restore();
-
-    puntiCavoSx.push([baseX - braccio, ty - 3 * k]);
-    puntiCavoDx.push([baseX + braccio, ty - 3 * k]);
-  }
-
-  ctx.strokeStyle = "rgba(28,22,22,0.52)";
-  ctx.lineWidth = 1.15;
-  for (const serie of [puntiCavoSx, puntiCavoDx]) {
-    for (let j = 0; j < serie.length - 1; j++) {
-      const [x0, y0] = serie[j], [x1, y1] = serie[j + 1];
-      const mx = (x0 + x1) * 0.5, my = (y0 + y1) * 0.5 + Math.hypot(x1 - x0, y1 - y0) * 0.045;
-      ctx.beginPath(); ctx.moveTo(x0, y0); ctx.quadraticCurveTo(mx, my, x1, y1); ctx.stroke();
-    }
-  }
-  ctx.restore();
 }
 
 export function disegnaAlba(ctx: CanvasRenderingContext2D, t: number, c: Cache, finale = false) {
@@ -162,29 +110,20 @@ export function disegnaAlba(ctx: CanvasRenderingContext2D, t: number, c: Cache, 
     }
   }
 
-  // Sul menu fermo (t >= DURATA) la figura e i pali si fermano morbidi nella luce dell'alba
+  // Il Viandante di spalle. Fa STATURA × FALCATA metri a ogni ciclo di passo (due passi), alla cadenza di CAMMINATE: da
+  // quei metri la macchina da presa dice dove sta e quanto è alto. Sul menu (t >= DURATA) rallenta e si ferma.
   const camm = CAMMINATE[finale ? 4 : 0];
+  const tt = Math.min(t, DURATA);
   const fermoMenu = finale ? smoothstep(DURATA - 1.4, DURATA, t) : 0;
-  disegnaPaliProspettici(ctx, finale ? lerp(tr0, 5.7, fermoMenu) : tr0);
-
-  const vx = finale ? lerp(W * 0.62, W * 0.56, u) : lerp(W * 0.56, W * 0.43, u);
-  const vy = finale ? lerp(H * 0.81, H * 0.77, u) : lerp(H * 0.835, H * 0.745, u);
-  const vh = finale ? lerp(152, 134, u) : lerp(176, 138, u);
-  const fase = faseDiPasso(Math.min(t, DURATA), camm);
-  const opzV = {
-    colore: "#191314",
-    lontano: "#100c0d",
-    bordo: "#ffbe7e",
-    latoLuce: -1,
-    verso: -1,
-    fermo: fermoMenu,
-    tanica: true,
-    fagotto: true,
-    cappello: true,
-    dettaglio: 2 as const,
-  };
-  disegnaOmbra(ctx, vx, vy, vh, fase, opzV, 1.35, -0.22, "rgba(18,12,12,0.38)");
-  disegnaViandante(ctx, vx, vy, vh, fase, opzV);
+  const metriAlSecondo = STATURA * FALCATA * camm.cad;
+  const strada = finale
+    ? metriAlSecondo * integra((x) => 1 - smoothstep(DURATA - 1.4, DURATA, x), 81.4, Math.max(81.4, tt))
+    : metriAlSecondo * tr0;
+  const posto = aTerra(MACCHINA, CORSIA, (finale ? TITOLO : PARTENZA) + strada);
+  const fase = faseDiPasso(tt, camm) - 0.25;                   // il tallone tocca terra sul suono del passo (fasi ,25 e ,75)
+  const figura: OpzioniFigura = { vista: "spalle", luce: LUCE, fermo: fermoMenu, tanica: true, coperta: true, cappello: true, scorcio: posto.scorcio, respiro: t };
+  disegnaOmbraFigura(ctx, posto.x, posto.y, posto.alto, fase, figura, -0.5, -0.4, "#1a1214", 0.4);
+  disegnaFigura(ctx, posto.x, posto.y, posto.alto, fase, figura);
 
   ctx.restore();
 

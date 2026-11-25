@@ -1,7 +1,7 @@
 # Prossimi passi
 
 > **Lo stato vivo del progetto.** *Il Viaggiatore* è concluso come storia (definitiva dalla 1.12.0) e il lavoro riprende solo
-> su richiesta di Simone. Ultima versione rilasciata: **1.42.0**, 7 novembre 2026; preparata in locale la **1.43.0**, 25 novembre 2026 (revisione totale, rimedi del codice e veste pittorica). Questo file tiene il conto di che cosa è aperto, di
+> su richiesta di Simone. Ultima versione rilasciata: **1.43.0**, 25 novembre 2026 (revisione totale, rimedi del codice e nuova veste pittorica). Questo file tiene il conto di che cosa è aperto, di
 > che cosa si è chiuso e di che cosa, di proposito, non si fa; **si aggiorna a ogni sessione** (vedi [`CLAUDE.md`](../CLAUDE.md)).
 > (Com'era prima, fermo alla 1.7.0: nella storia di git.)
 
@@ -9,7 +9,16 @@
 
 Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti non sono più da fare (vedi «Non si fa»).
 
-- **Provare dal vivo e rilasciare la 1.43.0** (preparata in locale il 25 novembre 2026, diario «Revisione totale, rimedi del codice e nuova veste pittorica»): quando Simone avrà guardato sul gioco desktop il nuovo trailer, il menu d'avvio, i panorami e il cammeo del protagonista, restano solo il commit, il push su `main` e, quando vorrà, il workflow «Rilascio» su GitHub Actions (ed eventualmente rifotografare le otto schermate di `pagine/schermate/` con `strumenti/schermate.cjs` e il video `video/` con `strumenti/esporta-trailer.cjs` per allinearli alla nuova grafica).
+- **Decidere il rilascio della correzione del trailer** (25 novembre 2026, pomeriggio, diario «Il trailer rimesso in piedi»). Su
+  `main` da quel giorno, su ordine di Simone («Sì, su main»), **non rilasciato**: il buio a 69 secondi corretto, il Viandante che non
+  pattina più (dipinto come le tavole, di spalle all'alba e sul titolo, alla misura giusta per la prospettiva), la mappa del trailer
+  che ora è la carta del gioco. **Il difetto del buio sta nella 1.43.0 rilasciata**: chi guarda il trailer fino in fondo, installato
+  o nel browser, a 69 secondi resta sul nero finché non preme Esc; la correzione sarebbe la **1.43.1** e il rilascio lo ordina
+  Simone. Restano da decidere con lui: eventuali ritocchi dopo averlo guardato con calma nel gioco desktop (`node prepara.mjs` e
+  `npm run avvia`, in `desktop/`); i pali del telegrafo dell'alba, che ho tolto; il sottotitolo «un esperimento in favella 1», che
+  le immagini promozionali nuove non dicono più; i video in `video/` (M03), che sono del trailer di prima.
+
+- **Confermare e inviare le nuove immagini promozionali** (25 novembre 2026, diario «Il rilascio 1.43.0 e le nuove immagini promozionali»): pronti nel clone `grafica/branding/il-viaggiatore-{locandina-27x40,16x9,21x9,1x1,4x3,github-1280x640}.jpg`, `grafica/banner.jpg` e `grafica/itch/{banner-960x411,copertina-630x500}.jpg` nel nuovo stile pittorico e con la dicitura «un gioco in FAVELLA1 di Simone Pizzi». Quando Simone li approva, si fa commit + push su `main` (e, se vuole vedere subito il nuovo banner sulla pagina web, si lancia il workflow «Pagine»; volendo si possono anche rifotografare le otto schermate di `pagine/schermate/` con `strumenti/schermate.cjs`).
 
 - **Far rigiocare Michela la 1.42.0**, se capita: dove si perde, quando beve, che cosa capisce tardi. Il suo racconto vale più delle
   partite simulate; se smentisce il modello, si ritoccano i caratteri in `collaudo/verosimili.py` e si rimisura. Ogni ritocco
@@ -59,7 +68,7 @@ Ciò che resta aspetta Simone: sono tutte sue decisioni. I caricamenti sui siti 
 
 ## Chiuso
 
-- **Revisione totale, rimedi alle 21 criticità e nuova veste pittorica** (25 novembre 2026, diario «Revisione totale, rimedi del codice e nuova veste pittorica», versione **1.43.0** pronta in locale): risolti i 21 bug di codice e accessibilità (finali `terminata` distinti dalle morti, salvataggio automatico alla chiusura finestra, domande del motore mostrate al ricaricamento, attesa scrittura trofei, sincronia audio-video di trailer e titoli di coda, trappola del fuoco nei riquadri modali e nel taccuino, sosta reale del disegno panoramico in pausa o a movimento ridotto) più quattro casi limite nei `.fav` a zero doppiaggio (veglia al guado, sblocco del valico, avvisi su oggetti assenti); rinnovati con 26 tavole WebP a gouache e china (`app/public/immagini/scene/`) il trailer, la Carta Fisica, i cinque medaglioni, le dieci tessere d'osso, i panorami delle zone e degli interni, il cammeo del Viandante e l'interfaccia editoriale di partita.
+- **Revisione totale, rimedi alle 21 criticità e nuova veste pittorica — rilasciata come 1.43.0** (25 novembre 2026, diari «Revisione totale, rimedi del codice e nuova veste pittorica» e «Il rilascio 1.43.0 e le nuove immagini promozionali», commit `ab65891`, run `45579422485`, tag `v1.43.0` con sette file e sito su GitHub Pages aggiornato alla 1.43.0): risolti i 21 bug di codice e accessibilità (finali `terminata` distinti dalle morti, salvataggio automatico alla chiusura finestra, domande del motore mostrate al ricaricamento, attesa scrittura trofei, sincronia audio-video di trailer e titoli di coda, trappola del fuoco nei riquadri modali e nel taccuino, sosta reale del disegno panoramico in pausa o a movimento ridotto) più quattro casi limite nei `.fav` a zero doppiaggio (veglia al guado, sblocco del valico, avvisi su oggetti assenti); rinnovati con 26 tavole WebP a gouache e china (`app/public/immagini/scene/`) il trailer, la Carta Fisica, i cinque medaglioni, le dieci tessere d'osso, i panorami delle zone e degli interni, il cammeo del Viandante e l'interfaccia editoriale di partita; rifatta in locale anche l'intera serie delle immagini promozionali (`grafica/branding/`, `banner.jpg`, `grafica/itch/`).
 - **Il bilanciamento con il metodo del Relitto** (7 novembre 2026, diario «Il metodo del Relitto per il bilanciamento»,
   [`bilanciamento.md`](bilanciamento.md)): le partite da principiante verosimili (`collaudo/cammino.py`, `collaudo/verosimili.py`, tre
   percorsi scritti a mano, sei caratteri, due livelli di smarrimento, le varianti su una copia dei `.fav`, il controllo rapido in CI);

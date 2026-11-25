@@ -2,16 +2,26 @@
 //  C · LA TERRA SENZA ACQUA  (17.6 → 25.6s)
 //  Tavola dipinta a gouache e china dei calanchi e delle zolle d'argilla
 //  incurvate dal sole + riverbero termico vivo all'orizzonte, sole a picco,
-//  polvere secca alzata a ogni passo in sincrono con CAMMINATE[1].
+//  il Viandante di profilo che attraversa la spianata sulla sua riga (avanza
+//  della lunghezza dei suoi passi: prospettiva.ts) e la polvere che si alza
+//  dove ha posato il piede, in sincrono con CAMMINATE[1].
 //  La fascia centro-sinistra resta luminosa per ospitare il timbro scuro
 //  «la secca / dieci anni senza pioggia» (#3b2415).
 // ====================================================================
 import { W, H, CAMMINATE, faseDiPasso } from "../scaletta";
-import { clamp, lerp, rng, smoothstep } from "../tempo";
+import { clamp, lerp, smoothstep } from "../tempo";
 import { foschia, inquadra, oscillaCamera, polvere, tela, vignetta } from "../pittura";
-import { disegnaOmbra, disegnaViandante } from "../viandante";
+import { disegnaFigura, disegnaOmbraFigura, FALCATA, type LuceFigura, type OpzioniFigura } from "../figura";
+import { aTerra, distanzaDi, STATURA, type Macchina } from "../prospettiva";
 import type { Cache } from "../cache";
 import { disegnaTavola, tavoleTrailer } from "../tavole";
+
+/** La macchina da presa della tavola: l'orizzonte al piede dei calanchi, poco sopra l'altezza d'uomo. */
+const MACCHINA: Macchina = { fugaX: W / 2, orizzonte: H * 0.40, alta: 1.9, focale: 2400 };
+/** La riga dove posa i piedi, da dove parte (px) e quanto è lungo il suo passo sull'argilla (1 = FALCATA). */
+const RIGA = H * 0.64, PARTE_DA = 440, AMPIEZZA = 0.9;
+/** Sole alto a sinistra: piena luce, ombre corte e nette. */
+const LUCE: LuceFigura = { ambiente: "#f0dcb6", chiave: "#fff5d6", forza: 0.55, buio: "#3d2614", fondo: 0.26, lato: -1, alto: 0.8, china: "#24150b" };
 
 export function preparaTerra(c: Cache) {
   if (c.terra) return;
@@ -70,40 +80,32 @@ export function disegnaTerra(ctx: CanvasRenderingContext2D, t: number, c: Cache)
 
   foschia(ctx, H * 0.41, 88, `rgba(252,226,174,${0.26 + 0.18 * vampaTimbro})`);
 
-  // Il Viandante che attraversa la spianata d'argilla sulla destra coi passi agganciati a CAMMINATE[1]
-  const vx = lerp(W * 0.44, W * 0.78, u);
-  const vy = H * 0.625 + Math.sin(u * Math.PI) * 6;
-  const fase = faseDiPasso(t, CAMMINATE[1]);
+  // Il Viandante attraversa la spianata da sinistra a destra, sulla sua riga: STATURA × FALCATA metri a ogni ciclo di passo
+  const camm = CAMMINATE[1];
+  const distanza = distanzaDi(MACCHINA, RIGA);
+  const metriAlSecondo = STATURA * FALCATA * AMPIEZZA * camm.cad;
+  const parte = aTerra(MACCHINA, 0, distanza);
+  const posto = aTerra(MACCHINA, (PARTE_DA - MACCHINA.fugaX) / parte.scala + metriAlSecondo * tr0, distanza);
+  const fase = faseDiPasso(t, camm) - 0.25;                    // il tallone tocca terra sul suono del passo (fasi ,25 e ,75)
 
-  const rPolv = rng(211);
-  for (let k = 0; k < 5; k++) {
-    const eta = (((fase * 2 + k * 0.37) % 1) + 1) % 1;
-    const px = vx - 18 - eta * 64 - rPolv() * 14;
-    const py = vy - 2 - eta * 18;
-    const rad = 8 + eta * 26;
-    const alfa = (1 - eta) * 0.24 * smoothstep(0.05, 0.2, eta);
+  // La polvere si alza dove il tallone ha toccato, e lì resta mentre lui va avanti
+  const tallone = (FALCATA * AMPIEZZA * 0.25) * posto.alto;    // quanto sta avanti all'anca il tallone che tocca
+  for (let k = Math.floor((fase + 1) * 2) - 1, n = 0; n < 4; k--, n++) {
+    const tk = camm.da + (0.25 + k * 0.5) / camm.cad, eta = t - tk;
+    if (tk < camm.da || eta < 0 || eta > 1.1) continue;
+    const px = PARTE_DA + metriAlSecondo * (tk - 17.6) * posto.scala + tallone - eta * 14;
+    const py = posto.y - 4 - eta * 22, rad = 10 + eta * 46;
+    const alfa = (1 - eta / 1.1) * 0.34 * smoothstep(0, 0.08, eta);
     const gp = ctx.createRadialGradient(px, py, 1, px, py, rad);
-    gp.addColorStop(0, `rgba(232,184,116,${alfa})`);
-    gp.addColorStop(1, "rgba(232,184,116,0)");
+    gp.addColorStop(0, `rgba(236,196,132,${alfa})`);
+    gp.addColorStop(1, "rgba(236,196,132,0)");
     ctx.fillStyle = gp;
     ctx.beginPath(); ctx.arc(px, py, rad, 0, Math.PI * 2); ctx.fill();
   }
 
-  const opzTerra = {
-    colore: "#24160d",
-    lontano: "#160d07",
-    bordo: "#ffe3a2",
-    latoLuce: -1,
-    verso: 1,
-    ampiezza: 0.88,
-    tanica: true,
-    fagotto: true,
-    cappello: true,
-    polvere: "#d8a868",
-    dettaglio: 2 as const,
-  };
-  disegnaOmbra(ctx, vx, vy, 132, fase, opzTerra, 0.65, -0.18, "rgba(28,16,8,0.42)");
-  disegnaViandante(ctx, vx, vy, 132, fase, opzTerra);
+  const figura: OpzioniFigura = { vista: "profilo", verso: 1, luce: LUCE, ampiezza: AMPIEZZA, tanica: true, coperta: true, cappello: true };
+  disegnaOmbraFigura(ctx, posto.x, posto.y, posto.alto, fase, figura, -0.42, -0.17, "#2a1808", 0.46);
+  disegnaFigura(ctx, posto.x, posto.y, posto.alto, fase, figura);
 
   ctx.restore();
 

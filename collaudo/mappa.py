@@ -22,7 +22,8 @@ entro 12 gradi dal verso della sua uscita e, appena fuori dal segno, entro 20; l
 nessun tracciato che ne incrocia un altro; la stessa disposizione in un altro processo; la statale e la provinciale dove
 le dicono i .fav; e le regole sanno fallire. Poi la STAMPA fisica (verifica_terreno, app/src/gioco/terreno.ts): sotto
 l'acqua del lago soltanto il fondo dell'invaso, il torrente che taglia soltanto la strada del guado, il mare lontano, la
-salita dal paese al valico.
+salita dal paese al valico. E la carta del TRAILER (app/src/trailer/carta.json, scritta da strumenti/carta-trailer.py): il
+trailer mostra la stessa mappa, e gira prima che il motore sia avviato; la sua copia dev'essere quella del motore.
 
 Uso:  python mappa.py      (esce con 1 se una prova fallisce; serve `npm ci` in app/)
 """
@@ -52,6 +53,7 @@ TAPPE_ATTESE = [("z1", "piazza"), ("z2", "masseria"), ("z3", "conca"), ("z4", "c
                 ("z5", "piazzetta"), ("z6", "pianoro"), ("z7", "guado"), ("acquamorta", "soglia")]
 GIOCO = os.path.join(RADICE, "prototipo", "il-viaggiatore.fav")
 FOGLIO = os.path.join(RADICE, "app", "scripts", "foglio-node.mjs")
+CARTA_TRAILER = os.path.join(RADICE, "app", "src", "trailer", "carta.json")
 _n = [0]
 
 
@@ -321,6 +323,26 @@ def main():
         carta = json.loads(p0.fav_mappa())
         vicini = vicini_di(carta)
         tutti = [l["id"] for l in carta["luoghi"]]
+
+        # il trailer mostra la mappa del gioco: la sua copia della carta è quella del motore, e da una tappa alla
+        # successiva c'è una strada da disegnare (la rotta del trailer segue le strade vere)
+        try:
+            with open(CARTA_TRAILER, encoding="utf-8") as fc:
+                copia = json.load(fc)
+        except (OSError, ValueError) as e:
+            copia = str(e)
+        controlla("trailer · la carta del trailer è quella del gioco (la riscrive: python strumenti/carta-trailer.py)", copia == carta,
+                  "app/src/trailer/carta.json non coincide con fav_mappa" if isinstance(copia, dict) else str(copia))
+        def raggiunge(da, a):
+            visti, coda = {da}, [da]
+            while coda:
+                for v in vicini[coda.pop(0)]:
+                    if v not in visti:
+                        visti.add(v)
+                        coda.append(v)
+            return a in visti
+        staccate = [f"{a}–{b}" for (_, a), (_, b) in zip(TAPPE_ATTESE, TAPPE_ATTESE[1:]) if not raggiunge(a, b)]
+        controlla("trailer · da ogni tappa alla successiva c'è una strada", not staccate, str(staccate))
 
         # all'inizio: la stazione, e la piazza che si vede; e le otto tappe, senza una strada fra loro
         verifica_disposizione(f, carta)

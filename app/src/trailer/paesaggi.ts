@@ -10,7 +10,7 @@ import { preparaLettere, disegnaLettere } from "./scene/lettere";
 import { preparaAlba, disegnaAlba } from "./scene/alba";
 import { preparaTerra, disegnaTerra } from "./scene/terra";
 import { preparaInvaso, disegnaInvaso } from "./scene/invaso";
-import { preparaMappa, disegnaMappa, tappaCorrente } from "./scene/mappa";
+import { preparaMappa, disegnaMappa, stampaMappaPronta, tappaCorrente } from "./scene/mappa";
 import { preparaGuado, disegnaGuado } from "./scene/guado";
 import { disegnaCinque, disegnaRegola, disegnaRespiro } from "./scene/regole";
 import { caricaTavoleTrailer } from "./tavole";
@@ -60,6 +60,7 @@ export function avviaPreparazione(c: Cache = cacheTrailer, avanza?: (k: number) 
       notifica();
     }
     await tavoleP;
+    await stampaMappaPronta();          // la stampa della carta del gioco, dipinta a fette nei momenti liberi
     avanzamento = 1;
     avanza?.(1);
     notifica();

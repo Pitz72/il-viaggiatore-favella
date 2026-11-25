@@ -8,6 +8,32 @@ passo stanno nel [diario di sviluppo](sviluppo/DIARIO.md).
 
 ## [Non rilasciato]
 
+### Corretto
+- **Il trailer non si ferma più sul nero a 69 secondi.** All'attacco della seconda regola («L'acqua è la moneta») la moneta nasce
+  da zero e per tre centesimi di secondo i suoi filetti interni avevano raggio negativo: il disegno falliva, l'orologio del
+  trailer non ripartiva e restavano un quadro quasi nero, la musica e la voce, fino a Esc. Succedeva a ogni visione, nel gioco
+  installato e nel browser (`trailer/scene/regole.ts`). In più l'orologio ora regge un fotogramma che fallisce (`Trailer.tsx`).
+- **Il Viandante del trailer cammina, non pattina.** Si muoveva su un tragitto disegnato a mano, più lento dei suoi passi e in
+  diagonale su tavole in prospettiva. Ora avanza della lunghezza dei suoi passi e il piede d'appoggio resta fermo a terra
+  (`trailer/figura.ts`); dove sta e quanto è alto lo dice la macchina da presa di ogni tavola (`trailer/prospettiva.ts`): era alto
+  176 px dove la strada dell'alba ne vuole circa 300.
+
+### Cambiato
+- **La mappa del trailer è la mappa del gioco**: la «Carta fisica della provincia» che si apre in partita, con la stessa stampa (il
+  mare, la Serra Alta, il Torrente Morto, il lago), le otto tappe nei loro posti e gli stessi segni. La penna va da Acquaviva verso
+  ovest e poi su fino ad Acquamorta, per le strade vere. Prima era una pergamena inventata, col viaggio verso est
+  (`trailer/scene/mappa.ts`, `trailer/carta.json`).
+- **Il Viandante del trailer è dipinto come le tavole**, a china e a toni piatti, con cappello, bavero, mantellina, coperta
+  arrotolata, tanica e scarponi; all'alba e sul titolo è di spalle e si allontana lungo la strada, sulla terra crepata, sul sale e
+  al guado è di profilo. Il fratello al guado è a capo scoperto, col fucile tenuto basso. I pali del telegrafo dell'alba, che
+  scorrevano sopra una tavola ferma, non ci sono più.
+
+### Aggiunto
+- **L'autoverifica del pacchetto prova il trailer fotogramma per fotogramma** (1/120 di secondo, dall'inizio al menu): nessuno
+  deve fallire, e le dieci tavole dipinte devono esserci (`app/src/autoverifica.ts`).
+- `strumenti/carta-trailer.py` riscrive dal motore la copia della carta che il trailer legge; `collaudo/mappa.py` pretende che sia
+  uguale a quella del gioco.
+
 ## [1.43.0] - 2026-11-25
 
 ### Aggiunto

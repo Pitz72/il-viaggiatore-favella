@@ -1,8 +1,9 @@
 // ====================================================================
 //  Autoverifica: avvia il gioco vero (Pyodide + motore + avventura),
 //  gioca qualche comando e controlla le risposte; prova anche la voce del
-//  doppiaggio (indice, una parte per voce, il trailer) e il bus sonoro (i
-//  canali nascono coi volumi delle opzioni, senza cambiarle). Si apre con
+//  doppiaggio (indice, una parte per voce, il trailer), il bus sonoro (i
+//  canali nascono coi volumi delle opzioni, senza cambiarle) e il trailer,
+//  fotogramma per fotogramma (nessuno deve fallire). Si apre con
 //  ?autoverifica; nella versione desktop la lancia `--autoverifica`, e la
 //  CI la esegue sul pacchetto appena costruito prima di pubblicarlo.
 // ====================================================================
@@ -15,6 +16,55 @@ import { tabella, partiDelBlocco, type Testi } from "./gioco/parti";
 import { canale, uscita, TARATURA, type Canale } from "./lib/suono";
 import { opzioni } from "./lib/opzioni";
 import { sfideNuove, trofeiDelTurno } from "./gioco/trofei";
+import { DURATA, SCENE, W, presenza } from "./trailer/scaletta";
+import { cacheTrailer, disegnaScena, preparaTutto } from "./trailer/paesaggi";
+import { caricaTavoleTrailer, tavoleTrailer } from "./trailer/tavole";
+import { stampaMappaPronta } from "./trailer/scene/mappa";
+
+/** Il trailer, fotogramma per fotogramma: ogni scena si disegna su una tela piccola a passi di 1/120 di secondo, dall'inizio
+ *  al menu, e nessun fotogramma deve fallire; le tavole dipinte devono esserci tutte. Nella 1.43.0 un fotogramma solo falliva
+ *  (un cerchio di raggio negativo, per tre centesimi di secondo a 69,65 s) e fermava l'orologio del trailer: restavano un
+ *  quadro nero, la musica e la voce. Guardando il trailer a salti non si vedeva; così sì. */
+async function provaIlTrailer(nota: (r: string) => void): Promise<boolean> {
+  const t0 = performance.now();
+  preparaTutto(cacheTrailer);
+  await caricaTavoleTrailer();
+  await stampaMappaPronta();
+  const mancanti = [
+    ...(["lettere", "alba", "terra", "invaso", "guado"] as const).filter((k) => !tavoleTrailer[k]),
+    ...tavoleTrailer.cinque.map((img, i) => (img ? "" : `cinque-${i + 1}`)).filter(Boolean),
+  ];
+  const tela = document.createElement("canvas");
+  tela.width = 320; tela.height = 180;
+  const g = tela.getContext("2d");
+  if (!g) { nota("KO trailer: la tela non si apre"); return false; }
+  const k = tela.width / W, guasti: string[] = [];
+  let n = 0, falliti = 0, passo = 1 / 120, fitto = DURATA;
+  for (let t = 0; t <= DURATA + 0.5; t += passo) {
+    // su una macchina molto lenta, dopo un minuto il passo si allarga: la prova finisce comunque, e lo dice
+    if (passo < 1 / 30 && performance.now() - t0 > 60_000) { fitto = t; passo = 1 / 24; }
+    for (const s of SCENE) {
+      if (presenza(s, t) <= 0) continue;
+      g.setTransform(k, 0, 0, k, 0, 0);
+      try {
+        disegnaScena(g, s.id, t, cacheTrailer);
+        n++;
+      } catch (e) {
+        falliti++;
+        if (guasti.length < 5) guasti.push(`«${s.id}» a ${t.toFixed(3)} s (${e instanceof Error ? e.message : e})`);
+        if (typeof g.reset === "function") g.reset();     // le `save` rimaste aperte a metà disegno
+      }
+    }
+  }
+  const secondi = ((performance.now() - t0) / 1000).toFixed(1);
+  if (falliti || mancanti.length) {
+    if (falliti) nota(`KO trailer: ${falliti} fotogrammi non si disegnano: ${guasti.join("; ")}`);
+    if (mancanti.length) nota(`KO trailer: mancano le tavole dipinte ${mancanti.join(", ")}`);
+    return false;
+  }
+  nota(`ok trailer: ${n} fotogrammi disegnati, nessuno fallito, le dieci tavole al loro posto (${secondi} s${fitto < DURATA ? `; passo fitto fino a ${fitto.toFixed(0)} s` : ""})`);
+  return true;
+}
 
 /** Il bus sonoro: ogni canale nasce al volume delle opzioni di chi gioca (lette, mai cambiate), e il contesto ha
  *  la sua uscita (volume generale e fusore). */
@@ -185,6 +235,7 @@ export async function autoverifica(scrivi: (riga: string) => void) {
     if (!(await provaLaVoce(avvio.text, nota))) ok = false;
     if (!(await provaLaMusica(nota))) ok = false;
     if (!(await provaIlSuono(nota))) ok = false;
+    if (!(await provaIlTrailer(nota))) ok = false;
 
     for (const p of PROVE) {
       const r = s.step(p.cmd);

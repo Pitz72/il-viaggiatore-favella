@@ -122,6 +122,12 @@ Regole venute da ciò che Simone ha chiesto e corretto; la memoria locale che le
   Git li riporterebbe a LF (`.gitattributes`), ma la copia di lavoro resta sporca e i diff lo segnalano.
 - Gli script di prova scrivono i loro registri nella cartella temporanea della sessione, con percorsi assoluti: il 1° novembre
   2026 26 registri con percorsi relativi sono finiti nel clone (spostati prima del commit).
+- **Il trailer si prova facendolo scorrere, non a salti.** Guardarlo fotogramma per fotogramma con `__trailer.vai(t)` non basta:
+  nella 1.43.0 un errore che durava 24 millesimi (a 69,65 s) fermava l'orologio e lasciava lo schermo nero con musica e voce, e a
+  salti non si vedeva. Dopo ogni modifica al trailer: l'autoverifica del pacchetto (`node prepara.mjs` e `npm run autoverifica`, in
+  `desktop/`), che lo disegna tutto a 1/120 di secondo, o la stessa passata dalla console (`__trailer.vai` in un ciclo, con `try`).
+  Chi cammina sulle tavole dipinte non si sposta a occhio: i metri vengono dai passi (`trailer/figura.ts`) e il posto sullo
+  schermo dalla macchina da presa della tavola (`trailer/prospettiva.ts`).
 - Se un `git push` con molto audio scade (HTTP 408 su una linea lenta): un commit per volta, in ordine,
   `git -c http.version=HTTP/1.1 -c http.postBuffer=524288000 push origin <sha>:refs/heads/main`.
 

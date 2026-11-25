@@ -1,6 +1,9 @@
 // ====================================================================
-//  Il viandante (e l'uomo fermo sulla riva opposta).
+//  Il viandante in controluce del gioco (il panorama, il ritratto).
 // --------------------------------------------------------------------
+//  Nel trailer, sulle tavole dipinte, cammina la figura di figura.ts
+//  (gouache e china, di profilo e di spalle, coi piedi fermi a terra); questa
+//  resta alla sagoma che cammina sul posto nel panorama di gioco.
 //  Figura di profilo alta 1 (piedi a y=0, y negativa in su), con ciclo di
 //  camminata completo (curve Catmull-Rom di anca, ginocchio e piede +
 //  risolutore d'appoggio del bacino), stivali stringati, spolverino con
@@ -51,13 +54,6 @@ const PIEDE = curva([[0, 0.34], [0.07, 0.02], [0.24, 0], [0.42, 0], [0.50, -0.22
 
 const L = { coscia: 0.246, stinco: 0.24, suola: 0.034, piede: 0.16 };
 const BUSTO = 0.315;
-
-export const PASSO_CICLO = (() => {
-  const x = (f: number) => L.coscia * Math.sin(ANCA(f)) + L.stinco * Math.sin(ANCA(f) - GINOCCHIO(f));
-  return 2 * (x(0.02) - x(0.58));
-})();
-
-export const velocitaSuolo = (alto: number, cadenza: number, ampiezza = 1) => PASSO_CICLO * ampiezza * alto * cadenza;
 
 interface Punto { x: number; y: number }
 const P = (x: number, y: number): Punto => ({ x, y });
@@ -433,42 +429,4 @@ export function disegnaViandante(
     }
     ctx.restore();
   }
-}
-
-export function disegnaOmbra(
-  ctx: CanvasRenderingContext2D, x: number, y: number, alto: number, fase: number,
-  o: OpzioniFigura, inclinazione: number, schiacciamento: number, colore: string,
-) {
-  ctx.save();
-  ctx.translate(x, y);
-  ctx.transform(1, 0, inclinazione, schiacciamento, 0, 0);
-  disegnaViandante(ctx, 0, 0, alto, fase, { ...o, colore, lontano: colore, bordo: undefined, dettaglio: 0 });
-  ctx.restore();
-}
-
-/** Cosimo fermo sulla sponda opposta del guado, a capo scoperto e col fucile di traverso. */
-export function disegnaFermo(ctx: CanvasRenderingContext2D, x: number, y: number, alto: number, colore: string, bordo?: string) {
-  disegnaViandante(ctx, x, y, alto, 0, {
-    colore,
-    bordo,
-    latoLuce: -1,
-    verso: -1,
-    fermo: 1,
-    cappello: false,
-    fagotto: false,
-    tanica: false,
-    braccia: 0.32,
-    dettaglio: 1,
-  });
-  // Canna sottile del fucile tenuto di traverso davanti al busto
-  ctx.save();
-  ctx.translate(x, y);
-  ctx.strokeStyle = colore;
-  ctx.lineWidth = Math.max(1.8, alto * 0.024);
-  ctx.lineCap = "round";
-  ctx.beginPath();
-  ctx.moveTo(-alto * 0.22, -alto * 0.49);
-  ctx.lineTo(alto * 0.16, -alto * 0.56);
-  ctx.stroke();
-  ctx.restore();
 }
